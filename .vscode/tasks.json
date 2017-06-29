@@ -5,5 +5,17 @@
 	"command": "gulp",
 	"isShellCommand": true,
 	"args": ["--no-color"],
-	"showOutput": "always"
+	"showOutput": "always",
+    "tasks": [
+        {
+            "taskName": "default",
+            "args": [],
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$lessCompile",
+                "$tsc",
+                "$jshint"
+            ]
+        }
+    ]
 }
