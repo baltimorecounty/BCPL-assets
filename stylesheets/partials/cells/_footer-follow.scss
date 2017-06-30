@@ -2,5 +2,31 @@ footer {
 	.follow-wrapper {
 		background-color: $teal-dark;
 		color: white;
+		padding: 1em 0;
+		
+		.branding {
+			 font-size: 2em;
+		}
+
+		.social {
+			font-size: 2em;
+
+			ul {
+
+				li {
+					padding-left: 1em;
+
+					a {
+						color: white;
+
+						&:hover { 
+							text-decoration: none;
+						}
+					}
+					
+				}
+			}
+
+		}
 	}
 }

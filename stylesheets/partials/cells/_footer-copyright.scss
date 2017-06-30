@@ -2,5 +2,33 @@ footer {
 	.copyright-wrapper {
 		background-color: $gray-dark;
 		color: $gray-light;
+		font-size: .8em;
+		text-transform: uppercase;
+		padding: 1em 0;
+
+		nav {
+			padding-bottom: .25em;
+			font-size: .8em;
+
+			ul {
+				li {
+					padding: 0 1em;
+					border-right: 1px solid $gray-light;
+
+					&:first-child {
+						padding-left: 0;
+					}
+
+					&:last-child {
+						border-right: none;
+					}
+
+					a {
+						color: $gray-light;
+					}
+				}
+			}
+		}
+
 	}
 }

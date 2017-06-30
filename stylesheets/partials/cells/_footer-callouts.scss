@@ -1,6 +1,19 @@
 footer {
 	.callouts-wrapper {
-		background-color: $teal-light;
+		background-color: $teal;
 		color: white;
+
+		.callout {
+			border-right: 10px solid $teal-light;
+			padding: 1em;
+
+			&:last-child {
+				border-right: none;
+			}
+
+			a {
+				color: white;
+			}
+		}
 	}
 }
