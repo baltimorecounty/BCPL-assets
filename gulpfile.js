@@ -69,6 +69,11 @@ gulp.task('move-images',  () => {
 		.pipe(gulp.dest('dist/images'));
 });
 
+gulp.task('move-fonts',  () => {
+	return gulp.src('fonts/**.*')
+		.pipe(gulp.dest('dist/fonts'));
+});
+
 gulp.task('process-pug', () => {
 	return gulp.src(['mockups/*.pug', 'mockups/support/*.pug'])
 		.pipe(pug())
@@ -76,7 +81,7 @@ gulp.task('process-pug', () => {
 });
 
 gulp.task('default', ['clean'], (callback) => {
-	return runSequence(['process-pug', 'process-scss', 'minify-js', 'move-images'], callback);
+	return runSequence(['process-pug', 'process-scss', 'minify-js', 'move-images', 'move-fonts'], callback);
 });
 
 gulp.task('watcher', () => {
