@@ -1,0 +1,20 @@
+.feature-wrapper {
+	background-color: $tan-light;
+ 	border-bottom: 1em solid $gold;
+	padding: 1em 0 2em;
+
+	h2 {
+		margin: .5em 0 .5em;
+	}
+
+	.feature {
+		background-color: white;
+		width: 100%;
+		padding: 1em;
+
+		p {
+			font-weight: bold;
+			margin-top: 1em;
+		}
+	}
+}

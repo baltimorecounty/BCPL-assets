@@ -1,0 +1,31 @@
+.topline-wrapper {
+	background-color: $gray-dark;
+	color: $gray-lightest;
+	font-size: .8em;
+	text-transform: uppercase;
+
+	p {
+		line-height: 4em;
+		padding: 0 1em 0 0;
+		margin: 0 1px;
+	}
+
+	nav {
+		ul {
+			li {
+				a {
+					background-color: $gray;
+					display: inline-block;
+					line-height: 4em;
+					padding: 0 1em;
+					margin: 0 1px;
+					color: $gray-lightest;
+
+					i {
+						padding-left: .5em;
+					}
+				}
+			}
+		}
+	}
+}

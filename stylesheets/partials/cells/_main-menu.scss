@@ -1,0 +1,32 @@
+.menu-wrapper {
+	background: $teal;
+	color: white;
+	padding: 3em;
+
+	button {
+		font-size: 1.5em;
+	}
+
+	nav {
+		ul {
+			li {
+				margin-right: 1.5em;
+
+				a {
+					color: white;
+					font-family: TTRoundsCondensed-Bold;
+					line-height: 2em;
+					text-transform: uppercase;
+
+					&:hover {
+						color: $teal;
+					}
+
+					i {
+						margin-left: .5em;
+					}
+				}								
+			}
+		}
+	}
+}

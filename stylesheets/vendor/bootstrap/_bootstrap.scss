@@ -56,3 +56,8 @@
 // Utility classes
 @import "partials/utilities";
 @import "partials/responsive-utilities";
+
+// Overrides
+.container-fluid {
+	padding: 0;
+}

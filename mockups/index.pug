@@ -12,124 +12,161 @@ html
 
 			include includes/header.pug
 
-			.feature-wrapper
+			section.feature-wrapper
 				.container
 					.row 
 						.col-md-12
 							h2 Features
 							.row
 								.col-md-3
-									img(src="/dist/images/grumpy-cat.jpg" width="250")
-									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
-										| Learn More
+									.feature
+										img(src="/dist/images/grumpy-cat.jpg" width="200")
+										p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et.
+										a.solo(href="#")
+											i.fa.fa-play-circle 
+											| Learn More
 								.col-md-3
-									img(src="/dist/images/grumpy-cat.jpg" width="250")
-									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
-										| Learn More
+									.feature
+										img(src="/dist/images/grumpy-cat.jpg" width="200")
+										p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et.
+										a.solo(href="#")
+											i.fa.fa-play-circle 
+											| Learn More
 								.col-md-3
-									img(src="/dist/images/grumpy-cat.jpg" width="250")
-									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
-										| Learn More
+									.feature
+										img(src="/dist/images/grumpy-cat.jpg" width="200")
+										p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et.
+										a.solo(href="#")
+											i.fa.fa-play-circle 
+											| Learn More
 								.col-md-3
-									img(src="/dist/images/grumpy-cat.jpg" width="250")
-									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
-										| Learn More
-			.blog-events-wrapper
+									.feature
+										img(src="/dist/images/grumpy-cat.jpg" width="200")
+										p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et.
+										a.solo(href="#")
+											i.fa.fa-play-circle 
+											| Learn More
+
+			section.blog-events-wrapper
 				.container
 					.row
-						.col-md-6
-							.row
+						.col-md-6.blog-posts
+							header.row
 								.col-md-4
 									h2 Blog
 								.col-md-8
-									a(href="#") 
+									a.solo.feed(href="#") 
 										i.fa.fa-rss
 										| Subscribe to Blog
 							.row
-								.col-md-12
+								.col-md-12.post
 									h3 Blog Post Title
 									time(datetime="5-30") MAY 30
 									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| Learn More
 							.row
-								.col-md-12
+								.col-md-12.post
 									h3 Blog Post Title
 									time(datetime="5-30") MAY 30
 									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| Learn More
 							.row
-								.col-md-12
+								.col-md-12.post
 									h3 Blog Post Title
 									time(datetime="5-30") MAY 30
 									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| Learn More
 							.row
-								.col-md-12
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+								.col-md-12.post
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| View the Blog
-						.col-md-6
-							.row
+						.col-md-6.events
+							header.row
 								.col-md-4
 									h2 Events
 								.col-md-8
-									a(href="#")
+									a.solo.feed(href="#")
 										i.fa.fa-rss
 										| Subscribe to Events
-							.row
+							.row.post
 								.col-md-4
 									time(datetime="5-30 10:00-05:00")
-										.date MAY 30
+										.date 
+											.month May 
+											.day 30
 										.time 10 a.m.
 								.col-md-8
 									h3 Event Title
 									p Event Branch
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| View Event Details
-							.row
+							.row.post
 								.col-md-4
 									time(datetime="6-1 11:00-05:00")
-										.date JUN 1
+										.date 
+											.month Jun 
+											.day 1
 										.time 11 a.m.
 								.col-md-8
 									h3 Event Title
 									p Event Branch
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| View Event Details
-							.row
+							.row.post
 								.col-md-4
 									time(datetime="6-2 12:00-05:00")
-										.date JUN 2
+										.date 
+											.month Jun 
+											.day 2
 										.time 12 p.m.
 								.col-md-8
 									h3 Event Title
 									p Event Branch
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| View Event Details
-							.row
+							.row.post
+								.col-md-4
+									time(datetime="6-3 13:00-05:00")
+										.date 
+											.month Jun 
+											.day 3
+										.time 1 p.m.
+								.col-md-8
+									h3 Event Title
+									p Event Branch
+									a.solo(href="#")
+										i.fa.fa-play-circle 
+										| View Event Details
+							.row.post
+								.col-md-4
+									time(datetime="6-4 14:00-05:00")
+										.date 
+											.month Jun 
+											.day 4
+										.time 2 p.m.
+								.col-md-8
+									h3 Event Title
+									p Event Branch
+									a.solo(href="#")
+										i.fa.fa-play-circle 
+										| View Event Details
+							.row.post
 								.col-md-12
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| View all Events
 			
-			.recommended-titles-wrapper
+			section.recommended-titles-wrapper
 				.container
 					.row
 						.col-md-6
@@ -141,8 +178,8 @@ html
 									h3 Book Title
 										time(datetime="5-28") MAY 28
 									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a(href="#")
-										i.fa.fa-chevron-circle-right 
+									a.solo(href="#")
+										i.fa.fa-play-circle 
 										| Read More
 						.col-md-6
 							.tabs

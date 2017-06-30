@@ -1,0 +1,80 @@
+.blog-events-wrapper {
+	padding: 2em 0;
+	border-bottom: 1em solid $gold;
+
+	h2 {
+		color: $teal-light;
+		margin: 0;
+		padding :0;
+	}
+
+	h3 {
+		font-weight: bold;
+		margin-top: 0;
+	}
+	
+	time {
+			font-weight: bold;
+			color: $gray-medium;
+	}
+
+	p {
+		margin: 1em 0;
+	}
+
+	.post {
+		margin-top: 3em;
+	}
+
+	.blog-posts, .events {
+		header {
+			position: relative;
+
+			.feed {
+				position: relative;
+				top: 15px;
+			}
+		}
+	}
+
+	.blog-posts {
+		padding-right: 3em;
+	}
+
+	.events {
+		padding-left: 3em;
+		background-image: url("/dist/images/border-dot-vertical.png");
+		background-repeat: repeat-y;
+		background-position: left;
+
+		time {
+			text-transform: uppercase;
+
+			.date {
+				background-color: $red;
+				border-radius: 50%;
+				color: white;
+				height: 80px;
+				line-height: 1;
+				margin: 0px auto;
+				padding-top: 14px;
+				width: 80px;
+				
+				.month {
+					text-align: center;
+				}
+
+				.day {
+					text-align: center;
+					font-size: 2em;
+				}
+			}
+
+			.time {
+				font-size: .8em;
+				margin-top: .5em;
+				text-align: center;
+			}
+		}
+	}
+}
