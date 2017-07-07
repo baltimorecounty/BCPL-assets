@@ -6,29 +6,38 @@
 					.col-md-4
 						a(href="#")
 							img(src="/dist/images/logo.png")
-					.col-md-8
-						button.fa.fa-search.pull-right
-						nav.pull-right
-							ul
-								li
-									a(href="#") Books and More
-										i.fa.fa-caret-right
-								li
-									a(href="#") Events and Programs
-										i.fa.fa-caret-right
-								li
-									a(href="#") Services
-										i.fa.fa-caret-right
-								li
-									a(href="#") About Us
-										i.fa.fa-caret-right
-								li
-									a(href="#") Youth
-										i.fa.fa-caret-right
+					.col-md-8.nav-and-search
+						.flex.flex-row.flex-space-between
+							nav
+								ul.flex.flex-space-between
+									li
+										a(href="#") Books and More
+											i.fa.fa-caret-right
+									li
+										a(href="#") Events and Programs
+											i.fa.fa-caret-right
+									li
+										a(href="#") Services
+											i.fa.fa-caret-right
+									li
+										a(href="#") About Us
+											i.fa.fa-caret-right
+									li
+										a(href="#") Youth
+											i.fa.fa-caret-right
+
+							button#activate-search-button.active
+								i.fa.fa-times
+								//- fa-search
+						
+						#search-box.flex.flex-row.active
+							input(placeholder="Search the library").flex-grow
+							button#search-button
+								i.fa.fa-search
 				.row
-					.col-md-5
+					.col-md-4
 						.callout
 							h2 Summer @ Your Library
 							p Learn about all the activities happening this summer with interactive fun and entertainment for the entire family!
 							a(href="#") Learn More
-					.col-md-7
+					.col-md-8
