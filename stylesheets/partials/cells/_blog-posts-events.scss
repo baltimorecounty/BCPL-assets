@@ -78,3 +78,23 @@
 		}
 	}
 }
+
+@media (max-width: $screen-sm-max) {
+	.blog-events-wrapper {
+		padding: 2em 15px;
+
+		.container {
+			.row.flex {
+				display: block;
+			}
+		}
+
+		.events {
+			padding-left: 0;
+			padding-top: 2em;
+			margin-top: 2em;
+			background-repeat: repeat-x;
+			background-position: top;
+		}
+	}
+}
