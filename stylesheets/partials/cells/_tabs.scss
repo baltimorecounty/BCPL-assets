@@ -4,16 +4,16 @@
 	nav {
 		ul {
 			li {
-				button {
-					color: $teal;
-					font-size: .8em;
-					font-weight: bold;
-					padding: .5em 1em;
-					text-transform: uppercase;
-
-					&.active {
-						background-color: white;
-					}
+				color: $teal;
+				font-size: .8em;
+				font-weight: bold;
+				padding: .5em 1em;
+				text-transform: uppercase;
+				cursor: pointer;
+				height: 32px;
+				
+				&.active {
+					background-color: white;
 				}
 			}
 		}

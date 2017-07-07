@@ -183,12 +183,10 @@ html
 						.col-md-6
 							.tabs
 								nav
-									ul
-										li
-											button.active Recommended
-										li
-											button New Titles
-								.tab.active
+									ul(role="tablist")
+										li#tab-1.active(role="tab" aria-controls="tab-1" aria-selected="true" tabindex="0") Recommended
+										li#tab-2(role="tab" aria-controls="tab-2" aria-selected="false" tabindex="0") New Titles
+								#tab-1.tab.active(role="tabpanel" aria-labelledby="tab-1" aria-hidden="false")
 									button
 										img(src="/dist/images/grumpy-cat.jpg")
 									button
@@ -209,7 +207,7 @@ html
 										img(src="/dist/images/grumpy-cat.jpg")
 									button
 										img(src="/dist/images/grumpy-cat.jpg")
-								.tab
+								#tab-2.tab(role="tabpanel" aria-labelledby="tab-2" aria-hidden="true")
 									button
 										img(src="/dist/images/grumpy-cat.jpg")
 									button
