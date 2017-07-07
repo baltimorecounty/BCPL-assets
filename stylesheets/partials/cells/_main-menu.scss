@@ -4,10 +4,15 @@
 	padding: 3em;
 
 	button {
+		position: relative;
+		top: 4px;
 		font-size: 1.5em;
 	}
 
 	nav {
+		position: relative;
+		top: 7px;
+
 		ul {
 			li {
 				margin-right: 1.5em;
@@ -19,7 +24,7 @@
 					text-transform: uppercase;
 
 					&:hover {
-						color: $teal;
+						text-decoration: underline;
 					}
 
 					i {

@@ -3,16 +3,23 @@ footer {
 		background-color: $teal;
 		color: white;
 
-		.callout {
-			border-right: 10px solid $teal-light;
-			padding: 1em;
+		.row {
+			display: flex;
+			flex: 1;
+			flex-direction: row;
+		
 
-			&:last-child {
-				border-right: none;
-			}
+			.callout {
+				border-right: 10px solid $teal-light;
+				padding: 1em;
 
-			a {
-				color: white;
+				&:last-child {
+					border-right: none;
+				}
+
+				a {
+					color: white;
+				}
 			}
 		}
 	}
