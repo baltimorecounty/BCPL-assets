@@ -24,3 +24,26 @@ footer {
 		}
 	}
 }
+
+@media (max-width: $screen-xs-max) {
+	footer {
+		.callouts-wrapper {
+
+			.row {
+				display: block;
+			
+
+				.callout {
+					border-top: 10px solid $teal-light;
+					border-right: none;
+					padding: 1em;
+
+					&:first-child {
+						border: none;
+					}
+					
+				}
+			}
+		}
+	}
+}

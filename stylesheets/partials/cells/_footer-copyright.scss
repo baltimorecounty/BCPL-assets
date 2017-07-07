@@ -32,3 +32,19 @@ footer {
 
 	}
 }
+
+@media (max-width: $screen-xs-max) {
+	footer {
+		.copyright-wrapper {
+			nav {
+				ul {
+					li {
+						display: block;
+						border: none;
+						padding: 0;
+					}
+				}
+			}
+		}
+	}
+}

@@ -10,6 +10,7 @@ footer {
 
 		.social {
 			font-size: 2em;
+			float: right;
 
 			ul {
 
@@ -29,4 +30,46 @@ footer {
 
 		}
 	}
+}
+
+@media (max-width: $screen-lg) {
+	footer {
+		.follow-wrapper {
+			
+			.branding {
+				font-size: 1.8em;
+			}
+		}
+	}	
+}
+
+
+@media (max-width: $screen-sm-max) {
+	footer {
+		.follow-wrapper {
+			
+			.branding {
+				font-size: 1.8em;
+				text-align: center;
+			}
+
+			.social {
+				font-size: 2em;
+				float: none;
+
+				ul {
+					text-align: center;
+					
+					li {
+						padding-left: 1em;
+
+						&:first-child {
+							padding: 0;
+						}
+					}
+				}
+
+			}
+		}
+	}	
 }

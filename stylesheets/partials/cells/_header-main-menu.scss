@@ -6,21 +6,16 @@
 		font-size: 1.5em;
 	}
 
-	#activate-search-button {
-		padding: .5em 1em;
-		position: relative;
-		top: -10px;
-
-		&.active {
-			background-color: rgba(0, 0, 0, .5);
-		}
-	}
 
 	.nav-and-search {
-		padding-right: 0;
-		position: relative;
+		#activate-search-button {
+			&.active {
+				background-color: rgba(0, 0, 0, .5);
+			}
+		}
 
 		nav {
+			float: right;
 			position: relative;
 			top: 7px;
 
@@ -71,6 +66,50 @@
 
 		&.active { 
 			display: block;
+		}
+	}
+}
+
+@media (max-width: $screen-md-max) {
+	.menu-wrapper {
+		.nav-and-search {
+			nav {
+				float: left;
+
+				ul {
+					li {
+						margin-right: 2em;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm-max) {
+	.menu-wrapper {
+		.nav-and-search {
+			nav {
+				ul {
+					li {
+						margin-right: 1.5em;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.menu-wrapper {
+		.nav-and-search {
+			nav {
+				ul {
+					li {
+						display: block;
+					}
+				}
+			}
 		}
 	}
 }
