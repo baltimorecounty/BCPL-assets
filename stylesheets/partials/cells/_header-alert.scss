@@ -1,0 +1,52 @@
+.alert-wrapper {
+	background-color: $gold;
+	color: black;
+	font-weight: 800;
+	font-size: .8em;
+	padding: 1em 0;
+	text-transform: uppercase;
+
+	p {
+		padding: 0;
+		margin: 0;
+
+		& > i {
+			position: relative;
+			top: 4px;
+			margin-right: .5em;
+			color: white;
+		}
+
+	}
+
+	a {
+		display: inline-block;
+		margin-left: 1em;
+		border: 1px solid black;
+		color: black;
+		padding: .25em .5em;
+		line-height: 1.5em;
+		transition: all 0.25s ease;
+
+		i {
+			margin-left: .5em;
+			color: inherit;
+		}
+
+		&[role=button] {
+			position: relative;
+			top: 3px;
+
+			i {
+				position: relative;
+				top: -1px;
+			}
+		}
+
+		&:hover {
+			text-decoration: none;
+			background-color: $teal;
+			color: white;
+		}
+	}
+}
