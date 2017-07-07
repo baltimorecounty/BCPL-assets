@@ -8,6 +8,8 @@
 
 	#activate-search-button {
 		padding: .5em 1em;
+		position: relative;
+		top: -10px;
 
 		&.active {
 			background-color: rgba(0, 0, 0, .5);
@@ -48,6 +50,7 @@
 
 	#search-box {
 		background-color: rgba(0, 0, 0, .5);
+		display: none;
 		padding: 1em;
 		position: absolute;
 		top: 58px;
@@ -64,6 +67,10 @@
 		button {
 			padding: .5em .25em .5em .5em;
 			margin-left: 0.5em;		
+		}
+
+		&.active { 
+			display: block;
 		}
 	}
 }

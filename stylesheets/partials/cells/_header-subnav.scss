@@ -13,13 +13,40 @@
 	nav {
 		ul {
 			li {
-				a {
 					background-color: $gray;
+					margin: 0 1px;
+				a {
 					display: inline-block;
 					line-height: 4em;
 					padding: 0 1em;
-					margin: 0 1px;
 					color: $gray-lightest;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+	.subnav-wrapper {
+		.col-xs-12 {
+			padding: 0;
+
+			nav {
+				&.pull-right {
+					float: none !important; 
+
+					ul {
+						li { 
+							text-align: center;
+							width: 25%;
+							margin: 0; 
+							border-right: 2px solid $gray-dark;
+
+							&:last-child {
+								border: none;
+							}
+						}
+					}
 				}
 			}
 		}
