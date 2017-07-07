@@ -4,6 +4,7 @@
 	background-position-x: center;
 	background-position-y: bottom;
 	background-repeat: no-repeat;
+	height: 500px;
 
 	.hero-foreground {
 		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
@@ -14,7 +15,23 @@
 
 		.menu-padding {
 			padding: 3em;
-			padding-bottom: 20em;
+
+			.callout {
+				background: rgba(0, 0, 0, .75);
+				color: white;
+				margin-top: 2em;
+				padding: 2em;
+
+				h2 { 
+					margin-top: 0;
+					color: white;
+				}
+
+				a {
+					color: $gold;
+					font-weight: bold;
+				}
+			}
 		}
 	}
 }
