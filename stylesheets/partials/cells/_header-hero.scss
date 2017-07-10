@@ -32,3 +32,32 @@
 		}
 	}
 }
+
+@media (max-width: $screen-lg) {
+	.hero-wrapper {
+		.hero-foreground {
+			.callout {
+				margin-top: 15em;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.hero-wrapper {
+		.hero-foreground {
+			position: relative;
+			height: auto;
+
+			.row {
+				& > div {
+					padding: 0;
+					position: static;
+				}
+			}
+			.callout {
+				margin-top: 0;		
+			}
+		}
+	}
+}
