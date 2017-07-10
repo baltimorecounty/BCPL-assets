@@ -50,3 +50,28 @@
 		}
 	}
 }
+
+@media (max-width: $screen-sm) {
+	.alert-wrapper {
+
+		.pull-right {
+			float: none !important;
+		}
+
+		p > i {
+			display: none;
+		}
+
+		a {
+			display: block;
+			clear: both;
+			margin: 0;
+			padding: .75em;
+		}
+
+		.view-all-alerts {
+			margin-top: 1em;
+		}
+
+	}
+}
