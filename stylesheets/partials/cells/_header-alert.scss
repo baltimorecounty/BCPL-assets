@@ -8,7 +8,6 @@
 
 	.alert-container {
 		padding: 1em 0;
-		transition: all 0.25s ease;
 	}
 
 	p {
@@ -49,8 +48,9 @@
 	}
 
 	.dismissed {
-		height: 1px;
+		height: 0;
 		padding: 0;
+		transition: all 0.25s ease;
 
 		* {
 			display: none !important;

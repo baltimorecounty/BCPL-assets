@@ -11,13 +11,19 @@ bcpl.alertBox = (($, undefined) => {
 		const $container = event.data.$container;
 
 		$container.addClass('dismissed');
+		sessionStorage.setItem('isAlertDismissed', true);
 	};
 
 	const init = () => {
 		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
 		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
-
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
+
+		if (!sessionStorage.getItem('isAlertDismissed'))
+			setTimeout(() => {
+				$alertBoxContainer.slideDown(250);
+			}, 500);
+			
 	};
 
 	return {
@@ -28,4 +34,4 @@ bcpl.alertBox = (($, undefined) => {
 
 $(() => {
 	bcpl.alertBox.init();
-})
+});

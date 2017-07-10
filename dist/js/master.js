@@ -102,13 +102,17 @@ bcpl.alertBox = function ($, undefined) {
 		var $container = event.data.$container;
 
 		$container.addClass('dismissed');
+		sessionStorage.setItem('isAlertDismissed', true);
 	};
 
 	var init = function init() {
 		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
 		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
-
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
+
+		if (!sessionStorage.getItem('isAlertDismissed')) setTimeout(function () {
+			$alertBoxContainer.slideDown(250);
+		}, 500);
 	};
 
 	return {
