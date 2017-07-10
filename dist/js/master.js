@@ -125,4 +125,55 @@ bcpl.alertBox = function ($, undefined) {
 $(function () {
 	bcpl.alertBox.init();
 });
-"use strict";
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.navigationSearch = function ($) {
+	var searchButtonActivatorSelector = '#activate-search-button';
+	var searchBoxSelector = '#search-box';
+	var searchButtonSelector = '#search-button';
+	var menuSelector = '.nav-and-search nav';
+
+	/**
+  * Attach events and inject any event dependencies.
+  */
+	var init = function init() {
+		var $searchButtonActivator = $(searchButtonActivatorSelector);
+		var $searchBox = $(searchBoxSelector);
+		var $searchButton = $(searchButtonSelector);
+		var $menu = $(menuSelector);
+
+		$searchButtonActivator.on('click', {
+			$searchBox: $searchBox,
+			$searchButtonActivator: $searchButtonActivator,
+			$menu: $menu
+		}, searchButtonActivatorClicked);
+
+		$searchButton.on('click', searchButtonClicked);
+	};
+
+	/**
+  * Click event handler for the search activator button.
+  */
+	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
+		var $searchBox = event.data.$searchBox;
+		var $searchButtonActivator = event.data.$searchButtonActivator;
+		var $menu = event.data.$menu;
+
+		$searchButtonActivator.toggleClass('active');
+		$searchBox.toggleClass('active');
+		$menu.toggleClass('hidden-xs');
+	};
+
+	/**
+  * Click event handler for the search button.
+  */
+	var searchButtonClicked = function searchButtonClicked(event) {};
+
+	return { init: init };
+}(jQuery);
+
+$(function () {
+	bcpl.navigationSearch.init();
+});
