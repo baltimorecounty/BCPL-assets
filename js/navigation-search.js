@@ -12,7 +12,6 @@ bcpl.navigationSearch = (($) => {
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 
-
 		if ($menu.is(':hidden')) {
 			$searchButtonActivator.toggleClass('active');
 			$searchBox.toggleClass('active');
@@ -53,11 +52,9 @@ bcpl.navigationSearch = (($) => {
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 
-		if ($searchBox.is(':hidden')) {
-			$searchButtonActivator.toggleClass('active');
-			$searchBox.toggleClass('active');
-			$menu.toggleClass('hidden-xs');		
-		}
+		$searchButtonActivator.toggleClass('active');
+		$searchBox.toggleClass('active');
+		$menu.toggleClass('hidden-xs');		
 	};
 
 	/**

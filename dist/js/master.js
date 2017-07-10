@@ -181,11 +181,9 @@ bcpl.navigationSearch = function ($) {
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 
-		if ($searchBox.is(':hidden')) {
-			$searchButtonActivator.toggleClass('active');
-			$searchBox.toggleClass('active');
-			$menu.toggleClass('hidden-xs');
-		}
+		$searchButtonActivator.toggleClass('active');
+		$searchBox.toggleClass('active');
+		$menu.toggleClass('hidden-xs');
 	};
 
 	/**
