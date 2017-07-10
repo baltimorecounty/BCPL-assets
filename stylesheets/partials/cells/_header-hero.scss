@@ -1,10 +1,9 @@
-.menu-wrapper {
+.hero-wrapper {
 	background-image: url("/dist/images/hero-image-1.png");
 	background-size: cover;
 	background-position-x: center;
 	background-position-y: bottom;
 	background-repeat: no-repeat;
-	height: 500px;
 
 	.hero-foreground {
 		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
@@ -12,26 +11,23 @@
 		background: -webkit-linear-gradient(top, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 60%); /* Chrome10-25,Safari5.1-6 */
 		background: linear-gradient(to bottom, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 60%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff',GradientType=0 ); /* IE6-9 */
+		height: 500px;
 
-		.menu-padding {
-			padding: 3em 15px;
+		.callout {
+			background: rgba(0, 0, 0, .75);
+			color: white;
+			margin-top: 10em;
+			padding: 2em;
 
-			.callout {
-				background: rgba(0, 0, 0, .75);
+			h2 { 
 				color: white;
-				margin-top: 4em;
-				padding: 2em;
+				font-size: 2em;
+				margin-top: 0;
+			}
 
-				h2 { 
-					color: white;
-					font-size: 2em;
-					margin-top: 0;
-				}
-
-				a {
-					color: $gold;
-					font-weight: bold;
-				}
+			a {
+				color: $gold;
+				font-weight: bold;
 			}
 		}
 	}

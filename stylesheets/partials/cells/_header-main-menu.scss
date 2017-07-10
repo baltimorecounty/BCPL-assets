@@ -1,14 +1,24 @@
 .menu-wrapper {
-	background: $teal;
-	color: white;
+    color: #fff;
+    margin-top: 3em;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+
+	.menu-container {
+		position: relative;
+	}
 
 	button {
 		font-size: 1.5em;
 	}
 
-
 	.nav-and-search {
+
 		#activate-search-button {
+			margin-right: -15px;
+			padding: .25em .5em;
+
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
 			}
@@ -49,23 +59,26 @@
 
 	#search-box {
 		background-color: rgba(0, 0, 0, .5);
+		color: $gray-dark;
 		display: none;
 		padding: 1em;
 		position: absolute;
-		top: 58px;
+		top: 46px;
 		right: 0;
 		width: 100%;
 
 		input {
 			font-size: 1.2em;
 			font-weight: bold;
-			padding: .25em .5em;
+			padding: .25em 2em .25em .5em;
 			border: none;
+			width: 100%;
 		}
 
 		button {
-			padding: .5em .25em .5em .5em;
-			margin-left: 0.5em;		
+			margin-left: -1.5em;		
+			position: relative;
+			top: 2px;		
 		}
 
 		&.active { 
@@ -106,8 +119,13 @@
 
 @media (max-width: $screen-sm) {
 	.menu-wrapper {
+	    margin-top: 0;
+		padding-top: 1em;
+		position: static;
+		background: $teal;
+
 		.nav-and-search {
-			margin: 0 -15px;
+			margin: -3em -15px 0;
 
 			button {
 				font-size: 2.5em;
@@ -118,6 +136,10 @@
 				&.active {
 					background-color: $gray-dark;
 				}				
+			}
+
+			#activate-search-button {
+				margin-right: .25em;
 			}
 
 			#hamburger-menu-button { 
