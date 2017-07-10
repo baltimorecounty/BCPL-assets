@@ -3,8 +3,13 @@
 	color: black;
 	font-weight: 800;
 	font-size: .8em;
-	padding: 1em 0;
+	padding: 0;
 	text-transform: uppercase;
+
+	.alert-container {
+		padding: 1em 0;
+		transition: all 0.25s ease;
+	}
 
 	p {
 		padding: 0;
@@ -19,28 +24,21 @@
 
 	}
 
-	a {
-		display: inline-block;
-		margin-left: 1em;
+	button, a {
 		border: 1px solid black;
 		color: black;
-		padding: .25em .5em;
+		display: inline-block;
 		line-height: 1.5em;
+		margin-left: 1em;
+		padding: .25em .5em;
+		text-transform: uppercase;
 		transition: all 0.25s ease;
 
 		i {
 			margin-left: .5em;
 			color: inherit;
-		}
-
-		&[role=button] {
-			position: relative;
-			top: 3px;
-
-			i {
 				position: relative;
 				top: -1px;
-			}
 		}
 
 		&:hover {
@@ -49,6 +47,16 @@
 			color: white;
 		}
 	}
+
+	.dismissed {
+		height: 1px;
+		padding: 0;
+
+		* {
+			display: none !important;
+		}
+	}
+
 }
 
 @media (max-width: $screen-md) {
@@ -62,16 +70,27 @@
 			display: none;
 		}
 
-		a {
+		button, a {
 			display: block;
 			clear: both;
 			margin: 0;
+			margin-bottom: .5em;
 			padding: .75em;
+			text-align: left;
+			width: 50%;
 		}
 
 		.view-all-alerts {
 			margin-top: 1em;
 		}
 
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.alert-wrapper {
+		button, a {
+			width: 100%;
+		}
 	}
 }

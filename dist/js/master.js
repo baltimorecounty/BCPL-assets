@@ -87,5 +87,36 @@ baltimoreCounty.utility.numericStringTools = function () {
     getFirstSetOfNumbersAndRemoveNonDigits: getFirstSetOfNumbersAndRemoveNonDigits
   };
 }();
-"use strict";
+'use strict';
+
+namespacer("bcpl");
+
+bcpl.alertBox = function ($, undefined) {
+	var alertBoxDismissButtonSelector = '#alert-box-dismiss';
+	var alertBoxContainerSelector = '.alert-container';
+
+	var $alertBoxDismissButton = void 0;
+	var $alertBoxContainer = void 0;
+
+	var alertBoxDismissButtonClicked = function alertBoxDismissButtonClicked(event) {
+		var $container = event.data.$container;
+
+		$container.addClass('dismissed');
+	};
+
+	var init = function init() {
+		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
+		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
+
+		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
+	};
+
+	return {
+		init: init
+	};
+}(jQuery);
+
+$(function () {
+	bcpl.alertBox.init();
+});
 "use strict";
