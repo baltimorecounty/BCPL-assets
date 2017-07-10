@@ -36,14 +36,21 @@
 					float: none !important; 
 
 					ul {
+						display: table;
+						width: 100%;
+
 						li { 
 							text-align: center;
-							width: 25%;
+							display: table-cell;							
 							margin: 0; 
 							border-right: 2px solid $gray-dark;
 
 							&:last-child {
 								border: none;
+							}
+
+							a {
+								padding: 0;
 							}
 						}
 					}

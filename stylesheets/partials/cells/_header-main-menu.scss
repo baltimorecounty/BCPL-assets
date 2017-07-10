@@ -18,6 +18,8 @@
 		#activate-search-button {
 			margin-right: -15px;
 			padding: .25em .5em;
+			position: relative;
+			top: -5px;
 
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
@@ -125,12 +127,14 @@
 		background: $teal;
 
 		.nav-and-search {
-			margin: -3em -15px 0;
+			padding: 0;
+			margin-top: -4.5em;
 
 			button {
-				font-size: 2.5em;
+				font-size: 2em;
 				padding: .25em .5em;
 				margin-right: .25em;
+				margin-top: 1em;
 				background-color: $red;
 
 				&.active {
@@ -140,6 +144,7 @@
 
 			#activate-search-button {
 				margin-right: .25em;
+				position: static;
 			}
 
 			#hamburger-menu-button { 
@@ -167,6 +172,25 @@
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.menu-wrapper {
+		.menu-container {
+			.logo {
+			
+				img {
+					width: 80%;
+					max-width: 266px;
+				}
+			}
+
+			.nav-and-search {
+				padding: 0;
+				margin-top: 0;
 			}
 		}
 	}
