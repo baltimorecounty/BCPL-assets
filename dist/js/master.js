@@ -133,7 +133,20 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
+	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '.nav-and-search nav';
+
+	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
+		var $searchBox = event.data.$searchBox;
+		var $searchButtonActivator = event.data.$searchButtonActivator;
+		var $menu = event.data.$menu;
+
+		if ($menu.is(':hidden')) {
+			$searchButtonActivator.toggleClass('active');
+			$searchBox.toggleClass('active');
+			$menu.toggleClass('hidden-xs');
+		}
+	};
 
 	/**
   * Attach events and inject any event dependencies.
@@ -142,6 +155,7 @@ bcpl.navigationSearch = function ($) {
 		var $searchButtonActivator = $(searchButtonActivatorSelector);
 		var $searchBox = $(searchBoxSelector);
 		var $searchButton = $(searchButtonSelector);
+		var $hamburgerButton = $(hamburgerButtonSelector);
 		var $menu = $(menuSelector);
 
 		$searchButtonActivator.on('click', {
@@ -149,6 +163,12 @@ bcpl.navigationSearch = function ($) {
 			$searchButtonActivator: $searchButtonActivator,
 			$menu: $menu
 		}, searchButtonActivatorClicked);
+
+		$hamburgerButton.on('click', {
+			$searchBox: $searchBox,
+			$searchButtonActivator: $searchButtonActivator,
+			$menu: $menu
+		}, hamburgerButtonClicked);
 
 		$searchButton.on('click', searchButtonClicked);
 	};
@@ -161,9 +181,11 @@ bcpl.navigationSearch = function ($) {
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 
-		$searchButtonActivator.toggleClass('active');
-		$searchBox.toggleClass('active');
-		$menu.toggleClass('hidden-xs');
+		if ($searchBox.is(':hidden')) {
+			$searchButtonActivator.toggleClass('active');
+			$searchBox.toggleClass('active');
+			$menu.toggleClass('hidden-xs');
+		}
 	};
 
 	/**
