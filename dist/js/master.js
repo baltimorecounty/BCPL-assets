@@ -87,3 +87,5 @@ baltimoreCounty.utility.numericStringTools = function () {
     getFirstSetOfNumbersAndRemoveNonDigits: getFirstSetOfNumbersAndRemoveNonDigits
   };
 }();
+"use strict";
+"use strict";
