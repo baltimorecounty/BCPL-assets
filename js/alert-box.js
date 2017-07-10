@@ -19,11 +19,11 @@ bcpl.alertBox = (($, undefined) => {
 		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
 
-		if (!sessionStorage.getItem('isAlertDismissed'))
+		if ((sessionStorage && !sessionStorage.getItem('isAlertDismissed')) || !sessionStorage) {
 			setTimeout(() => {
 				$alertBoxContainer.slideDown(250);
 			}, 500);
-			
+		}
 	};
 
 	return {
