@@ -25,7 +25,7 @@ bcpl.pageSpecific.homepage.flipper = function ($, undefined) {
 			$.each(data, function (index, tabData) {
 				if (tabType.toLowerCase() === tabData.type.toLowerCase()) {
 					$.each(tabData.books, function (index, book) {
-						var html = '<button data-title="' + book.title + '" data-description="' + book.description + '" data-url="' + book.url + '"><img src="' + book.coverUrl + '" /></button>';
+						var html = '<button data-title="' + book.title + '" data-description="' + book.description + '" data-url="' + book.url + '" data-cover-url="' + book.coverUrl + '"><img src="' + book.coverUrl + '" /></button>';
 						$tab.append(html);
 					});
 				}
@@ -44,9 +44,9 @@ bcpl.pageSpecific.homepage.flipper = function ($, undefined) {
 
 		buttonIndex = highlightButtons(tabObjects, buttonIndex);
 		/*
-  		bookHighlightInterval = setInterval(() => {
-  			buttonIndex = highlightButtons(tabObjects, buttonIndex);
-  		}, 3000);
+  bookHighlightInterval = setInterval(() => {
+  	buttonIndex = highlightButtons(tabObjects, buttonIndex);
+  }, 3000);
   */
 	};
 
@@ -64,6 +64,7 @@ bcpl.pageSpecific.homepage.flipper = function ($, undefined) {
 		var $bookTitle = tabObjects.$flipperContainer.find('.book-title');
 		var $bookDescription = tabObjects.$flipperContainer.find('.book-description');
 		var $bookUrl = tabObjects.$flipperContainer.find('.book-url');
+		var $bookCover = tabObjects.$flipperContainer.find('.book-cover');
 		var $chosenButton = $visibleButtons.eq(buttonIndex);
 
 		$allButtons.removeClass('active');
@@ -72,6 +73,7 @@ bcpl.pageSpecific.homepage.flipper = function ($, undefined) {
 		$bookTitle.text($chosenButton.attr('data-title'));
 		$bookDescription.text($chosenButton.attr('data-description'));
 		$bookUrl.attr('href', $chosenButton.attr('data-url'));
+		$bookCover.attr('src', $chosenButton.attr('data-cover-url'));
 
 		return buttonIndex === $buttons.length - 1 ? 0 : buttonIndex + 1;
 	};

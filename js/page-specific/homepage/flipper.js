@@ -23,7 +23,7 @@ bcpl.pageSpecific.homepage.flipper = (($, undefined) => {
 			$.each(data, (index, tabData) => {
 				if (tabType.toLowerCase() === tabData.type.toLowerCase()) {
 					$.each(tabData.books, (index, book) => {
-						const html = `<button data-title="${book.title}" data-description="${book.description}" data-url="${book.url}"><img src="${book.coverUrl}" /></button>`;
+						const html = `<button data-title="${book.title}" data-description="${book.description}" data-url="${book.url}" data-cover-url="${book.coverUrl}"><img src="${book.coverUrl}" /></button>`;
 						$tab.append(html);
 					});
 				}
@@ -62,6 +62,7 @@ bcpl.pageSpecific.homepage.flipper = (($, undefined) => {
 		const $bookTitle = tabObjects.$flipperContainer.find('.book-title');
 		const $bookDescription = tabObjects.$flipperContainer.find('.book-description');
 		const $bookUrl = tabObjects.$flipperContainer.find('.book-url');	
+		const $bookCover = tabObjects.$flipperContainer.find('.book-cover');	
 		const $chosenButton = $visibleButtons.eq(buttonIndex);
 
 		$allButtons.removeClass('active');
@@ -69,7 +70,8 @@ bcpl.pageSpecific.homepage.flipper = (($, undefined) => {
 
 		$bookTitle.text($chosenButton.attr('data-title'));
 		$bookDescription.text($chosenButton.attr('data-description'));
-		$bookUrl.attr('href', ($chosenButton.attr('data-url')));
+		$bookUrl.attr('href', $chosenButton.attr('data-url'));
+		$bookCover.attr('src',$chosenButton.attr('data-cover-url'));
 
 		return buttonIndex === $buttons.length - 1 ? 0 : buttonIndex + 1;
 	};
