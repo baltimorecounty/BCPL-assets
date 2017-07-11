@@ -1,1 +1,14 @@
-"use strict";
+'use strict';
+
+namespacer('bcpl.pageSpecific.homepage');
+
+bcpl.pageSpecific.homepage.carousel = function ($, undefined) {
+
+	var init = function init() {};
+
+	return { init: init };
+}(jQuery);
+
+$(function () {
+	bcpl.pageSpecific.homepage.carousel.init();
+});

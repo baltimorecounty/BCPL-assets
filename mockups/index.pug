@@ -6,8 +6,8 @@ html
 		
 		include includes/head.pug
 
-		script(src="/dist/js/page-specific/homepage/carousel.min.js")
-		script(src="/dist/js/page-specific/homepage/flipper.min.js")
+		script(src="/dist/js/page-specific/homepage/carousel.js")
+		script(src="/dist/js/page-specific/homepage/flipper.js")
 
 	body
 
@@ -157,7 +157,7 @@ html
 										| View all Events
 			
 			section.recommended-titles-wrapper
-				.container
+				.container.flipper-container
 					.row
 						.col-md-6
 							h2 Recommended Titles
@@ -165,50 +165,17 @@ html
 								.col-md-4
 									img(src="/dist/images/grumpy-cat.jpg" height="250" width="180")
 								.col-md-8
-									h3 Book Title
-									p Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
-									a.solo(href="#")
+									h3.book-title Book Title
+									p.book-description Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula fermentum quis.
+									a.book-url.solo(href="#")
 										i.fa.fa-play-circle 
 										| Read More
 						.col-md-6
-							.tabs
+							.tabs.flipper-tabs
 								nav
 									ul(role="tablist")
-										li#tab-1.active(role="tab" aria-controls="tab-1" aria-selected="true" tabindex="0") Recommended
-										li#tab-2(role="tab" aria-controls="tab-2" aria-selected="false" tabindex="0") New Titles
-								#tab-1.tab.active(role="tabpanel" aria-labelledby="tab-1" aria-hidden="false")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-								#tab-2.tab(role="tabpanel" aria-labelledby="tab-2" aria-hidden="true")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-									button
-										img(src="/dist/images/grumpy-cat.jpg")
-
+										li.tab-control.active(role="tab" aria-controls="tab-1" aria-selected="true" tabindex="0") Recommended
+										li.tab-control(role="tab" aria-controls="tab-2" aria-selected="false" tabindex="0") New Titles
+								.flipper-tab.tab.active(role="tabpanel" aria-labelledby="tab-1" aria-hidden="false" data-flipper-tab="Recommended")
+								.flipper-tab.tab(role="tabpanel" aria-labelledby="tab-2" aria-hidden="true" data-flipper-tab="New Titles")
 			include includes/footer.pug

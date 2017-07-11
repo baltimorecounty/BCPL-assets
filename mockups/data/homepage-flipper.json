@@ -1,0 +1,150 @@
+[
+	{
+		"type": "Recommended",
+		"books": [{
+				"title": "End Game",
+				"author": "Baldacci, David",
+				"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In facilisis urna quis porttitor imperdiet.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "The story of Arthur Truluv : a novel",
+				"author": "Berg, Elizabeth",
+				"description": "Sed dapibus turpis sit amet tempus elementum. Nam suscipit nunc a tellus consequat sagittis. Fusce ullamcorper iaculis enim ac convallis.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Secrets of Cavendon",
+				"author": "Bradford, Barbara Taylor",
+				"description": "Vivamus ut suscipit lectus. Donec at aliquam metus. Etiam ipsum libero, dictum sed efficitur a, mattis non enim. Praesent id viverra velit.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Origin",
+				"author": "Brown, Dan",
+				"description": "Vestibulum lacinia facilisis felis. Sed ac augue eleifend, ullamcorper lorem nec, fringilla elit. Maecenas facilisis posuere tellus, vitae finibus lectus dignissim dictum.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Seeing Red",
+				"author": "Brown, Sandra",
+				"description": "Pellentesque orci turpis, dapibus id nisl eget, pulvinar condimentum sem. Nam a cursus lorem.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Robicheaux",
+				"author": "Burke, James Lee",
+				"description": "Aliquam aliquam sem tellus, maximus blandit nibh consequat ac. Fusce varius, neque vel consequat pulvinar, nisl nulla tempus arcu, et placerat sapien nisl non odio.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Meddling kids : a novel",
+				"author": "Cantero, Edgar",
+				"description": "Sed vitae porta ipsum, ut interdum nunc. Duis interdum rutrum tortor at luctus. Donec tempus risus turpis, vel imperdiet turpis tincidunt id. Duis ut massa in erat laoreet semper. ",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "The Midnight Line: A Jack Reacher Novel",
+				"author": "Child, Lee",
+				"description": "Vestibulum rutrum sollicitudin velit, id aliquet sapien gravida a. Proin enim dui, blandit id odio vel, fermentum posuere metus.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Every Breath You Take",
+				"author": "Clark, Mary Higgins",
+				"description": "Sed non ultricies orci, vehicula viverra erat. Nullam ultricies elit rhoncus turpis viverra convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			},
+			{
+				"title": "Don't let go",
+				"author": "Coben, Harlan",
+				"description": "Maecenas vel augue eu erat consectetur facilisis sed ac justo. Duis pulvinar auctor scelerisque. Aenean sodales sapien efficitur, vulputate nunc eu, imperdiet ipsum.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-blue.jpg"
+			}
+		]
+	},
+	{
+		"type": "New Titles",
+		"books": [{
+				"title": "End Game",
+				"author": "Baldacci, David",
+				"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In facilisis urna quis porttitor imperdiet.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "The story of Arthur Truluv : a novel",
+				"author": "Berg, Elizabeth",
+				"description": "Sed dapibus turpis sit amet tempus elementum. Nam suscipit nunc a tellus consequat sagittis. Fusce ullamcorper iaculis enim ac convallis.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Secrets of Cavendon",
+				"author": "Bradford, Barbara Taylor",
+				"description": "Vivamus ut suscipit lectus. Donec at aliquam metus. Etiam ipsum libero, dictum sed efficitur a, mattis non enim. Praesent id viverra velit.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Origin",
+				"author": "Brown, Dan",
+				"description": "Vestibulum lacinia facilisis felis. Sed ac augue eleifend, ullamcorper lorem nec, fringilla elit. Maecenas facilisis posuere tellus, vitae finibus lectus dignissim dictum.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Seeing Red",
+				"author": "Brown, Sandra",
+				"description": "Pellentesque orci turpis, dapibus id nisl eget, pulvinar condimentum sem. Nam a cursus lorem.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Robicheaux",
+				"author": "Burke, James Lee",
+				"description": "Aliquam aliquam sem tellus, maximus blandit nibh consequat ac. Fusce varius, neque vel consequat pulvinar, nisl nulla tempus arcu, et placerat sapien nisl non odio.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Meddling kids : a novel",
+				"author": "Cantero, Edgar",
+				"description": "Sed vitae porta ipsum, ut interdum nunc. Duis interdum rutrum tortor at luctus. Donec tempus risus turpis, vel imperdiet turpis tincidunt id. Duis ut massa in erat laoreet semper. ",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "The Midnight Line: A Jack Reacher Novel",
+				"author": "Child, Lee",
+				"description": "Vestibulum rutrum sollicitudin velit, id aliquet sapien gravida a. Proin enim dui, blandit id odio vel, fermentum posuere metus.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Every Breath You Take",
+				"author": "Clark, Mary Higgins",
+				"description": "Sed non ultricies orci, vehicula viverra erat. Nullam ultricies elit rhoncus turpis viverra convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			},
+			{
+				"title": "Don't let go",
+				"author": "Coben, Harlan",
+				"description": "Maecenas vel augue eu erat consectetur facilisis sed ac justo. Duis pulvinar auctor scelerisque. Aenean sodales sapien efficitur, vulputate nunc eu, imperdiet ipsum.",
+				"url": "#",
+				"coverUrl": "/dist/images/grumpy-cat-red.jpg"
+			}
+		]
+	}
+]

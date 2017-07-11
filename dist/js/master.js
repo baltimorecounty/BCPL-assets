@@ -197,3 +197,40 @@ bcpl.navigationSearch = function ($) {
 $(function () {
 	bcpl.navigationSearch.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.tabs = function ($, undefined) {
+
+	var tabContainerSelector = '.tabs';
+	var tabControlSelector = '.tab-control';
+	var tabSelector = '.tab';
+
+	var init = function init() {
+		var $tabContainer = $(tabContainerSelector);
+		var $tabControls = $tabContainer.find(tabControlSelector);
+
+		$tabControls.on('click', {
+			$tabContainer: $tabContainer,
+			$tabControls: $tabControls
+		}, tabControlClicked);
+	};
+
+	var tabControlClicked = function tabControlClicked(event) {
+		var $targetTabControl = $(event.currentTarget);
+		var $tabs = event.data.$tabContainer.find(tabSelector);
+		var tabControlIndex = $targetTabControl.index();
+
+		event.data.$tabControls.removeClass('active');
+		$tabs.removeClass('active');
+		$targetTabControl.addClass('active');
+		$tabs.eq(tabControlIndex).addClass('active');
+	};
+
+	return { init: init };
+}(jQuery);
+
+$(function () {
+	bcpl.tabs.init();
+});
