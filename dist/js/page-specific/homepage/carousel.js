@@ -4,7 +4,12 @@ namespacer('bcpl.pageSpecific.homepage');
 
 bcpl.pageSpecific.homepage.carousel = function ($, undefined) {
 
-	var init = function init() {};
+	var init = function init() {
+		$('.hero-wrapper').slick({
+			autoplay: true,
+			fade: true
+		});
+	};
 
 	return { init: init };
 }(jQuery);

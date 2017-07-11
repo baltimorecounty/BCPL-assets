@@ -1,9 +1,24 @@
-.hero-wrapper {
-	background-image: url("/dist/images/hero-image-1.png");
+.hero-background {
 	background-size: cover;
 	background-position-x: center;
 	background-position-y: bottom;
 	background-repeat: no-repeat;
+	
+	&:nth-child(1) {
+		background-image: url("/dist/images/hero-image-1.jpg");
+	}
+
+	&:nth-child(2) {
+		background-image: url("/dist/images/hero-image-2.jpg");
+	}
+
+	&:nth-child(3) {
+		background-image: url("/dist/images/hero-image-3.jpg");
+	}
+
+	&:nth-child(4) {
+		background-image: url("/dist/images/hero-image-4.jpg");
+	}
 
 	.hero-foreground {
 		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
@@ -14,31 +29,38 @@
 		border-bottom: 1px solid $gold;
 		height: 500px;
 
-		.callout {
-			background: rgba(0, 0, 0, .75);
-			color: white;
-			margin-top: 10em;
-			padding: 2em;
+		
+		.hero-callout-container {
 
-			h2 { 
+			.callout {
+				background: rgba(0, 0, 0, .75);
 				color: white;
-				font-size: 2em;
-				margin-top: 0;
-			}
+				margin-top: 12em;
+				padding: 2em;
 
-			a {
-				color: $gold;
-				font-weight: bold;
+				h2 { 
+					color: white;
+					font-size: 2em;
+					margin-top: 0;
+				}
+
+				a {
+					color: $gold;
+					font-weight: bold;
+				}
 			}
 		}
 	}
 }
 
+
 @media (max-width: $screen-lg) {
 	.hero-wrapper {
 		.hero-foreground {
-			.callout {
-				margin-top: 15em;
+			.hero-callout-container {
+				.callout {
+					margin-top: 15em;
+				}				
 			}
 		}
 	}
@@ -56,9 +78,12 @@
 					position: static;
 				}
 			}
-			.callout {
-				margin-top: 0;		
-				border-top: 1px solid $gold;
+			.hero-callout-container {
+				.callout {
+					border-top: 1px solid $gold;
+					height: 100%;
+					margin-top: 0;		
+				}				
 			}
 		}
 	}

@@ -75,7 +75,7 @@ bcpl.pageSpecific.homepage.flipper = function ($, undefined) {
 		$bookUrl.attr('href', $chosenButton.attr('data-url'));
 		$bookCover.attr('src', $chosenButton.attr('data-cover-url'));
 
-		return buttonIndex === $buttons.length - 1 ? 0 : buttonIndex + 1;
+		return buttonIndex === $visibleButtons.length - 1 ? 0 : buttonIndex + 1;
 	};
 
 	var init = function init() {
