@@ -64,8 +64,13 @@ gulp.task('move-page-specific-js', () => {
 		.pipe(gulp.dest('dist/js/page-specific'));
 });
 
+gulp.task('move-vendor-js', () => {
+	gulp.src('js/vendor/**/*.js')
+		.pipe(gulp.dest('dist/js'));
+});
+
 gulp.task('move-images',  () => {
-	return gulp.src('images/**.*')
+	return gulp.src('images/**/*')
 		.pipe(gulp.dest('dist/images'));
 });
 
@@ -81,7 +86,7 @@ gulp.task('process-pug', () => {
 });
 
 gulp.task('default', ['clean'], (callback) => {
-	return runSequence(['process-pug', 'process-scss', 'minify-js', 'move-images', 'move-fonts'], callback);
+	return runSequence(['process-pug', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], callback);
 });
 
 gulp.task('watcher', () => {

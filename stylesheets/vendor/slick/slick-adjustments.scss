@@ -1,0 +1,18 @@
+.slick-dotted.slick-slider {
+	background-color: $gold;
+
+	margin-bottom: 0;
+
+	.slick-dots {
+		bottom: 15px;
+
+		li {
+			margin: 0 10px;
+
+			button:before {
+				text-shadow: -2px 0 white,  0 2px white,  2px 0 white,  0 -2px white;
+				font-size: 20px;
+			}
+		}
+	}
+}

@@ -5,7 +5,9 @@ bcpl.pageSpecific.homepage.carousel = (($, undefined) => {
 	const init = () => {
 		$('.hero-wrapper').slick({
 			autoplay: true,
-			fade: true
+			fade: true,
+			dots: true,
+			arrows: true
 		});
 	};
 
