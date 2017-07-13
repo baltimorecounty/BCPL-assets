@@ -27,6 +27,11 @@
 	flex-wrap: wrap;
 }
 
+.flex-align-end-end {
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
 .flex-10 { flex-basis: 10%; }
 
 .flex-20 { flex-basis: 20%; }

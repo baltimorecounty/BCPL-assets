@@ -3,8 +3,8 @@
     margin-top: 3em;
     position: absolute;
     width: 100%;
-    z-index: 100;
-
+	z-index: 100;
+	
 	.menu-container {
 		position: relative;
 	}
@@ -86,6 +86,12 @@
 		&.active { 
 			display: block;
 		}
+	}
+}
+
+.internal {
+	.menu-wrapper {
+		margin-top: 1.25em;
 	}
 }
 

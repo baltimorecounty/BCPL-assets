@@ -4,8 +4,22 @@ body {
 	font-size: 16px;
 }
 
-h1, h2, .branding {
+.branding {
 	font-family: QuotesScript-Regular;
+}
+
+h1, h2, h3, p, ul, ol, table {
+	margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+h1 {
+	font-size: 3.5em;
+	color: $red;
 }
 
 h2 {
@@ -13,6 +27,14 @@ h2 {
 	color: $teal;
 }
 
+h3 {
+
+}
+
 h4 {
 	font-weight: bold;
+}
+
+p {
+	
 }
