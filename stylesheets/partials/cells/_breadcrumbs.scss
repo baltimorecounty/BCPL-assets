@@ -7,13 +7,14 @@
 		ul {
 			li {
 				background: white;
-				border-radius: 8px;
-				padding: .25em .5em;
+				border-radius: 16px;
+				padding: .25em .75em;
 				margin: 0 1.1em;
 				position: relative;
 
 				&:first-child {
 					margin-left: 0;
+					padding: .25em .5em;
 					top: 3px;
 
 					i {

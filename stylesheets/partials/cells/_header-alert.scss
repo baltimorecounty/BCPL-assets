@@ -7,12 +7,13 @@
 	text-transform: uppercase;
 
 	.alert-container {
-		padding: 1em 15px;
+		padding: 0 15px 1em;
 	}
 
 	p {
 		padding: 0;
 		margin: 0;
+		margin-top: -4px;
 
 		& > i {
 			position: relative;
