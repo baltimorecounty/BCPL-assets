@@ -225,6 +225,7 @@
 
 	.internal {
 		.menu-wrapper {
+			background: $teal;
 			padding-top: 0;
 
 			.menu-inner-wrapper {
@@ -238,7 +239,7 @@
 }
 
 @media (max-width: $screen-xs) {
-	.menu-wrapper {
+	.menu-wrapper {		
 		.menu-container {
 			.logo {
 			
@@ -254,4 +255,5 @@
 			}
 		}
 	}
+
 }
