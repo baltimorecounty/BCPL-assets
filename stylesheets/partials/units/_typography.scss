@@ -43,7 +43,8 @@ p:last-child {
 
 blockquote {
 	color: $red;
+	display: inline-block;
 	font-style: italic;
-	margin: 1em;
+	margin: 0 1em 1em;
 	border-right: 5px solid $gray-lightest;
 }

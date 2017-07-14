@@ -1,4 +1,4 @@
-@import "partials/atoms/colors";
+@import "partials/core/colors";
 
 @import "vendor/bootstrap/partials/variables";
 
@@ -6,8 +6,8 @@
 @import "vendor/slick/slick-theme";
 @import "vendor/slick/slick-adjustments";
 
-@import "partials/cells/header-hero";
-@import "partials/cells/features";
-@import "partials/cells/blog-posts-events";
-@import "partials/cells/recommended-titles";
-@import "partials/cells/homepage-flipper";
+@import "partials/features/header-hero";
+@import "partials/features/features";
+@import "partials/features/blog-posts-events";
+@import "partials/features/recommended-titles";
+@import "partials/features/homepage-flipper";

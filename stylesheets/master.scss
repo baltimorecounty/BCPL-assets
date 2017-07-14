@@ -1,23 +1,23 @@
 @import "vendor/bootstrap/bootstrap";
 
-@import "partials/atoms/fonts";
-@import "partials/atoms/colors";
-@import "partials/atoms/flexbox";
+@import "partials/core/fonts";
+@import "partials/core/colors";
+@import "partials/core/flexbox";
 
-@import "partials/molecules/typography";
-@import "partials/molecules/navigation";
-@import "partials/molecules/button";
-@import "partials/molecules/links";
-@import "partials/molecules/table";
+@import "partials/units/typography";
+@import "partials/units/navigation";
+@import "partials/units/button";
+@import "partials/units/links";
+@import "partials/units/table";
 
-@import "partials/cells/body";
-@import "partials/cells/content";
-@import "partials/cells/section-title";
-@import "partials/cells/breadcrumbs";
-@import "partials/cells/header-subnav";
-@import "partials/cells/header-main-menu";
-@import "partials/cells/header-alert";
-@import "partials/cells/tabs";
-@import "partials/cells/footer-follow";
-@import "partials/cells/footer-callouts";
-@import "partials/cells/footer-copyright";
+@import "partials/features/body";
+@import "partials/features/content";
+@import "partials/features/section-title";
+@import "partials/features/breadcrumbs";
+@import "partials/features/header-subnav";
+@import "partials/features/header-main-menu";
+@import "partials/features/header-alert";
+@import "partials/features/tabs";
+@import "partials/features/footer-follow";
+@import "partials/features/footer-callouts";
+@import "partials/features/footer-copyright";
