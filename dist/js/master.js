@@ -140,11 +140,13 @@ bcpl.navigationSearch = function ($) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
+		var $hamburgerButton = $(event.currentTarget);
 
 		if ($menu.is(':hidden')) {
-			$searchButtonActivator.toggleClass('active');
-			$searchBox.toggleClass('active');
-			$menu.toggleClass('hidden-xs');
+			$searchButtonActivator.removeClass('active');
+			$searchBox.removeClass('active');
+			$hamburgerButton.addClass('active');
+			$menu.removeClass('hidden-xs');
 		}
 	};
 
@@ -161,7 +163,8 @@ bcpl.navigationSearch = function ($) {
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu
+			$menu: $menu,
+			$hamburgerButton: $hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
@@ -180,10 +183,19 @@ bcpl.navigationSearch = function ($) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
+		var $hamburgerButton = event.data.$hamburgerButton;
 
-		$searchButtonActivator.toggleClass('active');
-		$searchBox.toggleClass('active');
-		$menu.toggleClass('hidden-xs');
+		if ($searchBox.is(':hidden')) {
+			$searchButtonActivator.addClass('active');
+			$hamburgerButton.removeClass('active');
+			$searchBox.addClass('active');
+			$menu.addClass('hidden-xs');
+		} else {
+			$searchButtonActivator.removeClass('active');
+			$hamburgerButton.addClass('active');
+			$searchBox.removeClass('active');
+			$menu.removeClass('hidden-xs');
+		}
 	};
 
 	/**

@@ -11,11 +11,13 @@ bcpl.navigationSearch = (($) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
+		const $hamburgerButton = $(event.currentTarget);
 
 		if ($menu.is(':hidden')) {
-			$searchButtonActivator.toggleClass('active');
-			$searchBox.toggleClass('active');
-			$menu.toggleClass('hidden-xs');		
+			$searchButtonActivator.removeClass('active');
+			$searchBox.removeClass('active');
+			$hamburgerButton.addClass('active');		
+			$menu.removeClass('hidden-xs');		
 		}
 	};
 
@@ -32,7 +34,8 @@ bcpl.navigationSearch = (($) => {
 		$searchButtonActivator.on('click', { 
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu
+			$menu: $menu,
+			$hamburgerButton: $hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
@@ -51,10 +54,19 @@ bcpl.navigationSearch = (($) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
+		const $hamburgerButton = event.data.$hamburgerButton;
 
-		$searchButtonActivator.toggleClass('active');
-		$searchBox.toggleClass('active');
-		$menu.toggleClass('hidden-xs');		
+		if ($searchBox.is(':hidden')) {
+			$searchButtonActivator.addClass('active');
+			$hamburgerButton.removeClass('active');
+			$searchBox.addClass('active');
+			$menu.addClass('hidden-xs');	
+		} else {
+			$searchButtonActivator.removeClass('active');
+			$hamburgerButton.addClass('active');
+			$searchBox.removeClass('active');
+			$menu.removeClass('hidden-xs');	
+		}
 	};
 
 	/**

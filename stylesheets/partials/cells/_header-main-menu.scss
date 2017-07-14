@@ -160,7 +160,7 @@
 			padding: 0;
 			margin-top: -4.5em;
 
-			button {
+			#activate-search-button,  #hamburger-menu-button {
 				font-size: 2em;
 				padding: .25em .5em;
 				margin-right: .25em;
@@ -180,6 +180,23 @@
 			#hamburger-menu-button { 
 				display: inline-block; 
 			}
+
+			#search-box {
+				position: static;
+				background-color: $gray-dark;
+				clear: both;
+
+				input {
+					padding-right: 3em;
+				}
+
+				button {
+					font-size: 1.5em;
+					margin-left: -2.2em;
+					background: transparent;
+					margin-top: 0;
+				}
+			}	
 
 			nav {
 				background-color: $gray-dark;
@@ -215,35 +232,6 @@
 				.menu-container {
 					padding-bottom: 0;
 				}
-			}
-		}
-	}
-}
-
-@media (max-width: $screen-xs-max) {
-	.menu-wrapper {
-		.menu-container {
-			.nav-and-search {
-				#activate-search-button.active {
-					background-color: $red;					
-				}
-
-				#search-box {
-					position: static;
-					background-color: $red;
-					clear: both;
-
-					input {
-						padding-right: 3em;
-					}
-
-					button {
-						font-size: 1.5em;
-						margin-left: -2.2em;
-						background: transparent;
-						margin-top: 0;
-					}
-				}	
 			}
 		}
 	}
