@@ -2,8 +2,7 @@
 
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.carousel = function ($, undefined) {
-
+bcpl.pageSpecific.homepage.carousel = function ($) {
 	var init = function init() {
 		$('.hero-wrapper').slick({
 			autoplay: true,
