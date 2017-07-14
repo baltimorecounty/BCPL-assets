@@ -9,7 +9,7 @@ bcpl.pageSpecific.homepage.carousel = function ($, undefined) {
 			autoplay: true,
 			fade: true,
 			dots: true,
-			arrows: true
+			arrows: false
 		});
 	};
 

@@ -7,7 +7,7 @@ bcpl.pageSpecific.homepage.carousel = (($, undefined) => {
 			autoplay: true,
 			fade: true,
 			dots: true,
-			arrows: true
+			arrows: false
 		});
 	};
 

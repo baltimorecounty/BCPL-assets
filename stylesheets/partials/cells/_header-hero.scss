@@ -75,6 +75,16 @@
 			}
 		}
 	}
+
+	.internal {
+		.hero-wrapper {
+			.hero-background {
+				.hero-foreground {
+					height: 160px;
+				}
+			}
+		}
+	}
 }
 
 @media (max-width: $screen-sm) {
@@ -95,6 +105,16 @@
 					height: 100%;
 					margin-top: 0;		
 				}				
+			}
+		}
+	}
+
+	.internal {
+		.hero-wrapper {
+			.hero-background {
+				.hero-foreground {
+					display: none;
+				}
 			}
 		}
 	}

@@ -88,6 +88,22 @@
 	}
 }
 
+@media (max-width: $screen-sm) {
+	.alert-wrapper {
+		.alert-container {
+			padding-top: 1.5em;
+		}
+	}
+
+	.internal {
+		.alert-wrapper {
+			.alert-container {
+				padding-top: 0;
+			}
+		}
+	}
+}
+
 @media (max-width: $screen-xs) {
 	.alert-wrapper {
 		button, a {
