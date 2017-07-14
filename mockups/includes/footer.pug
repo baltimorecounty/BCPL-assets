@@ -60,9 +60,10 @@ footer
 	.copyright-wrapper
 		.container
 			.row
-				.col-md-12
+				.col-md-6
 					p All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.
-					nav
+				.col-md-6
+					nav.pull-right
 						ul
 							li
 								a(href="#") Privacy Policy
@@ -70,7 +71,11 @@ footer
 								a(href="#") User Terms
 							li
 								a(href="#") Accessibility
+						ul
 							li
 								a(href="#") Translate
-							li
-								a(href="#") Adjust Contrast
+							li.contraster
+								span.toggle-text Adjust Contrast
+								label.switch
+									input(id="contrastButton" type="checkbox")
+									.slider.round
