@@ -23,5 +23,11 @@
 		"indent":"off",
 		"linebreak-style":"off"
 	},
-	"extends": "airbnb"
+	"extends": "airbnb",
+	"globals": {
+		"jQuery": true,
+		"namespacer": true,
+		"bcpl": true,
+		"$": true
+	}
 }
