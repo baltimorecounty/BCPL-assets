@@ -40,3 +40,10 @@ p:last-child {
 		font-weight: 600;
 	}
 }
+
+blockquote {
+	color: $red;
+	font-style: italic;
+	margin: 1em;
+	border-right: 5px solid $gray-lightest;
+}
