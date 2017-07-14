@@ -1,13 +1,13 @@
-namespacer("bcpl");
+namespacer('bcpl');
 
-bcpl.alertBox = (($, undefined) => {
+bcpl.alertBox = (($) => {
 	const alertBoxDismissButtonSelector = '#alert-box-dismiss';
 	const alertBoxContainerSelector = '.alert-container';
 
 	let $alertBoxDismissButton;
 	let $alertBoxContainer;
 
-	const alertBoxDismissButtonClicked = event => {
+	const alertBoxDismissButtonClicked = (event) => {
 		const $container = event.data.$container;
 
 		$container.addClass('dismissed');
@@ -27,9 +27,8 @@ bcpl.alertBox = (($, undefined) => {
 	};
 
 	return {
-		init
+		init,
 	};
-
 })(jQuery);
 
 $(() => {

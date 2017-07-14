@@ -7,7 +7,7 @@ bcpl.navigationSearch = (($) => {
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '.nav-and-search nav';
 
-	const hamburgerButtonClicked = event => {
+	const hamburgerButtonClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
@@ -16,41 +16,15 @@ bcpl.navigationSearch = (($) => {
 		if ($menu.is(':hidden')) {
 			$searchButtonActivator.removeClass('active');
 			$searchBox.removeClass('active');
-			$hamburgerButton.addClass('active');		
-			$menu.removeClass('hidden-xs');		
+			$hamburgerButton.addClass('active');
+			$menu.removeClass('hidden-xs');
 		}
-	};
-
-	/**
-	 * Attach events and inject any event dependencies.
-	 */
-	const init = () => {
-		const $searchButtonActivator = $(searchButtonActivatorSelector);
-		const $searchBox = $(searchBoxSelector);
-		const $searchButton = $(searchButtonSelector);
-		const $hamburgerButton = $(hamburgerButtonSelector);
-		const $menu = $(menuSelector);
-
-		$searchButtonActivator.on('click', { 
-			$searchBox: $searchBox,
-			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu,
-			$hamburgerButton: $hamburgerButton
-		}, searchButtonActivatorClicked);
-
-		$hamburgerButton.on('click', {
-			$searchBox: $searchBox,
-			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu
-		}, hamburgerButtonClicked);
-
-		$searchButton.on('click', searchButtonClicked);
 	};
 
 	/**
 	 * Click event handler for the search activator button.
 	 */
-	const searchButtonActivatorClicked = event => {
+	const searchButtonActivatorClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
@@ -60,24 +34,49 @@ bcpl.navigationSearch = (($) => {
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
-			$menu.addClass('hidden-xs');	
+			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
-			$menu.removeClass('hidden-xs');	
+			$menu.removeClass('hidden-xs');
 		}
 	};
 
 	/**
 	 * Click event handler for the search button.
 	 */
-	const searchButtonClicked = event => {
+	const searchButtonClicked = (event) => {
 
 	};
 
-	return { init };
+		/**
+	 * Attach events and inject any event dependencies.
+	 */
+	const init = () => {
+		const $searchButtonActivator = $(searchButtonActivatorSelector);
+		const $searchBox = $(searchBoxSelector);
+		const $searchButton = $(searchButtonSelector);
+		const $hamburgerButton = $(hamburgerButtonSelector);
+		const $menu = $(menuSelector);
 
+		$searchButtonActivator.on('click', {
+			$searchBox,
+			$searchButtonActivator,
+			$menu,
+			$hamburgerButton,
+		}, searchButtonActivatorClicked);
+
+		$hamburgerButton.on('click', {
+			$searchBox,
+			$searchButtonActivator,
+			$menu,
+		}, hamburgerButtonClicked);
+
+		$searchButton.on('click', searchButtonClicked);
+	};
+
+	return { init };
 })(jQuery);
 
 $(() => {

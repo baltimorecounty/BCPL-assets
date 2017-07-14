@@ -1,22 +1,11 @@
 namespacer('bcpl');
 
-bcpl.tabs = (($, undefined) => {
-
+bcpl.tabs = (($) => {
 	const tabContainerSelector = '.tabs';
 	const tabControlSelector = '.tab-control';
 	const tabSelector = '.tab';
 
-	const init = () => {
-		const $tabContainer = $(tabContainerSelector);
-		const $tabControls = $tabContainer.find(tabControlSelector);
-
-		$tabControls.on('click', { 
-			$tabContainer: $tabContainer,
-			$tabControls: $tabControls 
-		}, tabControlClicked);
-	};
-
-	const tabControlClicked = event => {
+	const tabControlClicked = (event) => {
 		const $targetTabControl = $(event.currentTarget);
 		const $tabs = event.data.$tabContainer.find(tabSelector);
 		const tabControlIndex = $targetTabControl.index();
@@ -25,6 +14,16 @@ bcpl.tabs = (($, undefined) => {
 		$tabs.removeClass('active');
 		$targetTabControl.addClass('active');
 		$tabs.eq(tabControlIndex).addClass('active');
+	};
+
+	const init = () => {
+		const $tabContainer = $(tabContainerSelector);
+		const $tabControls = $tabContainer.find(tabControlSelector);
+
+		$tabControls.on('click', {
+			$tabContainer,
+			$tabControls,
+		}, tabControlClicked);
 	};
 
 	return { init };
