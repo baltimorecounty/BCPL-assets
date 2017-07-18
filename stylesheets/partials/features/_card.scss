@@ -1,0 +1,30 @@
+a.card {
+	display: inline-block; 
+	background: white;
+	padding: .5em;
+	margin: .65em;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+
+	&:nth-child(n+1), 
+	&:nth-child(n+2), 
+	&:nth-child(n+3), 
+	&:nth-child(n+4) {
+		margin-top: 0;
+	}
+
+	&:nth-child(4n+1) {
+		margin-left: 0;
+	}
+
+	&:nth-child(4n+4) {
+		margin-right: 0;
+	}
+
+	img { 
+		width: 180px;
+	}	
+	
+	p {
+		margin-top: 1em;
+	}
+}
