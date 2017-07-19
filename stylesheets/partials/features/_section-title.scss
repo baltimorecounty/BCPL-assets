@@ -1,5 +1,5 @@
 .section-title-wrapper {
-	border-bottom: 1px solid $teal-light;
+	/*border-bottom: 1px solid $teal-light;*/
 	color: $teal;
 	margin-top: 1em;
 
@@ -17,6 +17,9 @@
 		text-transform: uppercase;
 		font-size: .75em;
 		font-weight: bold;
+		position: absolute;
+		top: 30px;
+		right: 0;
 
 		i {
 			font-size: 1.5em;

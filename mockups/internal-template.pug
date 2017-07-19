@@ -26,7 +26,17 @@ html
 
 									.row.flex
 
-										.col-sm-9.section-title.branding Services
+										.col-sm-9
+											.breadcrumbs-wrapper
+												nav 
+													ul
+														li
+															a(href="/")
+																i.fa.fa-home
+														li
+															a(href="#") Services
+														li
+															a(href="#") Meeting Rooms
 
 										.col-sm-3.actions.flex.flex-align-end-end
 											
@@ -37,25 +47,9 @@ html
 											span.share 
 												i.fa.fa-share-alt-square
 												| Share
-
-						.row
-
-							.col-sm-12
-
-								.breadcrumbs-wrapper
-
-									nav 
-										ul
-											li
-												a(href="/")
-													i.fa.fa-home
-											li
-												a(href="#") Services
-											li
-												a(href="#") Meeting Rooms
+								
 
 				main.row
-
 					.col-md-3
 						.secondary-nav
 							nav
