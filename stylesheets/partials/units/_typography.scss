@@ -18,12 +18,14 @@ h1, h2, h3 {
 }
 
 h1 {
-	font-size: 3em;
+	font-size: 3.2em;
 	color: $red;
+	font-weight: normal;
+	font-family: QuotesScript-Regular;
 }
 
 h2 {
-	font-size: 2.5em;
+	font-size: 2em;
 	color: $teal;
 }
 
@@ -40,8 +42,8 @@ p:last-child {
 }
 
 .internal {
-	h1, h2, h3, h4, h5, h6 {
-		font-weight: 600;
+	h2, h3, h4, h5, h6 {
+		font-weight: 700;
 	}
 }
 
