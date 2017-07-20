@@ -1,5 +1,10 @@
 .cards {
 	margin-top: 1em;
+	
+	&:after {
+		content: '';
+		flex-basis: 50%;
+	}
 
 	a.card {
 		background: white;
@@ -7,24 +12,9 @@
 		cursor: pointer;
 		display: inline-block; 
 		font-weight: 700;
-		margin: .65em;
 		padding: .5em;		
-		transition: all 0.25s ease;
-
-		&:nth-child(n+1), 
-		&:nth-child(n+2), 
-		&:nth-child(n+3), 
-		&:nth-child(n+4) {
-			margin-top: 0;
-		}
-
-		&:nth-child(4n+1) {
-			margin-left: 0;
-		}
-
-		&:nth-child(4n+4) {
-			margin-right: 0;
-		}
+		margin: 0 .65em 1.3em;
+		transition: all 0.25s ease;		
 
 		&:hover {
 			color: white;
@@ -33,11 +23,18 @@
 		}
 
 		img { 
-			width: 180px;
+			width: 175px;
 		}	
 		
 		p {
 			margin-top: 1em;
+		}
+	}
+}
+
+@media (max-width: $screen-md) {
+	.cards {
+		a.card {
 		}
 	}
 }
