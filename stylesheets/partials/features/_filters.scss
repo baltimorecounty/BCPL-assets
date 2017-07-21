@@ -1,0 +1,97 @@
+.filters {
+	background: white;
+	margin-top: 1em;
+	padding: 1em;
+
+	.amenities {
+		margin-top: 1.5em;
+		margin-bottom: 1em;
+	}
+
+	label {
+		clear: both;
+		cursor: pointer; 
+		display: block;
+		font-weight: normal;
+		margin-bottom: .5em;
+
+		input {
+			cursor: pointer; 
+			display: block;
+			float: left;
+			margin-bottom: 1em;
+			margin-right: .5em;
+		}
+	}
+}
+
+.filter-controls {
+	background: white;
+	margin-top: 1em;
+	padding: .5em;
+	width: 99%;
+
+	.button-group-label {
+		float: left;
+		line-height: 33px;
+		margin-right: 1em;
+	}
+
+	.btn {
+		border: none;
+	}
+
+	.btn-primary {
+		background-color: $teal;
+	}
+
+	.btn-default {
+		background-color: $gray-lightest;
+		box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
+	}
+
+	.tags {
+		margin-top: 1em;
+
+		button {
+			box-shadow: none;
+			color: white;
+			margin: 0 .5em;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&.btn-default { 
+				background-color: $teal;
+			}
+
+			i {
+				margin-left: .5em;
+			}
+		}
+	}
+
+}
+
+@media (max-width: $screen-md) {
+	.filter-controls, .filters {
+		width: 98%;		
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.filter-controls, .filters {
+		width: 99%;
+
+		.col-md-6 {
+			clear: both;
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.filter-controls, .filters {
+		width: 100%;
+	}
+}

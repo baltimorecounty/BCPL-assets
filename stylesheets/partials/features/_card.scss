@@ -1,31 +1,33 @@
 .cards {
 	margin-top: 1em;
 	
-	&:after {
-		content: '';
-		flex-basis: 50%;
-	}
+	
 
 	a.card {
 		background: white;
 		color: $gray;
 		cursor: pointer;
-		display: inline-block; 
+		display: inline-block;
 		font-weight: 700;
 		padding: .5em;		
-		margin: 0 .65em 1.3em;
+		margin: 0 0 1.3em;
 		transition: all 0.25s ease;		
+
+		&.grid-item {
+			width: 24%;
+			margin-right: 1%;
+		}
 
 		&:hover {
 			color: white;
 			background: $teal;
 			text-decoration: none;
 		}
-
-		img { 
-			width: 175px;
-		}	
 		
+		img {
+			width: 100%;
+		}
+
 		p {
 			margin-top: 1em;
 		}
@@ -35,6 +37,32 @@
 @media (max-width: $screen-md) {
 	.cards {
 		a.card {
+			&.grid-item {
+				width: 32%;
+				margin-right: 1%;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.cards {
+		a.card {
+			&.grid-item {
+				width: 49%;
+				margin-right: 1%;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.cards {
+		a.card {
+			&.grid-item {
+				width: 100%;
+				margin-right: 0;
+			}
 		}
 	}
 }

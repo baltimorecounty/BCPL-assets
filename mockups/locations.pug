@@ -5,11 +5,179 @@ html
 	head
 		
 		include includes/head.pug
+		script(src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js")
 
 	body
 
-		.container-fluid.internal
+		.container-fluid.internal 
 
 			include includes/header-internal.pug
+
+			.container
+
+				header.row
+
+					.col-lg-12
+
+						.row
+
+							.col-sm-12
+
+								.section-title-wrapper
+
+									.row.flex
+
+										.col-sm-9
+										
+											.breadcrumbs-wrapper
+												nav 
+													ul
+														li
+															a(href="/")
+																i.fa.fa-home
+														li
+															a(href="#") Services
+														li
+															a(href="#") Meeting Rooms
+
+										.col-sm-3.actions.flex.flex-align-end-end
+											
+											span.print 
+												i.fa.fa-print
+												| Print 
+
+											span.share 
+												i.fa.fa-share-alt-square
+												| Share
+								
+
+				main.row
+					.col-md-3
+						.filters
+							h4 Find a Branch Nearby
+							
+							div
+								input.form-control(type="text" placeholder="Enter your ZIP code")
+							
+							h4.amenities Branch Amenities
+
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name (Longer text content)
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name (Longer text content)
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name (Longer text content)
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name
+							label
+								input(type="checkbox") 
+								| Feature Name
+								
+					.col-md-9
+						.filter-controls
+							.row
+								.col-sm-6
+									.button-group-label Sort by name:
+									.control.btn-group 
+										button.btn.btn-primary Ascending
+										button.btn.btn-default Descending
+								.col-sm-6
+									.button-group-label View:
+									.control.btn-group 
+										button.btn.btn-default List
+										button.btn.btn-primary Grid
+							.row
+								.col-sm-12.tags
+									.button-group-label Filters:
+									.control
+										button.btn.btn-default Filter
+											i.fa.fa-times
+										button.btn.btn-default Filter Filter
+											i.fa.fa-times
+										button.btn.btn-default Filter
+											i.fa.fa-times
+										button.btn.btn-default Filter Filter Filter
+											i.fa.fa-times
+									
+						.cards.grid
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
+							a.card.grid-item
+								img(src="/dist/images/grumpy-cat.jpg")
+								p Branch Name
 
 			include includes/footer.pug
