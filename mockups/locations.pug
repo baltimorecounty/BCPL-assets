@@ -6,7 +6,9 @@ html
 		
 		include includes/head.pug
 		script(src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js")
 
+		script(src="/dist/js/page-specific/filter.min.js")
 	body
 
 		.container-fluid.internal 
@@ -61,43 +63,14 @@ html
 							
 							h4.amenities Branch Amenities
 
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name (Longer text content)
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name (Longer text content)
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name (Longer text content)
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name
-							label
-								input(type="checkbox") 
-								| Feature Name
-								
+							script(id="amenities-template" type="text/x-handlebars-template")
+								| {{#each amenities}}
+								label
+									input(type="checkbox") 
+									| {{this}}
+								| {{/each}}
+							
+							#amenities
 					.col-md-9
 						.filter-controls
 							.row
@@ -125,59 +98,12 @@ html
 											i.fa.fa-times
 									
 						.cards.grid
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
-							a.card.grid-item
-								img(src="/dist/images/grumpy-cat.jpg")
-								p Branch Name
+							script(id="branches-template" type="text/x-handlebars-template")
+								| {{#each branch}}
+								a.card.grid-item(href="#")
+									img(src="/dist/images/grumpy-cat.jpg")
+									p {{name}} 
+								| {{/each}}	
+							#branches
 
 			include includes/footer.pug
