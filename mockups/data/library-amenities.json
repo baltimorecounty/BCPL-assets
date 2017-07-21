@@ -1,290 +1,135 @@
 [{
 	"name": "Arbutus",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Drive-Up Service Window",
-		"Fax Services",
-		"Friends Group",
-		"Local History and Arbutus Room",
+		"Drive-Up Window",
+		"Fax Machines",
 		"Meeting Room",
-		"Parking (Free open lot)",
-		"Passport Applications",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
+		"Passport Services",
 		"Study Rooms",
-		"WiFi"
+		"Study Space, Quiet"
 	]
 }, {
 	"name": "Catonsville",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Friends Group",
-		"Local History and Catonsville Room",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"WiFi"
+		"Study Space, Quiet"
 	]
 }, {
 	"name": "Cockeysville",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Local History",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Essex",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Local History",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Hereford",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Friends Group",
-		"Local History",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Lansdowne",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Fax Services",
-		"Local History",
-		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"WiFi"
+		"Fax Machines",
+		"Local History Collection",
+		"Meeting Room"
 	]
 }, {
 	"name": "Loch Raven",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Friends Group",
-		"Local History",
-		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"WiFi"
+		"Local History Collection",
+		"Meeting Room"
 	]
 }, {
 	"name": "North Point",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computer Lab",
-		"Computers",
-		"Fax Services",
-		"Local History",
-		"Meeting Room",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"WiFi"
+		"Fax Machines",
+		"Local History Collection",
+		"Meeting Room"
 	]
 }, {
 	"name": "Owings Mills",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Local History",
-		"Meeting Rooms (3)",
-		"Museum",
-		"Parking (Free garages)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"WiFi"
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Parkville-Carney",
-	"amenities": [
-		"Book Drop (24 hour)",
-		"Computers",
-		"Elevator",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"WiFi"
-	]
+	"amenities": []
 }, {
 	"name": "Perry Hall",
 	"amenities": [
-		"Book Drop (24 hours)",
-		"Computers",
-		"Drive-up Service Window",
-		"Friends Group",
 		"Meeting Room",
-		"Parking (free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"Reading Garden",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Pikesville",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers ",
-		"Friends Group",
-		"Meeting Room",
-		"Parking (free open lot)",
-		"Pay printing",
-		"Photocopier",
-		"Programs and Events",
-		"WiFi"
+		"Meeting Room"
 	]
 }, {
 	"name": "Randallstown",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Friends Group",
-		"Local History",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Reisterstown",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Local History and History Room",
+		"Local History Collection",
 		"Meeting Room",
-		"Parking (Free Open Lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"WiFi"
+		"Study Space, Quiet"
 	]
 }, {
 	"name": "Rosedale",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
 		"Meeting Room",
-		"Parking (Free Open Lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"Storyville",
-		"WiFi"
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "Sollers Point",
 	"amenities": [
-		"Computers",
-		"Local History",
-		"Parking (Free open lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"WiFi"
+		"Local History Collection"
 	]
 }, {
 	"name": "Towson",
 	"amenities": [
-		"Assistive Workstation",
-		"BB's Cafe",
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Dragon Maze",
-		"Friends Group",
-		"Kids Kingdom Play Area",
+		"Cafe",
 		"Meeting Rooms",
-		"Parking (Predominantly Pay Garage)",
-		"Passport Applications",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"Study Rooms",
-		"Teen Central Balcony Space",
-		"Towson Friends Book Sale",
-		"WiFi"
+		"Passport Services",
+		"Study Space, Quiet",
+		"Study Rooms"
 	]
 }, {
 	"name": "White Marsh",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
-		"Local History",
+		"Local History Collection",
 		"Meeting Room",
-		"Free Parking",
-		"Photocopier",
-		"Parking (free open lot)",
-		"Passport Applications",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Quiet Area",
-		"WiFi"
+		"Passport Services",
+		"Study Space, Quiet"
 	]
 }, {
 	"name": "Woodlawn",
 	"amenities": [
-		"Book Drop (24 Hour)",
-		"Computers",
 		"Study Rooms",
-		"Meeting Room",
-		"Parking (Free Open Lot)",
-		"Photocopier",
-		"Printing",
-		"Programs and Events",
-		"Storyville",
-		"WiFi"
+		"Meeting Room"
 	]
 }]
