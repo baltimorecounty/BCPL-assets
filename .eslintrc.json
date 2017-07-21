@@ -28,6 +28,8 @@
 		"jQuery": true,
 		"namespacer": true,
 		"bcpl": true,
-		"$": true
+		"$": true,
+		"describe": true,
+		"it": true
 	}
 }
