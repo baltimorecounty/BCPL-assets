@@ -1,8 +1,6 @@
 .cards {
 	margin-top: 1em;
 	
-	
-
 	a.card {
 		background: white;
 		color: $gray;
@@ -30,6 +28,23 @@
 
 		p {
 			margin-top: 1em;
+		}
+	}
+
+	.list-view {
+		a.card.grid-item {
+			display: block; 
+			width: 100%;
+
+			img { 
+				display: inline-block;
+				margin-right: 2em;
+				width: 150px;				
+			}
+
+			p {
+				display: inline-block;
+			}
 		}
 	}
 }

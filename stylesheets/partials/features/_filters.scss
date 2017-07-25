@@ -13,7 +13,12 @@
 		cursor: pointer; 
 		display: block;
 		font-weight: normal;
-		margin-bottom: .5em;
+		padding: .5em;
+
+		&.active {
+			background-color: $teal;
+			color: white;
+		}
 
 		input {
 			cursor: pointer; 
@@ -39,6 +44,7 @@
 
 	.btn {
 		border: none;
+		border-radius: 0;
 	}
 
 	.btn-primary {
@@ -48,28 +54,6 @@
 	.btn-default {
 		background-color: $gray-lightest;
 		box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
-	}
-
-	.tags {
-		margin-top: 1em;
-
-		button {
-			box-shadow: none;
-			color: white;
-			margin: 0 .5em;
-
-			&:first-child {
-				margin-left: 0;
-			}
-
-			&.btn-default { 
-				background-color: $teal;
-			}
-
-			i {
-				margin-left: .5em;
-			}
-		}
 	}
 
 }

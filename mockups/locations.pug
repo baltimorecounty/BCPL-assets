@@ -8,7 +8,7 @@ html
 		script(src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js")
 
-		script(src="/dist/js/page-specific/filter.min.js")
+		script(src="/dist/js/page-specific/branches-filter.js")
 	body
 
 		.container-fluid.internal 
@@ -64,7 +64,7 @@ html
 							h4.amenities Branch Amenities
 
 							script(id="amenities-template" type="text/x-handlebars-template")
-								| {{#each amenities}}
+								| {{#each this}}
 								label
 									input(type="checkbox") 
 									| {{this}}
@@ -76,34 +76,22 @@ html
 							.row
 								.col-sm-6
 									.button-group-label Sort by name:
-									.control.btn-group 
+									#sort-control.control.btn-group.btn-group-toggle
 										button.btn.btn-primary Ascending
 										button.btn.btn-default Descending
 								.col-sm-6
 									.button-group-label View:
-									.control.btn-group 
+									#list-grid-control.control.btn-group.btn-group-toggle
 										button.btn.btn-default List
 										button.btn.btn-primary Grid
-							.row
-								.col-sm-12.tags
-									.button-group-label Filters:
-									.control
-										button.btn.btn-default Filter
-											i.fa.fa-times
-										button.btn.btn-default Filter Filter
-											i.fa.fa-times
-										button.btn.btn-default Filter
-											i.fa.fa-times
-										button.btn.btn-default Filter Filter Filter
-											i.fa.fa-times
 									
 						.cards.grid
 							script(id="branches-template" type="text/x-handlebars-template")
-								| {{#each branch}}
+								| {{#each this}}
 								a.card.grid-item(href="#")
 									img(src="/dist/images/grumpy-cat.jpg")
-									p {{name}} 
+									p {{this.name}} 
 								| {{/each}}	
-							#branches
+							#branches(style="display: none")
 
 			include includes/footer.pug
