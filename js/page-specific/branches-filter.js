@@ -97,7 +97,7 @@ bcpl.pageSpecific.filter = (($) => {
 	const init = () => {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
 
-		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);		
+		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);
 	};
 
 	return { init };
