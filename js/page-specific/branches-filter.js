@@ -9,7 +9,7 @@ bcpl.pageSpecific.filter = (($) => {
 		const html = template(data);
 		$target.html(html);
 
-		if ($target.is(':hidden')) {
+		if ($target.not('.collapse').is(':hidden')) {
 			$target.fadeIn(250);
 		}
 	};

@@ -56,7 +56,7 @@ html
 				main.row
 					.col-md-3
 						.filters
-							h4 Find a Branch Nearby
+							h4 Find a Branch
 							
 							div
 								input.form-control(type="text" placeholder="Enter your ZIP code")
@@ -70,7 +70,9 @@ html
 									| {{this}}
 								| {{/each}}
 							
-							#amenities
+							#amenities.collapse
+
+							button.btn.btn-primary(class="collapse-control" data-toggle="collapse" data-target="#amenities" aria-expanded="false" aria-controls="amenities") <i class="fa fa-plus"></i> Show Filters 
 					.col-md-9
 						.filter-controls
 							.row

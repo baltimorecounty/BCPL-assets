@@ -5,7 +5,18 @@
 
 	.amenities {
 		margin-top: 1.5em;
-		margin-bottom: 1em;
+	}
+
+	.collapse {
+		display: block;
+		height: initial !important;
+	}
+
+	.collapse-control {
+		display: none;
+		background-color: $teal;
+		border-radius: 0 !important;
+		border: none !important;
 	}
 
 	label {
@@ -60,7 +71,21 @@
 
 @media (max-width: $screen-md) {
 	.filter-controls, .filters {
-		width: 98%;		
+		width: 98%;	
+	}
+
+	.filters {	
+		.collapse {
+			display: none;	
+			
+			&.in {
+				display: block;
+			}
+		}
+
+		.collapse-control {
+			display: inline-block;
+		}
 	}
 }
 
