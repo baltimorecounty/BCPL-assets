@@ -1,5 +1,5 @@
 # BCPL-assets
-Client site assets for the Baltimore County Public Library website
+Client side assets for the Baltimore County Public Library website
 
 ## Building Files for Distribution
 
