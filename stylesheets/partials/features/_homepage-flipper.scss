@@ -1,0 +1,14 @@
+.flipper-container {
+	.flipper-tabs {
+		.flipper-tab {
+			button {
+				padding: 6px;
+				transition: background-color .25s ease;
+				
+				&.active {
+					background-color: $teal;
+				}
+			}
+		}
+	}
+}

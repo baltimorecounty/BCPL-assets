@@ -1,0 +1,33 @@
+.feature-wrapper {
+ 	border-bottom: 1em solid $gold;
+	padding: 2em 0;
+
+	h2 {
+		margin: .5em 0 .5em;
+	}
+
+	.feature {
+		background-color: white;
+		padding: 1em;
+		display: block;
+		cursor: pointer;
+		transition: all 0.25s ease;
+		color: $gray;
+
+		img {
+			width: 100%;
+		}
+
+		p {
+			font-weight: bold;
+			line-height: 1.2;
+			margin-top: 1em;
+		}
+
+		&:hover {
+			background: $teal;
+			color: white;
+			text-decoration: none;
+		}
+	}
+}

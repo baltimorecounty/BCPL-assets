@@ -1,15 +1,16 @@
 /*
- * Creates namespaces safely and conveniently, reusing 
+ * Creates namespaces safely and conveniently, reusing
  * existing objects instead of overwriting them.
- */ 
+ */
 const namespacer = (ns) => {
-	let nsArr = ns.split('.'),
-		parent = window;
-	
-	if (!nsArr.length)
-		return;
+	const nsArr = ns.split('.');
+	let parent = window;
 
-	for (let i = 0; i < nsArr.length; i++) {
+	if (!nsArr.length) {
+		return;
+	}
+
+	for (let i = 0; i < nsArr.length; i += 1) {
 		const nsPart = nsArr[i];
 
 		if (typeof parent[nsPart] === 'undefined') {

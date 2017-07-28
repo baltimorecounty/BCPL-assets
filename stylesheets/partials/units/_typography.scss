@@ -1,0 +1,56 @@
+body {
+	color: $gray;
+	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+.branding {
+	font-family: QuotesScript-Regular;
+}
+
+h1, h2, h3, p, ul, ol, table {
+	margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+h1 {
+	font-size: 3.2em;
+	color: $red;
+	font-weight: normal;
+	font-family: QuotesScript-Regular;
+}
+
+h2 {
+	font-size: 2em;
+	color: $teal;
+}
+
+h4 {
+	font-weight: bold;
+}
+
+p {
+	line-height: 1.7em;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+.internal {
+	h2, h3, h4, h5, h6 {
+		font-weight: 700;
+	}
+}
+
+blockquote {
+	color: $red;
+	display: inline-block;
+	font-style: italic;
+	margin: 0 1em 1em;
+	border-right: 5px solid $gray-lightest;
+}

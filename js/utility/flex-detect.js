@@ -1,7 +1,6 @@
 namespacer('seniorExpo.utility');
 
-seniorExpo.utility.flexDetect = ((document, $, undefined) => {
-
+seniorExpo.utility.flexDetect = ((document, $) => {
 	const init = () => {
 		const hasFlex = document.createElement('div').style.flex !== undefined;
 
@@ -11,7 +10,6 @@ seniorExpo.utility.flexDetect = ((document, $, undefined) => {
 	};
 
 	return { init };
-
 })(document, jQuery);
 
 $(() => {

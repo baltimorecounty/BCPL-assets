@@ -1,0 +1,135 @@
+[{
+	"name": "Arbutus",
+	"amenities": [
+		"Drive-Up Window",
+		"Fax Machines",
+		"Meeting Room",
+		"Passport Services",
+		"Study Rooms",
+		"Study Space, Quiet"
+	]
+}, {
+	"name": "Catonsville",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet"
+	]
+}, {
+	"name": "Cockeysville",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Essex",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Hereford",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Lansdowne",
+	"amenities": [
+		"Fax Machines",
+		"Local History Collection",
+		"Meeting Room"
+	]
+}, {
+	"name": "Loch Raven",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room"
+	]
+}, {
+	"name": "North Point",
+	"amenities": [
+		"Fax Machines",
+		"Local History Collection",
+		"Meeting Room"
+	]
+}, {
+	"name": "Owings Mills",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Parkville-Carney",
+	"amenities": []
+}, {
+	"name": "Perry Hall",
+	"amenities": [
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Pikesville",
+	"amenities": [
+		"Meeting Room"
+	]
+}, {
+	"name": "Randallstown",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Reisterstown",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Study Space, Quiet"
+	]
+}, {
+	"name": "Rosedale",
+	"amenities": [
+		"Meeting Room",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "Sollers Point",
+	"amenities": [
+		"Local History Collection"
+	]
+}, {
+	"name": "Towson",
+	"amenities": [
+		"Cafe",
+		"Meeting Rooms",
+		"Passport Services",
+		"Study Space, Quiet",
+		"Study Rooms"
+	]
+}, {
+	"name": "White Marsh",
+	"amenities": [
+		"Local History Collection",
+		"Meeting Room",
+		"Passport Services",
+		"Study Space, Quiet"
+	]
+}, {
+	"name": "Woodlawn",
+	"amenities": [
+		"Study Rooms",
+		"Meeting Room"
+	]
+}]

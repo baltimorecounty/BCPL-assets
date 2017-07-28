@@ -1,0 +1,259 @@
+.menu-wrapper {
+    color: #fff;
+    margin-top: 3em;
+    position: absolute;
+    width: 100%;
+	z-index: 100;
+	
+	.menu-container {
+		position: relative;
+	}
+
+	button {
+		font-size: 1.5em;
+	}
+
+	.nav-and-search {
+
+		#activate-search-button {
+			margin-right: -15px;
+			padding: .25em .5em;
+			position: relative;
+			top: -5px;
+
+			&.active {
+				background-color: rgba(0, 0, 0, .5);
+			}
+		}
+
+		#hamburger-menu-button {
+			display: none;			
+		}
+
+		nav {
+			float: right;
+			position: relative;
+			top: 7px;
+
+			ul {
+				li {
+					margin-right: 1.5em;
+
+					a {
+						color: white;
+						font-family: TTRoundsCondensed-Bold;
+						line-height: 2em;
+						text-transform: uppercase;
+
+						&:hover {
+							text-decoration: underline;
+						}
+
+						i {
+							margin-left: .5em;
+						}
+					}								
+				}
+			}
+		}		
+	}
+
+
+	#search-box {
+		background-color: rgba(0, 0, 0, .5);
+		color: $gray-dark;
+		display: none;
+		padding: 1em;
+		position: absolute;
+		top: 41px;
+		right: 0;
+		width: 100%;
+
+		input {
+			font-size: 1.2em;
+			font-weight: bold;
+			padding: .25em 2em .25em .5em;
+			border: none;
+			width: 100%;
+		}
+
+		button {
+			margin-left: -1.5em;		
+			position: relative;
+			top: 2px;		
+		}
+
+		&.active { 
+			display: block;
+		}
+	}
+}
+
+.internal {
+	.menu-wrapper {
+		margin: 0;
+		position: static;
+		background: url("/dist/images/hero-image-1.jpg") no-repeat;
+		background-size: cover;
+		background-position-y: center;
+
+		.menu-inner-wrapper {
+			background: -moz-linear-gradient(top, rgba(0, 161, 155,1) 0%, rgba(0, 161, 155,0) 200%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 200%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 200%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff',GradientType=0 ); /* IE6-9 */
+			border-bottom: 1em solid $gold;
+
+			.menu-container {
+				padding: 1em 15px;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-md-max) {
+	.menu-wrapper {
+		.nav-and-search {
+			nav {
+				float: left;
+
+				ul {
+					li {
+						margin-right: 2em;
+					}
+				}
+			}
+		}
+	}	
+}
+
+@media (max-width: $screen-sm-max) {
+	.menu-wrapper {
+		.nav-and-search {
+			nav {
+				ul {
+					li {
+						margin-right: 1.5em;
+					}
+				}
+			}
+
+		}
+	}
+
+	.internal {
+		.menu-wrapper {
+			margin-top: 0;
+		}
+	}
+	
+}
+
+@media (max-width: $screen-sm) {
+	.menu-wrapper {
+	    margin-top: 0;
+		padding-top: 1em;
+		position: static;
+		background: $teal;
+
+		.nav-and-search {
+			padding: 0;
+			margin-top: -4.5em;
+
+			#activate-search-button,  #hamburger-menu-button {
+				font-size: 2em;
+				padding: .25em .5em;
+				margin-right: .25em;
+				margin-top: 1em;
+				background-color: $red;
+
+				&.active {
+					background-color: $gray-dark;
+				}				
+			}
+
+			#activate-search-button {
+				margin-right: .25em;
+				position: static;
+			}
+
+			#hamburger-menu-button { 
+				display: inline-block; 
+			}
+
+			#search-box {
+				position: static;
+				background-color: $gray-dark;
+				clear: both;
+
+				input {
+					padding-right: 3em;
+				}
+
+				button {
+					font-size: 1.5em;
+					margin-left: -2.2em;
+					background: transparent;
+					margin-top: 0;
+				}
+			}	
+
+			nav {
+				background-color: $gray-dark;
+				width: 100%;
+				top: 0;
+				
+				ul {
+					li {
+						display: block;
+
+						a {
+							display: block;
+							padding: .5em 1em;
+
+							i {
+								float: right;
+								position: relative;
+								top: 7px;								
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.internal {
+		.menu-wrapper {
+			background: $teal;
+			padding-top: 0;
+
+			.menu-inner-wrapper {
+				
+				.menu-container {
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.menu-wrapper {		
+		.menu-container {
+			.logo {
+			
+				img {
+					width: 80%;
+					max-width: 266px;
+				}
+			}
+
+			.nav-and-search {
+				padding: 0;
+				margin-top: 0;										
+			}
+		}
+	}
+
+}

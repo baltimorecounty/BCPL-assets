@@ -20,13 +20,15 @@
 @import "partials/grid";
 @import "partials/tables";
 @import "partials/forms";
-//@import "partials/buttons";
+@import "partials/buttons";
 
 // Components
-/*
+
 @import "partials/component-animations";
-@import "partials/dropdowns";
+/*@import "partials/dropdowns";
+*/
 @import "partials/button-groups";
+/*
 @import "partials/input-groups";
 @import "partials/navs";
 @import "partials/navbar";
@@ -56,3 +58,8 @@
 // Utility classes
 @import "partials/utilities";
 @import "partials/responsive-utilities";
+
+// Overrides
+.container-fluid {
+	padding: 0;
+}

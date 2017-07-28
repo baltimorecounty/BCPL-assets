@@ -1,0 +1,106 @@
+.filters {
+	background: white;
+	margin-top: 1em;
+	padding: 1em;
+
+	.amenities {
+		margin-top: 1.5em;
+	}
+
+	.collapse {
+		display: block;
+		height: initial !important;
+	}
+
+	.collapse-control {
+		display: none;
+		background-color: $teal;
+		border-radius: 0 !important;
+		border: none !important;
+	}
+
+	label {
+		clear: both;
+		cursor: pointer; 
+		display: block;
+		font-weight: normal;
+		padding: .5em;
+
+		&.active {
+			background-color: $teal;
+			color: white;
+		}
+
+		input {
+			cursor: pointer; 
+			display: block;
+			float: left;
+			margin-bottom: 1em;
+			margin-right: .5em;
+		}
+	}
+}
+
+.filter-controls {
+	background: white;
+	margin-top: 1em;
+	padding: .5em;
+	width: 99%;
+
+	.button-group-label {
+		float: left;
+		line-height: 33px;
+		margin-right: 1em;
+	}
+
+	.btn {
+		border: none;
+		border-radius: 0;
+	}
+
+	.btn-primary {
+		background-color: $teal;
+	}
+
+	.btn-default {
+		background-color: $gray-lightest;
+		box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
+	}
+
+}
+
+@media (max-width: $screen-md) {
+	.filter-controls, .filters {
+		width: 98%;	
+	}
+
+	.filters {	
+		.collapse {
+			display: none;	
+			
+			&.in {
+				display: block;
+			}
+		}
+
+		.collapse-control {
+			display: inline-block;
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.filter-controls, .filters {
+		width: 99%;
+
+		.col-md-6 {
+			clear: both;
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.filter-controls, .filters {
+		width: 100%;
+	}
+}

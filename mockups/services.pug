@@ -8,8 +8,92 @@ html
 
 	body
 
-		.container-fluid 
+		.container-fluid.internal
 
-			include includes/header.pug
+			include includes/header-internal.pug
 
+			.container
+
+				.row
+
+					.col-md-12
+						.section-title-wrapper
+							.row
+								.col-md-9
+									.breadcrumbs-wrapper
+
+										nav 
+											ul
+												li
+													a(href="/")
+														i.fa.fa-home
+												li
+													a(href="#") Services
+
+								.col-sm-3.actions.flex.flex-align-end-end
+									span.print 
+										i.fa.fa-print
+										| Print 
+
+									span.share 
+										i.fa.fa-share-alt-square
+										| Share
+
+						.row
+
+							.col-md-3
+
+								.secondary-nav
+									nav
+										ul
+											li.active
+												a(href="#") Section Overview
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+											li
+												a(href="#") Navigation Item
+
+							.col-md-9
+								.cards.grid
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+									a.card.grid-item
+										img(src="/dist/images/grumpy-cat.jpg")
+										p Service Name
+					
 			include includes/footer.pug

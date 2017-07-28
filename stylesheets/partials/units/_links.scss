@@ -1,0 +1,29 @@
+a {
+	color: $teal;
+	line-height: 1.75em;
+
+	&.solo {
+		font-size: .8em;
+		font-weight: bold;
+		position: relative;
+		text-transform: uppercase;
+
+		i {
+			font-size: 1.75em !important;
+			margin-right: .5em;
+			position: relative;
+			top: 2px;			
+		}
+		
+		&:hover {
+			color: $teal-light;
+			-webkit-transition: color .25s ease;
+			-moz-transition: color .25s ease;
+			-o-transition: color .25s ease;
+			transition: color .25s ease;
+		}
+	}
+
+
+}
+

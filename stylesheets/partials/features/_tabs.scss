@@ -1,0 +1,42 @@
+.tabs {
+	padding: 2em 0;
+
+	nav {
+		ul {
+			li {
+				color: $teal;
+				font-size: .8em;
+				font-weight: bold;
+				padding: .5em 1em;
+				text-transform: uppercase;
+				cursor: pointer;
+				height: 32px;
+				
+				&.active {
+					background-color: white;
+				}
+			}
+		}
+	}
+
+	.tab {
+		background-color: white;
+		display: none;			
+		padding: 1em;
+
+		button {
+			padding: 0;
+			margin: .65em;
+
+			img {
+				height: 90px;
+				width: 70px;
+			}
+		}
+		
+
+		&.active {
+			display: block;
+		}
+	}
+}

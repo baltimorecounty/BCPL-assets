@@ -1,0 +1,75 @@
+footer {
+	.follow-wrapper {
+		background-color: $teal-dark;
+		color: white;
+		padding: 1em 0;
+		
+		.branding {
+			 font-size: 2em;
+		}
+
+		.social {
+			font-size: 2em;
+			float: right;
+
+			ul {
+
+				li {
+					padding-left: 1em;
+
+					a {
+						color: white;
+
+						&:hover { 
+							text-decoration: none;
+						}
+					}
+					
+				}
+			}
+
+		}
+	}
+}
+
+@media (max-width: $screen-lg) {
+	footer {
+		.follow-wrapper {
+			
+			.branding {
+				font-size: 1.8em;
+			}
+		}
+	}	
+}
+
+
+@media (max-width: $screen-sm-max) {
+	footer {
+		.follow-wrapper {
+			
+			.branding {
+				font-size: 1.8em;
+				text-align: center;
+			}
+
+			.social {
+				font-size: 2em;
+				float: none;
+
+				ul {
+					text-align: center;
+					
+					li {
+						padding-left: 1em;
+
+						&:first-child {
+							padding: 0;
+						}
+					}
+				}
+
+			}
+		}
+	}	
+}
