@@ -64,14 +64,18 @@ gulp.task('move-images', () => gulp.src('images/**/*')
 gulp.task('move-fonts', () => gulp.src('fonts/**.*')
 		.pipe(gulp.dest('dist/fonts')));
 
-gulp.task('process-pug', () => gulp.src(['mockups/*.pug', 'mockups/support/*.pug'])
+gulp.task('process-pug', () => gulp.src(['mockups/pug/*.pug'])
 		.pipe(pug())
 		.pipe(gulp.dest('dist')));
 
-gulp.task('default', ['clean'], callback => runSequence(['process-pug', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], callback));
+gulp.task('move-html', () => gulp.src('mockups/html/*.html')
+	.pipe(gulp.dest('dist')));
+
+gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
+	gulp.watch('**/*.html', ['default']);
 	gulp.watch('**/*.scss', ['default']);
 	gulp.watch('js/*.js', ['default']);
 	gulp.watch('js/page-specific/*.js', ['default']);
