@@ -123,8 +123,11 @@
 						</div>
 					</div>
 					<div class="cards grid">
-						<script id="branches-template" type="text/x-handlebars-template">{{#each this}}<a class="card grid-item" href="#"><img src="/dist/images/grumpy-cat.jpg"><p>{{this.name}} </p></a>{{/each}}
-							</script>
+						<script id="branches-template" type="text/x-handlebars-template">
+							{{#each this}}
+							<a class="card grid-item" href="#"><img src="/dist/images/grumpy-cat.jpg"><p>{{this.name}} </p></a>
+							{{/each}}
+						</script>
 						<div id="branches" style="display: none;"></div>
 					</div>
 				</div>
