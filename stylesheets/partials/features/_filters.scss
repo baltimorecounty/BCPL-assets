@@ -38,7 +38,6 @@
 }
 
 .filter-controls {
-	background: white;
 	margin-top: 1em;
 	padding: .5em;
 	width: 99%;
@@ -47,20 +46,6 @@
 		float: left;
 		line-height: 33px;
 		margin-right: 1em;
-	}
-
-	.btn {
-		border: none;
-		border-radius: 0;
-	}
-
-	.btn-primary {
-		background-color: $teal;
-	}
-
-	.btn-default {
-		background-color: $gray-lightest;
-		box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
 	}
 
 }

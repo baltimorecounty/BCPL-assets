@@ -85,6 +85,40 @@ baltimoreCounty.utility.numericStringTools = function () {
 }();
 'use strict';
 
+namespacer('bcpl.utility');
+
+bcpl.utility.querystringer = function () {
+    /**
+     * Turns the querystring key/value pairs into a dictionary.
+     *
+     * Important: All of the returned dictionary's keys will be lower-cased.
+     */
+    var getAsDictionary = function getAsDictionary() {
+        if (window.location.search) {
+            var qs = window.location.search.slice(1);
+            var qsArray = qs.split('&');
+            var qsDict = {};
+
+            for (var i = 0; i < qsArray.length; i += 1) {
+                var KEY = 0;
+                var VALUE = 1;
+                var keyValueArr = qsArray[i].split('=');
+
+                qsDict[keyValueArr[KEY].toLowerCase()] = keyValueArr.length === 2 ? keyValueArr[VALUE] : '';
+            }
+
+            return qsDict;
+        }
+
+        return false;
+    };
+
+    return {
+        getAsDictionary: getAsDictionary
+    };
+}();
+'use strict';
+
 namespacer('bcpl');
 
 bcpl.alertBox = function ($) {
@@ -205,6 +239,18 @@ bcpl.navigationSearch = function ($) {
 $(function () {
 	bcpl.navigationSearch.init();
 });
+'use strict';
+
+namespacer('bcpl.pageSpecific');
+
+bcpl.pageSpecific.search = function ($, window) {
+	var searchButtonClicked = function searchButtonClicked(clickEvent) {
+		var searchTerms = $(clickEvent.target).siblings('input').val();
+		window.location = '/dist/search.html?q=' + searchTerms;
+	};
+
+	$(document).on('click', '#search-box button', searchButtonClicked);
+}(jQuery, window);
 'use strict';
 
 namespacer('bcpl');

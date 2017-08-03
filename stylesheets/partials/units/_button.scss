@@ -2,3 +2,17 @@ button {
 	background: transparent;
 	border: none;
 }
+
+.btn {
+	border: none;
+	border-radius: 0;
+}
+
+.btn-primary {
+	background-color: $teal;
+}
+
+.btn-default {
+	background-color: $gray-lightest;
+	box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
+}

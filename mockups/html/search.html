@@ -11,7 +11,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
 	<script src="/dist/js/master.js"></script>
+	<script src="/dist/js/page-specific/search-results.js"></script>
 </head>
 
 <body>
@@ -55,7 +57,12 @@
 											<li><a href="#">Youth<i class="fa fa-caret-right"></i></a></li>
 										</ul>
 									</nav>
-									<div id="search-box"><input placeholder="Search the library"><button id="search-button"><i class="fa fa-search"></i></button></div>
+									<div id="search-box">
+										<input placeholder="Search the library">
+										<button id="search-button">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -103,18 +110,36 @@
 					</div>
 				</div>
 			</header>
-			<main class="row">
+			<main class="row main-content">
 				<div class="col-lg-12">
 					<h1>Search results</h1>
-					<div class="form-group">
+					<!--<div class="form-group">
 						<label for="searchBox">Search terms</label>
 						<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
-					</div>
-					<ul>
-						<li>
-							
-						</li>
-					</ul>
+					</div>-->
+					<script id="search-results-template" type="text/x-handlebars-template">
+						<ul class="search-results-list">
+							{{#each this}}
+							<li class="search-result">
+								<div class="row">
+									<div class="icon col-md-1"><i class="fa fa-3x fa-book" aria-hidden="true"></i></div>
+									<div class="details col-md-9">
+										<h3>{{this.Title}}</h3>
+										<p>by <strong>{{this.Author}}</strong></p>
+										<p class="summary">{{this.Summary}}</p>
+									</div>
+									<div class="buttons col-md-2">
+										<button class="btn btn-sm btn-primary">Check Availability</button>
+										<button class="btn btn-sm btn-default">Place Request</button>
+										<button class="btn btn-sm btn-default">Full Display</button>
+										<button class="btn btn-sm btn-default">Add to My List</button>
+									</div>
+								</div>
+							</li>
+							{{/each}}
+						</ul>
+					</script>
+					<div id="search-results"></div>
 				</div>
 			</main>
 		</div>

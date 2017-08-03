@@ -26,6 +26,7 @@
 	"extends": "airbnb",
 	"globals": {
 		"jQuery": true,
+		"Handlebars": true,
 		"namespacer": true,
 		"bcpl": true,
 		"$": true,
