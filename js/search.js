@@ -2,7 +2,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = (($, window) => {
 	const searchButtonClicked = (clickEvent) => {
-		const searchTerms = $(clickEvent.target).siblings('input').val();
+		const searchTerms = $(clickEvent.currentTarget).siblings('input').first().val();
 		window.location = `/dist/search.html?q=${searchTerms}`;
 	};
 

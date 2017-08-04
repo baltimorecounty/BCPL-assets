@@ -186,16 +186,19 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
+		var $searchButtonActivatorIcon = $searchButtonActivator.find('i');
 		var $menu = event.data.$menu;
 		var $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
+			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
+			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
 			$menu.removeClass('hidden-xs');
@@ -245,7 +248,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = function ($, window) {
 	var searchButtonClicked = function searchButtonClicked(clickEvent) {
-		var searchTerms = $(clickEvent.target).siblings('input').val();
+		var searchTerms = $(clickEvent.currentTarget).siblings('input').first().val();
 		window.location = '/dist/search.html?q=' + searchTerms;
 	};
 

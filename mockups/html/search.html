@@ -2,8 +2,7 @@
 <html>
 
 <head>
-	<link href="css/master.min.css" rel="stylesheet">
-	<link href="css/home.min.css" rel="stylesheet">
+	<link href="/dist/css/master.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -110,36 +109,38 @@
 					</div>
 				</div>
 			</header>
-			<main class="row main-content">
+			<main class="row">
 				<div class="col-lg-12">
-					<h1>Search results</h1>
-					<!--<div class="form-group">
-						<label for="searchBox">Search terms</label>
-						<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
-					</div>-->
-					<script id="search-results-template" type="text/x-handlebars-template">
-						<ul class="search-results-list">
-							{{#each this}}
-							<li class="search-result">
-								<div class="row">
-									<div class="icon col-md-1"><i class="fa fa-3x fa-book" aria-hidden="true"></i></div>
-									<div class="details col-md-9">
-										<h3>{{this.Title}}</h3>
-										<p>by <strong>{{this.Author}}</strong></p>
-										<p class="summary">{{this.Summary}}</p>
+					<div class="main-content">
+						<h1>Search results</h1>
+						<!--<div class="form-group">
+							<label for="searchBox">Search terms</label>
+							<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
+						</div>-->
+						<script id="search-results-template" type="text/x-handlebars-template">
+							<ul class="search-results-list">
+								{{#each this}}
+								<li class="search-result">
+									<div class="row">
+										<div class="icon col-md-1"><i class="fa fa-3x fa-book" aria-hidden="true"></i></div>
+										<div class="details col-md-9">
+											<h3>{{this.Title}}</h3>
+											<p>by <strong>{{this.Author}}</strong></p>
+											<p class="summary">{{this.Summary}}</p>
+										</div>
+										<div class="buttons col-md-2">
+											<button class="btn btn-sm btn-primary">Check Availability</button>
+											<button class="btn btn-sm btn-default">Place Request</button>
+											<button class="btn btn-sm btn-default">Full Display</button>
+											<button class="btn btn-sm btn-default">Add to My List</button>
+										</div>
 									</div>
-									<div class="buttons col-md-2">
-										<button class="btn btn-sm btn-primary">Check Availability</button>
-										<button class="btn btn-sm btn-default">Place Request</button>
-										<button class="btn btn-sm btn-default">Full Display</button>
-										<button class="btn btn-sm btn-default">Add to My List</button>
-									</div>
-								</div>
-							</li>
-							{{/each}}
-						</ul>
-					</script>
-					<div id="search-results"></div>
+								</li>
+								{{/each}}
+							</ul>
+						</script>
+						<div id="search-results"></div>
+					</div>
 				</div>
 			</main>
 		</div>
