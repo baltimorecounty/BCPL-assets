@@ -79,12 +79,6 @@
 				</div>
 			</div>
 		</header>
-
-
-
-
-
-
 		<div class="container">
 			<header class="row">
 				<div class="col-lg-12">
@@ -122,10 +116,14 @@
 								{{#each this}}
 								<li class="search-result">
 									<div class="row">
-										<div class="icon col-md-1"><i class="fa fa-3x fa-book" aria-hidden="true"></i></div>
+										<div class="icon col-md-1"><i class="fa fa-3x {{this.icon}}" aria-hidden="true"></i></div>
 										<div class="details col-md-9">
 											<h3>{{this.Title}}</h3>
+											{{#if this.Author}}
 											<p>by <strong>{{this.Author}}</strong></p>
+											{{else}}
+											<p><strong>{{this.Publisher}}</strong></p>
+											{{/if}}
 											<p class="summary">{{this.Summary}}</p>
 										</div>
 										<div class="buttons col-md-2">
@@ -144,15 +142,6 @@
 				</div>
 			</main>
 		</div>
-
-
-
-
-
-
-
-
-
 		<footer>
 			<div class="follow-wrapper">
 				<div class="container">

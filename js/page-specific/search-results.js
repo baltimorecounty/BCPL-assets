@@ -1,11 +1,27 @@
 namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
+	const getMaterialTypeData = (callback) => {
+		$.get('http://ba224964:3000/data/primaryMaterialType.json').then(json => callback(json));
+	};
+
+	const getIconForMaterial = (iconData, materialTypeId) => {
+
+	};
+
 	const searchSuccessHandler = (data) => {
-		const source = $('#search-results-template').html();
-		const template = Handlebars.compile(source);
-		const html = template(data);
-		$('#search-results').html(html);
+		const materialTypeData = getMaterialTypeData((materialTypes) => {
+			_.map(data, (record) => {
+				record.icon = materialTypes[_.findIndex(materialTypes, {
+					id: parseInt(record.PrimaryTypeOfMaterial, 10),
+				})].icon;
+			});
+
+			const source = $('#search-results-template').html();
+			const template = Handlebars.compile(source);
+			const html = template(data);
+			$('#search-results').html(html);
+		});
 	};
 
 	const searchErrorHandler = (err) => {
