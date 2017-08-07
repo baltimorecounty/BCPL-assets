@@ -30,9 +30,30 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 		console.log(err);
 	};
 
+	var resultCountButtonClicked = function resultCountButtonClicked(event) {
+		var $button = $(event.currentTarget);
+		var selectedResultsPerPage = $button.attr('data-results-per-page');
+
+		window.location = window.location.pathname + '?q=' + event.data.searchTerm + '&page=' + event.data.pageNumber + '&resultsPerPage=' + selectedResultsPerPage;
+	};
+
+	var pageButtonClicked = function pageButtonClicked(event) {
+		var $button = $(event.currentTarget);
+		var selectedPageNumber = $button.attr('data-page-number');
+
+		window.location = window.location.pathname + '?q=' + event.data.searchTerm + '&page=' + selectedPageNumber + '&resultsPerPage=' + event.data.resultsPerPage;
+	};
+
 	var init = function init() {
-		var searchTerms = querystringer.getAsDictionary().q;
-		$.get('http://ba224964:1000/api/polaris/search/' + searchTerms).then(searchSuccessHandler, searchErrorHandler);
+		var querystring = querystringer.getAsDictionary();
+		var searchTerm = querystring.q;
+		var pageNumber = querystring.page;
+		var resultsPerPage = querystring.resultsperpage;
+
+		$(document).on('click', '#pager .results-per-page button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, resultCountButtonClicked);
+		$(document).on('click', '#pager .page-numbers button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, pageButtonClicked);
+
+		$.get('http://ba224964:1000/api/polaris/search/' + searchTerm).then(searchSuccessHandler, searchErrorHandler);
 	};
 
 	return {

@@ -24,9 +24,30 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 		console.log(err);
 	};
 
+	const resultCountButtonClicked = (event) => {
+		const $button = $(event.currentTarget);
+		const selectedResultsPerPage = $button.attr('data-results-per-page');
+
+		window.location = `${window.location.pathname}?q=${event.data.searchTerm}&page=${event.data.pageNumber}&resultsPerPage=${selectedResultsPerPage}`;
+	};
+
+	const pageButtonClicked = (event) => {
+		const $button = $(event.currentTarget);
+		const selectedPageNumber = $button.attr('data-page-number');
+
+		window.location = `${window.location.pathname}?q=${event.data.searchTerm}&page=${selectedPageNumber}&resultsPerPage=${event.data.resultsPerPage}`;
+	};
+
 	const init = () => {
-		const searchTerms = querystringer.getAsDictionary().q;
-		$.get(`http://ba224964:1000/api/polaris/search/${searchTerms}`).then(searchSuccessHandler, searchErrorHandler);
+		const querystring = querystringer.getAsDictionary();
+		const searchTerm = querystring.q;
+		const pageNumber = querystring.page;
+		const resultsPerPage = querystring.resultsperpage;
+
+		$(document).on('click', '#pager .results-per-page button', { searchTerm, pageNumber, resultsPerPage }, resultCountButtonClicked);
+		$(document).on('click', '#pager .page-numbers button', { searchTerm, pageNumber, resultsPerPage }, pageButtonClicked);
+
+		$.get(`http://ba224964:1000/api/polaris/search/${searchTerm}`).then(searchSuccessHandler, searchErrorHandler);
 	};
 
 	return {

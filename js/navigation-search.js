@@ -50,7 +50,8 @@ bcpl.navigationSearch = (($) => {
 	 * Click event handler for the search button.
 	 */
 	const searchButtonClicked = (event) => {
-
+		const searchTerms = $(event.currentTarget).siblings('input').first().val();
+		window.location = `/dist/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
 		/**

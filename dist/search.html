@@ -136,6 +136,26 @@
 								</li>
 								{{/each}}
 							</ul>
+							<div id="pager" class="row">
+								<div class="col-md-6 results-per-page">
+									Results per page: 
+									<span class="active">10</span>
+									<button data-results-per-page="25">25</button>
+									<button data-results-per-page="50">50</button>
+									<button data-results-per-page="100">100</button>
+								</div>
+								<div class="col-md-6 page-numbers">
+									Page: 
+									<span class="active">1</span>
+									<button data-page-number="2">2</button>									
+									<button data-page-number="3">3</button>									
+									<button data-page-number="4">4</button>									
+									<button data-page-number="5">5</button>									
+									...
+									<button data-page-number="99">99</button>	
+									<button data-page-number="2">Next</button>								
+								</div>
+							</div>								
 						</script>
 						<div id="search-results"></div>
 					</div>

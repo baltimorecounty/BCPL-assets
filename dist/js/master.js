@@ -208,7 +208,10 @@ bcpl.navigationSearch = function ($) {
 	/**
   * Click event handler for the search button.
   */
-	var searchButtonClicked = function searchButtonClicked(event) {};
+	var searchButtonClicked = function searchButtonClicked(event) {
+		var searchTerms = $(event.currentTarget).siblings('input').first().val();
+		window.location = '/dist/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
+	};
 
 	/**
  * Attach events and inject any event dependencies.
@@ -242,18 +245,6 @@ bcpl.navigationSearch = function ($) {
 $(function () {
 	bcpl.navigationSearch.init();
 });
-'use strict';
-
-namespacer('bcpl.pageSpecific');
-
-bcpl.pageSpecific.search = function ($, window) {
-	var searchButtonClicked = function searchButtonClicked(clickEvent) {
-		var searchTerms = $(clickEvent.currentTarget).siblings('input').first().val();
-		window.location = '/dist/search.html?q=' + searchTerms;
-	};
-
-	$(document).on('click', '#search-box button', searchButtonClicked);
-}(jQuery, window);
 'use strict';
 
 namespacer('bcpl');
