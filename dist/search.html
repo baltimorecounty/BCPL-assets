@@ -112,19 +112,20 @@
 							<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
 						</div>-->
 						<script id="search-results-template" type="text/x-handlebars-template">
+							<p>Displaying results {{Min}} to {{Max}} of {{Total}} for <strong>{{SearchTerm}}</strong>.</p>
 							<ul class="search-results-list">
-								{{#each this}}
+								{{#each SearchResults}}
 								<li class="search-result">
 									<div class="row">
 										<div class="icon col-md-1"><i class="fa fa-3x {{this.icon}}" aria-hidden="true"></i></div>
 										<div class="details col-md-9">
-											<h3>{{this.Title}}</h3>
-											{{#if this.Author}}
-											<p>by <strong>{{this.Author}}</strong></p>
+											<h3>{{Title}}</h3>
+											{{#if Author}}
+											<p>by <strong>{{Author}}</strong></p>
 											{{else}}
-											<p><strong>{{this.Publisher}}</strong></p>
+											<p><strong>{{Publisher}}</strong></p>
 											{{/if}}
-											<p class="summary">{{this.Summary}}</p>
+											<p class="summary">{{Summary}}</p>
 										</div>
 										<div class="buttons col-md-2">
 											<button class="btn btn-sm btn-primary">Check Availability</button>
@@ -139,21 +140,28 @@
 							<div id="pager" class="row">
 								<div class="col-md-6 results-per-page">
 									Results per page: 
-									<span class="active">10</span>
-									<button data-results-per-page="25">25</button>
-									<button data-results-per-page="50">50</button>
-									<button data-results-per-page="100">100</button>
+									{{#each ResultsPerPageButtons}}
+										{{#if isCurrent}}
+											<strong>{{count}}</strong>
+										{{else}}
+											<button data-results-per-page="{{count}}">{{count}}</button>
+										{{/if}}
+									{{/each}}
 								</div>
 								<div class="col-md-6 page-numbers">
 									Page: 
-									<span class="active">1</span>
-									<button data-page-number="2">2</button>									
-									<button data-page-number="3">3</button>									
-									<button data-page-number="4">4</button>									
-									<button data-page-number="5">5</button>									
+									<button data-page-number="1">First</button>								
+									<button data-page-number="{{PreviousPage}}">Previous</button>								
+									{{#each PageNumbers}}
+										{{#if isCurrent}}
+											<strong class="active">{{page}}</strong>
+										{{else}}
+											<button data-page-number="{{page}}">{{page}}</button>
+										{{/if}}
+									{{/each}}								
 									...
-									<button data-page-number="99">99</button>	
-									<button data-page-number="2">Next</button>								
+									<button data-page-number="{{NextPage}}">Next</button>								
+									<button data-page-number="{{Pages}}">Last</button>	
 								</div>
 							</div>								
 						</script>
