@@ -6,27 +6,27 @@ bcpl.utility.querystringer = (() => {
 	 *
 	 * Important: All of the returned dictionary's keys will be lower-cased.
 	 */
-    const getAsDictionary = () => {
-        if (window.location.search) {
+	const getAsDictionary = () => {
+		if (window.location.search) {
 			const qs = window.location.search.slice(1);
 			const qsArray = qs.split('&');
-            const qsDict = {};
+			const qsDict = {};
 
-            for (let i = 0; i < qsArray.length; i += 1) {
-                const KEY = 0;
-                const VALUE = 1;
-                const keyValueArr = qsArray[i].split('=');
+			for (let i = 0; i < qsArray.length; i += 1) {
+				const KEY = 0;
+				const VALUE = 1;
+				const keyValueArr = qsArray[i].split('=');
 
-                qsDict[keyValueArr[KEY].toLowerCase()] = keyValueArr.length === 2 ? keyValueArr[VALUE] : '';
-            }
+				qsDict[keyValueArr[KEY].toLowerCase()] = keyValueArr.length === 2 ? keyValueArr[VALUE] : '';
+			}
 
-            return qsDict;
-        }
+			return qsDict;
+		}
 
-        return false;
-    };
+		return false;
+	};
 
-    return {
-        getAsDictionary,
-    };
+	return {
+		getAsDictionary
+	};
 })();

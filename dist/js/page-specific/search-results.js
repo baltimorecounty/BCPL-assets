@@ -42,11 +42,16 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 			templateData.PageNumbers = getPageNumbers(templateData.CurrentPage, templateData.Pages);
 
 			getMaterialTypeData(function (materialTypes) {
+				var recordsWithIcons = [];
 				_.map(templateData.SearchResults, function (record) {
-					record.icon = materialTypes[_.findIndex(materialTypes, {
+					var recordWithIcon = {};
+					recordWithIcon.icon = materialTypes[_.findIndex(materialTypes, {
 						id: parseInt(record.PrimaryTypeOfMaterial, 10)
 					})].icon;
+					recordsWithIcons.push(recordWithIcon);
 				});
+
+				templateData.SearchResults = recordsWithIcons;
 
 				var source = $('#search-results-template').html();
 				var template = Handlebars.compile(source);

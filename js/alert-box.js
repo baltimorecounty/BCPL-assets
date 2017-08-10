@@ -27,7 +27,7 @@ bcpl.alertBox = (($) => {
 	};
 
 	return {
-		init,
+		init
 	};
 })(jQuery);
 

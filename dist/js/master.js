@@ -47,13 +47,23 @@ namespacer('baltimoreCounty.utility');
 
 baltimoreCounty.utility.numericStringTools = function () {
 	/*
- 	* We want to consider the column text to be a number if it starts with a dollar
- 	* sign, so let's peek at the first character and see if that's the case.
- 	* Don't worry, if it's just a normal number, it's handled elsewhere.
- 	*/
+ * We want to consider the column text to be a number if it starts with a dollar
+ * sign, so let's peek at the first character and see if that's the case.
+ * Don't worry, if it's just a normal number, it's handled elsewhere.
+ */
 	var getIndexOfFirstDigit = function getIndexOfFirstDigit(numberString) {
 		var startsWithCurrencyRegex = /[$]/;
 		return startsWithCurrencyRegex.test(numberString[0]) && numberString.length > 1 ? 1 : 0;
+	};
+
+	/*
+ * Here, we're converting the first group of characters to a number, so we can sort
+ * numbers numerically, rather than alphabetically.
+ */
+	var getFirstSetOfNumbersAndRemoveNonDigits = function getFirstSetOfNumbersAndRemoveNonDigits(numbersAndAssortedOtherCharacters) {
+		var allTheDigitsRegex = /^\.{0,1}(\d+[,.]{0,1})*\d+\b/;
+		var extractedNumerics = numbersAndAssortedOtherCharacters.match(allTheDigitsRegex);
+		return extractedNumerics ? parseFloat(extractedNumerics[0].split(',').join('')) : numbersAndAssortedOtherCharacters;
 	};
 
 	/*
@@ -67,16 +77,6 @@ baltimoreCounty.utility.numericStringTools = function () {
 		return typeof firstSetOfNumbers === 'number' ? firstSetOfNumbers : stringOrNumber;
 	};
 
-	/*
- 	* Here, we're converting the first group of characters to a number, so we can sort
- 	* numbers numerically, rather than alphabetically.
- 	*/
-	var getFirstSetOfNumbersAndRemoveNonDigits = function getFirstSetOfNumbersAndRemoveNonDigits(numbersAndAssortedOtherCharacters) {
-		var allTheDigitsRegex = /^\.{0,1}(\d+[,.]{0,1})*\d+\b/;
-		var extractedNumerics = numbersAndAssortedOtherCharacters.match(allTheDigitsRegex);
-		return extractedNumerics ? parseFloat(extractedNumerics[0].split(',').join('')) : numbersAndAssortedOtherCharacters;
-	};
-
 	return {
 		getIndexOfFirstDigit: getIndexOfFirstDigit,
 		extractNumbersIfPresent: extractNumbersIfPresent,
@@ -88,34 +88,34 @@ baltimoreCounty.utility.numericStringTools = function () {
 namespacer('bcpl.utility');
 
 bcpl.utility.querystringer = function () {
-    /**
-     * Turns the querystring key/value pairs into a dictionary.
-     *
-     * Important: All of the returned dictionary's keys will be lower-cased.
-     */
-    var getAsDictionary = function getAsDictionary() {
-        if (window.location.search) {
-            var qs = window.location.search.slice(1);
-            var qsArray = qs.split('&');
-            var qsDict = {};
+	/**
+  * Turns the querystring key/value pairs into a dictionary.
+  *
+  * Important: All of the returned dictionary's keys will be lower-cased.
+  */
+	var getAsDictionary = function getAsDictionary() {
+		if (window.location.search) {
+			var qs = window.location.search.slice(1);
+			var qsArray = qs.split('&');
+			var qsDict = {};
 
-            for (var i = 0; i < qsArray.length; i += 1) {
-                var KEY = 0;
-                var VALUE = 1;
-                var keyValueArr = qsArray[i].split('=');
+			for (var i = 0; i < qsArray.length; i += 1) {
+				var KEY = 0;
+				var VALUE = 1;
+				var keyValueArr = qsArray[i].split('=');
 
-                qsDict[keyValueArr[KEY].toLowerCase()] = keyValueArr.length === 2 ? keyValueArr[VALUE] : '';
-            }
+				qsDict[keyValueArr[KEY].toLowerCase()] = keyValueArr.length === 2 ? keyValueArr[VALUE] : '';
+			}
 
-            return qsDict;
-        }
+			return qsDict;
+		}
 
-        return false;
-    };
+		return false;
+	};
 
-    return {
-        getAsDictionary: getAsDictionary
-    };
+	return {
+		getAsDictionary: getAsDictionary
+	};
 }();
 'use strict';
 

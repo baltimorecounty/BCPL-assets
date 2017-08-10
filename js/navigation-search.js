@@ -68,13 +68,13 @@ bcpl.navigationSearch = (($) => {
 			$searchBox,
 			$searchButtonActivator,
 			$menu,
-			$hamburgerButton,
+			$hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu,
+			$menu
 		}, hamburgerButtonClicked);
 
 		$searchButton.on('click', searchButtonClicked);
