@@ -30,7 +30,7 @@ bcpl.pageSpecific.homepage.flipper = (($) => {
 
 		return {
 			$flipperContainer,
-			$flipperTabs,
+			$flipperTabs
 		};
 	};
 
