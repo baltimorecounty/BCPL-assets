@@ -36,22 +36,27 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 	var searchSuccessHandler = function searchSuccessHandler(data) {
 		var templateData = data;
 
-		templateData.ResultsPerPageButtons = [{ count: 10, isCurrent: data.ResultsPerPage === 10 }, { count: 25, isCurrent: data.ResultsPerPage === 25 }, { count: 50, isCurrent: data.ResultsPerPage === 50 }, { count: 100, isCurrent: data.ResultsPerPage === 100 }];
+		if (templateData.SearchResults.length > 0) {
+			templateData.ResultsPerPageButtons = [{ count: 10, isCurrent: data.ResultsPerPage === 10 }, { count: 25, isCurrent: data.ResultsPerPage === 25 }, { count: 50, isCurrent: data.ResultsPerPage === 50 }, { count: 100, isCurrent: data.ResultsPerPage === 100 }];
 
-		templateData.PageNumbers = getPageNumbers(templateData.CurrentPage, templateData.Pages);
+			templateData.PageNumbers = getPageNumbers(templateData.CurrentPage, templateData.Pages);
 
-		getMaterialTypeData(function (materialTypes) {
-			_.map(templateData.SearchResults, function (record) {
-				record.icon = materialTypes[_.findIndex(materialTypes, {
-					id: parseInt(record.PrimaryTypeOfMaterial, 10)
-				})].icon;
+			getMaterialTypeData(function (materialTypes) {
+				_.map(templateData.SearchResults, function (record) {
+					record.icon = materialTypes[_.findIndex(materialTypes, {
+						id: parseInt(record.PrimaryTypeOfMaterial, 10)
+					})].icon;
+				});
+
+				var source = $('#search-results-template').html();
+				var template = Handlebars.compile(source);
+				var html = template(templateData);
+				$('.loading').hide();
+				$('#search-results').html(html);
 			});
-
-			var source = $('#search-results-template').html();
-			var template = Handlebars.compile(source);
-			var html = template(templateData);
-			$('#search-results').html(html);
-		});
+		} else {
+			$('.no-results').show();
+		}
 	};
 
 	var searchErrorHandler = function searchErrorHandler(err) {
@@ -74,15 +79,19 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 
 	var init = function init() {
 		var querystring = querystringer.getAsDictionary();
-		var searchTerm = querystring.q.trim();
-		var pageNumber = querystring.page ? querystring.page : 1;
-		var resultsPerPage = querystring.resultsperpage ? querystring.resultsperpage : 10;
 
-		$(document).on('click', '#pager .results-per-page button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, resultCountButtonClicked);
-		$(document).on('click', '#pager .page-numbers button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, pageButtonClicked);
+		if (querystring.q) {
+			var searchTerm = querystring.q.trim();
+			var pageNumber = querystring.page ? querystring.page : 1;
+			var resultsPerPage = querystring.resultsperpage ? querystring.resultsperpage : 10;
 
-		if (searchTerm) {
+			$(document).on('click', '#pager .results-per-page button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, resultCountButtonClicked);
+			$(document).on('click', '#pager .page-numbers button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, pageButtonClicked);
+
 			$.get('http://ba224964:1000/api/polaris/search/' + searchTerm + '/' + pageNumber + '/' + resultsPerPage).then(searchSuccessHandler, searchErrorHandler);
+		} else {
+			$('.loading').hide();
+			$('.no-results').show();
 		}
 	};
 

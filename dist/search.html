@@ -111,6 +111,13 @@
 							<label for="searchBox">Search terms</label>
 							<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
 						</div>-->
+						<div class="loading">
+							Searching... <i class="fa fa-spinner fa-pulse fa-fw"></i>
+							<span class="sr-only">Loading...</span>
+						</div>
+						<div class="no-results" style="display: none">
+							<p>It looks like your search didn't turn up any results. Try again?</p>
+						</div>
 						<script id="search-results-template" type="text/x-handlebars-template">
 							<p>Displaying results {{Min}} to {{Max}} of {{Total}} for <strong>{{SearchTerm}}</strong>.</p>
 							<ul class="search-results-list">

@@ -28,27 +28,32 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 	const searchSuccessHandler = (data) => {
 		const templateData = data;
 
-		templateData.ResultsPerPageButtons = [
-			{ count: 10, isCurrent: data.ResultsPerPage === 10 },
-			{ count: 25, isCurrent: data.ResultsPerPage === 25 },
-			{ count: 50, isCurrent: data.ResultsPerPage === 50 },
-			{ count: 100, isCurrent: data.ResultsPerPage === 100 },
-		];
+		if (templateData.SearchResults.length > 0) {
+			templateData.ResultsPerPageButtons = [
+				{ count: 10, isCurrent: data.ResultsPerPage === 10 },
+				{ count: 25, isCurrent: data.ResultsPerPage === 25 },
+				{ count: 50, isCurrent: data.ResultsPerPage === 50 },
+				{ count: 100, isCurrent: data.ResultsPerPage === 100 },
+			];
 
-		templateData.PageNumbers = getPageNumbers(templateData.CurrentPage, templateData.Pages);
+			templateData.PageNumbers = getPageNumbers(templateData.CurrentPage, templateData.Pages);
 
-		getMaterialTypeData((materialTypes) => {
-			_.map(templateData.SearchResults, (record) => {
-				record.icon = materialTypes[_.findIndex(materialTypes, {
-					id: parseInt(record.PrimaryTypeOfMaterial, 10),
-				})].icon;
+			getMaterialTypeData((materialTypes) => {
+				_.map(templateData.SearchResults, (record) => {
+					record.icon = materialTypes[_.findIndex(materialTypes, {
+						id: parseInt(record.PrimaryTypeOfMaterial, 10),
+					})].icon;
+				});
+
+				const source = $('#search-results-template').html();
+				const template = Handlebars.compile(source);
+				const html = template(templateData);
+				$('.loading').hide();
+				$('#search-results').html(html);
 			});
-
-			const source = $('#search-results-template').html();
-			const template = Handlebars.compile(source);
-			const html = template(templateData);
-			$('#search-results').html(html);
-		});
+		} else {
+			$('.no-results').show();
+		}
 	};
 
 	const searchErrorHandler = (err) => {
@@ -71,16 +76,20 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 
 	const init = () => {
 		const querystring = querystringer.getAsDictionary();
-		const searchTerm = querystring.q.trim();
-		const pageNumber = querystring.page ? querystring.page : 1;
-		const resultsPerPage = querystring.resultsperpage ? querystring.resultsperpage : 10;
 
-		$(document).on('click', '#pager .results-per-page button', { searchTerm, pageNumber, resultsPerPage }, resultCountButtonClicked);
-		$(document).on('click', '#pager .page-numbers button', { searchTerm, pageNumber, resultsPerPage }, pageButtonClicked);
+		if (querystring.q) {
+			const searchTerm = querystring.q.trim();
+			const pageNumber = querystring.page ? querystring.page : 1;
+			const resultsPerPage = querystring.resultsperpage ? querystring.resultsperpage : 10;
 
-		if (searchTerm) {
-			$.get(`http://ba224964:1000/api/polaris/search/${searchTerm}/${pageNumber}/${resultsPerPage}`).then(searchSuccessHandler, searchErrorHandler);
-		}
+			$(document).on('click', '#pager .results-per-page button', { searchTerm, pageNumber, resultsPerPage }, resultCountButtonClicked);
+			$(document).on('click', '#pager .page-numbers button', { searchTerm, pageNumber, resultsPerPage }, pageButtonClicked);
+
+			$.get(`http://ba224964:1000/api/polaris/search/${searchTerm}/${pageNumber}/${resultsPerPage}`).then(searchSuccessHandler, searchErrorHandler);			
+		} else {
+			$('.loading').hide();
+			$('.no-results').show();
+		}		
 	};
 
 	return {
