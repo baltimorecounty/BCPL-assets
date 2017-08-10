@@ -2,7 +2,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 	const getMaterialTypeData = (processMaterialTypeCallback) => {
-		$.ajax('http://ba224964:3000/data/primaryMaterialType.json').then(json => processMaterialTypeCallback(json), err => console.log(err));
+		$.ajax(`${bcpl.constants.baseApiUrl}/data/primaryMaterialType.json`).then(json => processMaterialTypeCallback(json), err => console.log(err));
 	};
 
 	const buildArrayFromRange = (start, end, current) =>
@@ -65,18 +65,22 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 		console.log(err);
 	};
 
+	const loadSearchPage = (searchTerm, pageNumber, selectedResultsPerPage) => {
+		window.location = `${window.location.pathname}?q=${searchTerm}&page=${pageNumber}&resultsPerPage=${selectedResultsPerPage}`;
+	};
+
 	const resultCountButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
 		const selectedResultsPerPage = $button.attr('data-results-per-page');
 
-		window.location = `${window.location.pathname}?q=${event.data.searchTerm}&page=${event.data.pageNumber}&resultsPerPage=${selectedResultsPerPage}`;
+		loadSearchPage(event.data.searchTerm, event.data.pageNumber, selectedResultsPerPage);
 	};
 
 	const pageButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
 		const selectedPageNumber = $button.attr('data-page-number');
 
-		window.location = `${window.location.pathname}?q=${event.data.searchTerm}&page=${selectedPageNumber}&resultsPerPage=${event.data.resultsPerPage}`;
+		loadSearchPage(event.data.searchTerm, selectedPageNumber, event.data.selectedResultsPerPage);
 	};
 
 	const init = () => {
@@ -90,7 +94,7 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 			$(document).on('click', '#pager .results-per-page button', { searchTerm, pageNumber, resultsPerPage }, resultCountButtonClicked);
 			$(document).on('click', '#pager .page-numbers button', { searchTerm, pageNumber, resultsPerPage }, pageButtonClicked);
 
-			$.get(`http://ba224964:1000/api/polaris/search/${searchTerm}/${pageNumber}/${resultsPerPage}`).then(searchSuccessHandler, searchErrorHandler);
+			$.get(`${bcpl.constants.baseApiUrl}/api/polaris/search/${searchTerm}/${pageNumber}/${resultsPerPage}`).then(searchSuccessHandler, searchErrorHandler);
 		} else {
 			$('.loading').hide();
 			$('.no-results').show();

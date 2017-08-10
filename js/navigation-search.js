@@ -51,7 +51,7 @@ bcpl.navigationSearch = (($) => {
 	 */
 	const searchButtonClicked = (event) => {
 		const searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = `/dist/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
+		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
 		/**

@@ -4,7 +4,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 	var getMaterialTypeData = function getMaterialTypeData(processMaterialTypeCallback) {
-		$.ajax('http://ba224964:3000/data/primaryMaterialType.json').then(function (json) {
+		$.ajax(bcpl.constants.baseApiUrl + '/data/primaryMaterialType.json').then(function (json) {
 			return processMaterialTypeCallback(json);
 		}, function (err) {
 			return console.log(err);
@@ -68,18 +68,22 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 		console.log(err);
 	};
 
+	var loadSearchPage = function loadSearchPage(searchTerm, pageNumber, selectedResultsPerPage) {
+		window.location = window.location.pathname + '?q=' + searchTerm + '&page=' + pageNumber + '&resultsPerPage=' + selectedResultsPerPage;
+	};
+
 	var resultCountButtonClicked = function resultCountButtonClicked(event) {
 		var $button = $(event.currentTarget);
 		var selectedResultsPerPage = $button.attr('data-results-per-page');
 
-		window.location = window.location.pathname + '?q=' + event.data.searchTerm + '&page=' + event.data.pageNumber + '&resultsPerPage=' + selectedResultsPerPage;
+		loadSearchPage(event.data.searchTerm, event.data.pageNumber, selectedResultsPerPage);
 	};
 
 	var pageButtonClicked = function pageButtonClicked(event) {
 		var $button = $(event.currentTarget);
 		var selectedPageNumber = $button.attr('data-page-number');
 
-		window.location = window.location.pathname + '?q=' + event.data.searchTerm + '&page=' + selectedPageNumber + '&resultsPerPage=' + event.data.resultsPerPage;
+		loadSearchPage(event.data.searchTerm, selectedPageNumber, event.data.selectedResultsPerPage);
 	};
 
 	var init = function init() {
@@ -93,7 +97,7 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 			$(document).on('click', '#pager .results-per-page button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, resultCountButtonClicked);
 			$(document).on('click', '#pager .page-numbers button', { searchTerm: searchTerm, pageNumber: pageNumber, resultsPerPage: resultsPerPage }, pageButtonClicked);
 
-			$.get('http://ba224964:1000/api/polaris/search/' + searchTerm + '/' + pageNumber + '/' + resultsPerPage).then(searchSuccessHandler, searchErrorHandler);
+			$.get(bcpl.constants.baseApiUrl + '/api/polaris/search/' + searchTerm + '/' + pageNumber + '/' + resultsPerPage).then(searchSuccessHandler, searchErrorHandler);
 		} else {
 			$('.loading').hide();
 			$('.no-results').show();

@@ -159,6 +159,16 @@ $(function () {
 
 namespacer('bcpl');
 
+bcpl.constants = function () {
+	return {
+		baseApiUrl: 'http://localhost:3000',
+		basePageUrl: '/dist'
+	};
+}();
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
@@ -210,7 +220,7 @@ bcpl.navigationSearch = function ($) {
   */
 	var searchButtonClicked = function searchButtonClicked(event) {
 		var searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = '/dist/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
+		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
 	/**
