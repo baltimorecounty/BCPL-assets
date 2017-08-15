@@ -27,16 +27,19 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonActivatorClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
+		const $searchButtonActivatorIcon = $searchButtonActivator.find('i');
 		const $menu = event.data.$menu;
 		const $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
+			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
+			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
 			$menu.removeClass('hidden-xs');
@@ -47,7 +50,8 @@ bcpl.navigationSearch = (($) => {
 	 * Click event handler for the search button.
 	 */
 	const searchButtonClicked = (event) => {
-
+		const searchTerms = $(event.currentTarget).siblings('input').first().val();
+		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
 		/**
@@ -64,13 +68,13 @@ bcpl.navigationSearch = (($) => {
 			$searchBox,
 			$searchButtonActivator,
 			$menu,
-			$hamburgerButton,
+			$hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu,
+			$menu
 		}, hamburgerButtonClicked);
 
 		$searchButton.on('click', searchButtonClicked);

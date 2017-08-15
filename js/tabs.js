@@ -22,12 +22,11 @@ bcpl.tabs = (($) => {
 
 		$tabControls.on('click', {
 			$tabContainer,
-			$tabControls,
+			$tabControls
 		}, tabControlClicked);
 	};
 
 	return { init };
-
 })(jQuery);
 
 $(() => {

@@ -2,8 +2,7 @@
 <html>
 
 <head>
-	<link href="css/master.min.css" rel="stylesheet">
-	<link href="css/home.min.css" rel="stylesheet">
+	<link href="/dist/css/master.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -11,7 +10,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
 	<script src="/dist/js/master.js"></script>
+	<script src="/dist/js/page-specific/search-results.js"></script>
 </head>
 
 <body>
@@ -55,7 +56,12 @@
 											<li><a href="#">Youth<i class="fa fa-caret-right"></i></a></li>
 										</ul>
 									</nav>
-									<div id="search-box"><input placeholder="Search the library"><button id="search-button"><i class="fa fa-search"></i></button></div>
+									<div id="search-box">
+										<input placeholder="Search the library">
+										<button id="search-button">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -74,57 +80,102 @@
 			</div>
 		</header>
 		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-title-wrapper">
-						<div class="row">
-							<div class="col-md-9">
-								<div class="breadcrumbs-wrapper">
-									<nav>
-										<ul>
-											<li><a href="/"><i class="fa fa-home"></i></a></li>
-											<li><a href="#">Services</a></li>
-										</ul>
-									</nav>
-								</div>
-							</div>
-							<div class="col-sm-3 actions flex flex-align-end-end"><span class="print"> <i class="fa fa-print"></i>Print </span><span class="share"> <i class="fa fa-share-alt-square"></i>Share</span></div>
-						</div>
-					</div>
+			<header class="row">
+				<div class="col-lg-12">
 					<div class="row">
-						<div class="col-md-3">
-							<div class="secondary-nav">
-								<nav>
-									<ul>
-										<li class="active"><a href="#">Section Overview</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-										<li><a href="#">Navigation Item</a></li>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						<div class="col-md-9">
-							<div class="cards grid">
-								<a class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a><a 
-								class="card grid-item"><img src="/dist/images/grumpy-cat.jpg"><p>Service Name</p></a>
+						<div class="col-sm-12">
+							<div class="section-title-wrapper">
+								<div class="row flex">
+									<div class="col-sm-9">
+										<div class="breadcrumbs-wrapper">
+											<nav>
+												<ul>
+													<li><a href="/"><i class="fa fa-home"></i></a></li>
+													<li><a href="#">Search</a></li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+									<div class="col-sm-3 actions flex flex-align-end-end"><span class="print"> <i class="fa fa-print"></i>Print </span><span class="share"> <i class="fa fa-share-alt-square"></i>Share</span></div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</header>
+			<main class="row">
+				<div class="col-lg-12">
+					<div class="main-content">
+						<h1>Search results</h1>
+						<!--<div class="form-group">
+							<label for="searchBox">Search terms</label>
+							<input type="text" id="searchBox" class="form-control" placeholder="Search by author, title, or whatever. It's your world; we're just living in it." />
+						</div>-->
+						<div class="loading">
+							Searching... <i class="fa fa-spinner fa-pulse fa-fw"></i>
+							<span class="sr-only">Loading...</span>
+						</div>
+						<div class="no-results" style="display: none">
+							<p>It looks like your search didn't turn up any results. Try again?</p>
+						</div>
+						<script id="search-results-template" type="text/x-handlebars-template">
+							<p>Displaying results {{Min}} to {{Max}} of {{Total}} for <strong>{{SearchTerm}}</strong>.</p>
+							<ul class="search-results-list">
+								{{#each SearchResults}}
+								<li class="search-result">
+									<div class="row">
+										<div class="icon col-md-1"><i class="fa fa-3x {{this.icon}}" aria-hidden="true"></i></div>
+										<div class="details col-md-9">
+											<h3>{{Title}}</h3>
+											{{#if Author}}
+											<p>by <strong>{{Author}}</strong></p>
+											{{else}}
+											<p><strong>{{Publisher}}</strong></p>
+											{{/if}}
+											<p class="summary">{{Summary}}</p>
+										</div>
+										<div class="buttons col-md-2">
+											<button class="btn btn-sm btn-primary">Check Availability</button>
+											<button class="btn btn-sm btn-default">Place Request</button>
+											<button class="btn btn-sm btn-default">Full Display</button>
+											<button class="btn btn-sm btn-default">Add to My List</button>
+										</div>
+									</div>
+								</li>
+								{{/each}}
+							</ul>
+							<div id="pager" class="row">
+								<div class="col-md-6 results-per-page">
+									Results per page: 
+									{{#each ResultsPerPageButtons}}
+										{{#if isCurrent}}
+											<strong>{{count}}</strong>
+										{{else}}
+											<button data-results-per-page="{{count}}">{{count}}</button>
+										{{/if}}
+									{{/each}}
+								</div>
+								<div class="col-md-6 page-numbers">
+									Page: 
+									<button data-page-number="1">First</button>								
+									<button data-page-number="{{PreviousPage}}">Previous</button>								
+									{{#each PageNumbers}}
+										{{#if isCurrent}}
+											<strong class="active">{{page}}</strong>
+										{{else}}
+											<button data-page-number="{{page}}">{{page}}</button>
+										{{/if}}
+									{{/each}}								
+									...
+									<button data-page-number="{{NextPage}}">Next</button>								
+									<button data-page-number="{{Pages}}">Last</button>	
+								</div>
+							</div>								
+						</script>
+						<div id="search-results"></div>
+					</div>
+				</div>
+			</main>
 		</div>
 		<footer>
 			<div class="follow-wrapper">
