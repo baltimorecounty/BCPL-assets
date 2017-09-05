@@ -1,4 +1,4 @@
-.blog-events-wrapper {
+.blog-wrapper {
 	padding: 2em 0;
 	border-bottom: 1em solid $gold;
 	background-color: white;
@@ -34,49 +34,56 @@
 			.feed {
 				position: relative;
 				top: 15px;
+				display: block;
+				float: right;
+				margin-left: 2em;
+
+				&:last-child {
+					margin-left: 0;
+				}
 			}
 		}
-	}
-
-	.blog-posts {
-		padding-right: 3em;
 	}
 
 	.events {
-		padding-left: 3em;
-		background-image: url("/dist/images/border-dot-vertical.png");
-		background-repeat: repeat-y;
-		background-position: left;
+		background: $purple-dark;
+		padding-top: 2em;
 
-		time {
-			text-transform: uppercase;
+		.post {
+			background: rgba(255, 255, 255, .75);
 
-			.date {
-				background-color: $red;
-				border-radius: 50%;
-				color: white;
-				height: 80px;
-				line-height: 1;
-				margin: 0px auto;
-				padding-top: 14px;
-				width: 80px;
-				
-				.month {
-					text-align: center;
+			time {
+				text-transform: uppercase;
+	
+				.date {
+					background-color: $red;
+					border-radius: 50%;
+					color: white;
+					height: 80px;
+					line-height: 1;
+					margin: 0px auto;
+					padding-top: 14px;
+					width: 80px;
+					
+					.month {
+						text-align: center;
+					}
+	
+					.day {
+						text-align: center;
+						font-size: 2em;
+					}
 				}
-
-				.day {
+	
+				.time {
+					font-size: .8em;
+					margin-top: .5em;
 					text-align: center;
-					font-size: 2em;
 				}
 			}
 
-			.time {
-				font-size: .8em;
-				margin-top: .5em;
-				text-align: center;
-			}
 		}
+		
 	}
 }
 
