@@ -82,6 +82,22 @@
 					text-align: center;
 				}
 			}
+			footer {
+				margin: 0 -1em;
+				border-top: 1px dashed $gray-medium;
+				padding: 1em;
+
+				a {
+					display: block;
+					float: left;
+					color: $teal-dark;
+					font-size: .8em;
+
+					&:last-child {
+						float: right;
+					}
+				}
+			}
 		}
 	}
 }
