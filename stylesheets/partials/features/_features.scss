@@ -31,3 +31,12 @@
 		}
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.feature-wrapper {
+		.col-xs-6 {
+			float: none;
+			width: 100%;
+		}
+	}			
+}
