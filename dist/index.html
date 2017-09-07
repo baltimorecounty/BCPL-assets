@@ -15,6 +15,7 @@
 	<script src="/dist/js/slick/slick.min.js"></script>
 	<script src="/dist/js/page-specific/homepage/carousel.js"></script>
 	<script src="/dist/js/page-specific/homepage/flipper.js"></script>
+	<script src="/dist/js/page-specific/homepage/events.js"></script>
 </head>
 
 <body>
@@ -165,80 +166,80 @@
 						</header>
 						<div class="row flex">
 							<div class="col-md-3 flex flex-column">
-								<div class="post flex flex-column">
+								<a class="post flex flex-column">
 									<time datetime="5-30 10:00-05:00">
-										<div class="date">
-											<div class="month">May </div>
-											<div class="day">30</div>
+										<div class="animated animated-flip round-container">
+											<div class="big-round face front date">
+												<div class="month">May </div>
+												<div class="day">30</div>
+											</div>
+											<div class="big-round face back link">
+												<div>details</div>
+												<div class="day"><i class="fa fa-caret-right" aria-hidden="true"></i></div>
+											</div>
 										</div>
 										<div class="time">10 a.m.</div>
 									</time>
 									<h4>Event Title Event Title Event Title</h4>
 									<p>Event Branch</p>
-									<div class="flex flex-column flex-justify-end">
-										<footer>
-											<a href="#">#kids</a>
-											<a href="#">Details <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-										</footer>
-									</div>
-								</div>
+								</a>
 							</div>
 							<div class="col-md-3 flex flex-column">
-								<div class="post flex flex-column">
+								<a class="post flex flex-column">
 									<time datetime="6-1 11:00-05:00">
-										<div class="date">
-											<div class="month">Jun </div>
-											<div class="day">1</div>
+										<div class="animated animated-flip round-container">
+											<div class="big-round face front date">
+												<div class="month">Jun </div>
+												<div class="day">1</div>
+											</div>
+											<div class="big-round face back link">
+												<div>details</div>
+												<div class="day"><i class="fa fa-caret-right" aria-hidden="true"></i></div>
+											</div>
 										</div>
 										<div class="time">11 a.m.</div>
 									</time>
 									<h4>Event Title</h4>
 									<p>Event Branch</p>
-									<div class="flex flex-column flex-justify-end">
-										<footer>
-											<a href="#">#teens</a>
-											<a href="#">Details <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-										</footer>
-									</div>
-								</div>
+								</a>
 							</div>
 							<div class="col-md-3 flex flex-column">
-								<div class="post flex flex-column">
+								<a class="post flex flex-column">
 									<time datetime="6-2 12:00-05:00">
-										<div class="date">
-											<div class="month">Jun </div>
-											<div class="day">2</div>
+										<div class="animated animated-flip round-container">
+											<div class="big-round face front date">
+												<div class="month">Jun </div>
+												<div class="day">2</div>
+											</div>
+											<div class="big-round face back link">
+												<div>details</div>
+												<div class="day"><i class="fa fa-caret-right" aria-hidden="true"></i></div>
+											</div>
 										</div>
 										<div class="time">12 p.m.</div>
 									</time>
 									<h4>Event Title</h4>
 									<p>Event Branch</p>
-									<div class="flex flex-column flex-justify-end">
-										<footer>
-											<a href="#">#parents</a>
-											<a href="#">Details <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-										</footer>
-									</div>
-								</div>
+								</a>
 							</div>
 							<div class="col-md-3 flex flex-column">
-								<div class="post flex flex-column">
+								<a class="post flex flex-column">
 									<time datetime="6-3 13:00-05:00">
-										<div class="date">
-											<div class="month">Jun </div>
-											<div class="day">3</div>
+										<div class="animated animated-flip round-container">
+											<div class="big-round face front date">
+												<div class="month">Jun </div>
+												<div class="day">3</div>
+											</div>
+											<div class="big-round face back link">
+												<div>details</div>
+												<div class="day"><i class="fa fa-caret-right" aria-hidden="true"></i></div>
+											</div>
 										</div>
 										<div class="time">1 p.m.</div>
 									</time>
 									<h4>Event Title</h4>
 									<p>Event Branch</p>
-									<div class="flex flex-column flex-justify-end">
-										<footer>
-											<a href="#">#family</a>
-											<a href="#">Details <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-										</footer>
-									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -343,22 +344,31 @@
 			<div class="callouts-wrapper">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-3 col-sm-12 callout"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
+						<div class="col-md-3 col-sm-12 callout flex flex-column"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
 							<h4>Administrative Offices</h4>
-							<address>320 York Road <br /> Towson MD, 21204 <br /> 410-887-6100
-							</address><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
-						<div class="col-md-3 col-sm-12 callout">
+							<address>320 York Road <br /> Towson, Maryland 21204 <br /> 410-887-6100
+							</address>
+							<div class="flex flex-column flex-justify-end">
+								<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
+						</div>
+						<div class="col-md-3 col-sm-12 callout flex flex-column">
 							<h4>Got a Question?</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Question</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Get a Library Card</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Register Now</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Work for Baltimore County Public Library</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
+							<p>Get answers via email, phone, live chat or a one-on-one appointment with a librarian.</p>
+							<div class="flex flex-column flex-justify-end">
+								<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Librarian</a></div>
+						</div>
+						<div class="col-md-3 col-sm-12 callout flex flex-column">
+							<h4>Digital Library</h4>
+							<p>On the go? Browse our collection of e-books, digital movies and audiobooks available for download right on your device.</p>
+							<div class="flex flex-column flex-justify-end">
+								<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Explore Digital Materials</a></div>
+						</div>
+						<div class="col-md-3 col-sm-12 callout flex flex-column">
+							<h4>Work for Us</h4>
+							<p>We're looking for passionate individuals to fill full-time and part-time positions.</p>
+							<div class="flex flex-column flex-justify-end">
+								<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
+						</div>
 					</div>
 				</div>
 			</div>

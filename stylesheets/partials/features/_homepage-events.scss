@@ -57,31 +57,47 @@
 			margin-top: 2em;
 			padding: 2em 1em 0;
 			text-align: center;
+			display: block;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: none;
+			}
+
 			time {
 				text-transform: uppercase;
-				.date {
+				transform-style: preserve-3d;
+
+				.date, .link {
 					background-color: $red;
-					border-radius: 50%;
 					color: white;
-					height: 80px;
-					line-height: 1;
-					margin: 0px auto;
-					padding-top: 14px;
-					width: 80px;
+				
 					.month {
 						text-align: center;
 					}
+
 					.day {
 						text-align: center;
 						font-size: 2em;
 					}
 				}
+
 				.time {
 					font-size: .8em;
 					margin-top: .5em;
 					text-align: center;
 				}
+
+				.link {
+					background-color: $teal-dark;
+
+					div:first-child {
+						padding-top: .5em;						
+					}
+				}
+
 			}
+
 			footer {
 				margin: 0 -1em;
 				border-top: 1px dashed $gray-medium;
