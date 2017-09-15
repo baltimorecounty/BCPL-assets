@@ -1,6 +1,19 @@
 .flipper-container {
+
 	.flipper-tabs {
+		nav {
+			li {
+				&.active {
+					box-shadow: $shadow-white-bottom, $shadow-primary;
+				}	
+			}
+		}
+
 		.flipper-tab {
+			&.active {
+				box-shadow: $shadow-primary;
+			}
+
 			button {
 				padding: 6px;
 				transition: background-color .25s ease;
