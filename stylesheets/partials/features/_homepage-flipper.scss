@@ -5,7 +5,8 @@
 			li {
 				&.active {
 					box-shadow: $shadow-white-bottom, $shadow-primary;
-				}	
+				}
+				transition: all .25s ease;	
 			}
 		}
 

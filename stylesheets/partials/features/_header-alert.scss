@@ -19,19 +19,20 @@
 			position: relative;
 			top: 4px;
 			margin-right: .5em;
-			color: white;
+			color: $tan-light;
 		}
 
 	}
 
 	button, a {
-		border: 1px solid black;
 		color: black;
 		display: inline-block;
 		line-height: 1.5em;
 		margin-left: 1em;
 		padding: .25em .5em;
 		text-transform: uppercase;
+		background: $tan-light;
+		box-shadow: $shadow-primary;
 		transition: all 0.25s ease;
 
 		i {
@@ -45,6 +46,7 @@
 			text-decoration: none;
 			background-color: black;
 			color: $gold;
+			box-shadow: $shadow-hover;
 		}
 	}
 

@@ -51,6 +51,15 @@
 					margin-left: 0;
 				}
 			}
+			.registration-required {
+				top: 7px;
+			}
+		}
+		.registration-required {
+			color: $required-orange;
+			font-size: 24px;
+			position: relative;
+			top: 4px;
 		}
 		.post {
 			background: rgba(255, 255, 255, .75);
