@@ -19,7 +19,7 @@
 			margin-right: -15px;
 			background-color: #fff;
 			border-radius: 8px;
-			color: $teal;
+			color: rgba(0, 0, 0, .75);
 			height: 36px;
 			position: relative;
 			top: 10px;
@@ -27,8 +27,12 @@
 
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
+				color: white;
 				border-radius: 8px 8px 0 0;
 				
+				i::before {
+					content: "\f00d";
+				}
 			}
 		}
 
@@ -93,6 +97,14 @@
 						background-color: $teal-dark;
 						display: none;
 						position: absolute;		
+
+						&.wide {
+							left: 0;
+
+							li {
+								display: inline-block;
+							}
+						}
 
 						li {
 							display: block;
@@ -188,7 +200,11 @@
 			nav {
 				ul {
 					li {
-						margin-right: 1.5em;
+						margin-right: 0;
+
+						a, button {
+							padding: .25em 0 .25em .5em;
+						}
 					}
 				}
 			}

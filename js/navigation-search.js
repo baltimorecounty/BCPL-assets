@@ -33,13 +33,11 @@ bcpl.navigationSearch = (($) => {
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
 			$menu.removeClass('hidden-xs');

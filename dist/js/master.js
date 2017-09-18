@@ -202,13 +202,11 @@ bcpl.navigationSearch = function ($) {
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
 			$menu.removeClass('hidden-xs');
@@ -279,29 +277,59 @@ bcpl.navigation = function ($) {
 		return $buttonOrList.closest('.active').removeClass('active');
 	};
 
+	var hideSearchBox = function hideSearchBox() {
+		$('#activate-search-button, #search-box').removeClass('active');
+	};
+
+	var equalizeListItems = function equalizeListItems($childOfTargetList) {
+		var $wideList = $childOfTargetList.siblings('ul');
+		var $listItems = $wideList.find('li');
+		var widest = 0;
+		var tallest = 0;
+
+		if ($listItems.length < 7) return;
+
+		$listItems.each(function (listItemIndex, listItem) {
+			var $listItem = $(listItem);
+			widest = $listItem.width() > widest ? $listItem.width() : widest;
+			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
+		});
+
+		$listItems.width(widest);
+		$listItems.height(tallest);
+		$wideList.addClass('wide');
+	};
+
 	var navButtonKeyup = function navButtonKeyup(event) {
 		var $button = $(event.currentTarget);
 		var keyCode = event.which || event.keyCode;
 
 		if (keyCode === keyCodes.enter) {
+			hideSearchBox();
 			removeActiveClassFromAllButtons($button);
 			toggleActiveClass($button);
+			equalizeListItems($button);
 		}
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
 		var $button = $(event.currentTarget);
+		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
 		toggleActiveClass($button);
+		equalizeListItems($button);
 	};
 
 	var navButtonHovered = function navButtonHovered(event) {
 		var $button = $(event.currentTarget);
+		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
+		equalizeListItems($button);
 	};
 
 	var navButtonAndListLeave = function navButtonAndListLeave(event) {
 		var $buttonOrList = $(event.currentTarget);
+		hideSearchBox();
 		removeActiveClass($buttonOrList);
 	};
 

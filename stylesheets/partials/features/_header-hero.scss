@@ -69,9 +69,7 @@
 	.hero-wrapper {
 		.hero-foreground {
 			.hero-callout-container {
-				.callout {
-					margin-top: 15em;
-				}				
+				display: none;			
 			}
 		}
 	}
@@ -100,11 +98,7 @@
 				}
 			}
 			.hero-callout-container {
-				.callout {
-					border-top: 1px solid $gold;
-					height: 100%;
-					margin-top: 0;		
-				}				
+				display: none;			
 			}
 		}
 	}
