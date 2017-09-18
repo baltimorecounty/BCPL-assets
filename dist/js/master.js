@@ -259,6 +259,61 @@ $(function () {
 
 namespacer('bcpl');
 
+bcpl.navigation = function ($) {
+	var navButtonSelector = '.nav-and-search nav button';
+	var navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+
+	var keyCodes = {
+		enter: 13
+	};
+
+	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons($button) {
+		return $button.closest('ul').find('li.active').removeClass('active');
+	};
+
+	var toggleActiveClass = function toggleActiveClass($button) {
+		return $button.closest('li').toggleClass('active');
+	};
+
+	var removeActiveClass = function removeActiveClass($buttonOrList) {
+		return $buttonOrList.closest('.active').removeClass('active');
+	};
+
+	var navButtonKeyup = function navButtonKeyup(event) {
+		var $button = $(event.currentTarget);
+		var keyCode = event.which || event.keyCode;
+
+		if (keyCode === keyCodes.enter) {
+			removeActiveClassFromAllButtons($button);
+			toggleActiveClass($button);
+		}
+	};
+
+	var navButtonClicked = function navButtonClicked(event) {
+		var $button = $(event.currentTarget);
+		removeActiveClassFromAllButtons($button);
+		toggleActiveClass($button);
+	};
+
+	var navButtonHovered = function navButtonHovered(event) {
+		var $button = $(event.currentTarget);
+		removeActiveClassFromAllButtons($button);
+	};
+
+	var navButtonAndListLeave = function navButtonAndListLeave(event) {
+		var $buttonOrList = $(event.currentTarget);
+		removeActiveClass($buttonOrList);
+	};
+
+	$(document).on('keyup', navButtonSelector, navButtonKeyup);
+	$(document).on('click', navButtonSelector, navButtonClicked);
+	$(document).on('mouseenter', navButtonSelector, navButtonHovered);
+	$(document).on('mouseleave', navButtonAndListSelector, navButtonAndListLeave);
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';

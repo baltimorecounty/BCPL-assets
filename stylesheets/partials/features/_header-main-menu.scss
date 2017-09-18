@@ -17,12 +17,18 @@
 
 		#activate-search-button {
 			margin-right: -15px;
-			padding: .25em .5em;
+			background-color: #fff;
+			border-radius: 8px;
+			color: $teal;
+			height: 36px;
 			position: relative;
-			top: -5px;
+			top: 10px;
+			width: 40px;
 
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
+				border-radius: 8px 8px 0 0;
+				
 			}
 		}
 
@@ -34,25 +40,73 @@
 			float: right;
 			position: relative;
 			top: 7px;
+			right: 15px;
 
 			ul {
 				li {
-					margin-right: 1.5em;
 
-					a {
+					&:hover, &.active {
+						background: $teal-dark;
+						opacity: .95;
+						
+						ul {
+							display: block;
+						}
+
+						a, button {							
+							i::before {
+								content: "\f0d7";
+							}
+						}
+					}
+
+					&:last-child {
+						ul {
+							right: 0;
+						}
+					}
+
+					a, button {
 						color: white;
+						display: block;
 						font-family: TTRoundsCondensed-Bold;
+						font-size: inherit;
 						line-height: 2em;
 						text-transform: uppercase;
-
-						&:hover {
-							text-decoration: underline;
-						}
+						text-decoration: none;
+						padding: .5em 0 .5em 1em;
+						transition: .25s all ease;
 
 						i {
 							margin-left: .5em;
+							padding-right: 1em;
+
+							&::before {
+								width: 5px;
+								display: block;
+							}
 						}
-					}								
+						
+					}					
+
+					ul {
+						background-color: $teal-dark;
+						display: none;
+						position: absolute;		
+
+						li {
+							display: block;
+
+							a {
+								padding: .5em 1em;	
+								
+								&:hover {
+									background-color: $teal;
+									text-decoration: none;									
+								}
+							}
+						}
+					}
 				}
 			}
 		}		
@@ -65,7 +119,7 @@
 		display: none;
 		padding: 1em;
 		position: absolute;
-		top: 41px;
+		top: 46px;
 		right: 0;
 		width: 100%;
 
