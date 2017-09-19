@@ -177,7 +177,23 @@ bcpl.navigationSearch = function ($) {
 	var menuSelector = '.nav-and-search nav';
 	var navBackButtonSelector = '.nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
+	var menuItemsSelector = '.nav-and-search nav > ul > li > button';
+	var submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
+	/* Helpers */
+
+	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
+		$modalCover.removeClass('active');
+		$menu.removeClass('active');
+		$menu.removeClass('move-right');
+		$menu.find('.slide-in').removeClass('slide-in');
+	};
+
+	/* Event Handlers */
+
+	/**
+  * Click event handler for the hamburger button.
+  */
 	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
@@ -185,6 +201,7 @@ bcpl.navigationSearch = function ($) {
 		var $hamburgerButton = $(event.currentTarget);
 		var $modalCover = event.data.$modalCover;
 
+		$menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
@@ -219,11 +236,6 @@ bcpl.navigationSearch = function ($) {
 		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
-	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
-		$modalCover.removeClass('active');
-		$menu.removeClass('active');
-	};
-
 	var navBackButtonClicked = function navBackButtonClicked(event) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
@@ -236,9 +248,25 @@ bcpl.navigationSearch = function ($) {
 		killMenuAndModalCover($menu, $modalCover);
 	};
 
+	var menuItemClicked = function menuItemClicked(event) {
+		var $menuItem = $(event.currentTarget);
+		var $submenu = $menuItem.siblings('ul');
+		var $menu = event.data.$menu;
+
+		$menu.find('.slide-in').removeClass('slide-in');
+		$menu.addClass('move-right');
+		$submenu.addClass('slide-in');
+	};
+
+	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
+		var $backButton = $(event.currentTarget);
+		$backButton.closest('.slide-in').removeClass('slide-in');
+		$backButton.closest('.move-right').removeClass('move-right');
+	};
+
 	/**
- * Attach events and inject any event dependencies.
- */
+  * Attach events and inject any event dependencies.
+  */
 	var init = function init() {
 		var $searchButtonActivator = $(searchButtonActivatorSelector);
 		var $searchBox = $(searchBoxSelector);
@@ -247,6 +275,8 @@ bcpl.navigationSearch = function ($) {
 		var $menu = $(menuSelector);
 		var $navBackButton = $(navBackButtonSelector);
 		var $modalCover = $(modalCoverSelector);
+		var $menuItems = $(menuItemsSelector);
+		var $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
@@ -273,6 +303,10 @@ bcpl.navigationSearch = function ($) {
 			$menu: $menu,
 			$modalCover: $modalCover
 		}, modalCoverClicked);
+
+		$menuItems.on('click', { $menu: $menu }, menuItemClicked);
+
+		$submenuBackButton.on('click', submenuBackButtonClicked);
 	};
 
 	return { init: init };
@@ -315,7 +349,7 @@ bcpl.navigation = function ($) {
 		var widest = 0;
 		var tallest = 0;
 
-		if ($listItems.length < 7) return;
+		if ($listItems.length < 8) return;
 
 		$listItems.each(function (listItemIndex, listItem) {
 			var $listItem = $(listItem);

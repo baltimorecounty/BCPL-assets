@@ -24,7 +24,7 @@ bcpl.navigation = (($) => {
 		let widest = 0;
 		let tallest = 0;
 
-		if ($listItems.length < 7) return;
+		if ($listItems.length < 8) return;
 
 		$listItems.each((listItemIndex, listItem) => {
 			const $listItem = $(listItem);

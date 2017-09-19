@@ -8,7 +8,23 @@ bcpl.navigationSearch = (($) => {
 	const menuSelector = '.nav-and-search nav';
 	const navBackButtonSelector = '.nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
+	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
+	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
+	/* Helpers */
+
+	const killMenuAndModalCover = ($menu, $modalCover) => {
+		$modalCover.removeClass('active');
+		$menu.removeClass('active');
+		$menu.removeClass('move-right');
+		$menu.find('.slide-in').removeClass('slide-in');
+	};
+
+	/* Event Handlers */
+
+	/**
+	 * Click event handler for the hamburger button.
+	 */
 	const hamburgerButtonClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
@@ -16,6 +32,7 @@ bcpl.navigationSearch = (($) => {
 		const $hamburgerButton = $(event.currentTarget);
 		const $modalCover = event.data.$modalCover;
 
+		$menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
@@ -50,11 +67,6 @@ bcpl.navigationSearch = (($) => {
 		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
-	const killMenuAndModalCover = ($menu, $modalCover) => {
-		$modalCover.removeClass('active');
-		$menu.removeClass('active');
-	};
-
 	const navBackButtonClicked = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
@@ -67,7 +79,23 @@ bcpl.navigationSearch = (($) => {
 		killMenuAndModalCover($menu, $modalCover);
 	};
 
-		/**
+	const menuItemClicked = (event) => {
+		const $menuItem = $(event.currentTarget);
+		const $submenu = $menuItem.siblings('ul');
+		const $menu = event.data.$menu;
+
+		$menu.find('.slide-in').removeClass('slide-in');
+		$menu.addClass('move-right');
+		$submenu.addClass('slide-in');
+	};
+
+	const submenuBackButtonClicked = (event) => {
+		const $backButton = $(event.currentTarget);
+		$backButton.closest('.slide-in').removeClass('slide-in');
+		$backButton.closest('.move-right').removeClass('move-right');
+	};
+
+	/**
 	 * Attach events and inject any event dependencies.
 	 */
 	const init = () => {
@@ -78,6 +106,8 @@ bcpl.navigationSearch = (($) => {
 		const $menu = $(menuSelector);
 		const $navBackButton = $(navBackButtonSelector);
 		const $modalCover = $(modalCoverSelector);
+		const $menuItems = $(menuItemsSelector);
+		const $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
@@ -104,6 +134,10 @@ bcpl.navigationSearch = (($) => {
 			$menu,
 			$modalCover
 		}, modalCoverClicked);
+
+		$menuItems.on('click', { $menu }, menuItemClicked);
+
+		$submenuBackButton.on('click', submenuBackButtonClicked);
 	};
 
 	return { init };
