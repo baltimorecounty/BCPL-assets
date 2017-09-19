@@ -95,6 +95,23 @@ bcpl.navigationSearch = (($) => {
 		$backButton.closest('.move-right').removeClass('move-right');
 	};
 
+	let resizeTimer;
+
+	const windowResized = (event) => {
+		const $menu = event.data.$menu;
+		const $modalCover = event.data.$modalCover;
+
+		if (parseFloat($('body').css('width')) > 768 && $menu.hasClass('animatable')) {
+			killMenuAndModalCover($menu, $modalCover);
+			$menu.removeClass('animatable');
+		} else {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				$menu.addClass('animatable');
+			}, 500);
+		}
+	};
+
 	/**
 	 * Attach events and inject any event dependencies.
 	 */
@@ -138,6 +155,16 @@ bcpl.navigationSearch = (($) => {
 		$menuItems.on('click', { $menu }, menuItemClicked);
 
 		$submenuBackButton.on('click', submenuBackButtonClicked);
+
+		$(window).on('resize', {
+			$menu,
+			$modalCover
+		}, windowResized);
+
+
+		if (parseFloat($('body').css('width')) <= 768) {
+			$menu.addClass('animatable');
+		}
 	};
 
 	return { init };

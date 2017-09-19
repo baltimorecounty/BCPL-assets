@@ -18,7 +18,7 @@ gulp.task('clean', () => gulp.src('dist')
 
 gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheets/home.scss'])
 		.pipe(sass())
-		.pipe(cssnano({ autoprefixer: false }))
+		.pipe(cssnano({ autoprefixer: false, zindex: false }))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/css')));
 

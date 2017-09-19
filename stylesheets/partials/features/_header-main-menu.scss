@@ -3,7 +3,7 @@
 	margin-top: 3em;
 	position: absolute;
 	width: 100%;
-	z-index: 100;
+	z-index: 1000;
 	.menu-container {
 		position: relative;
 	}
@@ -256,9 +256,14 @@
 				position: fixed;
 				right: -100%;
 				top: 0;
-				transition: .5s all ease;
 				width: 80%;
-				z-index: 20;
+				z-index: 1000;
+				display: none;
+
+				&.animatable {
+					display: block;
+					transition: .5s right ease;					
+				}
 
 				&.active {
 					right: 0;
@@ -323,7 +328,7 @@
 
 								li {
 									display: block;
-									
+
 									&:first-child {
 										height: initial !important;
 									}
