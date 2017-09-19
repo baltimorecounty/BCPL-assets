@@ -154,7 +154,7 @@
 			/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff', GradientType=0);
 			/* IE6-9 */
-			padding: 20px 0 25px;
+			padding: 25px 0 25px;
 			.menu-container {
 				padding: 1em 15px;
 			}
@@ -162,7 +162,7 @@
 	}
 }
 
-@media (max-width: $screen-md-max) {
+@media (max-width: $screen-lg) {
 	.menu-wrapper {
 		.nav-and-search {
 			nav {
@@ -177,7 +177,7 @@
 	}
 }
 
-@media (max-width: $screen-sm-max) {
+@media (max-width: $screen-md) {
 	.menu-wrapper {
 		.nav-and-search {
 			nav {
@@ -198,13 +198,14 @@
 			margin-top: 0;
 
 			.menu-inner-wrapper {
-				padding: 0;
+				padding: 20px 0;
 			}
 		}
 	}
 }
 
 @media (max-width: $screen-sm) {
+
 	.menu-wrapper {
 		margin-top: 0;
 		padding-top: 1em;
@@ -256,23 +257,23 @@
 				background-color: $gray-dark;
 				height: 100%;
 				position: fixed;
-				right: -100%;
+				left: 100%;
 				top: 0;
-				width: 80%;
+				width: 100%;
 				z-index: 1000;
 				display: none;
 
 				&.animatable {
 					display: block;
-					transition: .5s right ease;					
+					transition: .5s left ease;					
 				}
 
 				&.active {
-					right: 0;
+					left: 20%;
 				}
 
-				&.move-right {
-					right: 80%;
+				&.move-left {
+					left: -60%;
 				}
 				
 				.nav-back-button {
@@ -357,6 +358,8 @@
 			background: $teal;
 			padding-top: 0;
 			.menu-inner-wrapper {
+				padding: 0; 
+
 				.menu-container {
 					padding-bottom: 0;
 				}

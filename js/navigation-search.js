@@ -16,7 +16,7 @@ bcpl.navigationSearch = (($) => {
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
 		$menu.removeClass('active');
-		$menu.removeClass('move-right');
+		$menu.removeClass('move-left');
 		$menu.find('.slide-in').removeClass('slide-in');
 	};
 
@@ -85,14 +85,14 @@ bcpl.navigationSearch = (($) => {
 		const $menu = event.data.$menu;
 
 		$menu.find('.slide-in').removeClass('slide-in');
-		$menu.addClass('move-right');
+		$menu.addClass('move-left');
 		$submenu.addClass('slide-in');
 	};
 
 	const submenuBackButtonClicked = (event) => {
 		const $backButton = $(event.currentTarget);
 		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-right').removeClass('move-right');
+		$backButton.closest('.move-left').removeClass('move-left');
 	};
 
 	let resizeTimer;
@@ -160,7 +160,6 @@ bcpl.navigationSearch = (($) => {
 			$menu,
 			$modalCover
 		}, windowResized);
-
 
 		if (parseFloat($('body').css('width')) <= 768) {
 			$menu.addClass('animatable');

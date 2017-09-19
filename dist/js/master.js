@@ -188,7 +188,7 @@ bcpl.navigationSearch = function ($) {
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
 		$menu.removeClass('active');
-		$menu.removeClass('move-right');
+		$menu.removeClass('move-left');
 		$menu.find('.slide-in').removeClass('slide-in');
 	};
 
@@ -257,14 +257,14 @@ bcpl.navigationSearch = function ($) {
 		var $menu = event.data.$menu;
 
 		$menu.find('.slide-in').removeClass('slide-in');
-		$menu.addClass('move-right');
+		$menu.addClass('move-left');
 		$submenu.addClass('slide-in');
 	};
 
 	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
 		var $backButton = $(event.currentTarget);
 		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-right').removeClass('move-right');
+		$backButton.closest('.move-left').removeClass('move-left');
 	};
 
 	var resizeTimer = void 0;
