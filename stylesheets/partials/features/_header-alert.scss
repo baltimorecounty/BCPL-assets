@@ -5,9 +5,11 @@
 	font-size: .8em;
 	padding: 0;
 	text-transform: uppercase;
-
+    position: relative;
+	top: -1px;
+	
 	.alert-container {
-		padding: 0 15px 1em;
+		padding: 1em 15px;
 	}
 
 	p {
@@ -33,13 +35,13 @@
 		text-transform: uppercase;
 		background: $tan-light;
 		box-shadow: $shadow-primary;
-		transition: all 0.25s ease;
+		transition: 0.25s all ease;
 
 		i {
 			margin-left: .5em;
 			color: inherit;
-				position: relative;
-				top: -1px;
+			position: relative;
+			top: -1px;
 		}
 
 		&:hover {
@@ -51,7 +53,7 @@
 	}
 
 	.dismissed {
-		height: 0;
+		height: 1em;
 		padding: 0;
 		transition: all 0.25s ease;
 
@@ -62,7 +64,28 @@
 
 }
 
+.internal {
+	.alert-wrapper {
+		margin-top: 148px;
+		top: 0;
+	}
+}
+
+@media (max-width: $screen-lg) {
+	.internal {
+		.alert-wrapper {
+			margin-top: 196px;
+		}
+	}
+}
+
 @media (max-width: $screen-md) {
+	.internal {
+		.alert-wrapper {
+			margin-top: 143px;
+		}
+	}
+
 	.alert-wrapper {
 
 		.pull-right {
@@ -99,9 +122,7 @@
 
 	.internal {
 		.alert-wrapper {
-			.alert-container {
-				padding-top: 0;
-			}
+			margin-top: 0;
 		}
 	}
 }

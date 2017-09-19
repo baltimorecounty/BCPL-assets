@@ -144,6 +144,9 @@ bcpl.alertBox = function ($) {
 			setTimeout(function () {
 				$alertBoxContainer.slideDown(250);
 			}, 500);
+		} else {
+			$alertBoxContainer.addClass('dismissed');
+			$alertBoxContainer.show();
 		}
 	};
 

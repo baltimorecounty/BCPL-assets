@@ -142,7 +142,6 @@
 .internal {
 	.menu-wrapper {
 		margin: 0;
-		position: static;
 		background: url("/sebin/h/p/hero-image-1.jpg") no-repeat;
 		background-size: cover;
 		background-position-y: center;
@@ -155,7 +154,6 @@
 			/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff', GradientType=0);
 			/* IE6-9 */
-			border-bottom: 1em solid $gold;
 			padding: 20px 0 25px;
 			.menu-container {
 				padding: 1em 15px;
@@ -198,6 +196,10 @@
 	.internal {
 		.menu-wrapper {
 			margin-top: 0;
+
+			.menu-inner-wrapper {
+				padding: 0;
+			}
 		}
 	}
 }
