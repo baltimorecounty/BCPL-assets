@@ -175,19 +175,21 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonSelector = '#search-button';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '.nav-and-search nav';
+	var navBackButtonSelector = '.nav-back-button button';
+	var modalCoverSelector = '#modal-cover';
 
 	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 		var $hamburgerButton = $(event.currentTarget);
+		var $modalCover = event.data.$modalCover;
 
-		if ($menu.is(':hidden')) {
-			$searchButtonActivator.removeClass('active');
-			$searchBox.removeClass('active');
-			$hamburgerButton.addClass('active');
-			$menu.removeClass('hidden-xs');
-		}
+		$searchButtonActivator.removeClass('active');
+		$searchBox.removeClass('active');
+		$hamburgerButton.addClass('active');
+		$menu.addClass('active');
+		$modalCover.addClass('active');
 	};
 
 	/**
@@ -196,20 +198,16 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
-		var $searchButtonActivatorIcon = $searchButtonActivator.find('i');
-		var $menu = event.data.$menu;
 		var $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
-			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
-			$menu.removeClass('hidden-xs');
 		}
 	};
 
@@ -221,6 +219,23 @@ bcpl.navigationSearch = function ($) {
 		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
+	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
+		$modalCover.removeClass('active');
+		$menu.removeClass('active');
+	};
+
+	var navBackButtonClicked = function navBackButtonClicked(event) {
+		var $menu = event.data.$menu;
+		var $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
+	var modalCoverClicked = function modalCoverClicked(event) {
+		var $menu = event.data.$menu;
+		var $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
 	/**
  * Attach events and inject any event dependencies.
  */
@@ -230,6 +245,8 @@ bcpl.navigationSearch = function ($) {
 		var $searchButton = $(searchButtonSelector);
 		var $hamburgerButton = $(hamburgerButtonSelector);
 		var $menu = $(menuSelector);
+		var $navBackButton = $(navBackButtonSelector);
+		var $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
@@ -241,10 +258,21 @@ bcpl.navigationSearch = function ($) {
 		$hamburgerButton.on('click', {
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu
+			$menu: $menu,
+			$modalCover: $modalCover
 		}, hamburgerButtonClicked);
 
 		$searchButton.on('click', searchButtonClicked);
+
+		$navBackButton.on('click', {
+			$menu: $menu,
+			$modalCover: $modalCover
+		}, navBackButtonClicked);
+
+		$modalCover.on('click', {
+			$menu: $menu,
+			$modalCover: $modalCover
+		}, modalCoverClicked);
 	};
 
 	return { init: init };

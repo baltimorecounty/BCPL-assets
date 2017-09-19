@@ -45,6 +45,33 @@
 			position: relative;
 			top: 7px;
 			right: 15px;
+			transition: .25 all ease;
+
+			.nav-back-button {
+				display: none;
+			}
+
+			a, button {
+				color: white;
+				display: block;
+				font-family: TTRoundsCondensed-Bold;
+				font-size: inherit;
+				line-height: 2em;
+				text-transform: uppercase;
+				text-decoration: none;
+				padding: .5em 0 .5em 1em;
+				transition: .25s all ease;
+
+				i {
+					margin-left: .5em;
+					padding-right: 1em;
+
+					&::before {
+						width: 5px;
+						display: block;
+					}
+				}
+			}	
 
 			ul {
 				li {
@@ -69,29 +96,6 @@
 							right: 0;
 						}
 					}
-
-					a, button {
-						color: white;
-						display: block;
-						font-family: TTRoundsCondensed-Bold;
-						font-size: inherit;
-						line-height: 2em;
-						text-transform: uppercase;
-						text-decoration: none;
-						padding: .5em 0 .5em 1em;
-						transition: .25s all ease;
-
-						i {
-							margin-left: .5em;
-							padding-right: 1em;
-
-							&::before {
-								width: 5px;
-								display: block;
-							}
-						}
-						
-					}					
 
 					ul {
 						background-color: $teal-dark;
@@ -198,13 +202,13 @@
 	.menu-wrapper {
 		.nav-and-search {
 			nav {
+				a, button {
+					padding: .25em 0 .25em .5em;
+				}
+
 				ul {
 					li {
 						margin-right: 0;
-
-						a, button {
-							padding: .25em 0 .25em .5em;
-						}
 					}
 				}
 			}
@@ -237,9 +241,15 @@
 				margin-right: .25em;
 				margin-top: 1em;
 				background-color: $red;
+				color: white;
+				height: inherit;
+				width: 60px;
+				border-radius: 0;
 
 				&.active {
 					background-color: $gray-dark;
+					border-radius: 0;
+					
 				}				
 			}
 
@@ -266,14 +276,31 @@
 					margin-left: -2.2em;
 					background: transparent;
 					margin-top: 0;
+					top: initial;
+					position: absolute;
 				}
 			}	
 
+						
 			nav {
 				background-color: $gray-dark;
-				width: 100%;
+				height: 100%;
+				position: fixed;
+				right: -100%;
 				top: 0;
+				transition: .5s all ease;
+				width: 80%;
+				z-index: 20;
 				
+				&.active {
+					right: 0;				
+				}
+
+				.nav-back-button {
+					display: block;
+					border-bottom: 2px solid $gray-light;
+				}
+
 				ul {
 					li {
 						display: block;

@@ -6,19 +6,21 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonSelector = '#search-button';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '.nav-and-search nav';
+	const navBackButtonSelector = '.nav-back-button button';
+	const modalCoverSelector = '#modal-cover';
 
 	const hamburgerButtonClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 		const $hamburgerButton = $(event.currentTarget);
+		const $modalCover = event.data.$modalCover;
 
-		if ($menu.is(':hidden')) {
-			$searchButtonActivator.removeClass('active');
-			$searchBox.removeClass('active');
-			$hamburgerButton.addClass('active');
-			$menu.removeClass('hidden-xs');
-		}
+		$searchButtonActivator.removeClass('active');
+		$searchBox.removeClass('active');
+		$hamburgerButton.addClass('active');
+		$menu.addClass('active');
+		$modalCover.addClass('active');
 	};
 
 	/**
@@ -27,20 +29,16 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonActivatorClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
-		const $searchButtonActivatorIcon = $searchButtonActivator.find('i');
-		const $menu = event.data.$menu;
 		const $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
-			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
-			$menu.removeClass('hidden-xs');
 		}
 	};
 
@@ -52,6 +50,23 @@ bcpl.navigationSearch = (($) => {
 		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
+	const killMenuAndModalCover = ($menu, $modalCover) => {
+		$modalCover.removeClass('active');
+		$menu.removeClass('active');
+	};
+
+	const navBackButtonClicked = (event) => {
+		const $menu = event.data.$menu;
+		const $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
+	const modalCoverClicked = (event) => {
+		const $menu = event.data.$menu;
+		const $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
 		/**
 	 * Attach events and inject any event dependencies.
 	 */
@@ -61,6 +76,8 @@ bcpl.navigationSearch = (($) => {
 		const $searchButton = $(searchButtonSelector);
 		const $hamburgerButton = $(hamburgerButtonSelector);
 		const $menu = $(menuSelector);
+		const $navBackButton = $(navBackButtonSelector);
+		const $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
@@ -72,10 +89,21 @@ bcpl.navigationSearch = (($) => {
 		$hamburgerButton.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu
+			$menu,
+			$modalCover
 		}, hamburgerButtonClicked);
 
 		$searchButton.on('click', searchButtonClicked);
+
+		$navBackButton.on('click', {
+			$menu,
+			$modalCover
+		}, navBackButtonClicked);
+
+		$modalCover.on('click', {
+			$menu,
+			$modalCover
+		}, modalCoverClicked);
 	};
 
 	return { init };
