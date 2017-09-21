@@ -8,7 +8,8 @@ bcpl.pageSpecific.homepage.carousel = function ($) {
 			autoplay: true,
 			fade: true,
 			dots: true,
-			arrows: false
+			arrows: false,
+			adaptiveHeight: true
 		});
 	};
 
