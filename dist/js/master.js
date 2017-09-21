@@ -338,7 +338,9 @@ bcpl.navigationSearch = function ($) {
 		}
 	};
 
-	return { init: init };
+	return {
+		init: init
+	};
 }(jQuery);
 
 $(function () {

@@ -129,7 +129,6 @@ bcpl.navigationSearch = (($) => {
 		$searchButtonActivator.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu,
 			$hamburgerButton
 		}, searchButtonActivatorClicked);
 
@@ -166,7 +165,20 @@ bcpl.navigationSearch = (($) => {
 		}
 	};
 
-	return { init };
+	return {
+		/* test-code */
+		killMenuAndModalCover,
+		hamburgerButtonClicked,
+		searchButtonActivatorClicked,
+		searchButtonClicked,
+		navBackButtonClicked,
+		modalCoverClicked,
+		menuItemClicked,
+		submenuBackButtonClicked,
+		windowResized,
+		/* end-test-code */
+		init
+	};
 })(jQuery);
 
 $(() => {
