@@ -15,9 +15,10 @@ bcpl.navigationSearch = (($) => {
 
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
-		$menu.removeClass('active');
-		$menu.removeClass('move-left');
-		$menu.find('.slide-in').removeClass('slide-in');
+		$menu
+			.removeClass('active move-left')
+			.find('.slide-in')
+			.removeClass('slide-in');
 	};
 
 	/* Event Handlers */
@@ -67,13 +68,7 @@ bcpl.navigationSearch = (($) => {
 		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
-	const navBackButtonClicked = (event) => {
-		const $menu = event.data.$menu;
-		const $modalCover = event.data.$modalCover;
-		killMenuAndModalCover($menu, $modalCover);
-	};
-
-	const modalCoverClicked = (event) => {
+	const modalDismissActionHandler = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
 		killMenuAndModalCover($menu, $modalCover);
@@ -144,12 +139,12 @@ bcpl.navigationSearch = (($) => {
 		$navBackButton.on('click', {
 			$menu,
 			$modalCover
-		}, navBackButtonClicked);
+		}, modalDismissActionHandler);
 
 		$modalCover.on('click', {
 			$menu,
 			$modalCover
-		}, modalCoverClicked);
+		}, modalDismissActionHandler);
 
 		$menuItems.on('click', { $menu }, menuItemClicked);
 

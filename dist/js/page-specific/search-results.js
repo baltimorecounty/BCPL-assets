@@ -4,7 +4,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 	var getMaterialTypeData = function getMaterialTypeData(processMaterialTypeCallback) {
-		$.ajax(bcpl.constants.baseApiUrl + '/data/primaryMaterialType.json').then(function (json) {
+		$.ajax('/mockups/data/primaryMaterialType.json').then(function (json) {
 			return processMaterialTypeCallback(json);
 		}, function (err) {
 			return console.log(err);
@@ -44,7 +44,7 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 			getMaterialTypeData(function (materialTypes) {
 				var recordsWithIcons = [];
 				_.map(templateData.SearchResults, function (record) {
-					var recordWithIcon = {};
+					var recordWithIcon = record;
 					recordWithIcon.icon = materialTypes[_.findIndex(materialTypes, {
 						id: parseInt(record.PrimaryTypeOfMaterial, 10)
 					})].icon;

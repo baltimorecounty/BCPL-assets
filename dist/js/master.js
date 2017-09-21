@@ -164,8 +164,8 @@ namespacer('bcpl');
 
 bcpl.constants = function () {
 	return {
-		baseApiUrl: 'http://localhost:3000',
-		basePageUrl: '/dist'
+		baseApiUrl: 'http://ba224964:1000',
+		basePageUrl: ''
 	};
 }();
 'use strict';
@@ -301,7 +301,6 @@ bcpl.navigationSearch = function ($) {
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu,
 			$hamburgerButton: $hamburgerButton
 		}, searchButtonActivatorClicked);
 
