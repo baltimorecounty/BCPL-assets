@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-jasmine.getFixtures().fixturesPath = '/test/navigation/fixtures';
+jasmine.getFixtures().fixturesPath = 'base/test/navigation/fixtures';
 
 describe('Navigation tests', () => {
 	describe('killMenuAndModalCover', () => {
