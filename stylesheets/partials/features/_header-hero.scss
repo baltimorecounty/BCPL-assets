@@ -26,7 +26,6 @@
 		background: -webkit-linear-gradient(top, rgba(0, 161, 155,1) 0px,rgba(0, 161, 155,0) 60%); /* Chrome10-25,Safari5.1-6 */
 		background: linear-gradient(to bottom, rgba(0, 161, 155,1) 0px,rgba(0, 161, 155,0) 60%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff',GradientType=0 ); /* IE6-9 */
-		border-bottom: 1em solid $gold;
 		height: 500px;
 		
 		.hero-callout-container {
@@ -69,9 +68,7 @@
 	.hero-wrapper {
 		.hero-foreground {
 			.hero-callout-container {
-				.callout {
-					margin-top: 15em;
-				}				
+				display: none;			
 			}
 		}
 	}
@@ -100,11 +97,7 @@
 				}
 			}
 			.hero-callout-container {
-				.callout {
-					border-top: 1px solid $gold;
-					height: 100%;
-					margin-top: 0;		
-				}				
+				display: none;			
 			}
 		}
 	}

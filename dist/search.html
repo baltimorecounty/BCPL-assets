@@ -2,6 +2,8 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link href="/dist/css/master.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
@@ -11,7 +13,7 @@
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
-	<script src="/dist/js/master.js"></script>
+	<script src="/dist/js/master.min.js"></script>
 	<script src="/dist/js/page-specific/search-results.js"></script>
 </head>
 
@@ -42,26 +44,86 @@
 					<div class="container menu-container">
 						<div class="row">
 							<div class="col-lg-4 col-md-12 logo"><a href="#"><img src="/dist/images/logo.png"></a></div>
-							<div class="col-lg-8 col-md-12 nav-and-search"><button class="pull-right active" id="hamburger-menu-button"><i class="fa fa-bars" aria-hidden="true"></i><div class="sr-only">Open Menu</div></button>
-								<button
-								    class="pull-right" id="activate-search-button"><i class="fa fa-search" aria-hidden="true"></i>
-									<div class="sr-only">Search</div>
-									</button>
-									<nav>
-										<ul>
-											<li><a href="#">Books and More<i class="fa fa-caret-right"></i></a></li>
-											<li><a href="#">Events and Programs<i class="fa fa-caret-right"></i></a></li>
-											<li><a href="#">Services<i class="fa fa-caret-right"></i></a></li>
-											<li><a href="#">About Us<i class="fa fa-caret-right"></i></a></li>
-											<li><a href="#">Youth<i class="fa fa-caret-right"></i></a></li>
-										</ul>
-									</nav>
-									<div id="search-box">
-										<input placeholder="Search the library">
-										<button id="search-button">
-											<i class="fa fa-search"></i>
-										</button>
+							<div class="col-lg-8 col-md-12 nav-and-search">
+								<button class="pull-right active" id="hamburger-menu-button"><i class="fa fa-bars" aria-hidden="true"></i><div class="sr-only">Open Menu</div></button>
+								<button class="pull-right" id="activate-search-button"><i class="fa fa-search" aria-hidden="true"></i><div class="sr-only">Search</div></button>
+
+								<nav>
+									<div class="nav-back-button">
+										<button>Hide Navigation<i class="fa fa-compress" aria-hidden="true"></i></button>
 									</div>
+									<ul>
+										<li><button>Books and More<i class="fa fa-caret-right" aria-hidden="true"></i></button>
+											<ul>
+												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
+												</li>
+												<li><a href="#">Overview</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+											</ul>
+										</li>
+										<li><button>Events and Programs<i class="fa fa-caret-right" aria-hidden="true"></i></button>
+											<ul>
+												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
+												</li>
+												<li><a href="#">Overview</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+											</ul>
+										</li>
+										<li><button>Services<i class="fa fa-caret-right" aria-hidden="true"></i></button>
+											<ul>
+												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
+												</li>
+												<li><a href="#">Overview</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+											</ul>
+										</li>
+										<li><button>About Us<i class="fa fa-caret-right" aria-hidden="true"></i></button>
+											<ul>
+												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
+												</li>
+												<li><a href="#">Overview</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+											</ul>
+										</li>
+										<li><button>Youth<i class="fa fa-caret-right" aria-hidden="true"></i></button>
+											<ul>
+												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
+												</li>
+												<li><a href="#">Overview</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+												<li><a href="#">Menu Item Menu Item</a></li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+								<div id="search-box"><input placeholder="Search the library"><button id="search-button"><i class="fa fa-search"></i></button></div>
 							</div>
 						</div>
 					</div>
@@ -146,31 +208,20 @@
 							</ul>
 							<div id="pager" class="row">
 								<div class="col-md-6 results-per-page">
-									Results per page: 
-									{{#each ResultsPerPageButtons}}
-										{{#if isCurrent}}
-											<strong>{{count}}</strong>
-										{{else}}
-											<button data-results-per-page="{{count}}">{{count}}</button>
-										{{/if}}
-									{{/each}}
+									Results per page: {{#each ResultsPerPageButtons}} {{#if isCurrent}}
+									<strong>{{count}}</strong> {{else}}
+									<button data-results-per-page="{{count}}">{{count}}</button> {{/if}} {{/each}}
 								</div>
 								<div class="col-md-6 page-numbers">
-									Page: 
-									<button data-page-number="1">First</button>								
-									<button data-page-number="{{PreviousPage}}">Previous</button>								
-									{{#each PageNumbers}}
-										{{#if isCurrent}}
-											<strong class="active">{{page}}</strong>
-										{{else}}
-											<button data-page-number="{{page}}">{{page}}</button>
-										{{/if}}
-									{{/each}}								
-									...
-									<button data-page-number="{{NextPage}}">Next</button>								
-									<button data-page-number="{{Pages}}">Last</button>	
+									Page:
+									<button data-page-number="1">First</button>
+									<button data-page-number="{{PreviousPage}}">Previous</button> {{#each PageNumbers}} {{#if isCurrent}}
+									<strong class="active">{{page}}</strong> {{else}}
+									<button data-page-number="{{page}}">{{page}}</button> {{/if}} {{/each}} ...
+									<button data-page-number="{{NextPage}}">Next</button>
+									<button data-page-number="{{Pages}}">Last</button>
 								</div>
-							</div>								
+							</div>
 						</script>
 						<div id="search-results"></div>
 					</div>
@@ -210,42 +261,40 @@
 							<h4>Got a Question?</h4>
 							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
 								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Question</a></div>
-						<div
-						    class="col-md-3 col-sm-12 callout">
+						<div class="col-md-3 col-sm-12 callout">
 							<h4>Get a Library Card</h4>
 							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
 								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Register Now</a></div>
-					<div
-					    class="col-md-3 col-sm-12 callout">
-						<h4>Work for Baltimore County Public Library</h4>
-						<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-							fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
-			</div>
-	</div>
-	</div>
-	<div class="copyright-wrapper">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
-				</div>
-				<div class="col-md-6">
-					<nav class="pull-right">
-						<ul>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">User Terms</a></li>
-							<li><a href="#">Accessibility</a></li>
-						</ul>
-						<ul>
-							<li><a href="#">Translate</a></li>
-							<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
-						</ul>
-					</nav>
+						<div class="col-md-3 col-sm-12 callout">
+							<h4>Work for Baltimore County Public Library</h4>
+							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
+								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	</footer>
+			<div class="copyright-wrapper">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6">
+							<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
+						</div>
+						<div class="col-md-6">
+							<nav class="pull-right">
+								<ul>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">User Terms</a></li>
+									<li><a href="#">Accessibility</a></li>
+								</ul>
+								<ul>
+									<li><a href="#">Translate</a></li>
+									<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
 </body>
 

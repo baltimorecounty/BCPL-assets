@@ -1,4 +1,5 @@
 @import "partials/core/colors";
+@import "partials/core/shadows";
 
 @import "vendor/bootstrap/partials/variables";
 
@@ -8,6 +9,7 @@
 
 @import "partials/features/header-hero";
 @import "partials/features/features";
-@import "partials/features/blog-posts-events";
+@import "partials/features/homepage-events";
+@import "partials/features/homepage-blog";
 @import "partials/features/recommended-titles";
 @import "partials/features/homepage-flipper";

@@ -1,74 +1,126 @@
 .menu-wrapper {
-    color: #fff;
-    margin-top: 3em;
-    position: absolute;
-    width: 100%;
-	z-index: 100;
-	
+	color: #fff;
+	margin-top: 3em;
+	position: absolute;
+	width: 100%;
+	z-index: 1000;
 	.menu-container {
 		position: relative;
 	}
-
 	button {
 		font-size: 1.5em;
 	}
-
 	.nav-and-search {
-
 		#activate-search-button {
 			margin-right: -15px;
-			padding: .25em .5em;
+			background-color: #fff;
+			border-radius: 8px;
+			color: rgba(0, 0, 0, .75);
+			height: 36px;
 			position: relative;
-			top: -5px;
-
+			top: 10px;
+			width: 40px;
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
+				color: white;
+				border-radius: 8px 8px 0 0;
+				i::before {
+					content: "\f00d";
+				}
 			}
 		}
-
 		#hamburger-menu-button {
-			display: none;			
+			display: none;
 		}
-
 		nav {
 			float: right;
 			position: relative;
 			top: 7px;
-
-			ul {
-				li {
-					margin-right: 1.5em;
-
-					a {
-						color: white;
-						font-family: TTRoundsCondensed-Bold;
-						line-height: 2em;
-						text-transform: uppercase;
-
-						&:hover {
-							text-decoration: underline;
-						}
-
-						i {
-							margin-left: .5em;
-						}
-					}								
+			right: 15px;
+			transition: .25 all ease;
+			.nav-back-button {
+				display: none;
+			}
+			a,
+			button {
+				color: white;
+				display: block;
+				font-family: TTRoundsCondensed-Bold;
+				font-size: inherit;
+				line-height: 2em;
+				text-transform: uppercase;
+				text-decoration: none;
+				padding: .5em 0 .5em 1em;
+				transition: .25s all ease;
+				i {
+					margin-left: .5em;
+					padding-right: 1em;
+					&::before {
+						width: 5px;
+						display: block;
+					}
 				}
 			}
-		}		
+			ul {
+				li {
+					&:hover,
+					&.active {
+						background: $teal-dark;
+						opacity: .95;
+						ul {
+							display: block;
+						}
+						a,
+						button {
+							i.fa-caret-right::before {
+								content: "\f0d7";
+							}
+						}
+					}
+					&:last-child {
+						ul {
+							right: 0;
+						}
+					}
+					ul {
+						background-color: $teal-dark;
+						display: none;
+						position: absolute;
+						&.wide {
+							left: 0;
+							li {
+								display: inline-block;
+							}
+						}
+						li {
+							display: block;
+
+							&:first-child {
+								display: none;
+							}
+
+							a {
+								padding: .5em 1em;
+								&:hover {
+									background-color: $teal;
+									text-decoration: none;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
-
-
 	#search-box {
 		background-color: rgba(0, 0, 0, .5);
 		color: $gray-dark;
 		display: none;
 		padding: 1em;
 		position: absolute;
-		top: 41px;
+		top: 46px;
 		right: 0;
 		width: 100%;
-
 		input {
 			font-size: 1.2em;
 			font-weight: bold;
@@ -76,14 +128,12 @@
 			border: none;
 			width: 100%;
 		}
-
 		button {
-			right: 1em;		
+			right: 1em;
 			position: absolute;
-			top: .65em;		
+			top: .65em;
 		}
-
-		&.active { 
+		&.active {
 			display: block;
 		}
 	}
@@ -92,19 +142,19 @@
 .internal {
 	.menu-wrapper {
 		margin: 0;
-		position: static;
-		background: url("/dist/images/hero-image-1.jpg") no-repeat;
+		background: url("/sebin/h/p/hero-image-1.jpg") no-repeat;
 		background-size: cover;
 		background-position-y: center;
-
 		.menu-inner-wrapper {
-			background: -moz-linear-gradient(top, rgba(0, 161, 155,1) 0%, rgba(0, 161, 155,0) 200%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(top, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 200%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to bottom, rgba(0, 161, 155,1) 0%,rgba(0, 161, 155,0) 200%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff',GradientType=0 ); /* IE6-9 */
-			border-bottom: 1em solid $gold;
-			padding: 20px 0 25px;
-
+			background: -moz-linear-gradient(top, rgba(0, 161, 155, 1) 0%, rgba(0, 161, 155, 0) 200%);
+			/* FF3.6-15 */
+			background: -webkit-linear-gradient(top, rgba(0, 161, 155, 1) 0%, rgba(0, 161, 155, 0) 200%);
+			/* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, rgba(0, 161, 155, 1) 0%, rgba(0, 161, 155, 0) 200%);
+			/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a19b', endColorstr='#00a19bff', GradientType=0);
+			/* IE6-9 */
+			padding: 25px 0 25px;
 			.menu-container {
 				padding: 1em 15px;
 			}
@@ -112,12 +162,11 @@
 	}
 }
 
-@media (max-width: $screen-md-max) {
+@media (max-width: $screen-lg) {
 	.menu-wrapper {
 		.nav-and-search {
 			nav {
 				float: left;
-
 				ul {
 					li {
 						margin-right: 2em;
@@ -125,97 +174,177 @@
 				}
 			}
 		}
-	}	
+	}
 }
 
-@media (max-width: $screen-sm-max) {
+@media (max-width: $screen-md) {
 	.menu-wrapper {
 		.nav-and-search {
 			nav {
+				a,
+				button {
+					padding: .25em 0 .25em .5em;
+				}
 				ul {
 					li {
-						margin-right: 1.5em;
+						margin-right: 0;
 					}
 				}
 			}
-
 		}
 	}
-
 	.internal {
 		.menu-wrapper {
 			margin-top: 0;
+
+			.menu-inner-wrapper {
+				padding: 20px 0;
+			}
 		}
 	}
-	
 }
 
 @media (max-width: $screen-sm) {
+
 	.menu-wrapper {
-	    margin-top: 0;
+		margin-top: 0;
 		padding-top: 1em;
 		position: static;
 		background: $teal;
-
 		.nav-and-search {
 			padding: 0;
 			margin-top: -4.5em;
-
-			#activate-search-button,  #hamburger-menu-button {
+			#activate-search-button,
+			#hamburger-menu-button {
 				font-size: 2em;
 				padding: .25em .5em;
 				margin-right: .25em;
 				margin-top: 1em;
 				background-color: $red;
-
+				color: white;
+				height: inherit;
+				width: 60px;
+				border-radius: 0;
 				&.active {
 					background-color: $gray-dark;
-				}				
+					border-radius: 0;
+				}
 			}
-
 			#activate-search-button {
 				margin-right: .25em;
 				position: static;
 			}
-
-			#hamburger-menu-button { 
-				display: inline-block; 
+			#hamburger-menu-button {
+				display: inline-block;
 			}
-
 			#search-box {
 				position: static;
 				background-color: $gray-dark;
 				clear: both;
-
 				input {
 					padding-right: 3em;
 				}
-
 				button {
 					font-size: 1.5em;
 					margin-left: -2.2em;
 					background: transparent;
 					margin-top: 0;
+					top: initial;
+					position: absolute;
 				}
-			}	
-
+			}
 			nav {
 				background-color: $gray-dark;
-				width: 100%;
+				height: 100%;
+				position: fixed;
+				left: 100%;
 				top: 0;
+				width: 100%;
+				z-index: 1000;
+				display: none;
+
+				&.animatable {
+					display: block;
+					transition: .5s left ease;					
+				}
+
+				&.active {
+					left: 20%;
+				}
+
+				&.move-left {
+					left: -60%;
+				}
+				
+				.nav-back-button {
+					display: block;
+					border-bottom: 2px solid $gray-light;
+				}
 				
 				ul {
 					li {
 						display: block;
+				
+						&:hover,
+						&.active {
+							background: inherit;
+							opacity: 1;							
 
+							a,
+							button {
+								i.fa-caret-right {
+									&::before {
+										content: "\f0da";
+									}
+								}
+							}
+						}
+				
 						a {
 							display: block;
 							padding: .5em 1em;
-
 							i {
 								float: right;
 								position: relative;
-								top: 7px;								
+								top: 7px;
+								&::before {
+									content: initial;
+								}
+							}
+						}
+
+						ul {
+							transition: .5s all ease;
+							right: -100% !important;
+							top: 0;
+							position: fixed;
+							width: 80%;
+							height: 100%;
+							display: block;
+
+							&.slide-in {
+								right: 0 !important;
+							}
+
+							&.wide {
+								left: initial;
+
+								li {
+									display: block;
+
+									&:first-child {
+										height: initial !important;
+									}
+								}
+							}
+
+							li {
+								display: block;
+
+								&:first-child {
+									display: block;
+									border-bottom: 2px solid $gray-light;
+								}								
 							}
 						}
 					}
@@ -228,9 +357,9 @@
 		.menu-wrapper {
 			background: $teal;
 			padding-top: 0;
-
 			.menu-inner-wrapper {
-				
+				padding: 0; 
+
 				.menu-container {
 					padding-bottom: 0;
 				}
@@ -240,21 +369,18 @@
 }
 
 @media (max-width: $screen-xs) {
-	.menu-wrapper {		
+	.menu-wrapper {
 		.menu-container {
 			.logo {
-			
 				img {
 					width: 80%;
 					max-width: 266px;
 				}
 			}
-
 			.nav-and-search {
 				padding: 0;
-				margin-top: 0;										
+				margin-top: 0;
 			}
 		}
 	}
-
 }

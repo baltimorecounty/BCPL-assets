@@ -23,6 +23,9 @@ bcpl.alertBox = (($) => {
 			setTimeout(() => {
 				$alertBoxContainer.slideDown(250);
 			}, 500);
+		} else {
+			$alertBoxContainer.addClass('dismissed');
+			$alertBoxContainer.show();
 		}
 	};
 
