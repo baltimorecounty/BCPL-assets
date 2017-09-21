@@ -65,15 +65,24 @@ bcpl.navigationSearch = (($) => {
 	 */
 	const searchButtonClicked = (event) => {
 		const searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
+		const browserWindow = event.data.browserWindow;
+		browserWindow.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
+	/**
+	 * Handler for events that dismiss the menu and modal
+	 * @param {Event} event
+	 */
 	const modalDismissActionHandler = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
 		killMenuAndModalCover($menu, $modalCover);
 	};
 
+	/**
+	 * Handles the menu item clicks that slide out the next nav
+	 * @param {Event} event
+	 */
 	const menuItemClicked = (event) => {
 		const $menuItem = $(event.currentTarget);
 		const $submenu = $menuItem.siblings('ul');
@@ -134,7 +143,7 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', searchButtonClicked);
+		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
 
 		$navBackButton.on('click', {
 			$menu,
@@ -166,8 +175,7 @@ bcpl.navigationSearch = (($) => {
 		hamburgerButtonClicked,
 		searchButtonActivatorClicked,
 		searchButtonClicked,
-		navBackButtonClicked,
-		modalCoverClicked,
+		modalDismissActionHandler,
 		menuItemClicked,
 		submenuBackButtonClicked,
 		windowResized,

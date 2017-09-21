@@ -164,8 +164,8 @@ namespacer('bcpl');
 
 bcpl.constants = function () {
 	return {
-		baseApiUrl: 'http://ba224964:1000',
-		basePageUrl: ''
+		baseApiUrl: 'http://localhost:3000',
+		basePageUrl: '/dist'
 	};
 }();
 'use strict';
@@ -187,9 +187,7 @@ bcpl.navigationSearch = function ($) {
 
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
-		$menu.removeClass('active');
-		$menu.removeClass('move-left');
-		$menu.find('.slide-in').removeClass('slide-in');
+		$menu.removeClass('active move-left').find('.slide-in').removeClass('slide-in');
 	};
 
 	/* Event Handlers */
@@ -239,13 +237,7 @@ bcpl.navigationSearch = function ($) {
 		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
-	var navBackButtonClicked = function navBackButtonClicked(event) {
-		var $menu = event.data.$menu;
-		var $modalCover = event.data.$modalCover;
-		killMenuAndModalCover($menu, $modalCover);
-	};
-
-	var modalCoverClicked = function modalCoverClicked(event) {
+	var modalDismissActionHandler = function modalDismissActionHandler(event) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
 		killMenuAndModalCover($menu, $modalCover);
@@ -316,12 +308,12 @@ bcpl.navigationSearch = function ($) {
 		$navBackButton.on('click', {
 			$menu: $menu,
 			$modalCover: $modalCover
-		}, navBackButtonClicked);
+		}, modalDismissActionHandler);
 
 		$modalCover.on('click', {
 			$menu: $menu,
 			$modalCover: $modalCover
-		}, modalCoverClicked);
+		}, modalDismissActionHandler);
 
 		$menuItems.on('click', { $menu: $menu }, menuItemClicked);
 
