@@ -234,15 +234,24 @@ bcpl.navigationSearch = function ($) {
   */
 	var searchButtonClicked = function searchButtonClicked(event) {
 		var searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
+		var browserWindow = event.data.browserWindow;
+		browserWindow.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
+	/**
+  * Handler for events that dismiss the menu and modal
+  * @param {Event} event
+  */
 	var modalDismissActionHandler = function modalDismissActionHandler(event) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
 		killMenuAndModalCover($menu, $modalCover);
 	};
 
+	/**
+  * Handles the menu item clicks that slide out the next nav
+  * @param {Event} event
+  */
 	var menuItemClicked = function menuItemClicked(event) {
 		var $menuItem = $(event.currentTarget);
 		var $submenu = $menuItem.siblings('ul');
@@ -303,7 +312,7 @@ bcpl.navigationSearch = function ($) {
 			$modalCover: $modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', searchButtonClicked);
+		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
 
 		$navBackButton.on('click', {
 			$menu: $menu,
