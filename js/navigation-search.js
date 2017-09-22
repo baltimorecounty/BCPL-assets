@@ -19,6 +19,7 @@ bcpl.navigationSearch = (($) => {
 			.removeClass('active move-left')
 			.find('.slide-in')
 			.removeClass('slide-in');
+		$('body').removeClass('nav-visible');
 	};
 
 	/* Event Handlers */
@@ -39,6 +40,7 @@ bcpl.navigationSearch = (($) => {
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');
 		$modalCover.addClass('active');
+		$('body').addClass('nav-visible');
 	};
 
 	/**

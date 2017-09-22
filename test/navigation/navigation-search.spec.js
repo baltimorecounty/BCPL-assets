@@ -55,6 +55,16 @@ describe('Search and sliding hamburger menu tests', () => {
 
 			expect($firstList.hasClass('slide-in')).toBe(false);
 		});
+
+		it('should remove the "nav-visible" class from the body', () => {
+			const $menu = $('nav');
+			const $modalCover = $('#modal-cover');
+			$('body').addClass('nav-visible');
+
+			bcpl.navigationSearch.killMenuAndModalCover($menu, $modalCover);
+
+			expect($('body').hasClass('nav-visible')).toBe(false);
+		});
 	});
 
 	describe('hamburgerButtonClicked', () => {
@@ -108,6 +118,12 @@ describe('Search and sliding hamburger menu tests', () => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.$modalCover.hasClass('active')).toBe(true);
+		});
+
+		it('should add the "nav-visible" class to the body', () => {
+			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
+
+			expect($('body').hasClass('nav-visible')).toBe(true);
 		});
 	});
 

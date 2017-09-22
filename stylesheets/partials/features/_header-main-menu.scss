@@ -256,16 +256,18 @@
 			nav {
 				background-color: $gray-dark;
 				height: 100%;
-				position: fixed;
+				position: absolute;
 				left: 100%;
-				top: 0;
+				top: -64px;
 				width: 100%;
 				z-index: 1000;
 				display: none;
-
+				height: 100vh;
+				overflow-y: auto;
+				
 				&.animatable {
-					display: block;
 					transition: .5s left ease;					
+					display: block;
 				}
 
 				&.active {
