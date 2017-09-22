@@ -101,7 +101,7 @@ bcpl.navigationSearch = (($) => {
 
 	let resizeTimer;
 
-	const windowResized = (event) => {
+	const windowResized = (event, callback) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
 
@@ -112,6 +112,7 @@ bcpl.navigationSearch = (($) => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(() => {
 				$menu.addClass('animatable');
+				callback();
 			}, 500);
 		}
 	};
