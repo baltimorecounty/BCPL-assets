@@ -27,8 +27,10 @@ var namespacer = function namespacer(ns) {
 namespacer('bcpl.utility');
 
 bcpl.utility.flexDetect = function (document, $) {
-	var init = function init() {
-		var hasFlex = document.createElement('div').style.flex !== undefined;
+	var init = function init(testDoc) {
+		var actualDoc = testDoc || document;
+
+		var hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {
 			$('body').addClass('no-flex');
