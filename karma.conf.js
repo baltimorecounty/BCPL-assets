@@ -25,7 +25,9 @@ module.exports = function(config) {
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
 		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
 		'js/utility/namespacer.js',
-		'js/navigation-search.js',
+		'js/utility/*.js',
+		'js/page-specific/*.js',
+		'js/*.js',
 		'test/**/*.spec.js',
 		{ pattern: 'test/**/*.fixture.html', included: false, served: true }
     ],
@@ -39,20 +41,28 @@ module.exports = function(config) {
 		'karma-mocha-reporter',
 		'karma-jasmine',
 		'karma-jasmine-jquery-2',
-		'karma-firefox-launcher'
+		'karma-firefox-launcher',
+		'karma-coverage'
 	],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+		'js/*.js': ['coverage'],
+		'js/utility/*.js': ['coverage'],
+		'js/page-specific/*.js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['progress', 'coverage'],
 
+	coverageReporter: {
+		type : 'html',
+		dir : 'coverage/'
+	},
 
     // web server port
     port: 9876,
