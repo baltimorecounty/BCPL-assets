@@ -17,11 +17,11 @@ describe('numericStringTools', () => {
 
 	describe('extractNumbersIfPresent ', () => {
 		it('should return a number representing a numeric string', () => {
-			expect(baltimoreCounty.utility.numericStringTools.getFirstSetOfNumbersAndRemoveNonDigits('1234 monkey cow')).toBe(1234);
+			expect(baltimoreCounty.utility.numericStringTools.extractNumbersIfPresent('1234 monkey cow')).toBe(1234);
 		});
 
 		it('should return a string representing a non-numeric string', () => {
-			expect(baltimoreCounty.utility.numericStringTools.getFirstSetOfNumbersAndRemoveNonDigits('monkey cow')).toBe('monkey cow');
+			expect(baltimoreCounty.utility.numericStringTools.extractNumbersIfPresent('monkey cow')).toBe('monkey cow');
 		});
 	});
 });

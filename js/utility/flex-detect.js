@@ -1,6 +1,6 @@
-namespacer('seniorExpo.utility');
+namespacer('bcpl.utility');
 
-seniorExpo.utility.flexDetect = ((document, $) => {
+bcpl.utility.flexDetect = ((document, $) => {
 	const init = () => {
 		const hasFlex = document.createElement('div').style.flex !== undefined;
 
@@ -13,5 +13,5 @@ seniorExpo.utility.flexDetect = ((document, $) => {
 })(document, jQuery);
 
 $(() => {
-	seniorExpo.utility.flexDetect.init();
+	bcpl.utility.flexDetect.init();
 });
