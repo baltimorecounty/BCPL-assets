@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js\page-specific\branches-filter.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">js/page-specific/</a> branches-filter.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.56% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>17/64</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.98% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>17/63</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">namespacer('bcpl.pageSpecific');
+&nbsp;
+bcpl.pageSpecific.filter = (($) =&gt; {
+	let filterData = {};
+&nbsp;
+	const render = (data, $template, $target) =&gt; {
+<span class="cstat-no" title="statement not covered" >		const source = $template.html();</span>
+<span class="cstat-no" title="statement not covered" >		const template = Handlebars.compile(source);</span>
+<span class="cstat-no" title="statement not covered" >		const html = template(data);</span>
+<span class="cstat-no" title="statement not covered" >		$target.html(html);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if ($target.not('.collapse').is(':hidden')) {</span>
+<span class="cstat-no" title="statement not covered" >			$target.fadeIn(250);</span>
+		}
+	};
+&nbsp;
+	const generateAmenitiesList = (data) =&gt; {
+<span class="cstat-no" title="statement not covered" >		let amenities = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_.each(data, (element) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >			amenities = amenities.concat(element.amenities);</span>
+		});
+<span class="cstat-no" title="statement not covered" >		const uniqueAmenities = _.uniq(amenities);</span>
+<span class="cstat-no" title="statement not covered" >		const sortedUniqueAmenities = _.sortBy(uniqueAmenities, ua =&gt; (<span class="cstat-no" title="statement not covered" >{ ua })</span>);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return sortedUniqueAmenities;</span>
+	};
+&nbsp;
+	const isIntersectedDataItem = (checkedAmenities, dataItem) =&gt; {
+<span class="cstat-no" title="statement not covered" >		const amenitiesIntersection = _.intersection(checkedAmenities, dataItem.amenities);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return amenitiesIntersection.length === checkedAmenities.length;</span>
+	};
+&nbsp;
+	const filterBoxChanged = () =&gt; {
+<span class="cstat-no" title="statement not covered" >		const checkedAmenities = [];</span>
+<span class="cstat-no" title="statement not covered" >		const filteredData = [];</span>
+<span class="cstat-no" title="statement not covered" >		const $labels = $('#amenities label');</span>
+<span class="cstat-no" title="statement not covered" >		const $checkedAmenities = $labels.has('input:checked');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		$labels.not('input:checked').removeClass('active');</span>
+<span class="cstat-no" title="statement not covered" >		$checkedAmenities.addClass('active');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		$checkedAmenities.each((index, amenityItem) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >			checkedAmenities.push(amenityItem.innerText);</span>
+		});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_.each(filterData, (dataItem) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >			if (isIntersectedDataItem(checkedAmenities, dataItem)) {</span>
+<span class="cstat-no" title="statement not covered" >				filteredData.push(dataItem);</span>
+			}
+		});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (filteredData.length) {</span>
+<span class="cstat-no" title="statement not covered" >			$('#branches').fadeOut(250, () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >				render(filteredData, $('#branches-template'), $('#branches'));</span>
+			});
+		}
+	};
+&nbsp;
+	const branchesJsonSuccess = (data) =&gt; {
+<span class="cstat-no" title="statement not covered" >		filterData = data;</span>
+<span class="cstat-no" title="statement not covered" >		const amenities = generateAmenitiesList(data);</span>
+<span class="cstat-no" title="statement not covered" >		render(data, $('#branches-template'), $('#branches'));</span>
+<span class="cstat-no" title="statement not covered" >		render(amenities, $('#amenities-template'), $('#amenities'));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		$('#amenities input').on('change', filterBoxChanged);</span>
+	};
+&nbsp;
+	const branchesJsonError = (jqxhr, status, errorThrown) =&gt; {
+		console.log('err', errorThrown);
+	};
+&nbsp;
+	const toggleButtonClicked = (toggleButtonEvent) =&gt; {
+<span class="cstat-no" title="statement not covered" >		const $target = $(toggleButtonEvent.target);</span>
+<span class="cstat-no" title="statement not covered" >		const $buttonGroup = $target.parent().find('button');</span>
+<span class="cstat-no" title="statement not covered" >		const $branches = $('#branches');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		$buttonGroup.toggleClass('btn-primary').toggleClass('btn-default');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if ($target.parent().is('#sort-control')) {</span>
+<span class="cstat-no" title="statement not covered" >			$branches.fadeOut(250, () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >				const $branchCards = $branches.find('.card').detach();</span>
+<span class="cstat-no" title="statement not covered" >				$branches.append($branchCards.get().reverse());</span>
+<span class="cstat-no" title="statement not covered" >				$branches.fadeIn(250);</span>
+			});
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if ($target.parent().is('#list-grid-control')) {</span>
+<span class="cstat-no" title="statement not covered" >			$branches.fadeOut(250, () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >				$branches.toggleClass('list-view');</span>
+<span class="cstat-no" title="statement not covered" >				$branches.fadeIn(250);</span>
+			});
+		}
+	};
+&nbsp;
+	const init = () =&gt; {
+		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
+&nbsp;
+		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);
+	};
+&nbsp;
+	return { init };
+})(jQuery);
+&nbsp;
+$(() =&gt; {
+	bcpl.pageSpecific.filter.init();
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Sep 25 2017 13:48:15 GMT-0400 (Eastern Daylight Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
 const concat = require('gulp-concat');
+const coveralls = require('gulp-coveralls');
 const cssnano = require('gulp-cssnano');
 const gulp = require('gulp');
 const jshint = require('gulp-jshint');
@@ -86,7 +87,10 @@ gulp.task('process-pug', () => gulp.src(['mockups/pug/*.pug'])
 gulp.task('move-html', () => gulp.src('mockups/html/*.html')
 	.pipe(gulp.dest('dist')));
 
-gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], callback));
+gulp.task('code-coverage', () => gulp.src('test/coverage/**/lcov.info')
+	.pipe(coveralls()));
+
+gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
