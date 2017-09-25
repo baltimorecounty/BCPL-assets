@@ -246,7 +246,6 @@ describe('Search and sliding hamburger menu tests', () => {
 	});
 
 	describe('submenuBackButtonClicked', () => {
-
 		beforeEach(() => {
 			loadFixtures('menuAndModal.fixture.html');
 

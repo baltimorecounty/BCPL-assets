@@ -1,8 +1,10 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.flexDetect = ((document, $) => {
-	const init = () => {
-		const hasFlex = document.createElement('div').style.flex !== undefined;
+	const init = (testDoc) => {
+		const actualDoc = testDoc || document;
+
+		const hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {
 			$('body').addClass('no-flex');
