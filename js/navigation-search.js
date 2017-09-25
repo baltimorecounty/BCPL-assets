@@ -6,10 +6,10 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonSelector = '#search-button';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '.nav-and-search nav';
-	const navBackButtonSelector = '.nav-back-button button';
+	const navBackButtonSelector = 'nav > .nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
 	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
+	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
 
 	/* Helpers */
 
@@ -98,7 +98,6 @@ bcpl.navigationSearch = (($) => {
 	const submenuBackButtonClicked = (event) => {
 		const $backButton = $(event.currentTarget);
 		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-left').removeClass('move-left');
 	};
 
 	let resizeTimer;

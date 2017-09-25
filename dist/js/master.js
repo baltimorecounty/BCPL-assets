@@ -182,10 +182,10 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonSelector = '#search-button';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '.nav-and-search nav';
-	var navBackButtonSelector = '.nav-back-button button';
+	var navBackButtonSelector = 'nav > .nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
 	var menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	var submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
+	var submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
 
 	/* Helpers */
 
@@ -271,7 +271,6 @@ bcpl.navigationSearch = function ($) {
 	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
 		var $backButton = $(event.currentTarget);
 		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-left').removeClass('move-left');
 	};
 
 	var resizeTimer = void 0;
@@ -361,7 +360,7 @@ namespacer('bcpl');
 
 bcpl.navigation = function ($) {
 	var navButtonSelector = '.nav-and-search nav button';
-	var navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+	var navButtonAndListSelector = '.nav-and-search nav button, .nav-and-search nav ul li ul li a';
 
 	var keyCodes = {
 		enter: 13
@@ -380,38 +379,27 @@ bcpl.navigation = function ($) {
 	};
 
 	var hideSearchBox = function hideSearchBox() {
-		$('#activate-search-button, #search-box').removeClass('active');
+		return $('#activate-search-button, #search-box').removeClass('active');
 	};
 
-	var equalizeListItems = function equalizeListItems($childOfTargetList) {
-		var $wideList = $childOfTargetList.siblings('ul');
-		var $listItems = $wideList.find('li');
-		var widest = 0;
-		var tallest = 0;
-
-		if ($listItems.length < 8) return;
-
-		$listItems.each(function (listItemIndex, listItem) {
-			var $listItem = $(listItem);
-			widest = $listItem.width() > widest ? $listItem.width() : widest;
-			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
-		});
-
-		$listItems.width(widest);
-		$listItems.height(tallest);
-		$wideList.addClass('wide');
+	var hideHeroCallout = function hideHeroCallout(shouldHide) {
+		return shouldHide ? $('.hero-callout-container').hide() : $('.hero-callout-container').show();
 	};
 
 	var navButtonKeyup = function navButtonKeyup(event) {
 		var $button = $(event.currentTarget);
 		var keyCode = event.which || event.keyCode;
 
-		if (keyCode === keyCodes.enter) {
-			hideSearchBox();
+		hideSearchBox();
+
+		if (!$button.hasClass('active') && keyCode === keyCodes.enter) {
 			removeActiveClassFromAllButtons($button);
 			toggleActiveClass($button);
-			equalizeListItems($button);
+		} else {
+			removeActiveClassFromAllButtons($button);
 		}
+
+		hideHeroCallout(true);
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
@@ -419,20 +407,22 @@ bcpl.navigation = function ($) {
 		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
 		toggleActiveClass($button);
-		equalizeListItems($button);
+		hideHeroCallout(true);
 	};
 
 	var navButtonHovered = function navButtonHovered(event) {
 		var $button = $(event.currentTarget);
 		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
-		equalizeListItems($button);
+		toggleActiveClass($button);
+		hideHeroCallout($('nav:hover, nav ul li:hover').length);
 	};
 
 	var navButtonAndListLeave = function navButtonAndListLeave(event) {
 		var $buttonOrList = $(event.currentTarget);
 		hideSearchBox();
 		removeActiveClass($buttonOrList);
+		hideHeroCallout($('nav:hover, nav ul li:hover').length);
 	};
 
 	$(document).on('keyup', navButtonSelector, navButtonKeyup);

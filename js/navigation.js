@@ -2,7 +2,7 @@ namespacer('bcpl');
 
 bcpl.navigation = (($) => {
 	const navButtonSelector = '.nav-and-search nav button';
-	const navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+	const navButtonAndListSelector = '.nav-and-search nav button, .nav-and-search nav ul li ul li a';
 
 	const keyCodes = {
 		enter: 13
@@ -14,39 +14,21 @@ bcpl.navigation = (($) => {
 
 	const removeActiveClass = ($buttonOrList) => $buttonOrList.closest('.active').removeClass('active');
 
-	const hideSearchBox = () => {
-		$('#activate-search-button, #search-box').removeClass('active');
-	};
+	const hideSearchBox = () => $('#activate-search-button, #search-box').removeClass('active');
 
-	const equalizeListItems = ($childOfTargetList) => {
-		const $wideList = $childOfTargetList.siblings('ul');
-		const $listItems = $wideList.find('li');
-		let widest = 0;
-		let tallest = 0;
-
-		if ($listItems.length < 8) return;
-
-		$listItems.each((listItemIndex, listItem) => {
-			const $listItem = $(listItem);
-			widest = $listItem.width() > widest ? $listItem.width() : widest;
-			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
-		});
-
-		$listItems.width(widest);
-		$listItems.height(tallest);
-		$wideList.addClass('wide');
-	};
+	const hideHeroCallout = (shouldHide) => shouldHide ? $('.hero-callout-container').hide() : $('.hero-callout-container').show();
 
 	const navButtonKeyup = (event) => {
 		const $button = $(event.currentTarget);
 		const keyCode = event.which || event.keyCode;
 
+		hideSearchBox();
+
 		if (keyCode === keyCodes.enter) {
-			hideSearchBox();
 			removeActiveClassFromAllButtons($button);
-			toggleActiveClass($button);
-			equalizeListItems($button);
 		}
+
+		hideHeroCallout(true);
 	};
 
 	const navButtonClicked = (event) => {
@@ -54,20 +36,22 @@ bcpl.navigation = (($) => {
 		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
 		toggleActiveClass($button);
-		equalizeListItems($button);
+		hideHeroCallout(true);
 	};
 
 	const navButtonHovered = (event) => {
 		const $button = $(event.currentTarget);
 		hideSearchBox();
 		removeActiveClassFromAllButtons($button);
-		equalizeListItems($button);
+		toggleActiveClass($button);
+		hideHeroCallout($('nav:hover, nav ul li:hover').length);
 	};
 
 	const navButtonAndListLeave = (event) => {
 		const $buttonOrList = $(event.currentTarget);
 		hideSearchBox();
 		removeActiveClass($buttonOrList);
+		hideHeroCallout($('nav:hover, nav ul li:hover').length);
 	};
 
 	$(document).on('keyup', navButtonSelector, navButtonKeyup);

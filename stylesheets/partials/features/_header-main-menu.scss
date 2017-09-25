@@ -68,7 +68,7 @@
 						background: $teal-dark;
 						opacity: .95;
 						ul {
-							display: block;
+							display: table;
 						}
 						a,
 						button {
@@ -89,7 +89,9 @@
 						&.wide {
 							left: 0;
 							li {
-								display: inline-block;
+								display: table-cell;
+								float: left;
+								width: 33.33%
 							}
 						}
 						li {
@@ -274,15 +276,12 @@
 				&.active {
 					left: 20%;
 				}
-
-				&.move-left {
-					/* left: -60%; */
-				}
 				
 				.nav-back-button {
 					display: block;		
 					background-color: $gray-dark;	
 					height: 50px;
+					width: 100% !important;
 					
 					button {
 						color: $gray-light;
@@ -308,7 +307,6 @@
 						&.active {
 							background: inherit;
 							opacity: 1;							
-
 							a,
 							button {								
 								i.fa-caret-right {
@@ -365,10 +363,12 @@
 
 							&.wide {
 								left: initial;
-
+								display: block;
 								li {
 									display: block;
-
+									float: none;
+									width: 100%;
+									
 									&.nav-back-button {
 										padding-left: 0;
 									}
