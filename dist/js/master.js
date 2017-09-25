@@ -24,9 +24,9 @@ var namespacer = function namespacer(ns) {
 };
 'use strict';
 
-namespacer('seniorExpo.utility');
+namespacer('bcpl.utility');
 
-seniorExpo.utility.flexDetect = function (document, $) {
+bcpl.utility.flexDetect = function (document, $) {
 	var init = function init() {
 		var hasFlex = document.createElement('div').style.flex !== undefined;
 
@@ -39,7 +39,7 @@ seniorExpo.utility.flexDetect = function (document, $) {
 }(document, jQuery);
 
 $(function () {
-	seniorExpo.utility.flexDetect.init();
+	bcpl.utility.flexDetect.init();
 });
 'use strict';
 
@@ -93,9 +93,11 @@ bcpl.utility.querystringer = function () {
   *
   * Important: All of the returned dictionary's keys will be lower-cased.
   */
-	var getAsDictionary = function getAsDictionary() {
-		if (window.location.search) {
-			var qs = window.location.search.slice(1);
+	var getAsDictionary = function getAsDictionary(targetWindow) {
+		var windowToUse = targetWindow || window;
+
+		if (windowToUse.location.search) {
+			var qs = windowToUse.location.search.slice(1);
 			var qsArray = qs.split('&');
 			var qsDict = {};
 
@@ -283,7 +285,9 @@ bcpl.navigationSearch = function ($) {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
 				$menu.addClass('animatable');
-				callback();
+				if (callback) {
+					callback();
+				}
 			}, 500);
 		}
 	};

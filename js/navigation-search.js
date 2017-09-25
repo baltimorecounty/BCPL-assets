@@ -114,7 +114,9 @@ bcpl.navigationSearch = (($) => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(() => {
 				$menu.addClass('animatable');
-				callback();
+				if (callback) {
+					callback();
+				}
 			}, 500);
 		}
 	};
