@@ -146,3 +146,17 @@
 		}
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.events-wrapper {
+		.events {
+			header {
+				.feed {
+					display: block;
+					float: none;
+					text-align: right;
+				}
+			}
+		}
+	}
+}

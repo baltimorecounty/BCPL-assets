@@ -16,13 +16,25 @@
 			}
 
 			button {
-				padding: 6px;
+				padding: 4px;
 				transition: background-color .25s ease;
 				
 				&.active {
 					background-color: $teal;
 				}
 			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.flipper-container {
+		.book-cover {
+			display: none;
+		}
+
+		.book-meta {
+			width: 100%;
 		}
 	}
 }
