@@ -87,7 +87,7 @@ gulp.task('process-pug', () => gulp.src(['mockups/pug/*.pug'])
 gulp.task('move-html', () => gulp.src('mockups/html/*.html')
 	.pipe(gulp.dest('dist')));
 
-gulp.task('code-coverage', () => gulp.src('test/coverage/**/lcov.info')
+gulp.task('code-coverage', () => gulp.src('/coverage/**/lcov.info')
 	.pipe(coveralls()));
 
 gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
