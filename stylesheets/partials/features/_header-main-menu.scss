@@ -63,7 +63,6 @@
 			}
 			ul {
 				li {
-					&:hover,
 					&.active {
 						background: $teal-dark;
 						opacity: .95;
@@ -96,10 +95,6 @@
 						}
 						li {
 							display: block;
-
-							&:first-child {
-								display: none;
-							}
 
 							a {
 								padding: .5em 1em;
