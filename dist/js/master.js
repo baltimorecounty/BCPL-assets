@@ -472,8 +472,8 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.rightArrow:
 				keyboardEvent.preventDefault();
-				deactivateSubmenu(findClosestButtonToLink($link));
 				if ($link.closest('nav>ul>li').next('li').length) {
+					deactivateSubmenu(findClosestButtonToLink($link));
 					activateSubmenu($link.closest('nav>ul>li').next('li').find('button'));
 					focusFirstActiveMenuLink();
 				}
