@@ -369,10 +369,6 @@ namespacer('bcpl');
 bcpl.navigation = function ($, keyCodes) {
 	var navButtonSelector = '.nav-and-search nav button';
 
-	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
-		return $('nav').find('li.active').removeClass('active');
-	};
-
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
 		return $link.closest('nav>ul>li').find('button');
 	};
@@ -387,6 +383,10 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var deactivateSubmenu = function deactivateSubmenu($button) {
 		return $button.attr('aria-expanded', false).closest('li').removeClass('active').find('ul').attr('aria-hidden', true);
+	};
+
+	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
+		return deactivateSubmenu($('nav').find('li.active button'));
 	};
 
 	var hideSearchBox = function hideSearchBox() {
@@ -500,6 +500,12 @@ bcpl.navigation = function ($, keyCodes) {
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
+
+	$(document).on('mouseleave', 'nav, nav *', function (mouseEvent) {
+		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
+			removeActiveClassFromAllButtons();
+		}
+	});
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';
 

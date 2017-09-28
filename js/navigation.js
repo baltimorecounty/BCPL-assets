@@ -3,7 +3,6 @@ namespacer('bcpl');
 bcpl.navigation = (($, keyCodes) => {
 	const navButtonSelector = '.nav-and-search nav button';
 
-	const removeActiveClassFromAllButtons = () => $('nav').find('li.active').removeClass('active');
 
 	const findClosestButtonToLink = ($link) => $link.closest('nav>ul>li').find('button');
 
@@ -24,6 +23,8 @@ bcpl.navigation = (($, keyCodes) => {
 			.removeClass('active')
 			.find('ul')
 			.attr('aria-hidden', true);
+
+	const removeActiveClassFromAllButtons = () => deactivateSubmenu($('nav').find('li.active button'));
 
 	const hideSearchBox = () => $('#activate-search-button, #search-box').removeClass('active');
 
@@ -153,4 +154,10 @@ bcpl.navigation = (($, keyCodes) => {
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
+
+	$(document).on('mouseleave', 'nav, nav *', (mouseEvent) => {
+		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
+			removeActiveClassFromAllButtons();
+		}
+	});
 })(jQuery, bcpl.constants.keyCodes);
