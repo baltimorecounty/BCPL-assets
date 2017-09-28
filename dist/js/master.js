@@ -495,17 +495,18 @@ bcpl.navigation = function ($, keyCodes) {
 		activateSubmenu($button);
 	};
 
+	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
+		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
+			removeActiveClassFromAllButtons();
+		}
+	};
+
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
-
-	$(document).on('mouseleave', 'nav, nav *', function (mouseEvent) {
-		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
-			removeActiveClassFromAllButtons();
-		}
-	});
+	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';
 
