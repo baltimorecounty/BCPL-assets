@@ -142,8 +142,15 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
+	const navigationButtonHovered = (mouseEvent) => {
+		const $button = $(mouseEvent.currentTarget);
+		deactivateSubmenu($button.closest('ul').find('button'));
+		activateSubmenu($button);
+	};
+
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
+	$(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
 })(jQuery, bcpl.constants.keyCodes);

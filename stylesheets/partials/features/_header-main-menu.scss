@@ -63,6 +63,7 @@
 			}
 			ul {
 				li {
+					&:hover,
 					&.active {
 						background: $teal-dark;
 						opacity: .95;
