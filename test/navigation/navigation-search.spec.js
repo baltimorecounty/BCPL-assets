@@ -245,31 +245,6 @@ describe('Search and sliding hamburger menu tests', () => {
 		});
 	});
 
-	describe('submenuBackButtonClicked', () => {
-		beforeEach(() => {
-			loadFixtures('menuAndModal.fixture.html');
-
-			sampleEvent = {
-				currentTarget: 'nav ul li:first-child ul li:first-child button'
-			};
-
-			$('nav ul li:first-child ul li:first-child button').closest('ul').addClass('slide-in');
-			$('nav ul li:first-child ul li:first-child button').closest('nav').addClass('move-left');
-		});
-
-		it('should slide the submenu out', () => {
-			bcpl.navigationSearch.submenuBackButtonClicked(sampleEvent);
-
-			expect($(sampleEvent.currentTarget).closest('ul').hasClass('slide-in')).toBe(false);
-		});
-
-		it('should move the main menu back to the right', () => {
-			bcpl.navigationSearch.submenuBackButtonClicked(sampleEvent);
-
-			expect($(sampleEvent.currentTarget).closest('nav').hasClass('move-left')).toBe(false);
-		});
-	});
-
 	describe('windowResized', () => {
 		beforeEach(() => {
 			loadFixtures('menuAndModal.fixture.html');
