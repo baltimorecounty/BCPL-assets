@@ -6,7 +6,7 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const findClosestButtonToLink = ($link) => $link.closest('nav>ul>li').find('button');
 
-	const focusFirstActiveMenuLink = () => $('nav li.active ul li:first-child a').focus();
+	const focusFirstActiveMenuLink = () => $('nav li.active a').first().focus();
 
 	const activateSubmenu = ($button) =>
 		$button
@@ -81,13 +81,13 @@ bcpl.navigation = (($, keyCodes) => {
 			break;
 		case keyCodes.downArrow:
 		case keyCodes.upArrow:
+			removeActiveClassFromAllButtons();
 			keyboardEvent.preventDefault();
 			activateSubmenu($button);
 			$button
-				.siblings('ul')
-				.find('li')
-				.eq(0)
+				.siblings('.submenu-wrapper')
 				.find('a')
+				.first()
 				.focus();
 			break;
 		default:
@@ -98,15 +98,16 @@ bcpl.navigation = (($, keyCodes) => {
 	const navigationMenuItemKeyPressed = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		const $link = $(keyboardEvent.currentTarget);
+		const $allActiveLinks = $link.closest('.active').find('a');
 
 		switch (keyCode) {
 		case keyCodes.upArrow:
 			keyboardEvent.preventDefault();
-			$link
-				.closest('li')
-				.prev()
-				.find('a')
-				.focus();
+			if ($allActiveLinks.index($link) - 1 === -1) {
+				$allActiveLinks.eq(0).focus();
+			} else {
+				$allActiveLinks.eq($allActiveLinks.index($link) - 1).focus();
+			}
 			break;
 		case keyCodes.leftArrow:
 			keyboardEvent.preventDefault();
@@ -118,11 +119,7 @@ bcpl.navigation = (($, keyCodes) => {
 			break;
 		case keyCodes.downArrow:
 			keyboardEvent.preventDefault();
-			$link
-				.closest('li')
-				.next()
-				.find('a')
-				.focus();
+			$allActiveLinks.eq($allActiveLinks.index($link) + 1).focus();
 			break;
 		case keyCodes.rightArrow:
 			keyboardEvent.preventDefault();

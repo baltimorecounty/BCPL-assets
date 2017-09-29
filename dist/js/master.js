@@ -378,7 +378,7 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('nav li.active ul li:first-child a').focus();
+		return $('nav li.active a').first().focus();
 	};
 
 	var activateSubmenu = function activateSubmenu($button) {
@@ -444,9 +444,10 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.downArrow:
 			case keyCodes.upArrow:
+				removeActiveClassFromAllButtons();
 				keyboardEvent.preventDefault();
 				activateSubmenu($button);
-				$button.siblings('ul').find('li').eq(0).find('a').focus();
+				$button.siblings('.submenu-wrapper').find('a').first().focus();
 				break;
 			default:
 				break;
@@ -456,11 +457,16 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		var $link = $(keyboardEvent.currentTarget);
+		var $allActiveLinks = $link.closest('.active').find('a');
 
 		switch (keyCode) {
 			case keyCodes.upArrow:
 				keyboardEvent.preventDefault();
-				$link.closest('li').prev().find('a').focus();
+				if ($allActiveLinks.index($link) - 1 === -1) {
+					$allActiveLinks.eq(0).focus();
+				} else {
+					$allActiveLinks.eq($allActiveLinks.index($link) - 1).focus();
+				}
 				break;
 			case keyCodes.leftArrow:
 				keyboardEvent.preventDefault();
@@ -472,7 +478,7 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.downArrow:
 				keyboardEvent.preventDefault();
-				$link.closest('li').next().find('a').focus();
+				$allActiveLinks.eq($allActiveLinks.index($link) + 1).focus();
 				break;
 			case keyCodes.rightArrow:
 				keyboardEvent.preventDefault();
