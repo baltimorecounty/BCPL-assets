@@ -225,23 +225,17 @@ describe('Search and sliding hamburger menu tests', () => {
 		});
 
 		it('should slide out any active menu', () => {
-			$('nav ul li ul').addClass('slide-in');
+			$('nav ul li .submenu-wrapper').addClass('slide-in');
 
 			bcpl.navigationSearch.menuItemClicked(sampleEvent);
 
-			expect($('nav ul li:nth-child(3) ul').hasClass('slide-in')).toBe(false);
-		});
-
-		it('should move the main menu over to the left', () => {
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav').hasClass('move-left')).toBe(true);
+			expect($('nav ul li:nth-child(3) .submenu-wrapper').hasClass('slide-in')).toBe(false);
 		});
 
 		it('should slide in the submenu', () => {
 			bcpl.navigationSearch.menuItemClicked(sampleEvent);
 
-			expect($('nav ul li:first-child ul').hasClass('slide-in')).toBe(true);
+			expect($('nav ul li:first-child').hasClass('clicked')).toBe(true);
 		});
 	});
 

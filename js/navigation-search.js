@@ -9,7 +9,7 @@ bcpl.navigationSearch = (($) => {
 	const navBackButtonSelector = 'nav > .nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
 	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
+	// const submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
 
 	/* Helpers */
 
@@ -19,6 +19,7 @@ bcpl.navigationSearch = (($) => {
 			.removeClass('active move-left')
 			.find('.slide-in')
 			.removeClass('slide-in');
+		$('nav .clicked').removeClass('clicked');
 		$('body').removeClass('nav-visible');
 	};
 
@@ -78,7 +79,12 @@ bcpl.navigationSearch = (($) => {
 	const modalDismissActionHandler = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
-		killMenuAndModalCover($menu, $modalCover);
+
+		if ($('nav .clicked').length) {
+			$('nav .clicked').removeClass('clicked');
+		} else {
+			killMenuAndModalCover($menu, $modalCover);
+		}
 	};
 
 	/**
@@ -86,13 +92,10 @@ bcpl.navigationSearch = (($) => {
 	 * @param {Event} event
 	 */
 	const menuItemClicked = (event) => {
-		const $menuItem = $(event.currentTarget);
-		const $submenu = $menuItem.siblings('ul');
-		const $menu = event.data.$menu;
+		const $button = $(event.currentTarget);
 
-		$menu.find('.slide-in').removeClass('slide-in');
-		$menu.addClass('move-left');
-		$submenu.addClass('slide-in');
+		$('nav .clicked').removeClass('clicked');
+		$button.parent().addClass('clicked');
 	};
 
 	const submenuBackButtonClicked = (event) => {
@@ -132,7 +135,6 @@ bcpl.navigationSearch = (($) => {
 		const $navBackButton = $(navBackButtonSelector);
 		const $modalCover = $(modalCoverSelector);
 		const $menuItems = $(menuItemsSelector);
-		const $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
@@ -147,7 +149,9 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
+		$searchButton.on('click', {
+			browserWindow: window
+		}, searchButtonClicked);
 
 		$navBackButton.on('click', {
 			$menu,
@@ -159,9 +163,9 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, modalDismissActionHandler);
 
-		$menuItems.on('click', { $menu }, menuItemClicked);
-
-		$submenuBackButton.on('click', submenuBackButtonClicked);
+		$menuItems.on('click', {
+			$menu
+		}, menuItemClicked);
 
 		$(window).on('resize', {
 			$menu,
