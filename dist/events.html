@@ -108,46 +108,123 @@
 					<div class="filters">
 						<h4>Date</h4>
 						<h4>Branch</h4>
+						<!-- div class="dropdown">
+							<button class="dropdown-button">Select a Location</button>
+							<div class="dropdown-content">
+								<div>Arbutus</div>
+								<div>Catonsville</div>
+								<div>Cockeysville</div>
+								<div>Essex</div>
+								<div>Hereford</div>
+								<div>Lansdowne</div>
+								<div>Loch Raven</div>
+								<div>North Point</div>
+								<div>Owings Mills</div>
+								<div>Parkville-Carney</div>
+								<div>Perry Hall</div>
+								<div>Pikesville</div>
+								<div>Randallstown</div>
+								<div>Reisterstown</div>
+								<div>Rosedale</div>
+								<div>Sollers Point</div>
+								<div>Towson</div>
+								<div>White Marsh</div>
+								<div>Woodlawn</div>
+							</div>
+						</div -->
+					
+						<div>
+							<select class="select-location">
+								<option value="-1">---Select a Location---</option>
+								<option value="Arbutus">Arbutus</option>
+								<option value="Catonsville">Catonsville</option>
+								<option value="Cockeysville">Cockeysville</option>
+								<option value="Essex">Essex</option>
+								<option value="Hereford">Hereford</option>
+								<option value="Lansdowne">Lansdowne</option>
+								<option value="Loch Raven">Loch Raven</option>
+								<option value="North Point">North Point</option>
+								<option value="Owings Mills">Owings Mills</option>
+								<option value="Parkville-Carney">Parkville-Carney</option>
+								<option value="Perry Hall">Perry Hall</option>
+								<option value="Pikesville">Pikesville</option>
+								<option value="Randallstown">Randallstown</option>
+								<option value="Reisterstown">Reisterstown</option>
+								<option value="Rosedale">Rosedale</option>
+								<option value="Sollers Point">Sollers Point</option>
+								<option value="Towson">Towson</option>
+								<option value="White Marsh">White Marsh</option>
+								<option value="Woodlawn">Woodlawn</option>
+							</select>
+						</div>
 						<h4>Keyword Search</h4>
+						<form action="search.php">
+							<input type="search" name="keywordsearch">
+							<button class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</form>
 						<h4>Event Type</h4>
+						<label for="event-type-all"><input type="checkbox" id="event-type-all" name="event_types" value="allevents" checked="true"> All Event Types</label>
+						<div class="scrolling-filter">
+							<label for="event-type-adult"><input type="checkbox" id="event-type-adult" name="event_types" value="adult"> Adult</label>
+							<label for="event-type-baby"><input type="checkbox" id="event-type-baby" name="event_types" value="baby"> Baby</label>
+							<label for="event-type-book-club"><input type="checkbox" id="event-type-book-club" name="event_types" value="bookclub"> Book Club/Book Event</label>
+							<label for="event-type-craft-program"><input type="checkbox" id="event-type-craft-program" name="event_types" value="craftprogram"> Craft Program</label>
+							<label for="event-type-family"><input type="checkbox" id="event-type-family" name="event_types" value="family"> Family</label>
+							<label for="event-type-film-event"><input type="checkbox" id="event-type-film-event" name="event_types" value="filmevent"> Film Event</label>
+							<label for="event-type-offsite"><input type="checkbox" id="event-type-offsite" name="event_types" value="offsite"> Offsite</label>
+							<label for="event-type-preschool"><input type="checkbox" id="event-type-preschool" name="event_types" value="preschool"> Preschool</label>
+							<label for="event-type-school-age"><input type="checkbox" id="event-type-school-age" name="event_types" value="schoolage"> School Age</label>
+							<label for="event-type-holiday-closing"><input type="checkbox" id="event-type-holiday-closing" name="event_types" value="holidayclosing"> Holiday or Closing</label>
+							<label for="event-type-technology"><input type="checkbox" id="event-type-technology" name="event_types" value="technology"> Technology</label>
+							<label for="event-type-teen"><input type="checkbox" id="event-type-teen" name="event_types" value="teen"> Teen</label>
+						</div>
 						<h4>Age Groups</h4>
-					</div>
+						<label for="age-group-all"><input type="checkbox" id="age-group-all" name="age_groups" value="allagegroups" checked="true"> All Age Groups</label>
+						<div class="scrolling-filter">
+							<label for="age-group-baby"><input type="checkbox" id="age-group-baby" name="age_groups" value="baby"> Baby</label>
+							<label for="age-group-toddler"><input type="checkbox" id="age-group-toddler" name="age_groups" value="toddler"> Toddler</label>
+							<label for="age-group-preschool"><input type="checkbox" id="age-group-preschool" name="age_groups" value="preschool"> Preschool</label>
+							<label for="age-group-school-age"><input type="checkbox" id="age-group-school-age" name="age_groups" value="schoolage"> School Age</label>
+							<label for="age-group-teen"><input type="checkbox" id="age-group-teen" name="age_groups" value="teen"> Teen</label>
+							<label for="age-group-adult"><input type="checkbox" id="age-group-adult" name="age_groups" value="adult"> Adult</label>
+						</div>
 				</div>
-				<div class="col-md-9">
-					<div class="event-list">
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">9 to 10 a.m.</div>
-								<div class="col-md-3">Towson</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="https://www.google.com/">View Details</a></p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">10 to 11 a.m.</div>
-								<div class="col-md-3">Pikesville</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="https://www.google.com/">View Details</a></p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">11 a.m. 12 p.m.</div>
-								<div class="col-md-3">Rosedale</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="https://www.google.com/">View Details</a></p>
-								</div>
-							</div>
+		</div>
+		<div class="col-md-9">
+			<div class="event-list">
+				<div class="row">
+					<div class="event">
+						<div class="col-md-3">9 to 10 a.m.</div>
+						<div class="col-md-3">Towson</div>
+						<div class="col-md-6"><strong>Event Name</strong>
+							<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
+							<p><a href="#">View Details</a></p>
 						</div>
 					</div>
 				</div>
-				<!-- <div class="row">
+				<div class="row">
+					<div class="event">
+						<div class="col-md-3">10 to 11 a.m.</div>
+						<div class="col-md-3">Pikesville</div>
+						<div class="col-md-6"><strong>Event Name</strong>
+							<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
+							<p><a href="#">View Details</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="event">
+						<div class="col-md-3">11 a.m. 12 p.m.</div>
+						<div class="col-md-3">Rosedale</div>
+						<div class="col-md-6"><strong>Event Name</strong>
+							<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
+							<p><a href="#">View Details</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="row">
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-12">
@@ -180,10 +257,10 @@
 								</div>
 							</div>
 						</div>  -->
-		</div>
-		<!-- 				</div>		
+	</div>
+	<!-- 				</div>		
  -->
-		</main>
+	</main>
 	</div>
 	<footer>
 		<div class="follow-wrapper">
