@@ -93,9 +93,11 @@ bcpl.utility.querystringer = function () {
   *
   * Important: All of the returned dictionary's keys will be lower-cased.
   */
-	var getAsDictionary = function getAsDictionary() {
-		if (window.location.search) {
-			var qs = window.location.search.slice(1);
+	var getAsDictionary = function getAsDictionary(targetWindow) {
+		var windowToUse = targetWindow || window;
+
+		if (windowToUse.location.search) {
+			var qs = windowToUse.location.search.slice(1);
 			var qsArray = qs.split('&');
 			var qsDict = {};
 
@@ -144,6 +146,9 @@ bcpl.alertBox = function ($) {
 			setTimeout(function () {
 				$alertBoxContainer.slideDown(250);
 			}, 500);
+		} else {
+			$alertBoxContainer.addClass('dismissed');
+			$alertBoxContainer.show();
 		}
 	};
 
@@ -175,19 +180,36 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonSelector = '#search-button';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '.nav-and-search nav';
+	var navBackButtonSelector = '.nav-back-button button';
+	var modalCoverSelector = '#modal-cover';
+	var menuItemsSelector = '.nav-and-search nav > ul > li > button';
+	var submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
+	/* Helpers */
+
+	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
+		$modalCover.removeClass('active');
+		$menu.removeClass('active move-left').find('.slide-in').removeClass('slide-in');
+	};
+
+	/* Event Handlers */
+
+	/**
+  * Click event handler for the hamburger button.
+  */
 	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 		var $hamburgerButton = $(event.currentTarget);
+		var $modalCover = event.data.$modalCover;
 
-		if ($menu.is(':hidden')) {
-			$searchButtonActivator.removeClass('active');
-			$searchBox.removeClass('active');
-			$hamburgerButton.addClass('active');
-			$menu.removeClass('hidden-xs');
-		}
+		$menu.find('.slide-in').removeClass('slide-in');
+		$searchButtonActivator.removeClass('active');
+		$searchBox.removeClass('active');
+		$hamburgerButton.addClass('active');
+		$menu.addClass('active');
+		$modalCover.addClass('active');
 	};
 
 	/**
@@ -196,22 +218,16 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
-		var $searchButtonActivatorIcon = $searchButtonActivator.find('i');
-		var $menu = event.data.$menu;
 		var $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
-			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
-			$menu.removeClass('hidden-xs');
 		}
 	};
 
@@ -220,41 +236,204 @@ bcpl.navigationSearch = function ($) {
   */
 	var searchButtonClicked = function searchButtonClicked(event) {
 		var searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
+		var browserWindow = event.data.browserWindow;
+		browserWindow.location = bcpl.constants.basePageUrl + '/search.html?q=' + searchTerms + '&page=1&resultsPerPage=10';
 	};
 
 	/**
- * Attach events and inject any event dependencies.
- */
+  * Handler for events that dismiss the menu and modal
+  * @param {Event} event
+  */
+	var modalDismissActionHandler = function modalDismissActionHandler(event) {
+		var $menu = event.data.$menu;
+		var $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
+	/**
+  * Handles the menu item clicks that slide out the next nav
+  * @param {Event} event
+  */
+	var menuItemClicked = function menuItemClicked(event) {
+		var $menuItem = $(event.currentTarget);
+		var $submenu = $menuItem.siblings('ul');
+		var $menu = event.data.$menu;
+
+		$menu.find('.slide-in').removeClass('slide-in');
+		$menu.addClass('move-left');
+		$submenu.addClass('slide-in');
+	};
+
+	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
+		var $backButton = $(event.currentTarget);
+		$backButton.closest('.slide-in').removeClass('slide-in');
+		$backButton.closest('.move-left').removeClass('move-left');
+	};
+
+	var resizeTimer = void 0;
+
+	var windowResized = function windowResized(event, callback) {
+		var $menu = event.data.$menu;
+		var $modalCover = event.data.$modalCover;
+
+		if (parseFloat($('body').css('width')) > 768 && $menu.hasClass('animatable')) {
+			killMenuAndModalCover($menu, $modalCover);
+			$menu.removeClass('animatable');
+		} else {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(function () {
+				$menu.addClass('animatable');
+				callback();
+			}, 500);
+		}
+	};
+
+	/**
+  * Attach events and inject any event dependencies.
+  */
 	var init = function init() {
 		var $searchButtonActivator = $(searchButtonActivatorSelector);
 		var $searchBox = $(searchBoxSelector);
 		var $searchButton = $(searchButtonSelector);
 		var $hamburgerButton = $(hamburgerButtonSelector);
 		var $menu = $(menuSelector);
+		var $navBackButton = $(navBackButtonSelector);
+		var $modalCover = $(modalCoverSelector);
+		var $menuItems = $(menuItemsSelector);
+		var $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu,
 			$hamburgerButton: $hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
-			$menu: $menu
+			$menu: $menu,
+			$modalCover: $modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', searchButtonClicked);
+		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
+
+		$navBackButton.on('click', {
+			$menu: $menu,
+			$modalCover: $modalCover
+		}, modalDismissActionHandler);
+
+		$modalCover.on('click', {
+			$menu: $menu,
+			$modalCover: $modalCover
+		}, modalDismissActionHandler);
+
+		$menuItems.on('click', { $menu: $menu }, menuItemClicked);
+
+		$submenuBackButton.on('click', submenuBackButtonClicked);
+
+		$(window).on('resize', {
+			$menu: $menu,
+			$modalCover: $modalCover
+		}, windowResized);
+
+		if (parseFloat($('body').css('width')) <= 768) {
+			$menu.addClass('animatable');
+		}
 	};
 
-	return { init: init };
+	return {
+		init: init
+	};
 }(jQuery);
 
 $(function () {
 	bcpl.navigationSearch.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.navigation = function ($) {
+	var navButtonSelector = '.nav-and-search nav button';
+	var navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+
+	var keyCodes = {
+		enter: 13
+	};
+
+	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons($button) {
+		return $button.closest('ul').find('li.active').removeClass('active');
+	};
+
+	var toggleActiveClass = function toggleActiveClass($button) {
+		return $button.closest('li').toggleClass('active');
+	};
+
+	var removeActiveClass = function removeActiveClass($buttonOrList) {
+		return $buttonOrList.closest('.active').removeClass('active');
+	};
+
+	var hideSearchBox = function hideSearchBox() {
+		$('#activate-search-button, #search-box').removeClass('active');
+	};
+
+	var equalizeListItems = function equalizeListItems($childOfTargetList) {
+		var $wideList = $childOfTargetList.siblings('ul');
+		var $listItems = $wideList.find('li');
+		var widest = 0;
+		var tallest = 0;
+
+		if ($listItems.length < 8) return;
+
+		$listItems.each(function (listItemIndex, listItem) {
+			var $listItem = $(listItem);
+			widest = $listItem.width() > widest ? $listItem.width() : widest;
+			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
+		});
+
+		$listItems.width(widest);
+		$listItems.height(tallest);
+		$wideList.addClass('wide');
+	};
+
+	var navButtonKeyup = function navButtonKeyup(event) {
+		var $button = $(event.currentTarget);
+		var keyCode = event.which || event.keyCode;
+
+		if (keyCode === keyCodes.enter) {
+			hideSearchBox();
+			removeActiveClassFromAllButtons($button);
+			toggleActiveClass($button);
+			equalizeListItems($button);
+		}
+	};
+
+	var navButtonClicked = function navButtonClicked(event) {
+		var $button = $(event.currentTarget);
+		hideSearchBox();
+		removeActiveClassFromAllButtons($button);
+		toggleActiveClass($button);
+		equalizeListItems($button);
+	};
+
+	var navButtonHovered = function navButtonHovered(event) {
+		var $button = $(event.currentTarget);
+		hideSearchBox();
+		removeActiveClassFromAllButtons($button);
+		equalizeListItems($button);
+	};
+
+	var navButtonAndListLeave = function navButtonAndListLeave(event) {
+		var $buttonOrList = $(event.currentTarget);
+		hideSearchBox();
+		removeActiveClass($buttonOrList);
+	};
+
+	$(document).on('keyup', navButtonSelector, navButtonKeyup);
+	$(document).on('click', navButtonSelector, navButtonClicked);
+	$(document).on('mouseenter', navButtonSelector, navButtonHovered);
+	$(document).on('mouseleave', navButtonAndListSelector, navButtonAndListLeave);
+}(jQuery);
 'use strict';
 
 namespacer('bcpl');

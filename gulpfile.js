@@ -18,38 +18,53 @@ gulp.task('clean', () => gulp.src('dist')
 
 gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheets/home.scss'])
 		.pipe(sass())
-		.pipe(cssnano({ autoprefixer: false }))
+		.pipe(cssnano({ autoprefixer: false, zindex: false }))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', ['process-js', 'move-page-specific-js'], () => gulp.src(['dist/js/**/*.js'])
+gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'move-page-specific-js'], () => gulp.src(['dist/js/**/*.js'])
 		.pipe(uglify())
 		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/js')));
 
-gulp.task('process-js', () => gulp.src(['js/utility/namespacer.js', 'js/utility/*.js', 'js/**/*.js', '!js/vendor/**/*.js', '!js/page-specific/**/*.js'])
+gulp.task('process-master-js', () => gulp.src(['js/utility/namespacer.js', 'js/utility/*.js', 'js/**/*.js', '!js/vendor/**/*.js', '!js/page-specific/**/*.js'])
 		.pipe(jshint({
-			esversion: 6,
+			esversion: 6
 		}))
 		.pipe(jshint.reporter(stylish))
 		.pipe(babel({
-			presets: ['es2015'],
+			presets: ['es2015']
 		}))
 		.pipe(stripCode({
 			start_comment: 'test-code',
-			end_comment: 'end-test-code',
+			end_comment: 'end-test-code'
 		}))
 		.pipe(concat('master.js'))
 		.pipe(gulp.dest('dist/js')));
 
-gulp.task('move-page-specific-js', () => gulp.src('js/page-specific/**/*.js')
+gulp.task('process-homepage-js', () => gulp.src(['js/page-specific/homepage/*.js'])
 		.pipe(jshint({
-			esversion: 6,
+			esversion: 6
 		}))
 		.pipe(jshint.reporter(stylish))
 		.pipe(babel({
-			presets: ['es2015'],
+			presets: ['es2015']
+		}))
+		.pipe(stripCode({
+			start_comment: 'test-code',
+			end_comment: 'end-test-code'
+		}))
+		.pipe(concat('homepage.js'))
+		.pipe(gulp.dest('dist/js')));
+
+gulp.task('move-page-specific-js', () => gulp.src('js/page-specific/**/*.js')
+		.pipe(jshint({
+			esversion: 6
+		}))
+		.pipe(jshint.reporter(stylish))
+		.pipe(babel({
+			presets: ['es2015']
 		}))
 		.pipe(gulp.dest('dist/js/page-specific')));
 

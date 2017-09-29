@@ -6,19 +6,39 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonSelector = '#search-button';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '.nav-and-search nav';
+	const navBackButtonSelector = '.nav-back-button button';
+	const modalCoverSelector = '#modal-cover';
+	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
+	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
+	/* Helpers */
+
+	const killMenuAndModalCover = ($menu, $modalCover) => {
+		$modalCover.removeClass('active');
+		$menu
+			.removeClass('active move-left')
+			.find('.slide-in')
+			.removeClass('slide-in');
+	};
+
+	/* Event Handlers */
+
+	/**
+	 * Click event handler for the hamburger button.
+	 */
 	const hamburgerButtonClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 		const $hamburgerButton = $(event.currentTarget);
+		const $modalCover = event.data.$modalCover;
 
-		if ($menu.is(':hidden')) {
-			$searchButtonActivator.removeClass('active');
-			$searchBox.removeClass('active');
-			$hamburgerButton.addClass('active');
-			$menu.removeClass('hidden-xs');
-		}
+		$menu.find('.slide-in').removeClass('slide-in');
+		$searchButtonActivator.removeClass('active');
+		$searchBox.removeClass('active');
+		$hamburgerButton.addClass('active');
+		$menu.addClass('active');
+		$modalCover.addClass('active');
 	};
 
 	/**
@@ -27,22 +47,16 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonActivatorClicked = (event) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
-		const $searchButtonActivatorIcon = $searchButtonActivator.find('i');
-		const $menu = event.data.$menu;
 		const $hamburgerButton = event.data.$hamburgerButton;
 
 		if ($searchBox.is(':hidden')) {
 			$searchButtonActivator.addClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-search').addClass('fa-times');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
-			$menu.addClass('hidden-xs');
 		} else {
 			$searchButtonActivator.removeClass('active');
-			$searchButtonActivatorIcon.removeClass('fa-times').addClass('fa-search');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
-			$menu.removeClass('hidden-xs');
 		}
 	};
 
@@ -51,10 +65,59 @@ bcpl.navigationSearch = (($) => {
 	 */
 	const searchButtonClicked = (event) => {
 		const searchTerms = $(event.currentTarget).siblings('input').first().val();
-		window.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
+		const browserWindow = event.data.browserWindow;
+		browserWindow.location = `${bcpl.constants.basePageUrl}/search.html?q=${searchTerms}&page=1&resultsPerPage=10`;
 	};
 
-		/**
+	/**
+	 * Handler for events that dismiss the menu and modal
+	 * @param {Event} event
+	 */
+	const modalDismissActionHandler = (event) => {
+		const $menu = event.data.$menu;
+		const $modalCover = event.data.$modalCover;
+		killMenuAndModalCover($menu, $modalCover);
+	};
+
+	/**
+	 * Handles the menu item clicks that slide out the next nav
+	 * @param {Event} event
+	 */
+	const menuItemClicked = (event) => {
+		const $menuItem = $(event.currentTarget);
+		const $submenu = $menuItem.siblings('ul');
+		const $menu = event.data.$menu;
+
+		$menu.find('.slide-in').removeClass('slide-in');
+		$menu.addClass('move-left');
+		$submenu.addClass('slide-in');
+	};
+
+	const submenuBackButtonClicked = (event) => {
+		const $backButton = $(event.currentTarget);
+		$backButton.closest('.slide-in').removeClass('slide-in');
+		$backButton.closest('.move-left').removeClass('move-left');
+	};
+
+	let resizeTimer;
+
+	const windowResized = (event, callback) => {
+		const $menu = event.data.$menu;
+		const $modalCover = event.data.$modalCover;
+
+		if (parseFloat($('body').css('width')) > 768 && $menu.hasClass('animatable')) {
+			killMenuAndModalCover($menu, $modalCover);
+			$menu.removeClass('animatable');
+		} else {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				$menu.addClass('animatable');
+				callback();
+			}, 500);
+		}
+	};
+
+	/**
 	 * Attach events and inject any event dependencies.
 	 */
 	const init = () => {
@@ -63,24 +126,63 @@ bcpl.navigationSearch = (($) => {
 		const $searchButton = $(searchButtonSelector);
 		const $hamburgerButton = $(hamburgerButtonSelector);
 		const $menu = $(menuSelector);
+		const $navBackButton = $(navBackButtonSelector);
+		const $modalCover = $(modalCoverSelector);
+		const $menuItems = $(menuItemsSelector);
+		const $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu,
 			$hamburgerButton
 		}, searchButtonActivatorClicked);
 
 		$hamburgerButton.on('click', {
 			$searchBox,
 			$searchButtonActivator,
-			$menu
+			$menu,
+			$modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', searchButtonClicked);
+		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
+
+		$navBackButton.on('click', {
+			$menu,
+			$modalCover
+		}, modalDismissActionHandler);
+
+		$modalCover.on('click', {
+			$menu,
+			$modalCover
+		}, modalDismissActionHandler);
+
+		$menuItems.on('click', { $menu }, menuItemClicked);
+
+		$submenuBackButton.on('click', submenuBackButtonClicked);
+
+		$(window).on('resize', {
+			$menu,
+			$modalCover
+		}, windowResized);
+
+		if (parseFloat($('body').css('width')) <= 768) {
+			$menu.addClass('animatable');
+		}
 	};
 
-	return { init };
+	return {
+		/* test-code */
+		killMenuAndModalCover,
+		hamburgerButtonClicked,
+		searchButtonActivatorClicked,
+		searchButtonClicked,
+		modalDismissActionHandler,
+		menuItemClicked,
+		submenuBackButtonClicked,
+		windowResized,
+		/* end-test-code */
+		init
+	};
 })(jQuery);
 
 $(() => {

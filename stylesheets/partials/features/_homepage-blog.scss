@@ -1,0 +1,121 @@
+.blog-wrapper {
+	padding: 2em 0;
+	border-bottom: 1em solid $gold;
+	background-color: white;
+	
+	h2 {
+		color: $teal-light;
+		margin: 0;
+		padding :0;
+	}
+
+	h3 {
+		font-weight: bold;
+		margin-top: 0;
+
+		a {
+			text-decoration: underline;
+			transition: .25s ease all;
+			
+			&:hover {
+				color: $teal-light;
+			}
+		}
+	}
+	
+	time {
+			font-weight: bold;
+			color: $gray-medium;
+	}
+
+	p {
+		margin: 1em 0;
+	}
+
+	.post {
+		margin-top: 3em;
+
+		.post-icon {
+			color: $gray-light;
+		}
+	}
+
+	.blog-posts, .events {
+		header {
+			position: relative;
+
+			.feed {
+				position: relative;
+				top: 15px;
+				display: block;
+				float: right;
+				margin-left: 2em;
+
+				&:last-child {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+
+	.events {
+		background: $purple-dark;
+		padding-top: 2em;
+
+		.post {
+			background: rgba(255, 255, 255, .75);
+
+			time {
+				text-transform: uppercase;
+	
+				.date {
+					background-color: $red;
+					border-radius: 50%;
+					color: white;
+					height: 80px;
+					line-height: 1;
+					margin: 0px auto;
+					padding-top: 14px;
+					width: 80px;
+					
+					.month {
+						text-align: center;
+					}
+	
+					.day {
+						text-align: center;
+						font-size: 2em;
+					}
+				}
+	
+				.time {
+					font-size: .8em;
+					margin-top: .5em;
+					text-align: center;
+				}
+			}
+
+		}
+		
+	}
+}
+
+@media (max-width: $screen-sm-max) {
+	.blog-events-wrapper {
+		padding: 2em 15px;
+		
+		.container {
+			.row.flex {
+				display: block;
+			}
+		}
+
+		.events {
+			padding-left: 0;
+			padding-top: 2em;
+			margin-top: 2em;
+			background-repeat: repeat-x;
+			background-position: top;
+		}
+	}
+}

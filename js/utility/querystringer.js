@@ -6,9 +6,11 @@ bcpl.utility.querystringer = (() => {
 	 *
 	 * Important: All of the returned dictionary's keys will be lower-cased.
 	 */
-	const getAsDictionary = () => {
-		if (window.location.search) {
-			const qs = window.location.search.slice(1);
+	const getAsDictionary = (targetWindow) => {
+		const windowToUse = targetWindow || window;
+
+		if (windowToUse.location.search) {
+			const qs = windowToUse.location.search.slice(1);
 			const qsArray = qs.split('&');
 			const qsDict = {};
 

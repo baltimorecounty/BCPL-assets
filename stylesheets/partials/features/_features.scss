@@ -13,6 +13,7 @@
 		cursor: pointer;
 		transition: all 0.25s ease;
 		color: $gray;
+		box-shadow: $shadow-primary;
 
 		img {
 			width: 100%;
@@ -28,6 +29,16 @@
 			background: $teal;
 			color: white;
 			text-decoration: none;
+			box-shadow: $shadow-hover;
 		}
 	}
+}
+
+@media (max-width: $screen-xs) {
+	.feature-wrapper {
+		.col-xs-6 {
+			float: none;
+			width: 100%;
+		}
+	}			
 }

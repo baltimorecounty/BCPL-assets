@@ -1,6 +1,8 @@
 # BCPL-assets
 Client side assets for the Baltimore County Public Library website
 
+[![Build Status](https://travis-ci.org/baltimorecounty/BCPL-assets.svg?branch=integration)](https://travis-ci.org/baltimorecounty/BCPL-assets)
+
 ## Building Files for Distribution
 
 ### Setup
