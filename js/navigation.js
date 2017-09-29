@@ -12,7 +12,7 @@ bcpl.navigation = (($, keyCodes) => {
 		$button
 			.attr('aria-expanded', true)
 			.closest('li')
-			.addClass('active')
+			.addClass('active clicked')
 			.find('ul')
 			.attr('aria-hidden', false);
 
@@ -20,7 +20,7 @@ bcpl.navigation = (($, keyCodes) => {
 		$button
 			.attr('aria-expanded', false)
 			.closest('li')
-			.removeClass('active')
+			.removeClass('active clicked')
 			.find('ul')
 			.attr('aria-hidden', true);
 
@@ -98,7 +98,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const navigationMenuItemKeyPressed = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		const $link = $(keyboardEvent.currentTarget);
-		const $allActiveLinks = $link.closest('.active').find('a');
+		const $allActiveLinks = $link.closest('.active, .clicked').find('a');
 
 		switch (keyCode) {
 		case keyCodes.upArrow:

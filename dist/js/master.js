@@ -382,11 +382,11 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var activateSubmenu = function activateSubmenu($button) {
-		return $button.attr('aria-expanded', true).closest('li').addClass('active').find('ul').attr('aria-hidden', false);
+		return $button.attr('aria-expanded', true).closest('li').addClass('active clicked').find('ul').attr('aria-hidden', false);
 	};
 
 	var deactivateSubmenu = function deactivateSubmenu($button) {
-		return $button.attr('aria-expanded', false).closest('li').removeClass('active').find('ul').attr('aria-hidden', true);
+		return $button.attr('aria-expanded', false).closest('li').removeClass('active clicked').find('ul').attr('aria-hidden', true);
 	};
 
 	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
@@ -457,7 +457,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		var $link = $(keyboardEvent.currentTarget);
-		var $allActiveLinks = $link.closest('.active').find('a');
+		var $allActiveLinks = $link.closest('.active, .clicked').find('a');
 
 		switch (keyCode) {
 			case keyCodes.upArrow:
