@@ -297,7 +297,6 @@
 				display: none;
 				height: 100vh;
 				overflow-y: auto;
-				box-shadow: $shadow-menu-left;
 				&.animatable {
 					transition: .5s left ease;
 					display: block;
@@ -319,7 +318,6 @@
 						width: 100%;
 						&:hover {
 							background: $teal;
-							box-shadow: $shadow-menu-left;
 							color: white;
 						}
 					}
@@ -330,6 +328,8 @@
 
 					li {				
 						display: block;
+						padding: .5em 0 0 .5em;
+						border-bottom: 1px solid $teal;
 						
 						&:last-child {
 							.submenu-wrapper {
@@ -338,7 +338,6 @@
 						}
 
 						.submenu-wrapper {
-							box-shadow: $shadow-menu-left;
 							display: block;
 							height: 100%;
 							opacity: 1;
@@ -419,6 +418,10 @@
 							}							
 						}
 
+						&:hover {
+							background: $teal;
+						}
+
 						&.clicked {
 							.submenu-wrapper {
 								display: block;
@@ -435,6 +438,7 @@
 										display: block;
 										width: 100%;
 										float: none;
+										border-bottom: 1px solid $teal;
 									}
 								}
 							}

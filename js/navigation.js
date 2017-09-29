@@ -50,6 +50,7 @@ bcpl.navigation = (($, keyCodes) => {
 		switch (keyCode) {
 		case keyCodes.escape:
 			deactivateSubmenu($('nav li.active button'));
+			hideHeroCallout(false);
 			break;
 		default:
 			break;
