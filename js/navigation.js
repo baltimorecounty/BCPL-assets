@@ -155,5 +155,5 @@ bcpl.navigation = (($, keyCodes) => {
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
-	// $(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
+	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 })(jQuery, bcpl.constants.keyCodes);
