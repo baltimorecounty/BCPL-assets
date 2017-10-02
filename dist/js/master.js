@@ -372,9 +372,13 @@ namespacer('bcpl');
 
 bcpl.navigation = function ($, keyCodes) {
 	var navButtonSelector = '.nav-and-search nav button';
+	var closestMenuNodeSelector = 'nav>ul>li';
+	var searchArtifactsSelector = '#activate-search-button, #search-box';
+	var heroCalloutContainerSelector = '.hero-callout-container';
+	var activeLinksSelector = '.active, .clicked';
 
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
-		return $link.closest('nav>ul>li').find('button');
+		return $link.closest(closestMenuNodeSelector).find('button');
 	};
 
 	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
@@ -394,11 +398,11 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var hideSearchBox = function hideSearchBox() {
-		return $('#activate-search-button, #search-box').removeClass('active');
+		return $(searchArtifactsSelector).removeClass('active');
 	};
 
 	var hideHeroCallout = function hideHeroCallout(shouldHide) {
-		return shouldHide ? $('.hero-callout-container').hide() : $('.hero-callout-container').show();
+		return shouldHide ? $(heroCalloutContainerSelector).hide() : $(heroCalloutContainerSelector).show();
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
@@ -458,7 +462,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		var $link = $(keyboardEvent.currentTarget);
-		var $allActiveLinks = $link.closest('.active, .clicked').find('a');
+		var $allActiveLinks = $link.closest(activeLinksSelector).find('a');
 
 		switch (keyCode) {
 			case keyCodes.upArrow:
@@ -471,9 +475,9 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.leftArrow:
 				keyboardEvent.preventDefault();
-				if ($link.closest('nav>ul>li').prev('li').length) {
+				if ($link.closest(closestMenuNodeSelector).prev('li').length) {
 					deactivateSubmenu(findClosestButtonToLink($link));
-					activateSubmenu($link.closest('nav>ul>li').prev('li').find('button'));
+					activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
 					focusFirstActiveMenuLink();
 				}
 				break;
@@ -483,9 +487,9 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.rightArrow:
 				keyboardEvent.preventDefault();
-				if ($link.closest('nav>ul>li').next('li').length) {
+				if ($link.closest(closestMenuNodeSelector).next('li').length) {
 					deactivateSubmenu(findClosestButtonToLink($link));
-					activateSubmenu($link.closest('nav>ul>li').next('li').find('button'));
+					activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
 					focusFirstActiveMenuLink();
 				}
 				break;
@@ -500,11 +504,11 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	var navigationButtonHovered = function navigationButtonHovered(mouseEvent) {
-		var $button = $(mouseEvent.currentTarget);
-		deactivateSubmenu($button.closest('ul').find('button'));
-		activateSubmenu($button);
-	};
+	/* const navigationButtonHovered = (mouseEvent) => {
+ 	const $button = $(mouseEvent.currentTarget);
+ 	deactivateSubmenu($button.closest('ul').find('button'));
+ 	activateSubmenu($button);
+ };*/
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
 		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
@@ -515,7 +519,7 @@ bcpl.navigation = function ($, keyCodes) {
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
-	$(document).on('mouseover', 'nav button', navigationButtonHovered);
+	// $(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
 	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 }(jQuery, bcpl.constants.keyCodes);
