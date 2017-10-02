@@ -75,6 +75,10 @@
 						ul {
 							display: table;
 							width: 57%;
+
+							ul {
+								display: none;
+							}
 						}
 						a,
 						button {
@@ -90,13 +94,16 @@
 							ul {
 								display: table;
 								width: 64.5%;
+								ul {
+									display: none;
+								}
 							}
 						}
 						.submenu-wrapper {
 							display: flex;
 						}
 					}
-					&:last-child {
+					&.reverse {
 						.submenu-wrapper {
 							right: 0;
 						}
@@ -111,9 +118,16 @@
 
 						a {
 							padding: 1em;
+							text-align: center;
 
 							&:hover {
 								background-color: $teal;
+							}
+						}
+
+						a, button {
+							i {
+								margin-left: 0;
 							}
 						}
 					}
@@ -130,7 +144,11 @@
 							li {
 								display: table-cell;
 								float: left;
-								width: 50%
+								width: 50%;
+
+								ul {
+									display: none;
+								}
 							}
 						}
 					}
@@ -145,6 +163,10 @@
 									background-color: $teal;
 									text-decoration: none;
 								}
+							}							
+
+							ul {
+								display: none;
 							}
 						}
 					}
@@ -288,15 +310,15 @@
 			}
 			nav {
 				background-color: $teal-dark;
-				height: 100%;
-				position: absolute;
+				position: fixed;
 				left: 100%;
-				top: -65px;
+				top: 0;
 				width: 80%;
 				z-index: 1000;
 				display: none;
 				height: 100vh;
 				overflow-y: auto;
+				overflow-x: hidden;
 				&.animatable {
 					transition: .5s left ease;
 					display: block;
@@ -328,10 +350,13 @@
 
 					li {				
 						display: block;
-						padding: .5em 0 0 .5em;
 						border-bottom: 1px solid $teal;
 						
-						&:last-child {
+						button {
+							padding: .5em 1em;
+						}						
+
+						&.reverse {
 							.submenu-wrapper {
 								right: -100%;
 							}
@@ -341,19 +366,32 @@
 							display: block;
 							height: 100%;
 							opacity: 1;
-							position: fixed;
+							padding: 0;
+							position: absolute;
 							right: -100%;
 							top: 50px;
 							transition: .5s all ease;							
-							width: 80%;
+							width: 100%;							
 							
 							ul {
 								display: block;
+
+								ul {
+									box-shadow: $shadow-top-bottom;
+									background-color: $teal-darker;							
+									border-top: 1px solid $teal;
+									
+									li {
+										a {
+											padding-left: 3em;										
+										}
+									}
+								}
 							}
 
 							&.wide {
 								left: initial;
-								width: 80%;
+								width: 100%;
 
 								ul {
 									display: block;
@@ -439,6 +477,12 @@
 										width: 100%;
 										float: none;
 										border-bottom: 1px solid $teal;
+
+										ul {
+											li {
+												border: none;
+											}
+										}
 									}
 								}
 							}
