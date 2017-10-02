@@ -504,12 +504,6 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	/* const navigationButtonHovered = (mouseEvent) => {
- 	const $button = $(mouseEvent.currentTarget);
- 	deactivateSubmenu($button.closest('ul').find('button'));
- 	activateSubmenu($button);
- };*/
-
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
 		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
 			removeActiveClassFromAllButtons();
@@ -519,7 +513,6 @@ bcpl.navigation = function ($, keyCodes) {
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
-	// $(document).on('mouseover', 'nav button', navigationButtonHovered);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
 	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 }(jQuery, bcpl.constants.keyCodes);
