@@ -75,7 +75,6 @@
 						ul {
 							display: table;
 							width: 57%;
-
 							ul {
 								display: none;
 							}
@@ -115,17 +114,15 @@
 						padding: 0 1em;
 						margin: 0 1em 0 0;
 						border-right: 1px solid $teal;
-
 						a {
 							padding: 1em;
 							text-align: center;
-
 							&:hover {
 								background-color: $teal;
 							}
 						}
-
-						a, button {
+						a,
+						button {
 							i {
 								margin-left: 0;
 							}
@@ -145,7 +142,6 @@
 								display: table-cell;
 								float: left;
 								width: 50%;
-
 								ul {
 									display: none;
 								}
@@ -163,8 +159,7 @@
 									background-color: $teal;
 									text-decoration: none;
 								}
-							}							
-
+							}
 							ul {
 								display: none;
 							}
@@ -344,24 +339,21 @@
 						}
 					}
 				}
-
 				ul {
 					display: block;
-
-					li {				
+					li {
 						display: block;
 						border-bottom: 1px solid $teal;
-						
 						button {
 							padding: .5em 1em;
-						}						
-
+							width: 100%;
+							text-align: left;
+						}
 						&.reverse {
 							.submenu-wrapper {
 								right: -100%;
 							}
 						}
-
 						.submenu-wrapper {
 							display: block;
 							height: 100%;
@@ -370,29 +362,39 @@
 							position: absolute;
 							right: -100%;
 							top: 50px;
-							transition: .5s all ease;							
-							width: 100%;							
-							
+							transition: .5s all ease;
+							width: 100%;
 							ul {
 								display: block;
-
 								ul {
 									box-shadow: $shadow-top-bottom;
-									background-color: $teal-darker;							
+									background-color: $teal-darker;
 									border-top: 1px solid $teal;
-									
 									li {
 										a {
-											padding-left: 3em;										
+											padding-left: 3em;
+										}
+
+										&:first-child {							
+											a {
+												&:hover {
+													box-shadow: $shadow-top-inset;
+												}
+											}
+										}
+										&:last-child {
+											a {
+												&:hover {
+													box-shadow: $shadow-bottom-inset;
+												}
+											}
 										}
 									}
 								}
 							}
-
 							&.wide {
 								left: initial;
 								width: 100%;
-
 								ul {
 									display: block;
 									li {
@@ -402,17 +404,15 @@
 									}
 								}
 							}
-
 							.overview {
 								display: block;
 								width: 100%;
 								border-right: none;
 								border-bottom: 1px solid $teal;
 								padding-bottom: 1em;
-	
 								a {
 									text-align: center;
-	
+									margin-top: 1em;
 									i {
 										&:before {
 											margin-left: 0;
@@ -420,9 +420,7 @@
 									}
 								}
 							}
-	
 						}
-						
 						&:hover,
 						&.active {
 							background: inherit;
@@ -435,17 +433,14 @@
 									}
 								}
 							}
-
 							&.clicked {
 								.submenu-wrapper {
 									.overview {
 										width: 100%;
 									}
-
 									ul {
 										display: block;
 										width: 100%;
-
 										li {
 											display: block;
 											width: 100%;
@@ -453,31 +448,27 @@
 										}
 									}
 								}
-							}							
+							}
 						}
-
-						&:hover {
-							background: $teal;
-						}
-
+						a {
+							&:hover {
+								background: $teal;
+							}
+						}						
 						&.clicked {
 							.submenu-wrapper {
 								display: block;
 								right: 0;
-
 								.overview {
 									display: block;
 								}
-
 								ul {
 									display: block;
-									
 									li {
 										display: block;
 										width: 100%;
 										float: none;
 										border-bottom: 1px solid $teal;
-
 										ul {
 											li {
 												border: none;

@@ -376,6 +376,12 @@ bcpl.navigation = function ($, keyCodes) {
 	var searchArtifactsSelector = '#activate-search-button, #search-box';
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
+	var activeMenuButtonSelector = 'li.active button';
+	var mobileWidthThreshold = 768;
+
+	var isMobileWidth = function isMobileWidth() {
+		return parseFloat($('body').width()) <= mobileWidthThreshold;
+	};
 
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
 		return $link.closest(closestMenuNodeSelector).find('button');
@@ -394,7 +400,7 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
-		return deactivateSubmenu($('nav').find('li.active button'));
+		return deactivateSubmenu($('nav').find(activeMenuButtonSelector));
 	};
 
 	var hideSearchBox = function hideSearchBox() {
@@ -402,7 +408,11 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var hideHeroCallout = function hideHeroCallout(shouldHide) {
-		return shouldHide ? $(heroCalloutContainerSelector).hide() : $(heroCalloutContainerSelector).show();
+		if (shouldHide && !isMobileWidth()) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
+		}
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
@@ -424,7 +434,7 @@ bcpl.navigation = function ($, keyCodes) {
 
 		switch (keyCode) {
 			case keyCodes.escape:
-				deactivateSubmenu($('nav li.active button'));
+				deactivateSubmenu($(activeMenuButtonSelector));
 				hideHeroCallout(false);
 				break;
 			default:
@@ -504,9 +514,16 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
+	var navigationMouseover = function navigationMouseover() {
+		hideHeroCallout(true);
+	};
+
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
-		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
+		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('nav').length;
+
+		if (!isNextElementANavElement && !isMobileWidth()) {
 			removeActiveClassFromAllButtons();
+			hideHeroCallout(false);
 		}
 	};
 
@@ -514,6 +531,7 @@ bcpl.navigation = function ($, keyCodes) {
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
+	$(document).on('mouseover', 'nav, nav *', navigationMouseover);
 	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';

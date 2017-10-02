@@ -6,6 +6,10 @@ bcpl.navigation = (($, keyCodes) => {
 	const searchArtifactsSelector = '#activate-search-button, #search-box';
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const activeLinksSelector = '.active, .clicked';
+	const activeMenuButtonSelector = 'li.active button';
+	const mobileWidthThreshold = 768;
+
+	const isMobileWidth = () => parseFloat($('body').width()) <= mobileWidthThreshold;
 
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
@@ -27,12 +31,17 @@ bcpl.navigation = (($, keyCodes) => {
 			.find('ul')
 			.attr('aria-hidden', true);
 
-	const removeActiveClassFromAllButtons = () => deactivateSubmenu($('nav').find('li.active button'));
+	const removeActiveClassFromAllButtons = () => deactivateSubmenu($('nav').find(activeMenuButtonSelector));
 
 	const hideSearchBox = () => $(searchArtifactsSelector).removeClass('active');
 
-	const hideHeroCallout = (shouldHide) =>
-		shouldHide ? $(heroCalloutContainerSelector).hide() : $(heroCalloutContainerSelector).show();
+	const hideHeroCallout = (shouldHide) => {
+		if (shouldHide && !isMobileWidth()) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
+		}
+	};
 
 	const navButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
@@ -53,7 +62,7 @@ bcpl.navigation = (($, keyCodes) => {
 
 		switch (keyCode) {
 		case keyCodes.escape:
-			deactivateSubmenu($('nav li.active button'));
+			deactivateSubmenu($(activeMenuButtonSelector));
 			hideHeroCallout(false);
 			break;
 		default:
@@ -145,9 +154,16 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
+	const navigationMouseover = () => {
+		hideHeroCallout(true);
+	};
+
 	const navigationMouseleave = (mouseEvent) => {
-		if (!$(mouseEvent.relatedTarget).closest('nav').length) {
+		const isNextElementANavElement = $(mouseEvent.relatedTarget).closest('nav').length;
+
+		if (!isNextElementANavElement && !isMobileWidth()) {
 			removeActiveClassFromAllButtons();
+			hideHeroCallout(false);
 		}
 	};
 
@@ -155,5 +171,6 @@ bcpl.navigation = (($, keyCodes) => {
 	$(document).on('keydown', 'nav', navigationKeyPressed);
 	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
 	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
+	$(document).on('mouseover', 'nav, nav *', navigationMouseover);
 	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
 })(jQuery, bcpl.constants.keyCodes);
