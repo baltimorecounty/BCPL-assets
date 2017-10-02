@@ -100,7 +100,7 @@ bcpl.navigation = (($, keyCodes) => {
 			activateSubmenu($button);
 			$button
 				.siblings('.submenu-wrapper')
-				.find('a')
+				.find('a:visible')
 				.first()
 				.focus();
 			break;
@@ -112,7 +112,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const navigationMenuItemKeyPressed = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		const $link = $(keyboardEvent.currentTarget);
-		const $allActiveLinks = $link.closest(activeLinksSelector).find('a');
+		const $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
 
 		switch (keyCode) {
 		case keyCodes.upArrow:

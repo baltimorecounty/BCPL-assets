@@ -200,7 +200,7 @@ bcpl.navigationSearch = function ($) {
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
 		$menu.removeClass('active move-left').find('.slide-in').removeClass('slide-in');
-		$('nav .clicked').removeClass('clicked');
+		$('nav .clicked').removeClass('active clicked');
 		$('body').removeClass('nav-visible');
 	};
 
@@ -262,7 +262,7 @@ bcpl.navigationSearch = function ($) {
 		var $modalCover = event.data.$modalCover;
 
 		if ($('nav .clicked').length) {
-			$('nav .clicked').removeClass('clicked');
+			$('nav .clicked').removeClass('clicked active');
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
 		}
@@ -462,7 +462,7 @@ bcpl.navigation = function ($, keyCodes) {
 				removeActiveClassFromAllButtons();
 				keyboardEvent.preventDefault();
 				activateSubmenu($button);
-				$button.siblings('.submenu-wrapper').find('a').first().focus();
+				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
 				break;
 			default:
 				break;
@@ -472,7 +472,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		var $link = $(keyboardEvent.currentTarget);
-		var $allActiveLinks = $link.closest(activeLinksSelector).find('a');
+		var $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
 
 		switch (keyCode) {
 			case keyCodes.upArrow:

@@ -19,7 +19,7 @@ bcpl.navigationSearch = (($) => {
 			.removeClass('active move-left')
 			.find('.slide-in')
 			.removeClass('slide-in');
-		$('nav .clicked').removeClass('clicked');
+		$('nav .clicked').removeClass('active clicked');
 		$('body').removeClass('nav-visible');
 	};
 
@@ -81,7 +81,7 @@ bcpl.navigationSearch = (($) => {
 		const $modalCover = event.data.$modalCover;
 
 		if ($('nav .clicked').length) {
-			$('nav .clicked').removeClass('clicked');
+			$('nav .clicked').removeClass('clicked active');
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
 		}
