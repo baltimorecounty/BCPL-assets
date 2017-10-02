@@ -31,7 +31,8 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const hideSearchBox = () => $(searchArtifactsSelector).removeClass('active');
 
-	const hideHeroCallout = (shouldHide) => shouldHide ? $(heroCalloutContainerSelector).hide() : $(heroCalloutContainerSelector).show();
+	const hideHeroCallout = (shouldHide) =>
+		shouldHide ? $(heroCalloutContainerSelector).hide() : $(heroCalloutContainerSelector).show();
 
 	const navButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
