@@ -383,20 +383,40 @@ bcpl.navigation = function ($, keyCodes) {
 		return parseFloat($('body').width()) <= mobileWidthThreshold;
 	};
 
+	var isSlideNavigationVisible = function isSlideNavigationVisible() {
+		return $('body').hasClass('nav-visible');
+	};
+
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
 		return $link.closest(closestMenuNodeSelector).find('button');
 	};
 
 	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('nav li.active a').first().focus();
+		return $('nav li.active a:visible').first().focus();
 	};
 
-	var activateSubmenu = function activateSubmenu($button) {
-		return $button.attr('aria-expanded', true).closest('li').addClass('active clicked').find('ul').attr('aria-hidden', false);
+	var continueAfterMenuStateChange = function continueAfterMenuStateChange(next) {
+		if (next) {
+			if (isSlideNavigationVisible()) {
+				$('.clicked .submenu-wrapper').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
+					next();
+				});
+			} else {
+				next();
+			}
+		}
 	};
 
-	var deactivateSubmenu = function deactivateSubmenu($button) {
-		return $button.attr('aria-expanded', false).closest('li').removeClass('active clicked').find('ul').attr('aria-hidden', true);
+	var activateSubmenu = function activateSubmenu($button, next) {
+		$button.attr('aria-expanded', true).closest('li').addClass('active clicked').find('ul').attr('aria-hidden', false);
+
+		continueAfterMenuStateChange(next);
+	};
+
+	var deactivateSubmenu = function deactivateSubmenu($button, next) {
+		$button.attr('aria-expanded', false).closest('li').removeClass('active clicked').find('ul').attr('aria-hidden', true);
+
+		continueAfterMenuStateChange(next);
 	};
 
 	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
@@ -431,11 +451,14 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		var $button = $(activeMenuButtonSelector);
 
 		switch (keyCode) {
 			case keyCodes.escape:
-				deactivateSubmenu($(activeMenuButtonSelector));
-				hideHeroCallout(false);
+				deactivateSubmenu($button, function () {
+					$button.focus();
+					hideHeroCallout(false);
+				});
 				break;
 			default:
 				break;
@@ -459,10 +482,11 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.downArrow:
 			case keyCodes.upArrow:
-				removeActiveClassFromAllButtons();
 				keyboardEvent.preventDefault();
-				activateSubmenu($button);
-				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
+				removeActiveClassFromAllButtons();
+				activateSubmenu($button, function () {
+					$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
+				});
 				break;
 			default:
 				break;
@@ -486,9 +510,11 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.leftArrow:
 				keyboardEvent.preventDefault();
 				if ($link.closest(closestMenuNodeSelector).prev('li').length) {
-					deactivateSubmenu(findClosestButtonToLink($link));
-					activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
-					focusFirstActiveMenuLink();
+					deactivateSubmenu(findClosestButtonToLink($link), function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'), function () {
+							focusFirstActiveMenuLink();
+						});
+					});
 				}
 				break;
 			case keyCodes.downArrow:
@@ -498,9 +524,11 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.rightArrow:
 				keyboardEvent.preventDefault();
 				if ($link.closest(closestMenuNodeSelector).next('li').length) {
-					deactivateSubmenu(findClosestButtonToLink($link));
-					activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
-					focusFirstActiveMenuLink();
+					deactivateSubmenu(findClosestButtonToLink($link), function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'), function () {
+							focusFirstActiveMenuLink();
+						});
+					});
 				}
 				break;
 			case keyCodes.space:

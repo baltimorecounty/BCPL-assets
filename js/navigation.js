@@ -11,11 +11,25 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const isMobileWidth = () => parseFloat($('body').width()) <= mobileWidthThreshold;
 
+	const isSlideNavigationVisible = () => $('body').hasClass('nav-visible');
+
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
-	const focusFirstActiveMenuLink = () => $('nav li.active a').first().focus();
+	const focusFirstActiveMenuLink = () => $('nav li.active a:visible').first().focus();
 
-	const activateSubmenu = ($button) =>
+	const continueAfterMenuStateChange = (next) => {
+		if (next) {
+			if (isSlideNavigationVisible()) {
+				$('.clicked .submenu-wrapper').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', () => {
+					next();
+				});
+			} else {
+				next();
+			}
+		}
+	};
+
+	const activateSubmenu = ($button, next) => {
 		$button
 			.attr('aria-expanded', true)
 			.closest('li')
@@ -23,13 +37,19 @@ bcpl.navigation = (($, keyCodes) => {
 			.find('ul')
 			.attr('aria-hidden', false);
 
-	const deactivateSubmenu = ($button) =>
+		continueAfterMenuStateChange(next);
+	};
+
+	const deactivateSubmenu = ($button, next) => {
 		$button
 			.attr('aria-expanded', false)
 			.closest('li')
 			.removeClass('active clicked')
 			.find('ul')
 			.attr('aria-hidden', true);
+
+		continueAfterMenuStateChange(next);
+	};
 
 	const removeActiveClassFromAllButtons = () => deactivateSubmenu($('nav').find(activeMenuButtonSelector));
 
@@ -59,11 +79,14 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const navigationKeyPressed = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		const $button = $(activeMenuButtonSelector);
 
 		switch (keyCode) {
 		case keyCodes.escape:
-			deactivateSubmenu($(activeMenuButtonSelector));
-			hideHeroCallout(false);
+			deactivateSubmenu($button, () => {
+				$button.focus();
+				hideHeroCallout(false);
+			});
 			break;
 		default:
 			break;
@@ -95,14 +118,15 @@ bcpl.navigation = (($, keyCodes) => {
 			break;
 		case keyCodes.downArrow:
 		case keyCodes.upArrow:
-			removeActiveClassFromAllButtons();
 			keyboardEvent.preventDefault();
-			activateSubmenu($button);
-			$button
-				.siblings('.submenu-wrapper')
-				.find('a:visible')
-				.first()
-				.focus();
+			removeActiveClassFromAllButtons();
+			activateSubmenu($button, () => {
+				$button
+					.siblings('.submenu-wrapper')
+					.find('a:visible')
+					.first()
+					.focus();
+			});
 			break;
 		default:
 			break;
@@ -126,9 +150,11 @@ bcpl.navigation = (($, keyCodes) => {
 		case keyCodes.leftArrow:
 			keyboardEvent.preventDefault();
 			if ($link.closest(closestMenuNodeSelector).prev('li').length) {
-				deactivateSubmenu(findClosestButtonToLink($link));
-				activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
-				focusFirstActiveMenuLink();
+				deactivateSubmenu(findClosestButtonToLink($link), () => {
+					activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'), () => {
+						focusFirstActiveMenuLink();
+					});
+				});
 			}
 			break;
 		case keyCodes.downArrow:
@@ -138,9 +164,11 @@ bcpl.navigation = (($, keyCodes) => {
 		case keyCodes.rightArrow:
 			keyboardEvent.preventDefault();
 			if ($link.closest(closestMenuNodeSelector).next('li').length) {
-				deactivateSubmenu(findClosestButtonToLink($link));
-				activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
-				focusFirstActiveMenuLink();
+				deactivateSubmenu(findClosestButtonToLink($link), () => {
+					activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'), () => {
+						focusFirstActiveMenuLink();
+					});
+				});
 			}
 			break;
 		case keyCodes.space:
