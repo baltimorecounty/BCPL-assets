@@ -75,6 +75,9 @@
 						ul {
 							display: table;
 							width: 57%;
+							ul {
+								display: none;
+							}
 						}
 						a,
 						button {
