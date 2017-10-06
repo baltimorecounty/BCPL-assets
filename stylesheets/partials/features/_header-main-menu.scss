@@ -314,29 +314,31 @@
 					position: absolute;
 				}
 			}
-			nav {
-				background-color: $teal-dark;
+
+			#responsive-sliding-navigation {
+				background: $teal-dark;
+				float: none;
+				height: 100vh;
 				position: fixed;
 				right: -300px;
 				top: 0;
 				width: 300px;
 				z-index: 1000;
-				display: none;
-				height: 100vh;
-				overflow-y: auto;
-				overflow-x: hidden;
+				
+				&.active {
+					right: 0;
+				}
+
 				&.animatable {
 					transition: .5s right ease;
-					display: block;
 				}
-				&.active {
-					/*right: 0;*/
-				}
+
 				.nav-back-button {
 					display: block;
 					background-color: $gray-dark;
 					height: 50px;
-					width: 100% !important;
+					width: 100%;
+
 					button {
 						color: $gray-light;
 						display: block;
@@ -350,145 +352,65 @@
 						}
 					}
 				}
+
 				ul {
-					display: block;
+					position: relative;
 					li {
 						display: block;
-						border-bottom: 1px solid $teal;
-						button {
-							padding: .5em 1em;
-							width: 100%;
-							text-align: left;
-						}
-						&.reverse {
-							.submenu-wrapper {
-								right: -100%;
-							}
-						}
-						.submenu-wrapper {
-							display: none;
-							height: 100%;
-							opacity: 1;
-							padding: 0;
-							position: absolute;
-							right: -100%;
-							top: 50px;
-							transition: .5s all ease;
-							width: 100%;
-							ul {
-								display: block;
-								ul {
-									box-shadow: $shadow-top-bottom;
-									background-color: $teal-darker;
-									border-top: 1px solid $teal;
-									li {
-										border: none;
-										a {
-											padding-left: 3em;
-										}
 
-										&:first-child {							
-											a {
-												&:hover {
-													box-shadow: $shadow-top-inset;
-												}
-											}
-										}
-										&:last-child {
-											a {
-												&:hover {
-													box-shadow: $shadow-bottom-inset;
-												}
-											}
-										}
-									}
-								}
-							}
-							&.wide {
-								left: initial;
-								width: 100%;
-								ul {
-									display: block;
-									li {
-										display: block;
-										float: none;
-										width: 100%;
-										ul {
-											display: block;
-										}
-									}
-								}
-							}
-							.overview {
-								display: block;
-								width: 100%;
-								border-right: none;
-								border-bottom: 1px solid $teal;
-								padding-bottom: 1em;
-								a {
-									text-align: center;
-									margin-top: 1em;
-									i {
-										&:before {
-											margin-left: 0;
-										}
-									}
-								}
-							}
-						}
-						&:hover,
-						&.active {
-							background: inherit;
-							opacity: 1;
-							a,
+						&:hover {
 							button {
-								i.fa-caret-right {
-									&::before {
-										content: "\f0da";
-									}
+								i.fa-caret-right::before {
+									content: "\f0da" !important;
 								}
 							}
-							&.clicked {
+	
+							.submenu-wrapper {
+								display: none;
+							}
+
+							&.active {
 								.submenu-wrapper {
-									.overview {
-										width: 100%;
-									}
-									ul {
-										display: block;
-										width: 100%;
-										li {
-											display: block;
-											width: 100%;
-											float: none;
-										}
-									}
+									display: block;
+									width: 100%;
 								}
 							}
 						}
-						a {
-							&:hover {
-								background: $teal;
-							}
-						}						
-						&.clicked {
+
+						&.active {
 							.submenu-wrapper {
 								display: block;
-								right: 0;
+								width: 100%;
+								position: absolute;
+								top: 0;
+								right: -300px;
+
+								&.wide {
+									left: inherit;
+									ul {
+										li {
+											float: none;
+											width: 100%;
+										}
+									}
+								}
+
 								.overview {
+									border-right: none;
+									border-bottom: 1px solid $teal-light;							
 									display: block;
+									width: 100%;							
+
+									a {
+										margin-bottom: 1em;										
+									}
 								}
 								ul {
 									display: block;
+									width: 100%;
+
 									li {
 										display: block;
-										width: 100%;
-										float: none;
-										border-bottom: 1px solid $teal;
-										ul {
-											li {
-												border: none;
-											}
-										}
 									}
 								}
 							}

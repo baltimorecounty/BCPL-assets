@@ -189,18 +189,16 @@ bcpl.navigationSearch = function ($) {
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
-	var menuSelector = '.nav-and-search nav';
-	var navBackButtonSelector = 'nav > .nav-back-button button';
+	var menuSelector = '#responsive-sliding-navigation';
+	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
-	var menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	// const submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
 
 	/* Helpers */
 
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
-		$menu.removeClass('active move-left').find('.slide-in').removeClass('slide-in');
-		$('nav .clicked').removeClass('active clicked');
+		$menu.removeClass('active');
+		$('#responsive-sliding-navigation .active').removeClass('active');
 		$('body').removeClass('nav-visible');
 	};
 
@@ -216,7 +214,7 @@ bcpl.navigationSearch = function ($) {
 		var $hamburgerButton = $(event.currentTarget);
 		var $modalCover = event.data.$modalCover;
 
-		$menu.find('.slide-in').removeClass('slide-in');
+		// $menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
@@ -261,27 +259,13 @@ bcpl.navigationSearch = function ($) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
 
-		if ($('nav .clicked').length) {
-			$('nav .clicked').removeClass('clicked active');
+		if ($('#responsive-sliding-navigation .active').length) {
+			$('#responsive-sliding-navigation .active .submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
+				$(this).closest('li.active').removeClass('active');
+			});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
 		}
-	};
-
-	/**
-  * Handles the menu item clicks that slide out the next nav
-  * @param {Event} event
-  */
-	var menuItemClicked = function menuItemClicked(event) {
-		var $button = $(event.currentTarget);
-
-		$('nav .clicked').removeClass('clicked');
-		$button.parent().addClass('clicked');
-	};
-
-	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
-		var $backButton = $(event.currentTarget);
-		$backButton.closest('.slide-in').removeClass('slide-in');
 	};
 
 	var resizeTimer = void 0;
@@ -315,7 +299,6 @@ bcpl.navigationSearch = function ($) {
 		var $menu = $(menuSelector);
 		var $navBackButton = $(navBackButtonSelector);
 		var $modalCover = $(modalCoverSelector);
-		var $menuItems = $(menuItemsSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
@@ -344,10 +327,6 @@ bcpl.navigationSearch = function ($) {
 			$modalCover: $modalCover
 		}, modalDismissActionHandler);
 
-		$menuItems.on('click', {
-			$menu: $menu
-		}, menuItemClicked);
-
 		$(window).on('resize', {
 			$menu: $menu,
 			$modalCover: $modalCover
@@ -371,8 +350,8 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.navigation = function ($, keyCodes) {
-	var navButtonSelector = '.nav-and-search nav button';
-	var closestMenuNodeSelector = 'nav>ul>li';
+	var navButtonSelector = '#responsive-sliding-navigation button';
+	var closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
 	var searchArtifactsSelector = '#activate-search-button, #search-box';
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
@@ -387,40 +366,36 @@ bcpl.navigation = function ($, keyCodes) {
 		return $('body').hasClass('nav-visible');
 	};
 
+	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
+		return $('#responsive-sliding-navigation li.active a').first().focus();
+	};
+
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
 		return $link.closest(closestMenuNodeSelector).find('button');
 	};
 
-	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('nav li.active a:visible').first().focus();
-	};
+	var activateSubmenu = function activateSubmenu($button, afterAnimationCallback) {
+		$button.attr('aria-expanded', true).closest('li').addClass('active').find('.submenu-wrapper').animate({ right: '0px' }, 250, function afterAnimation() {
+			$(this).find('ul').attr('aria-hidden', false);
 
-	var continueAfterMenuStateChange = function continueAfterMenuStateChange(next) {
-		if (next) {
-			if (isSlideNavigationVisible()) {
-				$('.clicked .submenu-wrapper').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
-					next();
-				});
-			} else {
-				next();
+			if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+				afterAnimationCallback();
 			}
-		}
+		});
 	};
 
-	var activateSubmenu = function activateSubmenu($button, next) {
-		$button.attr('aria-expanded', true).closest('li').addClass('active clicked').find('ul').attr('aria-hidden', false);
+	var deactivateSubmenu = function deactivateSubmenu($button, afterAnimationCallback) {
+		$button.siblings('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
+			$(this).siblings('button').attr('aria-expanded', false).closest('li').removeClass('active').attr('aria-hidden', true);
 
-		continueAfterMenuStateChange(next);
-	};
-
-	var deactivateSubmenu = function deactivateSubmenu($button, next) {
-		$button.attr('aria-expanded', false).closest('li').removeClass('active clicked').find('ul').attr('aria-hidden', true);
-
-		continueAfterMenuStateChange(next);
+			if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+				afterAnimationCallback();
+			}
+		});
 	};
 
 	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
-		return deactivateSubmenu($('nav').find(activeMenuButtonSelector));
+		return deactivateSubmenu($('#responsive-sliding-navigation').find(activeMenuButtonSelector));
 	};
 
 	var hideSearchBox = function hideSearchBox() {
@@ -451,14 +426,13 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
-		var $button = $(activeMenuButtonSelector);
+		var $button = $(keyboardEvent.currentTarget).closest('#responsive-sliding-navigation').find(activeMenuButtonSelector);
 
 		switch (keyCode) {
 			case keyCodes.escape:
-				deactivateSubmenu($button, function () {
-					$button.focus();
-					hideHeroCallout(false);
-				});
+				deactivateSubmenu($button);
+				$button.focus();
+				hideHeroCallout(false);
 				break;
 			default:
 				break;
@@ -482,11 +456,11 @@ bcpl.navigation = function ($, keyCodes) {
 				break;
 			case keyCodes.downArrow:
 			case keyCodes.upArrow:
+			case keyCodes.enter:
 				keyboardEvent.preventDefault();
 				removeActiveClassFromAllButtons();
-				activateSubmenu($button, function () {
-					$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
-				});
+				activateSubmenu($button);
+				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
 				break;
 			default:
 				break;
@@ -496,7 +470,8 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
 		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		var $link = $(keyboardEvent.currentTarget);
-		var $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
+		var $allActiveLinks = $link.closest(activeLinksSelector).find('a');
+		var $button = findClosestButtonToLink($link);
 
 		switch (keyCode) {
 			case keyCodes.upArrow:
@@ -510,10 +485,9 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.leftArrow:
 				keyboardEvent.preventDefault();
 				if ($link.closest(closestMenuNodeSelector).prev('li').length) {
-					deactivateSubmenu(findClosestButtonToLink($link), function () {
-						activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'), function () {
-							focusFirstActiveMenuLink();
-						});
+					deactivateSubmenu($button, function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
+						focusFirstActiveMenuLink();
 					});
 				}
 				break;
@@ -524,10 +498,9 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.rightArrow:
 				keyboardEvent.preventDefault();
 				if ($link.closest(closestMenuNodeSelector).next('li').length) {
-					deactivateSubmenu(findClosestButtonToLink($link), function () {
-						activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'), function () {
-							focusFirstActiveMenuLink();
-						});
+					deactivateSubmenu($button, function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
+						focusFirstActiveMenuLink();
 					});
 				}
 				break;
@@ -547,7 +520,7 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
-		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('nav').length;
+		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
 		if (!isNextElementANavElement && !isMobileWidth()) {
 			removeActiveClassFromAllButtons();
@@ -555,12 +528,12 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
+	$(document).on('mouseover', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseover);
+	$(document).on('mouseleave', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseleave);
+	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
+	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
-	$(document).on('keydown', 'nav', navigationKeyPressed);
-	$(document).on('keydown', 'nav button', navigationButtonKeyPressed);
-	$(document).on('keydown', 'nav a', navigationMenuItemKeyPressed);
-	$(document).on('mouseover', 'nav, nav *', navigationMouseover);
-	$(document).on('mouseleave', 'nav, nav *', navigationMouseleave);
+	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';
 

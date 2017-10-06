@@ -5,21 +5,17 @@ bcpl.navigationSearch = (($) => {
 	const searchBoxSelector = '#search-box';
 	const searchButtonSelector = '#search-button';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
-	const menuSelector = '.nav-and-search nav';
-	const navBackButtonSelector = 'nav > .nav-back-button button';
+	const menuSelector = '#responsive-sliding-navigation';
+	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
-	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	// const submenuBackButtonSelector = '.nav-and-search nav ul li ul li.nav-back-button button';
 
 	/* Helpers */
 
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
 		$menu
-			.removeClass('active move-left')
-			.find('.slide-in')
-			.removeClass('slide-in');
-		$('nav .clicked').removeClass('active clicked');
+			.removeClass('active');
+		$('#responsive-sliding-navigation .active').removeClass('active');
 		$('body').removeClass('nav-visible');
 	};
 
@@ -35,7 +31,7 @@ bcpl.navigationSearch = (($) => {
 		const $hamburgerButton = $(event.currentTarget);
 		const $modalCover = event.data.$modalCover;
 
-		$menu.find('.slide-in').removeClass('slide-in');
+		// $menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
@@ -80,27 +76,16 @@ bcpl.navigationSearch = (($) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
 
-		if ($('nav .clicked').length) {
-			$('nav .clicked').removeClass('clicked active');
+		if ($('#responsive-sliding-navigation .active').length) {
+			$('#responsive-sliding-navigation .active .submenu-wrapper')
+				.animate({ right: '-300px' }, 250, function afterAnimation() {
+					$(this)
+						.closest('li.active')
+						.removeClass('active');
+				});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
 		}
-	};
-
-	/**
-	 * Handles the menu item clicks that slide out the next nav
-	 * @param {Event} event
-	 */
-	const menuItemClicked = (event) => {
-		const $button = $(event.currentTarget);
-
-		$('nav .clicked').removeClass('clicked');
-		$button.parent().addClass('clicked');
-	};
-
-	const submenuBackButtonClicked = (event) => {
-		const $backButton = $(event.currentTarget);
-		$backButton.closest('.slide-in').removeClass('slide-in');
 	};
 
 	let resizeTimer;
@@ -134,7 +119,6 @@ bcpl.navigationSearch = (($) => {
 		const $menu = $(menuSelector);
 		const $navBackButton = $(navBackButtonSelector);
 		const $modalCover = $(modalCoverSelector);
-		const $menuItems = $(menuItemsSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
@@ -163,10 +147,6 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, modalDismissActionHandler);
 
-		$menuItems.on('click', {
-			$menu
-		}, menuItemClicked);
-
 		$(window).on('resize', {
 			$menu,
 			$modalCover
@@ -184,8 +164,6 @@ bcpl.navigationSearch = (($) => {
 		searchButtonActivatorClicked,
 		searchButtonClicked,
 		modalDismissActionHandler,
-		menuItemClicked,
-		submenuBackButtonClicked,
 		windowResized,
 		/* end-test-code */
 		init
