@@ -33,29 +33,6 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect($menu.hasClass('active')).toBe(false);
 		});
 
-		it('should make the menu move right', () => {
-			const $menu = $('nav');
-			const $modalCover = $('#modal-cover');
-
-			$menu.addClass('active move-left');
-
-			bcpl.navigationSearch.killMenuAndModalCover($menu, $modalCover);
-
-			expect($menu.hasClass('move-left')).toBe(false);
-		});
-
-		it('should make the opened sub-nav close', () => {
-			const $menu = $('nav');
-			const $modalCover = $('#modal-cover');
-			const $firstList = $menu.find('ul li ul');
-
-			$firstList.addClass('slide-in');
-
-			bcpl.navigationSearch.killMenuAndModalCover($menu, $modalCover);
-
-			expect($firstList.hasClass('slide-in')).toBe(false);
-		});
-
 		it('should remove the "nav-visible" class from the body', () => {
 			const $menu = $('nav');
 			const $modalCover = $('#modal-cover');
@@ -82,12 +59,6 @@ describe('Search and sliding hamburger menu tests', () => {
 				},
 				currentTarget: $('#hamburger-menu-button')[0]
 			};
-		});
-
-		it('should slide-in all sub-navs', () => {
-			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
-
-			expect(sampleEvent.data.$menu.find('slide-in').length).toBe(0);
 		});
 
 		it('should deactivate the search button', () => {
@@ -207,35 +178,6 @@ describe('Search and sliding hamburger menu tests', () => {
 			bcpl.navigationSearch.searchButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.browserWindow.location).toContain('ABCDEFG');
-		});
-	});
-
-	describe('menuItemClicked', () => {
-		let sampleEvent = {};
-
-		beforeEach(() => {
-			loadFixtures('menuAndModal.fixture.html');
-
-			sampleEvent = {
-				data: {
-					$menu: $('nav')
-				},
-				currentTarget: 'nav ul li:first-child button'
-			};
-		});
-
-		it('should slide out any active menu', () => {
-			$('nav ul li .submenu-wrapper').addClass('slide-in');
-
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav ul li:nth-child(3) .submenu-wrapper').hasClass('slide-in')).toBe(false);
-		});
-
-		it('should slide in the submenu', () => {
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav ul li:first-child').hasClass('clicked')).toBe(true);
 		});
 	});
 
