@@ -384,6 +384,7 @@
 								position: absolute;
 								top: 0;
 								right: -300px;
+								padding: 0;
 
 								&.wide {
 									left: inherit;
@@ -399,7 +400,8 @@
 									border-right: none;
 									border-bottom: 1px solid $teal-light;							
 									display: block;
-									width: 100%;							
+									width: auto;	
+									margin: 1em;						
 
 									a {
 										margin-bottom: 1em;										
@@ -408,9 +410,31 @@
 								ul {
 									display: block;
 									width: 100%;
-
+									
 									li {
 										display: block;
+
+										ul {
+											box-shadow: $shadow-top-bottom;
+											background-color: $teal-darker;
+
+											li {
+												&:first-child {							
+													a {
+														&:hover {
+															box-shadow: $shadow-top-inset;
+														}
+													}
+												}
+												&:last-child {
+													a {
+														&:hover {
+															box-shadow: $shadow-bottom-inset;
+														}
+													}
+												}
+											}
+										}
 									}
 								}
 							}

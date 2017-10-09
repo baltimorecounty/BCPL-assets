@@ -19,12 +19,14 @@ bcpl.navigation = (($, keyCodes) => {
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
 	const activateSubmenu = ($button, afterAnimationCallback) => {
+		const animationOptions = isSlideNavigationVisible() ? { right: '0px' } : {};
+		const animationSpeed = isSlideNavigationVisible() ? 250 : 0;
 		$button
 			.attr('aria-expanded', true)
 			.closest('li')
 			.addClass('active')
 			.find('.submenu-wrapper')
-			.animate({ right: '0px' }, 250, function afterAnimation() {
+			.animate(animationOptions, animationSpeed, function afterAnimation() {
 				$(this)
 					.find('ul')
 					.attr('aria-hidden', false);
@@ -36,9 +38,11 @@ bcpl.navigation = (($, keyCodes) => {
 	};
 
 	const deactivateSubmenu = ($button, afterAnimationCallback) => {
+		const animationOptions = isSlideNavigationVisible() ? { right: '-300px' } : {};
+		const animationSpeed = isSlideNavigationVisible() ? 250 : 0;
 		$button
 			.siblings('.submenu-wrapper')
-			.animate({ right: '-300px' }, 250, function afterAnimation() {
+			.animate(animationOptions, animationSpeed, function afterAnimation() {
 				$(this)
 					.siblings('button')
 					.attr('aria-expanded', false)
@@ -136,7 +140,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const navigationMenuItemKeyPressed = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		const $link = $(keyboardEvent.currentTarget);
-		const $allActiveLinks = $link.closest(activeLinksSelector).find('a');
+		const $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
 		const $button = findClosestButtonToLink($link);
 
 		switch (keyCode) {
