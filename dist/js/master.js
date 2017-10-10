@@ -258,9 +258,10 @@ bcpl.navigationSearch = function ($) {
 	var modalDismissActionHandler = function modalDismissActionHandler(event) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
+		var $activeMenuItem = $('#responsive-sliding-navigation .active');
 
-		if ($('#responsive-sliding-navigation .active').length) {
-			$('#responsive-sliding-navigation .active .submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
+		if ($activeMenuItem.length) {
+			$activeMenuItem.find('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
 				$(this).closest('li.active').removeClass('active');
 			});
 		} else {
@@ -281,7 +282,7 @@ bcpl.navigationSearch = function ($) {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
 				$menu.addClass('animatable');
-				if (callback) {
+				if (callback && typeof callback === 'function') {
 					callback();
 				}
 			}, 500);
@@ -374,27 +375,35 @@ bcpl.navigation = function ($, keyCodes) {
 		return $link.closest(closestMenuNodeSelector).find('button');
 	};
 
+	var afterSubmenuActivated = function afterSubmenuActivated(target, afterAnimationCallback) {
+		$(target).find('ul').attr('aria-hidden', false);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
+	};
+
 	var activateSubmenu = function activateSubmenu($button, afterAnimationCallback) {
 		var animationOptions = isSlideNavigationVisible() ? { right: '0px' } : {};
 		var animationSpeed = isSlideNavigationVisible() ? 250 : 0;
 		$button.attr('aria-expanded', true).closest('li').addClass('active').find('.submenu-wrapper').animate(animationOptions, animationSpeed, function afterAnimation() {
-			$(this).find('ul').attr('aria-hidden', false);
-
-			if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
-				afterAnimationCallback();
-			}
+			afterSubmenuActivated(this, afterAnimationCallback);
 		});
+	};
+
+	var afterSubmenuDeactivated = function afterSubmenuDeactivated(target, afterAnimationCallback) {
+		$(target).siblings('button').attr('aria-expanded', false).closest('li').removeClass('active').attr('aria-hidden', true);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
 	};
 
 	var deactivateSubmenu = function deactivateSubmenu($button, afterAnimationCallback) {
 		var animationOptions = isSlideNavigationVisible() ? { right: '-300px' } : {};
 		var animationSpeed = isSlideNavigationVisible() ? 250 : 0;
 		$button.siblings('.submenu-wrapper').animate(animationOptions, animationSpeed, function afterAnimation() {
-			$(this).siblings('button').attr('aria-expanded', false).closest('li').removeClass('active').attr('aria-hidden', true);
-
-			if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
-				afterAnimationCallback();
-			}
+			afterSubmenuDeactivated(this, afterAnimationCallback);
 		});
 	};
 
@@ -416,10 +425,10 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var navButtonClicked = function navButtonClicked(event) {
 		var $button = $(event.currentTarget);
-		var isActive = $button.closest('li').hasClass('active');
+		var wasActive = $button.closest('li').hasClass('active');
 		hideSearchBox();
 		removeActiveClassFromAllButtons();
-		if (!isActive) {
+		if (!wasActive) {
 			activateSubmenu($button);
 			hideHeroCallout(true);
 		} else {

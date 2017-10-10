@@ -18,6 +18,16 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
+	const afterSubmenuActivated = (target, afterAnimationCallback) => {
+		$(target)
+			.find('ul')
+			.attr('aria-hidden', false);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
+	};
+
 	const activateSubmenu = ($button, afterAnimationCallback) => {
 		const animationOptions = isSlideNavigationVisible() ? { right: '0px' } : {};
 		const animationSpeed = isSlideNavigationVisible() ? 250 : 0;
@@ -27,14 +37,21 @@ bcpl.navigation = (($, keyCodes) => {
 			.addClass('active')
 			.find('.submenu-wrapper')
 			.animate(animationOptions, animationSpeed, function afterAnimation() {
-				$(this)
-					.find('ul')
-					.attr('aria-hidden', false);
-
-				if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
-					afterAnimationCallback();
-				}
+				afterSubmenuActivated(this, afterAnimationCallback);
 			});
+	};
+
+	const afterSubmenuDeactivated = (target, afterAnimationCallback) => {
+		$(target)
+			.siblings('button')
+			.attr('aria-expanded', false)
+			.closest('li')
+			.removeClass('active')
+			.attr('aria-hidden', true);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
 	};
 
 	const deactivateSubmenu = ($button, afterAnimationCallback) => {
@@ -43,16 +60,7 @@ bcpl.navigation = (($, keyCodes) => {
 		$button
 			.siblings('.submenu-wrapper')
 			.animate(animationOptions, animationSpeed, function afterAnimation() {
-				$(this)
-					.siblings('button')
-					.attr('aria-expanded', false)
-					.closest('li')
-					.removeClass('active')
-					.attr('aria-hidden', true);
-
-				if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
-					afterAnimationCallback();
-				}
+				afterSubmenuDeactivated(this, afterAnimationCallback);
 			});
 	};
 
@@ -70,10 +78,10 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const navButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
-		const isActive = $button.closest('li').hasClass('active');
+		const wasActive = $button.closest('li').hasClass('active');
 		hideSearchBox();
 		removeActiveClassFromAllButtons();
-		if (!isActive) {
+		if (!wasActive) {
 			activateSubmenu($button);
 			hideHeroCallout(true);
 		} else {

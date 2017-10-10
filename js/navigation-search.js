@@ -75,9 +75,10 @@ bcpl.navigationSearch = (($) => {
 	const modalDismissActionHandler = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
+		const $activeMenuItem = $('#responsive-sliding-navigation .active');
 
-		if ($('#responsive-sliding-navigation .active').length) {
-			$('#responsive-sliding-navigation .active .submenu-wrapper')
+		if ($activeMenuItem.length) {
+			$activeMenuItem.find('.submenu-wrapper')
 				.animate({ right: '-300px' }, 250, function afterAnimation() {
 					$(this)
 						.closest('li.active')
@@ -101,7 +102,7 @@ bcpl.navigationSearch = (($) => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(() => {
 				$menu.addClass('animatable');
-				if (callback) {
+				if (callback && typeof callback === 'function') {
 					callback();
 				}
 			}, 500);
