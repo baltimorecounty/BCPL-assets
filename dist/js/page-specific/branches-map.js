@@ -9,14 +9,6 @@ bcpl.pageSpecific.branchMap = function ($) {
 	var markers = [];
 	var infowindows = [];
 
-	function wait(ms) {
-		var start = Date.now(),
-		    now = start;
-		while (now - start < ms) {
-			now = Date.now();
-		}
-	}
-
 	var getAddressForDirections = function getAddressForDirections(branch) {
 		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(' ', '+');
 	};
@@ -44,8 +36,6 @@ bcpl.pageSpecific.branchMap = function ($) {
 			marker.addListener('click', function () {
 				infowindow.open(map, marker);
 			});
-
-			wait(100);
 		});
 	};
 

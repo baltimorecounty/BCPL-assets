@@ -43,3 +43,14 @@
 		height: 375px;		
 	}
 }
+
+.holiday-closings {
+	position: absolute;
+	right: 15px;
+	top: 45px;
+
+	a {
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+}
