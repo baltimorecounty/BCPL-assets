@@ -8,14 +8,13 @@
 	<link href="/dist/css/home.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	    crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	    crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/dist/js/master.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
 	<script src="/dist/js/page-specific/branches-filter.js"></script>
+	<script src="/dist/js/page-specific/branches-map.js"></script>
 </head>
 
 <body>
@@ -190,8 +189,7 @@
 											<nav>
 												<ul>
 													<li><a href="/"><i class="fa fa-home"></i></a></li>
-													<li><a href="#">Services</a></li>
-													<li><a href="#">Meeting Rooms</a></li>
+													<li><a href="#">Locations</a></li>
 												</ul>
 											</nav>
 										</div>
@@ -215,8 +213,66 @@
 					</div>
 				</div>
 				<div class="col-md-9">
+					<h1>Branch Locations</h1>
+					<div class="branch-general-info">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="map-wrapper">
+									<div id="location-map"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="branch-hours-wrapper">
+									<h2>Branch Hours</h2>
+									<table>
+										<thead>
+											<th>Day</th>
+											<th>Opens</th>
+											<th>Closes</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Sun</td>
+												<td>1 p.m.</td>
+												<td>5 p.m.</td>
+											</tr>
+											<tr>
+												<td>Mon</td>
+												<td>9 a.m.</td>
+												<td>9 p.m.</td>
+											</tr>
+											<tr>
+												<td>Tue</td>
+												<td>9 a.m.</td>
+												<td>9 p.m.</td>
+											</tr>
+											<tr>
+												<td>Wed</td>
+												<td>9 a.m.</td>
+												<td>9 p.m.</td>
+											</tr>
+											<tr>
+												<td>Thu</td>
+												<td>9 a.m.</td>
+												<td>9 p.m.</td>
+											</tr>
+											<tr>
+												<td>Fri</td>
+												<td>9 a.m.</td>
+												<td>5:30 p.m.</td>
+											</tr>
+											<tr>
+												<td>Sat</td>
+												<td>9 a.m.</td>
+												<td>5:30 p.m.</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="cards">
-						<h1>Branch Locations</h1>
 						<script id="branches-template" type="text/x-handlebars-template">
 							{{#each this}}
 							<div class="card">
@@ -316,6 +372,8 @@
 			</div>
 		</footer>
 	</div>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap" async defer></script>		
 </body>
 
 </html>

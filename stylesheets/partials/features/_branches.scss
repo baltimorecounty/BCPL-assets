@@ -25,3 +25,21 @@
 		}
 	}
 }
+
+.branch-general-info {
+	background: white;
+	border-top: 5px solid $tan;
+
+	.branch-hours-wrapper {
+		padding-right: 1em;
+	}
+}
+
+.map-wrapper {
+	padding: 1.5em 0 1em 1em;
+
+	#location-map {
+		border: 1px solid $tan;
+		height: 375px;		
+	}
+}

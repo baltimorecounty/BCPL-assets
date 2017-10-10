@@ -75,33 +75,8 @@ bcpl.pageSpecific.filter = function ($) {
 		console.log('err', errorThrown);
 	};
 
-	/* 	const toggleButtonClicked = (toggleButtonEvent) => {
- 		const $target = $(toggleButtonEvent.target);
- 		const $buttonGroup = $target.parent().find('button');
- 		const $branches = $('#branches');
- 
- 		$buttonGroup.toggleClass('btn-primary').toggleClass('btn-default');
- 
- 		if ($target.parent().is('#sort-control')) {
- 			$branches.fadeOut(250, () => {
- 				const $branchCards = $branches.find('.card').detach();
- 				$branches.append($branchCards.get().reverse());
- 				$branches.fadeIn(250);
- 			});
- 		}
- 
- 		if ($target.parent().is('#list-grid-control')) {
- 			$branches.fadeOut(250, () => {
- 				$branches.toggleClass('list-view');
- 				$branches.fadeIn(250);
- 			});
- 		}
- 	}; */
-
 	var init = function init() {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
-
-		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);
 	};
 
 	return { init: init };
