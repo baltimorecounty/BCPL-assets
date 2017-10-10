@@ -83,11 +83,10 @@ bcpl.navigation = (($, keyCodes) => {
 		removeActiveClassFromAllButtons();
 		if (!wasActive) {
 			activateSubmenu($button);
-			hideHeroCallout(true);
 		} else {
 			deactivateSubmenu($button);
-			hideHeroCallout(false);
 		}
+		hideHeroCallout(!wasActive);
 	};
 
 	const navigationKeyPressed = (keyboardEvent) => {
