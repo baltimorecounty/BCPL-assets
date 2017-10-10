@@ -40,7 +40,14 @@
 
 	#location-map {
 		border: 1px solid $tan;
-		height: 375px;		
+		height: 375px;	
+		
+		.info-window {
+			a {
+				font-weight: 700;
+				text-transform: uppercase;
+			}
+		}
 	}
 }
 
