@@ -1,5 +1,10 @@
 [{
 	"name": "Arbutus",
+	"address": "855 Sulphur Spring Road",
+	"city": "Arbutus",
+	"zip": "21227",
+	"phone": "410-887-1451",
+	"email": "arbutus@bcpl.net",
 	"amenities": [
 		"Drive-Up Window",
 		"Fax Machines",
@@ -10,6 +15,11 @@
 	]
 }, {
 	"name": "Catonsville",
+	"address": "1100 Frederick Road",
+	"city": "Catonsville",
+	"zip": "21228",
+	"phone": "410-887-0951",
+	"email": "catonsvi@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -17,6 +27,11 @@
 	]
 }, {
 	"name": "Cockeysville",
+	"address": "9833 Greenside Drive",
+	"city": "Cockeysville",
+	"zip": "21030",
+	"phone": "410-887-7750",
+	"email": "cockeysv@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -25,6 +40,11 @@
 	]
 }, {
 	"name": "Essex",
+	"address": "1110 Eastern Boulevard",
+	"city": "Essex",
+	"zip": "21221",
+	"phone": "410-887-0295",
+	"email": "essex@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -33,6 +53,11 @@
 	]
 }, {
 	"name": "Hereford",
+	"address": "16940 York Road",
+	"city": "Hereford",
+	"zip": "21111",
+	"phone": "410-887-1919",
+	"email": "hereford@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -41,6 +66,11 @@
 	]
 }, {
 	"name": "Lansdowne",
+	"address": "500 Third Avenue",
+	"city": "Lansdowne",
+	"zip": "21227",
+	"phone": "410-887-5602",
+	"email": "bcpl-la@bcpl.net",
 	"amenities": [
 		"Fax Machines",
 		"Local History Collection",
@@ -48,12 +78,22 @@
 	]
 }, {
 	"name": "Loch Raven",
+	"address": "1046 Taylor Avenue",
+	"city": "Towson",
+	"zip": "21286",
+	"phone": "410-887-4444",
+	"email": "lochrave@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room"
 	]
 }, {
 	"name": "North Point",
+	"address": "1716 Merritt Boulevard",
+	"city": "Dundalk",
+	"zip": "21222",
+	"phone": "410-887-7255",
+	"email": "northpoi@bcpl.net",
 	"amenities": [
 		"Fax Machines",
 		"Local History Collection",
@@ -61,6 +101,11 @@
 	]
 }, {
 	"name": "Owings Mills",
+	"address": "10302 Grand Central Avenue",
+	"city": "Owings Mills",
+	"zip": "21117",
+	"phone": "410-887-2092",
+	"email": "owingsmills@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -69,9 +114,19 @@
 	]
 }, {
 	"name": "Parkville-Carney",
+	"address": "9509 Harford Road",
+	"city": "Parkville",
+	"zip": "21234",
+	"phone": "410-887-5353",
+	"email": "parkvill@bcpl.net",
 	"amenities": []
 }, {
 	"name": "Perry Hall",
+	"address": "9685 Honeygo Boulevard",
+	"city": "Perry Hall",
+	"zip": "21128",
+	"phone": "410-887-5195",
+	"email": "perryhal@bcpl.net",
 	"amenities": [
 		"Meeting Room",
 		"Study Space, Quiet",
@@ -79,11 +134,21 @@
 	]
 }, {
 	"name": "Pikesville",
+	"address": "1301 Reisterstown Road",
+	"city": "Pikesville",
+	"zip": "21208",
+	"phone": "410-887-1234",
+	"email": "pikesvil@bcpl.net",
 	"amenities": [
 		"Meeting Room"
 	]
 }, {
 	"name": "Randallstown",
+	"address": "8604 Liberty Road",
+	"city": "Randallstown",
+	"zip": "21133",
+	"phone": "410-887-0770",
+	"email": "randalls@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -92,6 +157,11 @@
 	]
 }, {
 	"name": "Reisterstown",
+	"address": "21 Cockeys Mill Road",
+	"city": "Reisterstown",
+	"zip": "21136",
+	"phone": "410-887-1165",
+	"email": "reisters@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -99,6 +169,11 @@
 	]
 }, {
 	"name": "Rosedale",
+	"address": "6105 Kenwood Avenue",
+	"city": "Rosedale",
+	"zip": "21237",
+	"phone": "410-887-0512",
+	"email": "rosedale@bcpl.net",
 	"amenities": [
 		"Meeting Room",
 		"Study Space, Quiet",
@@ -106,11 +181,21 @@
 	]
 }, {
 	"name": "Sollers Point",
+	"address": "323 Sollers Point Road",
+	"city": "Dundalk",
+	"zip": "21222",
+	"phone": "410-887-2485",
+	"email": "sollerspoint@bcpl.net",
 	"amenities": [
 		"Local History Collection"
 	]
 }, {
 	"name": "Towson",
+	"address": "320 York Road",
+	"city": "Towson",
+	"zip": "21204",
+	"phone": "410-887-6166",
+	"email": "towson@bcpl.net",
 	"amenities": [
 		"Cafe",
 		"Meeting Rooms",
@@ -120,6 +205,11 @@
 	]
 }, {
 	"name": "White Marsh",
+	"address": "8133 Sandpiper Circle",
+	"city": "Baltimore",
+	"zip": "21236",
+	"phone": "410-887-5097",
+	"email": "whitemar@bcpl.net",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -128,6 +218,11 @@
 	]
 }, {
 	"name": "Woodlawn",
+	"address": "1811 Woodlawn Drive",
+	"city": "Woodlawn",
+	"zip": "21207",
+	"phone": "410-887-1336",
+	"email": "woodlawn@bcpl.net",
 	"amenities": [
 		"Study Rooms",
 		"Meeting Room"
