@@ -56,6 +56,20 @@ bcpl.pageSpecific.branchMap = function ($) {
 			fullscreenControl: false
 		});
 
+		var layer = new google.maps.FusionTablesLayer({
+			map: map,
+			heatmap: { enabled: false },
+			query: {
+				select: 'col4',
+				from: '1xdysxZ94uUFIit9eXmnw1fYc6VcQiXhceFd_CVKa',
+				where: 'col6 \x3d \x2705000US24005\x27'
+			},
+			options: {
+				styleId: 465,
+				templateId: 499
+			}
+		});
+
 		$.ajax('/mockups/data/branch-amenities.json').done(processBranchData).fail(reportBranchDataError);
 	};
 
