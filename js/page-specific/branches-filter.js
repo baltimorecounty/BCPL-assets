@@ -71,7 +71,7 @@ bcpl.pageSpecific.filter = (($) => {
 		console.log('err', errorThrown);
 	};
 
-	const toggleButtonClicked = (toggleButtonEvent) => {
+/* 	const toggleButtonClicked = (toggleButtonEvent) => {
 		const $target = $(toggleButtonEvent.target);
 		const $buttonGroup = $target.parent().find('button');
 		const $branches = $('#branches');
@@ -92,7 +92,7 @@ bcpl.pageSpecific.filter = (($) => {
 				$branches.fadeIn(250);
 			});
 		}
-	};
+	}; */
 
 	const init = () => {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);

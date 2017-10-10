@@ -1,83 +1,25 @@
 .cards {
 	margin-top: 1em;
 	
-	a.card {
+	.card {
 		background: white;
 		color: $gray;
-		cursor: pointer;
-		display: inline-block;
-		font-weight: 700;
+		display: block;
+		margin-bottom: 1.2em; 
 		padding: .5em;		
-		margin: 0 0 1.3em;
 		transition: all 0.25s ease;		
-
-		&.grid-item {
-			width: 24%;
-			margin-right: 1%;
-		}
-
-		&:hover {
-			color: white;
-			background: $teal;
-			text-decoration: none;
-		}
-		
-		img {
-			width: 100%;
-		}
-
-		p {
-			margin-top: 1em;
-		}
-	}
-
-	.list-view {
-		a.card.grid-item {
-			display: block; 
-			width: 99%;
-
-			img { 
-				display: inline-block;
-				margin-right: 2em;
-				width: 150px;				
-			}
-
-			p {
-				display: inline-block;
-			}
-		}
+		box-shadow: $shadow-primary;		
 	}
 }
 
 @media (max-width: $screen-md) {
-	.cards {
-		a.card {
-			&.grid-item {
-				width: 32%;
-				margin-right: 1%;
-			}
-		}
-	}
+	
 }
 
 @media (max-width: $screen-sm) {
-	.cards {
-		a.card {
-			&.grid-item {
-				width: 49%;
-				margin-right: 1%;
-			}
-		}
-	}
+
 }
 
 @media (max-width: $screen-xs) {
-	.cards {
-		a.card {
-			&.grid-item {
-				width: 100%;
-				margin-right: 0;
-			}
-		}
-	}
+
 }

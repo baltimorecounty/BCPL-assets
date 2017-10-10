@@ -5,6 +5,7 @@
 	"zip": "21227",
 	"phone": "410-887-1451",
 	"email": "arbutus@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Drive-Up Window",
 		"Fax Machines",
@@ -20,6 +21,7 @@
 	"zip": "21228",
 	"phone": "410-887-0951",
 	"email": "catonsvi@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -32,6 +34,7 @@
 	"zip": "21030",
 	"phone": "410-887-7750",
 	"email": "cockeysv@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -45,6 +48,7 @@
 	"zip": "21221",
 	"phone": "410-887-0295",
 	"email": "essex@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -58,6 +62,7 @@
 	"zip": "21111",
 	"phone": "410-887-1919",
 	"email": "hereford@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -71,6 +76,7 @@
 	"zip": "21227",
 	"phone": "410-887-5602",
 	"email": "bcpl-la@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Fax Machines",
 		"Local History Collection",
@@ -83,6 +89,7 @@
 	"zip": "21286",
 	"phone": "410-887-4444",
 	"email": "lochrave@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room"
@@ -94,6 +101,7 @@
 	"zip": "21222",
 	"phone": "410-887-7255",
 	"email": "northpoi@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Fax Machines",
 		"Local History Collection",
@@ -106,6 +114,7 @@
 	"zip": "21117",
 	"phone": "410-887-2092",
 	"email": "owingsmills@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -119,6 +128,7 @@
 	"zip": "21234",
 	"phone": "410-887-5353",
 	"email": "parkvill@bcpl.net",
+	"photo": "branch.png",
 	"amenities": []
 }, {
 	"name": "Perry Hall",
@@ -127,6 +137,7 @@
 	"zip": "21128",
 	"phone": "410-887-5195",
 	"email": "perryhal@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Meeting Room",
 		"Study Space, Quiet",
@@ -139,6 +150,7 @@
 	"zip": "21208",
 	"phone": "410-887-1234",
 	"email": "pikesvil@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Meeting Room"
 	]
@@ -149,6 +161,7 @@
 	"zip": "21133",
 	"phone": "410-887-0770",
 	"email": "randalls@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -162,6 +175,7 @@
 	"zip": "21136",
 	"phone": "410-887-1165",
 	"email": "reisters@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -174,6 +188,7 @@
 	"zip": "21237",
 	"phone": "410-887-0512",
 	"email": "rosedale@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Meeting Room",
 		"Study Space, Quiet",
@@ -186,6 +201,7 @@
 	"zip": "21222",
 	"phone": "410-887-2485",
 	"email": "sollerspoint@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection"
 	]
@@ -196,6 +212,7 @@
 	"zip": "21204",
 	"phone": "410-887-6166",
 	"email": "towson@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Cafe",
 		"Meeting Rooms",
@@ -210,6 +227,7 @@
 	"zip": "21236",
 	"phone": "410-887-5097",
 	"email": "whitemar@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
@@ -223,6 +241,7 @@
 	"zip": "21207",
 	"phone": "410-887-1336",
 	"email": "woodlawn@bcpl.net",
+	"photo": "branch.png",
 	"amenities": [
 		"Study Rooms",
 		"Meeting Room"

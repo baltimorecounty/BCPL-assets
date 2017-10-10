@@ -1,0 +1,27 @@
+.cards {
+	.card {
+		address {
+			line-height: 1.7em;
+			margin-bottom: 0;
+		}
+
+		.branch-photo {
+			display: table;
+
+			a {
+				color: white;
+				display: table-cell;
+				font-weight: 700;
+				height: 100px;
+				text-align: center;
+				text-transform: uppercase;
+				vertical-align: middle;
+				width: 180px;
+			}
+		}
+
+		.branch-email {
+			font-weight: 700;
+		}
+	}
+}
