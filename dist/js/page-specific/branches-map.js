@@ -6,17 +6,46 @@ bcpl.pageSpecific.branchMap = function ($) {
 	'use strict';
 
 	var map = void 0;
+	var markers = [];
+	var infowindows = [];
+
+	function wait(ms) {
+		var start = Date.now(),
+		    now = start;
+		while (now - start < ms) {
+			now = Date.now();
+		}
+	}
+
+	var getAddressForDirections = function getAddressForDirections(branch) {
+		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(' ', '+');
+	};
 
 	var processBranchData = function processBranchData(branchData) {
 		branchData.forEach(function (branch) {
+			var infowindow = new google.maps.InfoWindow({
+				content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it!</a></p></div>'
+			});
+
+			infowindows.push(infowindow);
+
 			var marker = new google.maps.Marker({
 				position: {
 					lat: parseFloat(branch.location.lat),
 					lng: parseFloat(branch.location.lng)
 				},
 				map: map,
-				title: branch.name
+				title: branch.name,
+				animation: google.maps.Animation.DROP
 			});
+
+			markers.push(marker);
+
+			marker.addListener('click', function () {
+				infowindow.open(map, marker);
+			});
+
+			wait(100);
 		});
 	};
 
@@ -33,7 +62,8 @@ bcpl.pageSpecific.branchMap = function ($) {
 			zoom: 10,
 			mapTypeControl: false,
 			streetViewControl: false,
-			zoomControl: false
+			zoomControl: false,
+			fullscreenControl: false
 		});
 
 		$.ajax('/mockups/data/branch-amenities.json').done(processBranchData).fail(reportBranchDataError);
