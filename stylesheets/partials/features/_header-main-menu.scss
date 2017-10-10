@@ -324,6 +324,7 @@
 				top: 0;
 				width: 300px;
 				z-index: 1000;
+				overflow-y: scroll;
 				
 				&.active {
 					right: 0;
