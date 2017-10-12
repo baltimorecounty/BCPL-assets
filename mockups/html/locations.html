@@ -202,105 +202,108 @@
 				</div>
 			</header>
 			<main class="row">
-				<div class="col-md-3">
-					<div class="filters">
-						<h4 class="amenities">Branch Amenities</h4>
-						<div class="filter-controls-wrapper">
-							<script id="amenities-template" type="text/x-handlebars-template">{{#each this}}<label><input type="checkbox">{{this}}</label>{{/each}}</script>
+				<div class="col-xs-12">
+					<div class="wrapper">
+						<div class="filters">
+							<h4 class="amenities">Branch Amenities</h4>
+							<div class="filter-controls-wrapper">
+								<script id="amenities-template" type="text/x-handlebars-template">{{#each this}}<label><input type="checkbox">{{this}}</label>{{/each}}</script>
 
-							<div class="collapse" id="amenities"></div><button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-expanded="false"
-							    aria-controls="amenities"><i class="fa fa-plus"></i> Show Filters </button></div>
-					</div>
-				</div>
-				<div class="col-md-9">
-					<h1>Branch Locations</h1>
-					<div class="holiday-closings"><a href="#"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> Holiday Closings</a></div>
-					<div class="branch-general-info">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="map-wrapper">
-									<div id="location-map"></div>
+								<div class="collapse" id="amenities"></div><button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-expanded="false"
+									aria-controls="amenities"><i class="fa fa-plus"></i> Show Filters </button></div>
+						</div>
+						<header>
+							<h1>Branch Locations</h1>
+							<div class="holiday-closings"><a href="#"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> Holiday Closings</a></div>
+						</header>
+						<div class="branch-general-info">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="map-wrapper">
+										<div id="location-map"></div>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="branch-hours-wrapper">
-									<h2>Branch Hours</h2>
-									<table>
-										<thead>
-											<th>Day</th>
-											<th>Opens</th>
-											<th>Closes</th>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Sun</td>
-												<td>1 p.m.</td>
-												<td>5 p.m.</td>
-											</tr>
-											<tr>
-												<td>Mon</td>
-												<td>9 a.m.</td>
-												<td>9 p.m.</td>
-											</tr>
-											<tr>
-												<td>Tue</td>
-												<td>9 a.m.</td>
-												<td>9 p.m.</td>
-											</tr>
-											<tr>
-												<td>Wed</td>
-												<td>9 a.m.</td>
-												<td>9 p.m.</td>
-											</tr>
-											<tr>
-												<td>Thu</td>
-												<td>9 a.m.</td>
-												<td>9 p.m.</td>
-											</tr>
-											<tr>
-												<td>Fri</td>
-												<td>9 a.m.</td>
-												<td>5:30 p.m.</td>
-											</tr>
-											<tr>
-												<td>Sat</td>
-												<td>9 a.m.</td>
-												<td>5:30 p.m.</td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="col-md-6">
+									<div class="branch-hours-wrapper">
+										<h2>Branch Hours</h2>
+										<table>
+											<thead>
+												<th>Day</th>
+												<th>Opens</th>
+												<th>Closes</th>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Sun</td>
+													<td>1 p.m.</td>
+													<td>5 p.m.</td>
+												</tr>
+												<tr>
+													<td>Mon</td>
+													<td>9 a.m.</td>
+													<td>9 p.m.</td>
+												</tr>
+												<tr>
+													<td>Tue</td>
+													<td>9 a.m.</td>
+													<td>9 p.m.</td>
+												</tr>
+												<tr>
+													<td>Wed</td>
+													<td>9 a.m.</td>
+													<td>9 p.m.</td>
+												</tr>
+												<tr>
+													<td>Thu</td>
+													<td>9 a.m.</td>
+													<td>9 p.m.</td>
+												</tr>
+												<tr>
+													<td>Fri</td>
+													<td>9 a.m.</td>
+													<td>5:30 p.m.</td>
+												</tr>
+												<tr>
+													<td>Sat</td>
+													<td>9 a.m.</td>
+													<td>5:30 p.m.</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="cards">
-						<script id="branches-template" type="text/x-handlebars-template">
-							{{#each this}}
-							<div class="card">
-								<div class="row">
-									<div class="col-lg-3">
-										<div class="branch-photo" style="background: url(/dist/images/{{this.photo}})">
-											<a href="#">{{this.name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+						<div class="cards">
+
+							<script id="branches-template" type="text/x-handlebars-template">
+								{{#each this}}
+								<div class="card">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="branch-photo" style="background: url(/dist/images/{{this.photo}})">
+												<a href="#">{{this.name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<h4>Address</h4>
+											<address>
+												{{this.address}}<br/> {{this.city}}, Maryland {{this.zip}}
+											</address>
+										</div>
+										<div class="col-md-3">
+											<h4>Telephone</h4>
+											<p>{{this.phone}}</p>
+										</div>
+										<div class="col-md-2">
+											<a href="mailto:{{this.email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
 										</div>
 									</div>
-									<div class="col-lg-4">
-										<h4>Address</h4>
-										<address>
-											{{this.address}}<br/> {{this.city}}, Maryland {{this.zip}}
-										</address>
-									</div>
-									<div class="col-lg-3">
-										<h4>Telephone</h4>
-										<p>{{this.phone}}</p>
-									</div>
-									<div class="col-lg-2">
-										<a href="mailto:{{this.email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
-									</div>
 								</div>
-							</div>
-							{{/each}}
-						</script>
-						<div id="branches" class="list-view" style="display: none;"></div>
+								{{/each}}
+							</script>
+							<div id="branches" class="list-view" style="display: none;"></div>
+						</div>
 					</div>
 				</div>
 			</main>

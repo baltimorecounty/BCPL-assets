@@ -26,30 +26,52 @@
 	}
 }
 
-.branch-general-info {
-	background: white;
-	border-top: 5px solid $tan;
-
-	.branch-hours-wrapper {
-		padding-right: 1em;
+main {
+	.filters {
+		float: left;
+		width: calc(25% - 15px);
+		margin-right: 30px;
+		min-height: 75vh;
 	}
-}
 
-.map-wrapper {
-	padding: 1.5em 0 1em 1em;
+	header {
+		float: left;
+		width: calc(75% - 15px);
+	}
 
-	#location-map {
-		border: 1px solid $tan;
-		height: 375px;	
-		
-		.info-window {
-			a {
-				font-weight: 700;
-				text-transform: uppercase;
-			}
+	.branch-general-info {
+		background: white;
+		border-top: 5px solid $tan;
+		float: left;
+		width: calc(75% - 15px);
+
+		.branch-hours-wrapper {
+			padding-right: 1em;
 		}
+
+		.map-wrapper {
+			padding: 1.5em 0 1em 1em;
+		
+			#location-map {
+				border: 1px solid $tan;
+				height: 375px;	
+				
+				.info-window {
+					a {
+						font-weight: 700;
+						text-transform: uppercase;
+					}
+				}
+			}
+		}		
+	}	
+
+	.cards {
+		float: left;
+		width: calc(75% - 15px);
 	}
 }
+
 
 .holiday-closings {
 	position: absolute;
@@ -64,7 +86,7 @@
 
 @media (max-width: $screen-sm-max) {
 	.holiday-closings {
-		top: 30px;
+		/* top: 30px; */
 	}
 
 	.map-wrapper {
@@ -76,4 +98,41 @@
 			padding: 0 1em;
 		}
 	} 
+
+	main {
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+
+			.filters {
+				min-height: initial;
+				width: 100%;
+				order: 3;
+			}
+	
+			header {
+				width: 100%;
+				order: 1;
+			}
+	
+			.branch-general-info {
+				width: 100%;
+				order: 2;
+			}
+	
+			.cards {
+				display: table-footer-group;
+				width: 100%;
+				order: 4;
+			}		
+	
+		}		
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+	.holiday-closings {
+		position: static;
+		margin-bottom: 1em;
+	}
 }
