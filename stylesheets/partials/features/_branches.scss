@@ -61,3 +61,19 @@
 		text-transform: uppercase;
 	}
 }
+
+@media (max-width: $screen-sm-max) {
+	.holiday-closings {
+		top: 30px;
+	}
+
+	.map-wrapper {
+		display: none;
+	}
+
+	.branch-general-info {
+		.branch-hours-wrapper {
+			padding: 0 1em;
+		}
+	} 
+}
