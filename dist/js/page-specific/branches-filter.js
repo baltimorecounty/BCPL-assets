@@ -75,8 +75,19 @@ bcpl.pageSpecific.filter = function ($) {
 		console.log('err', errorThrown);
 	};
 
+	var amenitiesShowing = function amenitiesShowing(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+	};
+
+	var amenitiesHiding = function amenitiesHiding(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
+	};
+
 	var init = function init() {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
+
+		$(document).on('show.bs.collapse', '#amenities', amenitiesShowing);
+		$(document).on('hide.bs.collapse', '#amenities', amenitiesHiding);
 	};
 
 	return { init: init };
