@@ -24,7 +24,7 @@ bcpl.pageSpecific.filter = function ($) {
 		});
 		var uniqueAmenities = _.uniq(amenities);
 		var sortedUniqueAmenities = _.sortBy(uniqueAmenities, function (ua) {
-			return { ua: ua };
+			return ua;
 		});
 
 		return sortedUniqueAmenities;

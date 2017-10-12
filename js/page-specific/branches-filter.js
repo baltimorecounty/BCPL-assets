@@ -21,7 +21,7 @@ bcpl.pageSpecific.filter = (($) => {
 			amenities = amenities.concat(element.amenities);
 		});
 		const uniqueAmenities = _.uniq(amenities);
-		const sortedUniqueAmenities = _.sortBy(uniqueAmenities, ua => ({ ua }));
+		const sortedUniqueAmenities = _.sortBy(uniqueAmenities, ua => ua);
 
 		return sortedUniqueAmenities;
 	};
