@@ -5,7 +5,7 @@
 	"zip": "21227",
 	"phone": "410-887-1451",
 	"email": "arbutus@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-arbutus.jpg",
 	"location": {
 		"lat": "39.24164898",
 		"lng": "-76.71043047"
@@ -26,7 +26,7 @@
 	"zip": "21228",
 	"phone": "410-887-0951",
 	"email": "catonsvi@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Catonsville.jpg",
 	"location": {
 		"lat": "39.27045175",
 		"lng": "-76.7400434"
@@ -44,7 +44,7 @@
 	"zip": "21030",
 	"phone": "410-887-7750",
 	"email": "cockeysv@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Cockeysville.jpg",
 	"location": {
 		"lat": "39.46032921",
 		"lng": "-76.62919318"
@@ -63,7 +63,7 @@
 	"zip": "21221",
 	"phone": "410-887-0295",
 	"email": "essex@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Essex.jpg",
 	"location": {
 		"lat": "39.31485289",
 		"lng": "-76.46384423"
@@ -83,7 +83,7 @@
 	"zip": "21111",
 	"phone": "410-887-1919",
 	"email": "hereford@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Hereford.jpg",
 	"location": {
 		"lat": "39.58979295",
 		"lng": "-76.66379689"
@@ -101,7 +101,7 @@
 	"zip": "21227",
 	"phone": "410-887-5602",
 	"email": "bcpl-la@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Lansdowne.jpg",
 	"location": {
 		"lat": "39.24372696",
 		"lng": "-76.65368866"
@@ -118,7 +118,7 @@
 	"zip": "21286",
 	"phone": "410-887-4444",
 	"email": "lochrave@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-lochraven.jpg",
 	"location": {
 		"lat": "39.38442952",
 		"lng": "-76.57319512"
@@ -134,7 +134,7 @@
 	"zip": "21222",
 	"phone": "410-887-7255",
 	"email": "northpoi@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-northpoint.jpg",
 	"location": {
 		"lat": "39.26962881",
 		"lng": "-76.50414573"
@@ -151,7 +151,7 @@
 	"zip": "21117",
 	"phone": "410-887-2092",
 	"email": "owingsmills@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-owingsmills.jpg",
 	"location": {
 		"lat": "39.4071024",
 		"lng": "-76.78188458"
@@ -171,7 +171,7 @@
 	"zip": "21234",
 	"phone": "410-887-5353",
 	"email": "parkvill@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-parkville.jpg",
 	"location": {
 		"lat": "39.39346",
 		"lng": "-76.52508084"
@@ -186,7 +186,7 @@
 	"zip": "21128",
 	"phone": "410-887-5195",
 	"email": "perryhal@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-perryhall.jpg",
 	"location": {
 		"lat": "39.41511226",
 		"lng": "-76.45056657"
@@ -203,7 +203,7 @@
 	"zip": "21208",
 	"phone": "410-887-1234",
 	"email": "pikesvil@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Pikesville.jpg",
 	"location": {
 		"lat": "39.37568769",
 		"lng": "-76.72334584"
@@ -219,7 +219,7 @@
 	"zip": "21133",
 	"phone": "410-887-0770",
 	"email": "randalls@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Randallstown.jpg",
 	"location": {
 		"lat": "39.3620026",
 		"lng": "-76.77902476"
@@ -238,7 +238,7 @@
 	"zip": "21136",
 	"phone": "410-887-1165",
 	"email": "reisters@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Reisterstown.jpg",
 	"location": {
 		"lat": "39.46367982",
 		"lng": "-76.83100992"
@@ -256,7 +256,7 @@
 	"zip": "21237",
 	"phone": "410-887-0512",
 	"email": "rosedale@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Rosedale.jpg",
 	"location": {
 		"lat": "39.34286702",
 		"lng": "-76.50620873"
@@ -274,7 +274,7 @@
 	"zip": "21222",
 	"phone": "410-887-2485",
 	"email": "sollerspoint@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-sollerspoint.jpg",
 	"location": {
 		"lat": "39.24362859",
 		"lng": "-76.50882206"
@@ -289,7 +289,7 @@
 	"zip": "21204",
 	"phone": "410-887-6166",
 	"email": "towson@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Towson.jpg",
 	"location": {
 		"lat": "39.39890127",
 		"lng": "-76.60243368"
@@ -309,7 +309,7 @@
 	"zip": "21236",
 	"phone": "410-887-5097",
 	"email": "whitemar@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-whitemarsh.jpg",
 	"location": {
 		"lat": "39.37191838",
 		"lng": "-76.47051026"
@@ -327,7 +327,7 @@
 	"zip": "21207",
 	"phone": "410-887-1336",
 	"email": "woodlawn@bcpl.net",
-	"photo": "branch.png",
+	"photo": "branch-Woodlawn.jpg",
 	"location": {
 		"lat": "39.3167773",
 		"lng": "-76.73661987"

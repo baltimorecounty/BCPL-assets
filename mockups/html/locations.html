@@ -8,8 +8,10 @@
 	<link href="/dist/css/home.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	    crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/dist/js/master.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
@@ -209,8 +211,11 @@
 							<div class="filter-controls-wrapper">
 								<script id="amenities-template" type="text/x-handlebars-template">{{#each this}}<label><input type="checkbox">{{this}}</label>{{/each}}</script>
 
-								<div class="collapse" id="amenities" class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-live="polite" aria-expanded="false"
-									aria-controls="amenities"><i class="fa fa-plus"></i> Show Filters </button></div>
+								<div class="collapse" id="amenities"></div>
+								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-live="polite" aria-expanded="false"
+								    aria-controls="amenities"><i class="fa fa-plus"></i> Show Filters </button>
+							</div>
+
 						</div>
 						<header>
 							<h1>Branch Locations</h1>
@@ -280,22 +285,22 @@
 								{{#each this}}
 								<div class="card">
 									<div class="row">
-										<div class="col-md-3">
-											<div class="branch-photo" style="background: url(/dist/images/{{this.photo}})">
+										<div class="col-sm-3">
+											<div class="branch-photo" style="background: url(/dist/images/branches/{{this.photo}})">
 												<a href="#">{{this.name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 											</div>
 										</div>
-										<div class="col-md-4">
+										<div class="col-sm-4">
 											<h4>Address</h4>
 											<address>
 												{{this.address}}<br/> {{this.city}}, Maryland {{this.zip}}
 											</address>
 										</div>
-										<div class="col-md-3">
+										<div class="col-sm-3">
 											<h4>Telephone</h4>
 											<p>{{this.phone}}</p>
 										</div>
-										<div class="col-md-2">
+										<div class="col-sm-2">
 											<a href="mailto:{{this.email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
 										</div>
 									</div>
@@ -305,79 +310,79 @@
 							<div id="branches" class="list-view" style="display: none;"></div>
 						</div>
 					</div>
-				</div>
 			</main>
+			</div>
+			<footer>
+				<div class="follow-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 col-sm-12">
+								<p class="branding">Follow The Baltimore County Public Library</p>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<nav class="social">
+									<ul>
+										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+										<li><a href="#"><i class="fa fa-tumblr"></i></a></li>
+										<li><a href="#"><i class="fa fa-youtube"></i></a></li>
+										<li><a href="#"><i class="fa fa-flickr"></i></a></li>
+										<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="callouts-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-3 col-sm-12 callout"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
+								<h4>Administrative Offices</h4>
+								<address>320 York Road <br /> Towson MD, 21204 <br /> 410-887-6100
+								</address><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
+							<div class="col-md-3 col-sm-12 callout">
+								<h4>Got a Question?</h4>
+								<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
+									fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Question</a></div>
+							<div class="col-md-3 col-sm-12 callout">
+								<h4>Get a Library Card</h4>
+								<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
+									fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Register Now</a></div>
+							<div class="col-md-3 col-sm-12 callout">
+								<h4>Work for Baltimore County Public Library</h4>
+								<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
+									fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="copyright-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6">
+								<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
+							</div>
+							<div class="col-md-6">
+								<nav class="pull-right">
+									<ul>
+										<li><a href="#">Privacy Policy</a></li>
+										<li><a href="#">User Terms</a></li>
+										<li><a href="#">Accessibility</a></li>
+									</ul>
+									<ul>
+										<li><a href="#">Translate</a></li>
+										<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
 		</div>
-		<footer>
-			<div class="follow-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<p class="branding">Follow The Baltimore County Public Library</p>
-						</div>
-						<div class="col-md-6 col-sm-12">
-							<nav class="social">
-								<ul>
-									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-									<li><a href="#"><i class="fa fa-tumblr"></i></a></li>
-									<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-									<li><a href="#"><i class="fa fa-flickr"></i></a></li>
-									<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="callouts-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-3 col-sm-12 callout"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
-							<h4>Administrative Offices</h4>
-							<address>320 York Road <br /> Towson MD, 21204 <br /> 410-887-6100
-							</address><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Got a Question?</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Question</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Get a Library Card</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Register Now</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Work for Baltimore County Public Library</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
-					</div>
-				</div>
-			</div>
-			<div class="copyright-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
-						</div>
-						<div class="col-md-6">
-							<nav class="pull-right">
-								<ul>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">User Terms</a></li>
-									<li><a href="#">Accessibility</a></li>
-								</ul>
-								<ul>
-									<li><a href="#">Translate</a></li>
-									<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-	</div>
 
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap" async defer></script>		
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
+		    async defer></script>
 </body>
 
 </html>
