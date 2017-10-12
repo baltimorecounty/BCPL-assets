@@ -13,6 +13,7 @@
 	"amenities": [
 		"Drive-Up Window",
 		"Fax Machines",
+		"Gaming",
 		"Meeting Room",
 		"Passport Services",
 		"Study Rooms",
@@ -31,6 +32,7 @@
 		"lng": "-76.7400434"
 	},
 	"amenities": [
+		"Gaming",
 		"Local History Collection",
 		"Meeting Room",
 		"Study Space, Quiet"
@@ -51,7 +53,8 @@
 		"Local History Collection",
 		"Meeting Room",
 		"Study Space, Quiet",
-		"Study Rooms"
+		"Study Rooms",
+		"Korean Collection"
 	]
 }, {
 	"name": "Essex",
@@ -66,8 +69,10 @@
 		"lng": "-76.46384423"
 	},
 	"amenities": [
+		"Gaming",
 		"Local History Collection",
 		"Meeting Room",
+		"Spanish Collection",
 		"Study Space, Quiet",
 		"Study Rooms"
 	]
@@ -154,6 +159,8 @@
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
+		"Russian Collection",
+		"Spanish Collection",
 		"Study Space, Quiet",
 		"Study Rooms"
 	]
@@ -169,7 +176,9 @@
 		"lat": "39.39346",
 		"lng": "-76.52508084"
 	},
-	"amenities": []
+	"amenities": [
+		"Korean Collection"
+	]
 }, {
 	"name": "Perry Hall",
 	"address": "9685 Honeygo Boulevard",
@@ -200,7 +209,8 @@
 		"lng": "-76.72334584"
 	},
 	"amenities": [
-		"Meeting Room"
+		"Meeting Room",
+		"Russian Collection"
 	]
 }, {
 	"name": "Randallstown",
@@ -215,6 +225,7 @@
 		"lng": "-76.77902476"
 	},
 	"amenities": [
+		"Gaming",
 		"Local History Collection",
 		"Meeting Room",
 		"Study Space, Quiet",
@@ -235,6 +246,7 @@
 	"amenities": [
 		"Local History Collection",
 		"Meeting Room",
+		"Russian Collection",
 		"Study Space, Quiet"
 	]
 }, {
@@ -250,6 +262,7 @@
 		"lng": "-76.50620873"
 	},
 	"amenities": [
+		"Gaming",
 		"Meeting Room",
 		"Study Space, Quiet",
 		"Study Rooms"
@@ -285,6 +298,7 @@
 		"Cafe",
 		"Meeting Rooms",
 		"Passport Services",
+		"Spanish Collection",
 		"Study Space, Quiet",
 		"Study Rooms"
 	]
@@ -319,7 +333,10 @@
 		"lng": "-76.73661987"
 	},
 	"amenities": [
+		"Gaming",
 		"Study Rooms",
-		"Meeting Room"
+		"Meeting Room",
+		"Korean Collection",
+		"Spanish Collection"
 	]
 }]
