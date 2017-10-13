@@ -51,6 +51,12 @@ bcpl.pageSpecific.filter = (($) => {
 			}
 		});
 
+		$('#window-shade').slideDown(250, () => {
+			setTimeout(() => {
+				$('#window-shade').slideUp(250);
+			}, 2000);
+		});
+
 		$('#branches').fadeOut(250, () => {
 			render({
 				branches: filteredData,

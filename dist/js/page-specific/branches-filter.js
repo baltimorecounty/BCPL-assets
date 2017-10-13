@@ -55,6 +55,12 @@ bcpl.pageSpecific.filter = function ($) {
 			}
 		});
 
+		$('#window-shade').slideDown(250, function () {
+			setTimeout(function () {
+				$('#window-shade').slideUp(250);
+			}, 2000);
+		});
+
 		$('#branches').fadeOut(250, function () {
 			render({
 				branches: filteredData,
