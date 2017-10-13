@@ -51,17 +51,21 @@ bcpl.pageSpecific.filter = (($) => {
 			}
 		});
 
-		if (filteredData.length) {
-			$('#branches').fadeOut(250, () => {
-				render(filteredData, $('#branches-template'), $('#branches'));
-			});
-		}
+		$('#branches').fadeOut(250, () => {
+			render({
+				branches: filteredData,
+				length: filteredData.length
+			}, $('#branches-template'), $('#branches'));
+		});
 	};
 
 	const branchesJsonSuccess = (data) => {
 		filterData = data;
 		const amenities = generateAmenitiesList(data);
-		render(data, $('#branches-template'), $('#branches'));
+		render({
+			branches: data,
+			length: data.length
+		}, $('#branches-template'), $('#branches'));
 		render(amenities, $('#amenities-template'), $('#amenities'));
 
 		$('#amenities input').on('change', filterBoxChanged);

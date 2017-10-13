@@ -283,34 +283,44 @@
 						<div class="cards">
 
 							<script id="branches-template" type="text/x-handlebars-template">
-								{{#each this}}
+								{{#each branches}}
 								<div class="card">
 									<div class="row">
 										<div class="col-sm-3 branch-name">
-											<div class="branch-photo" style="background: url(/dist/images/branches/{{this.photo}})">
-												<a href="#">{{this.name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+											<div class="branch-photo" style="background: url(/dist/images/branches/{{photo}})">
+												<a href="#">{{name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 											</div>
 										</div>
 										<div class="col-sm-4 branch-address">
 											<h4>Address</h4>
 											<address>
-												{{this.address}}<br/> {{this.city}}, Maryland {{this.zip}}
+												{{address}}<br/> {{city}}, Maryland {{zip}}
 											</address>
 										</div>
 										<div class="col-sm-3 branch-phone">
 											<h4>Telephone</h4>
-											<p>{{this.phone}}</p>
+											<p>{{phone}}</p>
 										</div>
 										<div class="col-sm-2 branch-email-link">
-											<a href="mailto:{{this.email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
+											<a href="mailto:{{email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
 										</div>
 									</div>
 								</div>
-								{{/each}}
+								{{/each}} 
+								{{#unless length}}
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12">
+											<p>Sorry, no library branches currently offer all the services you've selected. Please change your selections and
+												try again.</p>
+										</div>
+									</div>
+								</div>
+								{{/unless}}
 							</script>
 							<div id="branches" class="list-view" style="display: none;"></div>
+							</div>
 						</div>
-					</div>
 			</main>
 			</div>
 			<footer>
@@ -380,10 +390,10 @@
 					</div>
 				</div>
 			</footer>
-		</div>
+			</div>
 
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
-		    async defer></script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
+			    async defer></script>
 </body>
 
 </html>

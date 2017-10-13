@@ -55,17 +55,21 @@ bcpl.pageSpecific.filter = function ($) {
 			}
 		});
 
-		if (filteredData.length) {
-			$('#branches').fadeOut(250, function () {
-				render(filteredData, $('#branches-template'), $('#branches'));
-			});
-		}
+		$('#branches').fadeOut(250, function () {
+			render({
+				branches: filteredData,
+				length: filteredData.length
+			}, $('#branches-template'), $('#branches'));
+		});
 	};
 
 	var branchesJsonSuccess = function branchesJsonSuccess(data) {
 		filterData = data;
 		var amenities = generateAmenitiesList(data);
-		render(data, $('#branches-template'), $('#branches'));
+		render({
+			branches: data,
+			length: data.length
+		}, $('#branches-template'), $('#branches'));
 		render(amenities, $('#amenities-template'), $('#amenities'));
 
 		$('#amenities input').on('change', filterBoxChanged);
