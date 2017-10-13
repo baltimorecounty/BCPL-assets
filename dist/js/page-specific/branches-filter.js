@@ -2,7 +2,7 @@
 
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.filter = function ($) {
+bcpl.pageSpecific.filter = function ($, windowShade) {
 	var filterData = {};
 
 	var render = function render(data, $template, $target) {
@@ -55,11 +55,7 @@ bcpl.pageSpecific.filter = function ($) {
 			}
 		});
 
-		$('#window-shade').slideDown(250, function () {
-			setTimeout(function () {
-				$('#window-shade').slideUp(250);
-			}, 2000);
-		});
+		windowShade.cycle(250, 2000);
 
 		$('#branches').fadeOut(250, function () {
 			render({
@@ -101,7 +97,7 @@ bcpl.pageSpecific.filter = function ($) {
 	};
 
 	return { init: init };
-}(jQuery);
+}(jQuery, bcpl.windowShade);
 
 $(function () {
 	bcpl.pageSpecific.filter.init();

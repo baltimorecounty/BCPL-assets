@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.filter = (($) => {
+bcpl.pageSpecific.filter = (($, windowShade) => {
 	let filterData = {};
 
 	const render = (data, $template, $target) => {
@@ -51,11 +51,7 @@ bcpl.pageSpecific.filter = (($) => {
 			}
 		});
 
-		$('#window-shade').slideDown(250, () => {
-			setTimeout(() => {
-				$('#window-shade').slideUp(250);
-			}, 2000);
-		});
+		windowShade.cycle(250, 2000);
 
 		$('#branches').fadeOut(250, () => {
 			render({
@@ -97,7 +93,7 @@ bcpl.pageSpecific.filter = (($) => {
 	};
 
 	return { init };
-})(jQuery);
+})(jQuery, bcpl.windowShade);
 
 $(() => {
 	bcpl.pageSpecific.filter.init();
