@@ -13,27 +13,29 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 	const processBranchData = (branchData) => {
 		branchData.forEach((branch) => {
-			let infowindow = new google.maps.InfoWindow({
-				content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'
-			});
+			if (branch.location) {
+				let infowindow = new google.maps.InfoWindow({
+					content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'
+				});
 
-			infowindows.push(infowindow);
+				infowindows.push(infowindow);
 
-			const marker = new google.maps.Marker({
-				position: {
-					lat: parseFloat(branch.location.lat),
-					lng: parseFloat(branch.location.lng)
-				},
-				map: map,
-				title: branch.name,
-				animation: google.maps.Animation.DROP
-			});
+				const marker = new google.maps.Marker({
+					position: {
+						lat: parseFloat(branch.location.lat),
+						lng: parseFloat(branch.location.lng)
+					},
+					map: map,
+					title: branch.name,
+					animation: google.maps.Animation.DROP
+				});
 
-			markers.push(marker);
+				markers.push(marker);
 
-			marker.addListener('click', () => {
-				infowindow.open(map, marker);
-			});
+				marker.addListener('click', () => {
+					infowindow.open(map, marker);
+				});
+			}
 		});
 	};
 
