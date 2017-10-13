@@ -35,7 +35,7 @@
 									<li><a href="#">Donate</a></li>
 									<li><a href="#">Help</a></li>
 									<li><a href="#">Locations</a></li>
-									<li><a href="#">MyBCPL</a></li>
+									<li><a href="#">Account</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -216,7 +216,6 @@
 								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-live="polite" aria-expanded="false"
 								    aria-controls="amenities"><i class="fa fa-plus"></i> Show Filters </button>
 							</div>
-
 						</div>
 						<header>
 							<h1>Branch Locations</h1>
@@ -281,7 +280,6 @@
 							</div>
 						</div>
 						<div class="cards">
-
 							<script id="branches-template" type="text/x-handlebars-template">
 								{{#each branches}}
 								<div class="card">
@@ -306,8 +304,7 @@
 										</div>
 									</div>
 								</div>
-								{{/each}} 
-								{{#unless length}}
+								{{/each}} {{#unless length}}
 								<div class="card">
 									<div class="row">
 										<div class="col-xs-12">
@@ -319,10 +316,12 @@
 								{{/unless}}
 							</script>
 							<div id="branches" class="list-view" style="display: none;"></div>
-							</div>
 						</div>
-			</main>
+					</div>
+				</main>
 			</div>
+
+		</div>
 			<footer>
 				<div class="follow-wrapper">
 					<div class="container">
@@ -389,11 +388,11 @@
 						</div>
 					</div>
 				</div>
-			</footer>
-			</div>
-			<div id="window-shade" style="display: none"><p>Branch list updated!</p></div>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
-			    async defer></script>
+			</footer>		<div id="window-shade" style="display: none">
+			<p>Branch list updated!</p>
+		</div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
+		    async defer></script>
 </body>
 
 </html>
