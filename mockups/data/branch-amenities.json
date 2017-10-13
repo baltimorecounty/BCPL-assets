@@ -128,6 +128,15 @@
 		"Meeting Room(s)"
 	]
 }, {
+	"name": "Mobile Library Services",
+	"address": "1716 Merritt Boulevard",
+	"city": "Dundalk",
+	"zip": "21222",
+	"phone": "410-887-7586",
+	"email": "libraryonthego@bcpl.net",
+	"photo": "branch-lochraven.jpg",
+	"amenities": []
+}, {
 	"name": "North Point",
 	"address": "1716 Merritt Boulevard",
 	"city": "Dundalk",
