@@ -123,6 +123,8 @@ main {
 				display: table-footer-group;
 				width: 100%;
 				order: 4;
+
+
 			}		
 	
 		}		
@@ -133,5 +135,49 @@ main {
 	.holiday-closings {
 		position: static;
 		margin-bottom: 1em;
+	}
+
+	.cards {
+		.card {
+			.row {
+				margin: 0;
+
+				.branch-name {
+					a {
+						font-size: 1.3em;
+						text-transform: none;
+					}
+				}
+
+				.branch-photo {
+					background: none !important;
+
+					a {
+						color: $teal;
+						height: initial;
+						text-align: left;							
+					}
+				}
+
+				.branch-email {
+					display: block;
+					margin-top: 1em;							
+					font-size: .8em;
+
+					i {
+						font-size: 1.5em;
+					}
+				}
+
+				& > div {
+					border-bottom: 1px solid $gray-light;
+					padding: .5em 0;
+
+					&:last-child {
+						border-bottom: none;
+					}
+				}
+			}
+		}
 	}
 }

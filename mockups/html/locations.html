@@ -285,22 +285,22 @@
 								{{#each this}}
 								<div class="card">
 									<div class="row">
-										<div class="col-sm-3">
+										<div class="col-sm-3 branch-name">
 											<div class="branch-photo" style="background: url(/dist/images/branches/{{this.photo}})">
 												<a href="#">{{this.name}} <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 											</div>
 										</div>
-										<div class="col-sm-4">
+										<div class="col-sm-4 branch-address">
 											<h4>Address</h4>
 											<address>
 												{{this.address}}<br/> {{this.city}}, Maryland {{this.zip}}
 											</address>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-3 branch-phone">
 											<h4>Telephone</h4>
 											<p>{{this.phone}}</p>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-sm-2 branch-email-link">
 											<a href="mailto:{{this.email}}" class="branch-email"><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
 										</div>
 									</div>
