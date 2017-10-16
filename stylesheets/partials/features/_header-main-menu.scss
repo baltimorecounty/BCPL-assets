@@ -12,7 +12,6 @@
 	}
 	.nav-and-search {
 		#activate-search-button {
-			margin-right: -15px;
 			background-color: #fff;
 			border-radius: 8px;
 			color: rgba(0, 0, 0, .75);
@@ -33,7 +32,7 @@
 			display: none;
 		}
 		nav {
-			float: right;
+			/* float: right; */
 			position: relative;
 			top: 7px;
 			right: 15px;
@@ -48,7 +47,7 @@
 				font-size: inherit;
 				line-height: 2em;
 				text-decoration: none;
-				padding: .5em 0 .5em 1em;
+				padding: .5em 0 .5em .5em;
 				transition: .25s all ease;
 				i {
 					margin-left: .5em;
