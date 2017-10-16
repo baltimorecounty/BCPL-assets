@@ -5,6 +5,10 @@
  * existing objects instead of overwriting them.
  */
 var namespacer = function namespacer(ns) {
+	if (!ns) {
+		return;
+	}
+
 	var nsArr = ns.split('.');
 	var parent = window;
 
