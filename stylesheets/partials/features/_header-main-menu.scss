@@ -32,10 +32,9 @@
 			display: none;
 		}
 		nav {
-			/* float: right; */
+			float: left;
 			position: relative;
 			top: 7px;
-			right: 15px;
 			transition: .25 all ease;
 			.nav-back-button {
 				display: none;
