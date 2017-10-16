@@ -2,12 +2,13 @@ namespacer('bcpl');
 
 bcpl.windowShade = (($) => {
 	const windowShadeSelector = '#window-shade';
+	let timeout;
 
 	const cycle = (displaySpeed, delaySpeed) => {
 		const $windowShade = $(windowShadeSelector);
-
+		clearTimeout(timeout);
 		$windowShade.slideDown(displaySpeed, () => {
-			setTimeout(() => {
+			timeout = setTimeout(() => {
 				$windowShade.slideUp(displaySpeed);
 			}, delaySpeed);
 		});

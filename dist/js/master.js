@@ -619,12 +619,13 @@ namespacer('bcpl');
 
 bcpl.windowShade = function ($) {
 	var windowShadeSelector = '#window-shade';
+	var timeout = void 0;
 
 	var cycle = function cycle(displaySpeed, delaySpeed) {
 		var $windowShade = $(windowShadeSelector);
-
+		clearTimeout(timeout);
 		$windowShade.slideDown(displaySpeed, function () {
-			setTimeout(function () {
+			timeout = setTimeout(function () {
 				$windowShade.slideUp(displaySpeed);
 			}, delaySpeed);
 		});
