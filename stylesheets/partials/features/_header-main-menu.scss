@@ -358,6 +358,7 @@
 					position: relative;
 					li {
 						display: block;
+						border-bottom: 1px solid $teal;
 
 						&:hover {
 							button {
@@ -399,10 +400,11 @@
 
 								.overview {
 									border-right: none;
-									border-bottom: 1px solid $teal-light;							
+									border-bottom: 1px solid $teal;							
 									display: block;
 									width: auto;	
-									margin: 1em;						
+									padding: 1em;	
+									margin: 0;					
 
 									a {
 										margin-bottom: 1em;										
@@ -414,7 +416,6 @@
 									
 									li {
 										display: block;
-
 										ul {
 											box-shadow: $shadow-top-bottom;
 											background-color: $teal-darker;
@@ -422,6 +423,8 @@
 											li {
 												&:first-child {							
 													a {
+														border-top: 1px solid $teal; 
+														
 														&:hover {
 															box-shadow: $shadow-top-inset;
 														}
@@ -434,11 +437,17 @@
 														}
 													}
 												}
+
+												
 											}
 										}
 									}
 								}
 							}
+						}
+
+						button {
+							padding: .5em 1em;
 						}
 					}
 				}
