@@ -45,10 +45,8 @@
 			button {
 				color: white;
 				display: block;
-				font-family: TTRoundsCondensed-Bold;
 				font-size: inherit;
 				line-height: 2em;
-				text-transform: uppercase;
 				text-decoration: none;
 				padding: .5em 0 .5em 1em;
 				transition: .25s all ease;
@@ -61,14 +59,25 @@
 					}
 				}
 			}
+			button {
+				text-transform: uppercase;
+				font-family: TTRoundsCondensed-Bold;
+			}
 			ul {
 				li {
 					&:hover,
 					&.active {
 						background: $teal-dark;
-						opacity: .95;
+						.overview {
+							display: flex;
+							width: 40%;
+						}
 						ul {
-							display: block;
+							display: table;
+							width: 57%;
+							ul {
+								display: none;
+							}
 						}
 						a,
 						button {
@@ -76,29 +85,74 @@
 								content: "\f0d7";
 							}
 						}
+						.wide {
+							.overview {
+								display: flex;
+								width: 33.33%;
+							}
+							ul {
+								display: table;
+								width: 64.5%;
+								ul {
+									display: none;
+								}
+							}
+						}
+						.submenu-wrapper {
+							display: flex;
+						}
 					}
-					&:last-child {
-						ul {
+					&.reverse {
+						.submenu-wrapper {
 							right: 0;
+						}
+					}
+					.overview {
+						display: none;
+						align-items: center;
+						justify-content: center;
+						padding: 0 1em;
+						margin: 0 1em 0 0;
+						border-right: 1px solid $teal;
+						a {
+							padding: 1em;
+							text-align: center;
+							&:hover {
+								background-color: $teal;
+							}
+						}
+						a,
+						button {
+							i {
+								margin-left: 0;
+							}
+						}
+					}
+					.submenu-wrapper {
+						position: absolute;
+						background: $teal-dark;
+						opacity: .95;
+						width: 66%;
+						padding: 1em;
+						display: none;
+						&.wide {
+							left: 0;
+							width: 100%;
+							li {
+								display: table-cell;
+								float: left;
+								width: 50%;
+								ul {
+									display: none;
+								}
+							}
 						}
 					}
 					ul {
 						background-color: $teal-dark;
 						display: none;
-						position: absolute;
-						&.wide {
-							left: 0;
-							li {
-								display: inline-block;
-							}
-						}
 						li {
 							display: block;
-
-							&:first-child {
-								display: none;
-							}
-
 							a {
 								padding: .5em 1em;
 								&:hover {
@@ -142,9 +196,8 @@
 .internal {
 	.menu-wrapper {
 		margin: 0;
-		background: url("/sebin/h/p/hero-image-1.jpg") no-repeat;
-		background-size: cover;
-		background-position-y: center;
+		background: url("/dist/images/background-internal-header.jpg") no-repeat;
+		background-position-y: 10%;
 		.menu-inner-wrapper {
 			background: -moz-linear-gradient(top, rgba(0, 161, 155, 1) 0%, rgba(0, 161, 155, 0) 200%);
 			/* FF3.6-15 */
@@ -167,11 +220,6 @@
 		.nav-and-search {
 			nav {
 				float: left;
-				ul {
-					li {
-						margin-right: 2em;
-					}
-				}
 			}
 		}
 	}
@@ -196,7 +244,6 @@
 	.internal {
 		.menu-wrapper {
 			margin-top: 0;
-
 			.menu-inner-wrapper {
 				padding: 20px 0;
 			}
@@ -206,11 +253,25 @@
 
 @media (max-width: $screen-sm) {
 
+	body {
+		transition: .5s left ease;
+		position: relative;
+		left: 0px;
+
+		&.nav-visible {
+			left: -300px;
+
+			.menu-wrapper .menu-container .nav-and-search nav {
+				right: 0px;
+			}
+		}
+	} 
+
 	.menu-wrapper {
- 		position: static;
+		position: static;
 		margin-top: 0;
 		padding-top: 1em;
-		background: $teal;	
+		background: $teal;
 		.nav-and-search {
 			padding: 0;
 			margin-top: -4.5em;
@@ -253,98 +314,130 @@
 					position: absolute;
 				}
 			}
-			nav {
-				background-color: $gray-dark;
-				height: 100%;
+
+			#responsive-sliding-navigation {
+				background: $teal-dark;
+				float: none;
+				height: 100vh;
 				position: fixed;
-				left: 100%;
+				right: -300px;
 				top: 0;
-				width: 100%;
+				width: 300px;
 				z-index: 1000;
-				display: none;
+				overflow-y: scroll;
+				
+				&.active {
+					right: 0;
+				}
 
 				&.animatable {
-					display: block;
-					transition: .5s left ease;					
+					transition: .5s right ease;
 				}
 
-				&.active {
-					left: 20%;
-				}
-
-				&.move-left {
-					left: -60%;
-				}
-				
 				.nav-back-button {
 					display: block;
-					border-bottom: 2px solid $gray-light;
+					background-color: $gray-dark;
+					height: 50px;
+					width: 100%;
+
+					button {
+						color: $gray-light;
+						display: block;
+						height: 100%;
+						padding: 4px .5em 0 0;
+						text-align: right;
+						width: 100%;
+						&:hover {
+							background: $teal;
+							color: white;
+						}
+					}
 				}
-				
+
 				ul {
+					position: relative;
 					li {
 						display: block;
-				
-						&:hover,
-						&.active {
-							background: inherit;
-							opacity: 1;							
 
-							a,
+						&:hover {
 							button {
-								i.fa-caret-right {
-									&::before {
-										content: "\f0da";
-									}
+								i.fa-caret-right::before {
+									content: "\f0da" !important;
 								}
 							}
-						}
-				
-						a {
-							display: block;
-							padding: .5em 1em;
-							i {
-								float: right;
-								position: relative;
-								top: 7px;
-								&::before {
-									content: initial;
-								}
-							}
-						}
-
-						ul {
-							transition: .5s all ease;
-							right: -100% !important;
-							top: 0;
-							position: fixed;
-							width: 80%;
-							height: 100%;
-							display: block;
-
-							&.slide-in {
-								right: 0 !important;
+	
+							.submenu-wrapper {
+								display: none;
 							}
 
-							&.wide {
-								left: initial;
-
-								li {
+							&.active {
+								.submenu-wrapper {
 									display: block;
-
-									&:first-child {
-										height: initial !important;
-									}
+									width: 100%;
 								}
 							}
+						}
 
-							li {
+						&.active {
+							.submenu-wrapper {
 								display: block;
+								width: 100%;
+								position: absolute;
+								top: 0;
+								right: -300px;
+								padding: 0;
 
-								&:first-child {
+								&.wide {
+									left: inherit;
+									ul {
+										li {
+											float: none;
+											width: 100%;
+										}
+									}
+								}
+
+								.overview {
+									border-right: none;
+									border-bottom: 1px solid $teal-light;							
 									display: block;
-									border-bottom: 2px solid $gray-light;
-								}								
+									width: auto;	
+									margin: 1em;						
+
+									a {
+										margin-bottom: 1em;										
+									}
+								}
+								ul {
+									display: block;
+									width: 100%;
+									
+									li {
+										display: block;
+
+										ul {
+											box-shadow: $shadow-top-bottom;
+											background-color: $teal-darker;
+
+											li {
+												&:first-child {							
+													a {
+														&:hover {
+															box-shadow: $shadow-top-inset;
+														}
+													}
+												}
+												&:last-child {
+													a {
+														&:hover {
+															box-shadow: $shadow-bottom-inset;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -352,14 +445,12 @@
 			}
 		}
 	}
-
 	.internal {
 		.menu-wrapper {
 			background: $teal;
 			padding-top: 0;
 			.menu-inner-wrapper {
-				padding: 0; 
-
+				padding: 0;
 				.menu-container {
 					padding-bottom: 0;
 				}
@@ -373,13 +464,15 @@
 		.menu-container {
 			.logo {
 				img {
-					width: 80%;
 					max-width: 266px;
 				}
 			}
 			.nav-and-search {
 				padding: 0;
 				margin-top: 0;
+				nav {
+					top: 0px;
+				}
 			}
 		}
 	}

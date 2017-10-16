@@ -33,27 +33,14 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect($menu.hasClass('active')).toBe(false);
 		});
 
-		it('should make the menu move right', () => {
+		it('should remove the "nav-visible" class from the body', () => {
 			const $menu = $('nav');
 			const $modalCover = $('#modal-cover');
-
-			$menu.addClass('active move-left');
+			$('body').addClass('nav-visible');
 
 			bcpl.navigationSearch.killMenuAndModalCover($menu, $modalCover);
 
-			expect($menu.hasClass('move-left')).toBe(false);
-		});
-
-		it('should make the opened sub-nav close', () => {
-			const $menu = $('nav');
-			const $modalCover = $('#modal-cover');
-			const $firstList = $menu.find('ul li ul');
-
-			$firstList.addClass('slide-in');
-
-			bcpl.navigationSearch.killMenuAndModalCover($menu, $modalCover);
-
-			expect($firstList.hasClass('slide-in')).toBe(false);
+			expect($('body').hasClass('nav-visible')).toBe(false);
 		});
 	});
 
@@ -72,12 +59,6 @@ describe('Search and sliding hamburger menu tests', () => {
 				},
 				currentTarget: $('#hamburger-menu-button')[0]
 			};
-		});
-
-		it('should slide-in all sub-navs', () => {
-			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
-
-			expect(sampleEvent.data.$menu.find('slide-in').length).toBe(0);
 		});
 
 		it('should deactivate the search button', () => {
@@ -108,6 +89,12 @@ describe('Search and sliding hamburger menu tests', () => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.$modalCover.hasClass('active')).toBe(true);
+		});
+
+		it('should add the "nav-visible" class to the body', () => {
+			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
+
+			expect($('body').hasClass('nav-visible')).toBe(true);
 		});
 	});
 
@@ -191,67 +178,6 @@ describe('Search and sliding hamburger menu tests', () => {
 			bcpl.navigationSearch.searchButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.browserWindow.location).toContain('ABCDEFG');
-		});
-	});
-
-	describe('menuItemClicked', () => {
-		let sampleEvent = {};
-
-		beforeEach(() => {
-			loadFixtures('menuAndModal.fixture.html');
-
-			sampleEvent = {
-				data: {
-					$menu: $('nav')
-				},
-				currentTarget: 'nav ul li:first-child button'
-			};
-		});
-
-		it('should slide out any active menu', () => {
-			$('nav ul li ul').addClass('slide-in');
-
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav ul li:nth-child(3) ul').hasClass('slide-in')).toBe(false);
-		});
-
-		it('should move the main menu over to the left', () => {
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav').hasClass('move-left')).toBe(true);
-		});
-
-		it('should slide in the submenu', () => {
-			bcpl.navigationSearch.menuItemClicked(sampleEvent);
-
-			expect($('nav ul li:first-child ul').hasClass('slide-in')).toBe(true);
-		});
-	});
-
-	describe('submenuBackButtonClicked', () => {
-
-		beforeEach(() => {
-			loadFixtures('menuAndModal.fixture.html');
-
-			sampleEvent = {
-				currentTarget: 'nav ul li:first-child ul li:first-child button'
-			};
-
-			$('nav ul li:first-child ul li:first-child button').closest('ul').addClass('slide-in');
-			$('nav ul li:first-child ul li:first-child button').closest('nav').addClass('move-left');
-		});
-
-		it('should slide the submenu out', () => {
-			bcpl.navigationSearch.submenuBackButtonClicked(sampleEvent);
-
-			expect($(sampleEvent.currentTarget).closest('ul').hasClass('slide-in')).toBe(false);
-		});
-
-		it('should move the main menu back to the right', () => {
-			bcpl.navigationSearch.submenuBackButtonClicked(sampleEvent);
-
-			expect($(sampleEvent.currentTarget).closest('nav').hasClass('move-left')).toBe(false);
 		});
 	});
 

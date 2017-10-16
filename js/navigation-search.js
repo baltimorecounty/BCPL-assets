@@ -5,20 +5,18 @@ bcpl.navigationSearch = (($) => {
 	const searchBoxSelector = '#search-box';
 	const searchButtonSelector = '#search-button';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
-	const menuSelector = '.nav-and-search nav';
-	const navBackButtonSelector = '.nav-back-button button';
+	const menuSelector = '#responsive-sliding-navigation';
+	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
-	const menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	const submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
 	/* Helpers */
 
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
 		$menu
-			.removeClass('active move-left')
-			.find('.slide-in')
-			.removeClass('slide-in');
+			.removeClass('active');
+		$('#responsive-sliding-navigation .active').removeClass('active');
+		$('body').removeClass('nav-visible');
 	};
 
 	/* Event Handlers */
@@ -33,12 +31,13 @@ bcpl.navigationSearch = (($) => {
 		const $hamburgerButton = $(event.currentTarget);
 		const $modalCover = event.data.$modalCover;
 
-		$menu.find('.slide-in').removeClass('slide-in');
+		// $menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');
 		$modalCover.addClass('active');
+		$('body').addClass('nav-visible');
 	};
 
 	/**
@@ -76,27 +75,18 @@ bcpl.navigationSearch = (($) => {
 	const modalDismissActionHandler = (event) => {
 		const $menu = event.data.$menu;
 		const $modalCover = event.data.$modalCover;
-		killMenuAndModalCover($menu, $modalCover);
-	};
+		const $activeMenuItem = $('#responsive-sliding-navigation .active');
 
-	/**
-	 * Handles the menu item clicks that slide out the next nav
-	 * @param {Event} event
-	 */
-	const menuItemClicked = (event) => {
-		const $menuItem = $(event.currentTarget);
-		const $submenu = $menuItem.siblings('ul');
-		const $menu = event.data.$menu;
-
-		$menu.find('.slide-in').removeClass('slide-in');
-		$menu.addClass('move-left');
-		$submenu.addClass('slide-in');
-	};
-
-	const submenuBackButtonClicked = (event) => {
-		const $backButton = $(event.currentTarget);
-		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-left').removeClass('move-left');
+		if ($activeMenuItem.length) {
+			$activeMenuItem.find('.submenu-wrapper')
+				.animate({ right: '-300px' }, 250, function afterAnimation() {
+					$(this)
+						.closest('li.active')
+						.removeClass('active');
+				});
+		} else {
+			killMenuAndModalCover($menu, $modalCover);
+		}
 	};
 
 	let resizeTimer;
@@ -112,7 +102,9 @@ bcpl.navigationSearch = (($) => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(() => {
 				$menu.addClass('animatable');
-				callback();
+				if (callback && typeof callback === 'function') {
+					callback();
+				}
 			}, 500);
 		}
 	};
@@ -128,8 +120,6 @@ bcpl.navigationSearch = (($) => {
 		const $menu = $(menuSelector);
 		const $navBackButton = $(navBackButtonSelector);
 		const $modalCover = $(modalCoverSelector);
-		const $menuItems = $(menuItemsSelector);
-		const $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox,
@@ -144,7 +134,9 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
+		$searchButton.on('click', {
+			browserWindow: window
+		}, searchButtonClicked);
 
 		$navBackButton.on('click', {
 			$menu,
@@ -155,10 +147,6 @@ bcpl.navigationSearch = (($) => {
 			$menu,
 			$modalCover
 		}, modalDismissActionHandler);
-
-		$menuItems.on('click', { $menu }, menuItemClicked);
-
-		$submenuBackButton.on('click', submenuBackButtonClicked);
 
 		$(window).on('resize', {
 			$menu,
@@ -177,8 +165,6 @@ bcpl.navigationSearch = (($) => {
 		searchButtonActivatorClicked,
 		searchButtonClicked,
 		modalDismissActionHandler,
-		menuItemClicked,
-		submenuBackButtonClicked,
 		windowResized,
 		/* end-test-code */
 		init
