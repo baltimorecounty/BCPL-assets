@@ -1,8 +1,8 @@
 describe('namespacer', () => {
 	it('creates an object based on a passed-in string', () => {
-		namespacer('test.namespacer');
+		namespacer('mytest.namespacer');
 
-		expect(test.namespacer).toBeTruthy();
+		expect(mytest.namespacer).toBeTruthy();
 	});
 
 	it('does nothing when passed an undefined value', () => {

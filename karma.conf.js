@@ -22,7 +22,6 @@ module.exports = function(config) {
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
 		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
-		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
 		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
 		'js/utility/namespacer.js',
 		'js/utility/*.js',
@@ -58,7 +57,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['mocha', 'coverage', 'coveralls'],
 
 	coverageReporter: {
 		type : 'lcovonly',

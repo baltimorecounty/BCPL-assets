@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 
 // "/base" is a Karma thing. Remove if you're using Jasmine's test runner.
-jasmine.getFixtures().fixturesPath = '/base/test/navigation/fixtures';
+jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
 
 describe('Search and sliding hamburger menu tests', () => {
 	describe('killMenuAndModalCover', () => {
-		beforeEach(() => {
+		beforeAll(() => {
 			loadFixtures('menuAndModal.fixture.html');
 		});
 
