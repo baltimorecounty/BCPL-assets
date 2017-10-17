@@ -6,7 +6,7 @@ describe('alertBox', () => {
 	describe('alertBoxDismissButtonClicked', () => {
 		let fakeEvent;
 
-		beforeAll(() => {
+		beforeEach((done) => {
 			loadFixtures('alert-box.fixture.html');
 
 			fakeEvent = {
@@ -14,6 +14,7 @@ describe('alertBox', () => {
 					$container: $('.alert-container')
 				}
 			};
+			done();
 		});
 
 		it('dismisses the alert box when clicked', () => {

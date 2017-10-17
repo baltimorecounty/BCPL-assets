@@ -2,7 +2,7 @@ describe('flexDetect', () => {
 	let fakeDocNoFlex;
 	let fakeDocHasFlex;
 
-	beforeEach(() => {
+	beforeEach((done) => {
 		fakeDocNoFlex = {
 			createElement: (arg) => {
 				return {
@@ -23,6 +23,7 @@ describe('flexDetect', () => {
 		};
 
 		$('body').removeClass('no-flex');
+		done();
 	});
 
 	it('should not detect flexbox', () => {
