@@ -33,10 +33,6 @@ module.exports = function(config) {
 		'js/*.js',
 		'test/**/*.spec.js'
 	],
-
-	proxies: {
-		'/': '/base/'
-	},
 	
     // list of files to exclude
     exclude: [

@@ -9,12 +9,11 @@ bcpl.navigation = (($, keyCodes) => {
 	const activeMenuButtonSelector = 'li.active button';
 	const mobileWidthThreshold = 768;
 
-	const isMobileWidth = () => parseFloat($('body').width()) <= mobileWidthThreshold;
+	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
 
 	const isSlideNavigationVisible = () => $('body').hasClass('nav-visible');
 
 	const focusFirstActiveMenuLink = () => $('#responsive-sliding-navigation li.active a').first().focus();
-
 
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
@@ -69,7 +68,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const hideSearchBox = () => $(searchArtifactsSelector).removeClass('active');
 
 	const hideHeroCallout = (shouldHide) => {
-		if (shouldHide && !isMobileWidth()) {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
 			$(heroCalloutContainerSelector).hide();
 		} else {
 			$(heroCalloutContainerSelector).show();
@@ -199,7 +198,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const navigationMouseleave = (mouseEvent) => {
 		const isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
-		if (!isNextElementANavElement && !isMobileWidth()) {
+		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
 		}
@@ -211,4 +210,14 @@ bcpl.navigation = (($, keyCodes) => {
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+
+	/* test-code */
+	return {
+		isMobileWidth,
+		isSlideNavigationVisible,
+		focusFirstActiveMenuLink,
+		findClosestButtonToLink,
+		afterSubmenuActivated
+	};
+	/* end-test-code */
 })(jQuery, bcpl.constants.keyCodes);

@@ -4,6 +4,8 @@
 		"baltimorecounty"
 	],
 	"globals": {
-		"bcpl": true
+		"bcpl": true,
+		"describe": true,
+		"it": true
 	}
 }
