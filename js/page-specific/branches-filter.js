@@ -78,11 +78,15 @@ bcpl.pageSpecific.filter = (($, windowShade) => {
 	};
 
 	const amenitiesShowing = (collapseEvent) => {
-		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+		$(collapseEvent.currentTarget)
+			.siblings('.collapse-control')
+			.html('<i class="fa fa-minus"></i> Hide Filters');
 	};
 
 	const amenitiesHiding = (collapseEvent) => {
-		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
+		$(collapseEvent.currentTarget)
+			.siblings('.collapse-control')
+			.html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
 	const init = () => {

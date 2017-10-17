@@ -11,34 +11,35 @@ bcpl.pageSpecific.branchMap = (($) => {
 		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(' ', '+');
 	};
 
+	const addBranchToMap = (branch) => {
+		if (branch.location) {
+			let infowindow = new google.maps.InfoWindow({
+				content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'
+			});
+
+			infowindows.push(infowindow);
+
+			const marker = new google.maps.Marker({
+				position: {
+					lat: parseFloat(branch.location.lat),
+					lng: parseFloat(branch.location.lng)
+				},
+				map: map,
+				title: branch.name,
+				animation: google.maps.Animation.DROP
+			});
+
+			markers.push(marker);
+
+			marker.addListener('click', () => {
+				infowindow.open(map, marker);
+			});
+		}
+	};
+
 	const processBranchData = (branchData) => {
 		const branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
-
-		branchJson.forEach((branch) => {
-			if (branch.location) {
-				let infowindow = new google.maps.InfoWindow({
-					content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'
-				});
-
-				infowindows.push(infowindow);
-
-				const marker = new google.maps.Marker({
-					position: {
-						lat: parseFloat(branch.location.lat),
-						lng: parseFloat(branch.location.lng)
-					},
-					map: map,
-					title: branch.name,
-					animation: google.maps.Animation.DROP
-				});
-
-				markers.push(marker);
-
-				marker.addListener('click', () => {
-					infowindow.open(map, marker);
-				});
-			}
-		});
+		branchJson.forEach(addBranchToMap);
 	};
 
 	const reportBranchDataError = (err) => {

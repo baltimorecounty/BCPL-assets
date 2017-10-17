@@ -56,7 +56,9 @@ describe('Navigation', () => {
 
 			bcpl.navigation.focusFirstActiveMenuLink();
 
-			expect($('#responsive-sliding-navigation li.active a').first().is(':focus')).toBe(true);
+			const isFirstActiveLinkFocused = $('#responsive-sliding-navigation li.active a').first().is(':focus');
+
+			expect(isFirstActiveLinkFocused).toBe(true);
 		});
 	});
 
