@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.filter = (($) => {
+bcpl.pageSpecific.filter = (($, windowShade) => {
 	let filterData = {};
 
 	const render = (data, $template, $target) => {
@@ -21,7 +21,7 @@ bcpl.pageSpecific.filter = (($) => {
 			amenities = amenities.concat(element.amenities);
 		});
 		const uniqueAmenities = _.uniq(amenities);
-		const sortedUniqueAmenities = _.sortBy(uniqueAmenities, ua => ({ ua }));
+		const sortedUniqueAmenities = _.sortBy(uniqueAmenities, ua => ua);
 
 		return sortedUniqueAmenities;
 	};
@@ -51,17 +51,23 @@ bcpl.pageSpecific.filter = (($) => {
 			}
 		});
 
-		if (filteredData.length) {
-			$('#branches').fadeOut(250, () => {
-				render(filteredData, $('#branches-template'), $('#branches'));
-			});
-		}
+		windowShade.cycle(250, 2000);
+
+		$('#branches').fadeOut(250, () => {
+			render({
+				branches: filteredData,
+				length: filteredData.length
+			}, $('#branches-template'), $('#branches'));
+		});
 	};
 
 	const branchesJsonSuccess = (data) => {
-		filterData = data;
-		const amenities = generateAmenitiesList(data);
-		render(data, $('#branches-template'), $('#branches'));
+		filterData = typeof data === 'string' ? JSON.parse(data) : data;
+		const amenities = generateAmenitiesList(filterData);
+		render({
+			branches: filterData,
+			length: filterData.length
+		}, $('#branches-template'), $('#branches'));
 		render(amenities, $('#amenities-template'), $('#amenities'));
 
 		$('#amenities input').on('change', filterBoxChanged);
@@ -71,37 +77,23 @@ bcpl.pageSpecific.filter = (($) => {
 		console.log('err', errorThrown);
 	};
 
-	const toggleButtonClicked = (toggleButtonEvent) => {
-		const $target = $(toggleButtonEvent.target);
-		const $buttonGroup = $target.parent().find('button');
-		const $branches = $('#branches');
+	const amenitiesShowing = (collapseEvent) => {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+	};
 
-		$buttonGroup.toggleClass('btn-primary').toggleClass('btn-default');
-
-		if ($target.parent().is('#sort-control')) {
-			$branches.fadeOut(250, () => {
-				const $branchCards = $branches.find('.card').detach();
-				$branches.append($branchCards.get().reverse());
-				$branches.fadeIn(250);
-			});
-		}
-
-		if ($target.parent().is('#list-grid-control')) {
-			$branches.fadeOut(250, () => {
-				$branches.toggleClass('list-view');
-				$branches.fadeIn(250);
-			});
-		}
+	const amenitiesHiding = (collapseEvent) => {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
 	const init = () => {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
 
-		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);
+		$(document).on('show.bs.collapse', '#amenities', amenitiesShowing);
+		$(document).on('hide.bs.collapse', '#amenities', amenitiesHiding);
 	};
 
 	return { init };
-})(jQuery);
+})(jQuery, bcpl.windowShade);
 
 $(() => {
 	bcpl.pageSpecific.filter.init();

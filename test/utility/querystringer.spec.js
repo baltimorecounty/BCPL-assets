@@ -1,12 +1,13 @@
 describe('querystringer', () => {
 	let sampleWindow;
 
-	beforeEach(() => {
+	beforeEach((done) => {
 		sampleWindow = {
 			location: {
 				search: '?testVar1=1&testVar2=2&testVar3=3'
 			}
 		};
+		done();
 	});
 
 	it('should return a dictionary based on the first value of the queryString', () => {

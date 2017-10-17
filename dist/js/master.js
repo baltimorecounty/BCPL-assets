@@ -5,6 +5,10 @@
  * existing objects instead of overwriting them.
  */
 var namespacer = function namespacer(ns) {
+	if (!ns) {
+		return;
+	}
+
 	var nsArr = ns.split('.');
 	var parent = window;
 
@@ -359,8 +363,8 @@ bcpl.navigation = function ($, keyCodes) {
 	var activeMenuButtonSelector = 'li.active button';
 	var mobileWidthThreshold = 768;
 
-	var isMobileWidth = function isMobileWidth() {
-		return parseFloat($('body').width()) <= mobileWidthThreshold;
+	var isMobileWidth = function isMobileWidth($element, threshold) {
+		return parseFloat($element.width()) <= threshold;
 	};
 
 	var isSlideNavigationVisible = function isSlideNavigationVisible() {
@@ -416,7 +420,7 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var hideHeroCallout = function hideHeroCallout(shouldHide) {
-		if (shouldHide && !isMobileWidth()) {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
 			$(heroCalloutContainerSelector).hide();
 		} else {
 			$(heroCalloutContainerSelector).show();
@@ -534,7 +538,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
 		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
-		if (!isNextElementANavElement && !isMobileWidth()) {
+		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
 		}
@@ -546,6 +550,7 @@ bcpl.navigation = function ($, keyCodes) {
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
 	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';
 
@@ -583,3 +588,25 @@ bcpl.tabs = function ($) {
 $(function () {
 	bcpl.tabs.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.windowShade = function ($) {
+	var windowShadeSelector = '#window-shade';
+	var timeout = void 0;
+
+	var cycle = function cycle(displaySpeed, delaySpeed) {
+		var $windowShade = $(windowShadeSelector);
+		clearTimeout(timeout);
+		$windowShade.slideDown(displaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(displaySpeed);
+			}, delaySpeed);
+		});
+	};
+
+	return {
+		cycle: cycle
+	};
+}(jQuery);

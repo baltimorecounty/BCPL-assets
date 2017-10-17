@@ -15,15 +15,14 @@ a {
 			top: 2px;			
 		}
 		
-		&:hover {
-			color: $teal-light;
-			-webkit-transition: color .25s ease;
-			-moz-transition: color .25s ease;
-			-o-transition: color .25s ease;
-			transition: color .25s ease;
-		}
 	}
 
-
+	&:hover {
+		color: $teal-light;
+		-webkit-transition: color .25s ease;
+		-moz-transition: color .25s ease;
+		-o-transition: color .25s ease;
+		transition: color .25s ease;
+	}
 }
 

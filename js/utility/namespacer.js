@@ -3,6 +3,10 @@
  * existing objects instead of overwriting them.
  */
 const namespacer = (ns) => {
+	if (!ns) {
+		return;
+	}
+
 	const nsArr = ns.split('.');
 	let parent = window;
 

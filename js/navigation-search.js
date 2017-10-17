@@ -13,8 +13,7 @@ bcpl.navigationSearch = (($) => {
 
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
-		$menu
-			.removeClass('active');
+		$menu.removeClass('active');
 		$('#responsive-sliding-navigation .active').removeClass('active');
 		$('body').removeClass('nav-visible');
 	};
