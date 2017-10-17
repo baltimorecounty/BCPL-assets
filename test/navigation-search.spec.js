@@ -5,8 +5,9 @@ jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
 
 describe('Search and sliding hamburger menu tests', () => {
 	describe('killMenuAndModalCover', () => {
-		beforeAll(() => {
+		beforeEach((done) => {
 			loadFixtures('menuAndModal.fixture.html');
+			done();
 		});
 
 		it('should make the modal cover inactive', () => {
@@ -47,7 +48,7 @@ describe('Search and sliding hamburger menu tests', () => {
 	describe('hamburgerButtonClicked', () => {
 		let sampleEvent;
 
-		beforeEach(() => {
+		beforeEach((done) => {
 			loadFixtures('menuAndModal.fixture.html');
 
 			sampleEvent = {
@@ -59,6 +60,7 @@ describe('Search and sliding hamburger menu tests', () => {
 				},
 				currentTarget: $('#hamburger-menu-button')[0]
 			};
+			done();
 		});
 
 		it('should deactivate the search button', () => {
@@ -101,7 +103,7 @@ describe('Search and sliding hamburger menu tests', () => {
 	describe('searchButtonActivatorClicked', () => {
 		let sampleEvent;
 
-		beforeEach(() => {
+		beforeEach((done) => {
 			loadFixtures('menuAndModal.fixture.html');
 
 			sampleEvent = {
@@ -111,6 +113,7 @@ describe('Search and sliding hamburger menu tests', () => {
 					$hamburgerButton: $('#hamburger-menu-button')
 				}
 			};
+			done();
 		});
 
 		it('should activate the search box button if the search box is hidden', () => {
@@ -158,7 +161,7 @@ describe('Search and sliding hamburger menu tests', () => {
 	describe('searchButtonClicked', () => {
 		let sampleEvent = {};
 
-		beforeEach(() => {
+		beforeEach((done) => {
 			loadFixtures('menuAndModal.fixture.html');
 
 			sampleEvent.currentTarget = '#search-button';
@@ -170,6 +173,7 @@ describe('Search and sliding hamburger menu tests', () => {
 			bcpl.constants = {
 				basePageUrl: ''
 			};
+			done();
 		});
 
 		it('should redirect to a URL including the search terms', () => {
@@ -182,7 +186,7 @@ describe('Search and sliding hamburger menu tests', () => {
 	});
 
 	describe('windowResized', () => {
-		beforeEach(() => {
+		beforeEach((done) => {
 			loadFixtures('menuAndModal.fixture.html');
 
 			sampleEvent = {
@@ -191,6 +195,8 @@ describe('Search and sliding hamburger menu tests', () => {
 					$modalCover: $('#modal-cover')
 				}
 			};
+
+			done();
 		});
 
 		it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', () => {

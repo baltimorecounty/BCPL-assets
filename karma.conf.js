@@ -28,6 +28,7 @@ module.exports = function(config) {
 		'js/utility/namespacer.js',
 		'js/utility/*.js',
 		'js/navigation-search.js',
+		'js/alert-box.js',
 		'test/**/*.spec.js'
 	],
 
