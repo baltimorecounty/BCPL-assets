@@ -4,9 +4,9 @@ jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
 
 describe('alertBox', () => {
 	describe('alertBoxDismissButtonClicked', () => {
-		let fakeEvent;
+		let fakeEvent = {};
 
-		beforeAll(() => {
+		beforeEach(() => {
 			loadFixtures('alert-box.fixture.html');
 
 			fakeEvent = {

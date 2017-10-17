@@ -7,7 +7,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '.',
 
 
     // frameworks to use
@@ -18,20 +18,23 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 		'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js',
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
 		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
 		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+		{ pattern: 'dist/images/**/*.png', included: false, served: true, watched: false },
+		{ pattern: 'mockups/data/**/*.json', included: false, served: true, watched: false },
+		{ pattern: 'test/**/*.fixture.html', included: false, served: true, watched: false },
 		'js/utility/namespacer.js',
 		'js/utility/*.js',
-		'js/page-specific/*.js',
-		'js/*.js',
-		'test/**/*.spec.js',
-		{ pattern: 'test/**/*.fixture.html', included: false, served: true }
-    ],
+		'js/navigation-search.js',
+		'test/**/*.spec.js'
+	],
 
-
+	proxies: {
+		'/': '/base/'
+	},
+	
     // list of files to exclude
     exclude: [
     ],
