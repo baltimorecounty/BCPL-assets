@@ -14,7 +14,9 @@ bcpl.pageSpecific.branchMap = function ($) {
 	};
 
 	var processBranchData = function processBranchData(branchData) {
-		branchData.forEach(function (branch) {
+		var branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
+
+		branchJson.forEach(function (branch) {
 			if (branch.location) {
 				var infowindow = new google.maps.InfoWindow({
 					content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'

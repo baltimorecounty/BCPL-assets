@@ -12,7 +12,9 @@ bcpl.pageSpecific.branchMap = (($) => {
 	};
 
 	const processBranchData = (branchData) => {
-		branchData.forEach((branch) => {
+		const branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
+
+		branchJson.forEach((branch) => {
 			if (branch.location) {
 				let infowindow = new google.maps.InfoWindow({
 					content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'

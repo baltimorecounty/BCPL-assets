@@ -62,11 +62,11 @@ bcpl.pageSpecific.filter = (($, windowShade) => {
 	};
 
 	const branchesJsonSuccess = (data) => {
-		filterData = data;
-		const amenities = generateAmenitiesList(data);
+		filterData = typeof data === 'string' ? JSON.parse(data) : data;
+		const amenities = generateAmenitiesList(filterData);
 		render({
-			branches: data,
-			length: data.length
+			branches: filterData,
+			length: filterData.length
 		}, $('#branches-template'), $('#branches'));
 		render(amenities, $('#amenities-template'), $('#amenities'));
 
