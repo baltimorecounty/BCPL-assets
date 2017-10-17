@@ -88,11 +88,11 @@
 						.wide {
 							.overview {
 								display: flex;
-								width: 33.33%;
+								flex-basis: 30%;
 							}
 							ul {
 								display: table;
-								width: 64.5%;
+								width: 70%;
 								ul {
 									display: none;
 								}
@@ -421,6 +421,9 @@
 											background-color: $teal-darker;
 
 											li {
+												a {
+													padding-left: 3em;
+												}
 												&:first-child {							
 													a {
 														border-top: 1px solid $teal; 
