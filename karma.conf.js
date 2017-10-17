@@ -22,13 +22,15 @@ module.exports = function(config) {
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
 		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
 		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js',
+		'js/vendor/slick/slick.min.js',
 		{ pattern: 'dist/images/**/*.png', included: false, served: true, watched: false },
 		{ pattern: 'mockups/data/**/*.json', included: false, served: true, watched: false },
 		{ pattern: 'test/**/*.fixture.html', included: false, served: true, watched: false },
 		'js/utility/namespacer.js',
 		'js/utility/*.js',
-		'js/navigation-search.js',
-		'js/alert-box.js',
+		'js/page-specific/**/*.js',
+		'js/*.js',
 		'test/**/*.spec.js'
 	],
 
