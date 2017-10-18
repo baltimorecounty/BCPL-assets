@@ -1,5 +1,69 @@
-main {
+.internal {
 	.secondary-nav {
 		border-top: 4px solid $tan;
+
+		nav {
+			ul {
+				li {
+					display: list-item;
+					position: relative;					
+
+					&.active {
+						background-color: $teal;
+						font-weight: bold; 
+						
+						&:after {
+							border-top: 1.1em solid transparent;
+							border-bottom: 1.1em solid transparent;
+							border-left: .5em solid #00a19b;
+							content: "";
+							position: absolute;
+							right: -.5em;
+							height: 0;
+							width: 0;
+							top: 0;	
+						}
+
+						a {
+							color: white;
+						}
+					}
+
+					a {
+						border-bottom: 1px solid $tan-light;
+						display: block;
+						padding: .25em 1em;						
+					}
+
+					ul {
+						box-shadow: $shadow-top-bottom-tan;
+
+						li {
+							font-size: .8em;
+
+							a {
+								padding-left: 2em;
+
+								&:before {
+									content: "\f054";
+									font-family: "FontAwesome";
+									font-size: .8em;
+									padding-right: 1em;
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+
+@media (max-width: $screen-md) {
+	.container {
+		.secondary-nav {
+			display: none;
+		}
 	}
 }
