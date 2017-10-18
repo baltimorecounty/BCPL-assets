@@ -66,8 +66,10 @@ main {
 	}	
 
 	.cards {
-		float: left;
-		width: calc(75% - 15px);
+		&.branch-cards {
+			float: left;
+			width: calc(75% - 15px);
+		}
 	}
 }
 

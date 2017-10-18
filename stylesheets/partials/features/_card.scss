@@ -1,6 +1,6 @@
 .cards {
 	margin-top: 1em;
-	
+
 	.card {
 		background: white;
 		color: $gray;
@@ -9,6 +9,15 @@
 		padding: .5em;		
 		transition: all 0.25s ease;		
 		box-shadow: $shadow-primary;		
+	}
+
+	a {
+		&.card {
+			&:hover {
+				background-color: $teal;
+				color: white;
+			}
+		}
 	}
 }
 

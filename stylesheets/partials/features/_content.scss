@@ -6,6 +6,11 @@
 .main-content {
 	padding: 1.8em;
 	margin-bottom: 3em;
+
+	&.hub-page {
+		background: none;
+		padding: 0;
+	}
 }
 
 @media (max-width: $screen-sm) {
