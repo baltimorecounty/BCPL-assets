@@ -8,5 +8,10 @@
 	margin-bottom: 3em;
 }
 
-.secondary-nav {
+@media (max-width: $screen-sm) {
+	.container {
+		.secondary-nav {
+			display: none;
+		}
+	}
 }

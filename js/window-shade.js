@@ -6,7 +6,9 @@ bcpl.windowShade = (($) => {
 
 	const cycle = (displaySpeed, delaySpeed) => {
 		const $windowShade = $(windowShadeSelector);
+
 		clearTimeout(timeout);
+
 		$windowShade.slideDown(displaySpeed, () => {
 			timeout = setTimeout(() => {
 				$windowShade.slideUp(displaySpeed);
