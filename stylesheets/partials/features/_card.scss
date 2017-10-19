@@ -1,6 +1,8 @@
 .cards {
-	margin-top: 1em;
-	
+	margin: 1em 0 2em;
+	float: left;
+	width: 100%;
+
 	.card {
 		background: white;
 		color: $gray;
@@ -10,10 +12,62 @@
 		transition: all 0.25s ease;		
 		box-shadow: $shadow-primary;		
 	}
+
+	a {
+		width: calc(25% - 1em);
+		float: left;
+		font-weight: 700;
+		margin: 0 .5em;
+		
+		&.card {
+			padding: .5em;
+
+			&:hover {
+				background-color: $teal;
+				color: white;
+			}
+
+			&.banner {
+				width: calc(100% - 1em);
+
+				.black-background {
+					background: #000;					
+				}
+
+				p {
+					color: $gold;
+					font-size: 1.2em;
+					position: relative;
+					text-align: center;
+					text-transform: uppercase;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+
+				figcaption {
+					min-height: auto;
+				}
+			}
+
+			img {
+				width: 100%;				
+			}
+		}
+		figcaption {
+			min-height: 4em;
+			padding-top: .5em;
+		}
+	}
 }
 
 @media (max-width: $screen-md) {
-	
+	.cards {
+		a {
+			&.card {
+				width: calc(33% - 1em);				
+			}
+		}
+	}
 }
 
 @media (max-width: $screen-sm) {
@@ -21,8 +75,31 @@
 		.card {
 			padding: 1em;
 		}
+
+		a {
+			&.card {
+				width: calc(50% - 1em);								
+			}
+		}
 	}
 }
 
 @media (max-width: $screen-xs) {
+	.cards {
+		a {
+			&.card {
+				width: 100%;
+				margin-left: 0;
+				margin-right: 0;
+
+				&.banner {
+					width: 100%;					
+				}
+
+				figcaption {
+					min-height: auto;
+				}
+			}
+		}
+	}
 }

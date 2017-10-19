@@ -6,12 +6,9 @@
 .main-content {
 	padding: 1.8em;
 	margin-bottom: 3em;
-}
 
-@media (max-width: $screen-sm) {
-	.container {
-		.secondary-nav {
-			display: none;
-		}
+	&.hub-page {
+		background: none;
+		padding: 0;
 	}
 }
