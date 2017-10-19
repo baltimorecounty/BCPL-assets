@@ -28,10 +28,12 @@
 
 				a {
 					display: block;
+					float: none;
 					font-size: .8em;
 					font-weight: 700;
 					line-height: 3em;
 					text-transform: uppercase;
+					width: 100%;
 
 					&.branch-phone {
 						i {
