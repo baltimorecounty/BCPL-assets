@@ -8,7 +8,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 	let infowindows = [];
 
 	const getAddressForDirections = (branch) => {
-		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(' ', '+');
+		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(/\s/g, '+');
 	};
 
 	const addBranchToMap = (branch) => {
@@ -43,7 +43,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 	};
 
 	const reportBranchDataError = (err) => {
-		console.log(err);
+		console.error(err);
 	};
 
 	const initMap = () => {
@@ -79,6 +79,9 @@ bcpl.pageSpecific.branchMap = (($) => {
 	};
 
 	return {
+		/* test-code */
+		getAddressForDirections,
+		/* end-test-code */
 		initMap
 	};
 })(jQuery);
