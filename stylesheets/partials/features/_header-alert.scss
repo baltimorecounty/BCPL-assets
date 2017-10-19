@@ -17,7 +17,7 @@
 		margin: 0;
 		margin-top: -4px;
 
-		& > i {
+		& > span i {
 			position: relative;
 			top: 4px;
 			margin-right: .5em;
@@ -31,6 +31,7 @@
 		display: inline-block;
 		line-height: 1.5em;
 		margin-left: 1em;
+		margin-top: .25em;
 		padding: .25em .5em;
 		text-transform: uppercase;
 		background: $tan-light;
@@ -88,22 +89,23 @@
 
 	.alert-wrapper {
 
-		.pull-right {
-			float: none !important;
-		}
-
-		p > i {
+		p > span > i {
 			display: none;
 		}
 
-		button, a {
+		.message {
 			display: block;
-			clear: both;
-			margin: 0;
-			margin-bottom: .5em;
+		}
+
+		button, a {
+			margin: 0 .5em .5em 0;
 			padding: .75em;
 			text-align: left;
-			width: 50%;
+			width: auto;
+
+			&.pull-right {
+				float: none !important;
+			}
 		}
 
 		.view-all-alerts {
@@ -123,14 +125,6 @@
 	.internal {
 		.alert-wrapper {
 			margin-top: 0;
-		}
-	}
-}
-
-@media (max-width: $screen-xs) {
-	.alert-wrapper {
-		button, a {
-			width: 100%;
 		}
 	}
 }
