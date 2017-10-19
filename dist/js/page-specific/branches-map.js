@@ -10,7 +10,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 	var infowindows = [];
 
 	var getAddressForDirections = function getAddressForDirections(branch) {
-		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(' ', '+');
+		return [branch.address, branch.city, 'MD', branch.zip].join('+').replace(/\s/g, '+');
 	};
 
 	var addBranchToMap = function addBranchToMap(branch) {
@@ -45,7 +45,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 	};
 
 	var reportBranchDataError = function reportBranchDataError(err) {
-		console.log(err);
+		console.error(err);
 	};
 
 	var initMap = function initMap() {
@@ -79,6 +79,9 @@ bcpl.pageSpecific.branchMap = function ($) {
 	};
 
 	return {
+		/* test-code */
+		getAddressForDirections: getAddressForDirections,
+		/* end-test-code */
 		initMap: initMap
 	};
 }(jQuery);
