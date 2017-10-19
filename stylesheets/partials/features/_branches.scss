@@ -20,8 +20,37 @@
 			}
 		}
 
-		.branch-email {
-			font-weight: 700;
+		.branch-email-phone {
+			.branch-email-phone-wrapper {
+				position: relative;
+				top: 15px;
+
+				a {
+					display: block;
+					font-size: .8em;
+					font-weight: 700;
+					line-height: 3em;
+					text-transform: uppercase;
+
+					&.branch-phone {
+						i {
+							background: $teal;
+							border-radius: 5px;	
+							color: white;
+							font-size: 1.5em;
+							line-height: 28px;						
+						}
+					}
+
+					i {
+						display: inline-block;
+						font-size: 2em;
+						margin-right: .25em;
+						text-align: center;
+						width: 28px;
+					}
+				}
+			}
 		}
 	}
 }
@@ -157,6 +186,11 @@ main {
 						height: initial;
 						text-align: left;
 						width: auto;							
+					}
+				}
+				.branch-email-phone {
+					.branch-email-phone-wrapper {
+						top: 0;
 					}
 				}
 
