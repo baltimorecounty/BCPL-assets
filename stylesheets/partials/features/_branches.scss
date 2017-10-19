@@ -11,6 +11,7 @@
 			a {
 				color: white;
 				display: table-cell;
+				float: none;
 				font-weight: 700;
 				height: 100px;
 				text-align: center;
@@ -21,6 +22,7 @@
 		}
 
 		.branch-email {
+			float: none;
 			font-weight: 700;
 		}
 	}
@@ -66,8 +68,10 @@ main {
 	}	
 
 	.cards {
-		float: left;
-		width: calc(75% - 15px);
+		&.branch-cards {
+			float: left;
+			width: calc(75% - 15px);
+		}
 	}
 }
 

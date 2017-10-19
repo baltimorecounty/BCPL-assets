@@ -15,9 +15,6 @@
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/dist/js/master.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
-	<script src="/dist/js/page-specific/branches-filter.min.js"></script>
-	<script src="/dist/js/page-specific/branches-map.min.js"></script>
 </head>
 
 <body>
@@ -311,11 +308,18 @@
 			<div class="alert-wrapper">
 				<div class="container alert-container" style="display: none;">
 					<div class="row">
-						<div class="col-md-12">
-							<p><span class="message"><i class="fa fa-exclamation-circle fa-2x"></i>The Randallstown Branch is currently closed for renovations.</span>
-								<a class="view-all-alerts" href="#">View all alerts<i class="fa fa-caret-right" aria-hidden="true"></i></a>
-								<button class="pull-right" id="alert-box-dismiss">Dismiss<i class="fa fa-times"></i></button>
+						<div class="col-md-10">
+							<p>
+								<i class="fa fa-exclamation-circle fa-2x"></i>The Randallstown Branch is currently closed for renovations.
+								<a class="view-all-alerts" href="#">View all alerts
+									<i class="fa fa-caret-right"></i>
+								</a>
 							</p>
+						</div>
+						<div class="col-md-2">
+							<button class="pull-right" id="alert-box-dismiss">Dismiss
+								<i class="fa fa-times"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -338,7 +342,7 @@
 														</a>
 													</li>
 													<li>
-														<a href="#">Locations</a>
+														<a href="#">Books and More</a>
 													</li>
 												</ul>
 											</nav>
@@ -357,129 +361,82 @@
 				</div>
 			</header>
 			<main class="row">
-				<div class="col-xs-12">
-					<div class="wrapper">
-						<div class="filters">
-							<h4 class="amenities">Branch Amenities</h4>
-							<div class="filter-controls-wrapper">
-								<script id="amenities-template" type="text/x-handlebars-template">{{#each this}}
-									<label>
-										<input type="checkbox">{{this}}</label>{{/each}}</script>
-
-								<div class="collapse" id="amenities"></div>
-								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#amenities" aria-live="polite" aria-expanded="false"
-								    aria-controls="amenities">
-									<i class="fa fa-plus"></i> Show Filters </button>
-							</div>
-						</div>
-						<header>
-							<h1>Branch Locations</h1>
-							<div class="holiday-closings">
-								<a href="#">
-									<i class="fa fa-calendar-minus-o" aria-hidden="true"></i> Holiday Closings</a>
-							</div>
-						</header>
-						<div class="branch-general-info">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="map-wrapper">
-										<div id="location-map"></div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="branch-hours-wrapper">
-										<h2>Branch Hours</h2>
-										<table>
-											<thead>
-												<th>Day</th>
-												<th>Opens</th>
-												<th>Closes</th>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Sun</td>
-													<td>1 p.m.</td>
-													<td>5 p.m.</td>
-												</tr>
-												<tr>
-													<td>Mon</td>
-													<td>9 a.m.</td>
-													<td>9 p.m.</td>
-												</tr>
-												<tr>
-													<td>Tue</td>
-													<td>9 a.m.</td>
-													<td>9 p.m.</td>
-												</tr>
-												<tr>
-													<td>Wed</td>
-													<td>9 a.m.</td>
-													<td>9 p.m.</td>
-												</tr>
-												<tr>
-													<td>Thu</td>
-													<td>9 a.m.</td>
-													<td>9 p.m.</td>
-												</tr>
-												<tr>
-													<td>Fri</td>
-													<td>9 a.m.</td>
-													<td>5:30 p.m.</td>
-												</tr>
-												<tr>
-													<td>Sat</td>
-													<td>9 a.m.</td>
-													<td>5:30 p.m.</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="cards branch-cards">
-							<script id="branches-template" type="text/x-handlebars-template">
-								{{#each branches}}
-								<div class="card">
-									<div class="row">
-										<div class="col-sm-3 branch-name">
-											<div class="branch-photo" style="background: url(/dist/images/branches/{{photo}})">
-												<a href="#">{{name}}
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</a>
-											</div>
-										</div>
-										<div class="col-sm-4 branch-address">
-											<h4>Address</h4>
-											<address>
-												{{address}}
-												<br/> {{city}}, Maryland {{zip}}
-											</address>
-										</div>
-										<div class="col-sm-3 branch-phone">
-											<h4>Telephone</h4>
-											<p>{{phone}}</p>
-										</div>
-										<div class="col-sm-2 branch-email-link">
-											<a href="mailto:{{email}}" class="branch-email">
-												<i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
-										</div>
-									</div>
-								</div>
-								{{/each}} {{#unless length}}
-								<div class="card">
+				<div class="col-md-3">
+					<div class="secondary-nav">
+						<nav>
+							<ul>
+								<li> <a href="#" class="active">Catalog</a></li>
+								<li><a href="#">Databases</a></li>
+								<li><a href="#">eBooks and Audiobooks</a></li>
+								<li><a href="#">Downloadable Magazines Item</a></li>
+								<li><a href="#">Movies</a></li>
+								<li><a href="#">Technology for Loan</a></li>
+								<li>
+									<a href="#">Special Collections</a>
+									<ul>
+										<li><a href="#">Government Documents</a></li>
+										<li><a href="#">Kits</a></li>
+										<li><a href="#">Local History Collections</a></li>
+										<li><a href="#">World Language Collection</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Recommended Reading</a>
+									<ul>
+										<li><a href="#">Book Lists</a></li>
+										<li><a href="#">Reading Challenge</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Can't Find It?</a>
+								</li>
+								<li><a href="#">Make a Purchase Suggestion</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<h1>Books and More</h1>
+					<div class="main-content hub-page">
+						<div class="cards">
+							<a class="card banner" href="#">
+								<figure>
 									<div class="row">
 										<div class="col-xs-12">
-											<p>Sorry, no library branches currently offer all the services you've selected. Please change your selections and
-												try again.</p>
+											<div class="black-background">
+												<div class="row">
+													<div class="col-md-6 hidden-sm">
+														<img src="/dist/images/books-and-more/booksmore-catalog.jpg" />
+													</div>
+													<div class="col-md-6 col-sm-12" style="height: 211px;">
+														<p>Browse the catalog <i class="fa fa-caret-right" aria-hidden="true"></i></p>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-12">
+													<figcaption>Catalog</figcaption>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-								{{/unless}}
-							</script>
-							<div id="branches" class="list-view" style="display: none;"></div>
+								</figure>
+							</a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-databases.jpg" /><figcaption>Databases</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-ebooks.jpg" /><figcaption>eBooks and Audiobooks</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-downloadable-magazines.jpg" /><figcaption>Downloadable Magazines</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-movies.jpg" /><figcaption>Movies</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-technology-loan.jpg" /><figcaption>Technology for Loan</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-special-collections.jpg" /><figcaption>Special Collections</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-recommended-reading.jpg" /><figcaption>Recommended Reading</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-cant-find-it.jpg" /><figcaption>Can't Find It?</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/books-and-more/booksmore-purchase-suggestion.jpg" /><figcaption>Make a Purchase Suggestion</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/placeholder.png" /><figcaption>Loan Periods and Fees</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/placeholder.png" /><figcaption>Ask a Librarian</figcaption></figure></a>
+							<a href="#" class="card"><figure><img src="/dist/images/placeholder.png" /><figcaption>Get a Library Card</figcaption></figure></a>
 						</div>
 					</div>
+				</div>
 			</main>
 		</div>
 		<footer>
@@ -601,15 +558,11 @@
 							</nav>
 						</div>
 					</div>
-			
+				</div>
+			</div>
 		</footer>	
 	</div>
-	<div id="window-shade" style="display: none">
-		<p>Branch list updated!</p>
-	</div>
 	<div id="modal-cover"></div>	
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeak1ljj0qn59GBK8TI-1QlcyvSFOspK4&callback=bcpl.pageSpecific.branchMap.initMap"
-		async defer></script>
 </body>
 
 </html>

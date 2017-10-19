@@ -4,5 +4,6 @@ $shadow-hover: 1px 1px 15px rgba(0,0,0,.35);
 $shadow-white-bottom: 0 5px 0 white;
 $shadow-menu-left: inset 10px 0 10px -10px rgba(0,0,0,0.5); /* inset 15px 0 20px -10px rgba(0,0,0,.35); */
 $shadow-top-bottom: 0px 10px 20px -10px rgba(0,0,0,0.5) inset, 0px -10px 20px -10px rgba(0,0,0,0.5) inset;
+$shadow-top-bottom-tan: 0px 7px 20px -10px $tan inset, 0px -7px 20px -10px $tan inset;
 $shadow-top-inset: 0px 10px 15px -10px rgba(0, 0, 0, .5) inset;
 $shadow-bottom-inset: 0px -10px 15px -10px rgba(0, 0, 0, .5) inset;
