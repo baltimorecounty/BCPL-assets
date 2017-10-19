@@ -90,7 +90,13 @@ main {
 				.info-window {
 					a {
 						font-weight: 700;
-						text-transform: uppercase;
+						
+						i {
+							display: inline-block;
+							margin-right: .25em;
+							text-align: center;
+							width: 30px;
+						}
 					}
 				}
 			}

@@ -14,7 +14,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 	const addBranchToMap = (branch) => {
 		if (branch.location) {
 			let infowindow = new google.maps.InfoWindow({
-				content: '<div class="info-window"><h4>' + branch.name + ' Branch</h4><p><a href="https://maps.google.com?daddr=' + getAddressForDirections(branch) + '" target="_blank">Map it! <i class="fa fa-caret-right" aria-hidden="true"></i></a></p></div>'
+				content: `<div class="info-window"><h4>${branch.name} Branch</h4><p><a href="https://www.google.com/maps/dir/?api=1&travelmode=transit&destination=${getAddressForDirections(branch)}" target="_blank"><i class="fa fa-bus" aria-hidden="true"></i> Transit Directions </a><br/><a href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=${getAddressForDirections(branch)}" target="_blank"><i class="fa fa-car" aria-hidden="true"></i> Driving Directions </a></p></div>`
 			});
 
 			infowindows.push(infowindow);
