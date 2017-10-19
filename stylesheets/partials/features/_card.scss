@@ -20,6 +20,8 @@
 		margin: 0 .5em;
 		
 		&.card {
+			padding: .5em;
+
 			&:hover {
 				background-color: $teal;
 				color: white;
@@ -28,8 +30,18 @@
 			&.banner {
 				width: calc(100% - 1em);
 
-				img {
-					height: 150px;
+				.black-background {
+					background: #000;					
+				}
+
+				p {
+					color: $gold;
+					font-size: 1.2em;
+					position: relative;
+					text-align: center;
+					text-transform: uppercase;
+					top: 50%;
+					transform: translateY(-50%);
 				}
 
 				figcaption {
