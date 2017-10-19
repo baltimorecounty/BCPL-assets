@@ -14,7 +14,6 @@
 		transition: all 0.25s ease;
 		color: $gray;
 		box-shadow: $shadow-primary;
-		margin-bottom: 2em;
 
 		img {
 			width: 100%;
@@ -24,6 +23,7 @@
 			font-weight: bold;
 			line-height: 1.2;
 			margin-top: 1em;
+			min-height: 2.5em;
 		}
 
 		&:hover {
@@ -33,6 +33,16 @@
 			box-shadow: $shadow-hover;
 		}
 	}
+}
+
+@media (max-width: $screen-md) {
+	.feature-wrapper {
+		.feature {
+			margin-bottom: 2em;
+		}
+
+		padding-bottom: 0;
+	}			
 }
 
 @media (max-width: $screen-xs) {
