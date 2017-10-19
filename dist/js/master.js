@@ -598,7 +598,9 @@ bcpl.windowShade = function ($) {
 
 	var cycle = function cycle(displaySpeed, delaySpeed) {
 		var $windowShade = $(windowShadeSelector);
+
 		clearTimeout(timeout);
+
 		$windowShade.slideDown(displaySpeed, function () {
 			timeout = setTimeout(function () {
 				$windowShade.slideUp(displaySpeed);
