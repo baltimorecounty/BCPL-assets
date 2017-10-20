@@ -234,8 +234,8 @@ bcpl.filter = function ($, windowShade) {
 			length: filteredData.length
 		};
 
-		$('#branches').trigger('bcpl.filter.changed', filterSettings).fadeOut(250, function () {
-			render(filterSettings, $('#filter-display-template'), $('#filter-display'));
+		$('#results-display').trigger('bcpl.filter.changed', filterSettings).fadeOut(250, function () {
+			render(filterSettings, $('#results-display-template'), $('#results-display'));
 		});
 	};
 
@@ -273,7 +273,7 @@ bcpl.filter = function ($, windowShade) {
 
 		//render(amenities, $('#amenities-template'), $('#amenities'));
 
-		//$('#amenities input').on('change', filterBoxChanged);
+		$('#filter-list input').on('change', filterBoxChanged);
 	};
 
 	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {

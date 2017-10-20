@@ -364,11 +364,8 @@
 				<div class="col-xs-12">
 					<div class="wrapper">
 						<div class="filters">
-							<h4 class="amenities">Database Filters</h4>
+							<h4 class="amenities">Database Categories</h4>
 							<div class="filter-controls-wrapper">
-								<!-- <script id="filter-display-template" type="text/x-handlebars-template">{{#each this}}
-									<label>
-										<input type="checkbox">{{this}}</label>{{/each}}</script> -->
 								<div class="collapse" id="filter-list">
 									<label>
 										<input type="checkbox" />Business, Law, Investment</label>
@@ -401,7 +398,15 @@
 							</div>
 						</div>
 						<header>
-							<h1>Databases</h1>
+							<h1 style="float: left">Databases</h1>
+							<div  style="float: right; position: relative;top: 45px;">
+								<label for="database-sort">Sort by</label>
+								<select id="database-sort">
+									<option>Alphabetical (A-Z)</option>
+									<option>Alphabetical (Z-A)</option>
+									<option>Category</option>
+								</select>
+							</div>
 						</header>
 						<div class="cards database-cards">
 							<script id="results-display-template" type="text/x-handlebars-template">

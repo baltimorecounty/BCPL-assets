@@ -46,10 +46,10 @@ bcpl.filter = (($, windowShade) => {
 			length: filteredData.length
 		};
 
-		$('#branches')
+		$('#results-display')
 			.trigger('bcpl.filter.changed', filterSettings)
 			.fadeOut(250, () => {
-				render(filterSettings, $('#filter-display-template'), $('#filter-display'));
+				render(filterSettings, $('#results-display-template'), $('#results-display'));
 			});
 	};
 
@@ -87,7 +87,7 @@ bcpl.filter = (($, windowShade) => {
 		
 		//render(amenities, $('#amenities-template'), $('#amenities'));
 
-		//$('#amenities input').on('change', filterBoxChanged);
+		$('#filter-list input').on('change', filterBoxChanged);
 	};
 
 	const filterDataError = (jqxhr, status, errorThrown) => {
