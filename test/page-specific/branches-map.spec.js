@@ -20,4 +20,16 @@ describe('Branch map', () => {
 			expect(bcpl.pageSpecific.branchMap.markers.length).toBe(0);
 		});
 	});
+
+	describe('updateMapMarkers', () => {
+		it('should not throw an error when filter data is undefined', () => {
+			// updateMapMarkers = (filterChangedEvent, filterData)
+			const testEvent = {};
+			const testFilterData = undefined;
+
+			expect(() => {
+				bcpl.pageSpecific.branchMap.updateMapMarkers(testEvent, testFilterData);
+			}).not.toThrow();
+		});
+	});
 });
