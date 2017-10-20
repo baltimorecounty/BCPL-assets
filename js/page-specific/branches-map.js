@@ -37,6 +37,14 @@ bcpl.pageSpecific.branchMap = (($) => {
 		}
 	};
 
+	const clearMarkers = () => {
+		for (let i = 0, markerLength = markers.length; i < markerLength; i += 1) {
+			markers[i].setMap(null);
+		}
+
+		markers = [];
+	};
+
 	const processBranchData = (branchData) => {
 		const branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
 		branchJson.forEach(addBranchToMap);
@@ -44,6 +52,11 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 	const reportBranchDataError = (err) => {
 		console.error(err);
+	};
+
+	const updateMapMarkers = (filterChangedEvent, filterData) => {
+		clearMarkers();
+		filterData.branches.forEach(addBranchToMap);
 	};
 
 	const initMap = () => {
@@ -76,12 +89,16 @@ bcpl.pageSpecific.branchMap = (($) => {
 		$.ajax('/mockups/data/branch-amenities.json')
 			.done(processBranchData)
 			.fail(reportBranchDataError);
+
+		$(document).on('bcpl.locations.filter.changed', '#branches', updateMapMarkers);
 	};
 
 	return {
 		/* test-code */
 		getAddressForDirections,
+		clearMarkers,
 		/* end-test-code */
-		initMap
+		initMap,
+		markers
 	};
 })(jQuery);
