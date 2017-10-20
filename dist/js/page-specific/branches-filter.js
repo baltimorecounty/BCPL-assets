@@ -4,6 +4,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.filter = function ($, windowShade) {
 	var filterData = {};
+	var filtersChangedEvent = void 0;
 
 	var render = function render(data, $template, $target) {
 		var source = $template.html();
@@ -57,11 +58,13 @@ bcpl.pageSpecific.filter = function ($, windowShade) {
 
 		windowShade.cycle(250, 2000);
 
-		$('#branches').fadeOut(250, function () {
-			render({
-				branches: filteredData,
-				length: filteredData.length
-			}, $('#branches-template'), $('#branches'));
+		var filterSettings = {
+			branches: filteredData,
+			length: filteredData.length
+		};
+
+		$('#branches').trigger('bcpl.locations.filter.changed', filterSettings).fadeOut(250, function () {
+			render(filterSettings, $('#branches-template'), $('#branches'));
 		});
 	};
 
@@ -91,6 +94,9 @@ bcpl.pageSpecific.filter = function ($, windowShade) {
 
 	var init = function init() {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
+
+		filtersChangedEvent = document.createEvent('Event');
+		filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
 
 		$(document).on('show.bs.collapse', '#amenities', amenitiesShowing);
 		$(document).on('hide.bs.collapse', '#amenities', amenitiesHiding);
