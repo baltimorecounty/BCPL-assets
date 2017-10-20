@@ -450,19 +450,21 @@
 											</div>
 										</div>
 										<div class="col-sm-4 branch-address">
-											<h4>Address</h4>
+											<h4>{{name}} Branch</h4>
 											<address>
 												{{address}}
-												<br/> {{city}}, Maryland {{zip}}
+												<br/> {{city}}, MD {{zip}}
 											</address>
 										</div>
-										<div class="col-sm-3 branch-phone">
-											<h4>Telephone</h4>
-											<p>{{phone}}</p>
-										</div>
-										<div class="col-sm-2 branch-email-link">
-											<a href="mailto:{{email}}" class="branch-email">
-												<i class="fa fa-envelope" aria-hidden="true"></i> EMAIL</a>
+										<div class="col-sm-5 branch-email-phone">
+											<div class="branch-email-phone-wrapper">
+												<a href="mailto:{{email}}" class="branch-email">
+													<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{name}}
+												</a>
+												<a href="tel:{{phone}}" class="branch-phone">
+													<i class="fa fa-phone" aria-hidden="true"></i> {{phone}}
+												</a>
+											</div>											
 										</div>
 									</div>
 								</div>
