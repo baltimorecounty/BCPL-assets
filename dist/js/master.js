@@ -188,6 +188,127 @@ bcpl.constants = {
 
 namespacer('bcpl');
 
+bcpl.filter = function ($, windowShade) {
+	var filterData = {};
+	var filtersChangedEvent = void 0;
+
+	var render = function render(data, $template, $target) {
+		var source = $template.html();
+		var template = Handlebars.compile(source);
+		var html = template(data);
+		$target.html(html);
+
+		if ($target.not('.collapse').is(':hidden')) {
+			$target.fadeIn(250);
+		}
+	};
+
+	var isIntersectedDataItem = function isIntersectedDataItem(checkedItems, dataItem) {
+		var intersection = _.intersection(checkedItems, dataItem.tags);
+		return intersection.length === checkedItems.length;
+	};
+
+	var filterBoxChanged = function filterBoxChanged() {
+		var checkedFilters = [];
+		var filteredData = [];
+		var $labels = $('#filter-list label');
+		var $checkedFilters = $labels.has('input:checked');
+
+		$labels.not('input:checked').removeClass('active');
+		$checkedFilters.addClass('active');
+
+		$checkedFilters.each(function (index, filterItem) {
+			checkedFilters.push(filterItem.innerText);
+		});
+
+		_.each(filterData, function (dataItem) {
+			if (isIntersectedDataItem(checkedFilters, dataItem)) {
+				filteredData.push(dataItem);
+			}
+		});
+
+		windowShade.cycle(250, 2000);
+
+		var filterSettings = {
+			branches: filteredData,
+			length: filteredData.length
+		};
+
+		$('#branches').trigger('bcpl.filter.changed', filterSettings).fadeOut(250, function () {
+			render(filterSettings, $('#filter-display-template'), $('#filter-display'));
+		});
+	};
+
+	var filterDataSuccess = function filterDataSuccess(data) {
+		data = [{
+			name: 'Database 1',
+			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+			tags: ['business', 'adult', 'do it yourself']
+		}, {
+			name: 'Database 2',
+			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+			tags: ['business', 'teens', 'do it yourself']
+		}, {
+			name: 'Database 3',
+			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+			tags: ['business', 'youth', 'do it yourself']
+		}, {
+			name: 'Database 4',
+			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+			tags: ['business', 'adult', 'do it yourself']
+		}, {
+			name: 'Database 5',
+			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+			tags: ['business', 'adult', 'do it yourself']
+		}];
+
+		filterData = typeof data === 'string' ? JSON.parse(data) : data;
+
+		//const amenities = generateAmenitiesList(filterData);
+
+		render({
+			items: filterData,
+			length: filterData.length
+		}, $('#results-display-template'), $('#results-display'));
+
+		//render(amenities, $('#amenities-template'), $('#amenities'));
+
+		//$('#amenities input').on('change', filterBoxChanged);
+	};
+
+	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {
+		console.log('err', errorThrown);
+	};
+
+	var filtersShowing = function filtersShowing(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+	};
+
+	var filtersHiding = function filtersHiding(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
+	};
+
+	var init = function init() {
+		//$.ajax('/mockups/data/branch-amenities.json').done(filterDataSuccess).fail(branchesJsonError);
+		filterDataSuccess();
+
+		/* filtersChangedEvent = document.createEvent('Event');
+  filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
+  */
+		$(document).on('show.bs.collapse', '#filter-list', filtersShowing);
+		$(document).on('hide.bs.collapse', '#filter-list', filtersHiding);
+	};
+
+	return { init: init };
+}(jQuery, bcpl.windowShade);
+
+$(function () {
+	bcpl.filter.init();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
