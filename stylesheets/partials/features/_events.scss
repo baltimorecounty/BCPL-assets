@@ -1,47 +1,9 @@
  
 
 .filters {
+    margin-bottom: 1em;
 }
 
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-button {
-    background-color: $teal-dark;
-    color: white;
-    padding: .5em 3em .5em 3em;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 13.8em;
-    box-shadow: 0px 8px 16px 0px black;
-    z-index: 1;
-}
-
-.dropdown-content div {
-    color: $gray;
-    padding: .5em .5em;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content div:hover {background-color: $gray-lightest}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropdown-button {
-    background-color: $teal-light;
-}
 
 .scrolling-filter {
     width: 15em;
@@ -57,6 +19,14 @@
 
 }
 
+.keyword-search-bar {
+    background-color: white;
+    margin: 1em 0 1em;
+
+    .row {
+        padding: 1em; 
+    }
+}
 .event-list {
     background-color: white;
     margin: 1em 0 2em;
@@ -73,8 +43,13 @@
         }
     }
 
+
     .event {
-        float: left;        
+        float: left;
+        
+        p {
+            margin-bottom: 1em;
+        }
     }
 }
 
@@ -84,10 +59,79 @@
     display: inline;
     width: 1.75em;
     height: 1.75em;
+
+    &:hover {
+        background-color: $teal-light;
+        color: white; 
+    }
 }
 
-.search-button:hover {
-    background-color: $teal-light;
-    color: white;
+.clear-button {
+    background-color: $teal-dark;
+    color: white; 
+    width: 5em;
+    height: 2.5em;
+    margin: 2em 0 1em;
+
+    &:hover {
+        background-color: $teal-light;
+        color: white;
+    }
 }
 
+input[type="text"], input[type="date"], input[type="datetime-local"], input[type="time"] {
+    border: 1px solid #c3c3c3;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    padding: 8px;
+    max-width: 360px;
+    border-radius: 3px;
+    background: #fff;
+}
+
+input.flatpickr {
+    cursor: pointer;
+}
+
+.calendar-datepicker-label {
+
+    display: block;
+    position: relative;
+
+    .calendar-datepicker {
+        padding-right: 50px;
+    }
+    
+    .calendar-datepicker-icon {
+        position: absolute;
+        right: 20px;
+        z-index: 100;
+        top: 40px;
+    }
+}
+
+#start-date {
+    margin: 0 3em 0 0;
+}
+
+
+
+body, input {
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a, button, input, label {
+    -webkit-tap-highlight-color: $gray-dark;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.left-filter {
+    margin: 1em 0 .5em;
+}
+
+.left-filter-date {
+    margin: 0 0 .5em;
+}

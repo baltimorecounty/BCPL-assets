@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Web feature assets for BCNet",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "flatpickr": "^3.0.7"
+  },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "cheerio": "^1.0.0-rc.2",

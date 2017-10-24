@@ -13,6 +13,8 @@
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/dist/js/master.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+	<script src="https://unpkg.com/flatpickr"></script>
 </head>
 
 <body>
@@ -175,38 +177,50 @@
 			<main class="row">
 				<div class="col-md-3">
 					<div class="filters">
-						<h4>Date</h4>
-						<h4>Branch</h4>
-						<div>
-							<select class="select-location">
-								<option value="-1">---Select a Location---</option>
-								<option value="Arbutus">Arbutus</option>
-								<option value="Catonsville">Catonsville</option>
-								<option value="Cockeysville">Cockeysville</option>
-								<option value="Essex">Essex</option>
-								<option value="Hereford">Hereford</option>
-								<option value="Lansdowne">Lansdowne</option>
-								<option value="Loch Raven">Loch Raven</option>
-								<option value="North Point">North Point</option>
-								<option value="Owings Mills">Owings Mills</option>
-								<option value="Parkville-Carney">Parkville-Carney</option>
-								<option value="Perry Hall">Perry Hall</option>
-								<option value="Pikesville">Pikesville</option>
-								<option value="Randallstown">Randallstown</option>
-								<option value="Reisterstown">Reisterstown</option>
-								<option value="Rosedale">Rosedale</option>
-								<option value="Sollers Point">Sollers Point</option>
-								<option value="Towson">Towson</option>
-								<option value="White Marsh">White Marsh</option>
-								<option value="Woodlawn">Woodlawn</option>
-							</select>
-						</div>
-						<h4>Keyword Search</h4>
-						<form action="search.php">
-							<input type="search" name="keywordsearch">
-							<button class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+						<h4 class="left-filter-date">Date</h4>
+							<label class="calendar-datepicker-label">From
+							<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
+							<label class="calendar-datepicker-label">To
+							<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
+							<script>
+								flatpickr("#start-date", {
+									dateFormat: "m-d-Y",
+								});
+								flatpickr("#end-date", {
+									dateFormat: "m-d-Y",
+								});
+							</script>
+						<form action="#">
+							<label for="date-today"><input type="radio" id="date-today" name="date-select" value="today"> Today</label>
+							<label for="date-tomorrow"><input type="radio" id="date-tomorrow" name="date-select" value="tomorrow"> Tomorrow</label>
+							<label for="date-next-7-days"><input type="radio" id="date-next-7-days" name="date-select" value="next7days"> Next 7 Days</label>
 						</form>
-						<h4>Event Type</h4>
+						<h4 class="left-filter">Branch</h4>
+						<label for="branch-all"><input type="checkbox" id="branch-all" name="branches" value="allbranches" checked="true"> All Branches</label>
+						<div class="scrolling-filter">
+							<label for="branch-administrative-offices"><input type="checkbox" id="branch-administrative-offices" name="branches" value="administrativeoffices"> Administrative Offices</label>
+							<label for="branch-arbutus"><input type="checkbox" id="branch-arbutus" name="branches" value="arbutus"> Arbutus</label>
+							<label for="branch-catonsville"><input type="checkbox" id="branch-catonsville" name="branches" value="catonsville"> Catonsville</label>
+							<label for="branch-cockeysville"><input type="checkbox" id="branch-cockeysville" name="branches" value="cockeysville"> Cockeysville</label>
+							<label for="branch-essex"><input type="checkbox" id="branch-essex" name="branches" value="essex"> Essex</label>
+							<label for="branch-hereford"><input type="checkbox" id="branch-hereford" name="branches" value="hereford"> Hereford</label>
+							<label for="branch-lansdowne"><input type="checkbox" id="branch-landsdowne" name="branches" value="lansdowne"> Lansdowne</label>
+							<label for="branch-loch-raven"><input type="checkbox" id="branch-loch-raven" name="branches" value="lochraven"> Loch Raven</label>
+							<label for="branch-mobile-library-services"><input type="checkbox" id="branch-mobile-library-services" name="branches" value="mobilelibraryservices"> Mobile Library Services</label>
+							<label for="branch-north-point"><input type="checkbox" id="branch-north-point" name="branches" value="northpoint"> North Point</label>
+							<label for="branch-owings-mills"><input type="checkbox" id="branch-owings-mills" name="branches" value="owingsmills"> Owings Mills</label>
+							<label for="branch-parkville"><input type="checkbox" id="branch-parkville" name="branches" value="parkville"> Parkville</label>
+							<label for="branch-perry-hall"><input type="checkbox" id="branch-perry-hall" name="branches" value="perryhall"> Perry Hall</label>
+							<label for="branch-pikesville"><input type="checkbox" id="branch-pikesville" name="branches" value="pikesville"> Pikesville</label>
+							<label for="branch-randallstown"><input type="checkbox" id="branch-randallstown" name="branches" value="randallstown"> Randallstown</label>
+							<label for="branch-reisterstown"><input type="checkbox" id="branch-reisterstown" name="branches" value="reisterstown"> Reisterstown</label>
+							<label for="branch-rosedale"><input type="checkbox" id="branch-rosedale" name="branches" value="rosedale"> Rosedale</label>
+							<label for="branch-sollers-point"><input type="checkbox" id="branch-sollers-point" name="branches" value="sollerspoint"> Sollers Point</label>
+							<label for="branch-towson"><input type="checkbox" id="branch-towson" name="branches" value="towson"> Towson</label>
+							<label for="branch-white-marsh"><input type="checkbox" id="branch-white-marsh" name="branches" value="whitemarsh"> White Marsh</label>
+							<label for="branch-woodlawn"><input type="checkbox" id="branch-woodlawn" name="branches" value="woodlawn"> Woodlawn</label>
+						</div>
+						<h4 class="left-filter">Event Type</h4>
 						<label for="event-type-all"><input type="checkbox" id="event-type-all" name="event_types" value="allevents" checked="true"> All Event Types</label>
 						<div class="scrolling-filter">
 							<label for="event-type-adult"><input type="checkbox" id="event-type-adult" name="event_types" value="adult"> Adult</label>
@@ -222,7 +236,7 @@
 							<label for="event-type-technology"><input type="checkbox" id="event-type-technology" name="event_types" value="technology"> Technology</label>
 							<label for="event-type-teen"><input type="checkbox" id="event-type-teen" name="event_types" value="teen"> Teen</label>
 						</div>
-						<h4>Age Groups</h4>
+						<h4 class="left-filter">Age Groups</h4>
 						<label for="age-group-all"><input type="checkbox" id="age-group-all" name="age_groups" value="allagegroups" checked="true"> All Age Groups</label>
 						<div class="scrolling-filter">
 							<label for="age-group-baby"><input type="checkbox" id="age-group-baby" name="age_groups" value="baby"> Baby</label>
@@ -232,8 +246,22 @@
 							<label for="age-group-teen"><input type="checkbox" id="age-group-teen" name="age_groups" value="teen"> Teen</label>
 							<label for="age-group-adult"><input type="checkbox" id="age-group-adult" name="age_groups" value="adult"> Adult</label>
 						</div>
+						<div>
+						<button class="clear-button">Clear</button>
+						</div>
 					</div>
 				</div>
+				<div class="col-md-9">
+					<div class="keyword-search-bar">
+						<div class="row">
+							<h4>Keyword Search</h4>
+							<form action="#">
+								<input type="search" name="keywordsearch">
+								<button class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+							</form>
+						</div>
+					</div>
+				</div>	
 				<div class="col-md-9">
 					<div class="event-list">
 						<div class="row">
