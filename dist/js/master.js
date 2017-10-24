@@ -5,6 +5,10 @@
  * existing objects instead of overwriting them.
  */
 var namespacer = function namespacer(ns) {
+	if (!ns) {
+		return;
+	}
+
 	var nsArr = ns.split('.');
 	var parent = window;
 
@@ -24,11 +28,13 @@ var namespacer = function namespacer(ns) {
 };
 'use strict';
 
-namespacer('seniorExpo.utility');
+namespacer('bcpl.utility');
 
-seniorExpo.utility.flexDetect = function (document, $) {
-	var init = function init() {
-		var hasFlex = document.createElement('div').style.flex !== undefined;
+bcpl.utility.flexDetect = function (document, $) {
+	var init = function init(testDoc) {
+		var actualDoc = testDoc || document;
+
+		var hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {
 			$('body').addClass('no-flex');
@@ -39,7 +45,7 @@ seniorExpo.utility.flexDetect = function (document, $) {
 }(document, jQuery);
 
 $(function () {
-	seniorExpo.utility.flexDetect.init();
+	bcpl.utility.flexDetect.init();
 });
 'use strict';
 
@@ -164,12 +170,20 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.constants = function () {
-	return {
-		baseApiUrl: 'http://localhost:3000',
-		basePageUrl: '/dist'
-	};
-}();
+bcpl.constants = {
+	baseApiUrl: 'http://localhost:3000',
+	basePageUrl: '/dist',
+	keyCodes: {
+		enter: 13,
+		escape: 27,
+		upArrow: 38,
+		downArrow: 40,
+		leftArrow: 37,
+		rightArrow: 39,
+		tab: 9,
+		space: 32
+	}
+};
 'use strict';
 
 namespacer('bcpl');
@@ -179,17 +193,17 @@ bcpl.navigationSearch = function ($) {
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
-	var menuSelector = '.nav-and-search nav';
-	var navBackButtonSelector = '.nav-back-button button';
+	var menuSelector = '#responsive-sliding-navigation';
+	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
-	var menuItemsSelector = '.nav-and-search nav > ul > li > button';
-	var submenuBackButtonSelector = '.nav-and-search nav ul li ul li button';
 
 	/* Helpers */
 
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
-		$menu.removeClass('active move-left').find('.slide-in').removeClass('slide-in');
+		$menu.removeClass('active');
+		$('#responsive-sliding-navigation .active').removeClass('active');
+		$('body').removeClass('nav-visible');
 	};
 
 	/* Event Handlers */
@@ -204,12 +218,13 @@ bcpl.navigationSearch = function ($) {
 		var $hamburgerButton = $(event.currentTarget);
 		var $modalCover = event.data.$modalCover;
 
-		$menu.find('.slide-in').removeClass('slide-in');
+		// $menu.find('.slide-in').removeClass('slide-in');
 		$searchButtonActivator.removeClass('active');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');
 		$modalCover.addClass('active');
+		$('body').addClass('nav-visible');
 	};
 
 	/**
@@ -247,27 +262,15 @@ bcpl.navigationSearch = function ($) {
 	var modalDismissActionHandler = function modalDismissActionHandler(event) {
 		var $menu = event.data.$menu;
 		var $modalCover = event.data.$modalCover;
-		killMenuAndModalCover($menu, $modalCover);
-	};
+		var $activeMenuItem = $('#responsive-sliding-navigation .active');
 
-	/**
-  * Handles the menu item clicks that slide out the next nav
-  * @param {Event} event
-  */
-	var menuItemClicked = function menuItemClicked(event) {
-		var $menuItem = $(event.currentTarget);
-		var $submenu = $menuItem.siblings('ul');
-		var $menu = event.data.$menu;
-
-		$menu.find('.slide-in').removeClass('slide-in');
-		$menu.addClass('move-left');
-		$submenu.addClass('slide-in');
-	};
-
-	var submenuBackButtonClicked = function submenuBackButtonClicked(event) {
-		var $backButton = $(event.currentTarget);
-		$backButton.closest('.slide-in').removeClass('slide-in');
-		$backButton.closest('.move-left').removeClass('move-left');
+		if ($activeMenuItem.length) {
+			$activeMenuItem.find('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
+				$(this).closest('li.active').removeClass('active');
+			});
+		} else {
+			killMenuAndModalCover($menu, $modalCover);
+		}
 	};
 
 	var resizeTimer = void 0;
@@ -283,7 +286,9 @@ bcpl.navigationSearch = function ($) {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(function () {
 				$menu.addClass('animatable');
-				callback();
+				if (callback && typeof callback === 'function') {
+					callback();
+				}
 			}, 500);
 		}
 	};
@@ -299,8 +304,6 @@ bcpl.navigationSearch = function ($) {
 		var $menu = $(menuSelector);
 		var $navBackButton = $(navBackButtonSelector);
 		var $modalCover = $(modalCoverSelector);
-		var $menuItems = $(menuItemsSelector);
-		var $submenuBackButton = $(submenuBackButtonSelector);
 
 		$searchButtonActivator.on('click', {
 			$searchBox: $searchBox,
@@ -315,7 +318,9 @@ bcpl.navigationSearch = function ($) {
 			$modalCover: $modalCover
 		}, hamburgerButtonClicked);
 
-		$searchButton.on('click', { browserWindow: window }, searchButtonClicked);
+		$searchButton.on('click', {
+			browserWindow: window
+		}, searchButtonClicked);
 
 		$navBackButton.on('click', {
 			$menu: $menu,
@@ -326,10 +331,6 @@ bcpl.navigationSearch = function ($) {
 			$menu: $menu,
 			$modalCover: $modalCover
 		}, modalDismissActionHandler);
-
-		$menuItems.on('click', { $menu: $menu }, menuItemClicked);
-
-		$submenuBackButton.on('click', submenuBackButtonClicked);
 
 		$(window).on('resize', {
 			$menu: $menu,
@@ -353,87 +354,204 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.navigation = function ($) {
-	var navButtonSelector = '.nav-and-search nav button';
-	var navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+bcpl.navigation = function ($, keyCodes) {
+	var navButtonSelector = '#responsive-sliding-navigation button';
+	var closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
+	var searchArtifactsSelector = '#activate-search-button, #search-box';
+	var heroCalloutContainerSelector = '.hero-callout-container';
+	var activeLinksSelector = '.active, .clicked';
+	var activeMenuButtonSelector = 'li.active button';
+	var mobileWidthThreshold = 768;
 
-	var keyCodes = {
-		enter: 13
+	var isMobileWidth = function isMobileWidth($element, threshold) {
+		return parseFloat($element.width()) <= threshold;
 	};
 
-	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons($button) {
-		return $button.closest('ul').find('li.active').removeClass('active');
+	var isSlideNavigationVisible = function isSlideNavigationVisible() {
+		return $('body').hasClass('nav-visible');
 	};
 
-	var toggleActiveClass = function toggleActiveClass($button) {
-		return $button.closest('li').toggleClass('active');
+	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
+		return $('#responsive-sliding-navigation li.active a').first().focus();
 	};
 
-	var removeActiveClass = function removeActiveClass($buttonOrList) {
-		return $buttonOrList.closest('.active').removeClass('active');
+	var findClosestButtonToLink = function findClosestButtonToLink($link) {
+		return $link.closest(closestMenuNodeSelector).find('button');
+	};
+
+	var afterSubmenuActivated = function afterSubmenuActivated(target, afterAnimationCallback) {
+		$(target).find('ul').attr('aria-hidden', false);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
+	};
+
+	var activateSubmenu = function activateSubmenu($button, afterAnimationCallback) {
+		var animationOptions = isSlideNavigationVisible() ? { right: '0px' } : {};
+		var animationSpeed = isSlideNavigationVisible() ? 250 : 0;
+		$button.attr('aria-expanded', true).closest('li').addClass('active').find('.submenu-wrapper').animate(animationOptions, animationSpeed, function afterAnimation() {
+			afterSubmenuActivated(this, afterAnimationCallback);
+		});
+	};
+
+	var afterSubmenuDeactivated = function afterSubmenuDeactivated(target, afterAnimationCallback) {
+		$(target).siblings('button').attr('aria-expanded', false).closest('li').removeClass('active').attr('aria-hidden', true);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
+	};
+
+	var deactivateSubmenu = function deactivateSubmenu($button, afterAnimationCallback) {
+		var animationOptions = isSlideNavigationVisible() ? { right: '-300px' } : {};
+		var animationSpeed = isSlideNavigationVisible() ? 250 : 0;
+		$button.siblings('.submenu-wrapper').animate(animationOptions, animationSpeed, function afterAnimation() {
+			afterSubmenuDeactivated(this, afterAnimationCallback);
+		});
+	};
+
+	var removeActiveClassFromAllButtons = function removeActiveClassFromAllButtons() {
+		return deactivateSubmenu($('#responsive-sliding-navigation').find(activeMenuButtonSelector));
 	};
 
 	var hideSearchBox = function hideSearchBox() {
-		$('#activate-search-button, #search-box').removeClass('active');
+		return $(searchArtifactsSelector).removeClass('active');
 	};
 
-	var equalizeListItems = function equalizeListItems($childOfTargetList) {
-		var $wideList = $childOfTargetList.siblings('ul');
-		var $listItems = $wideList.find('li');
-		var widest = 0;
-		var tallest = 0;
-
-		if ($listItems.length < 8) return;
-
-		$listItems.each(function (listItemIndex, listItem) {
-			var $listItem = $(listItem);
-			widest = $listItem.width() > widest ? $listItem.width() : widest;
-			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
-		});
-
-		$listItems.width(widest);
-		$listItems.height(tallest);
-		$wideList.addClass('wide');
-	};
-
-	var navButtonKeyup = function navButtonKeyup(event) {
-		var $button = $(event.currentTarget);
-		var keyCode = event.which || event.keyCode;
-
-		if (keyCode === keyCodes.enter) {
-			hideSearchBox();
-			removeActiveClassFromAllButtons($button);
-			toggleActiveClass($button);
-			equalizeListItems($button);
+	var hideHeroCallout = function hideHeroCallout(shouldHide) {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
 		}
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
 		var $button = $(event.currentTarget);
+		var wasActive = $button.closest('li').hasClass('active');
 		hideSearchBox();
-		removeActiveClassFromAllButtons($button);
-		toggleActiveClass($button);
-		equalizeListItems($button);
+		removeActiveClassFromAllButtons();
+		if (!wasActive) {
+			activateSubmenu($button);
+		} else {
+			deactivateSubmenu($button);
+		}
+		hideHeroCallout(!wasActive);
 	};
 
-	var navButtonHovered = function navButtonHovered(event) {
-		var $button = $(event.currentTarget);
-		hideSearchBox();
-		removeActiveClassFromAllButtons($button);
-		equalizeListItems($button);
+	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
+		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		var $button = $(keyboardEvent.currentTarget).closest('#responsive-sliding-navigation').find(activeMenuButtonSelector);
+
+		switch (keyCode) {
+			case keyCodes.escape:
+				deactivateSubmenu($button);
+				$button.focus();
+				hideHeroCallout(false);
+				break;
+			default:
+				break;
+		}
 	};
 
-	var navButtonAndListLeave = function navButtonAndListLeave(event) {
-		var $buttonOrList = $(event.currentTarget);
-		hideSearchBox();
-		removeActiveClass($buttonOrList);
+	var navigationButtonKeyPressed = function navigationButtonKeyPressed(keyboardEvent) {
+		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		var $button = $(keyboardEvent.currentTarget);
+
+		switch (keyCode) {
+			case keyCodes.rightArrow:
+				keyboardEvent.preventDefault();
+				deactivateSubmenu($button);
+				$button.parent().next().find('button').focus();
+				break;
+			case keyCodes.leftArrow:
+				keyboardEvent.preventDefault();
+				deactivateSubmenu($button);
+				$button.parent().prev().find('button').focus();
+				break;
+			case keyCodes.downArrow:
+			case keyCodes.upArrow:
+			case keyCodes.enter:
+				keyboardEvent.preventDefault();
+				removeActiveClassFromAllButtons();
+				activateSubmenu($button);
+				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
+				break;
+			default:
+				break;
+		}
 	};
 
-	$(document).on('keyup', navButtonSelector, navButtonKeyup);
+	var navigationMenuItemKeyPressed = function navigationMenuItemKeyPressed(keyboardEvent) {
+		var keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		var $link = $(keyboardEvent.currentTarget);
+		var $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
+		var $button = findClosestButtonToLink($link);
+
+		switch (keyCode) {
+			case keyCodes.upArrow:
+				keyboardEvent.preventDefault();
+				if ($allActiveLinks.index($link) - 1 === -1) {
+					$allActiveLinks.eq(0).focus();
+				} else {
+					$allActiveLinks.eq($allActiveLinks.index($link) - 1).focus();
+				}
+				break;
+			case keyCodes.leftArrow:
+				keyboardEvent.preventDefault();
+				if ($link.closest(closestMenuNodeSelector).prev('li').length) {
+					deactivateSubmenu($button, function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
+						focusFirstActiveMenuLink();
+					});
+				}
+				break;
+			case keyCodes.downArrow:
+				keyboardEvent.preventDefault();
+				$allActiveLinks.eq($allActiveLinks.index($link) + 1).focus();
+				break;
+			case keyCodes.rightArrow:
+				keyboardEvent.preventDefault();
+				if ($link.closest(closestMenuNodeSelector).next('li').length) {
+					deactivateSubmenu($button, function () {
+						activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
+						focusFirstActiveMenuLink();
+					});
+				}
+				break;
+			case keyCodes.space:
+			case keyCodes.enter:
+				keyboardEvent.preventDefault();
+				$link[0].click();
+				removeActiveClassFromAllButtons();
+				break;
+			default:
+				break;
+		}
+	};
+
+	var navigationMouseover = function navigationMouseover() {
+		hideHeroCallout(true);
+	};
+
+	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
+		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
+
+		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			removeActiveClassFromAllButtons();
+			hideHeroCallout(false);
+		}
+	};
+
+	$(document).on('mouseover', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseover);
+	$(document).on('mouseleave', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseleave);
+	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
+	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
-	$(document).on('mouseenter', navButtonSelector, navButtonHovered);
-	$(document).on('mouseleave', navButtonAndListSelector, navButtonAndListLeave);
-}(jQuery);
+	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+
+}(jQuery, bcpl.constants.keyCodes);
 'use strict';
 
 namespacer('bcpl');
@@ -470,3 +588,27 @@ bcpl.tabs = function ($) {
 $(function () {
 	bcpl.tabs.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.windowShade = function ($) {
+	var windowShadeSelector = '#window-shade';
+	var timeout = void 0;
+
+	var cycle = function cycle(displaySpeed, delaySpeed) {
+		var $windowShade = $(windowShadeSelector);
+
+		clearTimeout(timeout);
+
+		$windowShade.slideDown(displaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(displaySpeed);
+			}, delaySpeed);
+		});
+	};
+
+	return {
+		cycle: cycle
+	};
+}(jQuery);

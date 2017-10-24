@@ -1,7 +1,14 @@
 .filters {
 	background: white;
 	margin-top: 1em;
-	padding: 1em;
+	border: 20px solid $tan;
+
+	h4 {		
+		background: $gray;
+		color: white;
+		margin: 0;
+		padding: .75em;
+	}	
 
 	.collapse {
 		display: block;
@@ -15,26 +22,32 @@
 		border: none !important;
 	}
 
-	label {
-		clear: both;
-		cursor: pointer; 
-		display: block;
-		font-weight: normal;
+
+	.filter-controls-wrapper {
 		padding: .5em;
-
-		&.active {
-			background-color: $teal;
-			color: white;
-		}
-
-		input {
+		
+		label {
+			clear: both;
 			cursor: pointer; 
 			display: block;
-			float: left;
-			margin-bottom: 1em;
-			margin-right: .5em;
+			font-weight: normal;
+			padding: .5em;
+
+			&.active {
+				background-color: $teal;
+				color: white;
+			}
+
+			input {
+				cursor: pointer; 
+				display: block;
+				float: left;
+				margin-bottom: 1em;
+				margin-right: .5em;
+			}
 		}
 	}
+
 }
 
 .filter-controls {

@@ -30,6 +30,9 @@ bcpl.alertBox = (($) => {
 	};
 
 	return {
+		/* test-code */
+		alertBoxDismissButtonClicked,
+		/* end-test-code */
 		init
 	};
 })(jQuery);

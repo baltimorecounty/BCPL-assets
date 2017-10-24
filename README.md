@@ -2,6 +2,7 @@
 Client side assets for the Baltimore County Public Library website
 
 [![Build Status](https://travis-ci.org/baltimorecounty/BCPL-assets.svg?branch=integration)](https://travis-ci.org/baltimorecounty/BCPL-assets)
+[![Coverage Status](https://coveralls.io/repos/github/baltimorecounty/BCPL-assets/badge.svg?branch=integration)](https://coveralls.io/github/baltimorecounty/BCPL-assets?branch=integration)
 
 ## Building Files for Distribution
 

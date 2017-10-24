@@ -6,7 +6,9 @@
 .main-content {
 	padding: 1.8em;
 	margin-bottom: 3em;
-}
 
-.secondary-nav {
+	&.hub-page {
+		background: none;
+		padding: 0;
+	}
 }

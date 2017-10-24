@@ -1,77 +1,223 @@
 namespacer('bcpl');
 
-bcpl.navigation = (($) => {
-	const navButtonSelector = '.nav-and-search nav button';
-	const navButtonAndListSelector = '.nav-and-search nav li.active button, .nav-and-search nav li.active ul';
+bcpl.navigation = (($, keyCodes) => {
+	const navButtonSelector = '#responsive-sliding-navigation button';
+	const closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
+	const searchArtifactsSelector = '#activate-search-button, #search-box';
+	const heroCalloutContainerSelector = '.hero-callout-container';
+	const activeLinksSelector = '.active, .clicked';
+	const activeMenuButtonSelector = 'li.active button';
+	const mobileWidthThreshold = 768;
 
-	const keyCodes = {
-		enter: 13
+	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
+
+	const isSlideNavigationVisible = () => $('body').hasClass('nav-visible');
+
+	const focusFirstActiveMenuLink = () => $('#responsive-sliding-navigation li.active a').first().focus();
+
+	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
+
+	const afterSubmenuActivated = (target, afterAnimationCallback) => {
+		$(target)
+			.find('ul')
+			.attr('aria-hidden', false);
+
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
 	};
 
-	const removeActiveClassFromAllButtons = ($button) => $button.closest('ul').find('li.active').removeClass('active');
-
-	const toggleActiveClass = ($button) => $button.closest('li').toggleClass('active');
-
-	const removeActiveClass = ($buttonOrList) => $buttonOrList.closest('.active').removeClass('active');
-
-	const hideSearchBox = () => {
-		$('#activate-search-button, #search-box').removeClass('active');
+	const activateSubmenu = ($button, afterAnimationCallback) => {
+		const animationOptions = isSlideNavigationVisible() ? { right: '0px' } : {};
+		const animationSpeed = isSlideNavigationVisible() ? 250 : 0;
+		$button
+			.attr('aria-expanded', true)
+			.closest('li')
+			.addClass('active')
+			.find('.submenu-wrapper')
+			.animate(animationOptions, animationSpeed, function afterAnimation() {
+				afterSubmenuActivated(this, afterAnimationCallback);
+			});
 	};
 
-	const equalizeListItems = ($childOfTargetList) => {
-		const $wideList = $childOfTargetList.siblings('ul');
-		const $listItems = $wideList.find('li');
-		let widest = 0;
-		let tallest = 0;
+	const afterSubmenuDeactivated = (target, afterAnimationCallback) => {
+		$(target)
+			.siblings('button')
+			.attr('aria-expanded', false)
+			.closest('li')
+			.removeClass('active')
+			.attr('aria-hidden', true);
 
-		if ($listItems.length < 8) return;
-
-		$listItems.each((listItemIndex, listItem) => {
-			const $listItem = $(listItem);
-			widest = $listItem.width() > widest ? $listItem.width() : widest;
-			tallest = $listItem.height() > tallest ? $listItem.height() : tallest;
-		});
-
-		$listItems.width(widest);
-		$listItems.height(tallest);
-		$wideList.addClass('wide');
+		if (afterAnimationCallback && typeof afterAnimationCallback === 'function') {
+			afterAnimationCallback();
+		}
 	};
 
-	const navButtonKeyup = (event) => {
-		const $button = $(event.currentTarget);
-		const keyCode = event.which || event.keyCode;
+	const deactivateSubmenu = ($button, afterAnimationCallback) => {
+		const animationOptions = isSlideNavigationVisible() ? { right: '-300px' } : {};
+		const animationSpeed = isSlideNavigationVisible() ? 250 : 0;
+		$button
+			.siblings('.submenu-wrapper')
+			.animate(animationOptions, animationSpeed, function afterAnimation() {
+				afterSubmenuDeactivated(this, afterAnimationCallback);
+			});
+	};
 
-		if (keyCode === keyCodes.enter) {
-			hideSearchBox();
-			removeActiveClassFromAllButtons($button);
-			toggleActiveClass($button);
-			equalizeListItems($button);
+	const removeActiveClassFromAllButtons = () => deactivateSubmenu($('#responsive-sliding-navigation').find(activeMenuButtonSelector));
+
+	const hideSearchBox = () => $(searchArtifactsSelector).removeClass('active');
+
+	const hideHeroCallout = (shouldHide) => {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
 		}
 	};
 
 	const navButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
+		const wasActive = $button.closest('li').hasClass('active');
 		hideSearchBox();
-		removeActiveClassFromAllButtons($button);
-		toggleActiveClass($button);
-		equalizeListItems($button);
+		removeActiveClassFromAllButtons();
+		if (!wasActive) {
+			activateSubmenu($button);
+		} else {
+			deactivateSubmenu($button);
+		}
+		hideHeroCallout(!wasActive);
 	};
 
-	const navButtonHovered = (event) => {
-		const $button = $(event.currentTarget);
-		hideSearchBox();
-		removeActiveClassFromAllButtons($button);
-		equalizeListItems($button);
+	const navigationKeyPressed = (keyboardEvent) => {
+		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		const $button = $(keyboardEvent.currentTarget).closest('#responsive-sliding-navigation').find(activeMenuButtonSelector);
+
+		switch (keyCode) {
+		case keyCodes.escape:
+			deactivateSubmenu($button);
+			$button.focus();
+			hideHeroCallout(false);
+			break;
+		default:
+			break;
+		}
 	};
 
-	const navButtonAndListLeave = (event) => {
-		const $buttonOrList = $(event.currentTarget);
-		hideSearchBox();
-		removeActiveClass($buttonOrList);
+	const navigationButtonKeyPressed = (keyboardEvent) => {
+		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		const $button = $(keyboardEvent.currentTarget);
+
+		switch (keyCode) {
+		case keyCodes.rightArrow:
+			keyboardEvent.preventDefault();
+			deactivateSubmenu($button);
+			$button
+				.parent()
+				.next()
+				.find('button')
+				.focus();
+			break;
+		case keyCodes.leftArrow:
+			keyboardEvent.preventDefault();
+			deactivateSubmenu($button);
+			$button
+				.parent()
+				.prev()
+				.find('button')
+				.focus();
+			break;
+		case keyCodes.downArrow:
+		case keyCodes.upArrow:
+		case keyCodes.enter:
+			keyboardEvent.preventDefault();
+			removeActiveClassFromAllButtons();
+			activateSubmenu($button);
+			$button
+				.siblings('.submenu-wrapper')
+				.find('a:visible')
+				.first()
+				.focus();
+			break;
+		default:
+			break;
+		}
 	};
 
-	$(document).on('keyup', navButtonSelector, navButtonKeyup);
+	const navigationMenuItemKeyPressed = (keyboardEvent) => {
+		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
+		const $link = $(keyboardEvent.currentTarget);
+		const $allActiveLinks = $link.closest(activeLinksSelector).find('a:visible');
+		const $button = findClosestButtonToLink($link);
+
+		switch (keyCode) {
+		case keyCodes.upArrow:
+			keyboardEvent.preventDefault();
+			if ($allActiveLinks.index($link) - 1 === -1) {
+				$allActiveLinks.eq(0).focus();
+			} else {
+				$allActiveLinks.eq($allActiveLinks.index($link) - 1).focus();
+			}
+			break;
+		case keyCodes.leftArrow:
+			keyboardEvent.preventDefault();
+			if ($link.closest(closestMenuNodeSelector).prev('li').length) {
+				deactivateSubmenu($button, () => {
+					activateSubmenu($link.closest(closestMenuNodeSelector).prev('li').find('button'));
+					focusFirstActiveMenuLink();
+				});
+			}
+			break;
+		case keyCodes.downArrow:
+			keyboardEvent.preventDefault();
+			$allActiveLinks.eq($allActiveLinks.index($link) + 1).focus();
+			break;
+		case keyCodes.rightArrow:
+			keyboardEvent.preventDefault();
+			if ($link.closest(closestMenuNodeSelector).next('li').length) {
+				deactivateSubmenu($button, () => {
+					activateSubmenu($link.closest(closestMenuNodeSelector).next('li').find('button'));
+					focusFirstActiveMenuLink();
+				});
+			}
+			break;
+		case keyCodes.space:
+		case keyCodes.enter:
+			keyboardEvent.preventDefault();
+			$link[0].click();
+			removeActiveClassFromAllButtons();
+			break;
+		default:
+			break;
+		}
+	};
+
+	const navigationMouseover = () => {
+		hideHeroCallout(true);
+	};
+
+	const navigationMouseleave = (mouseEvent) => {
+		const isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
+
+		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			removeActiveClassFromAllButtons();
+			hideHeroCallout(false);
+		}
+	};
+
+	$(document).on('mouseover', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseover);
+	$(document).on('mouseleave', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseleave);
+	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
+	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
-	$(document).on('mouseenter', navButtonSelector, navButtonHovered);
-	$(document).on('mouseleave', navButtonAndListSelector, navButtonAndListLeave);
-})(jQuery);
+	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+
+	/* test-code */
+	return {
+		isMobileWidth,
+		isSlideNavigationVisible,
+		focusFirstActiveMenuLink,
+		findClosestButtonToLink,
+		afterSubmenuActivated
+	};
+	/* end-test-code */
+})(jQuery, bcpl.constants.keyCodes);

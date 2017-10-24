@@ -1,5 +1,5 @@
 .tabs {
-	padding: 5em 0 0;
+	margin: 5em 0 0;
 
 	nav {
 		ul {
@@ -26,7 +26,6 @@
 
 		button {
 			padding: 0;
-			margin: .65em;
 
 			img {
 				height: 90px;
@@ -36,7 +35,53 @@
 		
 
 		&.active {
-			display: block;
+			display: flex;
+			justify-content: space-around;
+	}
+	}
+}
+
+
+@media (max-width: $screen-md) {
+	.tabs {
+		margin: 2em 0 0;
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.tabs {
+		.tab {
+			&.active {
+				display: flex;
+				justify-content: space-around;
+			}
+		}
+	}
+
+	.no-flex {
+		.tabs {
+			margin: 2em 0 0;
+	
+			.tab {
+				&.active {
+					display: block;
+				}
+			}
+		}	
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.tabs {
+		.tab {
+			&.active {
+				display: block;
+				
+				button {
+					display: inline-block;
+					margin: .65em;
+				}
+			}
 		}
 	}
 }

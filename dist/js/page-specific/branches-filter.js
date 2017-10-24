@@ -2,8 +2,9 @@
 
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.filter = function ($) {
+bcpl.pageSpecific.filter = function ($, windowShade) {
 	var filterData = {};
+	var filtersChangedEvent = void 0;
 
 	var render = function render(data, $template, $target) {
 		var source = $template.html();
@@ -24,7 +25,7 @@ bcpl.pageSpecific.filter = function ($) {
 		});
 		var uniqueAmenities = _.uniq(amenities);
 		var sortedUniqueAmenities = _.sortBy(uniqueAmenities, function (ua) {
-			return { ua: ua };
+			return ua;
 		});
 
 		return sortedUniqueAmenities;
@@ -55,17 +56,25 @@ bcpl.pageSpecific.filter = function ($) {
 			}
 		});
 
-		if (filteredData.length) {
-			$('#branches').fadeOut(250, function () {
-				render(filteredData, $('#branches-template'), $('#branches'));
-			});
-		}
+		windowShade.cycle(250, 2000);
+
+		var filterSettings = {
+			branches: filteredData,
+			length: filteredData.length
+		};
+
+		$('#branches').trigger('bcpl.locations.filter.changed', filterSettings).fadeOut(250, function () {
+			render(filterSettings, $('#branches-template'), $('#branches'));
+		});
 	};
 
 	var branchesJsonSuccess = function branchesJsonSuccess(data) {
-		filterData = data;
-		var amenities = generateAmenitiesList(data);
-		render(data, $('#branches-template'), $('#branches'));
+		filterData = typeof data === 'string' ? JSON.parse(data) : data;
+		var amenities = generateAmenitiesList(filterData);
+		render({
+			branches: filterData,
+			length: filterData.length
+		}, $('#branches-template'), $('#branches'));
 		render(amenities, $('#amenities-template'), $('#amenities'));
 
 		$('#amenities input').on('change', filterBoxChanged);
@@ -75,37 +84,26 @@ bcpl.pageSpecific.filter = function ($) {
 		console.log('err', errorThrown);
 	};
 
-	var toggleButtonClicked = function toggleButtonClicked(toggleButtonEvent) {
-		var $target = $(toggleButtonEvent.target);
-		var $buttonGroup = $target.parent().find('button');
-		var $branches = $('#branches');
+	var amenitiesShowing = function amenitiesShowing(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+	};
 
-		$buttonGroup.toggleClass('btn-primary').toggleClass('btn-default');
-
-		if ($target.parent().is('#sort-control')) {
-			$branches.fadeOut(250, function () {
-				var $branchCards = $branches.find('.card').detach();
-				$branches.append($branchCards.get().reverse());
-				$branches.fadeIn(250);
-			});
-		}
-
-		if ($target.parent().is('#list-grid-control')) {
-			$branches.fadeOut(250, function () {
-				$branches.toggleClass('list-view');
-				$branches.fadeIn(250);
-			});
-		}
+	var amenitiesHiding = function amenitiesHiding(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
 	var init = function init() {
 		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
 
-		$('.filter-controls .btn-group-toggle').on('click', toggleButtonClicked);
+		filtersChangedEvent = document.createEvent('Event');
+		filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
+
+		$(document).on('show.bs.collapse', '#amenities', amenitiesShowing);
+		$(document).on('hide.bs.collapse', '#amenities', amenitiesHiding);
 	};
 
 	return { init: init };
-}(jQuery);
+}(jQuery, bcpl.windowShade);
 
 $(function () {
 	bcpl.pageSpecific.filter.init();

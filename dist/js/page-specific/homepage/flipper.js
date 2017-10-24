@@ -69,11 +69,6 @@ bcpl.pageSpecific.homepage.flipper = function ($) {
 		$buttons.on('click', { tabObjects: tabObjects }, bookButtonClicked);
 
 		buttonIndex = highlightButtons(tabObjects, buttonIndex);
-		/*
-  bookHighlightInterval = setInterval(() => {
-  	buttonIndex = highlightButtons(tabObjects, buttonIndex);
-  }, 3000);
-  */
 	};
 
 	var init = function init() {
