@@ -2,6 +2,20 @@
 
 .filters {
     margin-bottom: 1em;
+
+    &.event-filters {
+        float: none;
+        width: 100%;
+        margin-right: 0;
+
+        .filter-items-wrapper {
+            padding: 1em;
+
+            label {
+                display: block;
+            }
+        }
+    }
 }
 
 
@@ -11,6 +25,7 @@
     overflow-y: auto;
     border: 1px solid $gray-light;
     font-size: .8em;
+    padding: .5em;
 
     label {
         display: block;
@@ -105,9 +120,9 @@ input.flatpickr {
     
     .calendar-datepicker-icon {
         position: absolute;
-        right: 20px;
+        right: 10px;
         z-index: 100;
-        top: 40px;
+        top: 30px;
     }
 }
 
