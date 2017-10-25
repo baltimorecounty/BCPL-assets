@@ -102,8 +102,8 @@ bcpl.filter = (($, windowShade) => {
 		const filtersChangedEvent = document.createEvent('Event');
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
-		$(document).on('show.bs.collapse', '#filter-list', filtersShowing);
-		$(document).on('hide.bs.collapse', '#filter-list', filtersHiding); 
+		$(document).on('show.bs.collapse', '#filters', filtersShowing);
+		$(document).on('hide.bs.collapse', '#filters', filtersHiding); 
 	};
 
 	return { init };	
