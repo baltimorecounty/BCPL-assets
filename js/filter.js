@@ -53,17 +53,15 @@ bcpl.filter = (($, windowShade) => {
 			});
 	};
 
-	const filterDataSuccess = (data) => {	
-		filterData = typeof data === 'string' ? JSON.parse(data) : data;
-
-		//const amenities = generateAmenitiesList(filterData);
+	const filterDataSuccess = (contentData, filters) => {	
+		filterData = typeof contentData === 'string' ? JSON.parse(contentData) :contentData;
 		
 		render({
 			items: filterData,
 			length: filterData.length
 		}, $('#results-display-template'), $('#results-display'));
 		
-		//render(amenities, $('#amenities-template'), $('#amenities'));
+		render(filters, $('#filters-template'), $('#filters'));
 
 		$('#filter-list input').on('change', filterBoxChanged);
 	};
@@ -87,9 +85,6 @@ bcpl.filter = (($, windowShade) => {
 	const init = (dataLoadingFunction) => {
 		dataLoadingFunction(filterDataSuccess, filterDataError);
 
-		/* filtersChangedEvent = document.createEvent('Event');
-		filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
-*/
 		$(document).on('show.bs.collapse', '#filter-list', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filter-list', filtersHiding); 
 	};
