@@ -2,109 +2,46 @@
 
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.filter = function ($, windowShade) {
-	var filterData = {};
-	var filtersChangedEvent = void 0;
-
-	var render = function render(data, $template, $target) {
-		var source = $template.html();
-		var template = Handlebars.compile(source);
-		var html = template(data);
-		$target.html(html);
-
-		if ($target.not('.collapse').is(':hidden')) {
-			$target.fadeIn(250);
-		}
+bcpl.pageSpecific.databaseFilter = function ($) {
+	var dataTableIndexes = {
+		name: 0,
+		url: 1,
+		description: 2,
+		inPerson: 3,
+		requiresCard: 4,
+		tags: 5
 	};
 
-	var generateAmenitiesList = function generateAmenitiesList(data) {
-		var amenities = [];
+	var dataLoaderSuccess = function dataLoaderSuccess(data, externalSuccessCallback) {
+		var $dataTable = $(data).find('#data-table');
+		var $rows = $dataTable.find('tbody tr');
+		var databaseData = [];
 
-		_.each(data, function (element) {
-			amenities = amenities.concat(element.amenities);
-		});
-		var uniqueAmenities = _.uniq(amenities);
-		var sortedUniqueAmenities = _.sortBy(uniqueAmenities, function (ua) {
-			return ua;
-		});
+		$rows.each(function (index, rowElement) {
+			var $row = $(rowElement);
 
-		return sortedUniqueAmenities;
-	};
-
-	var isIntersectedDataItem = function isIntersectedDataItem(checkedAmenities, dataItem) {
-		var amenitiesIntersection = _.intersection(checkedAmenities, dataItem.amenities);
-
-		return amenitiesIntersection.length === checkedAmenities.length;
-	};
-
-	var filterBoxChanged = function filterBoxChanged() {
-		var checkedAmenities = [];
-		var filteredData = [];
-		var $labels = $('#amenities label');
-		var $checkedAmenities = $labels.has('input:checked');
-
-		$labels.not('input:checked').removeClass('active');
-		$checkedAmenities.addClass('active');
-
-		$checkedAmenities.each(function (index, amenityItem) {
-			checkedAmenities.push(amenityItem.innerText);
+			databaseData.push({
+				name: $row.find('td').eq(dataTableIndexes.name).text(),
+				url: $row.find('td').eq(dataTableIndexes.url).text(),
+				description: $row.find('td').eq(dataTableIndexes.description).text(),
+				inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
+				requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
+				tags: $row.find('td').eq(dataTableIndexes.tags).text().trim().split(', ')
+			});
 		});
 
-		_.each(filterData, function (dataItem) {
-			if (isIntersectedDataItem(checkedAmenities, dataItem)) {
-				filteredData.push(dataItem);
-			}
-		});
-
-		windowShade.cycle(250, 2000);
-
-		var filterSettings = {
-			branches: filteredData,
-			length: filteredData.length
-		};
-
-		$('#branches').trigger('bcpl.locations.filter.changed', filterSettings).fadeOut(250, function () {
-			render(filterSettings, $('#branches-template'), $('#branches'));
-		});
+		externalSuccessCallback(databaseData);
 	};
 
-	var branchesJsonSuccess = function branchesJsonSuccess(data) {
-		filterData = typeof data === 'string' ? JSON.parse(data) : data;
-		var amenities = generateAmenitiesList(filterData);
-		render({
-			branches: filterData,
-			length: filterData.length
-		}, $('#branches-template'), $('#branches'));
-		render(amenities, $('#amenities-template'), $('#amenities'));
-
-		$('#amenities input').on('change', filterBoxChanged);
+	var dataLoader = function dataLoader(successCallback, errorCallback) {
+		$.ajax('/mockups/data/bcpl-databases.html').done(function (data) {
+			dataLoaderSuccess(data, successCallback);
+		}).fail(errorCallback);
 	};
 
-	var branchesJsonError = function branchesJsonError(jqxhr, status, errorThrown) {
-		console.log('err', errorThrown);
-	};
-
-	var amenitiesShowing = function amenitiesShowing(collapseEvent) {
-		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
-	};
-
-	var amenitiesHiding = function amenitiesHiding(collapseEvent) {
-		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
-	};
-
-	var init = function init() {
-		$.ajax('/mockups/data/branch-amenities.json').done(branchesJsonSuccess).fail(branchesJsonError);
-
-		filtersChangedEvent = document.createEvent('Event');
-		filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
-
-		$(document).on('show.bs.collapse', '#amenities', amenitiesShowing);
-		$(document).on('hide.bs.collapse', '#amenities', amenitiesHiding);
-	};
-
-	return { init: init };
-}(jQuery, bcpl.windowShade);
+	return { dataLoader: dataLoader };
+}(jQuery);
 
 $(function () {
-	bcpl.pageSpecific.filter.init();
+	bcpl.filter.init(bcpl.pageSpecific.databaseFilter.dataLoader);
 });

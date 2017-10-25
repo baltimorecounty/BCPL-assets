@@ -240,28 +240,6 @@ bcpl.filter = function ($, windowShade) {
 	};
 
 	var filterDataSuccess = function filterDataSuccess(data) {
-		data = [{
-			name: 'Database 1',
-			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			tags: ['business', 'adult', 'do it yourself']
-		}, {
-			name: 'Database 2',
-			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			tags: ['business', 'teens', 'do it yourself']
-		}, {
-			name: 'Database 3',
-			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			tags: ['business', 'youth', 'do it yourself']
-		}, {
-			name: 'Database 4',
-			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			tags: ['business', 'adult', 'do it yourself']
-		}, {
-			name: 'Database 5',
-			description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			tags: ['business', 'adult', 'do it yourself']
-		}];
-
 		filterData = typeof data === 'string' ? JSON.parse(data) : data;
 
 		//const amenities = generateAmenitiesList(filterData);
@@ -288,9 +266,8 @@ bcpl.filter = function ($, windowShade) {
 		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
-	var init = function init() {
-		//$.ajax('/mockups/data/branch-amenities.json').done(filterDataSuccess).fail(branchesJsonError);
-		filterDataSuccess();
+	var init = function init(dataLoadingFunction) {
+		dataLoadingFunction(filterDataSuccess, filterDataError);
 
 		/* filtersChangedEvent = document.createEvent('Event');
   filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
@@ -301,10 +278,6 @@ bcpl.filter = function ($, windowShade) {
 
 	return { init: init };
 }(jQuery, bcpl.windowShade);
-
-$(function () {
-	bcpl.filter.init();
-});
 'use strict';
 
 namespacer('bcpl');
