@@ -28,14 +28,14 @@ bcpl.filter = (($, windowShade) => {
 	};
 
 	const isIntersectedDataItem = (checkedItems, dataItem) => {
-		const intersection = _.intersection(checkedItems, dataItem.tags);
+		const intersection = _.intersection(checkedItems, dataItem.attributes);
 		return intersection.length === checkedItems.length;
 	};
 
 	const filterBoxChanged = () => {
 		const checkedFilters = [];
 		const filteredData = [];
-		const $labels = $('#filter-list label');
+		const $labels = $('#filters label');
 		const $checkedFilters = $labels.has('input:checked');
 
 		$labels.not('input:checked').removeClass('active');
@@ -54,7 +54,7 @@ bcpl.filter = (($, windowShade) => {
 		windowShade.cycle(250, 2000);
 
 		const filterSettings = {
-			branches: filteredData,
+			items: filteredData,
 			length: filteredData.length
 		};
 
@@ -77,7 +77,7 @@ bcpl.filter = (($, windowShade) => {
 
 		render(filters, $('#filters-template'), $('#filters'));
 
-		$('#filter-list input').on('change', filterBoxChanged);
+		$(document).on('change', '#filters input', filterBoxChanged);
 	};
 
 	const filterDataError = (jqxhr, status, errorThrown) => {
@@ -99,9 +99,12 @@ bcpl.filter = (($, windowShade) => {
 	const init = (dataLoadingFunction) => {
 		dataLoadingFunction(filterDataSuccess, filterDataError);
 
+		const filtersChangedEvent = document.createEvent('Event');
+		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
+
 		$(document).on('show.bs.collapse', '#filter-list', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filter-list', filtersHiding); 
 	};
 
 	return { init };	
-})(jQuery, bcpl.windowShade);
+})(jQuery, bcpl.utility.windowShade);

@@ -127,6 +127,30 @@ bcpl.utility.querystringer = function () {
 }();
 'use strict';
 
+namespacer('bcpl.utility');
+
+bcpl.utility.windowShade = function ($) {
+	var windowShadeSelector = '#window-shade';
+	var timeout = void 0;
+
+	var cycle = function cycle(displaySpeed, delaySpeed) {
+		var $windowShade = $(windowShadeSelector);
+
+		clearTimeout(timeout);
+
+		$windowShade.slideDown(displaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(displaySpeed);
+			}, delaySpeed);
+		});
+	};
+
+	return {
+		cycle: cycle
+	};
+}(jQuery);
+'use strict';
+
 namespacer('bcpl');
 
 bcpl.alertBox = function ($) {
@@ -218,14 +242,14 @@ bcpl.filter = function ($, windowShade) {
 	};
 
 	var isIntersectedDataItem = function isIntersectedDataItem(checkedItems, dataItem) {
-		var intersection = _.intersection(checkedItems, dataItem.tags);
+		var intersection = _.intersection(checkedItems, dataItem.attributes);
 		return intersection.length === checkedItems.length;
 	};
 
 	var filterBoxChanged = function filterBoxChanged() {
 		var checkedFilters = [];
 		var filteredData = [];
-		var $labels = $('#filter-list label');
+		var $labels = $('#filters label');
 		var $checkedFilters = $labels.has('input:checked');
 
 		$labels.not('input:checked').removeClass('active');
@@ -244,7 +268,7 @@ bcpl.filter = function ($, windowShade) {
 		windowShade.cycle(250, 2000);
 
 		var filterSettings = {
-			branches: filteredData,
+			items: filteredData,
 			length: filteredData.length
 		};
 
@@ -265,7 +289,7 @@ bcpl.filter = function ($, windowShade) {
 
 		render(filters, $('#filters-template'), $('#filters'));
 
-		$('#filter-list input').on('change', filterBoxChanged);
+		$(document).on('change', '#filters input', filterBoxChanged);
 	};
 
 	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {
@@ -283,12 +307,15 @@ bcpl.filter = function ($, windowShade) {
 	var init = function init(dataLoadingFunction) {
 		dataLoadingFunction(filterDataSuccess, filterDataError);
 
+		var filtersChangedEvent = document.createEvent('Event');
+		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
+
 		$(document).on('show.bs.collapse', '#filter-list', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filter-list', filtersHiding);
 	};
 
 	return { init: init };
-}(jQuery, bcpl.windowShade);
+}(jQuery, bcpl.utility.windowShade);
 'use strict';
 
 namespacer('bcpl');
@@ -693,27 +720,3 @@ bcpl.tabs = function ($) {
 $(function () {
 	bcpl.tabs.init();
 });
-'use strict';
-
-namespacer('bcpl');
-
-bcpl.windowShade = function ($) {
-	var windowShadeSelector = '#window-shade';
-	var timeout = void 0;
-
-	var cycle = function cycle(displaySpeed, delaySpeed) {
-		var $windowShade = $(windowShadeSelector);
-
-		clearTimeout(timeout);
-
-		$windowShade.slideDown(displaySpeed, function () {
-			timeout = setTimeout(function () {
-				$windowShade.slideUp(displaySpeed);
-			}, delaySpeed);
-		});
-	};
-
-	return {
-		cycle: cycle
-	};
-}(jQuery);

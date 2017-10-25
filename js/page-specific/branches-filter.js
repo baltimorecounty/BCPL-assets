@@ -6,9 +6,6 @@ bcpl.pageSpecific.branchesFilter = (($, windowShade) => {
 		$.ajax('/mockups/data/branch-amenities.json')
 			.done(externalSuccessCallback)
 			.fail(externalErrorCallback);
-
-		const filtersChangedEvent = document.createEvent('Event');
-		filtersChangedEvent.initEvent('bcpl.locations.filter.changed', true, true);
 	};
 
 	return {
