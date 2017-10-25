@@ -203,6 +203,20 @@ bcpl.filter = function ($, windowShade) {
 		}
 	};
 
+	var generateFiltersList = function generateFiltersList(data) {
+		var filters = [];
+
+		_.each(data, function (element) {
+			filters = filters.concat(element.attributes);
+		});
+		var uniqueFilters = _.uniq(filters);
+		var sortedUniqueFilters = _.sortBy(uniqueFilters, function (uniqueFilter) {
+			return uniqueFilter;
+		});
+
+		return sortedUniqueFilters;
+	};
+
 	var isIntersectedDataItem = function isIntersectedDataItem(checkedItems, dataItem) {
 		var intersection = _.intersection(checkedItems, dataItem.tags);
 		return intersection.length === checkedItems.length;
@@ -239,13 +253,15 @@ bcpl.filter = function ($, windowShade) {
 		});
 	};
 
-	var filterDataSuccess = function filterDataSuccess(contentData, filters) {
+	var filterDataSuccess = function filterDataSuccess(contentData) {
 		filterData = typeof contentData === 'string' ? JSON.parse(contentData) : contentData;
 
 		render({
 			items: filterData,
 			length: filterData.length
 		}, $('#results-display-template'), $('#results-display'));
+
+		var filters = generateFiltersList(filterData);
 
 		render(filters, $('#filters-template'), $('#filters'));
 

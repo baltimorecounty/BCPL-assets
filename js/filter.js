@@ -15,6 +15,18 @@ bcpl.filter = (($, windowShade) => {
 		}
 	};
 
+	const generateFiltersList = (data) => {
+		let filters = [];
+
+		_.each(data, (element) => {
+			filters = filters.concat(element.attributes);
+		});
+		const uniqueFilters = _.uniq(filters);
+		const sortedUniqueFilters = _.sortBy(uniqueFilters, uniqueFilter => uniqueFilter);
+
+		return sortedUniqueFilters;
+	};
+
 	const isIntersectedDataItem = (checkedItems, dataItem) => {
 		const intersection = _.intersection(checkedItems, dataItem.tags);
 		return intersection.length === checkedItems.length;
@@ -53,7 +65,7 @@ bcpl.filter = (($, windowShade) => {
 			});
 	};
 
-	const filterDataSuccess = (contentData, filters) => {	
+	const filterDataSuccess = (contentData) => {	
 		filterData = typeof contentData === 'string' ? JSON.parse(contentData) :contentData;
 		
 		render({
@@ -61,6 +73,8 @@ bcpl.filter = (($, windowShade) => {
 			length: filterData.length
 		}, $('#results-display-template'), $('#results-display'));
 		
+		const filters = generateFiltersList(filterData);
+
 		render(filters, $('#filters-template'), $('#filters'));
 
 		$('#filter-list input').on('change', filterBoxChanged);

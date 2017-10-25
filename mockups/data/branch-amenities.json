@@ -10,7 +10,7 @@
 		"lat": "39.24164898",
 		"lng": "-76.71043047"
 	},
-	"amenities": [
+	"attributes": [
 		"Drive-Up Window",
 		"Fax Machines",
 		"Gaming",
@@ -31,7 +31,7 @@
 		"lat": "39.27045175",
 		"lng": "-76.7400434"
 	},
-	"amenities": [
+	"attributes": [
 		"Gaming",
 		"Local History Collection",
 		"Meeting Room(s)",
@@ -49,7 +49,7 @@
 		"lat": "39.46032921",
 		"lng": "-76.62919318"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)",
 		"Study Space, Quiet",
@@ -68,7 +68,7 @@
 		"lat": "39.31485289",
 		"lng": "-76.46384423"
 	},
-	"amenities": [
+	"attributes": [
 		"Gaming",
 		"Local History Collection",
 		"Meeting Room(s)",
@@ -88,7 +88,7 @@
 		"lat": "39.58979295",
 		"lng": "-76.66379689"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)",
 		"Study Space, Quiet",
@@ -106,7 +106,7 @@
 		"lat": "39.24372696",
 		"lng": "-76.65368866"
 	},
-	"amenities": [
+	"attributes": [
 		"Fax Machines",
 		"Local History Collection",
 		"Meeting Room(s)"
@@ -123,7 +123,7 @@
 		"lat": "39.38442952",
 		"lng": "-76.57319512"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)"
 	]
@@ -135,7 +135,7 @@
 	"phone": "410-887-7586",
 	"email": "libraryonthego@bcpl.net",
 	"photo": "branch-bookmobile.jpg",
-	"amenities": []
+	"attributes": []
 }, {
 	"name": "North Point",
 	"address": "1716 Merritt Boulevard",
@@ -148,7 +148,7 @@
 		"lat": "39.26962881",
 		"lng": "-76.50414573"
 	},
-	"amenities": [
+	"attributes": [
 		"Fax Machines",
 		"Local History Collection",
 		"Meeting Room(s)"
@@ -165,7 +165,7 @@
 		"lat": "39.4071024",
 		"lng": "-76.78188458"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)",
 		"Russian Collection",
@@ -185,7 +185,7 @@
 		"lat": "39.39346",
 		"lng": "-76.52508084"
 	},
-	"amenities": [
+	"attributes": [
 		"Korean Collection"
 	]
 }, {
@@ -200,7 +200,7 @@
 		"lat": "39.41511226",
 		"lng": "-76.45056657"
 	},
-	"amenities": [
+	"attributes": [
 		"Drive-Up Window",
 		"Meeting Room(s)",
 		"Study Space, Quiet",
@@ -218,7 +218,7 @@
 		"lat": "39.37568769",
 		"lng": "-76.72334584"
 	},
-	"amenities": [
+	"attributes": [
 		"Meeting Room(s)",
 		"Russian Collection"
 	]
@@ -234,7 +234,7 @@
 		"lat": "39.3620026",
 		"lng": "-76.77902476"
 	},
-	"amenities": [
+	"attributes": [
 		"Gaming",
 		"Local History Collection",
 		"Meeting Room(s)",
@@ -253,7 +253,7 @@
 		"lat": "39.46367982",
 		"lng": "-76.83100992"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)",
 		"Russian Collection",
@@ -271,7 +271,7 @@
 		"lat": "39.34286702",
 		"lng": "-76.50620873"
 	},
-	"amenities": [
+	"attributes": [
 		"Gaming",
 		"Meeting Room(s)",
 		"Study Space, Quiet",
@@ -289,7 +289,7 @@
 		"lat": "39.24362859",
 		"lng": "-76.50882206"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection"
 	]
 }, {
@@ -304,7 +304,7 @@
 		"lat": "39.39890127",
 		"lng": "-76.60243368"
 	},
-	"amenities": [
+	"attributes": [
 		"Cafe",
 		"Meeting Room(s)",
 		"Passport Services",
@@ -324,7 +324,7 @@
 		"lat": "39.37191838",
 		"lng": "-76.47051026"
 	},
-	"amenities": [
+	"attributes": [
 		"Local History Collection",
 		"Meeting Room(s)",
 		"Passport Services",
@@ -342,7 +342,7 @@
 		"lat": "39.3167773",
 		"lng": "-76.73661987"
 	},
-	"amenities": [
+	"attributes": [
 		"Gaming",
 		"Study Rooms",
 		"Meeting Room(s)",

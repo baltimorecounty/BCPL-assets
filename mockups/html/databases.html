@@ -367,32 +367,10 @@
 						<div class="filters">
 							<h4 class="amenities">Database Categories</h4>
 							<div class="filter-controls-wrapper">
-								<div class="collapse" id="filter-list">
+								<script id="filters-template" type="text/x-handlebars-template">{{#each this}}
 									<label>
-										<input type="checkbox" />Business, Law, Investment</label>
-									<label>
-										<input type="checkbox" />Digital Materials</label>
-									<label>
-										<input type="checkbox" />Do It Yourself</label>
-									<label>
-										<input type="checkbox" />Encyclopedias</label>
-									<label>
-										<input type="checkbox" />Genealogy</label>
-									<label>
-										<input type="checkbox" />Health</label>
-									<label>
-										<input type="checkbox" />Homework</label>
-									<label>
-										<input type="checkbox" />Languages</label>
-									<label>
-										<input type="checkbox" />Literature</label>
-									<label>
-										<input type="checkbox" />Live Help (Chat Reference)</label>
-									<label>
-										<input type="checkbox" />Magazines and Newspapers</label>
-									<label>
-										<input type="checkbox" />Test Prep and Education</label>
-								</div>
+										<input type="checkbox">{{this}}</label>{{/each}}</script>
+								<div class="collapse" id="filters"></div>
 								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#filter-list" aria-live="polite" aria-expanded="false"
 								    aria-controls="filter-list">
 									<i class="fa fa-plus"></i> Show Filters </button>
@@ -424,7 +402,7 @@
 											<p>{{description}}</p>
 											<div class="tags">Tags:
 												<ul class="tag-list">
-													{{#each tags}}
+													{{#each attributes}}
 													<li>{{this}}</li>
 													{{/each}}
 												</ul>

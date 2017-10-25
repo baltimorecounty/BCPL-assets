@@ -7,9 +7,9 @@ bcpl.pageSpecific.databaseFilter = (($) => {
 		description: 2,
 		inPerson: 3,
 		requiresCard: 4,
-		tags: 5
+		attributes: 5
 	};
-
+	
 	const dataLoaderSuccess = (data, externalSuccessCallback) => {
 		const $dataTable = $(data).find('#data-table');
 		const $rows = $dataTable.find('tbody tr');
@@ -24,7 +24,7 @@ bcpl.pageSpecific.databaseFilter = (($) => {
 				description: $row.find('td').eq(dataTableIndexes.description).text(),
 				inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
 				requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
-				tags: $row.find('td').eq(dataTableIndexes.tags).text().trim().split(', ')
+				attributes: $row.find('td').eq(dataTableIndexes.attributes).text().trim().split(', ')
 			});
 		});
 
