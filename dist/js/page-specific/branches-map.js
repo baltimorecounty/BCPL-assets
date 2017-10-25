@@ -58,7 +58,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 
 	var updateMapMarkers = function updateMapMarkers(filterChangedEvent, filterData) {
 		clearMarkers();
-		filterData.branches.forEach(addBranchToMap);
+		filterData.items.forEach(addBranchToMap);
 	};
 
 	var initMap = function initMap() {
@@ -90,7 +90,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 
 		$.ajax('/mockups/data/branch-amenities.json').done(processBranchData).fail(reportBranchDataError);
 
-		$(document).on('bcpl.locations.filter.changed', '#branches', updateMapMarkers);
+		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};
 
 	return {
