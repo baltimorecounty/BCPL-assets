@@ -467,6 +467,22 @@
 											</div>											
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<hr />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="tags">
+												<ul class="tag-list">
+													{{#each attributes}}
+													<li><button>{{this}}</button></li>
+													{{/each}}
+												</ul>
+											</div>
+										</div>
+									</div>
 								</div>
 								{{/each}} {{#unless length}}
 								<div class="card">

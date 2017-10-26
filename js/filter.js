@@ -4,7 +4,19 @@ bcpl.filter = (($, windowShade) => {
 	let filterData = {};
 	let filtersChangedEvent;
 
-	const render = (data, $template, $target) => {
+	const activateTags = ($filteredContent, clickedFilterLabelText) => {
+		const $buttons = $filteredContent.find('.tag-list button');
+
+		$buttons.each((index, buttonElement) => {
+			const $button = $(buttonElement);
+
+			if ($button.text().trim().toLowerCase() === clickedFilterLabelText) {
+				$button.addClass('active');
+			}
+		});
+	};
+
+	const render = (data, $template, $target, clickedFilterLabelText, isClickedFilterActive) => {
 		const unsortedDataItems = data.items;
 		const sortedDataItems = _.sortBy(unsortedDataItems, item => item.name);
 		const dataForTemplate = data;
@@ -13,6 +25,10 @@ bcpl.filter = (($, windowShade) => {
 		const template = Handlebars.compile(source);
 		const html = template(dataForTemplate);
 		$target.html(html);
+		
+		if (clickedFilterLabelText && isClickedFilterActive) {
+			activateTags($target, clickedFilterLabelText);
+		}
 
 		if ($target.not('.collapse').is(':hidden')) {
 			$target.fadeIn(250);
@@ -36,12 +52,26 @@ bcpl.filter = (($, windowShade) => {
 		return intersection.length === checkedItems.length;
 	};
 
-	const filterBoxChanged = () => {
+	const filterBoxChanged = (changeEvent, settings) => {
 		const checkedFilters = [];
 		const filteredData = [];
+		const $clickedFilter = $(changeEvent.currentTarget);
 		const $labels = $('#filters label');
 		const $checkedFilters = $labels.has('input:checked');
+		const clickedFilterLabelText = $clickedFilter.closest('label').text().trim().toLowerCase();
+		const isClickedFilterActive = $clickedFilter.prop('checked');
+		const shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
+		/* if (shouldClearFilters) {
+			$labels.removeClass('active');
+			$labels.each((index, labelElement) => {
+				$(labelElement).find('input').prop('checked', false);
+			});
+		} 
+
+		$clickedFilter.prop('checked', true);
+		$clickedFilter.closest('label').addClass('active');
+*/
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
 
@@ -65,7 +95,7 @@ bcpl.filter = (($, windowShade) => {
 		$('#results-display')
 			.trigger('bcpl.filter.changed', filterSettings)
 			.fadeOut(250, () => {
-				render(filterSettings, $('#results-display-template'), $('#results-display'));
+				render(filterSettings, $('#results-display-template'), $('#results-display'), clickedFilterLabelText, isClickedFilterActive);
 			});
 	};
 
@@ -100,12 +130,30 @@ bcpl.filter = (($, windowShade) => {
 			.html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
+	const tagClicked = (clickEvent) => {
+		const $target = $(clickEvent.currentTarget);
+		const tagText = $target.text().trim().toLowerCase();
+		const $filterInputLabels = $('#filters label');		
+
+		$filterInputLabels.each((index, labelElement) => {
+			const $label = $(labelElement);
+
+			if ($label.text().trim().toLowerCase() === tagText) {
+				$label.find('input').trigger('click',  { shouldClearFilters: true });
+				$target.toggleClass('active');
+			} else {
+				$target.removeClass('active');
+			}
+		});
+	};
+
 	const init = (dataLoadingFunction) => {
 		dataLoadingFunction(filterDataSuccess, filterDataError);
 
 		const filtersChangedEvent = document.createEvent('Event');
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
+		$(document).on('click', '.tag-list button', tagClicked);
 		$(document).on('show.bs.collapse', '#filters', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filters', filtersHiding); 
 	};

@@ -216,7 +216,19 @@ bcpl.filter = function ($, windowShade) {
 	var filterData = {};
 	var filtersChangedEvent = void 0;
 
-	var render = function render(data, $template, $target) {
+	var activateTags = function activateTags($filteredContent, clickedFilterLabelText) {
+		var $buttons = $filteredContent.find('.tag-list button');
+
+		$buttons.each(function (index, buttonElement) {
+			var $button = $(buttonElement);
+
+			if ($button.text().trim().toLowerCase() === clickedFilterLabelText) {
+				$button.addClass('active');
+			}
+		});
+	};
+
+	var render = function render(data, $template, $target, clickedFilterLabelText, isClickedFilterActive) {
 		var unsortedDataItems = data.items;
 		var sortedDataItems = _.sortBy(unsortedDataItems, function (item) {
 			return item.name;
@@ -227,6 +239,10 @@ bcpl.filter = function ($, windowShade) {
 		var template = Handlebars.compile(source);
 		var html = template(dataForTemplate);
 		$target.html(html);
+
+		if (clickedFilterLabelText && isClickedFilterActive) {
+			activateTags($target, clickedFilterLabelText);
+		}
 
 		if ($target.not('.collapse').is(':hidden')) {
 			$target.fadeIn(250);
@@ -252,12 +268,25 @@ bcpl.filter = function ($, windowShade) {
 		return intersection.length === checkedItems.length;
 	};
 
-	var filterBoxChanged = function filterBoxChanged() {
+	var filterBoxChanged = function filterBoxChanged(changeEvent, settings) {
 		var checkedFilters = [];
 		var filteredData = [];
+		var $clickedFilter = $(changeEvent.currentTarget);
 		var $labels = $('#filters label');
 		var $checkedFilters = $labels.has('input:checked');
+		var clickedFilterLabelText = $clickedFilter.closest('label').text().trim().toLowerCase();
+		var isClickedFilterActive = $clickedFilter.prop('checked');
+		var shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
+		/* if (shouldClearFilters) {
+  	$labels.removeClass('active');
+  	$labels.each((index, labelElement) => {
+  		$(labelElement).find('input').prop('checked', false);
+  	});
+  } 
+  		$clickedFilter.prop('checked', true);
+  $clickedFilter.closest('label').addClass('active');
+  */
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
 
@@ -279,7 +308,7 @@ bcpl.filter = function ($, windowShade) {
 		};
 
 		$('#results-display').trigger('bcpl.filter.changed', filterSettings).fadeOut(250, function () {
-			render(filterSettings, $('#results-display-template'), $('#results-display'));
+			render(filterSettings, $('#results-display-template'), $('#results-display'), clickedFilterLabelText, isClickedFilterActive);
 		});
 	};
 
@@ -310,12 +339,30 @@ bcpl.filter = function ($, windowShade) {
 		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
 	};
 
+	var tagClicked = function tagClicked(clickEvent) {
+		var $target = $(clickEvent.currentTarget);
+		var tagText = $target.text().trim().toLowerCase();
+		var $filterInputLabels = $('#filters label');
+
+		$filterInputLabels.each(function (index, labelElement) {
+			var $label = $(labelElement);
+
+			if ($label.text().trim().toLowerCase() === tagText) {
+				$label.find('input').trigger('click', { shouldClearFilters: true });
+				$target.toggleClass('active');
+			} else {
+				$target.removeClass('active');
+			}
+		});
+	};
+
 	var init = function init(dataLoadingFunction) {
 		dataLoadingFunction(filterDataSuccess, filterDataError);
 
 		var filtersChangedEvent = document.createEvent('Event');
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
+		$(document).on('click', '.tag-list button', tagClicked);
 		$(document).on('show.bs.collapse', '#filters', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filters', filtersHiding);
 	};
