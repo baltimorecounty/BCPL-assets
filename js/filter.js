@@ -5,9 +5,13 @@ bcpl.filter = (($, windowShade) => {
 	let filtersChangedEvent;
 
 	const render = (data, $template, $target) => {
+		const unsortedDataItems = data.items;
+		const sortedDataItems = _.sortBy(unsortedDataItems, item => item.name);
+		const dataForTemplate = data;
+		dataForTemplate.items = sortedDataItems;
 		const source = $template.html();
 		const template = Handlebars.compile(source);
-		const html = template(data);
+		const html = template(dataForTemplate);
 		$target.html(html);
 
 		if ($target.not('.collapse').is(':hidden')) {

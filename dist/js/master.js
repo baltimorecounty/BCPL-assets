@@ -217,9 +217,15 @@ bcpl.filter = function ($, windowShade) {
 	var filtersChangedEvent = void 0;
 
 	var render = function render(data, $template, $target) {
+		var unsortedDataItems = data.items;
+		var sortedDataItems = _.sortBy(unsortedDataItems, function (item) {
+			return item.name;
+		});
+		var dataForTemplate = data;
+		dataForTemplate.items = sortedDataItems;
 		var source = $template.html();
 		var template = Handlebars.compile(source);
-		var html = template(data);
+		var html = template(dataForTemplate);
 		$target.html(html);
 
 		if ($target.not('.collapse').is(':hidden')) {

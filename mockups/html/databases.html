@@ -377,14 +377,18 @@
 							</div>
 						</div>
 						<header>
-							<h1 style="float: left">Databases</h1>
-							<div  style="float: right; position: relative;top: 45px;">
-								<label for="database-sort">Sort by</label>
-								<select id="database-sort">
-									<option>Alphabetical (A-Z)</option>
-									<option>Alphabetical (Z-A)</option>
-									<option>Category</option>
-								</select>
+							<div class="row">
+								<div class="col-md-6">
+									<h1>Databases</h1>
+								</div>
+								<div class="col-md-6">
+									<div class="filter-controls">
+										<div class="control btn-group btn-group-toggle pull-right">
+											<button class="btn btn-primary">List Aphabetically</button>
+											<button class="btn btn-default">List by Category</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</header>
 						<div class="cards database-cards">
@@ -392,18 +396,15 @@
 								{{#each items}}
 								<div class="card">
 									<div class="row">
-										<div class="col-sm-4">
-											<img src="/dist/images/placeholder.png" width="100%" />
-										</div>
-										<div class="col-sm-8 branch-address">
+										<div class="col-sm-12 branch-address">
 											<h4>
 												<a href="#">{{name}}</a>
 											</h4>
 											<p>{{description}}</p>
-											<div class="tags">Tags:
+											<div class="tags">Categories:
 												<ul class="tag-list">
 													{{#each attributes}}
-													<li>{{this}}</li>
+													<li><button>{{this}}</button></li>
 													{{/each}}
 												</ul>
 											</div>

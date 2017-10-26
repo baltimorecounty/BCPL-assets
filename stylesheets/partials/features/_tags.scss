@@ -11,13 +11,12 @@
 		li {
 			display: inline-block;
 
-			&:after {
-				content: ","
-			}
+			button {
+				border: 1px solid $red;
 
-			&:last-child {
-				&:after {
-					content: ""
+				&.active {
+					background: $red;
+					color: white;
 				}
 			}
 		}			

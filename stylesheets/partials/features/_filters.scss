@@ -51,9 +51,7 @@
 }
 
 .filter-controls {
-	margin-top: 1em;
-	padding: .5em;
-	width: 99%;
+	margin-top: 2.5em;
 
 	.button-group-label {
 		float: left;
@@ -85,8 +83,6 @@
 
 @media (max-width: $screen-sm) {
 	.filter-controls, .filters {
-		width: 99%;
-
 		.col-md-6 {
 			clear: both;
 		}
