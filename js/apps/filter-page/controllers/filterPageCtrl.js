@@ -10,6 +10,7 @@
 		self.setFilter = (filter) => {
 			setActiveFilters(filter);
 			self.items = self.allData.filter(filterDataItems);
+			angular.element('#results-display').trigger('bcpl.filter.changed', self.items);
 		};
 
 		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, (filters, data) => {

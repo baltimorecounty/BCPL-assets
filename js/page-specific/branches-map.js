@@ -56,7 +56,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 	const updateMapMarkers = (filterChangedEvent, filterData) => {
 		clearMarkers();
-		filterData.items.forEach(addBranchToMap);
+		addBranchToMap(filterData);
 	};
 
 	const initMap = () => {
@@ -85,10 +85,6 @@ bcpl.pageSpecific.branchMap = (($) => {
 				templateId: 499
 			}
 		});
-
-		$.ajax('/mockups/data/branch-amenities.json')
-			.done(processBranchData)
-			.fail(reportBranchDataError);
 
 		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};

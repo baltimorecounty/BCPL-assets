@@ -58,7 +58,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 
 	var updateMapMarkers = function updateMapMarkers(filterChangedEvent, filterData) {
 		clearMarkers();
-		filterData.items.forEach(addBranchToMap);
+		addBranchToMap(filterData);
 	};
 
 	var initMap = function initMap() {
@@ -87,8 +87,6 @@ bcpl.pageSpecific.branchMap = function ($) {
 				templateId: 499
 			}
 		});
-
-		$.ajax('/mockups/data/branch-amenities.json').done(processBranchData).fail(reportBranchDataError);
 
 		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};
