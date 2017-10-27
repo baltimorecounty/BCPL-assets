@@ -50,11 +50,44 @@
 	var filterPageCtrl = function filterPageCtrl($scope, dataLoaderService) {
 		var self = this;
 
+		self.activeFilters = [];
+		self.allData = {};
+
+		self.setFilter = function (filter) {
+			setActiveFilters(filter);
+			self.items = self.allData.filter(filterDataItems);
+		};
+
 		dataLoaderService.load(bcpl.pageSpecific.databaseFilter, function (filters, data) {
 			self.filters = filters;
+			self.allData = data;
 			self.items = data;
 			$scope.$apply();
 		});
+
+		/* Private */
+
+		var filterDataItems = function filterDataItems(dataItem) {
+			var matchCount = 0;
+
+			angular.element.each(self.activeFilters, function (index, activeFilter) {
+				if (dataItem.attributes.indexOf(activeFilter) !== -1) {
+					matchCount += 1;
+				}
+			});
+
+			return matchCount === self.activeFilters.length;
+		};
+
+		var setActiveFilters = function setActiveFilters(filter) {
+			var filterIndex = self.activeFilters.indexOf(filter);
+
+			if (filterIndex === -1) {
+				self.activeFilters.push(filter);
+			} else {
+				self.activeFilters.splice(filterIndex, 1);
+			}
+		};
 	};
 
 	filterPageCtrl.$inject = ['$scope', 'dataLoaderService'];
@@ -86,10 +119,24 @@
 (function () {
 	'use strict';
 
+	var filterLink = function filterLink($scope, element) {
+		$scope.toggleFilter = function (activeFilter) {
+			var $element = angular.element(element);
+
+			$element.find('label').toggleClass('active', $element.has(':checked'));
+			$scope.filterHandler(activeFilter);
+		};
+	};
+
 	var filterDirective = function filterDirective() {
 		var directive = {
+			scope: {
+				filterHandler: '=',
+				filterName: '='
+			},
 			restrict: 'E',
-			template: '<label><input type="checkbox" /> {{filter}}</label>'
+			template: '<label><input type="checkbox" ng-click="toggleFilter(filterName)" /> {{filterName}}</label>',
+			link: filterLink
 		};
 
 		return directive;

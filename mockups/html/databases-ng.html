@@ -372,7 +372,7 @@
 							<h4 class="amenities">Database Categories</h4>
 							<div class="filter-controls-wrapper">
 								<div class="collapse" id="filters">
-									<filter ng-repeat="filter in filterPage.filters"></filter>
+									<filter ng-repeat="filter in filterPage.filters" filter-name="filter" filter-handler="filterPage.setFilter"></filter>
 								</div>
 								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#filters" aria-live="polite" aria-expanded="false" aria-controls="filters">
 									<i class="fa fa-plus"></i> Show Filters 
