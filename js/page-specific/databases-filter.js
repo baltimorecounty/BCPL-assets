@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.databaseFilter = (($) => {	
+bcpl.pageSpecific.databaseFilter = (($) => {
 	const dataTableIndexes = {
 		name: 0,
 		url: 1,
@@ -9,7 +9,7 @@ bcpl.pageSpecific.databaseFilter = (($) => {
 		requiresCard: 4,
 		attributes: 5
 	};
-	
+
 	const dataLoaderSuccess = (data, externalSuccessCallback) => {
 		const $dataTable = $(data).find('#data-table');
 		const $rows = $dataTable.find('tbody tr');
@@ -30,7 +30,7 @@ bcpl.pageSpecific.databaseFilter = (($) => {
 
 		externalSuccessCallback(databaseData);
 	};
-	
+
 	const dataLoader = (successCallback, errorCallback) => {
 		$.ajax('/mockups/data/bcpl-databases.html')
 			.done((data) => {
@@ -39,9 +39,7 @@ bcpl.pageSpecific.databaseFilter = (($) => {
 			.fail(errorCallback);
 	};
 
-	return { dataLoader };
+	return {
+		dataLoader
+	};
 })(jQuery);
-
-$(() => {
-	bcpl.filter.init(bcpl.pageSpecific.databaseFilter.dataLoader);
-});

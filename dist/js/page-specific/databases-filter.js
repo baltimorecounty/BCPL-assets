@@ -39,9 +39,7 @@ bcpl.pageSpecific.databaseFilter = function ($) {
 		}).fail(errorCallback);
 	};
 
-	return { dataLoader: dataLoader };
+	return {
+		dataLoader: dataLoader
+	};
 }(jQuery);
-
-$(function () {
-	bcpl.filter.init(bcpl.pageSpecific.databaseFilter.dataLoader);
-});

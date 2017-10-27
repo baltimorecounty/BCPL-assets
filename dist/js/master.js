@@ -278,15 +278,6 @@ bcpl.filter = function ($, windowShade) {
 		var isClickedFilterActive = $clickedFilter.prop('checked');
 		var shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
-		/* if (shouldClearFilters) {
-  	$labels.removeClass('active');
-  	$labels.each((index, labelElement) => {
-  		$(labelElement).find('input').prop('checked', false);
-  	});
-  } 
-  		$clickedFilter.prop('checked', true);
-  $clickedFilter.closest('label').addClass('active');
-  */
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
 
