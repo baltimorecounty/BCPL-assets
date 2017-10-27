@@ -62,16 +62,6 @@ bcpl.filter = (($, windowShade) => {
 		const isClickedFilterActive = $clickedFilter.prop('checked');
 		const shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
-		/* if (shouldClearFilters) {
-			$labels.removeClass('active');
-			$labels.each((index, labelElement) => {
-				$(labelElement).find('input').prop('checked', false);
-			});
-		} 
-
-		$clickedFilter.prop('checked', true);
-		$clickedFilter.closest('label').addClass('active');
-*/
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
 
@@ -110,8 +100,6 @@ bcpl.filter = (($, windowShade) => {
 		const filters = generateFiltersList(filterData);
 
 		render(filters, $('#filters-template'), $('#filters'));
-
-		$(document).on('change', '#filters input', filterBoxChanged);
 	};
 
 	const filterDataError = (jqxhr, status, errorThrown) => {
@@ -154,6 +142,7 @@ bcpl.filter = (($, windowShade) => {
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
 		$(document).on('click', '.tag-list button', tagClicked);
+		$(document).on('change', '#filters input', filterBoxChanged);		
 		$(document).on('show.bs.collapse', '#filters', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filters', filtersHiding); 
 	};

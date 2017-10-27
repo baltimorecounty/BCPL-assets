@@ -323,8 +323,6 @@ bcpl.filter = function ($, windowShade) {
 		var filters = generateFiltersList(filterData);
 
 		render(filters, $('#filters-template'), $('#filters'));
-
-		$(document).on('change', '#filters input', filterBoxChanged);
 	};
 
 	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {
@@ -363,6 +361,7 @@ bcpl.filter = function ($, windowShade) {
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
 		$(document).on('click', '.tag-list button', tagClicked);
+		$(document).on('change', '#filters input', filterBoxChanged);
 		$(document).on('show.bs.collapse', '#filters', filtersShowing);
 		$(document).on('hide.bs.collapse', '#filters', filtersHiding);
 	};
