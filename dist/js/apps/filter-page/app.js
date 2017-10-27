@@ -47,6 +47,36 @@
 (function () {
 	'use strict';
 
+	var templateService = function templateService() {
+		var databasesTemplate = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{cardData.name}}</a>' + '			</h4>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+
+		var locationsTemplate = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h4>{{cardData.name}} Branch</h4>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<hr />' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+
+		var get = function get(templateName) {
+			switch (templateName) {
+				case 'databases':
+					return databasesTemplate;
+				case 'locations':
+					return locationsTemplate;
+				default:
+					return '';
+			}
+		};
+
+		return {
+			get: get
+		};
+	};
+
+	templateService.$inject = [];
+
+	angular.module('filterPageApp').factory('templateService', templateService);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
 	var filterPageCtrl = function filterPageCtrl($scope, dataLoaderService) {
 		var self = this;
 
@@ -58,7 +88,7 @@
 			self.items = self.allData.filter(filterDataItems);
 		};
 
-		dataLoaderService.load(bcpl.pageSpecific.databaseFilter, function (filters, data) {
+		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, function (filters, data) {
 			self.filters = filters;
 			self.allData = data;
 			self.items = data;
@@ -99,18 +129,27 @@
 (function () {
 	'use strict';
 
-	var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{card.name}}</a>' + '			</h4>' + '			<p>{{card.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<li ng-repeat="attribute in card.attributes"><button>{{attribute}}</button></li>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+	var cardDirective = function cardDirective($compile, templateService) {
+		var cardLink = function cardLink($scope, element, attrs) {
+			element.append($compile(templateService.get(attrs.template))($scope));
+		};
 
-	var cardDirective = function cardDirective() {
 		var directive = {
 			restrict: 'E',
-			template: template
+			scope: {
+				filterHandler: '=',
+				cardData: '=',
+				activeFilters: '=',
+				template: '='
+			},
+			template: '',
+			link: cardLink
 		};
 
 		return directive;
 	};
 
-	cardDirective.$inject = [];
+	cardDirective.$inject = ['$compile', 'templateService'];
 
 	angular.module('filterPageApp').directive('card', cardDirective);
 })();
@@ -132,10 +171,11 @@
 		var directive = {
 			scope: {
 				filterHandler: '=',
-				filterName: '='
+				filterName: '=',
+				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<label><input type="checkbox" ng-click="toggleFilter(filterName)" /> {{filterName}}</label>',
+			template: '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}"><input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>',
 			link: filterLink
 		};
 
@@ -151,10 +191,25 @@
 (function () {
 	'use strict';
 
+	var tagLink = function filterLink($scope) {
+		$scope.toggleFilter = function (activeFilter, $event) {
+			var $element = angular.element($event.currentTarget);
+
+			$element.toggleClass('active');
+			$scope.filterHandler(activeFilter);
+		};
+	};
+
 	var tagDirective = function tagDirective() {
 		var directive = {
+			scope: {
+				filterHandler: '=',
+				tagData: '=',
+				activeFilters: '='
+			},
 			restrict: 'E',
-			template: '<button>{{tag}}</label>'
+			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{tag}}</button></li>',
+			link: tagLink
 		};
 
 		return directive;

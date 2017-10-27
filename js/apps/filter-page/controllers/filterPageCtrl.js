@@ -12,7 +12,7 @@
 			self.items = self.allData.filter(filterDataItems);
 		};
 
-		dataLoaderService.load(bcpl.pageSpecific.databaseFilter, (filters, data) => {
+		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, (filters, data) => {
 			self.filters = filters;
 			self.allData = data;
 			self.items = data;

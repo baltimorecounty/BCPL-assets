@@ -2,8 +2,7 @@
 
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.branchesFilter = function ($, windowShade) {
-
+bcpl.pageSpecific.branchesFilter = function ($) {
 	var dataLoader = function dataLoader(externalSuccessCallback, externalErrorCallback) {
 		$.ajax('/mockups/data/branch-amenities.json').done(externalSuccessCallback).fail(externalErrorCallback);
 	};
@@ -12,7 +11,3 @@ bcpl.pageSpecific.branchesFilter = function ($, windowShade) {
 		dataLoader: dataLoader
 	};
 }(jQuery, bcpl.windowShade);
-
-$(function () {
-	bcpl.filter.init(bcpl.pageSpecific.branchesFilter.dataLoader);
-});

@@ -1,7 +1,6 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.branchesFilter = (($, windowShade) => {
-
+bcpl.pageSpecific.branchesFilter = (($) => {
 	const dataLoader = (externalSuccessCallback, externalErrorCallback) => {
 		$.ajax('/mockups/data/branch-amenities.json')
 			.done(externalSuccessCallback)
@@ -12,7 +11,3 @@ bcpl.pageSpecific.branchesFilter = (($, windowShade) => {
 		dataLoader
 	};
 })(jQuery, bcpl.windowShade);
-
-$(() => {
-	bcpl.filter.init(bcpl.pageSpecific.branchesFilter.dataLoader);
-});

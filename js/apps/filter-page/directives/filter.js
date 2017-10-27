@@ -1,7 +1,6 @@
 (() => {
 	'use strict';
 
-
 	const filterLink = function filterLink($scope, element) {
 		$scope.toggleFilter = (activeFilter) => {
 			const $element = angular.element(element);
@@ -15,10 +14,11 @@
 		const directive = {
 			scope: {
 				filterHandler: '=',
-				filterName: '='
+				filterName: '=',
+				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<label><input type="checkbox" ng-click="toggleFilter(filterName)" /> {{filterName}}</label>',
+			template: '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}"><input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>',
 			link: filterLink
 		};
 

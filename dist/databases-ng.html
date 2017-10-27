@@ -372,7 +372,10 @@
 							<h4 class="amenities">Database Categories</h4>
 							<div class="filter-controls-wrapper">
 								<div class="collapse" id="filters">
-									<filter ng-repeat="filter in filterPage.filters" filter-name="filter" filter-handler="filterPage.setFilter"></filter>
+									<filter ng-repeat="filter in filterPage.filters" 
+										filter-name="filter" 
+										filter-handler="filterPage.setFilter"
+										active-filters="filterPage.activeFilters"></filter>
 								</div>
 								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#filters" aria-live="polite" aria-expanded="false" aria-controls="filters">
 									<i class="fa fa-plus"></i> Show Filters 
@@ -396,7 +399,12 @@
 						</header>
 						<div class="cards database-cards">
 							<div id="results-display" class="list-view">
-								<card ng-repeat="card in filterPage.items" ng-show="filterPage.items.length"></card>									
+								<card ng-repeat="card in filterPage.items" 
+									card-data="card" 
+									active-filters="filterPage.activeFilters" 
+									filter-handler="filterPage.setFilter" 
+									template="databases"
+									ng-show="filterPage.items.length"></card>									
 								<div class="card" ng-show="filterPage.items.length === 0">
 									<div class="row">
 										<div class="col-xs-12">
