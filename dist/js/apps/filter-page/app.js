@@ -78,7 +78,7 @@
 (function (app) {
 	'use strict';
 
-	var cardService = function cardService($location, $injector) {
+	var cardService = function cardService($location, $window, $injector) {
 		var generateFiltersList = function generateFiltersList(data) {
 			var filters = [];
 
@@ -102,7 +102,7 @@
 		};
 
 		var get = function get(afterDataLoadedCallback) {
-			var filenameWithoutExtension = getFileNameWithoutExtension(window.location.pathname);
+			var filenameWithoutExtension = getFileNameWithoutExtension($window.location.pathname);
 			var dataService = $injector.get(filenameWithoutExtension + 'Service');
 
 			dataService.get(function (data) {
@@ -116,7 +116,7 @@
 		};
 	};
 
-	cardService.$inject = ['$location', '$injector'];
+	cardService.$inject = ['$location', '$window', '$injector'];
 
 	app.factory('cardService', cardService);
 })(angular.module('filterPageApp'));

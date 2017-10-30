@@ -1,5 +1,13 @@
 describe('filterPageCtrl', () => {
-	beforeEach(angular.mock.module('filterPageApp'));
+	const fakeWindow = {
+		location: {
+			pathname: 'locations'
+		}
+	};
+
+	beforeEach(angular.mock.module('filterPageApp', ($provide) => {
+		$provide.value('$window', fakeWindow);
+	}));
 
 	let $controller;
 

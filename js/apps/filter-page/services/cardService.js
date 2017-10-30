@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const cardService = ($location, $injector) => {
+	const cardService = ($location, $window, $injector) => {
 		const generateFiltersList = (data) => {
 			let filters = [];
 
@@ -23,7 +23,7 @@
 		};
 
 		const get = (afterDataLoadedCallback) => {
-			const filenameWithoutExtension = getFileNameWithoutExtension(window.location.pathname);
+			const filenameWithoutExtension = getFileNameWithoutExtension($window.location.pathname);
 			const dataService = $injector.get(`${filenameWithoutExtension}Service`);
 
 			dataService.get((data) => {
@@ -37,7 +37,7 @@
 		};
 	};
 
-	cardService.$inject = ['$location', '$injector'];
+	cardService.$inject = ['$location', '$window', '$injector'];
 
 	app.factory('cardService', cardService);
 })(angular.module('filterPageApp'));
