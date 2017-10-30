@@ -47,18 +47,11 @@ bcpl.pageSpecific.branchMap = function ($) {
 		markers = [];
 	};
 
-	var processBranchData = function processBranchData(branchData) {
-		var branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
-		branchJson.forEach(addBranchToMap);
-	};
-
-	var reportBranchDataError = function reportBranchDataError(err) {
-		console.error(err);
-	};
-
 	var updateMapMarkers = function updateMapMarkers(filterChangedEvent, filterData) {
 		clearMarkers();
-		addBranchToMap(filterData);
+		filterData.items.forEach(function (branch) {
+			return addBranchToMap(branch);
+		});
 	};
 
 	var initMap = function initMap() {

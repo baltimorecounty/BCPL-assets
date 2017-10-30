@@ -86,7 +86,7 @@
 		self.setFilter = function (filter) {
 			setActiveFilters(filter);
 			self.items = self.allData.filter(filterDataItems);
-			angular.element('#results-display').trigger('bcpl.filter.changed', self.items);
+			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
 		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, function (filters, data) {
@@ -94,6 +94,8 @@
 			self.allData = data;
 			self.items = data;
 			$scope.$apply();
+
+			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		});
 
 		/* Private */

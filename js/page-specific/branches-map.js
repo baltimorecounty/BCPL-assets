@@ -45,18 +45,9 @@ bcpl.pageSpecific.branchMap = (($) => {
 		markers = [];
 	};
 
-	const processBranchData = (branchData) => {
-		const branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
-		branchJson.forEach(addBranchToMap);
-	};
-
-	const reportBranchDataError = (err) => {
-		console.error(err);
-	};
-
 	const updateMapMarkers = (filterChangedEvent, filterData) => {
 		clearMarkers();
-		addBranchToMap(filterData);
+		filterData.items.forEach(branch => addBranchToMap(branch));
 	};
 
 	const initMap = () => {
