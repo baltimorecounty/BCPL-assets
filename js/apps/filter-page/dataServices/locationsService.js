@@ -1,25 +1,6 @@
-(() => {
-	'use strict';
-
-	const templateService = () => {
-		const databasesTemplate = '' +
-			'<div class="card">' +
-			'	<div class="row">' +
-			'		<div class="col-sm-12 branch-address">' +
-			'			<h4>' +
-			'				<a href="#">{{cardData.name}}</a>' +
-			'			</h4>' +
-			'			<p>{{cardData.description}}</p>' +
-			'			<div class="tags">Categories:' +
-			'				<ul class="tag-list">' +
-			'					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
-			'				</ul>' +
-			'			</div>' +
-			'		</div>' +
-			'	</div>' +
-			'</div>';
-
-		const locationsTemplate = '' +
+((app) => {
+	const locationsService = () => {
+		const template = '' +
 			'<div class="card">' +
 			'	<div class="row">' +
 			'		<div class="col-sm-3 branch-name">' +
@@ -63,25 +44,17 @@
 			'	</div>' +
 			'</div>';
 
-		const get = (templateName) => {
-			switch (templateName) {
-			case 'databases':
-				return databasesTemplate;
-			case 'locations':
-				return locationsTemplate;
-			default:
-				return '';
-			}
+		const get = (externalSuccessCallback, externalErrorCallback) => {
+			$.ajax('/mockups/data/branch-amenities.json')
+				.done(externalSuccessCallback)
+				.fail(externalErrorCallback);
 		};
 
 		return {
+			template,
 			get
 		};
 	};
 
-	templateService.$inject = [];
-
-	angular
-		.module('filterPageApp')
-		.factory('templateService', templateService);
-})();
+	app.factory('locationsService', locationsService);
+})(angular.module('filterPageApp'));

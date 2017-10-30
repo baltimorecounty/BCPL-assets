@@ -7,10 +7,78 @@
 })();
 'use strict';
 
-(function () {
+(function (app) {
+	var databasesService = function databasesService() {
+		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{cardData.name}}</a>' + '			</h4>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+
+		var dataTableIndexes = {
+			name: 0,
+			url: 1,
+			description: 2,
+			inPerson: 3,
+			requiresCard: 4,
+			attributes: 5
+		};
+
+		var dataLoaderSuccess = function dataLoaderSuccess(data, externalSuccessCallback) {
+			var $dataTable = $(data).find('#data-table');
+			var $rows = $dataTable.find('tbody tr');
+			var databaseData = [];
+
+			$rows.each(function (index, rowElement) {
+				var $row = $(rowElement);
+
+				databaseData.push({
+					name: $row.find('td').eq(dataTableIndexes.name).text(),
+					url: $row.find('td').eq(dataTableIndexes.url).text(),
+					description: $row.find('td').eq(dataTableIndexes.description).text(),
+					inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
+					requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
+					attributes: $row.find('td').eq(dataTableIndexes.attributes).text().trim().split(', ')
+				});
+			});
+
+			externalSuccessCallback(databaseData);
+		};
+
+		var get = function get(successCallback, errorCallback) {
+			$.ajax('/mockups/data/bcpl-databases.html').done(function (data) {
+				dataLoaderSuccess(data, successCallback);
+			}).fail(errorCallback);
+		};
+
+		return {
+			template: template,
+			get: get
+		};
+	};
+
+	app.factory('databasesService', databasesService);
+})(angular.module('filterPageApp'));
+'use strict';
+
+(function (app) {
+	var locationsService = function locationsService() {
+		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h4>{{cardData.name}} Branch</h4>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<hr />' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+
+		var get = function get(externalSuccessCallback, externalErrorCallback) {
+			$.ajax('/mockups/data/branch-amenities.json').done(externalSuccessCallback).fail(externalErrorCallback);
+		};
+
+		return {
+			template: template,
+			get: get
+		};
+	};
+
+	app.factory('locationsService', locationsService);
+})(angular.module('filterPageApp'));
+'use strict';
+
+(function (app) {
 	'use strict';
 
-	var cardService = function cardService() {
+	var cardService = function cardService($location, $injector) {
 		var generateFiltersList = function generateFiltersList(data) {
 			var filters = [];
 
@@ -26,8 +94,18 @@
 			return sortedUniqueFilters;
 		};
 
-		var get = function get(dataLoaderNameSpace, afterDataLoadedCallback) {
-			dataLoaderNameSpace.dataLoader(function (data) {
+		var getFileNameWithoutExtension = function getFileNameWithoutExtension(path) {
+			var pathParts = path.split('/');
+			var lastPathPart = pathParts[pathParts.length - 1];
+			var noExtension = lastPathPart.split('.')[0];
+			return noExtension;
+		};
+
+		var get = function get(afterDataLoadedCallback) {
+			var filenameWithoutExtension = getFileNameWithoutExtension(window.location.pathname);
+			var dataService = $injector.get(filenameWithoutExtension + 'Service');
+
+			dataService.get(function (data) {
 				var filters = generateFiltersList(data);
 				afterDataLoadedCallback(filters, data);
 			});
@@ -38,43 +116,13 @@
 		};
 	};
 
-	cardService.$inject = [];
+	cardService.$inject = ['$location', '$injector'];
 
-	angular.module('filterPageApp').factory('cardService', cardService);
-})();
+	app.factory('cardService', cardService);
+})(angular.module('filterPageApp'));
 'use strict';
 
-(function () {
-	'use strict';
-
-	var templateService = function templateService() {
-		var databasesTemplate = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{cardData.name}}</a>' + '			</h4>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
-
-		var locationsTemplate = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h4>{{cardData.name}} Branch</h4>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<hr />' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
-
-		var get = function get(templateName) {
-			switch (templateName) {
-				case 'databases':
-					return databasesTemplate;
-				case 'locations':
-					return locationsTemplate;
-				default:
-					return '';
-			}
-		};
-
-		return {
-			get: get
-		};
-	};
-
-	templateService.$inject = [];
-
-	angular.module('filterPageApp').factory('templateService', templateService);
-})();
-'use strict';
-
-(function () {
+(function (app) {
 	'use strict';
 
 	var FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
@@ -149,22 +197,22 @@
 
 		/* init */
 
-		cardService.get(bcpl.pageSpecific.branchesFilter, loadCardsAndFilters);
+		cardService.get(loadCardsAndFilters);
 
 	};
 
 	FilterPageCtrl.$inject = ['$scope', 'cardService'];
 
-	angular.module('filterPageApp').controller('FilterPageCtrl', FilterPageCtrl);
-})();
+	app.controller('FilterPageCtrl', FilterPageCtrl);
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function () {
 	'use strict';
 
-	var cardDirective = function cardDirective($compile, templateService) {
+	var cardDirective = function cardDirective($compile, $injector) {
 		var cardLink = function cardLink($scope, element, attrs) {
-			element.append($compile(templateService.get(attrs.template))($scope));
+			element.append($compile($injector.get(attrs.template + 'Service').template)($scope));
 		};
 
 		var directive = {
@@ -182,7 +230,7 @@
 		return directive;
 	};
 
-	cardDirective.$inject = ['$compile', 'templateService'];
+	cardDirective.$inject = ['$compile', '$injector'];
 
 	angular.module('filterPageApp').directive('card', cardDirective);
 })();

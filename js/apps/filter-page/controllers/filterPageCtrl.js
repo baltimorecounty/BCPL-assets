@@ -1,4 +1,4 @@
-(() => {
+((app) => {
 	'use strict';
 
 	const FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
@@ -73,7 +73,7 @@
 
 		/* init */
 
-		cardService.get(bcpl.pageSpecific.branchesFilter, loadCardsAndFilters);
+		cardService.get(loadCardsAndFilters);
 
 		/* test-code */
 		self.setActiveFilters = setActiveFilters;
@@ -83,7 +83,5 @@
 
 	FilterPageCtrl.$inject = ['$scope', 'cardService'];
 
-	angular
-		.module('filterPageApp')
-		.controller('FilterPageCtrl', FilterPageCtrl);
-})();
+	app.controller('FilterPageCtrl', FilterPageCtrl);
+})(angular.module('filterPageApp'));

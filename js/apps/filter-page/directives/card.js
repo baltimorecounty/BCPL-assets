@@ -1,9 +1,9 @@
 (() => {
 	'use strict';
 
-	const cardDirective = ($compile, templateService) => {
+	const cardDirective = ($compile, $injector) => {
 		const cardLink = ($scope, element, attrs) => {
-			element.append($compile(templateService.get(attrs.template))($scope));
+			element.append($compile($injector.get(attrs.template + 'Service').template)($scope));
 		};
 
 		const directive = {
@@ -21,7 +21,7 @@
 		return directive;
 	};
 
-	cardDirective.$inject = ['$compile', 'templateService'];
+	cardDirective.$inject = ['$compile', '$injector'];
 
 	angular
 		.module('filterPageApp')

@@ -1,7 +1,7 @@
-(() => {
+((app) => {
 	'use strict';
 
-	const cardService = () => {
+	const cardService = ($location, $injector) => {
 		const generateFiltersList = (data) => {
 			let filters = [];
 
@@ -15,8 +15,18 @@
 			return sortedUniqueFilters;
 		};
 
-		const get = (dataLoaderNameSpace, afterDataLoadedCallback) => {
-			dataLoaderNameSpace.dataLoader((data) => {
+		const getFileNameWithoutExtension = (path) => {
+			const pathParts = path.split('/');
+			const lastPathPart = pathParts[pathParts.length - 1];
+			const noExtension = lastPathPart.split('.')[0];
+			return noExtension;
+		};
+
+		const get = (afterDataLoadedCallback) => {
+			const filenameWithoutExtension = getFileNameWithoutExtension(window.location.pathname);
+			const dataService = $injector.get(`${filenameWithoutExtension}Service`);
+
+			dataService.get((data) => {
 				const filters = generateFiltersList(data);
 				afterDataLoadedCallback(filters, data);
 			});
@@ -27,9 +37,7 @@
 		};
 	};
 
-	cardService.$inject = [];
+	cardService.$inject = ['$location', '$injector'];
 
-	angular
-		.module('filterPageApp')
-		.factory('cardService', cardService);
-})();
+	app.factory('cardService', cardService);
+})(angular.module('filterPageApp'));
