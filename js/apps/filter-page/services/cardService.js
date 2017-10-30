@@ -1,7 +1,7 @@
 (() => {
 	'use strict';
 
-	const dataLoaderService = () => {
+	const cardService = () => {
 		const generateFiltersList = (data) => {
 			let filters = [];
 
@@ -15,7 +15,7 @@
 			return sortedUniqueFilters;
 		};
 
-		const load = (dataLoaderNameSpace, afterDataLoadedCallback) => {
+		const get = (dataLoaderNameSpace, afterDataLoadedCallback) => {
 			dataLoaderNameSpace.dataLoader((data) => {
 				const filters = generateFiltersList(data);
 				afterDataLoadedCallback(filters, data);
@@ -23,13 +23,13 @@
 		};
 
 		return {
-			load
+			get
 		};
 	};
 
-	dataLoaderService.$inject = [];
+	cardService.$inject = [];
 
 	angular
 		.module('filterPageApp')
-		.factory('dataLoaderService', dataLoaderService);
+		.factory('cardService', cardService);
 })();

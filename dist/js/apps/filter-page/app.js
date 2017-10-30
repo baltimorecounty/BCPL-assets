@@ -10,7 +10,7 @@
 (function () {
 	'use strict';
 
-	var dataLoaderService = function dataLoaderService() {
+	var cardService = function cardService() {
 		var generateFiltersList = function generateFiltersList(data) {
 			var filters = [];
 
@@ -26,7 +26,7 @@
 			return sortedUniqueFilters;
 		};
 
-		var load = function load(dataLoaderNameSpace, afterDataLoadedCallback) {
+		var get = function get(dataLoaderNameSpace, afterDataLoadedCallback) {
 			dataLoaderNameSpace.dataLoader(function (data) {
 				var filters = generateFiltersList(data);
 				afterDataLoadedCallback(filters, data);
@@ -34,13 +34,13 @@
 		};
 
 		return {
-			load: load
+			get: get
 		};
 	};
 
-	dataLoaderService.$inject = [];
+	cardService.$inject = [];
 
-	angular.module('filterPageApp').factory('dataLoaderService', dataLoaderService);
+	angular.module('filterPageApp').factory('cardService', cardService);
 })();
 'use strict';
 
@@ -77,29 +77,46 @@
 (function () {
 	'use strict';
 
-	var filterPageCtrl = function filterPageCtrl($scope, dataLoaderService) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
 		var self = this;
 
 		self.activeFilters = [];
-		self.allData = {};
+		self.allCardData = {};
 
+		/**
+   * Makes sure the filters and tags are in sync.
+   *
+   * @param {string} filter
+   */
 		self.setFilter = function (filter) {
 			setActiveFilters(filter);
-			self.items = self.allData.filter(filterDataItems);
+			self.items = self.allCardData.filter(filterDataItems);
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
 		/* Private */
 
-		var loadDataFromService = function loadDataFromService(filters, data) {
+		/**
+   * Loads up the list of filters and all of the branch data.
+   *
+   * @param {[string]} filters
+   * @param {[*]} branchData
+   */
+		var loadCardsAndFilters = function loadCardsAndFilters(filters, cardData) {
 			self.filters = filters;
-			self.allData = data;
-			self.items = data;
+			self.allCardData = cardData;
+			self.items = cardData;
 			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
+		/**
+   * Allows for multiple-filter matches by verifying an active branch has
+   * "all" active filters, and not just "any" active filters.
+   *
+   * @param {*} dataItem
+   */
 		var filterDataItems = function filterDataItems(dataItem) {
 			var matchCount = 0;
 
@@ -112,6 +129,12 @@
 			return matchCount === self.activeFilters.length;
 		};
 
+		/**
+   * Toggles filters in the master filter list since there are multiple
+   * ways of setting a filter (tags or filter list).
+   *
+   * @param {*} filter
+   */
 		var setActiveFilters = function setActiveFilters(filter) {
 			var filterIndex = self.activeFilters.indexOf(filter);
 
@@ -124,12 +147,13 @@
 
 		/* init */
 
-		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, loadDataFromService);
+		cardService.get(bcpl.pageSpecific.branchesFilter, loadCardsAndFilters);
+
 	};
 
-	filterPageCtrl.$inject = ['$scope', 'dataLoaderService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService'];
 
-	angular.module('filterPageApp').controller('filterPageCtrl', filterPageCtrl);
+	angular.module('filterPageApp').controller('FilterPageCtrl', FilterPageCtrl);
 })();
 'use strict';
 

@@ -1,11 +1,11 @@
 (() => {
 	'use strict';
 
-	const filterPageCtrl = function filterPageCtrl($scope, dataLoaderService) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
 		const self = this;
 
 		self.activeFilters = [];
-		self.allData = {};
+		self.allCardData = {};
 
 		/**
 		 * Makes sure the filters and tags are in sync.
@@ -14,7 +14,7 @@
 		 */
 		self.setFilter = (filter) => {
 			setActiveFilters(filter);
-			self.items = self.allData.filter(filterDataItems);
+			self.items = self.allCardData.filter(filterDataItems);
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
@@ -26,10 +26,10 @@
 		 * @param {[string]} filters
 		 * @param {[*]} branchData
 		 */
-		const loadDataFromService = (filters, branchData) => {
+		const loadCardsAndFilters = (filters, cardData) => {
 			self.filters = filters;
-			self.allData = branchData;
-			self.items = branchData;
+			self.allCardData = cardData;
+			self.items = cardData;
 			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
@@ -71,12 +71,16 @@
 
 		/* init */
 
-		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, loadDataFromService);
+		cardService.get(bcpl.pageSpecific.branchesFilter, loadCardsAndFilters);
+
+		/* test-code */
+		self.setActiveFilters = setActiveFilters;
+		/* end-test-code */
 	};
 
-	filterPageCtrl.$inject = ['$scope', 'dataLoaderService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService'];
 
 	angular
 		.module('filterPageApp')
-		.controller('filterPageCtrl', filterPageCtrl);
+		.controller('FilterPageCtrl', FilterPageCtrl);
 })();
