@@ -44,6 +44,8 @@
 		const filterDataItems = (dataItem) => {
 			let matchCount = 0;
 
+			if (!dataItem) return false;
+
 			angular.element.each(self.activeFilters, (index, activeFilter) => {
 				if (dataItem.attributes.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
@@ -75,6 +77,7 @@
 
 		/* test-code */
 		self.setActiveFilters = setActiveFilters;
+		self.filterDataItems = filterDataItems;
 		/* end-test-code */
 	};
 

@@ -120,6 +120,8 @@
 		var filterDataItems = function filterDataItems(dataItem) {
 			var matchCount = 0;
 
+			if (!dataItem) return false;
+
 			angular.element.each(self.activeFilters, function (index, activeFilter) {
 				if (dataItem.attributes.indexOf(activeFilter) !== -1) {
 					matchCount += 1;

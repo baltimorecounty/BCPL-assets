@@ -22,6 +22,8 @@ module.exports = function(config) {
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
 		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
 		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+		'node_modules/angular/angular.min.js',
+		'node_modules/angular-mocks/angular-mocks.js',
 		'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js',
 		'js/vendor/slick/slick.min.js',
 		{ pattern: 'dist/images/**/*.png', included: false, served: true, watched: false },
@@ -30,6 +32,7 @@ module.exports = function(config) {
 		'js/utility/namespacer.js',
 		'js/utility/*.js',
 		'js/page-specific/**/*.js',
+		'js/apps/**/*.js',
 		'js/*.js',
 		'test/**/*.spec.js'
 	],
