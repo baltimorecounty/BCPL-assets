@@ -89,16 +89,16 @@
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
-		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, function (filters, data) {
+		/* Private */
+
+		var loadDataFromService = function loadDataFromService(filters, data) {
 			self.filters = filters;
 			self.allData = data;
 			self.items = data;
 			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
-		});
-
-		/* Private */
+		};
 
 		var filterDataItems = function filterDataItems(dataItem) {
 			var matchCount = 0;
@@ -121,6 +121,10 @@
 				self.activeFilters.splice(filterIndex, 1);
 			}
 		};
+
+		/* init */
+
+		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, loadDataFromService);
 	};
 
 	filterPageCtrl.$inject = ['$scope', 'dataLoaderService'];

@@ -7,23 +7,40 @@
 		self.activeFilters = [];
 		self.allData = {};
 
+		/**
+		 * Makes sure the filters and tags are in sync.
+		 *
+		 * @param {string} filter
+		 */
 		self.setFilter = (filter) => {
 			setActiveFilters(filter);
 			self.items = self.allData.filter(filterDataItems);
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
-		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, (filters, data) => {
+		/* Private */
+
+		/**
+		 * Loads up the list of filters and all of the branch data.
+		 *
+		 * @param {[string]} filters
+		 * @param {[*]} branchData
+		 */
+		const loadDataFromService = (filters, branchData) => {
 			self.filters = filters;
-			self.allData = data;
-			self.items = data;
+			self.allData = branchData;
+			self.items = branchData;
 			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
-		});
+		};
 
-		/* Private */
-
+		/**
+		 * Allows for multiple-filter matches by verifying an active branch has
+		 * "all" active filters, and not just "any" active filters.
+		 *
+		 * @param {*} dataItem
+		 */
 		const filterDataItems = (dataItem) => {
 			let matchCount = 0;
 
@@ -36,6 +53,12 @@
 			return matchCount === self.activeFilters.length;
 		};
 
+		/**
+		 * Toggles filters in the master filter list since there are multiple
+		 * ways of setting a filter (tags or filter list).
+		 *
+		 * @param {*} filter
+		 */
 		const setActiveFilters = (filter) => {
 			const filterIndex = self.activeFilters.indexOf(filter);
 
@@ -45,6 +68,10 @@
 				self.activeFilters.splice(filterIndex, 1);
 			}
 		};
+
+		/* init */
+
+		dataLoaderService.load(bcpl.pageSpecific.branchesFilter, loadDataFromService);
 	};
 
 	filterPageCtrl.$inject = ['$scope', 'dataLoaderService'];
