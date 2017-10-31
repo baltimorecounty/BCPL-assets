@@ -26,6 +26,16 @@
 			attributes: 5
 		};
 
+		const arrayifyAttributes = ($tags) => {
+			let tagArray = [];
+
+			$tags.each((index, tagElement) => {
+				tagArray.push($(tagElement).text());
+			});
+
+			return tagArray;
+		};
+
 		const dataLoaderSuccess = (data, externalSuccessCallback) => {
 			const $dataTable = $(data).find('#data-table');
 			const $rows = $dataTable.find('tbody tr');
@@ -40,7 +50,7 @@
 					description: $row.find('td').eq(dataTableIndexes.description).text(),
 					inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
 					requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
-					attributes: $row.find('td').eq(dataTableIndexes.attributes).text().trim().split(', ')
+					attributes: arrayifyAttributes($row.find('td').eq(dataTableIndexes.attributes).find('.SETags'))
 				});
 			});
 

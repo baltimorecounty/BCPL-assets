@@ -20,6 +20,16 @@
 			attributes: 5
 		};
 
+		var arrayifyAttributes = function arrayifyAttributes($tags) {
+			var tagArray = [];
+
+			$tags.each(function (index, tagElement) {
+				tagArray.push($(tagElement).text());
+			});
+
+			return tagArray;
+		};
+
 		var dataLoaderSuccess = function dataLoaderSuccess(data, externalSuccessCallback) {
 			var $dataTable = $(data).find('#data-table');
 			var $rows = $dataTable.find('tbody tr');
@@ -34,7 +44,7 @@
 					description: $row.find('td').eq(dataTableIndexes.description).text(),
 					inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
 					requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
-					attributes: $row.find('td').eq(dataTableIndexes.attributes).text().trim().split(', ')
+					attributes: arrayifyAttributes($row.find('td').eq(dataTableIndexes.attributes).find('.SETags'))
 				});
 			});
 
@@ -119,6 +129,60 @@
 	cardService.$inject = ['$location', '$window', '$injector'];
 
 	app.factory('cardService', cardService);
+})(angular.module('filterPageApp'));
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function (app) {
+	'use strict';
+
+	var tagParsingService = function tagParsingService() {
+		var getTagFamily = function getTagFamily(tagFamilies, familyName) {
+			var matchedFamilies = tagFamilies.filter(function (tagFamily) {
+				return tagFamily.name === familyName;
+			});
+
+			if (matchedFamilies.length === 0) {
+				var newFamily = {
+					name: familyName,
+					type: 'many'
+				};
+
+				return newFamily;
+			}
+
+			return matchedFamilies.length === 1 ? matchedFamilies[0] : {};
+		};
+
+		var parseTags = function parseTags(tagList) {
+			if ((typeof tagList === 'undefined' ? 'undefined' : _typeof(tagList)) !== 'object') return [];
+
+			var tagFamilies = [];
+
+			tagList.forEach(function (tag) {
+				var tagParts = tag.split('|');
+
+				if (tagParts.length === 1) {
+					var family = getTagFamily(tagFamilies, 'none');
+
+					if (!family.tags) {
+						angular.extend(family, { tags: [] });
+					}
+
+					family.tags.push(tagParts[0]);
+				}
+			});
+
+			return tagFamilies;
+		};
+
+		return {
+			parseTags: parseTags
+		};
+	};
+
+	app.factory('tagParsingService', tagParsingService);
 })(angular.module('filterPageApp'));
 'use strict';
 
@@ -239,16 +303,18 @@
 (function () {
 	'use strict';
 
-	var filterLink = function filterLink($scope, element) {
-		$scope.toggleFilter = function (activeFilter) {
-			var $element = angular.element(element);
-
-			$element.find('label').toggleClass('active', $element.has(':checked'));
-			$scope.filterHandler(activeFilter);
-		};
-	};
-
 	var filterDirective = function filterDirective() {
+		var template = '' + '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}">' + '<input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>';
+
+		var filterLink = function filterLink($scope, element) {
+			$scope.toggleFilter = function (activeFilter) {
+				var $element = angular.element(element);
+
+				$element.find('label').toggleClass('active', $element.has(':checked'));
+				$scope.filterHandler(activeFilter);
+			};
+		};
+
 		var directive = {
 			scope: {
 				filterHandler: '=',
@@ -256,7 +322,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}"><input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>',
+			template: template,
 			link: filterLink
 		};
 
@@ -272,12 +338,52 @@
 (function () {
 	'use strict';
 
+	var filterDirective = function filterDirective() {
+		var template = '' + '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}">' + '<input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>';
+
+		var filterLink = function filterLink($scope, element) {
+			$scope.toggleFilter = function (activeFilter) {
+				var $element = angular.element(element);
+
+				$element.find('label').toggleClass('active', $element.has(':checked'));
+				$scope.filterHandler(activeFilter);
+			};
+		};
+
+		var directive = {
+			scope: {
+				filterHandler: '=',
+				filterName: '=',
+				activeFilters: '='
+			},
+			restrict: 'E',
+			template: template,
+			link: filterLink
+		};
+
+		return directive;
+	};
+
+	filterDirective.$inject = [];
+
+	angular.module('filterPageApp').directive('filters', filterDirective);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
 	var tagLink = function filterLink($scope) {
 		$scope.toggleFilter = function (activeFilter, $event) {
 			var $element = angular.element($event.currentTarget);
 
 			$element.toggleClass('active');
 			$scope.filterHandler(activeFilter);
+		};
+
+		$scope.extractTagName = function (tag) {
+			var tagParts = tag.split('|');
+			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
 		};
 	};
 
@@ -289,7 +395,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{tag}}</button></li>',
+			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{extractTagName(tag)}}</button></li>',
 			link: tagLink
 		};
 

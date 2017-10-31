@@ -8,6 +8,11 @@
 			$element.toggleClass('active');
 			$scope.filterHandler(activeFilter);
 		};
+
+		$scope.extractTagName = (tag) => {
+			const tagParts = tag.split('|');
+			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
+		};
 	};
 
 	const tagDirective = () => {
@@ -18,7 +23,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{tag}}</button></li>',
+			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{extractTagName(tag)}}</button></li>',
 			link: tagLink
 		};
 
