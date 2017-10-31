@@ -57,6 +57,19 @@ gulp.task('process-app-js', () => {
 	});
 });
 
+gulp.task('move-app-directive-templates', () => {
+	const appRootFolder = 'js/apps';
+	const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
+		return fs.statSync(path.join(appRootFolder, file)).isDirectory();
+	});
+
+	appFolders.forEach((folder) => {
+		gulp.src(`js/apps/${folder}/directives/templates/*.html`)
+			.pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
+	});
+});
+
+
 gulp.task('process-master-js', () => gulp.src(['js/utility/namespacer.js', 'js/utility/*.js', 'js/**/*.js', '!js/vendor/**/*.js', '!js/page-specific/**/*.js', '!js/apps/**/*'])
 	.pipe(jshint({
 		esversion: 6
@@ -118,7 +131,7 @@ gulp.task('move-html', () => gulp.src('mockups/html/*.html')
 gulp.task('code-coverage', () => gulp.src('/coverage/**/lcov.info')
 	.pipe(coveralls()));
 
-gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
+gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
