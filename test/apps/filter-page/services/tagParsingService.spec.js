@@ -1,13 +1,5 @@
 describe('tagParsingService', () => {
-	const fakeWindow = {
-		location: {
-			pathname: 'locations'
-		}
-	};
-
-	beforeEach(angular.mock.module('filterPageApp', ($provide) => {
-		$provide.value('$window', fakeWindow);
-	}));
+	beforeEach(angular.mock.module('filterPageApp'));
 
 	describe('parseTags', () => {
 		it('should return an empty array when given a string', inject((tagParsingService) => {
