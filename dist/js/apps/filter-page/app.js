@@ -132,31 +132,41 @@
 })(angular.module('filterPageApp'));
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 (function (app) {
 	'use strict';
 
 	var tagParsingService = function tagParsingService() {
-		var getTagFamily = function getTagFamily(tagFamilies, familyName) {
+		var tagPartIndexes = {
+			name: 0,
+			tag: 1,
+			type: 2
+		};
+
+		var extractTagName = function extractTagName(tag) {
+			var tagParts = tag.trim().split('|');
+			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
+		};
+
+		var findFamily = function findFamily(tagFamilies, familyName) {
 			var matchedFamilies = tagFamilies.filter(function (tagFamily) {
 				return tagFamily.name === familyName;
 			});
 
-			if (matchedFamilies.length === 0) {
-				var newFamily = {
-					name: familyName,
-					type: 'many'
-				};
+			return matchedFamilies.length === 1 ? matchedFamilies[0] : undefined;
+		};
 
-				return newFamily;
-			}
+		var createFamily = function createFamily(familyName, tag, type) {
+			var newFamily = {
+				name: familyName,
+				type: type,
+				tags: [tag]
+			};
 
-			return matchedFamilies.length === 1 ? matchedFamilies[0] : {};
+			return newFamily;
 		};
 
 		var parseTags = function parseTags(tagList) {
-			if ((typeof tagList === 'undefined' ? 'undefined' : _typeof(tagList)) !== 'object') return [];
+			if (!Array.isArray(tagList)) return [];
 
 			var tagFamilies = [];
 
@@ -164,13 +174,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var tagParts = tag.split('|');
 
 				if (tagParts.length === 1) {
-					var family = getTagFamily(tagFamilies, 'none');
+					tagParts.unshift('none'); // Add the tag family
+				}
 
-					if (!family.tags) {
-						angular.extend(family, { tags: [] });
-					}
+				if (tagParts.length === 2) {
+					tagParts.push('many'); // Add the tag type
+				}
 
-					family.tags.push(tagParts[0]);
+				var foundFamily = findFamily(tagFamilies, tagParts[tagPartIndexes.name]);
+
+				if (foundFamily) {
+					foundFamily.tags.push(tagParts[tagPartIndexes.tag]);
+					foundFamily.type = tagParts[tagPartIndexes.type];
+				} else {
+					var newFamily = createFamily(tagParts[tagPartIndexes.name], tagParts[tagPartIndexes.tag], tagParts[tagPartIndexes.type]);
+
+					tagFamilies.push(newFamily);
 				}
 			});
 
@@ -178,7 +197,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		return {
-			parseTags: parseTags
+			parseTags: parseTags,
+			extractTagName: extractTagName
 		};
 	};
 
@@ -189,7 +209,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -223,19 +243,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
+		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
+			var attributes = cardDataItem.attributes;
+			var tags = [];
+
+			attributes.forEach(function (attribute) {
+				tags.push(tagParsingService.extractTagName(attribute));
+			});
+
+			return tags;
+		};
+
 		/**
    * Allows for multiple-filter matches by verifying an active branch has
    * "all" active filters, and not just "any" active filters.
    *
    * @param {*} dataItem
    */
-		var filterDataItems = function filterDataItems(dataItem) {
+		var filterDataItems = function filterDataItems(cardDataItem) {
 			var matchCount = 0;
 
-			if (!dataItem) return false;
+			if (!cardDataItem) return false;
+
+			var tags = transformAttributesToTags(cardDataItem);
 
 			angular.element.each(self.activeFilters, function (index, activeFilter) {
-				if (dataItem.attributes.indexOf(activeFilter) !== -1) {
+				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
 			});
@@ -265,7 +298,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
@@ -300,29 +333,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })();
 'use strict';
 
-(function () {
+(function (app) {
 	'use strict';
 
 	var filterDirective = function filterDirective() {
-		var template = '' + '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}">' + '<input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>';
-
 		var filterLink = function filterLink($scope, element) {
 			$scope.toggleFilter = function (activeFilter) {
 				var $element = angular.element(element);
-
 				$element.find('label').toggleClass('active', $element.has(':checked'));
+
 				$scope.filterHandler(activeFilter);
 			};
 		};
 
 		var directive = {
 			scope: {
-				filterHandler: '=',
-				filterName: '=',
-				activeFilters: '='
+				tag: '=',
+				activeFilters: '=',
+				filterHandler: '='
 			},
 			restrict: 'E',
-			template: template,
+			templateUrl: '/dist/js/apps/filter-page/templates/filter.html',
 			link: filterLink
 		};
 
@@ -331,63 +362,53 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	filterDirective.$inject = [];
 
-	angular.module('filterPageApp').directive('filter', filterDirective);
-})();
+	app.directive('filter', filterDirective);
+})(angular.module('filterPageApp'));
 'use strict';
 
-(function () {
+(function (app) {
 	'use strict';
 
-	var filterDirective = function filterDirective() {
-		var template = '' + '<label ng-class="{active: activeFilters.indexOf(filterName) !== -1}">' + '<input type="checkbox" ng-click="toggleFilter(filterName)" ng-checked="activeFilters.indexOf(filterName) !== -1" /> {{filterName}}</label>';
-
-		var filterLink = function filterLink($scope, element) {
-			$scope.toggleFilter = function (activeFilter) {
-				var $element = angular.element(element);
-
-				$element.find('label').toggleClass('active', $element.has(':checked'));
-				$scope.filterHandler(activeFilter);
-			};
+	var filtersDirective = function filtersDirective(tagParsingService) {
+		var filterLink = function filterLink($scope) {
+			$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
 		};
 
 		var directive = {
 			scope: {
 				filterHandler: '=',
-				filterName: '=',
+				filterData: '=',
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: template,
+			templateUrl: '/dist/js/apps/filter-page/templates/filters.html',
 			link: filterLink
 		};
 
 		return directive;
 	};
 
-	filterDirective.$inject = [];
+	filtersDirective.$inject = ['tagParsingService'];
 
-	angular.module('filterPageApp').directive('filters', filterDirective);
-})();
+	app.directive('filters', filtersDirective);
+})(angular.module('filterPageApp'));
 'use strict';
 
-(function () {
+(function (app) {
 	'use strict';
 
-	var tagLink = function filterLink($scope) {
-		$scope.toggleFilter = function (activeFilter, $event) {
-			var $element = angular.element($event.currentTarget);
+	var tagDirective = function tagDirective(tagParsingService) {
+		var tagLink = function filterLink($scope) {
+			$scope.toggleFilter = function (activeFilter, $event) {
+				var $element = angular.element($event.currentTarget);
 
-			$element.toggleClass('active');
-			$scope.filterHandler(activeFilter);
+				$element.toggleClass('active');
+				$scope.filterHandler(tagParsingService.extractTagName(activeFilter));
+			};
+
+			$scope.extractTagName = tagParsingService.extractTagName;
 		};
 
-		$scope.extractTagName = function (tag) {
-			var tagParts = tag.split('|');
-			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
-		};
-	};
-
-	var tagDirective = function tagDirective() {
 		var directive = {
 			scope: {
 				filterHandler: '=',
@@ -395,14 +416,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag) !== -1}">{{extractTagName(tag)}}</button></li>',
+			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(extractTagName(tag)) !== -1}">{{extractTagName(tag)}}</button></li>',
 			link: tagLink
 		};
 
 		return directive;
 	};
 
-	tagDirective.$inject = [];
+	tagDirective.$inject = ['tagParsingService'];
 
-	angular.module('filterPageApp').directive('tag', tagDirective);
-})();
+	app.directive('tag', tagDirective);
+})(angular.module('filterPageApp'));

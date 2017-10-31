@@ -9,7 +9,7 @@
 		margin: 0;
 		padding: .75em;
 	}	
-
+ 
 	.collapse {
 		display: block;
 		height: initial !important;
@@ -26,6 +26,11 @@
 	.filter-controls-wrapper {
 		padding: .5em;
 		
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
 		label {
 			clear: both;
 			cursor: pointer; 

@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -35,19 +35,32 @@
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
 
+		const transformAttributesToTags = (cardDataItem) => {
+			const attributes = cardDataItem.attributes;
+			let tags = [];
+
+			attributes.forEach((attribute) => {
+				tags.push(tagParsingService.extractTagName(attribute));
+			});
+
+			return tags;
+		};
+
 		/**
 		 * Allows for multiple-filter matches by verifying an active branch has
 		 * "all" active filters, and not just "any" active filters.
 		 *
 		 * @param {*} dataItem
 		 */
-		const filterDataItems = (dataItem) => {
+		const filterDataItems = (cardDataItem) => {
 			let matchCount = 0;
 
-			if (!dataItem) return false;
+			if (!cardDataItem) return false;
+
+			const tags = transformAttributesToTags(cardDataItem);
 
 			angular.element.each(self.activeFilters, (index, activeFilter) => {
-				if (dataItem.attributes.indexOf(activeFilter) !== -1) {
+				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
 			});
@@ -81,7 +94,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

@@ -8,6 +8,11 @@
 			type: 2
 		};
 
+		const extractTagName = (tag) => {
+			const tagParts = tag.trim().split('|');
+			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
+		};
+
 		const findFamily = (tagFamilies, familyName) => {
 			const matchedFamilies = tagFamilies.filter((tagFamily) => {
 				return tagFamily.name === familyName;
@@ -62,7 +67,8 @@
 		};
 
 		return {
-			parseTags
+			parseTags,
+			extractTagName
 		};
 	};
 

@@ -371,8 +371,7 @@
 							<h4 class="amenities">Database Categories</h4>
 							<div class="filter-controls-wrapper">
 								<div class="collapse" id="filters">
-									<filter ng-repeat="filter in filterPage.filters" 
-										filter-name="filter" 
+									<filters filter-data="filterPage.filters" 
 										filter-handler="filterPage.setFilter"
 										active-filters="filterPage.activeFilters"></filter>
 								</div>

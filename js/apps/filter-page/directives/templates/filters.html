@@ -1,6 +1,8 @@
-<h3>family</h3>
-<ul>
-	<li>
-		<label><input type=""> FilterName</label>
-	</li>
-</ul>
+<div ng-repeat="filterFamily in filterFamilies">
+	<h5>{{filterFamily.name}}</h5>
+	<ul>
+		<li ng-repeat="tag in filterFamily.tags">			
+			<filter filter-handler="filterHandler" active-filters="activeFilters" tag="tag"></filter>
+		</li>
+	</ul>
+</div>
