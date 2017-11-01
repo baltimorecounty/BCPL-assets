@@ -366,8 +366,7 @@
 						<div class="filters">
 							<h4 class="amenities">Branch Amenities</h4>
 							<div class="filter-controls-wrapper">
-								<filter ng-repeat="filter in filterPage.filters" 
-									filter-name="filter" 
+								<filters filter-data="filterPage.filters" 
 									filter-handler="filterPage.setFilter"
 									active-filters="filterPage.activeFilters"></filter>
 
