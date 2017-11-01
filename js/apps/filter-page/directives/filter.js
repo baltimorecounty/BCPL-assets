@@ -13,12 +13,9 @@
 			}
 
 			$scope.toggleFilter = (activeFilter) => {
-				const isFilterChecked = $filterElement.has(':checked').length > 0;
+				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 
-				if (inputType === 'checkbox') {
-					$filterElement.find('label').toggleClass('active', isFilterChecked);
-					$scope.filterHandler(activeFilter);
-				} else {
+				if (inputType === 'radio') {
 					const $filterFamilyWrapper = $filterElement.closest('.filter-family');
 					const $filterLabels = $filterFamilyWrapper.find('label');
 					const $targetLabel = $filterElement.find('label');
@@ -30,10 +27,9 @@
 							$scope.filterHandler($otherRadioLabel.text().trim());
 						}
 					});
-
-					$targetLabel.toggleClass('active', isFilterChecked);
-					$scope.filterHandler(activeFilter);
 				}
+
+				$scope.filterHandler(activeFilter);
 			};
 		};
 
