@@ -70,4 +70,38 @@ describe('tagParsingService', () => {
 			expect(actual).toEqual(expected);
 		}));
 	});
+
+	describe('extractTagName', () => {
+		it('should return a single tag when given a non-extractible string tag', inject((tagParsingService) => {
+			const expected = 'test';
+
+			const actual = tagParsingService.extractTagName('test');
+
+			expect(actual).toEqual(expected);
+		}));
+
+		it('should return the tag name when given a wellformed tag', inject((tagParsingService) => {
+			const expected = 'test';
+
+			const actual = tagParsingService.extractTagName('type|test|many');
+
+			expect(actual).toEqual(expected);
+		}));
+
+		it('should return an empty string when given undefined', inject((tagParsingService) => {
+			const expected = '';
+
+			const actual = tagParsingService.extractTagName(undefined);
+
+			expect(actual).toEqual(expected);
+		}));
+
+		it('should return an empty string when given a number', inject((tagParsingService) => {
+			const expected = '';
+
+			const actual = tagParsingService.extractTagName(1);
+
+			expect(actual).toEqual(expected);
+		}));
+	});
 });

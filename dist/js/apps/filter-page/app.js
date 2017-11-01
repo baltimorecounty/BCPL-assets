@@ -143,8 +143,12 @@
 		};
 
 		var extractTagName = function extractTagName(tag) {
-			var tagParts = tag.trim().split('|');
-			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
+			if (typeof tag === 'string') {
+				var tagParts = tag.trim().split('|');
+				return tagParts.length > 1 ? tagParts[1] : tagParts[0];
+			}
+
+			return '';
 		};
 
 		var findFamily = function findFamily(tagFamilies, familyName) {

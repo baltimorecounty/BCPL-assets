@@ -9,8 +9,12 @@
 		};
 
 		const extractTagName = (tag) => {
-			const tagParts = tag.trim().split('|');
-			return tagParts.length > 0 ? tagParts[1] : tagParts[0];
+			if (typeof tag === 'string') {
+				const tagParts = tag.trim().split('|');
+				return tagParts.length > 1 ? tagParts[1] : tagParts[0];
+			}
+
+			return '';
 		};
 
 		const findFamily = (tagFamilies, familyName) => {
