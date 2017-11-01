@@ -341,12 +341,38 @@
 	'use strict';
 
 	var filterDirective = function filterDirective() {
-		var filterLink = function filterLink($scope, element) {
-			$scope.toggleFilter = function (activeFilter) {
-				var $element = angular.element(element);
-				$element.find('label').toggleClass('active', $element.has(':checked'));
+		var filterLink = function filterLink($scope, filterElement) {
+			var $filterElement = angular.element(filterElement);
+			var $input = $filterElement.find('input');
+			var inputType = $scope.filterType.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';
+			$input.prop('type', inputType);
 
-				$scope.filterHandler(activeFilter);
+			if (inputType === 'radio') {
+				$input.prop('name', $scope.familyName);
+			}
+
+			$scope.toggleFilter = function (activeFilter) {
+				var isFilterChecked = $filterElement.has(':checked').length > 0;
+
+				if (inputType === 'checkbox') {
+					$filterElement.find('label').toggleClass('active', isFilterChecked);
+					$scope.filterHandler(activeFilter);
+				} else {
+					var $filterFamilyWrapper = $filterElement.closest('.filter-family');
+					var $filterLabels = $filterFamilyWrapper.find('label');
+					var $targetLabel = $filterElement.find('label');
+					var $otherRadioLabels = $filterLabels.not($targetLabel);
+
+					$otherRadioLabels.each(function (index, otherRadioLabelElement) {
+						var $otherRadioLabel = angular.element(otherRadioLabelElement);
+						if ($otherRadioLabel.is('.active')) {
+							$scope.filterHandler($otherRadioLabel.text().trim());
+						}
+					});
+
+					$targetLabel.toggleClass('active', isFilterChecked);
+					$scope.filterHandler(activeFilter);
+				}
 			};
 		};
 
@@ -354,7 +380,9 @@
 			scope: {
 				tag: '=',
 				activeFilters: '=',
-				filterHandler: '='
+				filterHandler: '=',
+				filterType: '=',
+				familyName: '='
 			},
 			restrict: 'E',
 			templateUrl: '/dist/js/apps/filter-page/templates/filter.html',
