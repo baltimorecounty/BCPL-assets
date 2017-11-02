@@ -25,10 +25,18 @@
 
 	.filter-controls-wrapper {
 		padding: .5em;
-		
+
 		ul {
 			list-style-type: none;
 			padding: 0;
+		}
+
+		.filter-family {
+			&:last-child {
+				ul {
+					margin-bottom: 10px;
+				}
+			}
 		}
 
 		label {
