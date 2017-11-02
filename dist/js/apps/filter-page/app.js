@@ -262,6 +262,7 @@
 
 		self.activeFilters = [];
 		self.allCardData = {};
+		self.isEverythingFilteredOut = false;
 
 		/**
    * Makes sure the filters and tags are in sync.
@@ -273,6 +274,7 @@
 
 			setActiveFilters(filter, filterFamily);
 			$animate.addClass($resultsDisplay, 'fade-out');
+			self.items = self.allCardData.filter(filterDataItems);
 			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
@@ -294,6 +296,37 @@
 			self.items = cardData;
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+		};
+		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
+			var attributes = cardDataItem.attributes;
+			var tags = [];
+
+			attributes.forEach(function (attribute) {
+				tags.push(tagParser.extractTagName(attribute));
+			});
+
+			return tags;
+		};
+		/**
+   * Allows for multiple-filter matches by verifying an active branch has
+   * "all" active filters, and not just "any" active filters.
+   *
+   * @param {*} dataItem
+   */
+		var filterDataItems = function filterDataItems(cardDataItem) {
+			var matchCount = 0;
+
+			if (!cardDataItem) return false;
+
+			var tags = transformAttributesToTags(cardDataItem);
+
+			angular.forEach(self.activeFilters, function (activeFilter) {
+				if (tags.indexOf(activeFilter) !== -1) {
+					matchCount += 1;
+				}
+			});
+
+			return matchCount === self.activeFilters.length;
 		};
 
 		/**

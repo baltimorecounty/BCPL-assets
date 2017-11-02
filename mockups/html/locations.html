@@ -447,7 +447,7 @@
 									active-filters="filterPage.activeFilters" 
 									filter-handler="filterPage.setFilter" 
 									template="locations"></card>									
-								<div class="card" ng-show="filterPage.isEverythingFilteredOut">
+								<div class="card" ng-show="filterPage.items.length === 0">
 									<div class="row">
 										<div class="col-xs-12">
 											<p>Sorry, no library branches currently offer all the services you've selected. Please change your selections and
