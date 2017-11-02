@@ -1,22 +1,5 @@
 ((app) => {
-	const databasesService = () => {
-		const template = '' +
-			'<div class="card">' +
-			'	<div class="row">' +
-			'		<div class="col-sm-12 branch-address">' +
-			'			<h2>' +
-			'				<a href="#">{{cardData.name}}</a>' +
-			'			</h2>' +
-			'			<p>{{cardData.description}}</p>' +
-			'			<div class="tags">' +
-			'				<ul class="tag-list">' +
-			'					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
-			'				</ul>' +
-			'			</div>' +
-			'		</div>' +
-			'	</div>' +
-			'</div>';
-
+	const databasesService = (CONSTANTS) => {
 		const dataTableIndexes = {
 			name: 0,
 			url: 1,
@@ -58,7 +41,7 @@
 		};
 
 		const get = (successCallback, errorCallback) => {
-			$.ajax('/mockups/data/bcpl-databases.html')
+			$.ajax(CONSTANTS.urls.databases)
 				.done((data) => {
 					dataLoaderSuccess(data, successCallback);
 				})
@@ -66,10 +49,11 @@
 		};
 
 		return {
-			template,
 			get
 		};
 	};
+
+	databasesService.$inject = ['CONSTANTS'];
 
 	app.factory('databasesService', databasesService);
 })(angular.module('filterPageApp'));

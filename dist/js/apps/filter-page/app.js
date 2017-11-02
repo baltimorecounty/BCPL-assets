@@ -8,9 +8,25 @@
 'use strict';
 
 (function (app) {
-	var databasesService = function databasesService() {
-		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h2>' + '				<a href="#">{{cardData.name}}</a>' + '			</h2>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+	'use strict';
 
+	var constants = {
+		templates: {
+			databases: '/dist/js/apps/filter-page/templates/card-databases.html',
+			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
+		},
+		urls: {
+			databases: '/mockups/data/bcpl-databases.html',
+			locations: '/mockups/data/branch-amenities.json'
+		}
+	};
+
+	app.constant('CONSTANTS', constants);
+})(angular.module('filterPageApp'));
+'use strict';
+
+(function (app) {
+	var databasesService = function databasesService(CONSTANTS) {
 		var dataTableIndexes = {
 			name: 0,
 			url: 1,
@@ -52,34 +68,34 @@
 		};
 
 		var get = function get(successCallback, errorCallback) {
-			$.ajax('/mockups/data/bcpl-databases.html').done(function (data) {
+			$.ajax(CONSTANTS.urls.databases).done(function (data) {
 				dataLoaderSuccess(data, successCallback);
 			}).fail(errorCallback);
 		};
 
 		return {
-			template: template,
 			get: get
 		};
 	};
+
+	databasesService.$inject = ['CONSTANTS'];
 
 	app.factory('databasesService', databasesService);
 })(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
-	var locationsService = function locationsService() {
-		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h2>{{cardData.name}} Branch</h2>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
-
+	var locationsService = function locationsService(CONSTANTS) {
 		var get = function get(externalSuccessCallback, externalErrorCallback) {
-			$.ajax('/mockups/data/branch-amenities.json').done(externalSuccessCallback).fail(externalErrorCallback);
+			$.ajax(CONSTANTS.urls.locations).done(externalSuccessCallback).fail(externalErrorCallback);
 		};
 
 		return {
-			template: template,
 			get: get
 		};
 	};
+
+	locationsService.$inject = ['CONSTANTS'];
 
 	app.factory('locationsService', locationsService);
 })(angular.module('filterPageApp'));
@@ -334,9 +350,11 @@
 (function (app) {
 	'use strict';
 
-	var cardDirective = function cardDirective($compile, $injector) {
+	var cardDirective = function cardDirective($compile, $injector, $templateRequest, CONSTANTS) {
 		var cardLink = function cardLink($scope, element, attrs) {
-			element.append($compile($injector.get(attrs.template + 'Service').template)($scope));
+			$templateRequest(CONSTANTS.templates[attrs.template]).then(function (html) {
+				element.append($compile(html)($scope));
+			});
 		};
 
 		var directive = {
@@ -354,7 +372,7 @@
 		return directive;
 	};
 
-	cardDirective.$inject = ['$compile', '$injector'];
+	cardDirective.$inject = ['$compile', '$injector', '$templateRequest', 'CONSTANTS'];
 
 	app.directive('card', cardDirective);
 })(angular.module('filterPageApp'));

@@ -3,7 +3,6 @@ const clean = require('gulp-clean');
 const concat = require('gulp-concat');
 const coveralls = require('gulp-coveralls');
 const cssnano = require('gulp-cssnano');
-const folders = require('gulp-folders');
 const fs = require('fs');
 const gulp = require('gulp');
 const jshint = require('gulp-jshint');
@@ -40,7 +39,7 @@ gulp.task('process-app-js', () => {
 	});
 
 	appFolders.forEach((folder) => {
-		gulp.src([`js/apps/${folder}/app.js`, `js/apps/${folder}/dataServices/**/*.js`, `js/apps/${folder}/services/**/*.js`, `js/apps/${folder}/controllers/**/*.js`, `js/apps/${folder}/directives/**/*.js`])
+		gulp.src([`js/apps/${folder}/app.js`, `js/apps/${folder}/constants.js`, `js/apps/${folder}/dataServices/**/*.js`, `js/apps/${folder}/services/**/*.js`, `js/apps/${folder}/controllers/**/*.js`, `js/apps/${folder}/directives/**/*.js`])
 			.pipe(jshint({
 				esversion: 6
 			}))
