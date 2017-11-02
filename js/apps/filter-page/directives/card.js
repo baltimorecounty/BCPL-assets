@@ -1,21 +1,9 @@
 ((app) => {
 	'use strict';
 
-	const cardDirective = ($compile, $injector, $animate) => {
+	const cardDirective = ($compile, $injector) => {
 		const cardLink = ($scope, element, attrs) => {
 			element.append($compile($injector.get(attrs.template + 'Service').template)($scope));
-
-			/* $scope.$watch('cardData', () => {
-
-			});
-
-			$animate.enter(element, element.parentElement, () => {
-				console.log(1);
-			});
-
-			$animate.enter(element, element.parentElement, () => {
-				console.log(1);
-			}); */
 		};
 
 		const directive = {
@@ -33,7 +21,7 @@
 		return directive;
 	};
 
-	cardDirective.$inject = ['$compile', '$injector', '$animate'];
+	cardDirective.$inject = ['$compile', '$injector'];
 
 	app.directive('card', cardDirective);
 })(angular.module('filterPageApp'));
