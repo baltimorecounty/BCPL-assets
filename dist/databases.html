@@ -389,12 +389,11 @@
 						</header>
 						<div class="cards database-cards">
 							<div id="results-display" class="list-view">
-								<card ng-repeat="card in filterPage.items" 
+								<card ng-repeat="card in filterPage.items | cardVisibilityFilter:filterPage.activeFilters" 
 									card-data="card" 
 									active-filters="filterPage.activeFilters" 
 									filter-handler="filterPage.setFilter" 
-									template="databases"
-									ng-show="filterPage.items.length"></card>									
+									template="databases"></card>									
 								<div class="card" ng-show="filterPage.items.length === 0">
 									<div class="row">
 										<div class="col-xs-12">

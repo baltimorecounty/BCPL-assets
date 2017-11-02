@@ -442,13 +442,12 @@
 						</div>
 						<div class="cards branch-cards">												
 							<div id="results-display" class="list-view">
-								<card ng-repeat="card in filterPage.items" 
+								<card ng-repeat="card in filterPage.items | cardVisibilityFilter:filterPage.activeFilters" 
 									card-data="card" 
 									active-filters="filterPage.activeFilters" 
 									filter-handler="filterPage.setFilter" 
-									template="locations"
-									ng-show="filterPage.items.length"></card>									
-								<div class="card" ng-show="filterPage.items.length === 0">
+									template="locations"></card>									
+								<div class="card" ng-show="filterPage.isEverythingFilteredOut">
 									<div class="row">
 										<div class="col-xs-12">
 											<p>Sorry, no library branches currently offer all the services you've selected. Please change your selections and

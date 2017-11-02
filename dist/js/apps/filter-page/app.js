@@ -231,7 +231,33 @@
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService, $animate, $timeout) {
+	var cardVisibilityFilter = function cardVisibilityFilter(tagParsingService) {
+		return function (cards, activeFilters) {
+			var filtered = [];
+
+			angular.forEach(cards, function (card) {
+				var matches = 0;
+
+				angular.forEach(card.attributes, function (attribute) {
+					if (activeFilters.indexOf(tagParsingService.extractTagName(attribute)) !== -1) {
+						matches += 1;
+					}
+				});
+
+				if (matches === activeFilters.length) {
+					filtered.push(card);
+				}
+			});
+
+			return filtered;
+		};
+	};
+
+	cardVisibilityFilter.$inject = ['tagParsingService'];
+
+	app.filter('cardVisibilityFilter', cardVisibilityFilter);
+
+	var FilterPageCtrl = function FilterPageCtrl(cardService, tagParser, $animate, $timeout) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -247,7 +273,6 @@
 
 			setActiveFilters(filter, filterFamily);
 			$animate.addClass($resultsDisplay, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
 			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
@@ -269,39 +294,6 @@
 			self.items = cardData;
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
-		};
-
-		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
-			var attributes = cardDataItem.attributes;
-			var tags = [];
-
-			attributes.forEach(function (attribute) {
-				tags.push(tagParsingService.extractTagName(attribute));
-			});
-
-			return tags;
-		};
-
-		/**
-   * Allows for multiple-filter matches by verifying an active branch has
-   * "all" active filters, and not just "any" active filters.
-   *
-   * @param {*} dataItem
-   */
-		var filterDataItems = function filterDataItems(cardDataItem) {
-			var matchCount = 0;
-
-			if (!cardDataItem) return false;
-
-			var tags = transformAttributesToTags(cardDataItem);
-
-			angular.forEach(self.activeFilters, function (activeFilter) {
-				if (tags.indexOf(activeFilter) !== -1) {
-					matchCount += 1;
-				}
-			});
-
-			return matchCount === self.activeFilters.length;
 		};
 
 		/**
@@ -341,7 +333,7 @@
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['cardService', 'tagParsingService', '$animate', '$timeout'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
