@@ -2,7 +2,7 @@
 	<h5>{{filterFamily.name}}</h5>
 	<ul>
 		<li ng-repeat="tag in filterFamily.tags">			
-			<filter filter-type="filterFamily.type" family-name="filterFamily.name" filter-handler="filterHandler" active-filters="activeFilters" tag="tag"></filter>
+			<filter filter-family="filterFamily" filter-handler="filterHandler" active-filters="activeFilters" tag="tag"></filter>
 		</li>
 	</ul>
 </div>

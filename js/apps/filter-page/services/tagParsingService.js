@@ -41,7 +41,9 @@
 			let tagFamilies = [];
 
 			tagList.forEach((tag) => {
-				const tagParts = tag.split('|');
+				const tagParts = tag.split('|').map((tagPart) => {
+					return tagPart.trim();
+				});
 
 				if (tagParts.length === 1) {
 					tagParts.unshift('none'); // Add the tag family

@@ -66,6 +66,22 @@
 
 }
 
+#results-display {
+	transition: .25s opacity ease;
+
+	&.fade-in {
+		height: auto;
+		width: auto;
+		opacity: 1;
+	}
+	
+	&.fade-out {
+		height: auto;
+		width: auto;
+		opacity: 0;
+	}
+}
+
 @media (max-width: $screen-md) {
 	.filter-controls, .filters {
 		width: 98%;	

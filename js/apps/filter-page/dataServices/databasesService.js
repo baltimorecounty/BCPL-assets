@@ -10,7 +10,7 @@
 			'			<p>{{cardData.description}}</p>' +
 			'			<div class="tags">Categories:' +
 			'				<ul class="tag-list">' +
-			'					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
+			'					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
 			'				</ul>' +
 			'			</div>' +
 			'		</div>' +

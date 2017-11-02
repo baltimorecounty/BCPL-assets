@@ -30,14 +30,9 @@
 			'	</div>' +
 			'	<div class="row">' +
 			'		<div class="col-xs-12">' +
-			'			<hr />' +
-			'		</div>' +
-			'	</div>' +
-			'	<div class="row">' +
-			'		<div class="col-xs-12">' +
 			'			<div class="tags">' +
 			'				<ul class="tag-list">' +
-			'					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
+			'					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' +
 			'				</ul>' +
 			'			</div>' +
 			'		</div>' +

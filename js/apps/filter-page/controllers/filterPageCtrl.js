@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService, $animate) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -12,10 +12,11 @@
 		 *
 		 * @param {string} filter
 		 */
-		self.setFilter = (filter) => {
-			setActiveFilters(filter);
+		self.setFilter = (filter, filterFamily) => {
+			const $resultsDisplay = angular.element('#results-display');
+			setActiveFilters(filter, filterFamily);
 			self.items = self.allCardData.filter(filterDataItems);
-			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
 		};
 
 		/* Private */
@@ -30,7 +31,6 @@
 			self.filters = filters;
 			self.allCardData = cardData;
 			self.items = cardData;
-			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
@@ -59,7 +59,7 @@
 
 			const tags = transformAttributesToTags(cardDataItem);
 
-			angular.element.each(self.activeFilters, (index, activeFilter) => {
+			angular.forEach(self.activeFilters, (activeFilter) => {
 				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
@@ -74,10 +74,25 @@
 		 *
 		 * @param {*} filter
 		 */
-		const setActiveFilters = (filter) => {
+		const setActiveFilters = (filter, filterFamily) => {
 			const filterIndex = self.activeFilters.indexOf(filter);
+			const shouldAddFilter = filterIndex === -1;
+			const isPickOne = filterFamily.type.trim().toLowerCase() === 'one';
+			let tagsToRemove = [];
 
-			if (filterIndex === -1) {
+			if (shouldAddFilter && isPickOne) {
+				angular.forEach(filterFamily.tags, (tag) => {
+					if (tag !== filter) {
+						tagsToRemove.push(tag);
+					}
+				});
+			}
+
+			angular.forEach(tagsToRemove, (tagToRemove) => {
+				self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+			});
+
+			if (shouldAddFilter) {
 				self.activeFilters.push(filter);
 			} else {
 				self.activeFilters.splice(filterIndex, 1);
@@ -94,7 +109,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

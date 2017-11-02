@@ -3,13 +3,13 @@
 (function () {
 	'use strict';
 
-	angular.module('filterPageApp', []);
+	angular.module('filterPageApp', ['ngAnimate']);
 })();
 'use strict';
 
 (function (app) {
 	var databasesService = function databasesService() {
-		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{cardData.name}}</a>' + '			</h4>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-12 branch-address">' + '			<h4>' + '				<a href="#">{{cardData.name}}</a>' + '			</h4>' + '			<p>{{cardData.description}}</p>' + '			<div class="tags">Categories:' + '				<ul class="tag-list">' + '					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
 
 		var dataTableIndexes = {
 			name: 0,
@@ -69,7 +69,7 @@
 
 (function (app) {
 	var locationsService = function locationsService() {
-		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h4>{{cardData.name}} Branch</h4>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<hr />' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData.attributes" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
+		var template = '' + '<div class="card">' + '	<div class="row">' + '		<div class="col-sm-3 branch-name">' + '			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">' + '				<a href="#">{{cardData.name}}' + '					<i class="fa fa-caret-right" aria-hidden="true"></i>' + '				</a>' + '			</div>' + '		</div>' + '		<div class="col-sm-4 branch-address">' + '			<h4>{{cardData.name}} Branch</h4>' + '			<address>' + '				{{cardData.address}}' + '				<br/> {{cardData.city}}, MD {{cardData.zip}}' + '			</address>' + '		</div>' + '		<div class="col-sm-5 branch-email-phone">' + '			<div class="branch-email-phone-wrapper">' + '				<a href="mailto:{{cardData.email}}" class="branch-email">' + '					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}' + '				</a>' + '				<a href="tel:{{cardData.phone}}" class="branch-phone">' + '					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}' + '				</a>' + '			</div>		' + '		</div>' + '	</div>' + '	<div class="row">' + '		<div class="col-xs-12">' + '			<div class="tags">' + '				<ul class="tag-list">' + '					<tag tag-data="cardData" active-filters="activeFilters" filter-handler="filterHandler"></tag>' + '				</ul>' + '			</div>' + '		</div>' + '	</div>' + '</div>';
 
 		var get = function get(externalSuccessCallback, externalErrorCallback) {
 			$.ajax('/mockups/data/branch-amenities.json').done(externalSuccessCallback).fail(externalErrorCallback);
@@ -175,7 +175,9 @@
 			var tagFamilies = [];
 
 			tagList.forEach(function (tag) {
-				var tagParts = tag.split('|');
+				var tagParts = tag.split('|').map(function (tagPart) {
+					return tagPart.trim();
+				});
 
 				if (tagParts.length === 1) {
 					tagParts.unshift('none'); // Add the tag family
@@ -213,7 +215,7 @@
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParsingService, $animate) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -224,10 +226,11 @@
    *
    * @param {string} filter
    */
-		self.setFilter = function (filter) {
-			setActiveFilters(filter);
+		self.setFilter = function (filter, filterFamily) {
+			var $resultsDisplay = angular.element('#results-display');
+			setActiveFilters(filter, filterFamily);
 			self.items = self.allCardData.filter(filterDataItems);
-			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
 		};
 
 		/* Private */
@@ -242,7 +245,6 @@
 			self.filters = filters;
 			self.allCardData = cardData;
 			self.items = cardData;
-			$scope.$apply();
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
@@ -271,7 +273,7 @@
 
 			var tags = transformAttributesToTags(cardDataItem);
 
-			angular.element.each(self.activeFilters, function (index, activeFilter) {
+			angular.forEach(self.activeFilters, function (activeFilter) {
 				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
@@ -286,10 +288,25 @@
    *
    * @param {*} filter
    */
-		var setActiveFilters = function setActiveFilters(filter) {
+		var setActiveFilters = function setActiveFilters(filter, filterFamily) {
 			var filterIndex = self.activeFilters.indexOf(filter);
+			var shouldAddFilter = filterIndex === -1;
+			var isPickOne = filterFamily.type.trim().toLowerCase() === 'one';
+			var tagsToRemove = [];
 
-			if (filterIndex === -1) {
+			if (shouldAddFilter && isPickOne) {
+				angular.forEach(filterFamily.tags, function (tag) {
+					if (tag !== filter) {
+						tagsToRemove.push(tag);
+					}
+				});
+			}
+
+			angular.forEach(tagsToRemove, function (tagToRemove) {
+				self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+			});
+
+			if (shouldAddFilter) {
 				self.activeFilters.push(filter);
 			} else {
 				self.activeFilters.splice(filterIndex, 1);
@@ -302,18 +319,27 @@
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
 'use strict';
 
-(function () {
+(function (app) {
 	'use strict';
 
-	var cardDirective = function cardDirective($compile, $injector) {
+	var cardDirective = function cardDirective($compile, $injector, $animate) {
 		var cardLink = function cardLink($scope, element, attrs) {
 			element.append($compile($injector.get(attrs.template + 'Service').template)($scope));
+
+			/* $scope.$watch('cardData', () => {
+   		});
+   		$animate.enter(element, element.parentElement, () => {
+   	console.log(1);
+   });
+   		$animate.enter(element, element.parentElement, () => {
+   	console.log(1);
+   }); */
 		};
 
 		var directive = {
@@ -331,10 +357,10 @@
 		return directive;
 	};
 
-	cardDirective.$inject = ['$compile', '$injector'];
+	cardDirective.$inject = ['$compile', '$injector', '$animate'];
 
-	angular.module('filterPageApp').directive('card', cardDirective);
-})();
+	app.directive('card', cardDirective);
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -344,31 +370,16 @@
 		var filterLink = function filterLink($scope, filterElement) {
 			var $filterElement = angular.element(filterElement);
 			var $input = $filterElement.find('input');
-			var inputType = $scope.filterType.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';
+			var inputType = $scope.filterFamily.type.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';
 			$input.prop('type', inputType);
 
 			if (inputType === 'radio') {
-				$input.prop('name', $scope.familyName);
+				$input.prop('name', $scope.filterFamily.name);
 			}
 
 			$scope.toggleFilter = function (activeFilter) {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
-
-				if (inputType === 'radio') {
-					var $filterFamilyWrapper = $filterElement.closest('.filter-family');
-					var $filterLabels = $filterFamilyWrapper.find('label');
-					var $targetLabel = $filterElement.find('label');
-					var $otherRadioLabels = $filterLabels.not($targetLabel);
-
-					$otherRadioLabels.each(function (index, otherRadioLabelElement) {
-						var $otherRadioLabel = angular.element(otherRadioLabelElement);
-						if ($otherRadioLabel.is('.active')) {
-							$scope.filterHandler($otherRadioLabel.text().trim());
-						}
-					});
-				}
-
-				$scope.filterHandler(activeFilter);
+				$scope.filterHandler(activeFilter, $scope.filterFamily);
 			};
 		};
 
@@ -377,8 +388,7 @@
 				tag: '=',
 				activeFilters: '=',
 				filterHandler: '=',
-				filterType: '=',
-				familyName: '='
+				filterFamily: '='
 			},
 			restrict: 'E',
 			templateUrl: '/dist/js/apps/filter-page/templates/filter.html',
@@ -427,11 +437,14 @@
 
 	var tagDirective = function tagDirective(tagParsingService) {
 		var tagLink = function filterLink($scope) {
-			$scope.toggleFilter = function (activeFilter, $event) {
-				var $element = angular.element($event.currentTarget);
+			$scope.toggleFilter = function (activeFilter) {
+				var tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.attributes);
+				var activeTagName = tagParsingService.extractTagName(activeFilter);
+				var activeTagFamily = tagFamiliesForCard.filter(function (tagFamily) {
+					return tagFamily.tags.indexOf(activeTagName) !== -1;
+				})[0];
 
-				$element.toggleClass('active');
-				$scope.filterHandler(tagParsingService.extractTagName(activeFilter));
+				$scope.filterHandler(activeTagName, activeTagFamily);
 			};
 
 			$scope.extractTagName = tagParsingService.extractTagName;
@@ -444,7 +457,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<li ng-repeat="tag in tagData"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(extractTagName(tag)) !== -1}">{{extractTagName(tag)}}</button></li>',
+			template: '<li ng-repeat="tag in tagData.attributes"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(extractTagName(tag)) !== -1}">{{extractTagName(tag)}}</button></li>',
 			link: tagLink
 		};
 
