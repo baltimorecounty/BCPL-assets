@@ -76,17 +76,14 @@
 }
 
 #results-display {
-	transition: .25s opacity ease;
-
+	transition: .25s all ease;
+	opacity: 1;
+	
 	&.fade-in {
-		height: auto;
-		width: auto;
 		opacity: 1;
 	}
 	
 	&.fade-out {
-		height: auto;
-		width: auto;
 		opacity: 0;
 	}
 }
