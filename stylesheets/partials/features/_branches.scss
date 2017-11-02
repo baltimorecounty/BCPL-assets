@@ -24,7 +24,7 @@
 		.branch-email-phone {
 			.branch-email-phone-wrapper {
 				position: relative;
-				top: 15px;
+				top: 12px;
 
 				a {
 					display: block;
@@ -118,8 +118,13 @@ main {
 	top: 45px;
 
 	a {
+		font-size: 12px;
 		font-weight: 700;
 		text-transform: uppercase;
+
+		i {
+			font-size: 18px;
+		}
 	}
 }
 

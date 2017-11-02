@@ -11,7 +11,7 @@
 			'			</div>' +
 			'		</div>' +
 			'		<div class="col-sm-4 branch-address">' +
-			'			<h4>{{cardData.name}} Branch</h4>' +
+			'			<h2>{{cardData.name}} Branch</h2>' +
 			'			<address>' +
 			'				{{cardData.address}}' +
 			'				<br/> {{cardData.city}}, MD {{cardData.zip}}' +

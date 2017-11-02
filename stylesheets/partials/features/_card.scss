@@ -10,7 +10,12 @@
 		margin-bottom: 1.2em; 
 		padding: .5em;		
 		transition: all 0.25s ease;		
-		box-shadow: $shadow-primary;				
+		box-shadow: $shadow-primary;		
+		
+		h2 {
+			font-size: 18px;
+			margin: .75em 0 .25em 0;
+		}
 	}
 
 	a {

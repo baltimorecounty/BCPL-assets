@@ -3,9 +3,10 @@
 	margin-top: 1em;
 	border: 20px solid $tan;
 
-	h4 {		
+	h3 {		
 		background: $gray;
 		color: white;
+		font-size: 18px;
 		margin: 0;
 		padding: .75em;
 	}	
@@ -44,7 +45,7 @@
 			cursor: pointer; 
 			display: block;
 			font-weight: normal;
-			padding: .5em;
+			padding: .25em;
 
 			&.active {
 				background-color: $teal;
