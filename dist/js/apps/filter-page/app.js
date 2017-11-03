@@ -485,11 +485,14 @@
 			$scope.toggleFilter = function (activeFilter) {
 				var tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.attributes);
 				var activeTagName = tagParsingService.extractTagName(activeFilter);
-				var activeTagFamily = tagFamiliesForCard.filter(function (tagFamily) {
+				var activeTagFamilies = tagFamiliesForCard.filter(function (tagFamily) {
 					return tagFamily.tags.indexOf(activeTagName) !== -1;
-				})[0];
+				});
 
-				$scope.filterHandler(activeTagName, activeTagFamily);
+				if (activeTagFamilies.length) {
+					// One tag will only have one family, so unwrap it.
+					$scope.filterHandler(activeTagName, activeTagFamilies[0]);
+				}
 			};
 
 			$scope.extractTagName = tagParsingService.extractTagName;

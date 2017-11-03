@@ -6,11 +6,14 @@
 			$scope.toggleFilter = (activeFilter) => {
 				const tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.attributes);
 				const activeTagName = tagParsingService.extractTagName(activeFilter);
-				const activeTagFamily = tagFamiliesForCard.filter((tagFamily) => {
+				const activeTagFamilies = tagFamiliesForCard.filter((tagFamily) => {
 					return tagFamily.tags.indexOf(activeTagName) !== -1;
-				})[0];
+				});
 
-				$scope.filterHandler(activeTagName, activeTagFamily);
+				if (activeTagFamilies.length) {
+					// One tag will only have one family, so unwrap it.
+					$scope.filterHandler(activeTagName, activeTagFamilies[0]);
+				}
 			};
 
 			$scope.extractTagName = tagParsingService.extractTagName;
