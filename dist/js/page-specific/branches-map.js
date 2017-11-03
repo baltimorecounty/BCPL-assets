@@ -58,7 +58,9 @@ bcpl.pageSpecific.branchMap = function ($) {
 
 	var updateMapMarkers = function updateMapMarkers(filterChangedEvent, filterData) {
 		clearMarkers();
-		filterData.branches.forEach(addBranchToMap);
+		if (filterData && filterData.branches) {
+			filterData.branches.forEach(addBranchToMap);
+		}
 	};
 
 	var initMap = function initMap() {
