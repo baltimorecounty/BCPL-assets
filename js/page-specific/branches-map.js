@@ -47,7 +47,9 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 	const updateMapMarkers = (filterChangedEvent, filterData) => {
 		clearMarkers();
-		filterData.items.forEach(branch => addBranchToMap(branch));
+		if (filterData && filterData.items) {
+			filterData.items.forEach(branch => addBranchToMap(branch));
+		}
 	};
 
 	const initMap = () => {
@@ -84,6 +86,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 		/* test-code */
 		getAddressForDirections,
 		clearMarkers,
+		updateMapMarkers,
 		/* end-test-code */
 		initMap,
 		markers
