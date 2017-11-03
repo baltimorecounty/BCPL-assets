@@ -297,6 +297,7 @@
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
+
 		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
 			var attributes = cardDataItem.attributes;
 			var tags = [];
@@ -350,7 +351,11 @@
 			}
 
 			angular.forEach(tagsToRemove, function (tagToRemove) {
-				self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+				var isFound = self.activeFilters.indexOf(tagToRemove) !== -1;
+
+				if (isFound) {
+					self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+				}
 			});
 
 			if (shouldAddFilter) {

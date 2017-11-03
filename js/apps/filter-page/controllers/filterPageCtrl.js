@@ -68,6 +68,7 @@
 
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 		};
+
 		const transformAttributesToTags = (cardDataItem) => {
 			const attributes = cardDataItem.attributes;
 			let tags = [];
@@ -121,7 +122,11 @@
 			}
 
 			angular.forEach(tagsToRemove, (tagToRemove) => {
-				self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+				const isFound = self.activeFilters.indexOf(tagToRemove) !== -1;
+
+				if (isFound) {
+					self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+				}
 			});
 
 			if (shouldAddFilter) {
