@@ -505,7 +505,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			template: '<li ng-repeat="tag in tagData.attributes"><button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(extractTagName(tag)) !== -1}">{{extractTagName(tag)}}</button></li>',
+			templateUrl: '/dist/js/apps/filter-page/templates/tag.html',
 			link: tagLink
 		};
 
