@@ -26,6 +26,35 @@
 'use strict';
 
 (function (app) {
+	var cardVisibilityFilter = function cardVisibilityFilter(tagParsingService) {
+		return function (cards, activeFilters) {
+			var filtered = [];
+
+			angular.forEach(cards, function (card) {
+				var matches = 0;
+
+				angular.forEach(card.attributes, function (attribute) {
+					if (activeFilters.indexOf(tagParsingService.extractTagName(attribute)) !== -1) {
+						matches += 1;
+					}
+				});
+
+				if (matches === activeFilters.length) {
+					filtered.push(card);
+				}
+			});
+
+			return filtered;
+		};
+	};
+
+	cardVisibilityFilter.$inject = ['tagParsingService'];
+
+	app.filter('cardVisibilityFilter', cardVisibilityFilter);
+})(angular.module('filterPageApp'));
+'use strict';
+
+(function (app) {
 	var databasesService = function databasesService(CONSTANTS) {
 		var dataTableIndexes = {
 			name: 0,
@@ -230,32 +259,6 @@
 
 (function (app) {
 	'use strict';
-
-	var cardVisibilityFilter = function cardVisibilityFilter(tagParsingService) {
-		return function (cards, activeFilters) {
-			var filtered = [];
-
-			angular.forEach(cards, function (card) {
-				var matches = 0;
-
-				angular.forEach(card.attributes, function (attribute) {
-					if (activeFilters.indexOf(tagParsingService.extractTagName(attribute)) !== -1) {
-						matches += 1;
-					}
-				});
-
-				if (matches === activeFilters.length) {
-					filtered.push(card);
-				}
-			});
-
-			return filtered;
-		};
-	};
-
-	cardVisibilityFilter.$inject = ['tagParsingService'];
-
-	app.filter('cardVisibilityFilter', cardVisibilityFilter);
 
 	var FilterPageCtrl = function FilterPageCtrl(cardService, tagParser, $animate, $timeout) {
 		var self = this;
