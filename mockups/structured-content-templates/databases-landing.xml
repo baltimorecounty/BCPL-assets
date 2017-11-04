@@ -1,0 +1,32 @@
+<seml>
+	<div id="SEContentResults">
+		<div class="SEContent" setest="NOT arrayLen(attributes.contents)">No articles found.</div>
+		
+		<table id="data-table" setest="arrayLen(attributes.contents)">	
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Url</th>
+					<th>Description</th>
+					<th>In Person</th>
+					<th>Requires Card</th>
+					<th>Tags</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="SEContent" seloop="contents" seloopindex="content">	
+					<td><secontent name="content.get_title().value" label="Title" /></td>
+					<td><secontent name="content.getDatabase_Url().link" label="Database Url" /></td>
+					<td><secontent name="content.getDescription().value" label="Description" /></td>
+					<td><secontent name="content.getIn_Person().value" label="In_Person" /></td>
+					<td><secontent name="content.getRequires_Card().value" label="Requires_Card" /></td>
+					<td>
+						<div class="SETags" seloop="content.getTags()" seloopindex="curTags">
+							<secontent name="curTags.value" label="Tags" datatype="string" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</seml> 

@@ -47,19 +47,12 @@ bcpl.pageSpecific.branchMap = function ($) {
 		markers = [];
 	};
 
-	var processBranchData = function processBranchData(branchData) {
-		var branchJson = typeof branchData === 'string' ? JSON.parse(branchData) : branchData;
-		branchJson.forEach(addBranchToMap);
-	};
-
-	var reportBranchDataError = function reportBranchDataError(err) {
-		console.error(err);
-	};
-
 	var updateMapMarkers = function updateMapMarkers(filterChangedEvent, filterData) {
 		clearMarkers();
-		if (filterData && filterData.branches) {
-			filterData.branches.forEach(addBranchToMap);
+		if (filterData && filterData.items) {
+			filterData.items.forEach(function (branch) {
+				return addBranchToMap(branch);
+			});
 		}
 	};
 
@@ -90,15 +83,14 @@ bcpl.pageSpecific.branchMap = function ($) {
 			}
 		});
 
-		$.ajax('/mockups/data/branch-amenities.json').done(processBranchData).fail(reportBranchDataError);
-
-		$(document).on('bcpl.locations.filter.changed', '#branches', updateMapMarkers);
+		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};
 
 	return {
 		/* test-code */
 		getAddressForDirections: getAddressForDirections,
 		clearMarkers: clearMarkers,
+		updateMapMarkers: updateMapMarkers,
 		/* end-test-code */
 		initMap: initMap,
 		markers: markers

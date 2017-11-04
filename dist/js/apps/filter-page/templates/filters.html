@@ -1,0 +1,8 @@
+<div ng-repeat="filterFamily in filterFamilies" class="filter-family">
+	<h4 ng-show="filterFamilies.length > 1">{{filterFamily.name}}</h4>
+	<ul>
+		<li ng-repeat="tag in filterFamily.tags">			
+			<filter filter-family="filterFamily" filter-handler="filterHandler" active-filters="activeFilters" tag="tag"></filter>
+		</li>
+	</ul>
+</div>
