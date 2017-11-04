@@ -7,7 +7,7 @@
 			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
-			databases: '/mockups/data/bcpl-databases.html',
+			databases: '/_structured-content/BCPL_Databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};

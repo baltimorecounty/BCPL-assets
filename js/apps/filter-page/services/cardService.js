@@ -11,8 +11,11 @@
 
 			const uniqueFilters = _.uniq(filters);
 			const sortedUniqueFilters = _.sortBy(uniqueFilters, uniqueFilter => uniqueFilter);
+			const cleanedFilters = sortedUniqueFilters.filter((uniqueFilter) => {
+				return uniqueFilter.trim().length > 0;
+			});
 
-			return sortedUniqueFilters;
+			return cleanedFilters;
 		};
 
 		const getFileNameWithoutExtension = (path) => {

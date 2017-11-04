@@ -16,7 +16,7 @@
 			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
-			databases: '/mockups/data/bcpl-databases.html',
+			databases: '/_structured-content/BCPL_Databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};
@@ -69,7 +69,10 @@
 			var tagArray = [];
 
 			$tags.each(function (index, tagElement) {
-				tagArray.push($(tagElement).text());
+				var tagText = $(tagElement).text().trim();
+				if (tagText.length) {
+					tagArray.push(tagText);
+				}
 			});
 
 			return tagArray;
@@ -116,7 +119,15 @@
 (function (app) {
 	var locationsService = function locationsService(CONSTANTS) {
 		var get = function get(externalSuccessCallback, externalErrorCallback) {
-			$.ajax(CONSTANTS.urls.locations).done(externalSuccessCallback).fail(externalErrorCallback);
+			$.ajax(CONSTANTS.urls.locations).done(function (data) {
+				internalSuccessCallback(data, externalSuccessCallback);
+			}).fail(externalErrorCallback);
+		};
+
+		var internalSuccessCallback = function internalSuccessCallback(data, externalSuccessCallback) {
+			var parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+
+			externalSuccessCallback(parsedData);
 		};
 
 		return {
@@ -145,8 +156,11 @@
 			var sortedUniqueFilters = _.sortBy(uniqueFilters, function (uniqueFilter) {
 				return uniqueFilter;
 			});
+			var cleanedFilters = sortedUniqueFilters.filter(function (uniqueFilter) {
+				return uniqueFilter.trim().length > 0;
+			});
 
-			return sortedUniqueFilters;
+			return cleanedFilters;
 		};
 
 		var getFileNameWithoutExtension = function getFileNameWithoutExtension(path) {
@@ -260,7 +274,7 @@
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl(cardService, tagParser, $animate, $timeout) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParser, $animate, $timeout) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -297,8 +311,8 @@
 			self.filters = filters;
 			self.allCardData = cardData;
 			self.items = cardData;
-
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			$scope.$apply();
 		};
 
 		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
@@ -306,7 +320,10 @@
 			var tags = [];
 
 			attributes.forEach(function (attribute) {
-				tags.push(tagParser.extractTagName(attribute));
+				var tagName = tagParser.extractTagName(attribute);
+				if (tagName.length > 0) {
+					tags.push(tagName);
+				}
 			});
 
 			return tags;
@@ -374,7 +391,7 @@
 
 	};
 
-	FilterPageCtrl.$inject = ['cardService', 'tagParsingService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate', '$timeout'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
@@ -457,7 +474,9 @@
 
 	var filtersDirective = function filtersDirective(tagParsingService) {
 		var filterLink = function filterLink($scope) {
-			$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+			$scope.$watch('filterData', function () {
+				$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+			});
 		};
 
 		var directive = {
