@@ -1,3 +1,3 @@
-<li ng-repeat="tag in tagData.attributes">
-	<button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(extractTagName(tag)) !== -1}">{{extractTagName(tag)}}</button>
+<li ng-repeat="tag in tagData.Tags">
+	<button ng-click="toggleFilter(tag, $event)" ng-class="{active: activeFilters.indexOf(tag.Name) !== -1}">{{tag.Name}}</button>
 </li>

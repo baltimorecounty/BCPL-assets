@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParser, $animate, $timeout) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -34,8 +34,8 @@
 		 * @param {[string]} filters
 		 * @param {[*]} branchData
 		 */
-		const loadCardsAndFilters = (filters, cardData) => {
-			self.filters = filters;
+		const loadCardsAndFilters = (cardData) => {
+			self.filters = filterService.build(cardData);
 			self.allCardData = cardData;
 			self.items = cardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
@@ -139,7 +139,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

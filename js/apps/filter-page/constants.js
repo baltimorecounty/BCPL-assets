@@ -8,7 +8,8 @@
 		},
 		urls: {
 			// databases: '/mockups/data/bcpl-databases.html',
-			databases: '/_structured-content/BCPL_Databases',
+			// databases: '/_structured-content/BCPL_Databases',
+			databases: 'http://ba224964:1000/api/bcpl/databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};

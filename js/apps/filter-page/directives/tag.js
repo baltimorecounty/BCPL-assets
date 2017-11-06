@@ -4,7 +4,7 @@
 	const tagDirective = (tagParsingService) => {
 		const tagLink = function filterLink($scope) {
 			$scope.toggleFilter = (activeFilter) => {
-				const tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.attributes);
+				const tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.Tags);
 				const activeTagName = tagParsingService.extractTagName(activeFilter);
 				const activeTagFamilies = tagFamiliesForCard.filter((tagFamily) => {
 					return tagFamily.tags.indexOf(activeTagName) !== -1;
