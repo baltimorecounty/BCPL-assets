@@ -31,7 +31,8 @@
 
 			dataService.get((data) => {
 				const filters = generateFiltersList(data);
-				afterDataLoadedCallback(filters, data);
+				const sortedData = _.sortBy(data, dataItem => dataItem.name);
+				afterDataLoadedCallback(filters, sortedData);
 			});
 		};
 

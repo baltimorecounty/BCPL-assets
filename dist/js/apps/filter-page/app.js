@@ -16,7 +16,7 @@
 			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
-			databases: '/_structured-content/BCPL_Databases',
+			databases: '/mockups/data/bcpl-databases.html', // '/_structured-content/BCPL_Databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};
@@ -176,7 +176,10 @@
 
 			dataService.get(function (data) {
 				var filters = generateFiltersList(data);
-				afterDataLoadedCallback(filters, data);
+				var sortedData = _.sortBy(data, function (dataItem) {
+					return dataItem.name;
+				});
+				afterDataLoadedCallback(filters, sortedData);
 			});
 		};
 
