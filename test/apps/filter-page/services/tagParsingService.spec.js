@@ -69,6 +69,39 @@ describe('tagParsingService', () => {
 
 			expect(actual).toEqual(expected);
 		}));
+
+		it('should return an aarray of objects sorted in the supplied order of tag families', inject((tagParsingService) => {
+			const expected = [{
+				name: 'type4',
+				type: 'many',
+				tags: ['test1', 'test2']
+			}, {
+				name: 'type3',
+				type: 'many',
+				tags: ['test3', 'test4']
+			}, {
+				name: 'type1',
+				type: 'many',
+				tags: ['test5', 'test6']
+			}, {
+				name: 'type2',
+				type: 'many',
+				tags: ['test7', 'test8']
+			}];
+
+			const actual = tagParsingService.parseTags([
+				'type4|test1|many',
+				'type4|test2|many',
+				'type3|test3|many',
+				'type3|test4|many',
+				'type1|test5|many',
+				'type1|test6|many',
+				'type2|test7|many',
+				'type2|test8|many'
+			]);
+
+			expect(actual).toEqual(expected);
+		}));
 	});
 
 	describe('extractTagName', () => {

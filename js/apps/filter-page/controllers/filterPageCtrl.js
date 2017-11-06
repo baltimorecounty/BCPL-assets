@@ -112,9 +112,26 @@
 			}
 		};
 
+		const showFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
+		};
+
+		const hideFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+		};
+
 		/* init */
 
 		cardService.get(loadCardsAndFilters);
+
+		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
+		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 		/* test-code */
 		self.setActiveFilters = setActiveFilters;

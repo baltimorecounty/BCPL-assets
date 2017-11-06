@@ -69,6 +69,11 @@
 				}
 			});
 
+			tagFamilies.forEach((tagFamily) => {
+				let thisTagFamily = tagFamily;
+				thisTagFamily.tags = _.sortBy(thisTagFamily.tags, tag => tag);
+			});
+
 			return tagFamilies;
 		};
 

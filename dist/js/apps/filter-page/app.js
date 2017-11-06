@@ -153,10 +153,7 @@
 			});
 
 			var uniqueFilters = _.uniq(filters);
-			var sortedUniqueFilters = _.sortBy(uniqueFilters, function (uniqueFilter) {
-				return uniqueFilter;
-			});
-			var cleanedFilters = sortedUniqueFilters.filter(function (uniqueFilter) {
+			var cleanedFilters = uniqueFilters.filter(function (uniqueFilter) {
 				return uniqueFilter.trim().length > 0;
 			});
 
@@ -259,6 +256,13 @@
 
 					tagFamilies.push(newFamily);
 				}
+			});
+
+			tagFamilies.forEach(function (tagFamily) {
+				var thisTagFamily = tagFamily;
+				thisTagFamily.tags = _.sortBy(thisTagFamily.tags, function (tag) {
+					return tag;
+				});
 			});
 
 			return tagFamilies;
@@ -388,9 +392,26 @@
 			}
 		};
 
+		var showFilters = function showFilters(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
+		};
+
+		var hideFilters = function hideFilters(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+		};
+
 		/* init */
 
 		cardService.get(loadCardsAndFilters);
+
+		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
+		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 	};
 
