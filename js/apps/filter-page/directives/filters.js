@@ -3,7 +3,9 @@
 
 	const filtersDirective = (tagParsingService) => {
 		const filterLink = function filterLink($scope) {
-			$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+			$scope.$watch('filterData', () => {
+				$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+			});
 		};
 
 		const directive = {

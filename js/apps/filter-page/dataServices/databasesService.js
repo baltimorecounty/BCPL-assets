@@ -13,7 +13,10 @@
 			let tagArray = [];
 
 			$tags.each((index, tagElement) => {
-				tagArray.push($(tagElement).text());
+				const tagText = $(tagElement).text().trim();
+				if (tagText.length) {
+					tagArray.push(tagText);
+				}
 			});
 
 			return tagArray;
