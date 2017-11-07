@@ -2,25 +2,25 @@
 	<div class="row">
 		<div class="col-sm-3 branch-name">
 			<div class="branch-photo" style="background: url(/dist/images/branches/{{cardData.photo}})">
-				<a href="#">{{cardData.Title}}
+				<a href="#">{{cardData.name}}
 					<i class="fa fa-caret-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
 		<div class="col-sm-4 branch-address">
-			<h2>{{cardData.Title}} Branch</h2>
+			<h2>{{cardData.name}} Branch</h2>
 			<address>
-				{{cardData.Address}}
-				<br/> {{cardData.City}}, MD {{cardData.Zip}}
+				{{cardData.address}}
+				<br/> {{cardData.city}}, MD {{cardData.zip}}
 			</address>
 		</div>
 		<div class="col-sm-5 branch-email-phone">
 			<div class="branch-email-phone-wrapper">
-				<a href="mailto:{{cardData.Email}}" class="branch-email">
-					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.Name}}
+				<a href="mailto:{{cardData.email}}" class="branch-email">
+					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}
 				</a>
-				<a href="tel:{{cardData.Phone}}" class="branch-phone">
-					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.Phone}}
+				<a href="tel:{{cardData.phone}}" class="branch-phone">
+					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}
 				</a>
 			</div>
 		</div>

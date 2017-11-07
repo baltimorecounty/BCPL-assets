@@ -226,26 +226,41 @@
    * @param {[*]} branchData
    */
 		var loadCardsAndFilters = function loadCardsAndFilters(cardData) {
-			self.filters = filterService.build(cardData);
-			self.allCardData = cardData;
-			self.items = cardData;
+			if (!cardData.length) {
+				return;
+			}
+
+			var taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : transformAttributesToTags(cardData);
+
+			self.filters = filterService.build(taggedCardData);
+			self.allCardData = taggedCardData;
+			self.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 			$scope.$apply();
 		};
 
-		var transformAttributesToTags = function transformAttributesToTags(cardDataItem) {
-			var attributes = cardDataItem.attributes;
-			var tags = [];
+		var transformAttributesToTags = function transformAttributesToTags(cardData) {
+			var taggedCardData = [];
 
-			attributes.forEach(function (attribute) {
-				var tagName = tagParser.extractTagName(attribute);
-				if (tagName.length > 0) {
-					tags.push(tagName);
-				}
+			angular.forEach(cardData, function (cardDataItem) {
+				var cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
+
+				angular.forEach(cardDataItem.attributes, function (attribute) {
+					var tag = {
+						Name: 'none',
+						Tag: attribute,
+						Type: 'Many'
+					};
+
+					cardDataItemWithTags.Tags.push(tag);
+				});
+
+				taggedCardData.push(cardDataItemWithTags);
 			});
 
-			return tags;
+			return taggedCardData;
 		};
+
 		/**
    * Allows for multiple-filter matches by verifying an active branch has
    * "all" active filters, and not just "any" active filters.
