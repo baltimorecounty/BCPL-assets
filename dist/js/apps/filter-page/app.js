@@ -17,7 +17,8 @@
 		},
 		urls: {
 			// databases: '/mockups/data/bcpl-databases.html',
-			databases: '/_structured-content/BCPL_Databases',
+			// databases: '/_structured-content/BCPL_Databases',
+			databases: 'http://ba224964:1000/api/bcpl/databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};
@@ -27,15 +28,15 @@
 'use strict';
 
 (function (app) {
-	var cardVisibilityFilter = function cardVisibilityFilter(tagParsingService) {
+	var cardVisibilityFilter = function cardVisibilityFilter() {
 		return function (cards, activeFilters) {
 			var filtered = [];
 
 			angular.forEach(cards, function (card) {
 				var matches = 0;
 
-				angular.forEach(card.attributes, function (attribute) {
-					if (activeFilters.indexOf(tagParsingService.extractTagName(attribute)) !== -1) {
+				angular.forEach(card.Tags, function (tag) {
+					if (activeFilters.indexOf(tag.Tag) !== -1) {
 						matches += 1;
 					}
 				});
@@ -49,7 +50,7 @@
 		};
 	};
 
-	cardVisibilityFilter.$inject = ['tagParsingService'];
+	cardVisibilityFilter.$inject = [];
 
 	app.filter('cardVisibilityFilter', cardVisibilityFilter);
 })(angular.module('filterPageApp'));
@@ -57,53 +58,8 @@
 
 (function (app) {
 	var databasesService = function databasesService(CONSTANTS) {
-		var dataTableIndexes = {
-			name: 0,
-			url: 1,
-			description: 2,
-			inPerson: 3,
-			requiresCard: 4,
-			attributes: 5
-		};
-
-		var arrayifyAttributes = function arrayifyAttributes($tags) {
-			var tagArray = [];
-
-			$tags.each(function (index, tagElement) {
-				var tagText = $(tagElement).text().trim();
-				if (tagText.length) {
-					tagArray.push(tagText);
-				}
-			});
-
-			return tagArray;
-		};
-
-		var dataLoaderSuccess = function dataLoaderSuccess(data, externalSuccessCallback) {
-			var $dataTable = $(data).find('#data-table');
-			var $rows = $dataTable.find('tbody tr');
-			var databaseData = [];
-
-			$rows.each(function (index, rowElement) {
-				var $row = $(rowElement);
-
-				databaseData.push({
-					name: $row.find('td').eq(dataTableIndexes.name).text(),
-					url: $row.find('td').eq(dataTableIndexes.url).text(),
-					description: $row.find('td').eq(dataTableIndexes.description).text(),
-					inPerson: $row.find('td').eq(dataTableIndexes.inPerson).text(),
-					requiresCard: $row.find('td').eq(dataTableIndexes.requiresCard).text(),
-					attributes: arrayifyAttributes($row.find('td').eq(dataTableIndexes.attributes).find('.SETags'))
-				});
-			});
-
-			externalSuccessCallback(databaseData);
-		};
-
 		var get = function get(successCallback, errorCallback) {
-			$.ajax(CONSTANTS.urls.databases).done(function (data) {
-				dataLoaderSuccess(data, successCallback);
-			}).fail(errorCallback);
+			$.ajax(CONSTANTS.urls.databases).done(successCallback).fail(errorCallback);
 		};
 
 		return {
@@ -146,21 +102,6 @@
 	'use strict';
 
 	var cardService = function cardService($location, $window, $injector) {
-		var generateFiltersList = function generateFiltersList(data) {
-			var filters = [];
-
-			angular.forEach(data, function (element) {
-				filters = filters.concat(element.attributes);
-			});
-
-			var uniqueFilters = _.uniq(filters);
-			var cleanedFilters = uniqueFilters.filter(function (uniqueFilter) {
-				return uniqueFilter.trim().length > 0;
-			});
-
-			return cleanedFilters;
-		};
-
 		var getFileNameWithoutExtension = function getFileNameWithoutExtension(path) {
 			var pathParts = path.split('/');
 			var lastPathPart = pathParts[pathParts.length - 1];
@@ -173,11 +114,10 @@
 			var dataService = $injector.get(filenameWithoutExtension + 'Service');
 
 			dataService.get(function (data) {
-				var filters = generateFiltersList(data);
 				var sortedData = _.sortBy(data, function (dataItem) {
-					return dataItem.name;
+					return dataItem.Title;
 				});
-				afterDataLoadedCallback(filters, sortedData);
+				afterDataLoadedCallback(sortedData);
 			});
 		};
 
@@ -193,96 +133,66 @@
 'use strict';
 
 (function (app) {
-	'use strict';
+	var filterService = function filterService() {
+		var getAllTagInfo = function getAllTagInfo(dataWithTags) {
+			var tags = [];
 
-	var tagParsingService = function tagParsingService() {
-		var tagPartIndexes = {
-			name: 0,
-			tag: 1,
-			type: 2
-		};
-
-		var extractTagName = function extractTagName(tag) {
-			if (typeof tag === 'string') {
-				var tagParts = tag.trim().split('|');
-				return tagParts.length > 1 ? tagParts[1] : tagParts[0];
-			}
-
-			return '';
-		};
-
-		var findFamily = function findFamily(tagFamilies, familyName) {
-			var matchedFamilies = tagFamilies.filter(function (tagFamily) {
-				return tagFamily.name === familyName;
+			angular.forEach(dataWithTags, function (dataItem) {
+				tags = tags.concat(dataItem.Tags);
 			});
 
-			return matchedFamilies.length === 1 ? matchedFamilies[0] : undefined;
+			return tags;
 		};
 
-		var createFamily = function createFamily(familyName, tag, type) {
-			var newFamily = {
-				name: familyName,
-				type: type,
-				tags: [tag]
-			};
-
-			return newFamily;
-		};
-
-		var parseTags = function parseTags(tagList) {
-			if (!Array.isArray(tagList)) return [];
-
-			var tagFamilies = [];
-
-			tagList.forEach(function (tag) {
-				var tagParts = tag.split('|').map(function (tagPart) {
-					return tagPart.trim();
-				});
-
-				if (tagParts.length === 1) {
-					tagParts.unshift('none'); // Add the tag family
-				}
-
-				if (tagParts.length === 2) {
-					tagParts.push('many'); // Add the tag type
-				}
-
-				var foundFamily = findFamily(tagFamilies, tagParts[tagPartIndexes.name]);
-
-				if (foundFamily) {
-					foundFamily.tags.push(tagParts[tagPartIndexes.tag]);
-					foundFamily.type = tagParts[tagPartIndexes.type];
-				} else {
-					var newFamily = createFamily(tagParts[tagPartIndexes.name], tagParts[tagPartIndexes.tag], tagParts[tagPartIndexes.type]);
-
-					tagFamilies.push(newFamily);
-				}
+		var getFamilies = function getFamilies(tagInfoArr) {
+			return _.uniq(_.pluck(tagInfoArr, 'Name'), function (name) {
+				return name;
 			});
+		};
 
-			tagFamilies.forEach(function (tagFamily) {
-				var thisTagFamily = tagFamily;
-				thisTagFamily.tags = _.sortBy(thisTagFamily.tags, function (tag) {
-					return tag;
+		var getFamilyTags = function getFamilyTags(familyName, tagInfoArr) {
+			var familyTagInfo = _.where(tagInfoArr, { Name: familyName });
+			return _.uniq(_.sortBy(_.pluck(familyTagInfo, 'Tag'), function (tag) {
+				return tag;
+			}), function (tag) {
+				return tag;
+			});
+		};
+
+		var getFamilyType = function getFamilyType(familyName, tagInfoArr) {
+			return _.findWhere(tagInfoArr, { Name: familyName }).Type;
+		};
+
+		var build = function build(cardData) {
+			var filterData = [];
+
+			var tagInfoArr = getAllTagInfo(cardData);
+			var families = getFamilies(tagInfoArr);
+
+			angular.forEach(families, function (family) {
+				filterData.push({
+					name: family,
+					tags: getFamilyTags(family, tagInfoArr),
+					type: getFamilyType(family, tagInfoArr)
 				});
 			});
 
-			return tagFamilies;
+			return filterData;
 		};
 
 		return {
-			parseTags: parseTags,
-			extractTagName: extractTagName
+			build: build
 		};
 	};
 
-	app.factory('tagParsingService', tagParsingService);
+	app.factory('filterService', filterService);
 })(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParser, $animate, $timeout) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -315,8 +225,8 @@
    * @param {[string]} filters
    * @param {[*]} branchData
    */
-		var loadCardsAndFilters = function loadCardsAndFilters(filters, cardData) {
-			self.filters = filters;
+		var loadCardsAndFilters = function loadCardsAndFilters(cardData) {
+			self.filters = filterService.build(cardData);
 			self.allCardData = cardData;
 			self.items = cardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
@@ -347,7 +257,7 @@
 
 			if (!cardDataItem) return false;
 
-			var tags = transformAttributesToTags(cardDataItem);
+			var tags = _.pluck(cardDataItem.Tags, 'Tag');
 
 			angular.forEach(self.activeFilters, function (activeFilter) {
 				if (tags.indexOf(activeFilter) !== -1) {
@@ -365,14 +275,25 @@
    * @param {*} filter
    */
 		var setActiveFilters = function setActiveFilters(filter, filterFamily) {
-			var filterIndex = self.activeFilters.indexOf(filter);
+			var foundFilterFamily = filterFamily;
+			var isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
+			var tagString = isTagInfo ? filter.Tag : filter;
+			var filterIndex = self.activeFilters.indexOf(tagString);
 			var shouldAddFilter = filterIndex === -1;
-			var isPickOne = filterFamily.type.trim().toLowerCase() === 'one';
+
+			if (isTagInfo) {
+				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				if (foundFilterFamily.length === 1) {
+					foundFilterFamily = foundFilterFamily[0];
+				}
+			}
+
+			var isPickOne = foundFilterFamily.type.toLowerCase() === 'one';
 			var tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
-				angular.forEach(filterFamily.tags, function (tag) {
-					if (tag !== filter) {
+				angular.forEach(foundFilterFamily.tags, function (tag) {
+					if (tag !== tagString) {
 						tagsToRemove.push(tag);
 					}
 				});
@@ -387,7 +308,7 @@
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(filter);
+				self.activeFilters.push(tagString);
 			} else {
 				self.activeFilters.splice(filterIndex, 1);
 			}
@@ -416,7 +337,7 @@
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
@@ -497,10 +418,10 @@
 (function (app) {
 	'use strict';
 
-	var filtersDirective = function filtersDirective(tagParsingService) {
+	var filtersDirective = function filtersDirective() {
 		var filterLink = function filterLink($scope) {
 			$scope.$watch('filterData', function () {
-				$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+				$scope.filterFamilies = $scope.filterData;
 			});
 		};
 
@@ -518,7 +439,7 @@
 		return directive;
 	};
 
-	filtersDirective.$inject = ['tagParsingService'];
+	filtersDirective.$inject = [];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));
@@ -527,22 +448,18 @@
 (function (app) {
 	'use strict';
 
-	var tagDirective = function tagDirective(tagParsingService) {
+	var tagDirective = function tagDirective() {
 		var tagLink = function filterLink($scope) {
 			$scope.toggleFilter = function (activeFilter) {
-				var tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.attributes);
-				var activeTagName = tagParsingService.extractTagName(activeFilter);
-				var activeTagFamilies = tagFamiliesForCard.filter(function (tagFamily) {
-					return tagFamily.tags.indexOf(activeTagName) !== -1;
+				var activeTags = $scope.tagData.Tags.filter(function (tagInfo) {
+					return tagInfo.Tag === activeFilter.Tag;
 				});
 
-				if (activeTagFamilies.length) {
+				if (activeTags.length) {
 					// One tag will only have one family, so unwrap it.
-					$scope.filterHandler(activeTagName, activeTagFamilies[0]);
+					$scope.filterHandler(activeFilter, activeTags[0]);
 				}
 			};
-
-			$scope.extractTagName = tagParsingService.extractTagName;
 		};
 
 		var directive = {
@@ -559,7 +476,7 @@
 		return directive;
 	};
 
-	tagDirective.$inject = ['tagParsingService'];
+	tagDirective.$inject = [];
 
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));

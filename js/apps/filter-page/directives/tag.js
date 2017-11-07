@@ -1,22 +1,18 @@
 ((app) => {
 	'use strict';
 
-	const tagDirective = (tagParsingService) => {
+	const tagDirective = () => {
 		const tagLink = function filterLink($scope) {
 			$scope.toggleFilter = (activeFilter) => {
-				const tagFamiliesForCard = tagParsingService.parseTags($scope.tagData.Tags);
-				const activeTagName = tagParsingService.extractTagName(activeFilter);
-				const activeTagFamilies = tagFamiliesForCard.filter((tagFamily) => {
-					return tagFamily.tags.indexOf(activeTagName) !== -1;
+				const activeTags = $scope.tagData.Tags.filter((tagInfo) => {
+					return tagInfo.Tag === activeFilter.Tag;
 				});
 
-				if (activeTagFamilies.length) {
+				if (activeTags.length) {
 					// One tag will only have one family, so unwrap it.
-					$scope.filterHandler(activeTagName, activeTagFamilies[0]);
+					$scope.filterHandler(activeFilter, activeTags[0]);
 				}
 			};
-
-			$scope.extractTagName = tagParsingService.extractTagName;
 		};
 
 		const directive = {
@@ -33,7 +29,7 @@
 		return directive;
 	};
 
-	tagDirective.$inject = ['tagParsingService'];
+	tagDirective.$inject = [];
 
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));

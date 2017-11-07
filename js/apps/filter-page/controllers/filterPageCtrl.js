@@ -66,7 +66,7 @@
 
 			if (!cardDataItem) return false;
 
-			const tags = transformAttributesToTags(cardDataItem);
+			const tags = _.pluck(cardDataItem.Tags, 'Tag');
 
 			angular.forEach(self.activeFilters, (activeFilter) => {
 				if (tags.indexOf(activeFilter) !== -1) {
@@ -84,14 +84,25 @@
 		 * @param {*} filter
 		 */
 		const setActiveFilters = (filter, filterFamily) => {
-			const filterIndex = self.activeFilters.indexOf(filter);
+			let foundFilterFamily = filterFamily;
+			const isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
+			const tagString = isTagInfo ? filter.Tag : filter;
+			const filterIndex = self.activeFilters.indexOf(tagString);
 			const shouldAddFilter = filterIndex === -1;
-			const isPickOne = filterFamily.type.trim().toLowerCase() === 'one';
+
+			if (isTagInfo) {
+				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				if (foundFilterFamily.length === 1) {
+					foundFilterFamily = foundFilterFamily[0];
+				}
+			}
+
+			const isPickOne = foundFilterFamily.type.toLowerCase() === 'one';
 			let tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
-				angular.forEach(filterFamily.tags, (tag) => {
-					if (tag !== filter) {
+				angular.forEach(foundFilterFamily.tags, (tag) => {
+					if (tag !== tagString) {
 						tagsToRemove.push(tag);
 					}
 				});
@@ -106,7 +117,7 @@
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(filter);
+				self.activeFilters.push(tagString);
 			} else {
 				self.activeFilters.splice(filterIndex, 1);
 			}
