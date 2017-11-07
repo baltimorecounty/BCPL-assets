@@ -37,35 +37,13 @@
 		const loadCardsAndFilters = (cardData) => {
 			if (!cardData.length) { return; }
 
-			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : transformAttributesToTags(cardData);
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
 
 			self.filters = filterService.build(taggedCardData);
 			self.allCardData = taggedCardData;
 			self.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 			$scope.$apply();
-		};
-
-		const transformAttributesToTags = (cardData) => {
-			let taggedCardData = [];
-
-			angular.forEach(cardData, (cardDataItem) => {
-				let cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
-
-				angular.forEach(cardDataItem.attributes, (attribute) => {
-					const tag = {
-						Name: 'none',
-						Tag: attribute,
-						Type: 'Many'
-					};
-
-					cardDataItemWithTags.Tags.push(tag);
-				});
-
-				taggedCardData.push(cardDataItemWithTags);
-			});
-
-			return taggedCardData;
 		};
 
 		/**
@@ -97,11 +75,11 @@
 		 * @param {*} filter
 		 */
 		const setActiveFilters = (filter, filterFamily) => {
-			let foundFilterFamily = filterFamily;
 			const isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
 			const tagString = isTagInfo ? filter.Tag : filter;
 			const filterIndex = self.activeFilters.indexOf(tagString);
 			const shouldAddFilter = filterIndex === -1;
+			let foundFilterFamily = filterFamily;
 
 			if (isTagInfo) {
 				foundFilterFamily = _.where(self.filters, { name: filter.Name });

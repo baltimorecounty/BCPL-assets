@@ -40,8 +40,31 @@
 			return filterData;
 		};
 
+		const transformAttributesToTags = (cardData) => {
+			let taggedCardData = [];
+
+			angular.forEach(cardData, (cardDataItem) => {
+				let cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
+
+				angular.forEach(cardDataItem.attributes, (attribute) => {
+					const tag = {
+						Name: 'none',
+						Tag: attribute,
+						Type: 'Many'
+					};
+
+					cardDataItemWithTags.Tags.push(tag);
+				});
+
+				taggedCardData.push(cardDataItemWithTags);
+			});
+
+			return taggedCardData;
+		};
+
 		return {
-			build
+			build,
+			transformAttributesToTags
 		};
 	};
 
