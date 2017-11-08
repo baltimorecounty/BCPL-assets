@@ -1,0 +1,21 @@
+.cards {
+	&.database-cards {
+		float: left;
+		width: calc(75% - 15px);
+
+		.card {
+			h2 {
+				margin: 0 0 .25em;
+				a {
+					float: none;
+					width: 100%;
+					margin: 0;
+				}
+			}
+
+			p {
+				margin-bottom: 20px;
+			}
+		}
+	}
+}

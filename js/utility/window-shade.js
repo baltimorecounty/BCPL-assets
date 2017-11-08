@@ -1,6 +1,6 @@
-namespacer('bcpl');
+namespacer('bcpl.utility');
 
-bcpl.windowShade = (($) => {
+bcpl.utility.windowShade = (($) => {
 	const windowShadeSelector = '#window-shade';
 	let timeout;
 

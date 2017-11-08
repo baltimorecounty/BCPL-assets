@@ -127,6 +127,30 @@ bcpl.utility.querystringer = function () {
 }();
 'use strict';
 
+namespacer('bcpl.utility');
+
+bcpl.utility.windowShade = function ($) {
+	var windowShadeSelector = '#window-shade';
+	var timeout = void 0;
+
+	var cycle = function cycle(displaySpeed, delaySpeed) {
+		var $windowShade = $(windowShadeSelector);
+
+		clearTimeout(timeout);
+
+		$windowShade.slideDown(displaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(displaySpeed);
+			}, delaySpeed);
+		});
+	};
+
+	return {
+		cycle: cycle
+	};
+}(jQuery);
+'use strict';
+
 namespacer('bcpl');
 
 bcpl.alertBox = function ($) {
@@ -184,6 +208,157 @@ bcpl.constants = {
 		space: 32
 	}
 };
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.filter = function ($, windowShade) {
+	var filterData = {};
+	var filtersChangedEvent = void 0;
+
+	var activateTags = function activateTags($filteredContent, clickedFilterLabelText) {
+		var $buttons = $filteredContent.find('.tag-list button');
+
+		$buttons.each(function (index, buttonElement) {
+			var $button = $(buttonElement);
+
+			if ($button.text().trim().toLowerCase() === clickedFilterLabelText) {
+				$button.addClass('active');
+			}
+		});
+	};
+
+	var render = function render(data, $template, $target, clickedFilterLabelText, isClickedFilterActive) {
+		var unsortedDataItems = data.items;
+		var sortedDataItems = _.sortBy(unsortedDataItems, function (item) {
+			return item.name;
+		});
+		var dataForTemplate = data;
+		dataForTemplate.items = sortedDataItems;
+		var source = $template.html();
+		var template = Handlebars.compile(source);
+		var html = template(dataForTemplate);
+		$target.html(html);
+
+		if (clickedFilterLabelText && isClickedFilterActive) {
+			activateTags($target, clickedFilterLabelText);
+		}
+
+		if ($target.not('.collapse').is(':hidden')) {
+			$target.fadeIn(250);
+		}
+	};
+
+	var generateFiltersList = function generateFiltersList(data) {
+		var filters = [];
+
+		_.each(data, function (element) {
+			filters = filters.concat(element.attributes);
+		});
+		var uniqueFilters = _.uniq(filters);
+		var sortedUniqueFilters = _.sortBy(uniqueFilters, function (uniqueFilter) {
+			return uniqueFilter;
+		});
+
+		return sortedUniqueFilters;
+	};
+
+	var isIntersectedDataItem = function isIntersectedDataItem(checkedItems, dataItem) {
+		var intersection = _.intersection(checkedItems, dataItem.attributes);
+		return intersection.length === checkedItems.length;
+	};
+
+	var filterBoxChanged = function filterBoxChanged(changeEvent, settings) {
+		var checkedFilters = [];
+		var filteredData = [];
+		var $clickedFilter = $(changeEvent.currentTarget);
+		var $labels = $('#filters label');
+		var $checkedFilters = $labels.has('input:checked');
+		var clickedFilterLabelText = $clickedFilter.closest('label').text().trim().toLowerCase();
+		var isClickedFilterActive = $clickedFilter.prop('checked');
+		var shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
+
+		$labels.not('input:checked').removeClass('active');
+		$checkedFilters.addClass('active');
+
+		$checkedFilters.each(function (index, filterItem) {
+			checkedFilters.push(filterItem.innerText);
+		});
+
+		_.each(filterData, function (dataItem) {
+			if (isIntersectedDataItem(checkedFilters, dataItem)) {
+				filteredData.push(dataItem);
+			}
+		});
+
+		windowShade.cycle(250, 2000);
+
+		var filterSettings = {
+			items: filteredData,
+			length: filteredData.length
+		};
+
+		$('#results-display').trigger('bcpl.filter.changed', filterSettings).fadeOut(250, function () {
+			render(filterSettings, $('#results-display-template'), $('#results-display'), clickedFilterLabelText, isClickedFilterActive);
+		});
+	};
+
+	var filterDataSuccess = function filterDataSuccess(contentData) {
+		filterData = typeof contentData === 'string' ? JSON.parse(contentData) : contentData;
+
+		render({
+			items: filterData,
+			length: filterData.length
+		}, $('#results-display-template'), $('#results-display'));
+
+		var filters = generateFiltersList(filterData);
+
+		render(filters, $('#filters-template'), $('#filters'));
+	};
+
+	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {
+		console.log('err', errorThrown);
+	};
+
+	var filtersShowing = function filtersShowing(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-minus"></i> Hide Filters');
+	};
+
+	var filtersHiding = function filtersHiding(collapseEvent) {
+		$(collapseEvent.currentTarget).siblings('.collapse-control').html('<i class="fa fa-plus"></i> Show Filters');
+	};
+
+	var tagClicked = function tagClicked(clickEvent) {
+		var $target = $(clickEvent.currentTarget);
+		var tagText = $target.text().trim().toLowerCase();
+		var $filterInputLabels = $('#filters label');
+
+		$filterInputLabels.each(function (index, labelElement) {
+			var $label = $(labelElement);
+
+			if ($label.text().trim().toLowerCase() === tagText) {
+				$label.find('input').trigger('click', { shouldClearFilters: true });
+				$target.toggleClass('active');
+			} else {
+				$target.removeClass('active');
+			}
+		});
+	};
+
+	var init = function init(dataLoadingFunction) {
+		dataLoadingFunction(filterDataSuccess, filterDataError);
+
+		var filtersChangedEvent = document.createEvent('Event');
+		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
+
+		$(document).on('click', '.tag-list button', tagClicked);
+		$(document).on('change', '#filters input', filterBoxChanged);
+		$(document).on('show.bs.collapse', '#filters', filtersShowing);
+		$(document).on('hide.bs.collapse', '#filters', filtersHiding);
+	};
+
+	return { init: init };
+}(jQuery, bcpl.utility.windowShade);
 'use strict';
 
 namespacer('bcpl');
@@ -588,27 +763,3 @@ bcpl.tabs = function ($) {
 $(function () {
 	bcpl.tabs.init();
 });
-'use strict';
-
-namespacer('bcpl');
-
-bcpl.windowShade = function ($) {
-	var windowShadeSelector = '#window-shade';
-	var timeout = void 0;
-
-	var cycle = function cycle(displaySpeed, delaySpeed) {
-		var $windowShade = $(windowShadeSelector);
-
-		clearTimeout(timeout);
-
-		$windowShade.slideDown(displaySpeed, function () {
-			timeout = setTimeout(function () {
-				$windowShade.slideUp(displaySpeed);
-			}, delaySpeed);
-		});
-	};
-
-	return {
-		cycle: cycle
-	};
-}(jQuery);

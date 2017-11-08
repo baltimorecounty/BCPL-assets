@@ -3,13 +3,14 @@
 	margin-top: 1em;
 	border: 20px solid $tan;
 
-	h4 {		
+	h3 {		
 		background: $gray;
 		color: white;
+		font-size: 18px;
 		margin: 0;
 		padding: .75em;
 	}	
-
+ 
 	.collapse {
 		display: block;
 		height: initial !important;
@@ -25,13 +26,26 @@
 
 	.filter-controls-wrapper {
 		padding: .5em;
-		
+
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		.filter-family {
+			&:last-child {
+				ul {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
 		label {
 			clear: both;
 			cursor: pointer; 
 			display: block;
 			font-weight: normal;
-			padding: .5em;
+			padding: .25em;
 
 			&.active {
 				background-color: $teal;
@@ -51,9 +65,7 @@
 }
 
 .filter-controls {
-	margin-top: 1em;
-	padding: .5em;
-	width: 99%;
+	margin-top: 2.5em;
 
 	.button-group-label {
 		float: left;
@@ -61,6 +73,19 @@
 		margin-right: 1em;
 	}
 
+}
+
+#results-display {
+	transition: .25s all ease;
+	opacity: 1;
+	
+	&.fade-in {
+		opacity: 1;
+	}
+	
+	&.fade-out {
+		opacity: 0;
+	}
 }
 
 @media (max-width: $screen-md) {
@@ -85,8 +110,6 @@
 
 @media (max-width: $screen-sm) {
 	.filter-controls, .filters {
-		width: 99%;
-
 		.col-md-6 {
 			clear: both;
 		}
