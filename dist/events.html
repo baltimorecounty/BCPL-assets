@@ -173,27 +173,29 @@
 			<main class="row">
 				<div class="col-md-3">
 					<div class="filters event-filters">
-						<h4 class="left-filter-date">Date</h4>
-						<div class="filter-items-wrapper">
-							<label class="calendar-datepicker-label">From
-							<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
-							<label class="calendar-datepicker-label">To
-							<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
-							<script>
-								flatpickr("#start-date", {
-									dateFormat: "m-d-Y",
-								});
-								flatpickr("#end-date", {
-									dateFormat: "m-d-Y",
-								});
-							</script>
-							<form action="#">
-								<label for="date-today"><input type="radio" id="date-today" name="date-select" value="today"> Today</label>
-								<label for="date-tomorrow"><input type="radio" id="date-tomorrow" name="date-select" value="tomorrow"> Tomorrow</label>
-								<label for="date-next-7-days"><input type="radio" id="date-next-7-days" name="date-select" value="next7days"> Next 7 Days</label>
-							</form>
+						<h4>Events Filter</h4>
+						<h5 class="filter-headers">Date</h5>
+						<div class="filter-items-wrapper ">
+							<label for="date-today"><input type="radio" id="date-today" name="date-select" value="today"> Today</label>
+							<label for="date-tomorrow"><input type="radio" id="date-tomorrow" name="date-select" value="tomorrow"> Tomorrow</label>
+							<label for="date-next-7-days"><input type="radio" id="date-next-7-days" name="date-select" value="next7days"> Next 7 Days</label>
+							<label for="custom"><input type="radio" id="date-custom" name="date-select" value="customrange"> Custom</label>
+							<div class="datepickers">
+								<label class="calendar-datepicker-label">From
+									<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
+								<label class="calendar-datepicker-label">To
+									<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..." data-id="rangePlugin"><i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i></label>
+								<script>
+									flatpickr("#start-date", {
+										dateFormat: "m-d-Y",
+									});
+									flatpickr("#end-date", {
+										dateFormat: "m-d-Y",
+									});
+								</script>
+							</div>
 						</div>
-						<h4 class="left-filter">Branch</h4>
+						<h5 class="filter-headers">Branch</h5>
 						<div class="filter-items-wrapper">
 							<label for="branch-all"><input type="checkbox" id="branch-all" name="branches" value="allbranches" checked="true"> All Branches</label>
 							<div class="scrolling-filter">
@@ -220,7 +222,7 @@
 								<label for="branch-woodlawn"><input type="checkbox" id="branch-woodlawn" name="branches" value="woodlawn"> Woodlawn</label>
 							</div>
 						</div>
-						<h4 class="left-filter">Event Type</h4>
+						<h5 class="filter-headers">Event Type</h5>
 						<div class="filter-items-wrapper">
 							<label for="event-type-all"><input type="checkbox" id="event-type-all" name="event_types" value="allevents" checked="true"> All Event Types</label>
 							<div class="scrolling-filter">
@@ -238,7 +240,7 @@
 								<label for="event-type-teen"><input type="checkbox" id="event-type-teen" name="event_types" value="teen"> Teen</label>
 							</div>
 						</div>
-						<h4 class="left-filter">Age Groups</h4>
+						<h5 class="filter-headers">Age Groups</h5>
 						<div class="filter-items-wrapper">
 							<label for="age-group-all"><input type="checkbox" id="age-group-all" name="age_groups" value="allagegroups" checked="true"> All Age Groups</label>
 							<div class="scrolling-filter">
@@ -255,55 +257,180 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-9">
+				<div class "container">
+					<div class="col-md-9">
 						<h1>Events</h1>
-						
-					<div class="keyword-search-bar">
-						<div class="row">
-							<h4>Keyword Search</h4>
-							<form action="#">
-								<input type="search" name="keywordsearch">
-								<button class="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-9">
-					<div class="event-list">
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">9 to 10 a.m.</div>
-								<div class="col-md-3">Towson</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="#">View Details</a></p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">10 to 11 a.m.</div>
-								<div class="col-md-3">Pikesville</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="#">View Details</a></p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="event">
-								<div class="col-md-3">11 a.m. 12 p.m.</div>
-								<div class="col-md-3">Rosedale</div>
-								<div class="col-md-6"><strong>Event Name</strong>
-									<p>Nunc ut massa lectus. Proin accumsan lorem felis, eu condimentum nulla sollicitudin.</p>
-									<p><a href="#">View Details</a></p>
+						<div class="keyword-search-bar">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-lg-5 col-md-6">
+											<h4>Refine Events List by Keyword:</h4>
+										</div>
+										<div class="col-lg-7 col-md-6">
+											<input class="keyword-search form-control" type="search" name="keywordsearch">
+											<button class="search-button">
+												<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div class="col-md-9">
+						<div class="event-date-bar">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="event-date">
+									October 26, 2017
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="registration-required">
+										<i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i> -Registration Required
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="cards events-cards">
+							<div id="events" class="list-view" style>
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12 col-md-4 col-sm-3">
+											<div class="row">
+												<div class="col-xs-6 event-time"><i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+													<p>9 to 10 a.m.</p>
+												</div>
+												<div class="col-xs-6 event-location"><i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+													<p>Owings Mills</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-8 col-sm-9 event-name">
+											<div class="row">
+												<div class="col-md-12">Baby Story Time/Tiempo de cuentos bilingues bebe<i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i></div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button class="event-tag-button">Owings Mills</button>
+													<button class="event-tag-button">Baby</button>
+													<button class="event-tag-button">Toddler</button>
+													<button class="event-tag-button">Preschool</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12 col-md-4 col-sm-3">
+											<div class="row">
+												<div class="col-xs-6 event-time"><i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+													<p>9 to 10 a.m.</p>
+												</div>
+												<div class="col-xs-6 event-location"><i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+													<p>Woodlawn</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-8 col-sm-9 event-name">
+											<div class="row">
+												<div class="col-md-12">Fiestas and Siestas</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button class="event-tag-button">Woodlawn</button>
+													<button class="event-tag-button">Baby</button>
+													<button class="event-tag-button">Toddler</button>
+													<button class="event-tag-button">Preschool</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12 col-md-4 col-sm-3">
+											<div class="row">
+												<div class="col-xs-6 event-time"><i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+													<p>10:30 to 11:30 a.m.</p>
+												</div>
+												<div class="col-xs-6 event-location"><i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+													<p>Parkville</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-8 col-sm-9 event-name">
+											<div class="row">
+												<div class="col-md-12">Madden 18 Tournament</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button class="event-tag-button">Parkville</button>
+													<button class="event-tag-button">Teen</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12 col-md-4 col-sm-3">
+											<div class="row">
+												<div class="col-xs-6 event-time"><i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+													<p>6 to 7 p.m.</p>
+												</div>
+												<div class="col-xs-6 event-location"><i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+													<p>Arbutus</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-8 col-sm-9 event-name">
+											<div class="row">
+												<div class="col-md-12">Minecraft Meetup</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button class="event-tag-button">Woodlawn</button>
+													<button class="event-tag-button">Baby</button>
+													<button class="event-tag-button">Toddler</button>
+													<button class="event-tag-button">Preschool</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="row">
+										<div class="col-xs-12 col-md-4 col-sm-3">
+											<div class="row">
+												<div class="col-xs-6 event-time"><i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+													<p>8:30 to 10:30 p.m.</p>
+												</div>
+												<div class="col-xs-6 event-location"><i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+													<p>Towson</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-8 col-sm-9 event-name">
+											<div class="row">
+												<div class="col-md-12">Lawyers in the Library<i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i></div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button class="event-tag-button">Towson</button>
+													<button class="event-tag-button">Teen</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-
-		</div>
+			</div>
 		</main>
 	</div>
 	<footer>
