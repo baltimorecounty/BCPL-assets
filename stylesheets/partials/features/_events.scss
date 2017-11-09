@@ -1,0 +1,256 @@
+ 
+.keyword-search-bar {
+    background-color: white;
+    margin: 1em 0 1em;
+    padding: 1em;
+    position: relative;
+    border-top: 4px solid $tan;
+
+
+    .keyword-search {
+        padding-right: 35px;
+    }
+
+    .search-button {
+        position: absolute;
+        z-index: 99;
+        right: 20px;
+        top: 3px;
+    }
+
+    .keyword-search-icon {
+        color: $gray-light;
+        display: inline-block;
+        cursor: pointer;
+    
+       
+        &:hover {
+            color: $teal-light; 
+        }
+    }
+}
+
+
+.event-date-bar {
+    background-color: $red;
+    color: white;
+    padding: 1em 0 1em;
+    margin: .25em 0 .25em;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    .required-asterisk {
+        color: red;
+        font-weight: normal;
+        font-size: medium;
+    }
+
+    .event-date {
+        padding-left: 1em;
+    }
+
+    .registration-required {
+        text-align: right;
+        padding-right: 1em;
+        font-size: 12px;
+    }
+}
+
+.cards {
+    .card {
+        .card-icon {
+            color: $gray-light;
+        }
+        
+        .event-time {
+            word-wrap: break-word;
+            padding: 1em 0 0 1em;
+            text-align: center;
+            color: $gray;
+            font-weight: bold;
+            border: none !important;
+        }
+        
+        .event-location {
+            padding: 1em 0 0 0;
+            text-align: center;
+            color: $gray;
+            font-weight: bold;
+        }
+        
+        .event-name {
+            color: $teal-light;
+            font-weight: bold;
+            font-size: 24px;
+            padding-left: 40px;
+            position: relative;
+        
+            .required-asterisk {
+                color: red;
+                padding-bottom: 5px;
+                z-index: 100;
+                font-size: medium;
+                position: absolute;
+            }
+        
+            .event-tag-button {
+                background-color: $gray-light;
+                color: white;
+                font-weight: normal;
+                font-size: 12px;
+                padding: .5em 1.25em;
+                margin: 1.25em .25em 0;
+                text-transform: uppercase;
+                border-radius: 20px;
+                display: inline-block;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+.filters {
+    margin-bottom: .75em;
+    color: $teal;
+
+    h5.filter-headers {
+        color: $gray;
+        font-size: 16px;
+        padding-left: 1em;
+        margin-bottom: 0;
+    }
+
+    &.event-filters {
+        float: none;
+        width: 100%;
+        margin-right: 0;
+
+        .filter-items-wrapper {
+            padding: 1em;
+
+            label {
+                display: block;
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+
+.scrolling-filter {
+    max-height: 8em;
+    overflow-y: auto;
+    border: 1px solid $gray-light;
+    font-size: .8em;
+    padding: .5em;
+
+    label {
+        display: block;
+        margin-bottom: 0;
+    }
+
+}
+
+.event-list {
+    background-color: white;
+    margin: 1em 0 2em;
+
+    .row {
+        padding: 1em; 
+    }
+
+
+    .event {
+        float: left;
+        
+        p {
+            margin-bottom: 1em;
+        }
+    }
+}
+
+.clear-button {
+    background-color: $teal-dark;
+    color: white; 
+    width: 5em;
+    height: 2.5em;
+    margin: 2em 0 1em;
+
+    &:hover {
+        background-color: $teal-light;
+        color: white;
+    }
+}
+
+input[type="text"], input[type="date"], input[type="datetime-local"], input[type="time"] {
+    border: 1px solid #c3c3c3;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    padding: 8px;
+    max-width: 360px;
+    border-radius: 3px;
+    background: #fff;
+}
+
+input.flatpickr {
+    cursor: pointer;
+}
+
+.calendar-datepicker-label {
+
+    display: block;
+    position: relative;
+
+    input::placeholder {
+        color: $teal;
+    }
+
+    .calendar-datepicker {
+        padding-right: 50px;
+    }
+    
+    .calendar-datepicker-icon {
+        position: absolute;
+        right: 10px;
+        z-index: 100;
+        top: 30px;
+        cursor: pointer;
+    }
+}
+
+#start-date {
+    margin: 0 3em 0 0;
+}
+
+
+
+body, input {
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a, button, input, label {
+    -webkit-tap-highlight-color: $gray-dark;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: $screen-xs) {
+    .event-date-bar {
+        .registration-required {
+            text-align: left;
+            padding-left: 1em;
+        }
+    }
+}
+
+@media (max-width: $screen-md) {
+    .calendar-datepicker {
+        display: block;
+    }
+
+}
