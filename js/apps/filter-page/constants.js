@@ -7,10 +7,17 @@
 			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
-			// databases: '/mockups/data/bcpl-databases.html',
-			// databases: '/_structured-content/BCPL_Databases',
-			databases: 'http://ba224964:3100/api/structured-content/databases',
+			// databases: 'http://ba224964:3100/api/structured-content/databases',
+			databases: 'http://testservices.bcpl.info/api/structured-content/databases',
 			locations: '/mockups/data/branch-amenities.json'
+		},
+		filters: {
+			tags: {
+				types: {
+					pickOne: 'one',
+					pickMany: 'many'
+				}
+			}
 		}
 	};
 

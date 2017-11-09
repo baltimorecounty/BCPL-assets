@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -88,7 +88,7 @@
 				}
 			}
 
-			const isPickOne = foundFilterFamily.type.toLowerCase() === 'one';
+			const isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
 			let tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -141,7 +141,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

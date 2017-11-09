@@ -20,7 +20,8 @@
 		};
 
 		const getFamilyType = (familyName, tagInfoArr) => {
-			return _.findWhere(tagInfoArr, { Name: familyName }).Type;
+			const familyType = _.findWhere(tagInfoArr, { Name: familyName });
+			return familyType ? familyType.Type : 'none';
 		};
 
 		const build = (cardData) => {

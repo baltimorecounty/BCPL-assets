@@ -16,10 +16,17 @@
 			locations: '/dist/js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
-			// databases: '/mockups/data/bcpl-databases.html',
-			// databases: '/_structured-content/BCPL_Databases',
-			databases: 'http://ba224964:3100/api/structured-content/databases',
+			// databases: 'http://ba224964:3100/api/structured-content/databases',
+			databases: 'http://testservices.bcpl.info/api/structured-content/databases',
 			locations: '/mockups/data/branch-amenities.json'
+		},
+		filters: {
+			tags: {
+				types: {
+					pickOne: 'one',
+					pickMany: 'many'
+				}
+			}
 		}
 	};
 
@@ -160,7 +167,8 @@
 		};
 
 		var getFamilyType = function getFamilyType(familyName, tagInfoArr) {
-			return _.findWhere(tagInfoArr, { Name: familyName }).Type;
+			var familyType = _.findWhere(tagInfoArr, { Name: familyName });
+			return familyType ? familyType.Type : 'none';
 		};
 
 		var build = function build(cardData) {
@@ -215,7 +223,7 @@
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var self = this;
 
 		self.activeFilters = [];
@@ -304,7 +312,7 @@
 				}
 			}
 
-			var isPickOne = foundFilterFamily.type.toLowerCase() === 'one';
+			var isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
 			var tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -353,7 +361,7 @@
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
@@ -425,8 +433,6 @@
 		return directive;
 	};
 
-	filterDirective.$inject = [];
-
 	app.directive('filter', filterDirective);
 })(angular.module('filterPageApp'));
 'use strict';
@@ -454,8 +460,6 @@
 
 		return directive;
 	};
-
-	filtersDirective.$inject = [];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));
@@ -491,8 +495,6 @@
 
 		return directive;
 	};
-
-	tagDirective.$inject = [];
 
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));

@@ -22,7 +22,5 @@
 		return directive;
 	};
 
-	filtersDirective.$inject = [];
-
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));

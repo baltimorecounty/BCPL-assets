@@ -29,7 +29,5 @@
 		return directive;
 	};
 
-	tagDirective.$inject = [];
-
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));
