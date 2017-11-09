@@ -2,7 +2,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 	const getMaterialTypeData = (processMaterialTypeCallback) => {
-		$.ajax('/mockups/data/primaryMaterialType.json').then(json => processMaterialTypeCallback(json), err => console.log(err));
+		$.ajax('/data/primaryMaterialType.json').then(json => processMaterialTypeCallback(json), err => console.log(err));
 	};
 
 	const buildArrayFromRange = (start, end, current) =>

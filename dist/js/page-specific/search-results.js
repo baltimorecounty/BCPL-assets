@@ -4,7 +4,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 	var getMaterialTypeData = function getMaterialTypeData(processMaterialTypeCallback) {
-		$.ajax('/mockups/data/primaryMaterialType.json').then(function (json) {
+		$.ajax('/data/primaryMaterialType.json').then(function (json) {
 			return processMaterialTypeCallback(json);
 		}, function (err) {
 			return console.log(err);
