@@ -366,10 +366,11 @@
 						<div class="filters">
 							<h3 class="amenities">Branch Amenities</h3>
 							<div class="filter-controls-wrapper">
-								<filters filter-data="filterPage.filters" 
-									filter-handler="filterPage.setFilter"
-									active-filters="filterPage.activeFilters"></filter>
-								<div class="collapse" id="filters"></div>
+								<div class="collapse" id="filters">
+									<filters filter-data="filterPage.filters" 
+										filter-handler="filterPage.setFilter"
+										active-filters="filterPage.activeFilters"></filter>
+								</div>
 								<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#filters" aria-live="polite" aria-expanded="false"
 								    aria-controls="filters">
 									<i class="fa fa-plus"></i> Show Filters </button>

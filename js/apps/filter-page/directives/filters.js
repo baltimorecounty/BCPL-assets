@@ -1,10 +1,10 @@
 ((app) => {
 	'use strict';
 
-	const filtersDirective = (tagParsingService) => {
+	const filtersDirective = () => {
 		const filterLink = function filterLink($scope) {
 			$scope.$watch('filterData', () => {
-				$scope.filterFamilies = tagParsingService.parseTags($scope.filterData);
+				$scope.filterFamilies = $scope.filterData;
 			});
 		};
 
@@ -21,8 +21,6 @@
 
 		return directive;
 	};
-
-	filtersDirective.$inject = ['tagParsingService'];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));

@@ -26,6 +26,7 @@ module.exports = function(config) {
 		'node_modules/angular-animate/angular-animate.min.js',
 		'node_modules/angular-mocks/angular-mocks.js',
 		'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',		
 		'js/vendor/slick/slick.min.js',
 		{ pattern: 'dist/images/**/*.png', included: false, served: true, watched: false },
 		{ pattern: 'mockups/data/**/*.json', included: false, served: true, watched: false },
