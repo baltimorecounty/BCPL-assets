@@ -1,33 +1,29 @@
  
-.keyword-search-bar {
-    background-color: white;
-    margin: 1em 0 1em;
-    padding: 1em;
-    position: relative;
-    border-top: 4px solid $tan;
+.events-search-wrapper {
+	.keyword-search-wrapper {
+		position: relative;
 
-
-    .keyword-search {
-        padding-right: 35px;
-    }
-
-    .search-button {
-        position: absolute;
-        z-index: 99;
-        right: 20px;
-        top: 3px;
-    }
-
-    .keyword-search-icon {
-        color: $gray-light;
-        display: inline-block;
-        cursor: pointer;
-    
-       
-        &:hover {
-            color: $teal-light; 
-        }
-    }
+		.keyword-search {
+			padding-right: 35px;
+		}
+	
+		.search-button {
+			position: absolute;
+			z-index: 99;
+			right: 5px;
+			top: 3px;
+		}
+	
+		.keyword-search-icon {
+			color: $gray-light;
+			display: inline-block;
+			cursor: pointer;  
+		   
+			&:hover {
+				color: $teal-light; 
+			}
+		}
+	}
 }
 
 
@@ -131,10 +127,23 @@
         .filter-items-wrapper {
             padding: 1em;
 
-            label {
-                display: block;
-                font-weight: normal;
-            }
+			h4 {
+				margin: 0 0 .5em;
+				padding: 0;		
+			}
+				
+			.filter-control-wapper {
+				padding-bottom: 1em;
+				
+				&:last-child {
+					padding: .5em 0 0;
+				}
+
+				label {
+					display: block;
+					font-weight: normal;
+				}				
+			}
         }
     }
 }
@@ -196,37 +205,39 @@ input[type="text"], input[type="date"], input[type="datetime-local"], input[type
     background: #fff;
 }
 
-input.flatpickr {
-    cursor: pointer;
+.datepickers {
+	padding-top: .5em;
+
+	.calendar-datepicker-label {
+		display: block;
+		position: relative;
+	
+		input::placeholder {
+			color: $teal;
+		}
+	
+		.calendar-datepicker {
+			padding-right: 50px;
+		}
+		
+		.calendar-datepicker-icon {
+			position: absolute;
+			right: 10px;
+			z-index: 100;
+			top: 30px;
+			cursor: pointer;
+		}
+	}
+		
+	input.flatpickr {
+		cursor: pointer;
+	}
 }
 
-.calendar-datepicker-label {
-
-    display: block;
-    position: relative;
-
-    input::placeholder {
-        color: $teal;
-    }
-
-    .calendar-datepicker {
-        padding-right: 50px;
-    }
-    
-    .calendar-datepicker-icon {
-        position: absolute;
-        right: 10px;
-        z-index: 100;
-        top: 30px;
-        cursor: pointer;
-    }
-}
 
 #start-date {
     margin: 0 3em 0 0;
 }
-
-
 
 body, input {
     font-weight: 400;
