@@ -18,7 +18,7 @@
 		urls: {
 			// databases: '/mockups/data/bcpl-databases.html',
 			// databases: '/_structured-content/BCPL_Databases',
-			databases: 'http://ba224964:1000/api/bcpl/databases',
+			databases: 'http://ba224964:3100/api/structured-content/databases',
 			locations: '/mockups/data/branch-amenities.json'
 		}
 	};
@@ -180,8 +180,31 @@
 			return filterData;
 		};
 
+		var transformAttributesToTags = function transformAttributesToTags(cardData) {
+			var taggedCardData = [];
+
+			angular.forEach(cardData, function (cardDataItem) {
+				var cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
+
+				angular.forEach(cardDataItem.attributes, function (attribute) {
+					var tag = {
+						Name: 'none',
+						Tag: attribute,
+						Type: 'Many'
+					};
+
+					cardDataItemWithTags.Tags.push(tag);
+				});
+
+				taggedCardData.push(cardDataItemWithTags);
+			});
+
+			return taggedCardData;
+		};
+
 		return {
-			build: build
+			build: build,
+			transformAttributesToTags: transformAttributesToTags
 		};
 	};
 
@@ -230,35 +253,13 @@
 				return;
 			}
 
-			var taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : transformAttributesToTags(cardData);
+			var taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
 
 			self.filters = filterService.build(taggedCardData);
 			self.allCardData = taggedCardData;
 			self.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 			$scope.$apply();
-		};
-
-		var transformAttributesToTags = function transformAttributesToTags(cardData) {
-			var taggedCardData = [];
-
-			angular.forEach(cardData, function (cardDataItem) {
-				var cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
-
-				angular.forEach(cardDataItem.attributes, function (attribute) {
-					var tag = {
-						Name: 'none',
-						Tag: attribute,
-						Type: 'Many'
-					};
-
-					cardDataItemWithTags.Tags.push(tag);
-				});
-
-				taggedCardData.push(cardDataItemWithTags);
-			});
-
-			return taggedCardData;
 		};
 
 		/**
@@ -290,11 +291,11 @@
    * @param {*} filter
    */
 		var setActiveFilters = function setActiveFilters(filter, filterFamily) {
-			var foundFilterFamily = filterFamily;
 			var isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
 			var tagString = isTagInfo ? filter.Tag : filter;
 			var filterIndex = self.activeFilters.indexOf(tagString);
 			var shouldAddFilter = filterIndex === -1;
+			var foundFilterFamily = filterFamily;
 
 			if (isTagInfo) {
 				foundFilterFamily = _.where(self.filters, { name: filter.Name });
