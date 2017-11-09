@@ -7,17 +7,29 @@
 	<link href="css/home.min.css" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	    crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-	<script src="/dist/js/master.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js" integrity="sha256-zBy1l2WBAh2vPF8rnjFMUXujsfkKjya0Jy5j6yKj0+Q="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js" integrity="sha256-E6XubcgT4a601977ZZP4Yw/0UCB2/Ex+Bazst+JRw1U="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js" integrity="sha256-9per5naK1wbvJeCJC4Xr3gjiycTRg9Jno/eSvh12+ck="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js" integrity="sha256-1XBp/KwjxhvrtZiQ+ecAScAyLPe4OStn2lMX0vxTq9U="
+	    crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/flatpickr"></script>
+
+	<script src="/dist/js/master.js"></script>
+	<script src="/dist/js/apps/events-page/app.js"></script>
 </head>
 
-<body>
+<body ng-app="eventsPageApp">
 	<div class="container-fluid internal">
 		<header>
 			<div class="subnav-wrapper">
@@ -318,17 +330,17 @@
 			</header>
 		</div>
 		<div class="container">
-			<main class="row">
+			<main class="row" ng-controller="EventsPageCtrl as eventsPage">
 				<div class="col-md-3">
 					<div class="filters event-filters">
 						<h3>Events Filter</h3>
 						<div class="filter-items-wrapper">
 							<div class="events-search-wrapper filter-control-wapper">
 								<h4>Search Events</h4>
-								<div class="keyword-search-wrapper"><input class="keyword-search form-control" />
-								<button class="search-button">
+								<div class="keyword-search-wrapper">
+									<input class="keyword-search form-control" />
 									<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
-								</button></div>
+								</div>
 							</div>
 							<div class="date-search-wrapper filter-control-wapper">
 								<h4>Date Filter</h4>
@@ -345,16 +357,21 @@
 									<input type="radio" id="date-custom" name="date-select" value="customrange"> Custom
 								</label>
 								<div class="datepickers">
-									<label class="calendar-datepicker-label">From
-										<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..."
-											data-id="rangePlugin">
-										<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-									</label>
-									<label class="calendar-datepicker-label">To
-										<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..."
-											data-id="rangePlugin">
-										<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-									</label>
+									<div class="date-field-wrapper">
+										<label class="calendar-datepicker-label">From
+											<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..."
+											    data-id="rangePlugin">
+											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
+										</label>
+									</div>
+									<div class="date-field-wrapper">
+										<label class="calendar-datepicker-label">To
+											<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..."
+											    data-id="rangePlugin">
+											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
+										</label>
+									</div>
+
 									<script>
 										flatpickr("#start-date", {
 											dateFormat: "m-d-Y",
@@ -364,12 +381,11 @@
 										});
 									</script>
 								</div>
-							
+
 							</div>
 
 							<div class="button-wrapper filter-control-wapper">
-								<button class="btn btn-default">Clear</button>
-								<button class="btn btn-primary">Submit</button>								
+								<button class="btn btn-default">Clear filters</button>
 							</div>
 						</div>
 						<!--
@@ -434,11 +450,11 @@
 							</div>
 						</div>
 					-->
-						
+
 					</div>
 				</div>
 				<div class="col-md-9">
-					<h1>Events</h1>					
+					<h1>Events</h1>
 					<div class="event-date-bar">
 						<div class="row">
 							<div class="col-sm-6">

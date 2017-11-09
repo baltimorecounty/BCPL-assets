@@ -7,21 +7,13 @@
 			padding-right: 35px;
 		}
 	
-		.search-button {
+		.keyword-search-icon {
 			position: absolute;
 			z-index: 99;
-			right: 5px;
-			top: 3px;
-		}
-	
-		.keyword-search-icon {
+			right: 8px;
+			top: 8px;
 			color: $gray-light;
 			display: inline-block;
-			cursor: pointer;  
-		   
-			&:hover {
-				color: $teal-light; 
-			}
 		}
 	}
 }
@@ -142,7 +134,12 @@
 				label {
 					display: block;
 					font-weight: normal;
-				}				
+				}
+				
+				button {
+					display: block;
+					width: 100%;
+				}
 			}
         }
     }
@@ -178,19 +175,6 @@
         p {
             margin-bottom: 1em;
         }
-    }
-}
-
-.clear-button {
-    background-color: $teal-dark;
-    color: white; 
-    width: 5em;
-    height: 2.5em;
-    margin: 2em 0 1em;
-
-    &:hover {
-        background-color: $teal-light;
-        color: white;
     }
 }
 
