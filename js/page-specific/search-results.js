@@ -1,8 +1,9 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
+bcpl.pageSpecific.search = (($, Handlebars, querystringer, CONSTANTS) => {
 	const getMaterialTypeData = (processMaterialTypeCallback) => {
-		$.ajax('/mockups/data/primaryMaterialType.json').then(json => processMaterialTypeCallback(json), err => console.log(err));
+		$.ajax(CONSTANTS.search.urls.materialTypes)
+			.then(json => processMaterialTypeCallback(json), err => console.log(err));
 	};
 
 	const buildArrayFromRange = (start, end, current) =>
@@ -104,7 +105,7 @@ bcpl.pageSpecific.search = (($, Handlebars, querystringer) => {
 	return {
 		init
 	};
-})(jQuery, Handlebars, bcpl.utility.querystringer);
+})(jQuery, Handlebars, bcpl.utility.querystringer, bcpl.constants);
 
 $(() => {
 	bcpl.pageSpecific.search.init();

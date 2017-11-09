@@ -1,7 +1,7 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'http://localhost:3000',
+	baseApiUrl: 'http://ba224964:3100',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
@@ -12,5 +12,10 @@ bcpl.constants = {
 		rightArrow: 39,
 		tab: 9,
 		space: 32
+	},
+	search: {
+		urls: {
+			materialTypes: '/data/primaryMaterialType.json'
+		}
 	}
 };

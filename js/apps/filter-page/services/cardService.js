@@ -2,22 +2,6 @@
 	'use strict';
 
 	const cardService = ($location, $window, $injector) => {
-		const generateFiltersList = (data) => {
-			let filters = [];
-
-			angular.forEach(data, (element) => {
-				filters = filters.concat(element.attributes);
-			});
-
-			const uniqueFilters = _.uniq(filters);
-			const sortedUniqueFilters = _.sortBy(uniqueFilters, uniqueFilter => uniqueFilter);
-			const cleanedFilters = sortedUniqueFilters.filter((uniqueFilter) => {
-				return uniqueFilter.trim().length > 0;
-			});
-
-			return cleanedFilters;
-		};
-
 		const getFileNameWithoutExtension = (path) => {
 			const pathParts = path.split('/');
 			const lastPathPart = pathParts[pathParts.length - 1];
@@ -30,8 +14,8 @@
 			const dataService = $injector.get(`${filenameWithoutExtension}Service`);
 
 			dataService.get((data) => {
-				const filters = generateFiltersList(data);
-				afterDataLoadedCallback(filters, data);
+				const sortedData = _.sortBy(data, dataItem => dataItem.Title);
+				afterDataLoadedCallback(sortedData);
 			});
 		};
 
