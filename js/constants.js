@@ -12,5 +12,10 @@ bcpl.constants = {
 		rightArrow: 39,
 		tab: 9,
 		space: 32
+	},
+	search: {
+		urls: {
+			materialTypes: '/data/primaryMaterialType.json'
+		}
 	}
 };
