@@ -1,30 +1,33 @@
 <div class="card">
-		<div class="row">
-			<div class="col-xs-12 col-md-4 col-sm-3">
-				<div class="row">
-					<div class="col-xs-6 event-time">
-						<i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
-						<p>{{EventScheduleString}}</p>
-					</div>
-					<div class="col-xs-6 event-location">
-						<i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
-						<p>{{eventData.LocationName}}</p>
-					</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-4 col-sm-3">
+			<div class="row">
+				<div class="col-xs-6 event-time">
+					<i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+					<p>{{EventScheduleString}}</p>
+				</div>
+				<div class="col-xs-6 event-location">
+					<i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+					<p>{{eventData.LocationName}}</p>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-8 col-sm-9">
-				<div class="row">
-					<div class="col-md-12">
-						<p class="event-name">{{eventData.Title}} <i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i></p>						
-					</div>
+		</div>
+		<div class="col-xs-12 col-md-8 col-sm-9">
+			<div class="row">
+				<div class="col-md-12">
+					<p class="event-name">
+						{{eventData.Title}} 
+						<i class="fa fa-asterisk required-asterisk" aria-hidden="true" ng-show="eventData.RegistrationTypeCodeEnum !== 0"></i>
+					</p>						
 				</div>
-				<div class="row">
-					<div class="col-md-12 event-details">
-						<p>Event type(s): {{eventData.EventTypesString}}</p>
-						<p>Age group(s): {{eventData.AgeGroupsString}}</p>
-						<p>Tags: {{eventData.Tags}}</p>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 event-details">
+					<p>Event type(s): {{eventData.EventTypesString}}</p>
+					<p>Age group(s): {{eventData.AgeGroupsString}}</p>
+					<p>Tags: {{eventData.Tags}}</p>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>

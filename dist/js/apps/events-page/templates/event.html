@@ -15,7 +15,10 @@
 			<div class="col-xs-12 col-md-8 col-sm-9">
 				<div class="row">
 					<div class="col-md-12">
-						<p class="event-name">{{eventData.Title}} <i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i></p>						
+						<p class="event-name">
+							{{eventData.Title}} 
+							<i class="fa fa-asterisk required-asterisk" aria-hidden="true" ng-show="eventData.RegistrationTypeCodeEnum !== 0"></i>
+						</p>						
 					</div>
 				</div>
 				<div class="row">

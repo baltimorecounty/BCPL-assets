@@ -7,7 +7,7 @@
 		const eventServiceRequestModel = {
 			StartDate: '11/1/2017',
 			EndDate: '11/30/2017',
-			Take: 15,
+			Limit: 25,
 			Page: 1
 		};
 

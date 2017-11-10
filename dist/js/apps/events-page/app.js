@@ -132,7 +132,7 @@
 		var eventServiceRequestModel = {
 			StartDate: '11/1/2017',
 			EndDate: '11/30/2017',
-			Take: 15,
+			Limit: 25,
 			Page: 1
 		};
 
@@ -149,8 +149,8 @@
 
 (function (app) {
 	var eventDirective = function eventDirective(eventDataFormattingService) {
-		var eventLink = function eventLink($scope, eventElement, eventElementAttributes) {
-			var eventData = eventElementAttributes.eventData;
+		var eventLink = function eventLink($scope) {
+			var eventData = $scope.eventData;
 
 			$scope.EventScheduleString = eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
 		};

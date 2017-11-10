@@ -1,7 +1,7 @@
 ((app) => {
 	const eventDirective = (eventDataFormattingService) => {
-		const eventLink = ($scope, eventElement, eventElementAttributes) => {
-			let eventData = eventElementAttributes.eventData;
+		const eventLink = ($scope) => {
+			let eventData = $scope.eventData;
 
 			$scope.EventScheduleString =
 				eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
