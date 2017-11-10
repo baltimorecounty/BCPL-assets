@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate']);
+	angular.module('eventsPageApp', []);
 })();
 'use strict';
 
@@ -23,7 +23,7 @@
 'use strict';
 
 (function (app) {
-	var eventsService = function eventsService(CONSTANTS, $http, querystringService) {
+	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
 			var eventItemDate = new Date(eventItem.EventStart).toLocaleDateString();
 			return eventItemDate === eventDate;
@@ -51,10 +51,12 @@
 			return eventsByDate;
 		};
 
-		var get = function get(eventRequestModel, successCallback, errorCallback) {
-			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
-				successCallback(dateSplitter(response.data));
-			}, errorCallback);
+		var get = function get(eventRequestModel) {
+			return $q(function (resolve, reject) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
+					resolve(dateSplitter(response.data));
+				}, reject);
+			});
 		};
 
 		return {
@@ -62,7 +64,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', '$http', 'querystringService'];
+	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
 
 	app.factory('eventsService', eventsService);
 })(angular.module('eventsPageApp'));
@@ -71,7 +73,7 @@
 (function (app) {
 	var eventDataDateFormattingService = function eventDataDateFormattingService() {
 		var formatSchedule = function formatSchedule(eventStart, eventLength) {
-			if (!eventStart || Number.isNaN(Date.parse(eventStart))) {
+			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
 
@@ -163,17 +165,9 @@
 			Page: 1
 		};
 
-		eventsService.get(eventServiceRequestModel, function (eventGroups) {
+		eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
 			self.eventGroups = eventGroups;
-
-			$timeout(function () {
-				angular.element('.event-date-bar').sticky({
-					topSpacing: 0,
-					getWidthFrom: 'body',
-					zIndex: 100
-				});
-			}, 0);
-		}, function () {});
+		});
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS', 'eventsService'];
@@ -207,7 +201,7 @@
 
 (function (app) {
 	var eventDateDirective = function eventDateDirective() {
-		var eventDateLink = function eventDateLink($scope) {
+		var eventDateLink = function eventDateLink($scope, eventDateElement) {
 			var date = new Date($scope.eventGroup.date);
 			var dateSettings = {
 				year: 'numeric',
@@ -217,6 +211,15 @@
 
 			$scope.date = date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
+			$scope.id = 'datebar-' + $scope.eventGroup.date;
+
+			if ($scope.$last) {
+				$('.event-date-bar').sticky({
+					zIndex: 100,
+					getWidthFrom: 'body',
+					responsiveWidth: true
+				});
+			}
 		};
 
 		var directive = {

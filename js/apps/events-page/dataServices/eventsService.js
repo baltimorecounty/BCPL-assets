@@ -1,5 +1,5 @@
 ((app) => {
-	const eventsService = (CONSTANTS, $http, querystringService) => {
+	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
 			const eventItemDate = (new Date(eventItem.EventStart)).toLocaleDateString();
 			return eventItemDate === eventDate;
@@ -25,11 +25,13 @@
 			return eventsByDate;
 		};
 
-		const get = (eventRequestModel, successCallback, errorCallback) => {
-			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
-				.then((response) => {
-					successCallback(dateSplitter(response.data));
-				}, errorCallback);
+		const get = (eventRequestModel) => {
+			return $q((resolve, reject) => {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
+					.then((response) => {
+						resolve(dateSplitter(response.data));
+					}, reject);
+			});
 		};
 
 		return {
@@ -41,7 +43,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', '$http', 'querystringService'];
+	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
 
 	app.factory('eventsService', eventsService);
 })(angular.module('eventsPageApp'));

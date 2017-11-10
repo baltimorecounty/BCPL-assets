@@ -11,17 +11,10 @@
 			Page: 1
 		};
 
-		eventsService.get(eventServiceRequestModel, (eventGroups) => {
-			self.eventGroups = eventGroups;
-
-			$timeout(() => {
-				angular.element('.event-date-bar').sticky({
-					topSpacing: 0,
-					getWidthFrom: 'body',
-					zIndex: 100
-				});
-			}, 0);
-		}, () => {});
+		eventsService.get(eventServiceRequestModel)
+			.then((eventGroups) => {
+				self.eventGroups = eventGroups;
+			});
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS', 'eventsService'];

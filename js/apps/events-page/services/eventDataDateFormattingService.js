@@ -1,7 +1,7 @@
 ((app) => {
 	const eventDataDateFormattingService = () => {
 		const formatSchedule = (eventStart, eventLength) => {
-			if (!eventStart || Number.isNaN(Date.parse(eventStart))) {
+			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
 
