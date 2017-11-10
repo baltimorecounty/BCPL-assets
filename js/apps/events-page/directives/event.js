@@ -8,9 +8,6 @@
 		};
 
 		const directive = {
-			scope: {
-				eventData: '='
-			},
 			restrict: 'E',
 			templateUrl: '/dist/js/apps/events-page/templates/event.html',
 			link: eventLink

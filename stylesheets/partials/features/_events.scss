@@ -70,33 +70,22 @@
             color: $teal-light;
             font-weight: bold;
             font-size: 24px;
-            padding-left: 40px;
-            position: relative;
         
             .required-asterisk {
-                color: red;
-                padding-bottom: 5px;
-                z-index: 100;
-                font-size: medium;
-                position: absolute;
-            }
-        
-            .event-tag-button {
-                background-color: $gray-light;
-                color: white;
-                font-weight: normal;
-                font-size: 12px;
-                padding: .5em 1.25em;
-                margin: 1.25em .25em 0;
-                text-transform: uppercase;
-                border-radius: 20px;
-                display: inline-block;
-
-                &:first-child {
-                    margin-left: 0;
-                }
-            }
-        }
+				color: red;
+				font-size: 12px;
+				display: inline-block;
+				position: relative;
+				top: -10px;
+            }        
+		}
+		
+		.event-details {
+			p {
+				padding: 0;
+				margin: 0;
+			}
+		}
     }
 }
 
