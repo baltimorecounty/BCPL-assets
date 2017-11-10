@@ -13,6 +13,14 @@
 
 		eventsService.get(eventServiceRequestModel, (eventGroups) => {
 			self.eventGroups = eventGroups;
+
+			$timeout(() => {
+				angular.element('.event-date-bar').sticky({
+					topSpacing: 0,
+					getWidthFrom: 'body',
+					zIndex: 100
+				});
+			}, 0);
 		}, () => {});
 	};
 

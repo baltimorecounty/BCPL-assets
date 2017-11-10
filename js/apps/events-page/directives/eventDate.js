@@ -1,7 +1,14 @@
 ((app) => {
 	const eventDateDirective = () => {
 		const eventDateLink = ($scope) => {
-			$scope.date = $scope.eventGroup.date;
+			const date = new Date($scope.eventGroup.date);
+			const dateSettings = {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			};
+
+			$scope.date = date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
 		};
 

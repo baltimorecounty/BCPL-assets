@@ -165,6 +165,14 @@
 
 		eventsService.get(eventServiceRequestModel, function (eventGroups) {
 			self.eventGroups = eventGroups;
+
+			$timeout(function () {
+				angular.element('.event-date-bar').sticky({
+					topSpacing: 0,
+					getWidthFrom: 'body',
+					zIndex: 100
+				});
+			}, 0);
 		}, function () {});
 	};
 
@@ -200,7 +208,14 @@
 (function (app) {
 	var eventDateDirective = function eventDateDirective() {
 		var eventDateLink = function eventDateLink($scope) {
-			$scope.date = $scope.eventGroup.date;
+			var date = new Date($scope.eventGroup.date);
+			var dateSettings = {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			};
+
+			$scope.date = date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
 		};
 

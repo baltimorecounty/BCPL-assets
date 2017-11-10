@@ -23,9 +23,10 @@
     background-color: $red;
     color: white;
     padding: 1em 0 1em;
-    margin: .25em 0 .25em;
+    margin: .25em 0;
     text-transform: uppercase;
-    font-weight: bold;
+	font-weight: bold;
+	transition: .25s all ease;
 
     .required-asterisk {
         color: red;
@@ -42,6 +43,14 @@
         padding-right: 1em;
         font-size: 12px;
     }
+}
+
+.is-sticky {
+	.event-date-bar {
+		left: 0;
+		margin: 0;
+		padding: 1.5em 0;
+	}
 }
 
 .events-list {
