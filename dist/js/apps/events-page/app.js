@@ -23,18 +23,11 @@
 'use strict';
 
 (function (app) {
-	var eventsService = function eventsService(CONSTANTS, querystringService) {
-		var get = function get(startDate, endDate, take, page, successCallback, errorCallback) {
-			var querystringSettings = {
-				startDate: startDate,
-				endDate: endDate,
-				take: take,
-				page: page
-			};
+	var eventsService = function eventsService(CONSTANTS, $http, querystringService) {
+		var get = function get(eventRequestModel, successCallback, errorCallback) {
+			var querystring = querystringService.build(eventRequestModel);
 
-			var querystring = querystringService.build(querystringSettings);
-
-			$.ajax(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '?' + querystring).done(successCallback).fail(errorCallback);
+			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(successCallback, errorCallback);
 		};
 
 		return {
@@ -42,7 +35,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', 'querystringService'];
+	eventsService.$inject = ['CONSTANTS', '$http', 'querystringService'];
 
 	app.factory('eventsService', eventsService);
 })(angular.module('eventsPageApp'));
@@ -133,11 +126,22 @@
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $animate, $timeout, CONSTANTS) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $animate, $timeout, CONSTANTS, eventsService) {
 		var self = this;
+
+		var eventServiceRequestModel = {
+			StartDate: '11/1/2017',
+			EndDate: '11/30/2017',
+			Take: 15,
+			Page: 1
+		};
+
+		eventsService.get(eventServiceRequestModel, function (response) {
+			self.events = response.data;
+		}, function () {});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS'];
+	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS', 'eventsService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
@@ -148,7 +152,7 @@
 		var eventLink = function eventLink($scope, eventElement, eventElementAttributes) {
 			var eventData = eventElementAttributes.eventData;
 
-			eventData.EventScheduleString = eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
+			$scope.EventScheduleString = eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
 		};
 
 		var directive = {

@@ -1,18 +1,10 @@
 ((app) => {
-	const eventsService = (CONSTANTS, querystringService) => {
-		const get = (startDate, endDate, take, page, successCallback, errorCallback) => {
-			const querystringSettings = {
-				startDate,
-				endDate,
-				take,
-				page
-			};
+	const eventsService = (CONSTANTS, $http, querystringService) => {
+		const get = (eventRequestModel, successCallback, errorCallback) => {
+			const querystring = querystringService.build(eventRequestModel);
 
-			const querystring = querystringService.build(querystringSettings);
-
-			$.ajax(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '?' + querystring)
-				.done(successCallback)
-				.fail(errorCallback);
+			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
+				.then(successCallback, errorCallback);
 		};
 
 		return {
@@ -20,7 +12,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', 'querystringService'];
+	eventsService.$inject = ['CONSTANTS', '$http', 'querystringService'];
 
 	app.factory('eventsService', eventsService);
 })(angular.module('eventsPageApp'));
