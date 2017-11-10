@@ -1,10 +1,10 @@
 ((app) => {
-	const eventDirective = (eventDataFormattingService) => {
+	const eventDirective = (eventDataDateFormattingService) => {
 		const eventLink = ($scope) => {
-			let eventData = $scope.eventData;
+			const eventItem = $scope.eventItem;
 
 			$scope.EventScheduleString =
-				eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
+				eventDataDateFormattingService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 		};
 
 		const directive = {
@@ -16,7 +16,7 @@
 		return directive;
 	};
 
-	eventDirective.$inject = ['eventDataFormattingService'];
+	eventDirective.$inject = ['eventDataDateFormattingService'];
 
 	app.directive('event', eventDirective);
 })(angular.module('eventsPageApp'));

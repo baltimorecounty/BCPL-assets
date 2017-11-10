@@ -453,27 +453,9 @@
 
 					</div>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-9 events-list">
 					<h1>Events</h1>
-					<div class="event-date-bar">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="event-date">
-									October 26, 2017
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="registration-required">
-									<i class="fa fa-asterisk required-asterisk" aria-hidden="true"></i> -Registration Required
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="cards events-cards">
-						<div id="events" class="list-view" style>
-							<event ng-repeat="eventData in eventsPage.events" />
-						</div>
-					</div>
+					<event-date ng-repeat="eventGroup in eventsPage.eventGroups" />
 				</div>
 		</div>
 		</main>

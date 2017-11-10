@@ -1,5 +1,5 @@
 ((app) => {
-	const eventDataFormattingService = () => {
+	const eventDataDateFormattingService = () => {
 		const formatSchedule = (eventStart, eventLength) => {
 			if (!eventStart || Number.isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
@@ -51,5 +51,5 @@
 		};
 	};
 
-	app.factory('eventDataFormattingService', eventDataFormattingService);
+	app.factory('eventDataDateFormattingService', eventDataDateFormattingService);
 })(angular.module('eventsPageApp'));

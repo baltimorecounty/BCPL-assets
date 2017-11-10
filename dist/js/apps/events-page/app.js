@@ -24,10 +24,37 @@
 
 (function (app) {
 	var eventsService = function eventsService(CONSTANTS, $http, querystringService) {
-		var get = function get(eventRequestModel, successCallback, errorCallback) {
-			var querystring = querystringService.build(eventRequestModel);
+		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
+			var eventItemDate = new Date(eventItem.EventStart).toLocaleDateString();
+			return eventItemDate === eventDate;
+		};
 
-			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(successCallback, errorCallback);
+		var dateSplitter = function dateSplitter(eventData) {
+			var eventsByDate = [];
+			var lastEventDate = void 0;
+
+			angular.forEach(eventData, function (eventItem) {
+				var eventDate = new Date(eventItem.EventStart).toLocaleDateString();
+
+				if (lastEventDate !== eventDate) {
+					eventsByDate.push({
+						date: eventDate,
+						events: eventData.filter(function (thisEvent) {
+							return isEventOnDate(thisEvent, eventDate);
+						})
+					});
+
+					lastEventDate = eventDate;
+				}
+			});
+
+			return eventsByDate;
+		};
+
+		var get = function get(eventRequestModel, successCallback, errorCallback) {
+			$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
+				successCallback(dateSplitter(response.data));
+			}, errorCallback);
 		};
 
 		return {
@@ -42,7 +69,7 @@
 'use strict';
 
 (function (app) {
-	var eventDataFormattingService = function eventDataFormattingService() {
+	var eventDataDateFormattingService = function eventDataDateFormattingService() {
 		var formatSchedule = function formatSchedule(eventStart, eventLength) {
 			if (!eventStart || Number.isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
@@ -89,7 +116,7 @@
 		};
 	};
 
-	app.factory('eventDataFormattingService', eventDataFormattingService);
+	app.factory('eventDataDateFormattingService', eventDataDateFormattingService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -136,8 +163,8 @@
 			Page: 1
 		};
 
-		eventsService.get(eventServiceRequestModel, function (response) {
-			self.events = response.data;
+		eventsService.get(eventServiceRequestModel, function (eventGroups) {
+			self.eventGroups = eventGroups;
 		}, function () {});
 	};
 
@@ -148,11 +175,11 @@
 'use strict';
 
 (function (app) {
-	var eventDirective = function eventDirective(eventDataFormattingService) {
+	var eventDirective = function eventDirective(eventDataDateFormattingService) {
 		var eventLink = function eventLink($scope) {
-			var eventData = $scope.eventData;
+			var eventItem = $scope.eventItem;
 
-			$scope.EventScheduleString = eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
+			$scope.EventScheduleString = eventDataDateFormattingService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 		};
 
 		var directive = {
@@ -164,7 +191,27 @@
 		return directive;
 	};
 
-	eventDirective.$inject = ['eventDataFormattingService'];
+	eventDirective.$inject = ['eventDataDateFormattingService'];
 
 	app.directive('event', eventDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var eventDateDirective = function eventDateDirective() {
+		var eventDateLink = function eventDateLink($scope) {
+			$scope.date = $scope.eventGroup.date;
+			$scope.events = $scope.eventGroup.events;
+		};
+
+		var directive = {
+			restrict: 'E',
+			templateUrl: '/dist/js/apps/events-page/templates/eventDate.html',
+			link: eventDateLink
+		};
+
+		return directive;
+	};
+
+	app.directive('eventDate', eventDateDirective);
 })(angular.module('eventsPageApp'));

@@ -8,7 +8,7 @@
 				</div>
 				<div class="col-xs-6 event-location">
 					<i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
-					<p>{{eventData.LocationName}}</p>
+					<p>{{eventItem.LocationName}}</p>
 				</div>
 			</div>
 		</div>
@@ -16,16 +16,16 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p class="event-name">
-						{{eventData.Title}} 
+						{{eventItem.Title}} 
 						<i class="fa fa-asterisk required-asterisk" aria-hidden="true" ng-show="eventData.RegistrationTypeCodeEnum !== 0"></i>
 					</p>						
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12 event-details">
-					<p>Event type(s): {{eventData.EventTypesString}}</p>
-					<p>Age group(s): {{eventData.AgeGroupsString}}</p>
-					<p>Tags: {{eventData.Tags}}</p>
+					<p>Event type(s): {{eventItem.EventTypesString}}</p>
+					<p>Age group(s): {{eventItem.AgeGroupsString}}</p>
+					<p>Tags: {{eventItem.Tags}}</p>
 				</div>
 			</div>
 		</div>

@@ -11,8 +11,8 @@
 			Page: 1
 		};
 
-		eventsService.get(eventServiceRequestModel, (response) => {
-			self.events = response.data;
+		eventsService.get(eventServiceRequestModel, (eventGroups) => {
+			self.eventGroups = eventGroups;
 		}, () => {});
 	};
 

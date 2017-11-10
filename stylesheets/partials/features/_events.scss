@@ -44,50 +44,55 @@
     }
 }
 
-.cards {
-    .card {
-        .card-icon {
-            color: $gray-light;
-        }
-        
-        .event-time {
-            word-wrap: break-word;
-            padding: 1em 0 0 1em;
-            text-align: center;
-            color: $gray;
-            font-weight: bold;
-            border: none !important;
-        }
-        
-        .event-location {
-            padding: 1em 0 0 0;
-            text-align: center;
-            color: $gray;
-            font-weight: bold;
-        }
-        
-        .event-name {
-            color: $teal-light;
-            font-weight: bold;
-            font-size: 24px;
-        
-            .required-asterisk {
-				color: red;
-				font-size: 12px;
-				display: inline-block;
-				position: relative;
-				top: -10px;
-            }        
-		}
-		
-		.event-details {
-			p {
-				padding: 0;
-				margin: 0;
+.events-list {
+	.cards {
+		float: none;
+
+		.card {
+			.card-icon {
+				color: $gray-light;
+			}
+			
+			.event-time {
+				word-wrap: break-word;
+				padding: 1em 0 0 1em;
+				text-align: center;
+				color: $gray;
+				font-weight: bold;
+				border: none !important;
+			}
+			
+			.event-location {
+				padding: 1em 0 0 0;
+				text-align: center;
+				color: $gray;
+				font-weight: bold;
+			}
+			
+			.event-name {
+				color: $teal-light;
+				font-weight: bold;
+				font-size: 24px;
+			
+				.required-asterisk {
+					color: red;
+					font-size: 12px;
+					display: inline-block;
+					position: relative;
+					top: -10px;
+				}        
+			}
+			
+			.event-details {
+				p {
+					padding: 0;
+					margin: 0;
+				}
 			}
 		}
-    }
+	}
 }
+
 
 .filters {
     margin-bottom: .75em;
