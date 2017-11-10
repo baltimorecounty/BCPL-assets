@@ -34,7 +34,7 @@
 
 			var querystring = querystringService.build(querystringSettings);
 
-			$.ajax(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events).done(successCallback).fail(errorCallback);
+			$.ajax(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '?' + querystring).done(successCallback).fail(errorCallback);
 		};
 
 		return {
@@ -49,8 +49,64 @@
 'use strict';
 
 (function (app) {
+	var eventDataFormattingService = function eventDataFormattingService() {
+		var formatSchedule = function formatSchedule(eventStart, eventLength) {
+			if (!eventStart || Number.isNaN(Date.parse(eventStart))) {
+				return 'Bad start date format';
+			}
+
+			if (typeof eventLength !== 'number' || eventLength <= 0) {
+				return 'Bad event length format';
+			}
+
+			var eventStartDate = new Date(eventStart);
+			var eventEndDate = new Date(eventStart);
+			eventEndDate.setMinutes(eventStartDate.getMinutes() + eventLength);
+
+			var startHour = get12HourValue(eventStartDate);
+			var startMinutes = getMinuteString(eventStartDate.getMinutes());
+			var startAmPm = getAmPm(eventStartDate);
+			var endHour = get12HourValue(eventEndDate);
+			var endMinutes = getMinuteString(eventEndDate.getMinutes());
+			var endAmPm = getAmPm(eventEndDate);
+
+			return startHour + ':' + startMinutes + ' ' + startAmPm + ' to ' + endHour + ':' + endMinutes + ' ' + endAmPm;
+		};
+
+		var get12HourValue = function get12HourValue(date) {
+			var rawHours = date.getHours();
+
+			if (rawHours === 0) return 12;
+
+			if (rawHours <= 12) return rawHours;
+
+			return rawHours - 12;
+		};
+
+		var getAmPm = function getAmPm(date) {
+			return date.getHours() < 12 ? 'a.m.' : 'p.m.';
+		};
+
+		var getMinuteString = function getMinuteString(minutes) {
+			return minutes < 10 ? '0' + minutes : '' + minutes;
+		};
+
+		return {
+			formatSchedule: formatSchedule
+		};
+	};
+
+	app.factory('eventDataFormattingService', eventDataFormattingService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
 	var querystringService = function querystringService() {
 		var build = function build(querystringSettings) {
+			if (!querystringSettings) {
+				return '';
+			}
+
 			var enumeratedProperties = Object.entries(querystringSettings);
 			var propertyNameIndex = 0;
 			var propertyValueIndex = 1;
@@ -84,4 +140,30 @@
 	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var eventDirective = function eventDirective(eventDataFormattingService) {
+		var eventLink = function eventLink($scope, eventElement, eventElementAttributes) {
+			var eventData = eventElementAttributes.eventData;
+
+			eventData.EventScheduleString = eventDataFormattingService.formatSchedule(eventData.EventStart, eventData.EventLength);
+		};
+
+		var directive = {
+			scope: {
+				eventData: '='
+			},
+			restrict: 'E',
+			templateUrl: '/dist/js/apps/events-page/templates/event.html',
+			link: eventLink
+		};
+
+		return directive;
+	};
+
+	eventDirective.$inject = ['eventDataFormattingService'];
+
+	app.directive('event', eventDirective);
 })(angular.module('eventsPageApp'));
