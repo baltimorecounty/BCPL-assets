@@ -1,5 +1,5 @@
 ((app) => {
-	const eventDateDirective = () => {
+	const eventDateDirective = (CONSTANTS) => {
 		const eventDateLink = ($scope) => {
 			const dateSettings = {
 				weekday: 'long',
@@ -8,26 +8,30 @@
 				day: 'numeric'
 			};
 
+			const eventDateBarStickySettings = {
+				zIndex: 100,
+				responsiveWidth: true
+			};
+
 			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
 			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
 
 			if ($scope.$last) {
-				$('.event-date-bar').sticky({
-					zIndex: 100,
-					responsiveWidth: true
-				});
+				$('.event-date-bar').sticky(eventDateBarStickySettings);
 			}
 		};
 
 		const directive = {
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/events-page/templates/eventDate.html',
+			templateUrl: CONSTANTS.templateUrls.eventDate,
 			link: eventDateLink
 		};
 
 		return directive;
 	};
+
+	eventDateDirective.$inject = ['CONSTANTS'];
 
 	app.directive('eventDate', eventDateDirective);
 })(angular.module('eventsPageApp'));

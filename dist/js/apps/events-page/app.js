@@ -15,7 +15,12 @@
 		baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
-		}
+		},
+		templateUrls: {
+			event: '/dist/js/apps/events-page/templates/event.html',
+			eventDate: '/dist/js/apps/events-page/templates/eventDate.html'
+		},
+		requestChunkSize: 25
 	};
 
 	app.constant('CONSTANTS', constants);
@@ -155,14 +160,14 @@
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $animate, $timeout, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, CONSTANTS, eventsService) {
 		var self = this;
 
+		var today = new Date().toLocaleDateString();
+
 		var eventServiceRequestModel = {
-			StartDate: '11/1/2017',
-			EndDate: '11/30/2017',
-			Limit: 25,
-			Page: 1
+			StartDate: today,
+			Limit: CONSTANTS.requestChunkSize
 		};
 
 		eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
@@ -170,14 +175,14 @@
 		});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS', 'eventsService'];
+	EventsPageCtrl.$inject = ['$scope', 'CONSTANTS', 'eventsService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDirective = function eventDirective(eventDataDateFormattingService) {
+	var eventDirective = function eventDirective(eventDataDateFormattingService, CONSTANTS) {
 		var eventLink = function eventLink($scope) {
 			var eventItem = $scope.eventItem;
 
@@ -186,21 +191,21 @@
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/events-page/templates/event.html',
+			templateUrl: CONSTANTS.templateUrls.event,
 			link: eventLink
 		};
 
 		return directive;
 	};
 
-	eventDirective.$inject = ['eventDataDateFormattingService'];
+	eventDirective.$inject = ['eventDataDateFormattingService', 'CONSTANTS'];
 
 	app.directive('event', eventDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDateDirective = function eventDateDirective() {
+	var eventDateDirective = function eventDateDirective(CONSTANTS) {
 		var eventDateLink = function eventDateLink($scope) {
 			var dateSettings = {
 				weekday: 'long',
@@ -209,26 +214,30 @@
 				day: 'numeric'
 			};
 
+			var eventDateBarStickySettings = {
+				zIndex: 100,
+				responsiveWidth: true
+			};
+
 			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
 			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
 
 			if ($scope.$last) {
-				$('.event-date-bar').sticky({
-					zIndex: 100,
-					responsiveWidth: true
-				});
+				$('.event-date-bar').sticky(eventDateBarStickySettings);
 			}
 		};
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/events-page/templates/eventDate.html',
+			templateUrl: CONSTANTS.templateUrls.eventDate,
 			link: eventDateLink
 		};
 
 		return directive;
 	};
+
+	eventDateDirective.$inject = ['CONSTANTS'];
 
 	app.directive('eventDate', eventDateDirective);
 })(angular.module('eventsPageApp'));

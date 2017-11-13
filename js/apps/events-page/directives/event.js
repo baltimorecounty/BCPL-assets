@@ -1,5 +1,5 @@
 ((app) => {
-	const eventDirective = (eventDataDateFormattingService) => {
+	const eventDirective = (eventDataDateFormattingService, CONSTANTS) => {
 		const eventLink = ($scope) => {
 			const eventItem = $scope.eventItem;
 
@@ -9,14 +9,14 @@
 
 		const directive = {
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/events-page/templates/event.html',
+			templateUrl: CONSTANTS.templateUrls.event,
 			link: eventLink
 		};
 
 		return directive;
 	};
 
-	eventDirective.$inject = ['eventDataDateFormattingService'];
+	eventDirective.$inject = ['eventDataDateFormattingService', 'CONSTANTS'];
 
 	app.directive('event', eventDirective);
 })(angular.module('eventsPageApp'));

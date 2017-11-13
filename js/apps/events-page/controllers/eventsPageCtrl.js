@@ -1,14 +1,14 @@
 ((app) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $animate, $timeout,	CONSTANTS, eventsService) {
+	const EventsPageCtrl = function EventsPageCtrl($scope, CONSTANTS, eventsService) {
 		const self = this;
 
+		const today = (new Date()).toLocaleDateString();
+
 		const eventServiceRequestModel = {
-			StartDate: '11/1/2017',
-			EndDate: '11/30/2017',
-			Limit: 25,
-			Page: 1
+			StartDate: today,
+			Limit: CONSTANTS.requestChunkSize
 		};
 
 		eventsService.get(eventServiceRequestModel)
@@ -17,7 +17,7 @@
 			});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$animate', '$timeout', 'CONSTANTS', 'eventsService'];
+	EventsPageCtrl.$inject = ['$scope', 'CONSTANTS', 'eventsService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
