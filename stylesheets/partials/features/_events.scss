@@ -31,7 +31,6 @@
     margin: .25em 0;
     text-transform: uppercase;
 	font-weight: bold;
-	transition: .25s all ease;
 	
     .required-asterisk {
         color: red;
@@ -40,7 +39,12 @@
     }
 
     .event-date {
-        padding-left: 1em;
+		display: inline-block;
+		padding-left: 1em;
+		position: relative;
+		left: 0;
+		transform: translateX(0);
+		transition: .5s all ease;
     }
 
     .registration-required {
@@ -52,10 +56,12 @@
 
 .is-sticky {
 	.event-date-bar {
-		left: 0;
-		right: 0;
 		margin: 0;
-		width: 100%;
+
+		.event-date {
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 }
 

@@ -14,7 +14,7 @@
 
 				if (lastEventDate !== eventDate) {
 					eventsByDate.push({
-						date: eventDate,
+						date: new Date(eventItem.EventStart),
 						events: eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventDate))
 					});
 

@@ -1,21 +1,20 @@
 ((app) => {
 	const eventDateDirective = () => {
-		const eventDateLink = ($scope, eventDateElement) => {
-			const date = new Date($scope.eventGroup.date);
+		const eventDateLink = ($scope) => {
 			const dateSettings = {
+				weekday: 'long',
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric'
 			};
 
-			$scope.date = date.toLocaleDateString('en-US', dateSettings);
+			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
-			$scope.id = 'datebar-' + $scope.eventGroup.date;
+			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
 
 			if ($scope.$last) {
 				$('.event-date-bar').sticky({
 					zIndex: 100,
-					getWidthFrom: 'body',
 					responsiveWidth: true
 				});
 			}

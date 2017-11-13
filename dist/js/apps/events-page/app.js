@@ -38,7 +38,7 @@
 
 				if (lastEventDate !== eventDate) {
 					eventsByDate.push({
-						date: eventDate,
+						date: new Date(eventItem.EventStart),
 						events: eventData.filter(function (thisEvent) {
 							return isEventOnDate(thisEvent, eventDate);
 						})
@@ -201,22 +201,21 @@
 
 (function (app) {
 	var eventDateDirective = function eventDateDirective() {
-		var eventDateLink = function eventDateLink($scope, eventDateElement) {
-			var date = new Date($scope.eventGroup.date);
+		var eventDateLink = function eventDateLink($scope) {
 			var dateSettings = {
+				weekday: 'long',
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric'
 			};
 
-			$scope.date = date.toLocaleDateString('en-US', dateSettings);
+			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			$scope.events = $scope.eventGroup.events;
-			$scope.id = 'datebar-' + $scope.eventGroup.date;
+			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
 
 			if ($scope.$last) {
 				$('.event-date-bar').sticky({
 					zIndex: 100,
-					getWidthFrom: 'body',
 					responsiveWidth: true
 				});
 			}
