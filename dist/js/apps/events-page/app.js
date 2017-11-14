@@ -277,13 +277,7 @@
 			innerScope.events = innerScope.eventGroupDisplay.events;
 			innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
 
-			/* scope.$watch('eventGroupDisplay', (newVal, oldVal) => {
-   	// console.log(newVal);
-   }); */
-
-			if (scope.$last) {
-				$('.event-date-bar').sticky(eventDateBarStickySettings);
-			}
+			$('.event-date-bar').sticky(eventDateBarStickySettings);
 		};
 
 		var directive = {
