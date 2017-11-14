@@ -9,9 +9,10 @@
 		},
 		templateUrls: {
 			event: '/dist/js/apps/events-page/templates/event.html',
-			eventDate: '/dist/js/apps/events-page/templates/eventDate.html'
+			eventDate: '/dist/js/apps/events-page/templates/eventDate.html',
+			loadMore: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
-		requestChunkSize: 25
+		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);

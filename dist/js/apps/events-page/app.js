@@ -18,9 +18,10 @@
 		},
 		templateUrls: {
 			event: '/dist/js/apps/events-page/templates/event.html',
-			eventDate: '/dist/js/apps/events-page/templates/eventDate.html'
+			eventDate: '/dist/js/apps/events-page/templates/eventDate.html',
+			loadMore: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
-		requestChunkSize: 25
+		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);
@@ -160,19 +161,73 @@
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
 		var self = this;
-
+		var firstPage = 1;
 		var eventServiceRequestModel = {
-			Limit: CONSTANTS.requestChunkSize
+			Limit: CONSTANTS.requestChunkSize,
+			Page: firstPage,
+			IsOngoingVisible: true
 		};
+
+		/* ** Public ** */
+
+		self.eventGroups = [];
+
+		self.chunkSize = CONSTANTS.requestChunkSize;
+
+		self.loadNextPage = function () {
+			eventServiceRequestModel.Page += 1;
+
+			eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
+				var results = combineEventGroups(self.eventGroups, eventGroups);
+				self.eventGroups = results;
+			});
+		};
+
+		/* ** Private ** */
+
+		/**
+   * Compares dates base on locale date string.
+   * @param {Date} day1Date
+   * @param {Date} day2Date
+   */
+		var isSameDay = function isSameDay(day1Date, day2Date) {
+			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
+				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+			}
+
+			return false;
+		};
+
+		/**
+   *
+   * @param {*} oldEventGroups
+   * @param {*} newEventGroups
+   */
+		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
+			var renderedEventGroups = oldEventGroups;
+			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
+
+			angular.forEach(newEventGroups, function (eventGroup) {
+				if (isSameDay(lastEventGroup.date, eventGroup.date)) {
+					lastEventGroup.events = lastEventGroup.events.concat(eventGroup.events);
+				} else {
+					renderedEventGroups.push(eventGroup);
+				}
+			});
+
+			return renderedEventGroups;
+		};
+
+		/* ** Init ** */
 
 		eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
 			self.eventGroups = eventGroups;
 		});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', 'CONSTANTS', 'eventsService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
@@ -203,7 +258,9 @@
 
 (function (app) {
 	var eventDateDirective = function eventDateDirective(CONSTANTS) {
-		var eventDateLink = function eventDateLink($scope) {
+		var eventDateLink = function eventDateLink(scope) {
+			var innerScope = scope;
+
 			var dateSettings = {
 				weekday: 'long',
 				year: 'numeric',
@@ -216,11 +273,15 @@
 				responsiveWidth: true
 			};
 
-			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
-			$scope.events = $scope.eventGroup.events;
-			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
+			innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
+			innerScope.events = innerScope.eventGroupDisplay.events;
+			innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
 
-			if ($scope.$last) {
+			/* scope.$watch('eventGroupDisplay', (newVal, oldVal) => {
+   	// console.log(newVal);
+   }); */
+
+			if (scope.$last) {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
 			}
 		};
@@ -228,7 +289,10 @@
 		var directive = {
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.eventDate,
-			link: eventDateLink
+			link: eventDateLink,
+			scope: {
+				eventGroupDisplay: '='
+			}
 		};
 
 		return directive;
@@ -237,4 +301,24 @@
 	eventDateDirective.$inject = ['CONSTANTS'];
 
 	app.directive('eventDate', eventDateDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var loadMoreDirective = function loadMoreDirective(CONSTANTS) {
+		var directive = {
+			restrict: 'E',
+			templateUrl: CONSTANTS.templateUrls.loadMore,
+			scope: {
+				loadNextPage: '=',
+				chunkSize: '='
+			}
+		};
+
+		return directive;
+	};
+
+	loadMoreDirective.$inject = ['CONSTANTS'];
+
+	app.directive('loadMore', loadMoreDirective);
 })(angular.module('eventsPageApp'));

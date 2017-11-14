@@ -504,7 +504,8 @@
 				</div>
 				<div class="col-md-9 events-list">
 					<h1>Events</h1>
-					<event-date ng-repeat="eventGroup in eventsPage.eventGroups"></event-date>
+					<event-date event-group-display="eventGroup" ng-repeat="eventGroup in eventsPage.eventGroups"></event-date>
+					<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage"></load-more>
 				</div>
 			</main>			
 		</div>

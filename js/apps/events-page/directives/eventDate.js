@@ -1,6 +1,8 @@
 ((app) => {
 	const eventDateDirective = (CONSTANTS) => {
-		const eventDateLink = ($scope) => {
+		const eventDateLink = (scope) => {
+			const innerScope = scope;
+
 			const dateSettings = {
 				weekday: 'long',
 				year: 'numeric',
@@ -13,11 +15,15 @@
 				responsiveWidth: true
 			};
 
-			$scope.date = $scope.eventGroup.date.toLocaleDateString('en-US', dateSettings);
-			$scope.events = $scope.eventGroup.events;
-			$scope.id = 'datebar-' + $scope.date.replace(' ', '-');
+			innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
+			innerScope.events = innerScope.eventGroupDisplay.events;
+			innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
 
-			if ($scope.$last) {
+			/* scope.$watch('eventGroupDisplay', (newVal, oldVal) => {
+				// console.log(newVal);
+			}); */
+
+			if (scope.$last) {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
 			}
 		};
@@ -25,7 +31,10 @@
 		const directive = {
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.eventDate,
-			link: eventDateLink
+			link: eventDateLink,
+			scope: {
+				eventGroupDisplay: '='
+			}
 		};
 
 		return directive;
