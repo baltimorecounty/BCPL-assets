@@ -4,10 +4,7 @@
 	const EventsPageCtrl = function EventsPageCtrl($scope, CONSTANTS, eventsService) {
 		const self = this;
 
-		const today = (new Date()).toLocaleDateString();
-
 		const eventServiceRequestModel = {
-			StartDate: today,
 			Limit: CONSTANTS.requestChunkSize
 		};
 

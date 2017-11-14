@@ -163,10 +163,7 @@
 	var EventsPageCtrl = function EventsPageCtrl($scope, CONSTANTS, eventsService) {
 		var self = this;
 
-		var today = new Date().toLocaleDateString();
-
 		var eventServiceRequestModel = {
-			StartDate: today,
 			Limit: CONSTANTS.requestChunkSize
 		};
 
