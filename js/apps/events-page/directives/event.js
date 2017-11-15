@@ -9,7 +9,7 @@
 
 		const directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.event,
+			templateUrl: CONSTANTS.templateUrls.eventTemplate,
 			link: eventLink
 		};
 

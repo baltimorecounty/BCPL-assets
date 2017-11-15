@@ -17,9 +17,9 @@
 			events: '/api/evanced/signup/events'
 		},
 		templateUrls: {
-			event: '/dist/js/apps/events-page/templates/event.html',
-			eventDate: '/dist/js/apps/events-page/templates/eventDate.html',
-			loadMore: '/dist/js/apps/events-page/templates/loadMore.html'
+			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
+			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
+			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		}
 	};
 
@@ -39,17 +39,17 @@
 			var lastEventDateLocaleString = void 0;
 
 			angular.forEach(eventData, function (eventItem) {
-				var eventDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
-				if (lastEventDateLocaleString !== eventDateLocaleString) {
+				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
 					eventsByDate.push({
 						date: new Date(eventItem.EventStart),
 						events: eventData.filter(function (thisEvent) {
-							return isEventOnDate(thisEvent, eventDateLocaleString);
+							return isEventOnDate(thisEvent, eventStartDateLocaleString);
 						})
 					});
 
-					lastEventDateLocaleString = eventDateLocaleString;
+					lastEventDateLocaleString = eventStartDateLocaleString;
 				}
 			});
 
@@ -231,7 +231,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.event,
+			templateUrl: CONSTANTS.templateUrls.eventTemplate,
 			link: eventLink
 		};
 
@@ -272,7 +272,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventDate,
+			templateUrl: CONSTANTS.templateUrls.eventDateTemplate,
 			link: eventDateLink,
 			scope: {
 				eventGroupDisplay: '='
@@ -292,7 +292,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var loadMoreDirective = function loadMoreDirective(CONSTANTS) {
 		var directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.loadMore,
+			templateUrl: CONSTANTS.templateUrls.loadMoreTemplate,
 			scope: {
 				loadNextPage: '='
 			}

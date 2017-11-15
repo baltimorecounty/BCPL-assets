@@ -26,7 +26,7 @@
 
 		const directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventDate,
+			templateUrl: CONSTANTS.templateUrls.eventDateTemplate,
 			link: eventDateLink,
 			scope: {
 				eventGroupDisplay: '='

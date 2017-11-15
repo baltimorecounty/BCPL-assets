@@ -10,15 +10,16 @@
 			let lastEventDateLocaleString;
 
 			angular.forEach(eventData, (eventItem) => {
-				let eventDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
+				let eventStartDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
 
-				if (lastEventDateLocaleString !== eventDateLocaleString) {
+				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
 					eventsByDate.push({
 						date: new Date(eventItem.EventStart),
-						events: eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventDateLocaleString))
+						events: eventData.filter((thisEvent) =>
+							isEventOnDate(thisEvent, eventStartDateLocaleString))
 					});
 
-					lastEventDateLocaleString = eventDateLocaleString;
+					lastEventDateLocaleString = eventStartDateLocaleString;
 				}
 			});
 

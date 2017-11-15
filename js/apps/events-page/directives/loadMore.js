@@ -2,7 +2,7 @@
 	const loadMoreDirective = (CONSTANTS) => {
 		const directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.loadMore,
+			templateUrl: CONSTANTS.templateUrls.loadMoreTemplate,
 			scope: {
 				loadNextPage: '='
 			}
