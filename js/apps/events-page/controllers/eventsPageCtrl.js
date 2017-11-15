@@ -1,10 +1,10 @@
 ((app) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService, dateUtility) {
 		const self = this;
 		const firstPage = 1;
-		const eventServiceRequestModel = {
+		const requestModel = {
 			StartDate: new Date(),
 			EndDate: new Date(),
 			Page: firstPage,
@@ -18,38 +18,24 @@
 		self.chunkSize = CONSTANTS.requestChunkSize;
 
 		self.loadNextPage = () => {
-			eventServiceRequestModel.StartDate = addDays(eventServiceRequestModel.StartDate, 1);
-			eventServiceRequestModel.EndDate = addDays(eventServiceRequestModel.EndDate, 1);
+			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);
+			requestModel.EndDate = dateUtility.addDays(requestModel.EndDate, 1);
 
-			eventsService.get(eventServiceRequestModel)
+			eventsService.get(requestModel)
 				.then((eventGroups) => {
 					self.eventGroups = self.eventGroups.concat(eventGroups);
 				});
 		};
 
-		/* ** Private ** */
-
-		const addDays = (dateOrString, daysToAdd) => {
-			const date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
-
-			if (typeof date !== 'object') {
-				return date;
-			}
-
-			date.setDate(date.getDate() + daysToAdd);
-
-			return date;
-		};
-
 		/* ** Init ** */
 
-		eventsService.get(eventServiceRequestModel)
+		eventsService.get(requestModel)
 			.then((eventGroups) => {
 				self.eventGroups = eventGroups;
 			});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));

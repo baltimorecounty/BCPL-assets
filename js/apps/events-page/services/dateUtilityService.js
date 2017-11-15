@@ -1,5 +1,17 @@
 ((app) => {
-	const eventDataDateFormattingService = () => {
+	const dateUtilityService = () => {
+		const addDays = (dateOrString, daysToAdd) => {
+			const date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
+
+			if (typeof date !== 'object' || date === 'Invalid Date') {
+				return date;
+			}
+
+			date.setDate(date.getDate() + daysToAdd);
+
+			return date;
+		};
+
 		const formatSchedule = (eventStart, eventLength) => {
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
@@ -47,9 +59,10 @@
 			getAmPm,
 			getMinuteString,
 			/* end-test-code */
+			addDays,
 			formatSchedule
 		};
 	};
 
-	app.factory('eventDataDateFormattingService', eventDataDateFormattingService);
+	app.factory('dateUtilityService', dateUtilityService);
 })(angular.module('eventsPageApp'));

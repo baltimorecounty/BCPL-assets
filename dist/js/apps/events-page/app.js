@@ -81,8 +81,22 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function (app) {
-	var eventDataDateFormattingService = function eventDataDateFormattingService() {
+	var dateUtilityService = function dateUtilityService() {
+		var addDays = function addDays(dateOrString, daysToAdd) {
+			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
+
+			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object' || date === 'Invalid Date') {
+				return date;
+			}
+
+			date.setDate(date.getDate() + daysToAdd);
+
+			return date;
+		};
+
 		var formatSchedule = function formatSchedule(eventStart, eventLength) {
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
@@ -125,11 +139,12 @@
 		};
 
 		return {
+			addDays: addDays,
 			formatSchedule: formatSchedule
 		};
 	};
 
-	app.factory('eventDataDateFormattingService', eventDataDateFormattingService);
+	app.factory('dateUtilityService', dateUtilityService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -163,15 +178,13 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService, dateUtility) {
 		var self = this;
 		var firstPage = 1;
-		var eventServiceRequestModel = {
+		var requestModel = {
 			StartDate: new Date(),
 			EndDate: new Date(),
 			Page: firstPage,
@@ -185,47 +198,33 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.chunkSize = CONSTANTS.requestChunkSize;
 
 		self.loadNextPage = function () {
-			eventServiceRequestModel.StartDate = addDays(eventServiceRequestModel.StartDate, 1);
-			eventServiceRequestModel.EndDate = addDays(eventServiceRequestModel.EndDate, 1);
+			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);
+			requestModel.EndDate = dateUtility.addDays(requestModel.EndDate, 1);
 
-			eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
+			eventsService.get(requestModel).then(function (eventGroups) {
 				self.eventGroups = self.eventGroups.concat(eventGroups);
 			});
 		};
 
-		/* ** Private ** */
-
-		var addDays = function addDays(dateOrString, daysToAdd) {
-			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
-
-			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object') {
-				return date;
-			}
-
-			date.setDate(date.getDate() + daysToAdd);
-
-			return date;
-		};
-
 		/* ** Init ** */
 
-		eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
+		eventsService.get(requestModel).then(function (eventGroups) {
 			self.eventGroups = eventGroups;
 		});
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDirective = function eventDirective(eventDataDateFormattingService, CONSTANTS) {
+	var eventDirective = function eventDirective(dateUtilityService, CONSTANTS) {
 		var eventLink = function eventLink($scope) {
 			var eventItem = $scope.eventItem;
 
-			$scope.EventScheduleString = eventDataDateFormattingService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+			$scope.EventScheduleString = dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 		};
 
 		var directive = {
@@ -237,7 +236,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	eventDirective.$inject = ['eventDataDateFormattingService', 'CONSTANTS'];
+	eventDirective.$inject = ['dateUtilityService', 'CONSTANTS'];
 
 	app.directive('event', eventDirective);
 })(angular.module('eventsPageApp'));
