@@ -17,8 +17,14 @@
 				<div class="col-md-12">
 					<p class="event-name">
 						{{eventItem.Title}} 
-						<i class="fa fa-asterisk required-asterisk" aria-hidden="true" ng-show="eventData.RegistrationTypeCodeEnum !== 0"></i>
 					</p>						
+				</div>
+			</div>
+			<div class="row" ng-show="eventData.RegistrationTypeCodeEnum !== 0">
+				<div class="col-md-12">
+					<div class="registration-required">
+						<i class="fa fa-star" aria-hidden="true"></i> Registration Required
+					</div>						
 				</div>
 			</div>
 			<div class="row">

@@ -31,12 +31,6 @@
     margin: .25em 0;
     text-transform: uppercase;
 	font-weight: bold;
-	
-    .required-asterisk {
-        color: red;
-        font-weight: normal;
-        font-size: medium;
-    }
 
     .event-date {
 		display: inline-block;
@@ -45,12 +39,6 @@
 		left: 0;
 		transform: translateX(0);
 		transition: .5s all ease;
-    }
-
-    .registration-required {
-        text-align: right;
-        padding-right: 1em;
-        font-size: 12px;
     }
 }
 
@@ -95,15 +83,20 @@
 			.event-name {
 				color: $teal-light;
 				font-weight: bold;
-				font-size: 24px;
-			
-				.required-asterisk {
-					color: red;
-					font-size: 12px;
-					display: inline-block;
+				font-size: 24px;			   
+			}
+
+			.registration-required {
+				color: red;
+				font-size: .8em;
+				font-weight: 700;
+				padding: .5em 0;
+				text-transform: uppercase;
+
+				i {
 					position: relative;
-					top: -10px;
-				}        
+					top: -1px;
+				}
 			}
 			
 			.event-details {
