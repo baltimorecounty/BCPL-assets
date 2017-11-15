@@ -58,8 +58,13 @@
 		};
 
 		var get = function get(eventRequestModel) {
+			var localeEventRequestModel = eventRequestModel;
+
+			localeEventRequestModel.StartDate = localeEventRequestModel.StartDate.toLocaleDateString();
+			localeEventRequestModel.EndDate = localeEventRequestModel.EndDate.toLocaleDateString();
+
 			return $q(function (resolve, reject) {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
 					resolve(dateSplitter(response.data));
 				}, reject);
 			});
@@ -158,6 +163,8 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function (app) {
 	'use strict';
 
@@ -165,7 +172,8 @@
 		var self = this;
 		var firstPage = 1;
 		var eventServiceRequestModel = {
-			Limit: CONSTANTS.requestChunkSize,
+			StartDate: new Date(),
+			EndDate: new Date(),
 			Page: firstPage,
 			IsOngoingVisible: true
 		};
@@ -177,47 +185,26 @@
 		self.chunkSize = CONSTANTS.requestChunkSize;
 
 		self.loadNextPage = function () {
-			eventServiceRequestModel.Page += 1;
+			eventServiceRequestModel.StartDate = addDays(eventServiceRequestModel.StartDate, 1);
+			eventServiceRequestModel.EndDate = addDays(eventServiceRequestModel.EndDate, 1);
 
 			eventsService.get(eventServiceRequestModel).then(function (eventGroups) {
-				var results = combineEventGroups(self.eventGroups, eventGroups);
-				self.eventGroups = results;
+				self.eventGroups = self.eventGroups.concat(eventGroups);
 			});
 		};
 
 		/* ** Private ** */
 
-		/**
-   * Compares dates base on locale date string.
-   * @param {Date} day1Date
-   * @param {Date} day2Date
-   */
-		var isSameDay = function isSameDay(day1Date, day2Date) {
-			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
-				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+		var addDays = function addDays(dateOrString, daysToAdd) {
+			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
+
+			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object') {
+				return date;
 			}
 
-			return false;
-		};
+			date.setDate(date.getDate() + daysToAdd);
 
-		/**
-   *
-   * @param {*} oldEventGroups
-   * @param {*} newEventGroups
-   */
-		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
-			var renderedEventGroups = oldEventGroups;
-			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
-
-			angular.forEach(newEventGroups, function (eventGroup) {
-				if (isSameDay(lastEventGroup.date, eventGroup.date)) {
-					lastEventGroup.events = lastEventGroup.events.concat(eventGroup.events);
-				} else {
-					renderedEventGroups.push(eventGroup);
-				}
-			});
-
-			return renderedEventGroups;
+			return date;
 		};
 
 		/* ** Init ** */

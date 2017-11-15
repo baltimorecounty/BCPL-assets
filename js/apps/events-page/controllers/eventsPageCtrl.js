@@ -5,7 +5,8 @@
 		const self = this;
 		const firstPage = 1;
 		const eventServiceRequestModel = {
-			Limit: CONSTANTS.requestChunkSize,
+			StartDate: new Date(),
+			EndDate: new Date(),
 			Page: firstPage,
 			IsOngoingVisible: true
 		};
@@ -17,48 +18,27 @@
 		self.chunkSize = CONSTANTS.requestChunkSize;
 
 		self.loadNextPage = () => {
-			eventServiceRequestModel.Page += 1;
+			eventServiceRequestModel.StartDate = addDays(eventServiceRequestModel.StartDate, 1);
+			eventServiceRequestModel.EndDate = addDays(eventServiceRequestModel.EndDate, 1);
 
 			eventsService.get(eventServiceRequestModel)
 				.then((eventGroups) => {
-					const results = combineEventGroups(self.eventGroups, eventGroups);
-					self.eventGroups = results;
+					self.eventGroups = self.eventGroups.concat(eventGroups);
 				});
 		};
 
 		/* ** Private ** */
 
-		/**
-		 * Compares dates base on locale date string.
-		 * @param {Date} day1Date
-		 * @param {Date} day2Date
-		 */
-		const isSameDay = (day1Date, day2Date) => {
-			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
-				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+		const addDays = (dateOrString, daysToAdd) => {
+			const date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
+
+			if (typeof date !== 'object') {
+				return date;
 			}
 
-			return false;
-		};
+			date.setDate(date.getDate() + daysToAdd);
 
-		/**
-		 *
-		 * @param {*} oldEventGroups
-		 * @param {*} newEventGroups
-		 */
-		const combineEventGroups = (oldEventGroups, newEventGroups) => {
-			let renderedEventGroups = oldEventGroups;
-			let lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
-
-			angular.forEach(newEventGroups, (eventGroup) => {
-				if (isSameDay(lastEventGroup.date, eventGroup.date)) {
-					lastEventGroup.events = lastEventGroup.events.concat(eventGroup.events);
-				} else {
-					renderedEventGroups.push(eventGroup);
-				}
-			});
-
-			return renderedEventGroups;
+			return date;
 		};
 
 		/* ** Init ** */
