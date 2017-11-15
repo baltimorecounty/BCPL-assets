@@ -11,16 +11,16 @@ button {
 .btn-primary {
 	background-color: $teal;
 
-	&.btn-uppercase-bold {
-		text-transform: uppercase;
-		font-weight: 700;
-		padding: .25em 1em;
-		margin-bottom: 2em;
-	}
-
 	&:hover {
 		background-color: $teal-light;
 	}
+}
+
+.btn-uppercase-bold {
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: .25em 1em;
+	margin-bottom: 2em;
 }
 
 .btn-default {
