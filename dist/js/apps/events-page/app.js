@@ -20,8 +20,7 @@
 			event: '/dist/js/apps/events-page/templates/event.html',
 			eventDate: '/dist/js/apps/events-page/templates/eventDate.html',
 			loadMore: '/dist/js/apps/events-page/templates/loadMore.html'
-		},
-		requestChunkSize: 10
+		}
 	};
 
 	app.constant('CONSTANTS', constants);
@@ -194,8 +193,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		/* ** Public ** */
 
 		self.eventGroups = [];
-
-		self.chunkSize = CONSTANTS.requestChunkSize;
 
 		self.loadNextPage = function () {
 			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);

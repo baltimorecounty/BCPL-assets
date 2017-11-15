@@ -15,8 +15,6 @@
 
 		self.eventGroups = [];
 
-		self.chunkSize = CONSTANTS.requestChunkSize;
-
 		self.loadNextPage = () => {
 			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);
 			requestModel.EndDate = dateUtility.addDays(requestModel.EndDate, 1);
