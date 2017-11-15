@@ -2,9 +2,9 @@
 
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
+bcpl.pageSpecific.search = function ($, Handlebars, querystringer, CONSTANTS) {
 	var getMaterialTypeData = function getMaterialTypeData(processMaterialTypeCallback) {
-		$.ajax('/mockups/data/primaryMaterialType.json').then(function (json) {
+		$.ajax(CONSTANTS.search.urls.materialTypes).then(function (json) {
 			return processMaterialTypeCallback(json);
 		}, function (err) {
 			return console.log(err);
@@ -107,7 +107,7 @@ bcpl.pageSpecific.search = function ($, Handlebars, querystringer) {
 	return {
 		init: init
 	};
-}(jQuery, Handlebars, bcpl.utility.querystringer);
+}(jQuery, Handlebars, bcpl.utility.querystringer, bcpl.constants);
 
 $(function () {
 	bcpl.pageSpecific.search.init();

@@ -33,7 +33,5 @@
 		return directive;
 	};
 
-	filterDirective.$inject = [];
-
 	app.directive('filter', filterDirective);
 })(angular.module('filterPageApp'));

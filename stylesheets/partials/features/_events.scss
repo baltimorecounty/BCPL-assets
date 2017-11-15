@@ -1,44 +1,37 @@
  
-.keyword-search-bar {
-    background-color: white;
-    margin: 1em 0 1em;
-    padding: 1em;
-    position: relative;
-    border-top: 4px solid $tan;
+.events-search-wrapper {
+	.keyword-search-wrapper {
+		position: relative;
 
-
-    .keyword-search {
-        padding-right: 35px;
-    }
-
-    .search-button {
-        position: absolute;
-        z-index: 99;
-        right: 20px;
-        top: 3px;
-    }
-
-    .keyword-search-icon {
-        color: $gray-light;
-        display: inline-block;
-        cursor: pointer;
-    
-       
-        &:hover {
-            color: $teal-light; 
-        }
-    }
+		.keyword-search {
+			padding-right: 35px;
+		}
+	
+		.keyword-search-icon {
+			position: absolute;
+			z-index: 99;
+			right: 8px;
+			top: 8px;
+			color: $gray-light;
+			display: inline-block;
+		}
+	}
 }
 
+.sticky:before,
+.sticky:after {
+    content: '';
+    display: table;
+}
 
 .event-date-bar {
     background-color: $red;
     color: white;
     padding: 1em 0 1em;
-    margin: .25em 0 .25em;
+    margin: .25em 0;
     text-transform: uppercase;
-    font-weight: bold;
-
+	font-weight: bold;
+	
     .required-asterisk {
         color: red;
         font-weight: normal;
@@ -46,7 +39,12 @@
     }
 
     .event-date {
-        padding-left: 1em;
+		display: inline-block;
+		padding-left: 1em;
+		position: relative;
+		left: 0;
+		transform: translateX(0);
+		transition: .5s all ease;
     }
 
     .registration-required {
@@ -56,61 +54,68 @@
     }
 }
 
-.cards {
-    .card {
-        .card-icon {
-            color: $gray-light;
-        }
-        
-        .event-time {
-            word-wrap: break-word;
-            padding: 1em 0 0 1em;
-            text-align: center;
-            color: $gray;
-            font-weight: bold;
-            border: none !important;
-        }
-        
-        .event-location {
-            padding: 1em 0 0 0;
-            text-align: center;
-            color: $gray;
-            font-weight: bold;
-        }
-        
-        .event-name {
-            color: $teal-light;
-            font-weight: bold;
-            font-size: 24px;
-            padding-left: 40px;
-            position: relative;
-        
-            .required-asterisk {
-                color: red;
-                padding-bottom: 5px;
-                z-index: 100;
-                font-size: medium;
-                position: absolute;
-            }
-        
-            .event-tag-button {
-                background-color: $gray-light;
-                color: white;
-                font-weight: normal;
-                font-size: 12px;
-                padding: .5em 1.25em;
-                margin: 1.25em .25em 0;
-                text-transform: uppercase;
-                border-radius: 20px;
-                display: inline-block;
+.is-sticky {
+	.event-date-bar {
+		margin: 0;
 
-                &:first-child {
-                    margin-left: 0;
-                }
-            }
-        }
-    }
+		.event-date {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
 }
+
+.events-list {
+	margin-bottom: 2em;
+
+	.cards {
+		float: none;
+
+		.card {
+			.card-icon {
+				color: $gray-light;
+			}
+			
+			.event-time {
+				word-wrap: break-word;
+				padding: 1em 0 0 1em;
+				text-align: center;
+				color: $gray;
+				font-weight: bold;
+				border: none !important;
+			}
+			
+			.event-location {
+				padding: 1em 0 0 0;
+				text-align: center;
+				color: $gray;
+				font-weight: bold;
+			}
+			
+			.event-name {
+				color: $teal-light;
+				font-weight: bold;
+				font-size: 24px;
+			
+				.required-asterisk {
+					color: red;
+					font-size: 12px;
+					display: inline-block;
+					position: relative;
+					top: -10px;
+				}        
+			}
+			
+			.event-details {
+				p {
+					padding: 0;
+					margin: 0;
+				}
+			}
+		}
+	}
+}
+
 
 .filters {
     margin-bottom: .75em;
@@ -131,10 +136,28 @@
         .filter-items-wrapper {
             padding: 1em;
 
-            label {
-                display: block;
-                font-weight: normal;
-            }
+			h4 {
+				margin: 0 0 .5em;
+				padding: 0;		
+			}
+				
+			.filter-control-wapper {
+				padding-bottom: 1em;
+				
+				&:last-child {
+					padding: .5em 0 0;
+				}
+
+				label {
+					display: block;
+					font-weight: normal;
+				}
+				
+				button {
+					display: block;
+					width: 100%;
+				}
+			}
         }
     }
 }
@@ -172,61 +195,49 @@
     }
 }
 
-.clear-button {
-    background-color: $teal-dark;
-    color: white; 
-    width: 5em;
-    height: 2.5em;
-    margin: 2em 0 1em;
+.datepickers {
+	padding-top: .5em;
 
-    &:hover {
-        background-color: $teal-light;
-        color: white;
-    }
+	input[type="text"], 
+	input[type="date"], 
+	input[type="datetime-local"], 
+	input[type="time"] {
+		border: 1px solid $gray-light;
+		width: 100%;
+		padding: 8px;
+		border-radius: 3px;
+	}
+
+	.calendar-datepicker-label {
+		display: block;
+		position: relative;
+	
+		input::placeholder {
+			color: $teal;
+		}
+	
+		.calendar-datepicker {
+			padding-right: 50px;
+		}
+		
+		.calendar-datepicker-icon {
+			position: absolute;
+			right: 10px;
+			z-index: 100;
+			top: 30px;
+			cursor: pointer;
+		}
+	}
+		
+	input.flatpickr {
+		cursor: pointer;
+	}
 }
 
-input[type="text"], input[type="date"], input[type="datetime-local"], input[type="time"] {
-    border: 1px solid #c3c3c3;
-    height: 36px;
-    line-height: 36px;
-    width: 100%;
-    padding: 8px;
-    max-width: 360px;
-    border-radius: 3px;
-    background: #fff;
-}
-
-input.flatpickr {
-    cursor: pointer;
-}
-
-.calendar-datepicker-label {
-
-    display: block;
-    position: relative;
-
-    input::placeholder {
-        color: $teal;
-    }
-
-    .calendar-datepicker {
-        padding-right: 50px;
-    }
-    
-    .calendar-datepicker-icon {
-        position: absolute;
-        right: 10px;
-        z-index: 100;
-        top: 30px;
-        cursor: pointer;
-    }
-}
 
 #start-date {
     margin: 0 3em 0 0;
 }
-
-
 
 body, input {
     font-weight: 400;

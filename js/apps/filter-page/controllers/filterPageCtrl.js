@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, tagParser, $animate, $timeout) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -34,27 +34,18 @@
 		 * @param {[string]} filters
 		 * @param {[*]} branchData
 		 */
-		const loadCardsAndFilters = (filters, cardData) => {
-			self.filters = filters;
-			self.allCardData = cardData;
-			self.items = cardData;
+		const loadCardsAndFilters = (cardData) => {
+			if (!cardData.length) { return; }
+
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
+
+			self.filters = filterService.build(taggedCardData);
+			self.allCardData = taggedCardData;
+			self.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
 			$scope.$apply();
 		};
 
-		const transformAttributesToTags = (cardDataItem) => {
-			const attributes = cardDataItem.attributes;
-			let tags = [];
-
-			attributes.forEach((attribute) => {
-				const tagName = tagParser.extractTagName(attribute);
-				if (tagName.length > 0) {
-					tags.push(tagName);
-				}
-			});
-
-			return tags;
-		};
 		/**
 		 * Allows for multiple-filter matches by verifying an active branch has
 		 * "all" active filters, and not just "any" active filters.
@@ -66,7 +57,7 @@
 
 			if (!cardDataItem) return false;
 
-			const tags = transformAttributesToTags(cardDataItem);
+			const tags = _.pluck(cardDataItem.Tags, 'Tag');
 
 			angular.forEach(self.activeFilters, (activeFilter) => {
 				if (tags.indexOf(activeFilter) !== -1) {
@@ -84,14 +75,25 @@
 		 * @param {*} filter
 		 */
 		const setActiveFilters = (filter, filterFamily) => {
-			const filterIndex = self.activeFilters.indexOf(filter);
+			const isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
+			const tagString = isTagInfo ? filter.Tag : filter;
+			const filterIndex = self.activeFilters.indexOf(tagString);
 			const shouldAddFilter = filterIndex === -1;
-			const isPickOne = filterFamily.type.trim().toLowerCase() === 'one';
+			let foundFilterFamily = filterFamily;
+
+			if (isTagInfo) {
+				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				if (foundFilterFamily.length === 1) {
+					foundFilterFamily = foundFilterFamily[0];
+				}
+			}
+
+			const isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
 			let tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
-				angular.forEach(filterFamily.tags, (tag) => {
-					if (tag !== filter) {
+				angular.forEach(foundFilterFamily.tags, (tag) => {
+					if (tag !== tagString) {
 						tagsToRemove.push(tag);
 					}
 				});
@@ -106,15 +108,32 @@
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(filter);
+				self.activeFilters.push(tagString);
 			} else {
 				self.activeFilters.splice(filterIndex, 1);
 			}
 		};
 
+		const showFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
+		};
+
+		const hideFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+		};
+
 		/* init */
 
 		cardService.get(loadCardsAndFilters);
+
+		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
+		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 		/* test-code */
 		self.setActiveFilters = setActiveFilters;
@@ -122,7 +141,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'tagParsingService', '$animate', '$timeout'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
