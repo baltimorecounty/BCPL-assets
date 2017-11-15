@@ -198,7 +198,10 @@
 .datepickers {
 	padding-top: .5em;
 
-	input[type="text"], input[type="date"], input[type="datetime-local"], input[type="time"] {
+	input[type="text"], 
+	input[type="date"], 
+	input[type="datetime-local"], 
+	input[type="time"] {
 		border: 1px solid $gray-light;
 		width: 100%;
 		padding: 8px;

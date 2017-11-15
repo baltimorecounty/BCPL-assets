@@ -1,24 +1,24 @@
 ((app) => {
 	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
-			const eventItemDate = (new Date(eventItem.EventStart)).toLocaleDateString();
-			return eventItemDate === eventDate;
+			const eventItemStartDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
+			return eventItemStartDateLocaleString === eventDate;
 		};
 
 		const dateSplitter = (eventData) => {
 			let eventsByDate = [];
-			let lastEventDate;
+			let lastEventDateLocaleString;
 
 			angular.forEach(eventData, (eventItem) => {
-				let eventDate = (new Date(eventItem.EventStart)).toLocaleDateString();
+				let eventDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
 
-				if (lastEventDate !== eventDate) {
+				if (lastEventDateLocaleString !== eventDateLocaleString) {
 					eventsByDate.push({
 						date: new Date(eventItem.EventStart),
-						events: eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventDate))
+						events: eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventDateLocaleString))
 					});
 
-					lastEventDate = eventDate;
+					lastEventDateLocaleString = eventDateLocaleString;
 				}
 			});
 
@@ -34,7 +34,11 @@
 			return $q((resolve, reject) => {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel)
 					.then((response) => {
-						resolve(dateSplitter(response.data));
+						if (response.data) {
+							resolve(dateSplitter(response.data));
+						} else {
+							reject(response);
+						}
 					}, reject);
 			});
 		};

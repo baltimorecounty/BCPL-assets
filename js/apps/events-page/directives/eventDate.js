@@ -15,9 +15,11 @@
 				responsiveWidth: true
 			};
 
-			innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
-			innerScope.events = innerScope.eventGroupDisplay.events;
-			innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
+			if (innerScope.eventGroupDisplay) {
+				innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
+				innerScope.events = innerScope.eventGroupDisplay.events;
+				innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
+			}
 
 			$('.event-date-bar').sticky(eventDateBarStickySettings);
 		};

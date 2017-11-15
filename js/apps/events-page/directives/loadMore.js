@@ -4,8 +4,7 @@
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.loadMore,
 			scope: {
-				loadNextPage: '=',
-				chunkSize: '='
+				loadNextPage: '='
 			}
 		};
 

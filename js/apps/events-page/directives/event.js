@@ -3,7 +3,7 @@
 		const eventLink = ($scope) => {
 			const eventItem = $scope.eventItem;
 
-			$scope.EventScheduleString =
+			$scope.eventScheduleString =
 				dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 		};
 

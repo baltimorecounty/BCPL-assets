@@ -30,26 +30,26 @@
 (function (app) {
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
-			var eventItemDate = new Date(eventItem.EventStart).toLocaleDateString();
-			return eventItemDate === eventDate;
+			var eventItemStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+			return eventItemStartDateLocaleString === eventDate;
 		};
 
 		var dateSplitter = function dateSplitter(eventData) {
 			var eventsByDate = [];
-			var lastEventDate = void 0;
+			var lastEventDateLocaleString = void 0;
 
 			angular.forEach(eventData, function (eventItem) {
-				var eventDate = new Date(eventItem.EventStart).toLocaleDateString();
+				var eventDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
-				if (lastEventDate !== eventDate) {
+				if (lastEventDateLocaleString !== eventDateLocaleString) {
 					eventsByDate.push({
 						date: new Date(eventItem.EventStart),
 						events: eventData.filter(function (thisEvent) {
-							return isEventOnDate(thisEvent, eventDate);
+							return isEventOnDate(thisEvent, eventDateLocaleString);
 						})
 					});
 
-					lastEventDate = eventDate;
+					lastEventDateLocaleString = eventDateLocaleString;
 				}
 			});
 
@@ -64,7 +64,11 @@
 
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
-					resolve(dateSplitter(response.data));
+					if (response.data) {
+						resolve(dateSplitter(response.data));
+					} else {
+						reject(response);
+					}
 				}, reject);
 			});
 		};
@@ -107,7 +111,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			var eventStartDate = new Date(eventStart);
 			var eventEndDate = new Date(eventStart);
-			eventEndDate.setMinutes(eventStartDate.getMinutes() + eventLength);
+			var eventEndDateMinutes = eventStartDate.getMinutes() + eventLength;
+			eventEndDate.setMinutes(eventEndDateMinutes);
 
 			var startHour = get12HourValue(eventStartDate);
 			var startMinutes = getMinuteString(eventStartDate.getMinutes());
@@ -221,7 +226,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var eventLink = function eventLink($scope) {
 			var eventItem = $scope.eventItem;
 
-			$scope.EventScheduleString = dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+			$scope.eventScheduleString = dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 		};
 
 		var directive = {
@@ -256,9 +261,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				responsiveWidth: true
 			};
 
-			innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
-			innerScope.events = innerScope.eventGroupDisplay.events;
-			innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
+			if (innerScope.eventGroupDisplay) {
+				innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
+				innerScope.events = innerScope.eventGroupDisplay.events;
+				innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
+			}
 
 			$('.event-date-bar').sticky(eventDateBarStickySettings);
 		};
@@ -287,8 +294,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.loadMore,
 			scope: {
-				loadNextPage: '=',
-				chunkSize: '='
+				loadNextPage: '='
 			}
 		};
 

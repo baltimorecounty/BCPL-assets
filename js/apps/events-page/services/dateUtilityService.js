@@ -23,7 +23,8 @@
 
 			const eventStartDate = new Date(eventStart);
 			const eventEndDate = new Date(eventStart);
-			eventEndDate.setMinutes(eventStartDate.getMinutes() + eventLength);
+			const eventEndDateMinutes = eventStartDate.getMinutes() + eventLength;
+			eventEndDate.setMinutes(eventEndDateMinutes);
 
 			const startHour = get12HourValue(eventStartDate);
 			const startMinutes = getMinuteString(eventStartDate.getMinutes());
