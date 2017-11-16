@@ -6,7 +6,8 @@
 		const firstPage = 1;
 		const startDateLocaleString = (new Date()).toLocaleString();
 		const endDate = new Date();
-		const endDateLocaleString = endDate.setMonth(endDate.getMonth() + 1).toLocaleString();
+		endDate.setMonth(endDate.getMonth() + 1);
+		const endDateLocaleString = endDate.toLocaleString();
 		const requestModel = {
 			StartDate: startDateLocaleString,
 			EndDate: endDateLocaleString,

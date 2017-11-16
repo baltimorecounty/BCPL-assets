@@ -63,7 +63,7 @@
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
 					if (response.data) {
-						resolve(dateSplitter(response.data));
+						resolve(dateSplitter(response.data.Events));
 					} else {
 						reject(response);
 					}
@@ -188,7 +188,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var firstPage = 1;
 		var startDateLocaleString = new Date().toLocaleString();
 		var endDate = new Date();
-		var endDateLocaleString = endDate.setMonth(endDate.getMonth() + 1).toLocaleString();
+		endDate.setMonth(endDate.getMonth() + 1);
+		var endDateLocaleString = endDate.toLocaleString();
 		var requestModel = {
 			StartDate: startDateLocaleString,
 			EndDate: endDateLocaleString,
