@@ -214,6 +214,37 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
+		self.filterByDate = function () {
+			switch (self.dateFilterType) {
+				case 'today':
+					requestModel.StartDate = moment().format();
+					requestModel.EndDate = moment().hour(23).minute(59).second(59).format();
+					break;
+				case 'tomorrow':
+					requestModel.StartDate = moment.utc().add(1, 'days').hour(0).minute(0).second(0).format();
+					requestModel.EndDate = moment.utc().add(1, 'days').hour(23).minute(59).second(59).format();
+					break;
+				case 'next7':
+					requestModel.StartDate = moment().format();
+					requestModel.EndDate = moment().add(6, 'days').hour(23).minute(59).second(59).format();
+					break;
+				case 'custom':
+					requestModel.StartDate = self.userStartDate;
+					requestModel.endDate = self.userEndDate;
+					break;
+				default:
+					break;
+			}
+
+			if (requestModel.StartDate && requestModel.EndDate) {
+				self.eventGroups = [];
+
+				eventsService.get(requestModel).then(function (eventGroups) {
+					self.eventGroups = eventGroups;
+				});
+			}
+		};
+
 		self.loadNextPage = function () {
 			requestModel.Page += 1;
 

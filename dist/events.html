@@ -395,29 +395,33 @@
 							<div class="date-search-wrapper filter-control-wapper">
 								<h4>Date Filter</h4>
 								<label for="date-today">
-									<input type="radio" id="date-today" name="date-select" value="today"> Today
+									<input type="radio" id="date-today" name="date-select" value="today" ng-model="eventsPage.dateFilterType" ng-change="eventsPage.filterByDate()"> Today
 								</label>
 								<label for="date-tomorrow">
-									<input type="radio" id="date-tomorrow" name="date-select" value="tomorrow"> Tomorrow
+									<input type="radio" id="date-tomorrow" name="date-select" value="tomorrow" ng-model="eventsPage.dateFilterType" ng-change="eventsPage.filterByDate()"> Tomorrow
 								</label>
 								<label for="date-next-7-days">
-									<input type="radio" id="date-next-7-days" name="date-select" value="next7days"> Next 7 Days
+									<input type="radio" id="date-next-7-days" name="date-select" value="next7" ng-model="eventsPage.dateFilterType" ng-change="eventsPage.filterByDate()"> Next 7 Days
 								</label>
 								<label for="date-custom">
-									<input type="radio" id="date-custom" name="date-select" value="customrange"> Custom
+									<input type="radio" id="date-custom" name="date-select" value="custom" ng-model="eventsPage.dateFilterType"> Custom
 								</label>
-								<div class="datepickers">
+								<div class="datepickers" ng-show="eventsPage.dateFilterType === 'custom'">
 									<div class="date-field-wrapper">
 										<label class="calendar-datepicker-label">From
 											<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..."
-											    data-id="rangePlugin">
+												data-id="rangePlugin" 
+												ng-model="eventsPage.userStartDate"
+												ng-change="eventsPage.filterByDate()">
 											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
 										</label>
 									</div>
 									<div class="date-field-wrapper">
 										<label class="calendar-datepicker-label">To
 											<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..."
-											    data-id="rangePlugin">
+												data-id="rangePlugin" 
+												ng-model="eventsPage.userEndDate"
+												ng-change="eventsPage.filterByDate()">
 											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
 										</label>
 									</div>
