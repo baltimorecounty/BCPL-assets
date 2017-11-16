@@ -20,7 +20,8 @@
 			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
 			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
-		}
+		},
+		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);
@@ -58,9 +59,6 @@
 
 		var get = function get(eventRequestModel) {
 			var localeEventRequestModel = eventRequestModel;
-
-			localeEventRequestModel.StartDate = localeEventRequestModel.StartDate.toLocaleDateString();
-			localeEventRequestModel.EndDate = localeEventRequestModel.EndDate.toLocaleDateString();
 
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
@@ -185,27 +183,68 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService, dateUtility) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
+		var startDateLocaleString = new Date().toLocaleString();
+		var endDate = new Date();
+		var endDateLocaleString = endDate.setMonth(endDate.getMonth() + 1).toLocaleString();
 		var requestModel = {
-			StartDate: new Date(),
-			EndDate: new Date(),
+			StartDate: startDateLocaleString,
+			EndDate: endDateLocaleString,
 			Page: firstPage,
-			IsOngoingVisible: true
+			IsOngoingVisible: true,
+			Limit: CONSTANTS.requestChunkSize
 		};
 
 		/* ** Public ** */
 
 		self.eventGroups = [];
+		self.keywords = '';
+		self.chunkSize = CONSTANTS.requestChunkSize;
 
-		self.loadNextPage = function () {
-			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);
-			requestModel.EndDate = dateUtility.addDays(requestModel.EndDate, 1);
+		self.keywordSearch = function () {
+			requestModel.Keyword = self.keywords;
+			requestModel.StartDate = startDateLocaleString;
+			self.eventGroups = [];
 
 			eventsService.get(requestModel).then(function (eventGroups) {
-				self.eventGroups = self.eventGroups.concat(eventGroups);
+				self.eventGroups = eventGroups;
 			});
+		};
+
+		self.loadNextPage = function () {
+			requestModel.Page += 1;
+
+			eventsService.get(requestModel).then(function (eventGroups) {
+				var results = combineEventGroups(self.eventGroups, eventGroups);
+				self.eventGroups = results;
+			});
+		};
+
+		/* ** Private ** */
+
+		var isSameDay = function isSameDay(day1Date, day2Date) {
+			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
+				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+			}
+
+			return false;
+		};
+
+		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
+			var renderedEventGroups = oldEventGroups;
+			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
+
+			angular.forEach(newEventGroups, function (eventGroup) {
+				if (isSameDay(lastEventGroup.date, eventGroup.date)) {
+					lastEventGroup.events = lastEventGroup.events.concat(eventGroup.events);
+				} else {
+					renderedEventGroups.push(eventGroup);
+				}
+			});
+
+			return renderedEventGroups;
 		};
 
 		/* ** Init ** */
@@ -294,7 +333,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.loadMoreTemplate,
 			scope: {
-				loadNextPage: '='
+				loadNextPage: '=',
+				chunkSize: '='
 			}
 		};
 

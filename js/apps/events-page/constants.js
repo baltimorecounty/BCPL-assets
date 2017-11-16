@@ -11,7 +11,8 @@
 			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
 			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
-		}
+		},
+		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);
