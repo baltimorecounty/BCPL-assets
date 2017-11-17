@@ -189,8 +189,6 @@
 }
 
 .datepickers {
-	padding-top: .5em;
-
 	input[type="text"], 
 	input[type="date"], 
 	input[type="datetime-local"], 
@@ -201,29 +199,35 @@
 		border-radius: 3px;
 	}
 
-	.calendar-datepicker-label {
-		display: block;
-		position: relative;
+	input::placeholder {
+		color: $teal;
+	}
+
+	.calendar-datepicker {
+		padding-right: 50px;
+	}
 	
-		input::placeholder {
-			color: $teal;
-		}
-	
-		.calendar-datepicker {
-			padding-right: 50px;
-		}
-		
-		.calendar-datepicker-icon {
-			position: absolute;
-			right: 10px;
-			z-index: 100;
-			top: 30px;
-			cursor: pointer;
-		}
+	.calendar-datepicker-icon {
+		position: absolute;
+		right: 10px;
+		z-index: 100;
+		top: 10px;
+		cursor: pointer;
 	}
 		
 	input.flatpickr {
 		cursor: pointer;
+	}
+
+	.date-validation-error {
+		color: red;
+		font-size: .8em;
+		font-weight: 700;
+	}
+
+	.date-field-wrapper {
+		position: relative;
+		margin-bottom: .5em;
 	}
 }
 

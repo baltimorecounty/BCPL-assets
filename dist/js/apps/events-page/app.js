@@ -63,7 +63,10 @@
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
 					if (response.data) {
-						resolve(dateSplitter(response.data.Events));
+						resolve({
+							eventGroups: dateSplitter(response.data.Events),
+							totalResults: response.data.TotalResults
+						});
 					} else {
 						reject(response);
 					}
@@ -203,62 +206,76 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.eventGroups = [];
 		self.keywords = '';
 		self.chunkSize = CONSTANTS.requestChunkSize;
+		self.totalResults = 0;
+		self.isLastPage = false;
 
 		self.keywordSearch = function () {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
+			requestModel.Page = 1;
 			self.eventGroups = [];
 
-			eventsService.get(requestModel).then(function (eventGroups) {
-				self.eventGroups = eventGroups;
-			});
+			eventsService.get(requestModel).then(processEvents);
 		};
 
 		self.filterByDate = function () {
-			switch (self.dateFilterType) {
-				case 'today':
-					requestModel.StartDate = moment().format();
-					requestModel.EndDate = moment().hour(23).minute(59).second(59).format();
-					break;
-				case 'tomorrow':
-					requestModel.StartDate = moment.utc().add(1, 'days').hour(0).minute(0).second(0).format();
-					requestModel.EndDate = moment.utc().add(1, 'days').hour(23).minute(59).second(59).format();
-					break;
-				case 'next7':
-					requestModel.StartDate = moment().format();
-					requestModel.EndDate = moment().add(6, 'days').hour(23).minute(59).second(59).format();
-					break;
-				case 'custom':
-					requestModel.StartDate = self.userStartDate;
-					requestModel.endDate = self.userEndDate;
-					break;
-				default:
-					break;
-			}
-
-			if (requestModel.StartDate && requestModel.EndDate) {
+			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
+				requestModel.StartDate = self.userStartDate;
+				requestModel.EndDate = self.userEndDate;
+				requestModel.Page = 1;
 				self.eventGroups = [];
 
-				eventsService.get(requestModel).then(function (eventGroups) {
-					self.eventGroups = eventGroups;
-				});
+				eventsService.get(requestModel).then(processEvents);
 			}
 		};
 
 		self.loadNextPage = function () {
 			requestModel.Page += 1;
 
-			eventsService.get(requestModel).then(function (eventGroups) {
-				var results = combineEventGroups(self.eventGroups, eventGroups);
-				self.eventGroups = results;
-			});
+			eventsService.get(requestModel).then(processAndCombineEvents);
+		};
+
+		self.clearFilters = function () {
+			requestModel.StartDate = startDateLocaleString;
+			requestModel.EndDate = endDateLocaleString;
+			requestModel.Page = 1;
+			requestModel.keywords = '';
+
+			self.userStartDate = '';
+			self.userEndDate = '';
+			self.eventGroups = [];
+
+			eventsService.get(requestModel).then(processEvents);
 		};
 
 		/* ** Private ** */
 
+		var processEvents = function processEvents(eventResults) {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = eventResults.eventGroups;
+		};
+
+		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = combineEventGroups(self.eventGroups, eventResults.eventGroups);
+		};
+
+		var isLastPage = function isLastPage(totalResults) {
+			var totalResultsSoFar = requestModel.Page * self.chunkSize;
+			return totalResultsSoFar >= totalResults;
+		};
+
+		var isDateRangeValid = function isDateRangeValid(firstDate, secondDate) {
+			if (firstDate && secondDate) {
+				return moment(firstDate).isSameOrBefore(secondDate);
+			}
+
+			return false;
+		};
+
 		var isSameDay = function isSameDay(day1Date, day2Date) {
-			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
-				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+			if (day1Date && day2Date) {
+				return moment(day1Date).isSame(day2Date, 'day');
 			}
 
 			return false;
@@ -281,9 +298,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		/* ** Init ** */
 
-		eventsService.get(requestModel).then(function (eventGroups) {
-			self.eventGroups = eventGroups;
-		});
+		eventsService.get(requestModel).then(processEvents);
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];

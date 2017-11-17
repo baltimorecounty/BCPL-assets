@@ -33,7 +33,10 @@
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel)
 					.then((response) => {
 						if (response.data) {
-							resolve(dateSplitter(response.data.Events));
+							resolve({
+								eventGroups: dateSplitter(response.data.Events),
+								totalResults: response.data.TotalResults
+							});
 						} else {
 							reject(response);
 						}

@@ -21,65 +21,76 @@
 		self.eventGroups = [];
 		self.keywords = '';
 		self.chunkSize = CONSTANTS.requestChunkSize;
+		self.totalResults = 0;
+		self.isLastPage = false;
 
 		self.keywordSearch = () => {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
+			requestModel.Page = 1;
 			self.eventGroups = [];
 
-			eventsService.get(requestModel)
-				.then((eventGroups) => {
-					self.eventGroups = eventGroups;
-				});
+			eventsService.get(requestModel).then(processEvents);
 		};
 
 		self.filterByDate = () => {
-			switch (self.dateFilterType) {
-			case 'today':
-				requestModel.StartDate = moment().format();
-				requestModel.EndDate = moment().hour(23).minute(59).second(59).format();
-				break;
-			case 'tomorrow':
-				requestModel.StartDate = moment.utc().add(1, 'days').hour(0).minute(0).second(0).format();
-				requestModel.EndDate = moment.utc().add(1, 'days').hour(23).minute(59).second(59).format();
-				break;
-			case 'next7':
-				requestModel.StartDate = moment().format();
-				requestModel.EndDate = moment().add(6, 'days').hour(23).minute(59).second(59).format();
-				break;
-			case 'custom':
+			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
 				requestModel.StartDate = self.userStartDate;
-				requestModel.endDate = self.userEndDate;
-				break;
-			default:
-				break;
-			}
-
-			if (requestModel.StartDate && requestModel.EndDate) {
+				requestModel.EndDate = self.userEndDate;
+				requestModel.Page = 1;
 				self.eventGroups = [];
 
-				eventsService.get(requestModel)
-					.then((eventGroups) => {
-						self.eventGroups = eventGroups;
-					});
+				eventsService.get(requestModel).then(processEvents);
 			}
 		};
 
 		self.loadNextPage = () => {
 			requestModel.Page += 1;
 
-			eventsService.get(requestModel)
-				.then((eventGroups) => {
-					const results = combineEventGroups(self.eventGroups, eventGroups);
-					self.eventGroups = results;
-				});
+			eventsService.get(requestModel).then(processAndCombineEvents);
+		};
+
+		self.clearFilters = () => {
+			requestModel.StartDate = startDateLocaleString;
+			requestModel.EndDate = endDateLocaleString;
+			requestModel.Page = 1;
+			requestModel.keywords = '';
+
+			self.userStartDate = '';
+			self.userEndDate = '';
+			self.eventGroups = [];
+
+			eventsService.get(requestModel).then(processEvents);
 		};
 
 		/* ** Private ** */
 
+		const processEvents = (eventResults) => {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = eventResults.eventGroups;
+		};
+
+		const processAndCombineEvents = (eventResults) => {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = combineEventGroups(self.eventGroups, eventResults.eventGroups);
+		};
+
+		const isLastPage = (totalResults) => {
+			const totalResultsSoFar = requestModel.Page * self.chunkSize;
+			return totalResultsSoFar >= totalResults;
+		};
+
+		const isDateRangeValid = (firstDate, secondDate) => {
+			if (firstDate && secondDate) {
+				return moment(firstDate).isSameOrBefore(secondDate);
+			}
+
+			return false;
+		};
+
 		const isSameDay = (day1Date, day2Date) => {
-			if (day1Date.toLocaleDateString && day2Date.toLocaleDateString) {
-				return day1Date.toLocaleDateString() === day2Date.toLocaleDateString();
+			if (day1Date && day2Date) {
+				return moment(day1Date).isSame(day2Date, 'day');
 			}
 
 			return false;
@@ -102,10 +113,7 @@
 
 		/* ** Init ** */
 
-		eventsService.get(requestModel)
-			.then((eventGroups) => {
-				self.eventGroups = eventGroups;
-			});
+		eventsService.get(requestModel).then(processEvents);
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
