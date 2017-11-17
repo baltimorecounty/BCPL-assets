@@ -208,6 +208,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.chunkSize = CONSTANTS.requestChunkSize;
 		self.totalResults = 0;
 		self.isLastPage = false;
+		self.areDatesInvalid = false;
 
 		self.keywordSearch = function () {
 			requestModel.Keyword = self.keywords;
@@ -220,12 +221,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		self.filterByDate = function () {
 			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
+				self.areDatesInvalid = false;
 				requestModel.StartDate = self.userStartDate;
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
 				self.eventGroups = [];
 
 				eventsService.get(requestModel).then(processEvents);
+			} else {
+				self.areDatesInvalid = true;
 			}
 		};
 

@@ -26,7 +26,8 @@
 					<p>Age group(s): {{eventItem.AgeGroupsString}}</p>
 				</div>
 			</div>
-			<div class="row" ng-show="eventData.IsReservation">
+
+			<div class="row" ng-hide="eventItem.RegistrationTypeCodeEnum === 0">
 				<div class="col-md-12">
 					<div class="registration-required">
 						<i class="fa fa-star" aria-hidden="true"></i> Registration Required

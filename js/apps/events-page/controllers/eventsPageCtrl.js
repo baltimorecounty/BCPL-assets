@@ -23,6 +23,7 @@
 		self.chunkSize = CONSTANTS.requestChunkSize;
 		self.totalResults = 0;
 		self.isLastPage = false;
+		self.areDatesInvalid = false;
 
 		self.keywordSearch = () => {
 			requestModel.Keyword = self.keywords;
@@ -35,12 +36,15 @@
 
 		self.filterByDate = () => {
 			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
+				self.areDatesInvalid = false;
 				requestModel.StartDate = self.userStartDate;
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
 				self.eventGroups = [];
 
 				eventsService.get(requestModel).then(processEvents);
+			} else {
+				self.areDatesInvalid = true;
 			}
 		};
 

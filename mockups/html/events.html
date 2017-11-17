@@ -409,14 +409,13 @@
 											ng-change="eventsPage.filterByDate()">
 										<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
 									</div>
-									<div class="date-validation-error">
-										<p>Please correct your start and end dates.</p>
+									<div class="date-validation-error" ng-show="eventsPage.areDatesInvalid">
+										<p>Both start and end dates must be filled out and in the correct order.</p>
 									</div>
 
 									<script>
 										var flatPickrBasicSettings = {
 											dateFormat: 'm-d-Y',
-											altInput: true,
 											disable: [function(date) {
 												return moment(date).isBefore(new Date(), 'day');
 											}]
