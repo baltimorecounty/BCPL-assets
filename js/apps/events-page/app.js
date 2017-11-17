@@ -1,5 +1,5 @@
 (() => {
 	'use strict';
 
-	angular.module('eventsPageApp', []);
+	angular.module('eventsPageApp', ['ngAnimate']);
 })();

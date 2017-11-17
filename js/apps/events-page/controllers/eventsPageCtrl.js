@@ -60,6 +60,7 @@
 			requestModel.Page = 1;
 			requestModel.keywords = '';
 
+			self.keywords = '';
 			self.userStartDate = '';
 			self.userEndDate = '';
 			self.eventGroups = [];

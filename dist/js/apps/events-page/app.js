@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', []);
+	angular.module('eventsPageApp', ['ngAnimate']);
 })();
 'use strict';
 
@@ -245,6 +245,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			requestModel.Page = 1;
 			requestModel.keywords = '';
 
+			self.keywords = '';
 			self.userStartDate = '';
 			self.userEndDate = '';
 			self.eventGroups = [];

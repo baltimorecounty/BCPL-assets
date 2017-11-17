@@ -60,6 +60,9 @@
 		float: none;
 
 		.card {
+			transition: .25s opacity ease;
+			opacity: 1;
+			
 			.card-icon {
 				color: $gray-light;
 			}
@@ -108,6 +111,19 @@
 		}
 	}
 }
+
+.ng-enter {
+	.card {
+		opacity: 0;
+	}
+}
+
+.ng-enter.ng-enter-active {
+	.card {
+		opacity: 1;
+	}
+}
+
 
 
 .filters {
@@ -223,6 +239,11 @@
 		color: red;
 		font-size: .8em;
 		font-weight: 700;
+		transition: .25s opacity ease;
+
+		&.ng-hide {
+			opacity: 0;
+		}
 	}
 
 	.date-field-wrapper {
