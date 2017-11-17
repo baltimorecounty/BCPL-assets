@@ -1,0 +1,51 @@
+<div ng-repeat="eventGroup in eventGroups">
+	<div class="event-date-bar">
+		<div class="event-date">
+			{{getDisplayDate(eventGroup)}}
+		</div>
+	</div>
+
+	<div class="cards events-cards">
+		<div id="events" class="list-view">
+			<div class="card" ng-repeat="eventItem in eventGroup.events">
+				<div class="row">
+					<div class="col-xs-12 col-md-4 col-sm-3">
+						<div class="row">
+							<div class="col-xs-6 event-time">
+								<i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
+								<p>{{eventScheduleString(eventItem)}}</p>
+							</div>
+							<div class="col-xs-6 event-location">
+								<i class="fa fa-map-marker fa-2x card-icon" aria-hidden="true"></i>
+								<p>{{eventItem.LocationName}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-8 col-sm-9">
+						<div class="row">
+							<div class="col-md-12">
+								<p class="event-name">
+									{{eventItem.Title}} 
+								</p>						
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 event-details">
+								<p>Event type(s): {{eventItem.EventTypesString}}</p>
+								<p>Age group(s): {{eventItem.AgeGroupsString}}</p>
+							</div>
+						</div>
+			
+						<div class="row" ng-hide="eventItem.RegistrationTypeCodeEnum === 0">
+							<div class="col-md-12">
+								<div class="registration-required">
+									<i class="fa fa-star" aria-hidden="true"></i> Registration Required
+								</div>						
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

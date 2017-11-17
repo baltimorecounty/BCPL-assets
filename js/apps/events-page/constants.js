@@ -8,8 +8,7 @@
 			events: '/api/evanced/signup/events'
 		},
 		templateUrls: {
-			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
-			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
+			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10

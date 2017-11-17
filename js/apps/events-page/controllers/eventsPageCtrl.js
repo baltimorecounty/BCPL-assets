@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		const self = this;
 		const firstPage = 1;
 		const startDateLocaleString = (new Date()).toLocaleString();
@@ -14,6 +14,10 @@
 			Page: firstPage,
 			IsOngoingVisible: true,
 			Limit: CONSTANTS.requestChunkSize
+		};
+		const eventDateBarStickySettings = {
+			zIndex: 100,
+			responsiveWidth: true
 		};
 
 		/* ** Public ** */
@@ -73,6 +77,10 @@
 		const processEvents = (eventResults) => {
 			self.isLastPage = isLastPage(eventResults.totalResults);
 			self.eventGroups = eventResults.eventGroups;
+
+			$timeout(() => {
+				$('.event-date-bar').sticky(eventDateBarStickySettings);
+			});
 		};
 
 		const processAndCombineEvents = (eventResults) => {
@@ -121,7 +129,7 @@
 		eventsService.get(requestModel).then(processEvents);
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));

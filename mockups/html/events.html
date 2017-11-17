@@ -501,8 +501,7 @@
 					<div class="loading-spinner" ng-show="eventsPage.eventGroups.length === 0">
 						<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
 					</div>
-					<event-date event-group-display="eventGroup" 
-						ng-repeat="eventGroup in eventsPage.eventGroups"></event-date>
+					<events-list event-groups="eventsPage.eventGroups"></events-list>
 					<load-more chunk-size="eventsPage.chunkSize" 
 						load-next-page="eventsPage.loadNextPage" 
 						ng-show="eventsPage.eventGroups.length !== 0 && !eventsPage.isLastPage"></load-more>

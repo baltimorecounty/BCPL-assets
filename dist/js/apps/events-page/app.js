@@ -17,8 +17,7 @@
 			events: '/api/evanced/signup/events'
 		},
 		templateUrls: {
-			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
-			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
+			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10
@@ -186,7 +185,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
 		var startDateLocaleString = new Date().toLocaleString();
@@ -199,6 +198,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			Page: firstPage,
 			IsOngoingVisible: true,
 			Limit: CONSTANTS.requestChunkSize
+		};
+		var eventDateBarStickySettings = {
+			zIndex: 100,
+			responsiveWidth: true
 		};
 
 		/* ** Public ** */
@@ -258,6 +261,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEvents = function processEvents(eventResults) {
 			self.isLastPage = isLastPage(eventResults.totalResults);
 			self.eventGroups = eventResults.eventGroups;
+
+			$timeout(function () {
+				$('.event-date-bar').sticky(eventDateBarStickySettings);
+			});
 		};
 
 		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
@@ -306,38 +313,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.get(requestModel).then(processEvents);
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDirective = function eventDirective(dateUtilityService, CONSTANTS) {
-		var eventLink = function eventLink($scope) {
-			var eventItem = $scope.eventItem;
-
-			$scope.eventScheduleString = dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
-		};
-
-		var directive = {
-			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventTemplate,
-			link: eventLink
-		};
-
-		return directive;
-	};
-
-	eventDirective.$inject = ['dateUtilityService', 'CONSTANTS'];
-
-	app.directive('event', eventDirective);
-})(angular.module('eventsPageApp'));
-'use strict';
-
-(function (app) {
-	var eventDateDirective = function eventDateDirective(CONSTANTS) {
-		var eventDateLink = function eventDateLink(scope) {
+	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService) {
+		var eventsListLink = function eventsListLink(scope) {
 			var innerScope = scope;
 
 			var dateSettings = {
@@ -347,35 +331,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				day: 'numeric'
 			};
 
-			var eventDateBarStickySettings = {
-				zIndex: 100,
-				responsiveWidth: true
+			innerScope.eventScheduleString = function (eventItem) {
+				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 			};
 
-			if (innerScope.eventGroupDisplay) {
-				innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
-				innerScope.events = innerScope.eventGroupDisplay.events;
-				innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
-			}
-
-			$('.event-date-bar').sticky(eventDateBarStickySettings);
+			innerScope.getDisplayDate = function (eventGroup) {
+				return eventGroup.date.toLocaleDateString('en-US', dateSettings);
+			};
 		};
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventDateTemplate,
-			link: eventDateLink,
+			templateUrl: CONSTANTS.templateUrls.eventsListTemplate,
+			link: eventsListLink,
 			scope: {
-				eventGroupDisplay: '='
+				eventGroups: '='
 			}
 		};
 
 		return directive;
 	};
 
-	eventDateDirective.$inject = ['CONSTANTS'];
+	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
 
-	app.directive('eventDate', eventDateDirective);
+	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 

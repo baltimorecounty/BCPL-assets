@@ -58,11 +58,34 @@
 
 	.cards {
 		float: none;
-
+	
 		.card {
 			transition: .25s opacity ease;
-			opacity: 1;
+
+			&.ng-enter {
+				opacity: 0;
+
+				&.ng-enter-active {
+					opacity: 1;
+				}		
+			}
 			
+			&.ng-leave {
+				opacity: 1;
+
+				&.ng-leave-active {
+					opacity: 0;
+				}
+			}
+
+			&.ng-move {
+				opacity: 1;
+
+				&.ng-move-active {
+					opacity: 0;
+				}
+			}
+
 			.card-icon {
 				color: $gray-light;
 			}
@@ -111,20 +134,6 @@
 		}
 	}
 }
-
-.ng-enter {
-	.card {
-		opacity: 0;
-	}
-}
-
-.ng-enter.ng-enter-active {
-	.card {
-		opacity: 1;
-	}
-}
-
-
 
 .filters {
     margin-bottom: .75em;
