@@ -243,7 +243,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.EndDate = endDateLocaleString;
 			requestModel.Page = 1;
-			requestModel.keywords = '';
+			requestModel.Keyword = '';
 
 			self.keywords = '';
 			self.userStartDate = '';
