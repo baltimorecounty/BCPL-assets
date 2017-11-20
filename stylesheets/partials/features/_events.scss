@@ -61,6 +61,7 @@
 	
 		.card {
 			transition: .25s opacity ease;
+			padding: 0.9em;
 
 			&.ng-enter {
 				opacity: 0;
@@ -109,7 +110,8 @@
 			.event-name {
 				color: $teal-light;
 				font-weight: bold;
-				font-size: 24px;			   
+				font-size: 24px;		
+				line-height: 1.4em;	   
 			}
 
 			.registration-required {
