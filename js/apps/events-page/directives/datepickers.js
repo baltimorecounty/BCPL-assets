@@ -5,7 +5,7 @@
 
 			innerScope.areDatesInvalid = false;
 
-			const flatPickrBasicSettings = {
+			const flatpickrBasicSettings = {
 				dateFormat: 'F d, Y',
 				disable: [function disable(date) {
 					return moment(date).isBefore(new Date(), 'day');
@@ -27,7 +27,12 @@
 				}
 			};
 
-			flatpickr('#start-date, #end-date', flatPickrBasicSettings);
+			innerScope.openFlatpickr = (flatpickrElementId) => {
+				const flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
+				flatpickr.open();
+			};
+
+			flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 		};
 
 		const directive = {

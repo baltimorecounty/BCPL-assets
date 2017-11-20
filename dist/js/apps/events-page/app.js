@@ -327,7 +327,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			innerScope.areDatesInvalid = false;
 
-			var flatPickrBasicSettings = {
+			var flatpickrBasicSettings = {
 				dateFormat: 'F d, Y',
 				disable: [function disable(date) {
 					return moment(date).isBefore(new Date(), 'day');
@@ -349,7 +349,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				}
 			};
 
-			flatpickr('#start-date, #end-date', flatPickrBasicSettings);
+			innerScope.openFlatpickr = function (flatpickrElementId) {
+				var flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
+				flatpickr.open();
+			};
+
+			flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 		};
 
 		var directive = {
