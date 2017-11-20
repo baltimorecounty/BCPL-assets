@@ -8,6 +8,7 @@
 			events: '/api/evanced/signup/events'
 		},
 		templateUrls: {
+			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
 			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},

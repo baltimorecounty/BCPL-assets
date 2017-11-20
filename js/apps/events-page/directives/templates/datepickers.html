@@ -1,0 +1,17 @@
+<div class="datepickers">
+	<div class="date-field-wrapper">
+		<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="From..."
+			ng-model="userStartDate"
+			ng-change="filterByDate()">
+		<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
+	</div>
+	<div class="date-field-wrapper">
+		<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="To..."
+			ng-model="userEndDate"
+			ng-change="filterByDate()">
+		<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
+	</div>
+	<div class="date-validation-error" ng-show="areDatesInvalid">
+		<p>Both start and end dates must be filled out and in the correct order.</p>
+	</div>								
+</div>

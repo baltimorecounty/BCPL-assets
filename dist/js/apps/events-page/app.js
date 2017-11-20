@@ -17,6 +17,7 @@
 			events: '/api/evanced/signup/events'
 		},
 		templateUrls: {
+			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
 			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
@@ -316,6 +317,58 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var datePickersDirective = function datePickersDirective($timeout, CONSTANTS) {
+		var datePickersLink = function datePickersLink(scope, attr, datePickersElement) {
+			var innerScope = scope;
+
+			innerScope.areDatesInvalid = false;
+
+			var flatPickrBasicSettings = {
+				dateFormat: 'F d, Y',
+				disable: [function disable(date) {
+					return moment(date).isBefore(new Date(), 'day');
+				}],
+				onChange: function onChange() {
+					$timeout(function () {
+						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
+						innerScope.userEndDate = innerScope.userEndDate || innerScope.userStartDate;
+
+						$timeout(function () {
+							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
+								innerScope.areDatesInvalid = false;
+								innerScope.filterByDate();
+							} else {
+								innerScope.areDatesInvalid = true;
+							}
+						});
+					});
+				}
+			};
+
+			flatpickr('#start-date, #end-date', flatPickrBasicSettings);
+		};
+
+		var directive = {
+			link: datePickersLink,
+			restrict: 'E',
+			templateUrl: CONSTANTS.templateUrls.datePickersTemplate,
+			scope: {
+				userStartDate: '=startDateModel',
+				userEndDate: '=endDateModel',
+				filterByDate: '=filterByDate'
+			}
+		};
+
+		return directive;
+	};
+
+	datePickersDirective.$inject = ['$timeout', 'CONSTANTS'];
+
+	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 

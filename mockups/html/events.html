@@ -394,37 +394,10 @@
 							</div>
 							<div class="date-search-wrapper filter-control-wapper">
 								<h4>Date Filter</h4>								
-								<div class="datepickers">
-									<div class="date-field-wrapper">
-										<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="From..."
-											data-id="rangePlugin" 
-											ng-model="eventsPage.userStartDate"
-											ng-change="eventsPage.filterByDate()">
-										<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-									</div>
-									<div class="date-field-wrapper">
-										<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="To..."
-											data-id="rangePlugin" 
-											ng-model="eventsPage.userEndDate"
-											ng-change="eventsPage.filterByDate()">
-										<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-									</div>
-									<div class="date-validation-error" ng-show="eventsPage.areDatesInvalid">
-										<p>Both start and end dates must be filled out and in the correct order.</p>
-									</div>
-
-									<script>
-										var flatPickrBasicSettings = {
-											dateFormat: 'm-d-Y',
-											disable: [function(date) {
-												return moment(date).isBefore(new Date(), 'day');
-											}]
-										};
-
-										flatpickr("#start-date, #end-date", flatPickrBasicSettings);
-									</script>									
-								</div>
-
+								<date-pickers 
+									start-date-model='eventsPage.userStartDate' 
+									end-date-model='eventsPage.userEndDate' 
+									filter-by-date="eventsPage.filterByDate"></date-pickers>
 							</div>
 
 							<div class="button-wrapper filter-control-wapper">
