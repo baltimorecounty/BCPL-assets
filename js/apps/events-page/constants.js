@@ -15,6 +15,7 @@
 		templateUrls: {
 			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
 			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/dist/js/apps/events-page/templates/filters.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10

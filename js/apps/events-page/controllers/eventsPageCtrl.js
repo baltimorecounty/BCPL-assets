@@ -13,7 +13,11 @@
 			EndDate: endDateLocaleString,
 			Page: firstPage,
 			IsOngoingVisible: true,
-			Limit: CONSTANTS.requestChunkSize
+			IsSpacesReservationVisible: false,
+			Limit: CONSTANTS.requestChunkSize,
+			EventsTypes: [],
+			AgeGroups: [],
+			Locations: []
 		};
 		const eventDateBarStickySettings = {
 			zIndex: 100,
@@ -49,6 +53,36 @@
 				eventsService.get(requestModel).then(processEvents);
 			} else {
 				self.areDatesInvalid = true;
+			}
+		};
+
+		self.filterByTerms = (id, itemType, isChecked) => {
+			switch (itemType.toLowerCase()) {
+			case 'locations':
+				toggleFilter(requestModel.Locations, id, isChecked);
+				break;
+			case 'agegroups':
+				toggleFilter(requestModel.AgeGroups, id, isChecked);
+				break;
+			case 'eventtypes':
+				toggleFilter(requestModel.EventsTypes, id, isChecked);
+				break;
+			default:
+				break;
+			}
+
+			eventsService.get(requestModel).then(processEvents);
+		};
+
+		const toggleFilter = (collection, id, shouldAddToCollection) => {
+			if (shouldAddToCollection) {
+				collection.push(id);
+			} else {
+				const indexOfId = collection.indexOf(id);
+
+				if (indexOfId !== -1) {
+					collection.splice(indexOfId, 1);
+				}
 			}
 		};
 

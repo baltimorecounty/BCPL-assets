@@ -398,8 +398,17 @@
 									start-date-model='eventsPage.userStartDate' 
 									end-date-model='eventsPage.userEndDate' 
 									filter-by-date="eventsPage.filterByDate"></date-pickers>
-							</div>
+							</div>													
 
+							<h4 class="filter-headers">Branches</h4>
+							<filters filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters>
+
+							<h4 class="filter-headers">Event Types</h4>
+							<filters filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
+
+							<h4 class="filter-headers">Age Groups</h4>
+							<filters filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
+							
 							<div class="button-wrapper filter-control-wapper">
 								<button class="btn btn-default" ng-click="eventsPage.clearFilters()">Clear filters</button>
 							</div>

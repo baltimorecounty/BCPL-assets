@@ -16,9 +16,15 @@
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
+		remoteServiceUrls: {
+			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
+			eventTypes: 'https://bcpl.evanced.info/api/signup/eventtypes',
+			locations: 'https://bcpl.evanced.info/api/signup/locations'
+		},
 		templateUrls: {
 			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
 			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/dist/js/apps/events-page/templates/filters.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10
@@ -82,6 +88,29 @@
 	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
 
 	app.factory('eventsService', eventsService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var metaService = function metaService($http, $q) {
+		var request = function request(endpointUrl) {
+			return $q(function (resolve, reject) {
+				$http.get(endpointUrl).then(function (response) {
+					resolve(response.data);
+				}, function (err) {
+					reject(err);
+				});
+			});
+		};
+
+		return {
+			request: request
+		};
+	};
+
+	metaService.$inject = ['$http', '$q'];
+
+	app.factory('metaService', metaService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -198,7 +227,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			EndDate: endDateLocaleString,
 			Page: firstPage,
 			IsOngoingVisible: true,
-			Limit: CONSTANTS.requestChunkSize
+			IsSpacesReservationVisible: false,
+			Limit: CONSTANTS.requestChunkSize,
+			EventsTypes: [],
+			AgeGroups: [],
+			Locations: []
 		};
 		var eventDateBarStickySettings = {
 			zIndex: 100,
@@ -234,6 +267,36 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				eventsService.get(requestModel).then(processEvents);
 			} else {
 				self.areDatesInvalid = true;
+			}
+		};
+
+		self.filterByTerms = function (id, itemType, isChecked) {
+			switch (itemType.toLowerCase()) {
+				case 'locations':
+					toggleFilter(requestModel.Locations, id, isChecked);
+					break;
+				case 'agegroups':
+					toggleFilter(requestModel.AgeGroups, id, isChecked);
+					break;
+				case 'eventtypes':
+					toggleFilter(requestModel.EventsTypes, id, isChecked);
+					break;
+				default:
+					break;
+			}
+
+			eventsService.get(requestModel).then(processEvents);
+		};
+
+		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
+			if (shouldAddToCollection) {
+				collection.push(id);
+			} else {
+				var indexOfId = collection.indexOf(id);
+
+				if (indexOfId !== -1) {
+					collection.splice(indexOfId, 1);
+				}
 			}
 		};
 
@@ -413,6 +476,53 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
 
 	app.directive('eventsList', eventsListDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
+		var filtersLink = function filtersLink(scope) {
+			var innerScope = scope;
+
+			var filterSuccess = function filterSuccess(data) {
+				innerScope.items = data;
+			};
+
+			innerScope.search = function (searchItem, termType, isChecked) {
+				var identifier = searchItem.item.Id || searchItem.item.LocationId;
+				innerScope.searchFunction(identifier, termType, isChecked);
+			};
+
+			innerScope.removeDisallowedCharacters = function (str) {
+				var disallowedCharactersRegex = /[^A-Za-z0-9-_.]/g;
+
+				return str.trim().replace(disallowedCharactersRegex, '-');
+			};
+
+			innerScope.items = [];
+
+			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
+				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
+			}
+		};
+
+		var directive = {
+			link: filtersLink,
+			restrict: 'E',
+			scope: {
+				filterType: '@',
+				choiceType: '@',
+				searchFunction: '='
+			},
+			templateUrl: CONSTANTS.templateUrls.filtersTemplate
+		};
+
+		return directive;
+	};
+
+	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+
+	app.directive('filters', filtersDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 

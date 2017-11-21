@@ -1,20 +1,8 @@
 ((app) => {
-	const metaService = ($http, $q, CONSTANTS) => {
-		const getAgeGroups = () => {
-			return request(CONSTANTS.remoteServiceUrls.ageGroups);
-		};
-
-		const getEventTypes = () => {
-			return request(CONSTANTS.remoteServiceUrls.ageGroups);
-		};
-
-		const getLocations = () => {
-			return request(CONSTANTS.remoteServiceUrls.ageGroups);
-		};
-
-		const request = (url) => {
+	const metaService = ($http, $q) => {
+		const request = (endpointUrl) => {
 			return $q((resolve, reject) => {
-				$http.get(url)
+				$http.get(endpointUrl)
 					.then((response) => {
 						resolve(response.data);
 					}, (err) => {
@@ -24,13 +12,11 @@
 		};
 
 		return {
-			getAgeGroups,
-			getEventTypes,
-			getLocations
+			request
 		};
 	};
 
-	metaService.$inject = ['$http', '$q', 'CONSTANTS'];
+	metaService.$inject = ['$http', '$q'];
 
 	app.factory('metaService', metaService);
 })(angular.module('eventsPageApp'));

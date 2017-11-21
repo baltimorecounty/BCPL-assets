@@ -157,13 +157,17 @@
             padding: 1em;
 
 			h4 {
-				margin: 0 0 .5em;
+				margin: 1.5em 0 .5em;
 				padding: 0;		
 			}
+
+			.events-search-wrapper {
+				h4 {
+					margin-top: 0;
+				}
+			}
 				
-			.filter-control-wapper {
-				padding-bottom: 1em;
-				
+			.filter-control-wapper {				
 				&:last-child {
 					padding: .5em 0 0;
 				}
