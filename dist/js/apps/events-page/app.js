@@ -285,6 +285,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					break;
 			}
 
+			self.eventGroups = [];
+
 			eventsService.get(requestModel).then(processEvents);
 		};
 

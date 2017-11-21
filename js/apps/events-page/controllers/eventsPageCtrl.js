@@ -71,6 +71,8 @@
 				break;
 			}
 
+			self.eventGroups = [];
+
 			eventsService.get(requestModel).then(processEvents);
 		};
 
@@ -97,6 +99,9 @@
 			requestModel.EndDate = endDateLocaleString;
 			requestModel.Page = 1;
 			requestModel.Keyword = '';
+			requestModel.AgeGroups = [];
+			requestModel.EventsTypes = [];
+			requestModel.Locations = [];
 
 			self.keywords = '';
 			self.userStartDate = '';
