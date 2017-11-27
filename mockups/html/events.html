@@ -384,34 +384,36 @@
 					<div class="filters event-filters">
 						<h3>Find an Event</h3>
 						<div class="filter-items-wrapper">
-							<div class="events-search-wrapper filter-control-wapper">
-								<h4>Keyword Search</h4>
-								<div class="keyword-search-wrapper">
-									<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
-										ng-change="eventsPage.keywordSearch()" />
-									<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
+							<form id="filter-form">
+								<div class="events-search-wrapper filter-control-wapper">
+									<h4>Keyword Search</h4>
+									<div class="keyword-search-wrapper">
+										<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
+											ng-change="eventsPage.keywordSearch()" />
+										<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
+									</div>
 								</div>
-							</div>
-							<div class="date-search-wrapper filter-control-wapper">
-								<h4>Date Filter</h4>								
-								<date-pickers 
-									start-date-model='eventsPage.userStartDate' 
-									end-date-model='eventsPage.userEndDate' 
-									filter-by-date="eventsPage.filterByDate"></date-pickers>
-							</div>													
+								<div class="date-search-wrapper filter-control-wapper">
+									<h4>Date Filter</h4>								
+									<date-pickers 
+										start-date-model='eventsPage.userStartDate' 
+										end-date-model='eventsPage.userEndDate' 
+										filter-by-date="eventsPage.filterByDate"></date-pickers>
+								</div>													
 
-							<h4 class="filter-headers">Branches</h4>
-							<filters filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters>
+								<h4 class="filter-headers">Branches</h4>
+								<filters filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters>
 
-							<h4 class="filter-headers">Event Types</h4>
-							<filters filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
+								<h4 class="filter-headers">Event Types</h4>
+								<filters filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
 
-							<h4 class="filter-headers">Age Groups</h4>
-							<filters filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
-							
-							<div class="button-wrapper filter-control-wapper">
-								<button class="btn btn-default" ng-click="eventsPage.clearFilters()">Clear filters</button>
-							</div>
+								<h4 class="filter-headers">Age Groups</h4>
+								<filters filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters>
+								
+								<div class="button-wrapper filter-control-wapper">
+									<button class="btn btn-default" type="reset" ng-click="eventsPage.clearFilters()">Clear filters</button>
+								</div>
+							</form>
 						</div>
 						<!--
 						<h5 class="filter-headers">Branch</h5>

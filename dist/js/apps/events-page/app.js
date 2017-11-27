@@ -313,6 +313,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			requestModel.EndDate = endDateLocaleString;
 			requestModel.Page = 1;
 			requestModel.Keyword = '';
+			requestModel.AgeGroups = [];
+			requestModel.EventsTypes = [];
+			requestModel.Locations = [];
 
 			self.keywords = '';
 			self.userStartDate = '';
