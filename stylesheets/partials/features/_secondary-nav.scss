@@ -6,12 +6,13 @@
 			ul {
 				li {
 					display: list-item;
-					position: relative;					
+					position: relative;				
 
 					a {
 						border-bottom: 1px solid $tan-light;
 						display: block;
-						padding: .25em 1em;		
+						padding: .25em 1em;
+						line-height: 2.5em;		
 						
 						&.active {
 							background-color: $teal;
