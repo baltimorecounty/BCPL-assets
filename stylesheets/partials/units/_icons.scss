@@ -1,0 +1,12 @@
+.padded-icon {
+    display: inline-block;
+
+    &.padded-icon-right {
+        margin-right: .5em;
+    }
+}
+
+.raised-icon {
+    position: relative;
+    top: -4px;
+}
