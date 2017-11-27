@@ -14,21 +14,26 @@
 		#activate-search-button {
 			background-color: #fff;
 			border-radius: 8px;
-			color: rgba(0, 0, 0, .75);
+			color: $teal;
+			font-size: 16px;
+			font-family: 'TTRoundsCondensed-Bold';
 			height: 36px;
 			position: absolute;
-			top: 10px;
+			text-transform: uppercase;
+			top: 12px;
 			right: 15px;
-			width: 40px;
 			z-index: 100;
 			
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
 				color: white;
-				border-radius: 8px 8px 0 0;
 				i::before {
 					content: "\f00d";
 				}
+			}
+
+			i {
+				font-size: 20px;
 			}
 		}
 		#hamburger-menu-button {
@@ -64,7 +69,10 @@
 				font-family: TTRoundsCondensed-Bold;
 			}
 			ul {
-				li {
+				text-align: right;
+				padding-right: 7em;
+
+				li {			
 					&:hover,
 					&.active {
 						background: $teal-dark;
@@ -172,23 +180,37 @@
 		display: none;
 		padding: 1em;
 		position: absolute;
-		top: 46px;
-		right: 0;
-		width: 100%;
+		top: 48px;
+		right: 15px;
+		width: calc(100% - 15px);
+		
 		input {
+			flex-grow: 1;
 			font-size: 1.2em;
 			font-weight: bold;
 			padding: .25em 2em .25em .5em;
 			border: none;
-			width: 100%;
+			height: 35px;
 		}
-		button {
-			right: 1em;
-			position: absolute;
-			top: .65em;
+		.search-button {
+			background: $teal;
+			color: white;
+			display: block;
+			float: left;
+			font-size: 14px;
+			font-family: 'TTRoundsCondensed-Bold';
+			margin-left: 2px;
+			padding: .5em .75em;
+			text-transform: uppercase;
+
+			i {
+				font-size: 20px;
+				padding-right: .25em;
+			}
 		}
 		&.active {
 			display: block;
+			display: flex;
 		}
 	}
 }
@@ -228,12 +250,21 @@
 @media (max-width: $screen-md) {
 	.menu-wrapper {
 		.nav-and-search {
-			nav {
+			#activate-search-button {
+				span {
+					display: none;
+				}
+			}
+
+			nav {				
 				a,
 				button {
 					padding: .25em 0 .25em .25em;
 				}
 				ul {
+					text-align: left;
+					padding-right: 0;
+
 					li {
 						margin-right: 0;
 					}
@@ -275,43 +306,62 @@
 		.nav-and-search {
 			padding: 0;
 			margin-top: -4.5em;
+
+			.search-button-container {
+				text-align: right;
+			}
+
 			#activate-search-button,
 			#hamburger-menu-button {
 				font-size: 2em;
 				padding: .25em .5em;
 				margin-right: .25em;
-				margin-top: 1em;
-				background-color: $red;
+				background-color: $teal-dark;
 				color: white;
 				height: inherit;
 				width: 60px;
-				border-radius: 0;
+				border-radius: 8px;
+
 				&.active {
-					background-color: $gray-dark;
-					border-radius: 0;
+					background-color: $teal-dark;
 				}
 			}
 			#activate-search-button {
-				margin-right: .25em;
+				margin: .25em .25em .5em 0;
 				position: static;
+
+				i {
+					font-size: 1em;
+				}
 			}
 			#hamburger-menu-button {
 				display: inline-block;
 			}
 			#search-box {
-				position: static;
+				flex-direction: column;
 				background-color: $gray-dark;
 				clear: both;
-				input {
-					padding-right: 3em;
-				}
-				button {
-					font-size: 1.5em;
-					margin-left: -2.2em;
-					background: transparent;
-					margin-top: 0;
-					top: initial;
-					position: absolute;
+				position: static;
+				width: 100%;
+				
+				.search-control-container {
+					display: flex;
+					flex-direction: row;
+					margin-top: 2px;
+
+					.search-button {
+						margin-left: 0;
+						flex-grow: 1;
+						padding: .5em .25em;
+
+						&:first-child {
+							margin-right: 1px;
+						}
+
+						&:last-child {
+							margin-left: 1px;
+						}
+					}
 				}
 			}
 

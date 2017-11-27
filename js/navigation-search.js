@@ -8,8 +8,12 @@ bcpl.navigationSearch = (($) => {
 	const menuSelector = '#responsive-sliding-navigation';
 	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	const modalCoverSelector = '#modal-cover';
+	const heroCalloutContainerSelector = '.hero-callout-container';
+	const mobileWidthThreshold = 768;
 
 	/* Helpers */
+
+	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
 
 	const killMenuAndModalCover = ($menu, $modalCover) => {
 		$modalCover.removeClass('active');
@@ -39,6 +43,14 @@ bcpl.navigationSearch = (($) => {
 		$('body').addClass('nav-visible');
 	};
 
+	const hideHeroCallout = (shouldHide) => {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
+		}
+	};
+
 	/**
 	 * Click event handler for the search activator button.
 	 */
@@ -46,12 +58,16 @@ bcpl.navigationSearch = (($) => {
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $hamburgerButton = event.data.$hamburgerButton;
+		const isSearchBoxHidden = $searchBox.is(':hidden');
 
-		if ($searchBox.is(':hidden')) {
+
+		if (isSearchBoxHidden) {
+			hideHeroCallout(true);
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 		} else {
+			hideHeroCallout(false);
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');

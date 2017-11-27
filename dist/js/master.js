@@ -376,8 +376,14 @@ bcpl.navigationSearch = function ($) {
 	var menuSelector = '#responsive-sliding-navigation';
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
+	var heroCalloutContainerSelector = '.hero-callout-container';
+	var mobileWidthThreshold = 768;
 
 	/* Helpers */
+
+	var isMobileWidth = function isMobileWidth($element, threshold) {
+		return parseFloat($element.width()) <= threshold;
+	};
 
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
@@ -407,6 +413,14 @@ bcpl.navigationSearch = function ($) {
 		$('body').addClass('nav-visible');
 	};
 
+	var hideHeroCallout = function hideHeroCallout(shouldHide) {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
+		}
+	};
+
 	/**
   * Click event handler for the search activator button.
   */
@@ -414,12 +428,15 @@ bcpl.navigationSearch = function ($) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $hamburgerButton = event.data.$hamburgerButton;
+		var isSearchBoxHidden = $searchBox.is(':hidden');
 
-		if ($searchBox.is(':hidden')) {
+		if (isSearchBoxHidden) {
+			hideHeroCallout(true);
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 		} else {
+			hideHeroCallout(false);
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
