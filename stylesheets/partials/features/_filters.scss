@@ -11,6 +11,27 @@
 		padding: .75em;
 	}	
  
+	header {
+		color: $gray;
+		float: none;
+		padding: .5em;
+		width: 100%;
+
+		p, ul {
+			margin-bottom: 1em;
+
+			li {								
+				margin-bottom: .5em;
+				padding-left: .5em;
+			}
+		}
+
+		hr {
+			color: $gray-light;
+			margin: .5em 0 0;
+		}
+	}
+
 	.collapse {
 		display: block;
 		height: initial !important;
