@@ -7,6 +7,10 @@
 	padding: 1.8em;
 	margin-bottom: 3em;
 
+	&.top-border {
+		border-top: 4px solid $tan;
+	}
+
 	&.hub-page {
 		background: none;
 		padding: 0;

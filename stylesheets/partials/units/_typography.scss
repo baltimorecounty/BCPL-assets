@@ -8,6 +8,10 @@ body {
 	font-family: QuotesScript-Regular;
 }
 
+.ligatures {
+	font-variant-ligatures: contextual;	
+}
+
 h1, h2, h3, p, ul, ol, table {
 	margin-bottom: 30px;
 }
@@ -22,7 +26,7 @@ h1 {
 	color: $red;
 	font-weight: normal;
 	font-family: QuotesScript-Regular;
-	font-variant-ligatures: contextual;	
+	font-variant-ligatures: none;
 }
 
 h2 {

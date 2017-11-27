@@ -23,5 +23,14 @@ table {
 				background-color: $gray-lightest;
 			}
 		}
+
+		td.table-column-25 {
+			width: 25%;
+		}
+
+		td.horizontal-headers {
+			font-weight: 700;
+		}
+
 	}
 }
