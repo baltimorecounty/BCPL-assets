@@ -430,13 +430,13 @@ bcpl.navigationSearch = function ($) {
 		var $hamburgerButton = event.data.$hamburgerButton;
 		var isSearchBoxHidden = $searchBox.is(':hidden');
 
+		hideHeroCallout(isSearchBoxHidden);
+
 		if (isSearchBoxHidden) {
-			hideHeroCallout(true);
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 		} else {
-			hideHeroCallout(false);
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
@@ -730,6 +730,7 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var navigationMouseover = function navigationMouseover() {
 		hideHeroCallout(true);
+		hideSearchBox();
 	};
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
@@ -741,8 +742,8 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseleave);
+	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);

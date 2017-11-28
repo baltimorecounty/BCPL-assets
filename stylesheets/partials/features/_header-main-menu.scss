@@ -26,7 +26,9 @@
 			
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
+				border-radius: 8px 8px 0 0;			
 				color: white;
+
 				i::before {
 					content: "\f00d";
 				}
@@ -69,10 +71,10 @@
 				font-family: TTRoundsCondensed-Bold;
 			}
 			ul {
-				text-align: right;
-				padding-right: 7em;
+				float: right;
+				margin-right: 7em;
 
-				li {			
+				li {		
 					&:hover,
 					&.active {
 						background: $teal-dark;
@@ -242,6 +244,17 @@
 		.nav-and-search {
 			nav {
 				float: left;
+
+				ul {
+					margin-right: 0;
+
+					li {
+						.submenu-wrapper.wide {
+							width: calc(#{$screen-md} - 48px);
+						}
+					}
+					
+				}
 			}
 		}
 	}
@@ -251,8 +264,14 @@
 	.menu-wrapper {
 		.nav-and-search {
 			#activate-search-button {
+				top: 7px;
+
 				span {
 					display: none;
+				}
+
+				&.active {
+					height: 41px;
 				}
 			}
 
@@ -262,11 +281,15 @@
 					padding: .25em 0 .25em .25em;
 				}
 				ul {
-					text-align: left;
-					padding-right: 0;
-
+					float: none;
+					margin-right: 0;
+					
 					li {
 						margin-right: 0;
+
+						.submenu-wrapper.wide {
+							width: calc(#{$screen-sm} - 48px);
+						}
 					}
 				}
 			}
@@ -324,6 +347,7 @@
 
 				&.active {
 					background-color: $teal-dark;
+					border-radius: 8px;								
 				}
 			}
 			#activate-search-button {

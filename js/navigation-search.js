@@ -60,14 +60,13 @@ bcpl.navigationSearch = (($) => {
 		const $hamburgerButton = event.data.$hamburgerButton;
 		const isSearchBoxHidden = $searchBox.is(':hidden');
 
+		hideHeroCallout(isSearchBoxHidden);
 
 		if (isSearchBoxHidden) {
-			hideHeroCallout(true);
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
 		} else {
-			hideHeroCallout(false);
 			$searchButtonActivator.removeClass('active');
 			$hamburgerButton.addClass('active');
 			$searchBox.removeClass('active');
