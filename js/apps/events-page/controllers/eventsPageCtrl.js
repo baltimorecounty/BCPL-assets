@@ -32,12 +32,16 @@
 		self.totalResults = 0;
 		self.isLastPage = false;
 		self.areDatesInvalid = false;
+		self.isLoading = true;
+		self.hasResults = true;
 
 		self.keywordSearch = () => {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.Page = 1;
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -49,7 +53,9 @@
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
 				self.eventGroups = [];
-
+				self.hasResults = true;
+				self.isLoading = true;
+		
 				eventsService.get(requestModel).then(processEvents);
 			} else {
 				self.areDatesInvalid = true;
@@ -72,6 +78,8 @@
 			}
 
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -107,6 +115,8 @@
 			self.userStartDate = '';
 			self.userEndDate = '';
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -116,6 +126,8 @@
 		const processEvents = (eventResults) => {
 			self.isLastPage = isLastPage(eventResults.totalResults);
 			self.eventGroups = eventResults.eventGroups;
+			self.isLoading = false;
+			self.hasResults = eventResults.eventGroups.length;
 
 			$timeout(() => {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);

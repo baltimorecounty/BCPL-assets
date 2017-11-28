@@ -246,12 +246,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.totalResults = 0;
 		self.isLastPage = false;
 		self.areDatesInvalid = false;
+		self.isLoading = true;
+		self.hasResults = true;
 
 		self.keywordSearch = function () {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.Page = 1;
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -263,6 +267,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
 				self.eventGroups = [];
+				self.hasResults = true;
+				self.isLoading = true;
 
 				eventsService.get(requestModel).then(processEvents);
 			} else {
@@ -286,6 +292,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -321,6 +329,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.userStartDate = '';
 			self.userEndDate = '';
 			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents);
 		};
@@ -330,6 +340,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEvents = function processEvents(eventResults) {
 			self.isLastPage = isLastPage(eventResults.totalResults);
 			self.eventGroups = eventResults.eventGroups;
+			self.isLoading = false;
+			self.hasResults = eventResults.eventGroups.length;
 
 			$timeout(function () {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
