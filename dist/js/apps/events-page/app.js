@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://ba224964:3100',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
@@ -137,23 +137,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return 'Bad event length format';
 			}
 
-			var eventStartDate = new Date(eventStart);
-			var eventEndDate = new Date(eventStart);
-			var eventEndDateMinutes = eventStartDate.getMinutes() + eventLength;
-			eventEndDate.setMinutes(eventEndDateMinutes);
-
+			var eventStartDate = moment(eventStart);
+			var eventEndDate = moment(eventStart).add(eventLength, 'm');
 			var startHour = get12HourValue(eventStartDate);
-			var startMinutes = getMinuteString(eventStartDate.getMinutes());
+			var startMinutes = eventStartDate.minute();
 			var startAmPm = getAmPm(eventStartDate);
 			var endHour = get12HourValue(eventEndDate);
-			var endMinutes = getMinuteString(eventEndDate.getMinutes());
+			var endMinutes = eventEndDate.minute();
 			var endAmPm = getAmPm(eventEndDate);
 
-			return startHour + ':' + startMinutes + ' ' + startAmPm + ' to ' + endHour + ':' + endMinutes + ' ' + endAmPm;
+			return '' + startHour + (startMinutes === 0 ? '' : ':' + startMinutes) + ' ' + (startAmPm === endAmPm ? '' : startAmPm) + ' to ' + endHour + (endMinutes === 0 ? '' : ':' + endMinutes) + ' ' + endAmPm;
 		};
 
 		var get12HourValue = function get12HourValue(date) {
-			var rawHours = date.getHours();
+			var rawHours = date.hour();
 
 			if (rawHours === 0) return 12;
 
@@ -163,11 +160,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var getAmPm = function getAmPm(date) {
-			return date.getHours() < 12 ? 'a.m.' : 'p.m.';
-		};
-
-		var getMinuteString = function getMinuteString(minutes) {
-			return minutes < 10 ? '0' + minutes : '' + minutes;
+			return date.hour() < 12 ? 'a.m.' : 'p.m.';
 		};
 
 		return {
@@ -216,8 +209,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
-		var startDateLocaleString = moment.utc().format();
-		var endDate = moment.utc().add(30, 'd');
+		var startDateLocaleString = moment().format();
+		var endDate = moment().add(30, 'd');
 		var endDateLocaleString = endDate.format();
 		var requestModel = {
 			StartDate: startDateLocaleString,

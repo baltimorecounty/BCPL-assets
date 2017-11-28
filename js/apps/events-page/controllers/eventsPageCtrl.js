@@ -4,8 +4,8 @@
 	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		const self = this;
 		const firstPage = 1;
-		const startDateLocaleString = moment.utc().format();
-		const endDate = moment.utc().add(30, 'd');
+		const startDateLocaleString = moment().format();
+		const endDate = moment().add(30, 'd');
 		const endDateLocaleString = endDate.format();
 		const requestModel = {
 			StartDate: startDateLocaleString,
