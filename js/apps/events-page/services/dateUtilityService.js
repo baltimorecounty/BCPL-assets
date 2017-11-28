@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const dateUtilityService = () => {
 		const addDays = (dateOrString, daysToAdd) => {
 			const date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;

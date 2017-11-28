@@ -36,6 +36,8 @@
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
 			var eventItemStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
@@ -91,6 +93,8 @@
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var metaService = function metaService($http, $q) {
 		var request = function request(endpointUrl) {
 			return $q(function (resolve, reject) {
@@ -116,6 +120,8 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function (app) {
+	'use strict';
+
 	var dateUtilityService = function dateUtilityService() {
 		var addDays = function addDays(dateOrString, daysToAdd) {
 			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
@@ -175,6 +181,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var querystringService = function querystringService() {
 		var build = function build(querystringSettings) {
 			if (!querystringSettings) {
@@ -419,6 +427,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var datePickersDirective = function datePickersDirective($timeout, CONSTANTS) {
 		var datePickersLink = function datePickersLink(scope, attr, datePickersElement) {
 			var innerScope = scope;
@@ -476,6 +486,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService) {
 		var eventsListLink = function eventsListLink(scope) {
 			var innerScope = scope;
@@ -515,6 +527,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
 		var filtersLink = function filtersLink(scope) {
 			var innerScope = scope;
@@ -562,6 +576,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
 		var filtersLink = function filtersLink(scope) {
 			var innerScope = scope;
@@ -609,6 +625,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var loadMoreDirective = function loadMoreDirective(CONSTANTS) {
 		var directive = {
 			restrict: 'E',

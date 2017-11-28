@@ -405,13 +405,13 @@
 									<date-pickers start-date-model='eventsPage.userStartDate' end-date-model='eventsPage.userEndDate' filter-by-date="eventsPage.filterByDate"></date-pickers>
 								</div>
 
-								<h4 class="filter-headers">Branches ({{eventsPage.locations.length || 'all'}})</h4>
+								<h4 class="filter-headers">Branches <span>({{eventsPage.locations.length || 'all'}})</span></h4>
 								<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
 
-								<h4 class="filter-headers">Event Types ({{eventsPage.eventsTypes.length || 'all'}})</h4>
+								<h4 class="filter-headers">Event Types <span>({{eventsPage.eventsTypes.length || 'all'}})</span></h4>
 								<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
 
-								<h4 class="filter-headers">Age Groups ({{eventsPage.ageGroups.length || 'all'}})</h4>
+								<h4 class="filter-headers">Age Groups <span>({{eventsPage.ageGroups.length || 'all'}})</span></h4>
 								<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
 
 								<div class="button-wrapper filter-control-wapper">

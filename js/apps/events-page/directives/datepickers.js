@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const datePickersDirective = ($timeout, CONSTANTS) => {
 		const datePickersLink = (scope, attr, datePickersElement) => {
 			const innerScope = scope;

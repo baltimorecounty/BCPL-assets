@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const filtersDirective = (metaService, CONSTANTS) => {
 		const filtersLink = (scope) => {
 			const innerScope = scope;

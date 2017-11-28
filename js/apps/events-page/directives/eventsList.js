@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const eventsListDirective = ($timeout, CONSTANTS, dateUtilityService) => {
 		const eventsListLink = (scope) => {
 			const innerScope = scope;

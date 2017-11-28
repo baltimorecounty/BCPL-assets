@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const loadMoreDirective = (CONSTANTS) => {
 		const directive = {
 			restrict: 'E',

@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const metaService = ($http, $q) => {
 		const request = (endpointUrl) => {
 			return $q((resolve, reject) => {
