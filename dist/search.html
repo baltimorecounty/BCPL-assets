@@ -32,7 +32,7 @@
 									<li><a href="#">Donate</a></li>
 									<li><a href="#">Help</a></li>
 									<li><a href="#">Locations</a></li>
-									<li><a href="#">MyBCPL</a></li>
+									<li><a href="#">Account</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -43,89 +43,259 @@
 				<div class="menu-inner-wrapper">
 					<div class="container menu-container">
 						<div class="row">
-							<div class="col-lg-4 col-md-12 logo"><a href="#"><img src="/dist/images/logo.png"></a></div>
-							<div class="col-lg-8 col-md-12 nav-and-search">
-								<button class="pull-right active" id="hamburger-menu-button"><i class="fa fa-bars" aria-hidden="true"></i><div class="sr-only">Open Menu</div></button>
-								<button class="pull-right" id="activate-search-button"><i class="fa fa-search" aria-hidden="true"></i><div class="sr-only">Search</div></button>
-
-								<nav>
-									<div class="nav-back-button">
-										<button>Hide Navigation<i class="fa fa-compress" aria-hidden="true"></i></button>
+								<div class="col-lg-3 col-md-12 logo"><a href="#"><img src="/dist/images/logo.png"></a></div>
+								<div class="col-lg-9 col-md-12 nav-and-search">
+										<div class="search-button-container">
+											<button id="activate-search-button">
+												<i class="fa fa-search" aria-hidden="true"></i>
+												<span>Search</span>
+											</button>
+											<button class="active" id="hamburger-menu-button">
+												<i class="fa fa-bars" aria-hidden="true"></i>
+												<div class="sr-only">Open Menu</div>
+											</button>
+										</div>
+										<nav id="responsive-sliding-navigation">
+											<div class="nav-back-button">
+												<button>
+													<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+												</button>
+											</div>
+											<ul role="menu">
+												<li>
+													<button aria-haspopup="true" aria-expanded="false">Books and More
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</button>
+													<div class="submenu-wrapper flex flex-row wide" role="menu">
+														<div class="overview">
+															<a href="#" role="menuitem">
+																<i class="fa fa-book fa-2x" aria-hidden="true"></i>
+																<br/>Books and More</a>
+														</div>
+														<ul class="flex flex-column" aria-hidden="true">
+															<li>
+																<a href="#" role="menuitem">Catalog</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Databases</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Recommended Reading</a>
+																<ul>
+																	<li>
+																		<a href="#" role="menuitem">Book Lists</a>
+																	</li>
+																	<li>
+																		<a href="#" role="menuitem">Reading Challenge</a>
+																	</li>
+																</ul>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Technology for Loan</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">eBooks and Audiobooks</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Downloadable Magazines</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Movies</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Special Collections</a>
+																<ul>
+																	<li>
+																		<a href="#" role="menuitem">Government Documents</a>
+																	</li>
+																	<li>
+																		<a href="#" role="menuitem">Kits</a>
+																	</li>
+																	<li>
+																		<a href="#" role="menuitem">Local History Collections</a>
+																	</li>
+																	<li>
+																		<a href="#" role="menuitem">World Language Collection</a>
+																	</li>
+																</ul>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Can't Find It?</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Make a Purchase Suggestion</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+												<li>
+													<button aria-haspopup="true" aria-expanded="false">Events and Programs
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</button>
+													<div class="submenu-wrapper flex flex-row" role="menu">
+														<div class="overview">
+															<a href="#" role="menuitem">
+																<i class="fa fa-calendar fa-2x" aria-hidden="true"></i>
+																<br/>Events & Programs</a>
+														</div>
+														<ul class="flex flex-column" aria-hidden="true">
+															<li>
+																<a href="#" role="menuitem">Events Search</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Summer Reading Club</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">BCReads</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Storyville</a>
+																<ul>
+																	<li>
+																		<a href="#" role="menuitem">Rosedale</a>
+																	</li>
+																	<li>
+																		<a href="#" role="menuitem">Woodlawn</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+												</li>
+												<li>
+													<button aria-haspopup="true" aria-expanded="false">Services
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</button>
+													<div class="submenu-wrapper wide flex flex-row" role="menu">
+														<div class="overview">
+															<a href="#" role="menuitem">
+																<i class="fa fa-cogs fa-2x" aria-hidden="true"></i>
+																<br/>Services</a>
+														</div>
+														<ul class="flex flex-column" aria-hidden="true">
+															<li>
+																<a href="#" role="menuitem">Get a Library Card</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Ask a Librarian</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Assistive Technology</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Meeting Rooms</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Print, Copy, Fax</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Public Computers and WiFi</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Passport Applications</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Study Rooms</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+												<li class="reverse">
+													<button aria-haspopup="true" aria-expanded="false">Youth
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</button>
+													<div class="submenu-wrapper flex flex-row" role="menu">
+														<div class="overview">
+															<a href="#" role="menuitem">
+																<i class="fa fa-users fa-2x" aria-hidden="true"></i>
+																<br/>Youth</a>
+														</div>
+														<ul class="flex flex-column" aria-hidden="true">
+															<li>
+																<a href="#" role="menuitem">Kids</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Teens</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Parents</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Teachers</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Homework Help</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+												<li class="reverse">
+													<button aria-haspopup="true" aria-expanded="false">About Us
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</button>
+													<div class="submenu-wrapper wide flex flex-row" role="menu">
+														<div class="overview">
+															<a href="#" role="menuitem">
+																<i class="fa fa-address-book-o fa-2x" aria-hidden="true"></i>
+																<br/>About Us</a>
+														</div>
+														<ul class="flex flex-column" aria-hidden="true">
+															<li>
+																<a href="#" role="menuitem">Blog</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Policies</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Loan Periods and Fines</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Our Mission</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">History and Administration</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Board of Trustees</a>
+																<ul>
+																	<li>
+																		<a href="#" role="menuitem">Meetings and Minutes</a>
+																	</li>
+																</ul>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Jobs</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Volunteers</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Friends of BCPL</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Bid Opportunities</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Contact Us</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+		
+											</ul>
+										</nav>
+										<div id="search-box" class="flex flex-row">
+											<input placeholder="Search the...">
+											<div class="search-control-container">
+												<button class="search-button search-button-catalog">
+													<i class="fa fa-book"></i> Catalog</button>
+												<button class="search-button search-button-website">
+													<i class="fa fa-laptop"></i> Website</button>
+											</div>
+										</div>
 									</div>
-									<ul>
-										<li><button>Books and More<i class="fa fa-caret-right" aria-hidden="true"></i></button>
-											<ul>
-												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
-												</li>
-												<li><a href="#">Overview</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-											</ul>
-										</li>
-										<li><button>Events and Programs<i class="fa fa-caret-right" aria-hidden="true"></i></button>
-											<ul>
-												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
-												</li>
-												<li><a href="#">Overview</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-											</ul>
-										</li>
-										<li><button>Services<i class="fa fa-caret-right" aria-hidden="true"></i></button>
-											<ul>
-												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
-												</li>
-												<li><a href="#">Overview</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-											</ul>
-										</li>
-										<li><button>About Us<i class="fa fa-caret-right" aria-hidden="true"></i></button>
-											<ul>
-												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
-												</li>
-												<li><a href="#">Overview</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-											</ul>
-										</li>
-										<li><button>Youth<i class="fa fa-caret-right" aria-hidden="true"></i></button>
-											<ul>
-												<li><button><i class="fa fa-caret-left" aria-hidden="true"></i> Back</button></a>
-												</li>
-												<li><a href="#">Overview</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-												<li><a href="#">Menu Item Menu Item</a></li>
-											</ul>
-										</li>
-									</ul>
-								</nav>
-								<div id="search-box"><input placeholder="Search the library"><button id="search-button"><i class="fa fa-search"></i></button></div>
+								</div>
 							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -230,73 +400,82 @@
 			</main>
 		</div>
 		<footer>
-			<div class="follow-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<p class="branding">Follow The Baltimore County Public Library</p>
-						</div>
-						<div class="col-md-6 col-sm-12">
-							<nav class="social">
-								<ul>
-									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-									<li><a href="#"><i class="fa fa-tumblr"></i></a></li>
-									<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-									<li><a href="#"><i class="fa fa-flickr"></i></a></li>
-									<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="callouts-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-3 col-sm-12 callout"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
-							<h4>Administrative Offices</h4>
-							<address>320 York Road <br /> Towson MD, 21204 <br /> 410-887-6100
-							</address><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Got a Question?</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Question</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Get a Library Card</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Register Now</a></div>
-						<div class="col-md-3 col-sm-12 callout">
-							<h4>Work for Baltimore County Public Library</h4>
-							<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-								fermentum quis. </p><a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
-					</div>
-				</div>
-			</div>
-			<div class="copyright-wrapper">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
-						</div>
-						<div class="col-md-6">
-							<nav class="pull-right">
-								<ul>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">User Terms</a></li>
-									<li><a href="#">Accessibility</a></li>
-								</ul>
-								<ul>
-									<li><a href="#">Translate</a></li>
-									<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
-								</ul>
-							</nav>
+				<div class="follow-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 col-sm-12">
+								<p class="branding">Follow Baltimore County Public Library</p>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<nav class="social">
+									<ul>
+										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+										<li><a href="#"><i class="fa fa-tumblr"></i></a></li>
+										<li><a href="#"><i class="fa fa-youtube"></i></a></li>
+										<li><a href="#"><i class="fa fa-flickr"></i></a></li>
+										<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+									</ul>
+								</nav>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</footer>
-	</div>
+				<div class="callouts-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-3 col-sm-12 callout flex flex-column"><a class="logo" href="#"><img src="/dist/images/logo.png" width="160"></a>
+								<h4>Administrative Offices</h4>
+								<address>320 York Road <br /> Towson, Maryland 21204 <br /> 410-887-6100
+								</address>
+								<div class="flex flex-column flex-justify-end">
+									<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Directions</a></div>
+							</div>
+							<div class="col-md-3 col-sm-12 callout flex flex-column">
+								<h4>Got a Question?</h4>
+								<p>Get answers via email, phone, live chat or a one-on-one appointment with a librarian.</p>
+								<div class="flex flex-column flex-justify-end">
+									<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Ask a Librarian</a></div>
+							</div>
+							<div class="col-md-3 col-sm-12 callout flex flex-column">
+								<h4>Digital Library</h4>
+								<p>On the go? Browse our collection of e-books, digital movies and audiobooks available for download right on your device.</p>
+								<div class="flex flex-column flex-justify-end">
+									<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Explore Digital Materials</a></div>
+							</div>
+							<div class="col-md-3 col-sm-12 callout flex flex-column">
+								<h4>Work for Us</h4>
+								<p>We're looking for passionate individuals to fill full-time and part-time positions.</p>
+								<div class="flex flex-column flex-justify-end">
+									<a class="solo" href="#"><i class="fa fa-chevron-circle-right"> </i>Search Jobs</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="copyright-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6">
+								<p>All Contents &copy; 2017 Baltimore County Public Library. All Rights Reserved.</p>
+							</div>
+							<div class="col-md-6">
+								<nav class="pull-right">
+									<ul>
+										<li><a href="#">Privacy Policy</a></li>
+										<li><a href="#">User Terms</a></li>
+										<li><a href="#">Accessibility</a></li>
+									</ul>
+									<ul>
+										<li><a href="#">Translate</a></li>
+										<li class="contraster"><span class="toggle-text">Adjust Contrast</span><label class="switch"><input id="contrastButton" type="checkbox"><div class="slider round"></div></label></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>	
+		</div>
 </body>
 
 </html>

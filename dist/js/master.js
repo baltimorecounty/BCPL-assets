@@ -376,8 +376,14 @@ bcpl.navigationSearch = function ($) {
 	var menuSelector = '#responsive-sliding-navigation';
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	var modalCoverSelector = '#modal-cover';
+	var heroCalloutContainerSelector = '.hero-callout-container';
+	var mobileWidthThreshold = 768;
 
 	/* Helpers */
+
+	var isMobileWidth = function isMobileWidth($element, threshold) {
+		return parseFloat($element.width()) <= threshold;
+	};
 
 	var killMenuAndModalCover = function killMenuAndModalCover($menu, $modalCover) {
 		$modalCover.removeClass('active');
@@ -407,6 +413,14 @@ bcpl.navigationSearch = function ($) {
 		$('body').addClass('nav-visible');
 	};
 
+	var hideHeroCallout = function hideHeroCallout(shouldHide) {
+		if (shouldHide && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			$(heroCalloutContainerSelector).hide();
+		} else {
+			$(heroCalloutContainerSelector).show();
+		}
+	};
+
 	/**
   * Click event handler for the search activator button.
   */
@@ -414,8 +428,11 @@ bcpl.navigationSearch = function ($) {
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $hamburgerButton = event.data.$hamburgerButton;
+		var isSearchBoxHidden = $searchBox.is(':hidden');
 
-		if ($searchBox.is(':hidden')) {
+		hideHeroCallout(isSearchBoxHidden);
+
+		if (isSearchBoxHidden) {
 			$searchButtonActivator.addClass('active');
 			$hamburgerButton.removeClass('active');
 			$searchBox.addClass('active');
@@ -713,6 +730,7 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var navigationMouseover = function navigationMouseover() {
 		hideHeroCallout(true);
+		hideSearchBox();
 	};
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
@@ -724,8 +742,8 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation, #responsive-sliding-navigation *', navigationMouseleave);
+	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
