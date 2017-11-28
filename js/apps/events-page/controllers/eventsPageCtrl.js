@@ -34,6 +34,10 @@
 		self.isLoading = true;
 		self.hasResults = true;
 
+		self.locations = requestModel.Locations;
+		self.eventsTypes = requestModel.EventsTypes;
+		self.ageGroups = requestModel.AgeGroups;
+		
 		self.keywordSearch = () => {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
@@ -98,7 +102,11 @@
 		self.loadNextPage = () => {
 			requestModel.Page += 1;
 
-			eventsService.get(requestModel).then(processAndCombineEvents);
+			eventsService.get(requestModel).then(processAndCombineEvents).then(() => {
+				$timeout(() => {
+					$('.event-date-bar').sticky(eventDateBarStickySettings);
+				});
+			});
 		};
 
 		self.clearFilters = () => {
@@ -116,7 +124,10 @@
 			self.eventGroups = [];
 			self.hasResults = true;
 			self.isLoading = true;
-
+			self.locations = requestModel.Locations;
+			self.eventsTypes = requestModel.EventsTypes;
+			self.ageGroups = requestModel.AgeGroups;
+	
 			eventsService.get(requestModel).then(processEvents);
 		};
 

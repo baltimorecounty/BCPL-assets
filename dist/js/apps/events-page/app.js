@@ -239,6 +239,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.isLoading = true;
 		self.hasResults = true;
 
+		self.locations = requestModel.Locations;
+		self.eventsTypes = requestModel.EventsTypes;
+		self.ageGroups = requestModel.AgeGroups;
+
 		self.keywordSearch = function () {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
@@ -303,7 +307,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.loadNextPage = function () {
 			requestModel.Page += 1;
 
-			eventsService.get(requestModel).then(processAndCombineEvents);
+			eventsService.get(requestModel).then(processAndCombineEvents).then(function () {
+				$timeout(function () {
+					$('.event-date-bar').sticky(eventDateBarStickySettings);
+				});
+			});
 		};
 
 		self.clearFilters = function () {
@@ -321,6 +329,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.eventGroups = [];
 			self.hasResults = true;
 			self.isLoading = true;
+			self.locations = requestModel.Locations;
+			self.eventsTypes = requestModel.EventsTypes;
+			self.ageGroups = requestModel.AgeGroups;
 
 			eventsService.get(requestModel).then(processEvents);
 		};

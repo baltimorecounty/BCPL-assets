@@ -1,6 +1,6 @@
 <div class="scrolling-filter">
 	<label for="{{ removeDisallowedCharacters(item.Name) }}" ng-repeat="item in items">
-		<input type="checkbox" id="" name="{{filterType}}" ng-click="search(this, filterType, $event.target.checked)"> 
+		<input type="checkbox" id="{{ removeDisallowedCharacters(item.Name) }}" name="{{filterType}}" ng-click="search(this, filterType, $event.target.checked)"> 
 		{{ item.Name }}
 	</label>
 </div>
