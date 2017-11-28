@@ -216,7 +216,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
-		var momentFormatString = 'YYYY-MM-DD h:mm a';
 		var startDateLocaleString = moment.utc().format();
 		var endDate = moment.utc().add(30, 'd');
 		var endDateLocaleString = endDate.format();

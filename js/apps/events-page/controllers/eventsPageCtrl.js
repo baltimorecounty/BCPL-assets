@@ -4,7 +4,6 @@
 	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		const self = this;
 		const firstPage = 1;
-		const momentFormatString = 'YYYY-MM-DD h:mm a';
 		const startDateLocaleString = moment.utc().format();
 		const endDate = moment.utc().add(30, 'd');
 		const endDateLocaleString = endDate.format();
