@@ -167,7 +167,7 @@ bcpl.navigationSearch = (($) => {
 			$modalCover
 		}, windowResized);
 
-		if (parseFloat($('body').css('width')) <= 768) {
+		if (parseFloat($('body').css('width')) <= mobileWidthThreshold) {
 			$menu.addClass('animatable');
 		}
 	};
