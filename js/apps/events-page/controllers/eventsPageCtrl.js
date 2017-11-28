@@ -54,7 +54,7 @@
 				self.eventGroups = [];
 				self.hasResults = true;
 				self.isLoading = true;
-		
+
 				eventsService.get(requestModel).then(processEvents);
 			} else {
 				self.areDatesInvalid = true;
@@ -174,7 +174,23 @@
 			return renderedEventGroups;
 		};
 
+		const showFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
+		};
+
+		const hideFilters = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+		};
 		/* ** Init ** */
+
+		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
+		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
 
 		eventsService.get(requestModel).then(processEvents);
 	};

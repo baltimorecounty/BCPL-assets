@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://ba224964:3100',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
@@ -379,7 +379,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return renderedEventGroups;
 		};
 
+		var showFilters = function showFilters(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
+		};
+
+		var hideFilters = function hideFilters(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseControl = $collapsible.siblings('.collapse-control');
+
+			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+		};
 		/* ** Init ** */
+
+		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
+		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
 
 		eventsService.get(requestModel).then(processEvents);
 	};

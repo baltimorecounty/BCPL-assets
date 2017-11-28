@@ -389,7 +389,8 @@
 				<div class="col-md-3">
 					<div class="filters event-filters">
 						<h3>Find an Event</h3>
-						<div class="filter-items-wrapper">
+						
+						<div id="filter-items-wrapper" class="filter-items-wrapper collapse">
 							<form id="filter-form">
 								<div class="events-search-wrapper filter-control-wapper">
 									<h4>Keyword Search</h4>
@@ -418,6 +419,10 @@
 								</div>
 							</form>
 						</div>
+
+						<button class="btn btn-primary collapse-control" data-toggle="collapse" data-target="#filter-items-wrapper" aria-live="polite" aria-expanded="false" aria-controls="filter-items-wrapper">
+							<i class="fa fa-plus"></i> Show Filters
+						</button>
 					</div>
 				</div>
 				<div class="col-md-9 events-list">
