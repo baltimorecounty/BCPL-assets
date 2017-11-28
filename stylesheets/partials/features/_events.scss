@@ -145,7 +145,7 @@
         color: $gray;
         font-size: 16px;
         padding-left: 1em;
-        margin-bottom: 0;
+		margin-bottom: 0;
     }
 
     &.event-filters {
@@ -153,7 +153,16 @@
         width: 100%;
         margin-right: 0;
 
+			.collapse {
+				display: none;	
+				
+				&.in {
+					display: block;
+				}
+			}
+	
 		.collapse-control {
+			display: inline-block;
 			margin: 1em;
 		}
 
@@ -163,6 +172,11 @@
 			h4 {
 				margin: 1.5em 0 .5em;
 				padding: 0;		
+
+				span {
+					font-size: .8em;
+					font-weight: 400;
+				}
 			}
 
 			.events-search-wrapper {
@@ -203,6 +217,16 @@
         margin-bottom: 0;
     }
 
+}
+
+.filter-group {
+    font-size: .8em;
+    padding: .5em;
+
+    label {
+        display: block;
+        margin-bottom: 0;
+    }
 }
 
 .event-list {

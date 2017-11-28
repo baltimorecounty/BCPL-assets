@@ -25,6 +25,7 @@
 			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
 			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
 			filtersTemplate: '/dist/js/apps/events-page/templates/filters.html',
+			filtersExpandosTemplate: '/dist/js/apps/events-page/templates/filters-expandos.html',
 			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10
@@ -510,6 +511,53 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
 
 	app.directive('eventsList', eventsListDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
+		var filtersLink = function filtersLink(scope) {
+			var innerScope = scope;
+
+			var filterSuccess = function filterSuccess(data) {
+				innerScope.items = data;
+			};
+
+			innerScope.search = function (searchItem, termType, isChecked) {
+				var identifier = searchItem.item.Id || searchItem.item.LocationId;
+				innerScope.searchFunction(identifier, termType, isChecked);
+			};
+
+			innerScope.removeDisallowedCharacters = function (str) {
+				var disallowedCharactersRegex = /[^A-Za-z0-9-_.]/g;
+
+				return str.trim().replace(disallowedCharactersRegex, '-');
+			};
+
+			innerScope.items = [];
+
+			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
+				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
+			}
+		};
+
+		var directive = {
+			link: filtersLink,
+			restrict: 'E',
+			scope: {
+				filterType: '@',
+				choiceType: '@',
+				searchFunction: '='
+			},
+			templateUrl: CONSTANTS.templateUrls.filtersExpandosTemplate
+		};
+
+		return directive;
+	};
+
+	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+
+	app.directive('filtersExpandos', filtersDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 

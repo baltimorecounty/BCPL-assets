@@ -1,0 +1,10 @@
+
+<div id="{{filterType}}" class="collapse filter-group">
+	<label for="{{ removeDisallowedCharacters(item.Name) }}" ng-repeat="item in items">
+		<input type="checkbox" id="{{ removeDisallowedCharacters(item.Name) }}" name="{{filterType}}" ng-click="search(this, filterType, $event.target.checked)"> 
+		{{ item.Name }}
+	</label>
+</div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#{{filterType}}" aria-live="polite" aria-expanded="false" aria-controls="{{filterType}}">
+	<i class="fa fa-plus"></i> Show
+</button>
