@@ -201,14 +201,20 @@
 			float: left;
 			font-size: 14px;
 			font-family: 'TTRoundsCondensed-Bold';
+			height: 35px;			
 			margin-left: 2px;
 			padding: .5em .75em;
 			text-transform: uppercase;
+
+			&:hover {
+				background: $teal-light;
+			}
 
 			i {
 				font-size: 20px;
 				padding-right: .25em;
 			}
+
 		}
 		&.active {
 			display: block;
@@ -347,7 +353,8 @@
 
 				&.active {
 					background-color: $teal-dark;
-					border-radius: 8px;								
+					border-radius: 8px;	
+					height: auto;							
 				}
 			}
 			#activate-search-button {
