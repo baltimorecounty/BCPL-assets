@@ -27,10 +27,8 @@
 		};
 
 		const get = (eventRequestModel) => {
-			const localeEventRequestModel = eventRequestModel;
-
 			return $q((resolve, reject) => {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel)
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
 					.then((response) => {
 						if (response.data) {
 							resolve({

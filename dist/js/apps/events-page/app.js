@@ -64,10 +64,8 @@
 		};
 
 		var get = function get(eventRequestModel) {
-			var localeEventRequestModel = eventRequestModel;
-
 			return $q(function (resolve, reject) {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
 						resolve({
 							eventGroups: dateSplitter(response.data.Events),
@@ -218,10 +216,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
-		var startDateLocaleString = new Date().toLocaleString();
-		var endDate = new Date();
-		endDate.setMonth(endDate.getMonth() + 1);
-		var endDateLocaleString = endDate.toLocaleString();
+		var momentFormatString = 'YYYY-MM-DD h:mm a';
+		var startDateLocaleString = moment.utc().format();
+		var endDate = moment.utc().add(30, 'd');
+		var endDateLocaleString = endDate.format();
 		var requestModel = {
 			StartDate: startDateLocaleString,
 			EndDate: endDateLocaleString,

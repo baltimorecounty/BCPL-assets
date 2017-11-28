@@ -4,10 +4,10 @@
 	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		const self = this;
 		const firstPage = 1;
-		const startDateLocaleString = (new Date()).toLocaleString();
-		const endDate = new Date();
-		endDate.setMonth(endDate.getMonth() + 1);
-		const endDateLocaleString = endDate.toLocaleString();
+		const momentFormatString = 'YYYY-MM-DD h:mm a';
+		const startDateLocaleString = moment.utc().format();
+		const endDate = moment.utc().add(30, 'd');
+		const endDateLocaleString = endDate.format();
 		const requestModel = {
 			StartDate: startDateLocaleString,
 			EndDate: endDateLocaleString,
