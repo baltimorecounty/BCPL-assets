@@ -24,32 +24,32 @@
 			color: $tan-light;
 		}
 
-	}
+		button, a {
+			color: black;
+			display: inline-block;
+			font-weight: 800;
+			line-height: 1.5em;
+			margin-left: 1em;
+			margin-top: .25em;
+			padding: .25em .5em;
+			text-transform: uppercase;
+			background: $tan-light;
+			box-shadow: $shadow-primary;
+			transition: 0.25s all ease;
 
-	button, a {
-		color: black;
-		display: inline-block;
-		line-height: 1.5em;
-		margin-left: 1em;
-		margin-top: .25em;
-		padding: .25em .5em;
-		text-transform: uppercase;
-		background: $tan-light;
-		box-shadow: $shadow-primary;
-		transition: 0.25s all ease;
+			i {
+				margin-left: .5em;
+				color: inherit;
+				position: relative;
+				top: -1px;
+			}
 
-		i {
-			margin-left: .5em;
-			color: inherit;
-			position: relative;
-			top: -1px;
-		}
-
-		&:hover {
-			text-decoration: none;
-			background-color: black;
-			color: $gold;
-			box-shadow: $shadow-hover;
+			&:hover {
+				text-decoration: none;
+				background-color: black;
+				color: $gold;
+				box-shadow: $shadow-hover;
+			}
 		}
 	}
 
