@@ -11,7 +11,7 @@
 				})
 				.when('/dist/events.html/:id', {
 					templateUrl: '/dist/js/apps/events-page/partials/eventDetails.html',
-					controller: 'EventsDetailsCtrl',
+					controller: 'EventDetailsCtrl',
 					controllerAs: 'eventDetailsPage'
 				});
 

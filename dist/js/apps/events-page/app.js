@@ -10,7 +10,7 @@
 			controllerAs: 'eventsPage'
 		}).when('/dist/events.html/:id', {
 			templateUrl: '/dist/js/apps/events-page/partials/eventDetails.html',
-			controller: 'EventsDetailsCtrl',
+			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
 		});
 
@@ -93,8 +93,21 @@
 			});
 		};
 
+		var getById = function getById(id) {
+			return $q(function (resolve, reject) {
+				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
+					if (response.data) {
+						resolve(response.data);
+					} else {
+						reject(response);
+					}
+				}, reject);
+			});
+		};
+
 		return {
-			get: get
+			get: get,
+			getById: getById
 		};
 	};
 
@@ -227,11 +240,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService) {
 		var self = this;
+		var id = $routeParams.id;
+
+		self.data = {};
+		self.data.EventStartDate = '';
+		self.data.EventStartTime = '';
+		self.data.EventEndTime = '';
+
+		var processEventData = function processEventData(data) {
+			self.data = data;
+			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM Do, YYYY');
+			self.data.EventStartTime = moment(self.data.EventStart).format('h:mm a');
+			self.data.EventEndTime = moment(self.data.EventStart).add(self.data.EventLength, 'm').format('h:mm a');
+
+			console.log(self.data);
+		};
+
+		eventsService.getById(id).then(processEventData);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService'];
+	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'));

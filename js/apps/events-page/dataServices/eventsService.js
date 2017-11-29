@@ -44,12 +44,26 @@
 			});
 		};
 
+		const getById = (id) => {
+			return $q((resolve, reject) => {
+				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id)
+					.then((response) => {
+						if (response.data) {
+							resolve(response.data);
+						} else {
+							reject(response);
+						}
+					}, reject);
+			});
+		};
+
 		return {
 			/* test-code */
 			isEventOnDate,
 			dateSplitter,
 			/* end-test-code */
-			get
+			get,
+			getById
 		};
 	};
 
