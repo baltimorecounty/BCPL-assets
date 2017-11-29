@@ -138,7 +138,12 @@ gulp.task('rewrite', () => {
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts', 'rewrite'], 'code-coverage', callback));
+gulp.task('move-data', () => {
+	gulp.src('data/**/*')
+		.pipe(gulp.dest('dist/data'));
+});
+
+gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts', 'rewrite', 'move-data'], 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
