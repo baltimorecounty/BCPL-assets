@@ -132,7 +132,13 @@ gulp.task('move-html', () => gulp.src('mockups/html/*.html')
 gulp.task('code-coverage', () => gulp.src('/coverage/**/lcov.info')
 	.pipe(coveralls()));
 
-gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
+gulp.task('rewrite', () => {
+	gulp.src('rewrite.config')
+		.pipe(rename('web.config'))
+		.pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts', 'rewrite'], 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);

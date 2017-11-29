@@ -13,11 +13,11 @@
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {
-			datePickersTemplate: '/dist/js/apps/events-page/templates/datePickers.html',
-			eventsListTemplate: '/dist/js/apps/events-page/templates/eventsList.html',
-			filtersTemplate: '/dist/js/apps/events-page/templates/filters.html',
-			filtersExpandosTemplate: '/dist/js/apps/events-page/templates/filters-expandos.html',
-			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
+			datePickersTemplate: '/js/apps/events-page/templates/datePickers.html',
+			eventsListTemplate: '/js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/js/apps/events-page/templates/filters.html',
+			filtersExpandosTemplate: '/js/apps/events-page/templates/filters-expandos.html',
+			loadMoreTemplate: '/js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10
 	};

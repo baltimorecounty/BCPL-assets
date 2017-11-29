@@ -8,7 +8,7 @@ html
 		script(src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js")
 
-		script(src="/dist/js/page-specific/branches-filter.js")
+		script(src="/js/page-specific/branches-filter.js")
 	body
 
 		.container-fluid.internal 
@@ -86,7 +86,7 @@ html
 							script(id="branches-template" type="text/x-handlebars-template")
 								| {{#each this}}
 								a.card.grid-item(href="#")
-									img(src="/dist/images/grumpy-cat.jpg")
+									img(src="/images/grumpy-cat.jpg")
 									p {{this.name}} 
 								| {{/each}}	
 							#branches(style="display: none")
