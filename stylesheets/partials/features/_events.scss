@@ -87,6 +87,13 @@
 				}
 			}
 
+			a {
+				width: auto;
+				float: none;
+				font-weight: inherit;
+				margin: 0;
+			}
+
 			.card-icon {
 				color: $gray-light;
 			}

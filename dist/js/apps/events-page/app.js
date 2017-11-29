@@ -3,7 +3,19 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate']);
+	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
+		$routeProvider.when('/dist/events.html', {
+			templateUrl: '/dist/js/apps/events-page/partials/eventList.html',
+			controller: 'EventsPageCtrl',
+			controllerAs: 'eventsPage'
+		}).when('/dist/events.html/:id', {
+			templateUrl: '/dist/js/apps/events-page/partials/eventDetails.html',
+			controller: 'EventsDetailsCtrl',
+			controllerAs: 'eventDetailsPage'
+		});
+
+		$locationProvider.html5Mode(true);
+	});
 })();
 'use strict';
 
@@ -209,6 +221,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	app.factory('querystringService', querystringService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService) {
+		var self = this;
+	};
+
+	EventDetailsCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService'];
+
+	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 

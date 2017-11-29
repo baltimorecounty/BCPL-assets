@@ -65,6 +65,8 @@ gulp.task('move-app-directive-templates', () => {
 	appFolders.forEach((folder) => {
 		gulp.src(`js/apps/${folder}/directives/templates/*.html`)
 			.pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
+		gulp.src(`js/apps/${folder}/partials/*.html`)
+			.pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
 	});
 });
 
