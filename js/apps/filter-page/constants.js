@@ -9,7 +9,7 @@
 		urls: {
 			// databases: 'http://ba224964:3100/api/structured-content/databases',
 			databases: 'http://testservices.bcpl.info/api/structured-content/databases',
-			locations: '/mockups/data/branch-amenities.json'
+			locations: '/data/branch-amenities.json'
 		},
 		filters: {
 			tags: {

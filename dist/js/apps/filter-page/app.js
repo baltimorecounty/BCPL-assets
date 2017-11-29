@@ -18,7 +18,7 @@
 		urls: {
 			// databases: 'http://ba224964:3100/api/structured-content/databases',
 			databases: 'http://testservices.bcpl.info/api/structured-content/databases',
-			locations: '/mockups/data/branch-amenities.json'
+			locations: '/data/branch-amenities.json'
 		},
 		filters: {
 			tags: {
@@ -426,7 +426,7 @@
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/filter.html',
+			templateUrl: '/js/apps/filter-page/templates/filter.html',
 			link: filterLink
 		};
 
@@ -454,7 +454,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/filters.html',
+			templateUrl: '/js/apps/filter-page/templates/filters.html',
 			link: filterLink
 		};
 
@@ -489,7 +489,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/tag.html',
+			templateUrl: '/js/apps/filter-page/templates/tag.html',
 			link: tagLink
 		};
 
