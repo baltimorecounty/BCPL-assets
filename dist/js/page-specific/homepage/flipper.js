@@ -72,7 +72,7 @@ bcpl.pageSpecific.homepage.flipper = function ($) {
 	};
 
 	var init = function init() {
-		$.getJSON('/mockups/data/homepage-flipper.json').then(flipperDataSuccess, flipperDataError).then(flipperSetup);
+		$.getJSON('/data/homepage-flipper.json').then(flipperDataSuccess, flipperDataError).then(flipperSetup);
 	};
 
 	return { init: init };
