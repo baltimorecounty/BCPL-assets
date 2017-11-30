@@ -18,15 +18,33 @@
 						<date-pickers start-date-model='eventsPage.userStartDate' end-date-model='eventsPage.userEndDate' filter-by-date="eventsPage.filterByDate"></date-pickers>
 					</div>
 
-					<h4 class="filter-headers">Branches</h4>
-					<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
-
-					<h4 class="filter-headers">Event Types</h4>
-					<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
-
-					<h4 class="filter-headers">Age Groups</h4>
-					<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
-
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#locations" aria-live="polite" aria-expanded="false" aria-controls="locations">
+								Branches
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
+					</div>
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#eventTypes" aria-live="polite" aria-expanded="false" aria-controls="eventTypes">
+								Event Types
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
+					</div>
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#ageGroups" aria-live="polite" aria-expanded="false" aria-controls="ageGroups">
+								Age Groups
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
+					</div>
 					<div class="button-wrapper filter-control-wapper">
 						<button class="btn btn-default" type="reset" ng-click="eventsPage.clearFilters()">Clear filters</button>
 					</div>

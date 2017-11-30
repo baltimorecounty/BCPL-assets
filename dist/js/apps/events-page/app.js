@@ -4,17 +4,15 @@
 	'use strict';
 
 	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
-		$routeProvider.when('/events.html', {
+		$routeProvider.when('/', {
 			templateUrl: '/js/apps/events-page/partials/eventList.html',
 			controller: 'EventsPageCtrl',
 			controllerAs: 'eventsPage'
-		}).when('/events.html/:id', {
+		}).when('/:id', {
 			templateUrl: '/js/apps/events-page/partials/eventDetails.html',
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
 		});
-
-		$locationProvider.html5Mode(true);
 	});
 })();
 'use strict';
@@ -467,10 +465,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
 		};
+
+		var toggleIcon = function toggleIcon(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
+		};
+
 		/* ** Init ** */
 
 		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
 		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
+
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		eventsService.get(requestModel).then(processEvents);
 	};

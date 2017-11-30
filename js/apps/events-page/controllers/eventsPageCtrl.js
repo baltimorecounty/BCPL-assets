@@ -198,10 +198,20 @@
 
 			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
 		};
+
+		const toggleIcon = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
+		};
+
 		/* ** Init ** */
 
 		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
 		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
+
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		eventsService.get(requestModel).then(processEvents);
 	};
