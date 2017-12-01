@@ -37,7 +37,7 @@
 		self.locations = requestModel.Locations;
 		self.eventsTypes = requestModel.EventsTypes;
 		self.ageGroups = requestModel.AgeGroups;
-		
+
 		self.keywordSearch = () => {
 			requestModel.Keyword = self.keywords;
 			requestModel.StartDate = startDateLocaleString;
@@ -50,8 +50,8 @@
 		};
 
 		self.filterByDate = () => {
-			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
-				self.areDatesInvalid = false;
+			self.areDatesInvalid = !isDateRangeValid(self.userStartDate, self.userEndDate);
+			if (!self.areDatesInvalid) {
 				requestModel.StartDate = self.userStartDate;
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
@@ -60,8 +60,6 @@
 				self.isLoading = true;
 
 				eventsService.get(requestModel).then(processEvents);
-			} else {
-				self.areDatesInvalid = true;
 			}
 		};
 
@@ -185,20 +183,6 @@
 			return renderedEventGroups;
 		};
 
-		const showFilters = (collapseEvent) => {
-			const $collapsible = angular.element(collapseEvent.currentTarget);
-			const $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
-		};
-
-		const hideFilters = (collapseEvent) => {
-			const $collapsible = angular.element(collapseEvent.currentTarget);
-			const $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
-		};
-
 		const toggleIcon = (collapseEvent) => {
 			const $collapsible = angular.element(collapseEvent.currentTarget);
 			const $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
@@ -206,9 +190,6 @@
 		};
 
 		/* ** Init ** */
-
-		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
-		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
 
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);

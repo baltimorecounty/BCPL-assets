@@ -316,8 +316,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		self.filterByDate = function () {
-			if (isDateRangeValid(self.userStartDate, self.userEndDate)) {
-				self.areDatesInvalid = false;
+			self.areDatesInvalid = !isDateRangeValid(self.userStartDate, self.userEndDate);
+			if (!self.areDatesInvalid) {
 				requestModel.StartDate = self.userStartDate;
 				requestModel.EndDate = self.userEndDate;
 				requestModel.Page = 1;
@@ -326,8 +326,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				self.isLoading = true;
 
 				eventsService.get(requestModel).then(processEvents);
-			} else {
-				self.areDatesInvalid = true;
 			}
 		};
 
@@ -451,20 +449,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return renderedEventGroups;
 		};
 
-		var showFilters = function showFilters(collapseEvent) {
-			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
-		};
-
-		var hideFilters = function hideFilters(collapseEvent) {
-			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
-		};
-
 		var toggleIcon = function toggleIcon(collapseEvent) {
 			var $collapsible = angular.element(collapseEvent.currentTarget);
 			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
@@ -472,9 +456,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		/* ** Init ** */
-
-		angular.element(document).on('hidden.bs.collapse', '#filter-items-wrapper', hideFilters);
-		angular.element(document).on('shown.bs.collapse', '#filter-items-wrapper', showFilters);
 
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
