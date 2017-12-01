@@ -21,8 +21,8 @@
 	'use strict';
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://ba224964:3100',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
@@ -238,7 +238,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
 		var self = this;
 		var id = $routeParams.id;
 
@@ -249,17 +249,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			self.data = data;
-			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM Do, YYYY');
-			self.data.EventStartTime = moment(self.data.EventStart).format('h:mm a');
-			self.data.EventEndTime = moment(self.data.EventStart).add(self.data.EventLength, 'm').format('h:mm a');
-
-			console.log(self.data);
+			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
+			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength);
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService'];
+	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'));
