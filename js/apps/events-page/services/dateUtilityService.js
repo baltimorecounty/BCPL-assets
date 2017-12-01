@@ -53,7 +53,6 @@
 			/* test-code */
 			get12HourValue,
 			getAmPm,
-			getMinuteString,
 			/* end-test-code */
 			addDays,
 			formatSchedule
