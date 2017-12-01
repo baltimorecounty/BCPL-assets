@@ -1,4 +1,16 @@
- 
+.registration-required {
+	color: red;
+	
+	button {
+		margin-bottom: 0;
+	}
+
+	i {
+		position: relative;
+		top: -1px;
+	}
+}
+
 .events-search-wrapper {
 	.keyword-search-wrapper {
 		position: relative;
