@@ -60,7 +60,7 @@
 						<td class="table-column-25 horizontal-headers">Branch</td>
 						<td>{{eventDetailsPage.data.LocationName}}</td>
 					</tr>
-					<tr>
+					<tr ng-show="eventDetailsPage.isRegistrationRequired">
 						<td class="table-column-25 horizontal-headers">Seats Available</td>
 						<td>{{eventDetailsPage.data.MainSpotsAvailable}}</td>
 					</tr>
