@@ -1,0 +1,15 @@
+<div class="datepickers">
+	<div class="date-field-wrapper">
+		<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="From..."
+			ng-model="userStartDate">
+		<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true" ng-click="openFlatpickr('start-date')"></i>
+	</div>
+	<div class="date-field-wrapper">
+		<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="To..."
+			ng-model="userEndDate">
+		<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true" ng-click="openFlatpickr('end-date')"></i>
+	</div>
+	<div class="date-validation-error" ng-show="areDatesInvalid">
+		<p>Please select a valid date range.</p>
+	</div>								
+</div>

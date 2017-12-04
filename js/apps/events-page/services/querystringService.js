@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const querystringService = () => {
 		const build = (querystringSettings) => {
 			if (!querystringSettings) {

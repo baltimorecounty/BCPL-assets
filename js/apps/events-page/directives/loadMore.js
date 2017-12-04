@@ -1,10 +1,13 @@
 ((app) => {
+	'use strict';
+
 	const loadMoreDirective = (CONSTANTS) => {
 		const directive = {
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.loadMoreTemplate,
 			scope: {
-				loadNextPage: '='
+				loadNextPage: '=',
+				chunkSize: '='
 			}
 		};
 

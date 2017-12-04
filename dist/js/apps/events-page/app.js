@@ -3,7 +3,17 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', []);
+	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
+		$routeProvider.when('/', {
+			templateUrl: '/js/apps/events-page/partials/eventList.html',
+			controller: 'EventsPageCtrl',
+			controllerAs: 'eventsPage'
+		}).when('/:id', {
+			templateUrl: '/js/apps/events-page/partials/eventDetails.html',
+			controller: 'EventDetailsCtrl',
+			controllerAs: 'eventDetailsPage'
+		});
+	});
 })();
 'use strict';
 
@@ -11,16 +21,24 @@
 	'use strict';
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://ba224964:3100',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
+		remoteServiceUrls: {
+			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
+			eventTypes: 'https://bcpl.evanced.info/api/signup/eventtypes',
+			locations: 'https://bcpl.evanced.info/api/signup/locations'
+		},
 		templateUrls: {
-			eventTemplate: '/dist/js/apps/events-page/templates/event.html',
-			eventDateTemplate: '/dist/js/apps/events-page/templates/eventDate.html',
-			loadMoreTemplate: '/dist/js/apps/events-page/templates/loadMore.html'
-		}
+			datePickersTemplate: '/js/apps/events-page/templates/datePickers.html',
+			eventsListTemplate: '/js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/js/apps/events-page/templates/filters.html',
+			filtersExpandosTemplate: '/js/apps/events-page/templates/filters-expandos.html',
+			loadMoreTemplate: '/js/apps/events-page/templates/loadMore.html'
+		},
+		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);
@@ -28,6 +46,8 @@
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
 			var eventItemStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
@@ -57,15 +77,25 @@
 		};
 
 		var get = function get(eventRequestModel) {
-			var localeEventRequestModel = eventRequestModel;
-
-			localeEventRequestModel.StartDate = localeEventRequestModel.StartDate.toLocaleDateString();
-			localeEventRequestModel.EndDate = localeEventRequestModel.EndDate.toLocaleDateString();
-
 			return $q(function (resolve, reject) {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel).then(function (response) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
-						resolve(dateSplitter(response.data));
+						resolve({
+							eventGroups: dateSplitter(response.data.Events),
+							totalResults: response.data.TotalResults
+						});
+					} else {
+						reject(response);
+					}
+				}, reject);
+			});
+		};
+
+		var getById = function getById(id) {
+			return $q(function (resolve, reject) {
+				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
+					if (response.data) {
+						resolve(response.data);
 					} else {
 						reject(response);
 					}
@@ -74,7 +104,8 @@
 		};
 
 		return {
-			get: get
+			get: get,
+			getById: getById
 		};
 	};
 
@@ -84,9 +115,36 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
+(function (app) {
+	'use strict';
+
+	var metaService = function metaService($http, $q) {
+		var request = function request(endpointUrl) {
+			return $q(function (resolve, reject) {
+				$http.get(endpointUrl).then(function (response) {
+					resolve(response.data);
+				}, function (err) {
+					reject(err);
+				});
+			});
+		};
+
+		return {
+			request: request
+		};
+	};
+
+	metaService.$inject = ['$http', '$q'];
+
+	app.factory('metaService', metaService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function (app) {
+	'use strict';
+
 	var dateUtilityService = function dateUtilityService() {
 		var addDays = function addDays(dateOrString, daysToAdd) {
 			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
@@ -109,23 +167,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return 'Bad event length format';
 			}
 
-			var eventStartDate = new Date(eventStart);
-			var eventEndDate = new Date(eventStart);
-			var eventEndDateMinutes = eventStartDate.getMinutes() + eventLength;
-			eventEndDate.setMinutes(eventEndDateMinutes);
-
+			var eventStartDate = moment(eventStart);
+			var eventEndDate = moment(eventStart).add(eventLength, 'm');
 			var startHour = get12HourValue(eventStartDate);
-			var startMinutes = getMinuteString(eventStartDate.getMinutes());
+			var startMinutes = eventStartDate.minute();
 			var startAmPm = getAmPm(eventStartDate);
 			var endHour = get12HourValue(eventEndDate);
-			var endMinutes = getMinuteString(eventEndDate.getMinutes());
+			var endMinutes = eventEndDate.minute();
 			var endAmPm = getAmPm(eventEndDate);
 
-			return startHour + ':' + startMinutes + ' ' + startAmPm + ' to ' + endHour + ':' + endMinutes + ' ' + endAmPm;
+			return '' + startHour + (startMinutes === 0 ? '' : ':' + startMinutes) + ' ' + (startAmPm === endAmPm ? '' : startAmPm) + ' to ' + endHour + (endMinutes === 0 ? '' : ':' + endMinutes) + ' ' + endAmPm;
 		};
 
 		var get12HourValue = function get12HourValue(date) {
-			var rawHours = date.getHours();
+			var rawHours = date.hour();
 
 			if (rawHours === 0) return 12;
 
@@ -135,11 +190,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var getAmPm = function getAmPm(date) {
-			return date.getHours() < 12 ? 'a.m.' : 'p.m.';
-		};
-
-		var getMinuteString = function getMinuteString(minutes) {
-			return minutes < 10 ? '0' + minutes : '' + minutes;
+			return date.hour() < 12 ? 'a.m.' : 'p.m.';
 		};
 
 		return {
@@ -153,6 +204,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 'use strict';
 
 (function (app) {
+	'use strict';
+
 	var querystringService = function querystringService() {
 		var build = function build(querystringSettings) {
 			if (!querystringSettings) {
@@ -185,68 +238,301 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, CONSTANTS, eventsService, dateUtility) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
+		var self = this;
+		var id = $routeParams.id;
+
+		self.data = {};
+		self.data.EventStartDate = '';
+		self.data.EventStartTime = '';
+		self.data.EventEndTime = '';
+
+		var processEventData = function processEventData(data) {
+			self.data = data;
+			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
+			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength);
+			self.isRegistrationRequired = self.data.RegistrationTypeCodeEnum !== 0;
+			self.isOver = moment().isAfter(moment(self.data.EventStart).add(self.data.EventLength, 'm'));
+		};
+
+		eventsService.getById(id).then(processEventData);
+	};
+
+	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+
+	app.controller('EventDetailsCtrl', EventDetailsCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
+		var startDateLocaleString = moment().format();
+		var endDate = moment().add(30, 'd');
+		var endDateLocaleString = endDate.format();
 		var requestModel = {
-			StartDate: new Date(),
-			EndDate: new Date(),
+			StartDate: startDateLocaleString,
+			EndDate: endDateLocaleString,
 			Page: firstPage,
-			IsOngoingVisible: true
+			IsOngoingVisible: true,
+			IsSpacesReservationVisible: false,
+			Limit: CONSTANTS.requestChunkSize,
+			EventsTypes: [],
+			AgeGroups: [],
+			Locations: []
+		};
+		var eventDateBarStickySettings = {
+			zIndex: 100,
+			responsiveWidth: true
 		};
 
 		/* ** Public ** */
 
 		self.eventGroups = [];
+		self.keywords = '';
+		self.chunkSize = CONSTANTS.requestChunkSize;
+		self.totalResults = 0;
+		self.isLastPage = false;
+		self.areDatesInvalid = false;
+		self.isLoading = true;
+		self.hasResults = true;
+
+		self.locations = requestModel.Locations;
+		self.eventsTypes = requestModel.EventsTypes;
+		self.ageGroups = requestModel.AgeGroups;
+
+		self.keywordSearch = function () {
+			requestModel.Keyword = self.keywords;
+			requestModel.StartDate = startDateLocaleString;
+			requestModel.Page = 1;
+			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
+
+			eventsService.get(requestModel).then(processEvents);
+		};
+
+		self.filterByDate = function () {
+			self.areDatesInvalid = !isDateRangeValid(self.userStartDate, self.userEndDate);
+			if (!self.areDatesInvalid) {
+				requestModel.StartDate = self.userStartDate;
+				requestModel.EndDate = self.userEndDate;
+				requestModel.Page = 1;
+				self.eventGroups = [];
+				self.hasResults = true;
+				self.isLoading = true;
+
+				eventsService.get(requestModel).then(processEvents);
+			}
+		};
+
+		self.filterByTerms = function (id, itemType, isChecked) {
+			switch (itemType.toLowerCase()) {
+				case 'locations':
+					toggleFilter(requestModel.Locations, id, isChecked);
+					break;
+				case 'agegroups':
+					toggleFilter(requestModel.AgeGroups, id, isChecked);
+					break;
+				case 'eventtypes':
+					toggleFilter(requestModel.EventsTypes, id, isChecked);
+					break;
+				default:
+					break;
+			}
+
+			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
+
+			eventsService.get(requestModel).then(processEvents);
+		};
+
+		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
+			if (shouldAddToCollection) {
+				collection.push(id);
+			} else {
+				var indexOfId = collection.indexOf(id);
+
+				if (indexOfId !== -1) {
+					collection.splice(indexOfId, 1);
+				}
+			}
+		};
 
 		self.loadNextPage = function () {
-			requestModel.StartDate = dateUtility.addDays(requestModel.StartDate, 1);
-			requestModel.EndDate = dateUtility.addDays(requestModel.EndDate, 1);
+			requestModel.Page += 1;
 
-			eventsService.get(requestModel).then(function (eventGroups) {
-				self.eventGroups = self.eventGroups.concat(eventGroups);
+			eventsService.get(requestModel).then(processAndCombineEvents).then(function () {
+				$timeout(function () {
+					$('.event-date-bar').sticky(eventDateBarStickySettings);
+				});
 			});
+		};
+
+		self.clearFilters = function () {
+			requestModel.StartDate = startDateLocaleString;
+			requestModel.EndDate = endDateLocaleString;
+			requestModel.Page = 1;
+			requestModel.Keyword = '';
+			requestModel.AgeGroups = [];
+			requestModel.EventsTypes = [];
+			requestModel.Locations = [];
+
+			self.keywords = '';
+			self.userStartDate = '';
+			self.userEndDate = '';
+			self.eventGroups = [];
+			self.hasResults = true;
+			self.isLoading = true;
+			self.locations = requestModel.Locations;
+			self.eventsTypes = requestModel.EventsTypes;
+			self.ageGroups = requestModel.AgeGroups;
+
+			eventsService.get(requestModel).then(processEvents);
+		};
+
+		/* ** Private ** */
+
+		var processEvents = function processEvents(eventResults) {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = eventResults.eventGroups;
+			self.isLoading = false;
+			self.hasResults = eventResults.eventGroups.length;
+
+			$timeout(function () {
+				$('.event-date-bar').sticky(eventDateBarStickySettings);
+			});
+		};
+
+		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
+			self.isLastPage = isLastPage(eventResults.totalResults);
+			self.eventGroups = combineEventGroups(self.eventGroups, eventResults.eventGroups);
+		};
+
+		var isLastPage = function isLastPage(totalResults) {
+			var totalResultsSoFar = requestModel.Page * self.chunkSize;
+			return totalResultsSoFar >= totalResults;
+		};
+
+		var isDateRangeValid = function isDateRangeValid(firstDate, secondDate) {
+			if (firstDate && secondDate) {
+				return moment(firstDate).isSameOrBefore(secondDate);
+			}
+
+			return false;
+		};
+
+		var isSameDay = function isSameDay(day1Date, day2Date) {
+			if (day1Date && day2Date) {
+				return moment(day1Date).isSame(day2Date, 'day');
+			}
+
+			return false;
+		};
+
+		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
+			var renderedEventGroups = oldEventGroups;
+			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
+
+			angular.forEach(newEventGroups, function (eventGroup) {
+				if (isSameDay(lastEventGroup.date, eventGroup.date)) {
+					lastEventGroup.events = lastEventGroup.events.concat(eventGroup.events);
+				} else {
+					renderedEventGroups.push(eventGroup);
+				}
+			});
+
+			return renderedEventGroups;
+		};
+
+		var toggleIcon = function toggleIcon(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
 		/* ** Init ** */
 
-		eventsService.get(requestModel).then(function (eventGroups) {
-			self.eventGroups = eventGroups;
-		});
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+
+		eventsService.get(requestModel).then(processEvents);
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDirective = function eventDirective(dateUtilityService, CONSTANTS) {
-		var eventLink = function eventLink($scope) {
-			var eventItem = $scope.eventItem;
+	'use strict';
 
-			$scope.eventScheduleString = dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+	var datePickersDirective = function datePickersDirective($timeout, CONSTANTS) {
+		var datePickersLink = function datePickersLink(scope, attr, datePickersElement) {
+			var innerScope = scope;
+
+			innerScope.areDatesInvalid = false;
+
+			var flatpickrBasicSettings = {
+				dateFormat: 'F d, Y',
+				disable: [function disable(date) {
+					return moment(date).isBefore(new Date(), 'day');
+				}],
+				onChange: function onChange() {
+					$timeout(function () {
+						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
+						innerScope.userEndDate = innerScope.userEndDate || innerScope.userStartDate;
+
+						$timeout(function () {
+							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
+								innerScope.areDatesInvalid = false;
+								innerScope.filterByDate();
+							} else {
+								innerScope.areDatesInvalid = true;
+							}
+						});
+					});
+				}
+			};
+
+			innerScope.openFlatpickr = function (flatpickrElementId) {
+				var flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
+				flatpickr.open();
+			};
+
+			flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 		};
 
 		var directive = {
+			link: datePickersLink,
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventTemplate,
-			link: eventLink
+			templateUrl: CONSTANTS.templateUrls.datePickersTemplate,
+			scope: {
+				userStartDate: '=startDateModel',
+				userEndDate: '=endDateModel',
+				filterByDate: '=filterByDate'
+			}
 		};
 
 		return directive;
 	};
 
-	eventDirective.$inject = ['dateUtilityService', 'CONSTANTS'];
+	datePickersDirective.$inject = ['$timeout', 'CONSTANTS'];
 
-	app.directive('event', eventDirective);
+	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
-	var eventDateDirective = function eventDateDirective(CONSTANTS) {
-		var eventDateLink = function eventDateLink(scope) {
+	'use strict';
+
+	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService) {
+		var eventsListLink = function eventsListLink(scope) {
 			var innerScope = scope;
 
 			var dateSettings = {
@@ -256,45 +542,141 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				day: 'numeric'
 			};
 
-			var eventDateBarStickySettings = {
-				zIndex: 100,
-				responsiveWidth: true
+			innerScope.eventScheduleString = function (eventItem) {
+				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
 			};
 
-			if (innerScope.eventGroupDisplay) {
-				innerScope.date = innerScope.eventGroupDisplay.date.toLocaleDateString('en-US', dateSettings);
-				innerScope.events = innerScope.eventGroupDisplay.events;
-				innerScope.id = 'datebar-' + innerScope.date.replace(' ', '-');
-			}
-
-			$('.event-date-bar').sticky(eventDateBarStickySettings);
+			innerScope.getDisplayDate = function (eventGroup) {
+				return eventGroup.date.toLocaleDateString('en-US', dateSettings);
+			};
 		};
 
 		var directive = {
 			restrict: 'E',
-			templateUrl: CONSTANTS.templateUrls.eventDateTemplate,
-			link: eventDateLink,
+			templateUrl: CONSTANTS.templateUrls.eventsListTemplate,
+			link: eventsListLink,
 			scope: {
-				eventGroupDisplay: '='
+				eventGroups: '='
 			}
 		};
 
 		return directive;
 	};
 
-	eventDateDirective.$inject = ['CONSTANTS'];
+	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
 
-	app.directive('eventDate', eventDateDirective);
+	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 
 (function (app) {
+	'use strict';
+
+	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
+		var filtersLink = function filtersLink(scope) {
+			var innerScope = scope;
+
+			var filterSuccess = function filterSuccess(data) {
+				innerScope.items = data;
+			};
+
+			innerScope.search = function (searchItem, termType, isChecked) {
+				var identifier = searchItem.item.Id || searchItem.item.LocationId;
+				innerScope.searchFunction(identifier, termType, isChecked);
+			};
+
+			innerScope.removeDisallowedCharacters = function (str) {
+				var disallowedCharactersRegex = /[^A-Za-z0-9-_.]/g;
+
+				return str.trim().replace(disallowedCharactersRegex, '-');
+			};
+
+			innerScope.items = [];
+
+			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
+				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
+			}
+		};
+
+		var directive = {
+			link: filtersLink,
+			restrict: 'E',
+			scope: {
+				filterType: '@',
+				choiceType: '@',
+				searchFunction: '='
+			},
+			templateUrl: CONSTANTS.templateUrls.filtersExpandosTemplate
+		};
+
+		return directive;
+	};
+
+	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+
+	app.directive('filtersExpandos', filtersDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
+		var filtersLink = function filtersLink(scope) {
+			var innerScope = scope;
+
+			var filterSuccess = function filterSuccess(data) {
+				innerScope.items = data;
+			};
+
+			innerScope.search = function (searchItem, termType, isChecked) {
+				var identifier = searchItem.item.Id || searchItem.item.LocationId;
+				innerScope.searchFunction(identifier, termType, isChecked);
+			};
+
+			innerScope.removeDisallowedCharacters = function (str) {
+				var disallowedCharactersRegex = /[^A-Za-z0-9-_.]/g;
+
+				return str.trim().replace(disallowedCharactersRegex, '-');
+			};
+
+			innerScope.items = [];
+
+			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
+				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
+			}
+		};
+
+		var directive = {
+			link: filtersLink,
+			restrict: 'E',
+			scope: {
+				filterType: '@',
+				choiceType: '@',
+				searchFunction: '='
+			},
+			templateUrl: CONSTANTS.templateUrls.filtersTemplate
+		};
+
+		return directive;
+	};
+
+	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+
+	app.directive('filters', filtersDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
 	var loadMoreDirective = function loadMoreDirective(CONSTANTS) {
 		var directive = {
 			restrict: 'E',
 			templateUrl: CONSTANTS.templateUrls.loadMoreTemplate,
 			scope: {
-				loadNextPage: '='
+				loadNextPage: '=',
+				chunkSize: '='
 			}
 		};
 

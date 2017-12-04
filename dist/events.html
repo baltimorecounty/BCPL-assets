@@ -3,12 +3,10 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="css/master.min.css" rel="stylesheet">
-	<link href="css/home.min.css" rel="stylesheet">
+	<link href="/css/master.min.css" rel="stylesheet" type="text/css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	    crossorigin="anonymous">
-	<link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.3/flatpickr.min.css" integrity="sha256-jeElKvH53k8sML4s6loqlNuRqtts9tDaJMliybwHJ58=" crossorigin="anonymous" />
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	    crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -21,16 +19,20 @@
 	    crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js" integrity="sha256-9per5naK1wbvJeCJC4Xr3gjiycTRg9Jno/eSvh12+ck="
 	    crossorigin="anonymous"></script>
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.js" integrity="sha256-qlaoK5gXO/y8Z+AUjdHDJcV8TsY+SHxQTxcEXm3JHG8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js" integrity="sha256-1XBp/KwjxhvrtZiQ+ecAScAyLPe4OStn2lMX0vxTq9U="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.js" integrity="sha256-qlaoK5gXO/y8Z+AUjdHDJcV8TsY+SHxQTxcEXm3JHG8="
+	    crossorigin="anonymous"></script>
 
-	<script src="https://unpkg.com/flatpickr"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.3/flatpickr.min.js" integrity="sha256-Y5EhUFJW4dmdyF+GGcZj9mybq4KjNtuWGMwweBQlZrk=" crossorigin="anonymous"></script>
 
-	<script src="/dist/js/stickyjs/jquery.sticky.js"></script>
+	<script src="/js/stickyjs/jquery.sticky.js"></script>
 
 
-	<script src="/dist/js/master.js"></script>
-	<script src="/dist/js/apps/events-page/app.js"></script>
+	<script src="/js/master.js"></script>
+	<script src="/js/apps/events-page/app.js"></script>
+
+	<base href="/events.html">
 </head>
 
 <body ng-app="eventsPageApp">
@@ -55,7 +57,7 @@
 										<a href="#">Locations</a>
 									</li>
 									<li>
-										<a href="#">MyBCPL</a>
+										<a href="#">Account</a>
 									</li>
 								</ul>
 							</nav>
@@ -64,263 +66,267 @@
 				</div>
 			</div>
 			<div class="menu-wrapper">
-					<div class="menu-inner-wrapper">
-						<div class="container menu-container">
-							<div class="row">
-								<div class="col-lg-4 col-md-12 logo">
-									<a href="#">
-										<img src="/dist/images/logo.png">
-									</a>
-								</div>
-								<div class="col-lg-8 col-md-12 nav-and-search">
-									<button class="pull-right active" id="hamburger-menu-button">
+				<div class="menu-inner-wrapper">
+					<div class="container menu-container">
+						<div class="row">
+							<div class="col-lg-3 col-md-12 logo">
+								<a href="#">
+									<img src="/images/logo.png">
+								</a>
+							</div>
+							<div class="col-lg-9 col-md-12 nav-and-search">
+								<div class="search-button-container">
+									<button id="activate-search-button">
+										<i class="fa fa-search" aria-hidden="true"></i>
+										<span>Search</span>
+									</button>
+									<button class="active" id="hamburger-menu-button">
 										<i class="fa fa-bars" aria-hidden="true"></i>
 										<div class="sr-only">Open Menu</div>
 									</button>
-									<button class="pull-right" id="activate-search-button">
-										<i class="fa fa-search" aria-hidden="true"></i>
-										<div class="sr-only">Search</div>
-									</button>
-									<nav id="responsive-sliding-navigation">
-										<div class="nav-back-button">
-											<button>
-												<i class="fa fa-times fa-2x" aria-hidden="true"></i>
-											</button>
-										</div>
-										<ul role="menu">
-											<li>
-												<button aria-haspopup="true" aria-expanded="false">Books and More
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</button>
-												<div class="submenu-wrapper flex flex-row wide" role="menu">
-													<div class="overview">
-														<a href="#" role="menuitem">
-															<i class="fa fa-book fa-2x" aria-hidden="true"></i>
-															<br/>Books and More</a>
-													</div>
-													<ul class="flex flex-column" aria-hidden="true">
-														<li>
-															<a href="#" role="menuitem">Catalog</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Databases</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Recommended Reading</a>
-															<ul>
-																<li>
-																	<a href="#" role="menuitem">Book Lists</a>
-																</li>
-																<li>
-																	<a href="#" role="menuitem">Reading Challenge</a>
-																</li>
-															</ul>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Technology for Loan</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">eBooks and Audiobooks</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Downloadable Magazines</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Movies</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Special Collections</a>
-															<ul>
-																<li>
-																	<a href="#" role="menuitem">Government Documents</a>
-																</li>
-																<li>
-																	<a href="#" role="menuitem">Kits</a>
-																</li>
-																<li>
-																	<a href="#" role="menuitem">Local History Collections</a>
-																</li>
-																<li>
-																	<a href="#" role="menuitem">World Language Collection</a>
-																</li>
-															</ul>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Can't Find It?</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Make a Purchase Suggestion</a>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li>
-												<button aria-haspopup="true" aria-expanded="false">Events and Programs
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</button>
-												<div class="submenu-wrapper flex flex-row" role="menu">
-													<div class="overview">
-														<a href="#" role="menuitem">
-															<i class="fa fa-calendar fa-2x" aria-hidden="true"></i>
-															<br/>Events & Programs</a>
-													</div>
-													<ul class="flex flex-column" aria-hidden="true">
-														<li>
-															<a href="#" role="menuitem">Events Search</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Summer Reading Club</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">BCReads</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Storyville</a>
-															<ul>
-																<li>
-																	<a href="#" role="menuitem">Rosedale</a>
-																</li>
-																<li>
-																	<a href="#" role="menuitem">Woodlawn</a>
-																</li>
-															</ul>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li>
-												<button aria-haspopup="true" aria-expanded="false">Services
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</button>
-												<div class="submenu-wrapper wide flex flex-row" role="menu">
-													<div class="overview">
-														<a href="#" role="menuitem">
-															<i class="fa fa-cogs fa-2x" aria-hidden="true"></i>
-															<br/>Services</a>
-													</div>
-													<ul class="flex flex-column" aria-hidden="true">
-														<li>
-															<a href="#" role="menuitem">Get a Library Card</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Ask a Librarian</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Assistive Technology</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Meeting Rooms</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Print, Copy, Fax</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Public Computers and WiFi</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Passport Applications</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Study Rooms</a>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li class="reverse">
-												<button aria-haspopup="true" aria-expanded="false">Youth
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</button>
-												<div class="submenu-wrapper flex flex-row" role="menu">
-													<div class="overview">
-														<a href="#" role="menuitem">
-															<i class="fa fa-users fa-2x" aria-hidden="true"></i>
-															<br/>Youth</a>
-													</div>
-													<ul class="flex flex-column" aria-hidden="true">
-														<li>
-															<a href="#" role="menuitem">Kids</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Teens</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Parents</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Teachers</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Homework Help</a>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li class="reverse">
-												<button aria-haspopup="true" aria-expanded="false">About Us
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</button>
-												<div class="submenu-wrapper wide flex flex-row" role="menu">
-													<div class="overview">
-														<a href="#" role="menuitem">
-															<i class="fa fa-address-book-o fa-2x" aria-hidden="true"></i>
-															<br/>About Us</a>
-													</div>
-													<ul class="flex flex-column" aria-hidden="true">
-														<li>
-															<a href="#" role="menuitem">Blog</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Policies</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Loan Periods and Fines</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Our Mission</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">History and Administration</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Board of Trustees</a>
-															<ul>
-																<li>
-																	<a href="#" role="menuitem">Meetings and Minutes</a>
-																</li>
-															</ul>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Jobs</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Volunteers</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Friends of BCPL</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Bid Opportunities</a>
-														</li>
-														<li>
-															<a href="#" role="menuitem">Contact Us</a>
-														</li>
-													</ul>
-												</div>
-											</li>
-	
-										</ul>
-									</nav>
-									<div id="search-box">
-										<input placeholder="Search the library">
-										<button id="search-button">
-											<i class="fa fa-search"></i>
+								</div>
+								<nav id="responsive-sliding-navigation">
+									<div class="nav-back-button">
+										<button>
+											<i class="fa fa-times fa-2x" aria-hidden="true"></i>
 										</button>
+									</div>
+									<ul role="menu">
+										<li>
+											<button aria-haspopup="true" aria-expanded="false">Books and More
+												<i class="fa fa-caret-right" aria-hidden="true"></i>
+											</button>
+											<div class="submenu-wrapper flex flex-row wide" role="menu">
+												<div class="overview">
+													<a href="#" role="menuitem">
+														<i class="fa fa-book fa-2x" aria-hidden="true"></i>
+														<br/>Books and More</a>
+												</div>
+												<ul class="flex flex-column" aria-hidden="true">
+													<li>
+														<a href="#" role="menuitem">Catalog</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Databases</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Recommended Reading</a>
+														<ul>
+															<li>
+																<a href="#" role="menuitem">Book Lists</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Reading Challenge</a>
+															</li>
+														</ul>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Technology for Loan</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">eBooks and Audiobooks</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Downloadable Magazines</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Movies</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Special Collections</a>
+														<ul>
+															<li>
+																<a href="#" role="menuitem">Government Documents</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Kits</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Local History Collections</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">World Language Collection</a>
+															</li>
+														</ul>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Can't Find It?</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Make a Purchase Suggestion</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<button aria-haspopup="true" aria-expanded="false">Events and Programs
+												<i class="fa fa-caret-right" aria-hidden="true"></i>
+											</button>
+											<div class="submenu-wrapper flex flex-row" role="menu">
+												<div class="overview">
+													<a href="#" role="menuitem">
+														<i class="fa fa-calendar fa-2x" aria-hidden="true"></i>
+														<br/>Events & Programs</a>
+												</div>
+												<ul class="flex flex-column" aria-hidden="true">
+													<li>
+														<a href="#" role="menuitem">Events Search</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Summer Reading Club</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">BCReads</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Storyville</a>
+														<ul>
+															<li>
+																<a href="#" role="menuitem">Rosedale</a>
+															</li>
+															<li>
+																<a href="#" role="menuitem">Woodlawn</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<button aria-haspopup="true" aria-expanded="false">Services
+												<i class="fa fa-caret-right" aria-hidden="true"></i>
+											</button>
+											<div class="submenu-wrapper wide flex flex-row" role="menu">
+												<div class="overview">
+													<a href="#" role="menuitem">
+														<i class="fa fa-cogs fa-2x" aria-hidden="true"></i>
+														<br/>Services</a>
+												</div>
+												<ul class="flex flex-column" aria-hidden="true">
+													<li>
+														<a href="#" role="menuitem">Get a Library Card</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Ask a Librarian</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Assistive Technology</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Meeting Rooms</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Print, Copy, Fax</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Public Computers and WiFi</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Passport Applications</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Study Rooms</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="reverse">
+											<button aria-haspopup="true" aria-expanded="false">Youth
+												<i class="fa fa-caret-right" aria-hidden="true"></i>
+											</button>
+											<div class="submenu-wrapper flex flex-row" role="menu">
+												<div class="overview">
+													<a href="#" role="menuitem">
+														<i class="fa fa-users fa-2x" aria-hidden="true"></i>
+														<br/>Youth</a>
+												</div>
+												<ul class="flex flex-column" aria-hidden="true">
+													<li>
+														<a href="#" role="menuitem">Kids</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Teens</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Parents</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Teachers</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Homework Help</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="reverse">
+											<button aria-haspopup="true" aria-expanded="false">About Us
+												<i class="fa fa-caret-right" aria-hidden="true"></i>
+											</button>
+											<div class="submenu-wrapper wide flex flex-row" role="menu">
+												<div class="overview">
+													<a href="#" role="menuitem">
+														<i class="fa fa-address-book-o fa-2x" aria-hidden="true"></i>
+														<br/>About Us</a>
+												</div>
+												<ul class="flex flex-column" aria-hidden="true">
+													<li>
+														<a href="#" role="menuitem">Blog</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Policies</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Loan Periods and Fines</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Our Mission</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">History and Administration</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Board of Trustees</a>
+														<ul>
+															<li>
+																<a href="#" role="menuitem">Meetings and Minutes</a>
+															</li>
+														</ul>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Jobs</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Volunteers</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Friends of BCPL</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Bid Opportunities</a>
+													</li>
+													<li>
+														<a href="#" role="menuitem">Contact Us</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</nav>
+								<div id="search-box" class="flex flex-row">
+									<input placeholder="Search the...">
+									<div class="search-control-container">
+										<button class="search-button search-button-catalog">
+											<i class="fa fa-book"></i> Catalog</button>
+										<button class="search-button search-button-website">
+											<i class="fa fa-laptop"></i> Website</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 			<div class="alert-wrapper">
 				<div class="container alert-container" style="display: none;">
 					<div class="row">
@@ -378,136 +384,7 @@
 				</div>
 			</header>
 		</div>
-		<div class="container">
-			<main class="row" ng-controller="EventsPageCtrl as eventsPage">
-				<div class="col-md-3">
-					<div class="filters event-filters">
-						<h3>Find an Event</h3>
-						<div class="filter-items-wrapper">
-							<div class="events-search-wrapper filter-control-wapper">
-								<h4>Keyword Search</h4>
-								<div class="keyword-search-wrapper">
-									<input class="keyword-search form-control" />
-									<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
-								</div>
-							</div>
-							<div class="date-search-wrapper filter-control-wapper">
-								<h4>Date Filter</h4>
-								<label for="date-today">
-									<input type="radio" id="date-today" name="date-select" value="today"> Today
-								</label>
-								<label for="date-tomorrow">
-									<input type="radio" id="date-tomorrow" name="date-select" value="tomorrow"> Tomorrow
-								</label>
-								<label for="date-next-7-days">
-									<input type="radio" id="date-next-7-days" name="date-select" value="next7days"> Next 7 Days
-								</label>
-								<label for="date-custom">
-									<input type="radio" id="date-custom" name="date-select" value="customrange"> Custom
-								</label>
-								<div class="datepickers">
-									<div class="date-field-wrapper">
-										<label class="calendar-datepicker-label">From
-											<input class="flatpickr flatpickr-input active calendar-datepicker" id="start-date" type="text" placeholder="Select Date..."
-											    data-id="rangePlugin">
-											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-										</label>
-									</div>
-									<div class="date-field-wrapper">
-										<label class="calendar-datepicker-label">To
-											<input class="flatpickr flatpickr-input active calendar-datepicker" id="end-date" type="text" placeholder="Select Date..."
-											    data-id="rangePlugin">
-											<i class="fa fa-calendar calendar-datepicker-icon" aria-hidden="true"></i>
-										</label>
-									</div>
-
-									<script>
-										flatpickr("#start-date", {
-											dateFormat: "m-d-Y",
-										});
-										flatpickr("#end-date", {
-											dateFormat: "m-d-Y",
-										});
-									</script>
-								</div>
-
-							</div>
-
-							<div class="button-wrapper filter-control-wapper">
-								<button class="btn btn-default">Clear filters</button>
-							</div>
-						</div>
-						<!--
-						<h5 class="filter-headers">Branch</h5>
-						<div class="filter-items-wrapper">
-							<label for="branch-all"><input type="checkbox" id="branch-all" name="branches" value="allbranches" checked="true"> All Branches</label>
-							<div class="scrolling-filter">
-								<label for="branch-administrative-offices"><input type="checkbox" id="branch-administrative-offices" name="branches" value="administrativeoffices"> Administrative Offices</label>
-								<label for="branch-arbutus"><input type="checkbox" id="branch-arbutus" name="branches" value="arbutus"> Arbutus</label>
-								<label for="branch-catonsville"><input type="checkbox" id="branch-catonsville" name="branches" value="catonsville"> Catonsville</label>
-								<label for="branch-cockeysville"><input type="checkbox" id="branch-cockeysville" name="branches" value="cockeysville"> Cockeysville</label>
-								<label for="branch-essex"><input type="checkbox" id="branch-essex" name="branches" value="essex"> Essex</label>
-								<label for="branch-hereford"><input type="checkbox" id="branch-hereford" name="branches" value="hereford"> Hereford</label>
-								<label for="branch-lansdowne"><input type="checkbox" id="branch-landsdowne" name="branches" value="lansdowne"> Lansdowne</label>
-								<label for="branch-loch-raven"><input type="checkbox" id="branch-loch-raven" name="branches" value="lochraven"> Loch Raven</label>
-								<label for="branch-mobile-library-services"><input type="checkbox" id="branch-mobile-library-services" name="branches" value="mobilelibraryservices"> Mobile Library Services</label>
-								<label for="branch-north-point"><input type="checkbox" id="branch-north-point" name="branches" value="northpoint"> North Point</label>
-								<label for="branch-owings-mills"><input type="checkbox" id="branch-owings-mills" name="branches" value="owingsmills"> Owings Mills</label>
-								<label for="branch-parkville"><input type="checkbox" id="branch-parkville" name="branches" value="parkville"> Parkville</label>
-								<label for="branch-perry-hall"><input type="checkbox" id="branch-perry-hall" name="branches" value="perryhall"> Perry Hall</label>
-								<label for="branch-pikesville"><input type="checkbox" id="branch-pikesville" name="branches" value="pikesville"> Pikesville</label>
-								<label for="branch-randallstown"><input type="checkbox" id="branch-randallstown" name="branches" value="randallstown"> Randallstown</label>
-								<label for="branch-reisterstown"><input type="checkbox" id="branch-reisterstown" name="branches" value="reisterstown"> Reisterstown</label>
-								<label for="branch-rosedale"><input type="checkbox" id="branch-rosedale" name="branches" value="rosedale"> Rosedale</label>
-								<label for="branch-sollers-point"><input type="checkbox" id="branch-sollers-point" name="branches" value="sollerspoint"> Sollers Point</label>
-								<label for="branch-towson"><input type="checkbox" id="branch-towson" name="branches" value="towson"> Towson</label>
-								<label for="branch-white-marsh"><input type="checkbox" id="branch-white-marsh" name="branches" value="whitemarsh"> White Marsh</label>
-								<label for="branch-woodlawn"><input type="checkbox" id="branch-woodlawn" name="branches" value="woodlawn"> Woodlawn</label>
-							</div>
-						</div>
-						<h5 class="filter-headers">Event Type</h5>
-						<div class="filter-items-wrapper">
-							<label for="event-type-all"><input type="checkbox" id="event-type-all" name="event_types" value="allevents" checked="true"> All Event Types</label>
-							<div class="scrolling-filter">
-								<label for="event-type-adult"><input type="checkbox" id="event-type-adult" name="event_types" value="adult"> Adult</label>
-								<label for="event-type-baby"><input type="checkbox" id="event-type-baby" name="event_types" value="baby"> Baby</label>
-								<label for="event-type-book-club"><input type="checkbox" id="event-type-book-club" name="event_types" value="bookclub"> Book Club/Book Event</label>
-								<label for="event-type-craft-program"><input type="checkbox" id="event-type-craft-program" name="event_types" value="craftprogram"> Craft Program</label>
-								<label for="event-type-family"><input type="checkbox" id="event-type-family" name="event_types" value="family"> Family</label>
-								<label for="event-type-film-event"><input type="checkbox" id="event-type-film-event" name="event_types" value="filmevent"> Film Event</label>
-								<label for="event-type-offsite"><input type="checkbox" id="event-type-offsite" name="event_types" value="offsite"> Offsite</label>
-								<label for="event-type-preschool"><input type="checkbox" id="event-type-preschool" name="event_types" value="preschool"> Preschool</label>
-								<label for="event-type-school-age"><input type="checkbox" id="event-type-school-age" name="event_types" value="schoolage"> School Age</label>
-								<label for="event-type-holiday-closing"><input type="checkbox" id="event-type-holiday-closing" name="event_types" value="holidayclosing"> Holiday or Closing</label>
-								<label for="event-type-technology"><input type="checkbox" id="event-type-technology" name="event_types" value="technology"> Technology</label>
-								<label for="event-type-teen"><input type="checkbox" id="event-type-teen" name="event_types" value="teen"> Teen</label>
-							</div>
-						</div>
-						<h5 class="filter-headers">Age Groups</h5>
-						<div class="filter-items-wrapper">
-							<label for="age-group-all"><input type="checkbox" id="age-group-all" name="age_groups" value="allagegroups" checked="true"> All Age Groups</label>
-							<div class="scrolling-filter">
-								<label for="age-group-baby"><input type="checkbox" id="age-group-baby" name="age_groups" value="baby"> Baby</label>
-								<label for="age-group-toddler"><input type="checkbox" id="age-group-toddler" name="age_groups" value="toddler"> Toddler</label>
-								<label for="age-group-preschool"><input type="checkbox" id="age-group-preschool" name="age_groups" value="preschool"> Preschool</label>
-								<label for="age-group-school-age"><input type="checkbox" id="age-group-school-age" name="age_groups" value="schoolage"> School Age</label>
-								<label for="age-group-teen"><input type="checkbox" id="age-group-teen" name="age_groups" value="teen"> Teen</label>
-								<label for="age-group-adult"><input type="checkbox" id="age-group-adult" name="age_groups" value="adult"> Adult</label>
-							</div>
-							<div>
-								<button class="clear-button">Clear</button>
-							</div>
-						</div>
-					-->
-
-					</div>
-				</div>
-				<div class="col-md-9 events-list">
-					<h1>Events</h1>
-					<event-date event-group-display="eventGroup" ng-repeat="eventGroup in eventsPage.eventGroups"></event-date>
-					<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage"></load-more>
-				</div>
-			</main>			
+		<div class="container" ng-view>
 		</div>
 	</div>
 	<footer>
@@ -515,7 +392,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-sm-12">
-						<p class="branding">Follow The Baltimore County Public Library</p>
+						<p class="branding">Follow Baltimore County Public Library</p>
 					</div>
 					<div class="col-md-6 col-sm-12">
 						<nav class="social">
@@ -559,38 +436,43 @@
 		<div class="callouts-wrapper">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-3 col-sm-12 callout">
+					<div class="col-md-3 col-sm-12 callout flex flex-column">
 						<a class="logo" href="#">
-							<img src="/dist/images/logo.png" width="160">
+							<img src="/images/logo.png" width="160">
 						</a>
 						<h4>Administrative Offices</h4>
 						<address>320 York Road
-							<br /> Towson MD, 21204
+							<br /> Towson, Maryland 21204
 							<br /> 410-887-6100
 						</address>
-						<a class="solo" href="#">
-							<i class="fa fa-chevron-circle-right"> </i>Directions</a>
+						<div class="flex flex-column flex-justify-end">
+							<a class="solo" href="#">
+								<i class="fa fa-chevron-circle-right"> </i>Directions</a>
+						</div>
 					</div>
-					<div class="col-md-3 col-sm-12 callout">
+					<div class="col-md-3 col-sm-12 callout flex flex-column">
 						<h4>Got a Question?</h4>
-						<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-							fermentum quis. </p>
-						<a class="solo" href="#">
-							<i class="fa fa-chevron-circle-right"> </i>Ask a Question</a>
+						<p>Get answers via email, phone, live chat or a one-on-one appointment with a librarian.</p>
+						<div class="flex flex-column flex-justify-end">
+							<a class="solo" href="#">
+								<i class="fa fa-chevron-circle-right"> </i>Ask a Librarian</a>
+						</div>
 					</div>
-					<div class="col-md-3 col-sm-12 callout">
-						<h4>Get a Library Card</h4>
-						<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-							fermentum quis. </p>
-						<a class="solo" href="#">
-							<i class="fa fa-chevron-circle-right"> </i>Register Now</a>
+					<div class="col-md-3 col-sm-12 callout flex flex-column">
+						<h4>Digital Library</h4>
+						<p>On the go? Browse our collection of e-books, digital movies and audiobooks available for download right on your device.</p>
+						<div class="flex flex-column flex-justify-end">
+							<a class="solo" href="#">
+								<i class="fa fa-chevron-circle-right"> </i>Explore Digital Materials</a>
+						</div>
 					</div>
-					<div class="col-md-3 col-sm-12 callout">
-						<h4>Work for Baltimore County Public Library</h4>
-						<p>Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-							fermentum quis. </p>
-						<a class="solo" href="#">
-							<i class="fa fa-chevron-circle-right"> </i>Search Jobs</a>
+					<div class="col-md-3 col-sm-12 callout flex flex-column">
+						<h4>Work for Us</h4>
+						<p>We're looking for passionate individuals to fill full-time and part-time positions.</p>
+						<div class="flex flex-column flex-justify-end">
+							<a class="solo" href="#">
+								<i class="fa fa-chevron-circle-right"> </i>Search Jobs</a>
+						</div>
 					</div>
 				</div>
 			</div>

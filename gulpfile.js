@@ -65,6 +65,8 @@ gulp.task('move-app-directive-templates', () => {
 	appFolders.forEach((folder) => {
 		gulp.src(`js/apps/${folder}/directives/templates/*.html`)
 			.pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
+		gulp.src(`js/apps/${folder}/partials/*.html`)
+			.pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
 	});
 });
 
@@ -130,7 +132,28 @@ gulp.task('move-html', () => gulp.src('mockups/html/*.html')
 gulp.task('code-coverage', () => gulp.src('/coverage/**/lcov.info')
 	.pipe(coveralls()));
 
-gulp.task('default', ['clean'], callback => runSequence(['move-html', 'process-scss', 'minify-js', 'move-app-directive-templates', 'move-vendor-js', 'move-images', 'move-fonts'], 'code-coverage', callback));
+gulp.task('rewrite', () => {
+	gulp.src('rewrite.config')
+		.pipe(rename('web.config'))
+		.pipe(gulp.dest('dist'));
+});
+
+gulp.task('move-data', () => {
+	gulp.src('data/**/*')
+		.pipe(gulp.dest('dist/data'));
+});
+
+gulp.task('default', ['clean'], callback => runSequence([
+	'move-html',
+	'process-scss',
+	'minify-js',
+	'move-app-directive-templates',
+	'move-vendor-js',
+	'move-images',
+	'move-fonts',
+	// 'rewrite',
+	'move-data'
+], 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);

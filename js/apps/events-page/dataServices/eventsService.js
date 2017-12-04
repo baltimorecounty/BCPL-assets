@@ -1,4 +1,6 @@
 ((app) => {
+	'use strict';
+
 	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
 			const eventItemStartDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
@@ -27,16 +29,27 @@
 		};
 
 		const get = (eventRequestModel) => {
-			const localeEventRequestModel = eventRequestModel;
-
-			localeEventRequestModel.StartDate = localeEventRequestModel.StartDate.toLocaleDateString();
-			localeEventRequestModel.EndDate = localeEventRequestModel.EndDate.toLocaleDateString();
-
 			return $q((resolve, reject) => {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, localeEventRequestModel)
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
 					.then((response) => {
 						if (response.data) {
-							resolve(dateSplitter(response.data));
+							resolve({
+								eventGroups: dateSplitter(response.data.Events),
+								totalResults: response.data.TotalResults
+							});
+						} else {
+							reject(response);
+						}
+					}, reject);
+			});
+		};
+
+		const getById = (id) => {
+			return $q((resolve, reject) => {
+				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id)
+					.then((response) => {
+						if (response.data) {
+							resolve(response.data);
 						} else {
 							reject(response);
 						}
@@ -49,7 +62,8 @@
 			isEventOnDate,
 			dateSplitter,
 			/* end-test-code */
-			get
+			get,
+			getById
 		};
 	};
 

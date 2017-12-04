@@ -1,4 +1,16 @@
- 
+.registration-required {
+	color: red;
+	
+	button {
+		margin-bottom: 0;
+	}
+
+	i {
+		position: relative;
+		top: -1px;
+	}
+}
+
 .events-search-wrapper {
 	.keyword-search-wrapper {
 		position: relative;
@@ -31,12 +43,6 @@
     margin: .25em 0;
     text-transform: uppercase;
 	font-weight: bold;
-	
-    .required-asterisk {
-        color: red;
-        font-weight: normal;
-        font-size: medium;
-    }
 
     .event-date {
 		display: inline-block;
@@ -45,12 +51,6 @@
 		left: 0;
 		transform: translateX(0);
 		transition: .5s all ease;
-    }
-
-    .registration-required {
-        text-align: right;
-        padding-right: 1em;
-        font-size: 12px;
     }
 }
 
@@ -70,8 +70,42 @@
 
 	.cards {
 		float: none;
-
+	
 		.card {
+			transition: .25s opacity ease;
+			padding: 0.9em;
+
+			&.ng-enter {
+				opacity: 0;
+
+				&.ng-enter-active {
+					opacity: 1;
+				}		
+			}
+			
+			&.ng-leave {
+				opacity: 1;
+
+				&.ng-leave-active {
+					opacity: 0;
+				}
+			}
+
+			&.ng-move {
+				opacity: 1;
+
+				&.ng-move-active {
+					opacity: 0;
+				}
+			}
+
+			a {
+				width: auto;
+				float: none;
+				font-weight: inherit;
+				margin: 0;
+			}
+
 			.card-icon {
 				color: $gray-light;
 			}
@@ -95,15 +129,25 @@
 			.event-name {
 				color: $teal-light;
 				font-weight: bold;
-				font-size: 24px;
-			
-				.required-asterisk {
-					color: red;
-					font-size: 12px;
-					display: inline-block;
+				font-size: 24px;		
+				line-height: 1.3em;	   
+
+				a {
+					line-height: 1.3em;
+				}
+			}
+
+			.registration-required {
+				color: red;
+				font-size: .8em;
+				font-weight: 700;
+				padding: .5em 0;
+				text-transform: uppercase;
+
+				i {
 					position: relative;
-					top: -10px;
-				}        
+					top: -1px;
+				}
 			}
 			
 			.event-details {
@@ -116,7 +160,6 @@
 	}
 }
 
-
 .filters {
     margin-bottom: .75em;
     color: $teal;
@@ -125,7 +168,7 @@
         color: $gray;
         font-size: 16px;
         padding-left: 1em;
-        margin-bottom: 0;
+		margin-bottom: 0;
     }
 
     &.event-filters {
@@ -133,17 +176,72 @@
         width: 100%;
         margin-right: 0;
 
-        .filter-items-wrapper {
-            padding: 1em;
+			.collapse {
+				display: none;	
+				
+				&.in {
+					display: block;
+				}
+			}
+	
+		.collapse-control {
+			display: inline-block;
+			margin: 1em;
+		}
 
-			h4 {
-				margin: 0 0 .5em;
-				padding: 0;		
+		h4 {
+			margin: 1.5em 0 .5em;
+			padding: 0;		
+		}
+
+		.expandos {
+			
+			.expando-wrapper {
+				border-bottom: 1px solid $gray-light;
+	
+				h4 {
+					margin: .75em 0;
+					padding: 0;		
+	
+					button {
+						display: block;
+						width: 100%;
+						text-align: left;
+						padding: 0;
+	
+						i {
+							float: right;
+						}
+					}
+				}
+	
+				label {
+					font-weight: 400;
+					font-size: 1em;
+				}
+
+				&:first-child {
+					h4 {
+						margin-top: 1.5em;
+					}
+				}
+	
+				&:last-child {
+					border-bottom: none;
+				}
+			}
+		}
+
+        .filter-items-wrapper {
+			padding: 1em;			
+
+			.events-search-wrapper {
+				h4 {
+					margin-top: 0;
+				}
 			}
 				
-			.filter-control-wapper {
-				padding-bottom: 1em;
-				
+			.filter-control-wapper {				
 				&:last-child {
 					padding: .5em 0 0;
 				}
@@ -177,6 +275,14 @@
 
 }
 
+.filter-group {
+    padding: 0 .5em .5em;
+
+    label {
+        display: block;
+    }
+}
+
 .event-list {
     background-color: white;
     margin: 1em 0 2em;
@@ -184,7 +290,6 @@
     .row {
         padding: 1em; 
     }
-
 
     .event {
         float: left;
@@ -196,8 +301,6 @@
 }
 
 .datepickers {
-	padding-top: .5em;
-
 	input[type="text"], 
 	input[type="date"], 
 	input[type="datetime-local"], 
@@ -208,29 +311,40 @@
 		border-radius: 3px;
 	}
 
-	.calendar-datepicker-label {
-		display: block;
-		position: relative;
+	input::placeholder {
+		color: $teal;
+	}
+
+	.calendar-datepicker {
+		padding-right: 50px;
+	}
 	
-		input::placeholder {
-			color: $teal;
-		}
-	
-		.calendar-datepicker {
-			padding-right: 50px;
-		}
-		
-		.calendar-datepicker-icon {
-			position: absolute;
-			right: 10px;
-			z-index: 100;
-			top: 30px;
-			cursor: pointer;
-		}
+	.calendar-datepicker-icon {
+		position: absolute;
+		right: 10px;
+		z-index: 100;
+		top: 10px;
+		cursor: pointer;
 	}
 		
 	input.flatpickr {
 		cursor: pointer;
+	}
+
+	.date-validation-error {
+		color: red;
+		font-size: .8em;
+		font-weight: 700;
+		transition: .25s opacity ease;
+
+		&.ng-hide {
+			opacity: 0;
+		}
+	}
+
+	.date-field-wrapper {
+		position: relative;
+		margin-bottom: .5em;
 	}
 }
 

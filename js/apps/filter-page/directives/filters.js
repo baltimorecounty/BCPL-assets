@@ -15,7 +15,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/filters.html',
+			templateUrl: '/js/apps/filter-page/templates/filters.html',
 			link: filterLink
 		};
 

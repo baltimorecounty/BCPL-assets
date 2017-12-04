@@ -22,7 +22,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/tag.html',
+			templateUrl: '/js/apps/filter-page/templates/tag.html',
 			link: tagLink
 		};
 

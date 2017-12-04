@@ -26,7 +26,7 @@
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: '/dist/js/apps/filter-page/templates/filter.html',
+			templateUrl: '/js/apps/filter-page/templates/filter.html',
 			link: filterLink
 		};
 
