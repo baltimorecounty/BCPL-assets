@@ -1,67 +1,65 @@
-<main class="row">
-	<div class="col-md-3">
-		<div class="filters event-filters">
-			<h3>Find an Event</h3>
+<div class="col-md-3">
+	<div class="filters event-filters">
+		<h3>Find an Event</h3>
 
-			<div id="filter-items-wrapper" class="filter-items-wrapper">
-				<form id="filter-form">
-					<div class="events-search-wrapper filter-control-wapper">
-						<h4>Keyword Search</h4>
-						<div class="keyword-search-wrapper">
-							<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
-							    ng-change="eventsPage.keywordSearch()" />
-							<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
-						</div>
+		<div id="filter-items-wrapper" class="filter-items-wrapper">
+			<form id="filter-form">
+				<div class="events-search-wrapper filter-control-wapper">
+					<h4>Keyword Search</h4>
+					<div class="keyword-search-wrapper">
+						<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
+						    ng-change="eventsPage.keywordSearch()" />
+						<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
 					</div>
-					<div class="date-search-wrapper filter-control-wapper">
-						<h4>Date Filter</h4>
-						<date-pickers start-date-model='eventsPage.userStartDate' end-date-model='eventsPage.userEndDate' filter-by-date="eventsPage.filterByDate"></date-pickers>
+				</div>
+				<div class="date-search-wrapper filter-control-wapper">
+					<h4>Date Filter</h4>
+					<date-pickers start-date-model='eventsPage.userStartDate' end-date-model='eventsPage.userEndDate' filter-by-date="eventsPage.filterByDate"></date-pickers>
+				</div>
+				<div class="expandos">
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#locations" aria-live="polite" aria-expanded="false" aria-controls="locations">
+								Branches
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
-					<div class="expandos">
-						<div class="expando-wrapper">
-							<h4 class="filter-headers">
-								<button data-toggle="collapse" data-target="#locations" aria-live="polite" aria-expanded="false" aria-controls="locations">
-									Branches
-									<i class="fa fa-plus-square" aria-hidden="true"></i>
-								</button>
-							</h4>
-							<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
-						</div>
-						<div class="expando-wrapper">
-							<h4 class="filter-headers">
-								<button data-toggle="collapse" data-target="#eventTypes" aria-live="polite" aria-expanded="false" aria-controls="eventTypes">
-									Event Types
-									<i class="fa fa-plus-square" aria-hidden="true"></i>
-								</button>
-							</h4>
-							<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
-						</div>
-						<div class="expando-wrapper">
-							<h4 class="filter-headers">
-								<button data-toggle="collapse" data-target="#ageGroups" aria-live="polite" aria-expanded="false" aria-controls="ageGroups">
-									Age Groups
-									<i class="fa fa-plus-square" aria-hidden="true"></i>
-								</button>
-							</h4>
-							<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
-						</div>
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#eventTypes" aria-live="polite" aria-expanded="false" aria-controls="eventTypes">
+								Event Types
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
-					<div class="button-wrapper filter-control-wapper">
-						<button class="btn btn-default" type="reset" ng-click="eventsPage.clearFilters()">Clear filters</button>
+					<div class="expando-wrapper">
+						<h4 class="filter-headers">
+							<button data-toggle="collapse" data-target="#ageGroups" aria-live="polite" aria-expanded="false" aria-controls="ageGroups">
+								Age Groups
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+						</h4>
+						<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
-				</form>
-			</div>
+				</div>
+				<div class="button-wrapper filter-control-wapper">
+					<button class="btn btn-default" type="reset" ng-click="eventsPage.clearFilters()">Clear filters</button>
+				</div>
+			</form>
 		</div>
 	</div>
-	<div class="col-md-9 events-list">
-		<h1>Events</h1>
-		<div class="loading-spinner" ng-show="eventsPage.isLoading">
-			<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
-		</div>
-		<events-list event-groups="eventsPage.eventGroups"></events-list>
-		<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage" ng-show="eventsPage.eventGroups.length !== 0 && !eventsPage.isLastPage"></load-more>
-		<p ng-hide="eventsPage.hasResults">
-			<em>Sorry, no events match your search criteria. Please change your selections and try again.</em>
-		</p>
+</div>
+<div class="col-md-9 events-list">
+	<h1>Events</h1>
+	<div class="loading-spinner" ng-show="eventsPage.isLoading">
+		<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
 	</div>
-</main>
+	<events-list event-groups="eventsPage.eventGroups"></events-list>
+	<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage" ng-show="eventsPage.eventGroups.length !== 0 && !eventsPage.isLastPage"></load-more>
+	<p ng-hide="eventsPage.hasResults">
+		<em>Sorry, no events match your search criteria. Please change your selections and try again.</em>
+	</p>
+</div>

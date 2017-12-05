@@ -71,7 +71,7 @@ bcpl.pageSpecific.homepage.flipper = (($) => {
 	};
 
 	const init = () => {
-		$.getJSON('/data/homepage-flipper.json')
+		$.getJSON('/sebin/y/d/homepage-flipper.json')
 			.then(flipperDataSuccess, flipperDataError)
 			.then(flipperSetup);
 	};

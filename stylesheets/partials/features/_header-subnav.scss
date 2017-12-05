@@ -13,7 +13,9 @@
 	nav {
 		ul {
 			li {
-					background-color: $gray;
+				background-color: $gray;
+				border-left: 2px solid $gray-dark;
+				
 				a {
 					display: inline-block;
 					line-height: 50px;

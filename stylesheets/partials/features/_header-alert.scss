@@ -65,27 +65,12 @@
 
 }
 
-.internal {
-	.alert-wrapper {
-		margin-top: 153px;
-		top: 0;
-	}
-}
-
 @media (max-width: $screen-lg) {
-	.internal {
-		.alert-wrapper {
-			margin-top: 201px;
-		}
-	}
+	
 }
 
 @media (max-width: $screen-md) {
-	.internal {
-		.alert-wrapper {
-			margin-top: 183px;
-		}
-	}
+	
 
 	.alert-wrapper {
 

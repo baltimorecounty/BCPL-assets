@@ -151,7 +151,7 @@ gulp.task('default', ['clean'], callback => runSequence([
 	'move-vendor-js',
 	'move-images',
 	'move-fonts',
-	// 'rewrite',
+	'rewrite',
 	'move-data'
 ], 'code-coverage', callback));
 

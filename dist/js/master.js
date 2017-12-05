@@ -209,7 +209,7 @@ bcpl.constants = {
 	},
 	search: {
 		urls: {
-			materialTypes: '/data/primaryMaterialType.json'
+			materialTypes: '/sebin/y/r/primaryMaterialType.json'
 		}
 	}
 };

@@ -5,11 +5,11 @@
 
 	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
 		$routeProvider.when('/', {
-			templateUrl: '/js/apps/events-page/partials/eventList.html',
+			templateUrl: '/_js/apps/events-page/partials/eventList.html',
 			controller: 'EventsPageCtrl',
 			controllerAs: 'eventsPage'
 		}).when('/:id', {
-			templateUrl: '/js/apps/events-page/partials/eventDetails.html',
+			templateUrl: '/_js/apps/events-page/partials/eventDetails.html',
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
 		});
@@ -32,11 +32,11 @@
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {
-			datePickersTemplate: '/js/apps/events-page/templates/datePickers.html',
-			eventsListTemplate: '/js/apps/events-page/templates/eventsList.html',
-			filtersTemplate: '/js/apps/events-page/templates/filters.html',
-			filtersExpandosTemplate: '/js/apps/events-page/templates/filters-expandos.html',
-			loadMoreTemplate: '/js/apps/events-page/templates/loadMore.html'
+			datePickersTemplate: '/_js/apps/events-page/templates/datePickers.html',
+			eventsListTemplate: '/_js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/_js/apps/events-page/templates/filters.html',
+			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
+			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
 		},
 		requestChunkSize: 10
 	};
