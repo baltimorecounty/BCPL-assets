@@ -110,6 +110,7 @@
 			return $q(function (resolve, reject) {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
 					if (response.data) {
+						response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 						resolve(response.data);
 					} else {
 						reject(response);
