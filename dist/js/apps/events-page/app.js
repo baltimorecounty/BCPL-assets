@@ -3,17 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
-		$routeProvider.when('/', {
-			templateUrl: '/js/apps/events-page/partials/eventList.html',
-			controller: 'EventsPageCtrl',
-			controllerAs: 'eventsPage'
-		}).when('/:id', {
-			templateUrl: '/js/apps/events-page/partials/eventDetails.html',
-			controller: 'EventDetailsCtrl',
-			controllerAs: 'eventDetailsPage'
-		});
-	});
+	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']);
 })();
 'use strict';
 
@@ -32,16 +22,41 @@
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {
-			datePickersTemplate: '/js/apps/events-page/templates/datePickers.html',
-			eventsListTemplate: '/js/apps/events-page/templates/eventsList.html',
-			filtersTemplate: '/js/apps/events-page/templates/filters.html',
-			filtersExpandosTemplate: '/js/apps/events-page/templates/filters-expandos.html',
-			loadMoreTemplate: '/js/apps/events-page/templates/loadMore.html'
+			datePickersTemplate: '/_js/apps/events-page/templates/datePickers.html',
+			eventsListTemplate: '/_js/apps/events-page/templates/eventsList.html',
+			filtersTemplate: '/_js/apps/events-page/templates/filters.html',
+			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
+			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
+		},
+		partialUrls: {
+			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
+			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html'
 		},
 		requestChunkSize: 10
 	};
 
 	app.constant('CONSTANTS', constants);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var config = function config($routeProvider, CONSTANTS) {
+		$routeProvider.when('/', {
+			templateUrl: CONSTANTS.partialUrls.eventListPartial,
+			controller: 'EventsPageCtrl',
+			controllerAs: 'eventsPage'
+		}).when('/:id', {
+			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
+			controller: 'EventDetailsCtrl',
+			controllerAs: 'eventDetailsPage'
+		});
+	};
+
+	config.$inject = ['$routeProvider', 'CONSTANTS'];
+
+	app.config(config);
 })(angular.module('eventsPageApp'));
 'use strict';
 

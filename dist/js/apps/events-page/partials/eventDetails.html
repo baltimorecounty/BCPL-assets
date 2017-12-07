@@ -1,71 +1,71 @@
-<main class="row">
-	<div class="col-md-3">
-		<div class="secondary-nav">
-			<nav>
-				<ul>
-					<li>
-						<a href="/events.html">
-							<i class="fa fa-hand-o-left fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Return to Event List
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="fa fa-envelope fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Email a Friend
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="fa fa-download fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
+<div class="col-md-3">
+	<div class="secondary-nav">
+		<nav>
+			<ul>
+				<li>
+					<a href="/events.html">
+						<i class="fa fa-hand-o-left fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Return to Event List
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="fa fa-envelope fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Email a Friend
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="fa fa-download fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
+					</a>
+				</li>
+			</ul>
+		</nav>
 	</div>
-	<div class="col-md-9">
-		<div class="main-content top-border">
-			<h1>{{eventDetailsPage.data.Title}}</h1>
-			
-			<p>{{eventDetailsPage.data.Description}}</p>
-			
-			<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
-				<button class="btn-primary btn-uppercase-bold">
-					<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
-				</button>
+</div>
+<div class="col-md-9">
+	<div class="main-content top-border">
+		<h1>{{eventDetailsPage.data.Title}}</h1>
 
-				<span class="pull-right">
-					<i class="fa fa-star" aria-hidden="true"></i> Registration is required for this event.
-				</span>
-			</p>			
-			
-			<table>
-				<tbody>
-					<tr>
-						<td class="table-column-25 horizontal-headers">Date</td>
-						<td>{{eventDetailsPage.data.EventStartDate}}</td>
-					</tr>
-					<tr>
-						<td class="table-column-25 horizontal-headers">Time</td>
-						<td>{{eventDetailsPage.data.EventSchedule}} <span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span></td>
-					</tr>
-					<tr>
-						<td class="table-column-25 horizontal-headers">Event Type</td>
-						<td>{{eventDetailsPage.data.EventTypesString}}</td>
-					</tr>
-					<tr>
-						<td class="table-column-25 horizontal-headers">Age Group</td>
-						<td>{{eventDetailsPage.data.AgeGroupsString}}</td>
-					</tr>
-					<tr>
-						<td class="table-column-25 horizontal-headers">Branch</td>
-						<td>{{eventDetailsPage.data.LocationName}}</td>
-					</tr>
-					<tr ng-show="eventDetailsPage.isRegistrationRequired">
-						<td class="table-column-25 horizontal-headers">Seats Available</td>
-						<td>{{eventDetailsPage.data.MainSpotsAvailable}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<p>{{eventDetailsPage.data.Description}}</p>
+
+		<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
+			<button class="btn-primary btn-uppercase-bold">
+				<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
+			</button>
+
+			<span class="pull-right">
+				<i class="fa fa-star" aria-hidden="true"></i> Registration is required for this event.
+			</span>
+		</p>
+
+		<table>
+			<tbody>
+				<tr>
+					<td class="table-column-25 horizontal-headers">Date</td>
+					<td>{{eventDetailsPage.data.EventStartDate}}</td>
+				</tr>
+				<tr>
+					<td class="table-column-25 horizontal-headers">Time</td>
+					<td>{{eventDetailsPage.data.EventSchedule}}
+						<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-column-25 horizontal-headers">Event Type</td>
+					<td>{{eventDetailsPage.data.EventTypesString}}</td>
+				</tr>
+				<tr>
+					<td class="table-column-25 horizontal-headers">Age Group</td>
+					<td>{{eventDetailsPage.data.AgeGroupsString}}</td>
+				</tr>
+				<tr>
+					<td class="table-column-25 horizontal-headers">Branch</td>
+					<td>{{eventDetailsPage.data.LocationName}}</td>
+				</tr>
+				<tr ng-show="eventDetailsPage.isRegistrationRequired">
+					<td class="table-column-25 horizontal-headers">Seats Available</td>
+					<td>{{eventDetailsPage.data.MainSpotsAvailable}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-</main>
+</div>

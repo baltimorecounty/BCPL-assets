@@ -8,12 +8,10 @@ table {
 		margin: 1px;
 	}
 
-	thead {
-		tr {
-			th {
-				background-color: $red;
-				color: white;
-			}
+	tr {
+		th {
+			background-color: $red;
+			color: white;
 		}
 	}
 
