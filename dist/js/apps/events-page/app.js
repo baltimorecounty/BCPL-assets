@@ -3,13 +3,13 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, $locationProvider) {
+	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, CONSTANTS) {
 		$routeProvider.when('/', {
-			templateUrl: '/_js/apps/events-page/partials/eventList.html',
+			templateUrl: CONSTANTS.partialUrls.eventListPartial,
 			controller: 'EventsPageCtrl',
 			controllerAs: 'eventsPage'
 		}).when('/:id', {
-			templateUrl: '/_js/apps/events-page/partials/eventDetails.html',
+			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
 		});
@@ -37,6 +37,10 @@
 			filtersTemplate: '/_js/apps/events-page/templates/filters.html',
 			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
 			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
+		},
+		partialUrls: {
+			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
+			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html'
 		},
 		requestChunkSize: 10
 	};

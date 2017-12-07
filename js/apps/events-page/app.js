@@ -2,15 +2,15 @@
 	'use strict';
 
 	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute'])
-		.config(function appConfig($routeProvider, $locationProvider) {
+		.config(function appConfig($routeProvider, CONSTANTS) {
 			$routeProvider
 				.when('/', {
-					templateUrl: '/_js/apps/events-page/partials/eventList.html',
+					templateUrl: CONSTANTS.partialUrls.eventListPartial,
 					controller: 'EventsPageCtrl',
 					controllerAs: 'eventsPage'
 				})
 				.when('/:id', {
-					templateUrl: '/_js/apps/events-page/partials/eventDetails.html',
+					templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 					controller: 'EventDetailsCtrl',
 					controllerAs: 'eventDetailsPage'
 				});

@@ -19,6 +19,10 @@
 			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
 			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
 		},
+		partialUrls: {
+			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
+			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html'
+		},
 		requestChunkSize: 10
 	};
 
