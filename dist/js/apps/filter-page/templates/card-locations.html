@@ -7,12 +7,18 @@
 				</a>
 			</div>
 		</div>
+		<!--<div ng-class="{ 'col-sm-4 branch-address': cardData.email, 'col-sm-9 branch-address': !cardData.email }">-->
 		<div class="col-sm-4 branch-address">
-			<h2>{{cardData.name}} Branch</h2>
-			<address>
+			<h2>{{cardData.name}}</h2>
+			<address ng-if="cardData.address">
 				{{cardData.address}}
-				<br/> {{cardData.city}}, MD {{cardData.zip}}
+				<div ng-if="cardData.city && cardData.zip">
+					{{cardData.city}}, MD {{cardData.zip}}
+				</div>
 			</address>
+			<p ng-if="cardData.note">
+				{{cardData.note}}<br /><a href="{{cardData.noteLink}}">{{cardData.noteLinkText}}</a>
+			</p>
 		</div>
 		<div class="col-sm-5 branch-email-phone">
 			<div class="branch-email-phone-wrapper">
@@ -25,7 +31,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" ng-if="cardData.attributes.length">
 		<div class="col-xs-12">
 			<div class="tags">
 				<ul class="tag-list">

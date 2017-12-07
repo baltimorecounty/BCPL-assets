@@ -59,7 +59,9 @@
 	</div>
 	<events-list event-groups="eventsPage.eventGroups"></events-list>
 	<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage" ng-show="eventsPage.eventGroups.length !== 0 && !eventsPage.isLastPage"></load-more>
-	<p ng-hide="eventsPage.hasResults">
-		<em>Sorry, no events match your search criteria. Please change your selections and try again.</em>
-	</p>
+	<div ng-hide="eventsPage.hasResults" class="cards">
+		<p class="card">
+			<em>Sorry, no events match your search criteria. Please change your selections and try again.</em>
+		</p>
+	</div>
 </div>
