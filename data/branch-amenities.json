@@ -130,9 +130,9 @@
 	]
 }, {
 	"name": "Mobile Library Services",
-	"address": "1716 Merritt Boulevard",
-	"city": "Dundalk",
-	"zip": "21222",
+	"note": "Our bookmobiles make stops across Baltimore County.",
+	"noteLinkText": "View today's schedule.",
+	"noteLink": "#",
 	"phone": "410-887-7586",
 	"email": "libraryonthego@bcpl.net",
 	"photo": "branch-bookmobile.jpg",
