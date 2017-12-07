@@ -48,7 +48,8 @@
 			return $q((resolve, reject) => {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id)
 					.then((response) => {
-						if (response.data) {
+						if (response.data && response.data.Description) {
+							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 							resolve(response.data);
 						} else {
 							reject(response);
