@@ -3,17 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']).config(function appConfig($routeProvider, CONSTANTS) {
-		$routeProvider.when('/', {
-			templateUrl: CONSTANTS.partialUrls.eventListPartial,
-			controller: 'EventsPageCtrl',
-			controllerAs: 'eventsPage'
-		}).when('/:id', {
-			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
-			controller: 'EventDetailsCtrl',
-			controllerAs: 'eventDetailsPage'
-		});
-	});
+	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']);
 })();
 'use strict';
 
@@ -46,6 +36,27 @@
 	};
 
 	app.constant('CONSTANTS', constants);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var config = function config($routeProvider, CONSTANTS) {
+		$routeProvider.when('/', {
+			templateUrl: CONSTANTS.partialUrls.eventListPartial,
+			controller: 'EventsPageCtrl',
+			controllerAs: 'eventsPage'
+		}).when('/:id', {
+			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
+			controller: 'EventDetailsCtrl',
+			controllerAs: 'eventDetailsPage'
+		});
+	};
+
+	config.$inject = ['$routeProvider', 'CONSTANTS'];
+
+	app.config(config);
 })(angular.module('eventsPageApp'));
 'use strict';
 
