@@ -1,5 +1,16 @@
 .cards {
 	.card {
+		.branch-address {
+			p {
+				font-size: .8em;
+				
+				a {
+					float: none;
+					margin: 0;
+					width: auto;
+				}
+			}
+		}
 		address {
 			line-height: 1.7em;
 			margin-bottom: 0;
