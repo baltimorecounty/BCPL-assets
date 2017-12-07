@@ -211,6 +211,11 @@ bcpl.constants = {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json'
 		}
+	},
+	homepage: {
+		urls: {
+			flipper: '/sebin/y/d/homepage-flipper.json'
+		}
 	}
 };
 'use strict';

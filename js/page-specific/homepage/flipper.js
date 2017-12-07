@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.flipper = (($) => {
+bcpl.pageSpecific.homepage.flipper = (($, CONSTANTS) => {
 	const flipperContainerSelector = '.flipper-container';
 	const flipperTabSelector = '.flipper-tab';
 
@@ -56,7 +56,6 @@ bcpl.pageSpecific.homepage.flipper = (($) => {
 
 	const bookButtonClicked = (event) => {
 		const $button = $(event.currentTarget);
-		// clearInterval(bookHighlightInterval);
 
 		buttonIndex = $button.index();
 		highlightButtons(event.data.tabObjects, buttonIndex);
@@ -71,13 +70,13 @@ bcpl.pageSpecific.homepage.flipper = (($) => {
 	};
 
 	const init = () => {
-		$.getJSON('/sebin/y/d/homepage-flipper.json')
+		$.getJSON(CONSTANTS.homepage.urls.flipper)
 			.then(flipperDataSuccess, flipperDataError)
 			.then(flipperSetup);
 	};
 
 	return { init };
-})(jQuery);
+})(jQuery, bcpl.constants);
 
 $(() => {
 	bcpl.pageSpecific.homepage.flipper.init();

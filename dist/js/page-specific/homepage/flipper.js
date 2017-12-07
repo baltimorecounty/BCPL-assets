@@ -2,7 +2,7 @@
 
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.flipper = function ($) {
+bcpl.pageSpecific.homepage.flipper = function ($, CONSTANTS) {
 	var flipperContainerSelector = '.flipper-container';
 	var flipperTabSelector = '.flipper-tab';
 
@@ -58,7 +58,6 @@ bcpl.pageSpecific.homepage.flipper = function ($) {
 
 	var bookButtonClicked = function bookButtonClicked(event) {
 		var $button = $(event.currentTarget);
-		// clearInterval(bookHighlightInterval);
 
 		buttonIndex = $button.index();
 		highlightButtons(event.data.tabObjects, buttonIndex);
@@ -72,11 +71,11 @@ bcpl.pageSpecific.homepage.flipper = function ($) {
 	};
 
 	var init = function init() {
-		$.getJSON('/sebin/y/d/homepage-flipper.json').then(flipperDataSuccess, flipperDataError).then(flipperSetup);
+		$.getJSON(CONSTANTS.homepage.urls.flipper).then(flipperDataSuccess, flipperDataError).then(flipperSetup);
 	};
 
 	return { init: init };
-}(jQuery);
+}(jQuery, bcpl.constants);
 
 $(function () {
 	bcpl.pageSpecific.homepage.flipper.init();
