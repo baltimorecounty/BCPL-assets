@@ -96,7 +96,10 @@
 				}
 			}
 
-			const isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
+			const isPickOne = foundFilterFamily.type ?
+				foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne :
+				false;
+
 			let tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -122,7 +125,15 @@
 			}
 		};
 
+		const toggleIcon = (collapseEvent) => {
+			const $collapsible = angular.element(collapseEvent.currentTarget);
+			const $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
+		};
+
 		/* init */
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		cardService.get(loadCardsAndFilters);
 

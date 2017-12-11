@@ -1,4 +1,4 @@
-.cards {
+.cards.branch-cards {
 	.card {
 		.branch-address {
 			p {
@@ -70,10 +70,14 @@
 }
 
 main {
-	.filters {
+	.filters.branch-filters {
 		float: left;
 		width: calc(25% - 15px);
 		margin-right: 30px;
+
+		.expandos .expando-wrapper:first-child h4 {
+			margin-top: .75em;
+		}
 	}
 
 	header {
@@ -116,7 +120,7 @@ main {
 
 	.cards {
 		&.branch-cards {
-			float: left;
+			float: right;
 			width: calc(75% - 15px);
 		}
 	}

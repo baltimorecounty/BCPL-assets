@@ -4,12 +4,25 @@
 	const filtersDirective = () => {
 		const filterLink = function filterLink($scope) {
 			$scope.$watch('filterData', () => {
-				$scope.filterFamilies = $scope.filterData;
+				$scope.filterFamilies = $scope.filterData ? $scope.filterData.map(addFilterId) : $scope.filterFamilies;
 			});
+
+			const addFilterId = (filterFamily) => {
+				const newFamily = filterFamily;
+
+				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
+
+				if (newFamily) {
+					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
+				}
+
+				return newFamily;
+			};
 		};
 
 		const directive = {
 			scope: {
+				familyNameOverride: '@',
 				filterHandler: '=',
 				filterData: '=',
 				activeFilters: '=',

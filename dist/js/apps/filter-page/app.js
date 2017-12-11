@@ -320,7 +320,8 @@
 				}
 			}
 
-			var isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
+			var isPickOne = foundFilterFamily.type ? foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne : false;
+
 			var tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -346,7 +347,15 @@
 			}
 		};
 
+		var toggleIcon = function toggleIcon(collapseEvent) {
+			var $collapsible = angular.element(collapseEvent.currentTarget);
+			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
+		};
+
 		/* init */
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		cardService.get(loadCardsAndFilters);
 
@@ -434,12 +443,25 @@
 	var filtersDirective = function filtersDirective() {
 		var filterLink = function filterLink($scope) {
 			$scope.$watch('filterData', function () {
-				$scope.filterFamilies = $scope.filterData;
+				$scope.filterFamilies = $scope.filterData ? $scope.filterData.map(addFilterId) : $scope.filterFamilies;
 			});
+
+			var addFilterId = function addFilterId(filterFamily) {
+				var newFamily = filterFamily;
+
+				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
+
+				if (newFamily) {
+					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
+				}
+
+				return newFamily;
+			};
 		};
 
 		var directive = {
 			scope: {
+				familyNameOverride: '@',
 				filterHandler: '=',
 				filterData: '=',
 				activeFilters: '=',

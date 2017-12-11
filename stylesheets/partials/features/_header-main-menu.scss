@@ -234,7 +234,7 @@
 .internal {
 	.menu-wrapper {
 		margin: 0;
-		background: url("/sebin/x/s/background-internal-header.jpg") no-repeat;
+		background: url("/sebin/x/s/background-internal-header.jpg") repeat-x;
 		background-position-y: 10%;
 		.menu-inner-wrapper {
 			background: -moz-linear-gradient(top, rgba(0, 161, 155, 1) 0%, rgba(0, 161, 155, 0) 200%);
