@@ -29,6 +29,16 @@
 			p {
 				margin-bottom: 20px;
 			}
+
+			.database-help-wrapper {
+				text-align: right;
+
+				.database-help-link {
+					float: none;
+					width: auto;
+					font-size: .8em;
+				}
+			}
 		}
 	}
 }
