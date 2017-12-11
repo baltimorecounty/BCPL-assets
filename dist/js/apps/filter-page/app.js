@@ -346,26 +346,9 @@
 			}
 		};
 
-		var showFilters = function showFilters(collapseEvent) {
-			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
-		};
-
-		var hideFilters = function hideFilters(collapseEvent) {
-			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
-		};
-
 		/* init */
 
 		cardService.get(loadCardsAndFilters);
-
-		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
-		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 	};
 

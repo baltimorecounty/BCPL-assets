@@ -117,21 +117,6 @@
 	.filter-controls, .filters {
 		width: 98%;	
 	}
-
-	.filters {	
-		.collapse {
-			display: none;	
-			
-			&.in {
-				display: block;
-			}
-		}
-
-		.collapse-control {
-			display: inline-block;
-			margin-top: 1em;
-		}
-	}
 }
 
 @media (max-width: $screen-sm) {
