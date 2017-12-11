@@ -14,9 +14,19 @@
 		 * @param {string} filter
 		 */
 		self.setFilter = (filter, filterFamily) => {
-			const $resultsDisplay = angular.element('#results-display');
-
 			setActiveFilters(filter, filterFamily);
+			cycleDisplay();
+		};
+
+		self.clearFilters = () => {
+			self.activeFilters = [];
+			cycleDisplay();
+		};
+
+		/* Private */
+
+		const cycleDisplay = () => {
+			const $resultsDisplay = angular.element('#results-display');
 			$animate.addClass($resultsDisplay, 'fade-out');
 			self.items = self.allCardData.filter(filterDataItems);
 			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
@@ -25,8 +35,6 @@
 				$animate.removeClass($resultsDisplay, 'fade-out');
 			}, 250);
 		};
-
-		/* Private */
 
 		/**
 		 * Loads up the list of filters and all of the branch data.

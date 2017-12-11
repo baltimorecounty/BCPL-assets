@@ -70,5 +70,4 @@
 	};
 
 	app.factory('filterService', filterService);
-
 })(angular.module('filterPageApp'));

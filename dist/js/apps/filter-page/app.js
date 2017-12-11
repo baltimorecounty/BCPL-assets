@@ -236,9 +236,19 @@
    * @param {string} filter
    */
 		self.setFilter = function (filter, filterFamily) {
-			var $resultsDisplay = angular.element('#results-display');
-
 			setActiveFilters(filter, filterFamily);
+			cycleDisplay();
+		};
+
+		self.clearFilters = function () {
+			self.activeFilters = [];
+			cycleDisplay();
+		};
+
+		/* Private */
+
+		var cycleDisplay = function cycleDisplay() {
+			var $resultsDisplay = angular.element('#results-display');
 			$animate.addClass($resultsDisplay, 'fade-out');
 			self.items = self.allCardData.filter(filterDataItems);
 			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
@@ -247,8 +257,6 @@
 				$animate.removeClass($resultsDisplay, 'fade-out');
 			}, 250);
 		};
-
-		/* Private */
 
 		/**
    * Loads up the list of filters and all of the branch data.
@@ -451,7 +459,8 @@
 			scope: {
 				filterHandler: '=',
 				filterData: '=',
-				activeFilters: '='
+				activeFilters: '=',
+				clearFilterFn: '='
 			},
 			restrict: 'E',
 			templateUrl: '/js/apps/filter-page/templates/filters.html',

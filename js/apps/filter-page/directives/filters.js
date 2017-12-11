@@ -12,7 +12,8 @@
 			scope: {
 				filterHandler: '=',
 				filterData: '=',
-				activeFilters: '='
+				activeFilters: '=',
+				clearFilterFn: '='
 			},
 			restrict: 'E',
 			templateUrl: '/js/apps/filter-page/templates/filters.html',
