@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, $element, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -143,7 +143,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', '$element', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
