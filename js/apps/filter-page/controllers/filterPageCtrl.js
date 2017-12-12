@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, $element, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const self = this;
 
 		self.activeFilters = [];
@@ -26,13 +26,13 @@
 		/* Private */
 
 		const cycleDisplay = () => {
-			const $resultsDisplay = angular.element('#results-display');
-			$animate.addClass($resultsDisplay, 'fade-out');
+			const resultsDisplayElement = document.getElementById('results-display');
+			$animate.addClass(resultsDisplayElement, 'fade-out');
 			self.items = self.allCardData.filter(filterDataItems);
-			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(() => {
-				$animate.removeClass($resultsDisplay, 'fade-out');
+				$animate.removeClass(resultsDisplayElement, 'fade-out');
 			}, 250);
 		};
 
@@ -143,7 +143,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', '$element', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
