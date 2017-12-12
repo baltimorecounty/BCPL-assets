@@ -17,6 +17,8 @@
 		width: calc(75% - 15px);
 
 		.card {
+			padding: 10px 15px; 
+			
 			h2 {
 				margin: 0 0 .25em;
 				a {
@@ -37,6 +39,7 @@
 					float: none;
 					width: auto;
 					font-size: .8em;
+					font-weight: 400;
 				}
 			}
 		}
