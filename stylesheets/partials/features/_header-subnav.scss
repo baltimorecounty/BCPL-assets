@@ -45,6 +45,7 @@
 							display: table-cell;							
 							margin: 0; 
 							border-right: 2px solid $gray-dark;
+							border-left: none;
 
 							&:last-child {
 								border: none;
