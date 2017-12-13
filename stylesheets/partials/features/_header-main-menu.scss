@@ -18,6 +18,10 @@
 		font-size: 1.5em;
 	}
 	.nav-and-search {
+		#responsive-sliding-navigation {
+			z-index: 100
+		}
+
 		#activate-search-button {
 			background-color: #fff;
 			border-radius: 8px;

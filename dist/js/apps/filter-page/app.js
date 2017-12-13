@@ -462,6 +462,7 @@
 		var directive = {
 			scope: {
 				familyNameOverride: '@',
+				isInitiallyExpanded: '@',
 				filterHandler: '=',
 				filterData: '=',
 				activeFilters: '=',
