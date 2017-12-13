@@ -1,11 +1,11 @@
 <div ng-repeat="filterFamily in filterFamilies" class="filter-family expando-wrapper">
-	<h4 ng-show="filterFamilies.length > 0">
+	<h4 ng-show="filterFamilies.length">
 		<button data-toggle="collapse" data-target="#{{filterFamily.filterId}}" aria-live="polite" aria-expanded="false" aria-controls="{{filterFamily.filterId}}">
 			{{filterFamily.name}}
-			<i class="fa fa-plus-square" aria-hidden="true"></i>
+			<i ng-class="isInitiallyExpanded ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i>
 		</button>
 	</h4>
-	<ul id="{{filterFamily.filterId}}" class="collapse">
+	<ul id="{{filterFamily.filterId}}" ng-class="isInitiallyExpanded ? 'collapse in' : 'collapse'">
 		<li ng-repeat="tag in filterFamily.tags">			
 			<filter filter-family="filterFamily" filter-handler="filterHandler" active-filters="activeFilters" tag="tag"></filter>
 		</li>
