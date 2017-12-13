@@ -14,19 +14,27 @@
 		 * @param {string} filter
 		 */
 		self.setFilter = (filter, filterFamily) => {
-			const $resultsDisplay = angular.element('#results-display');
-
 			setActiveFilters(filter, filterFamily);
-			$animate.addClass($resultsDisplay, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
-			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
-			bcpl.utility.windowShade.cycle(250, 2000);
-			$timeout(() => {
-				$animate.removeClass($resultsDisplay, 'fade-out');
-			}, 250);
+			cycleDisplay();
+		};
+
+		self.clearFilters = () => {
+			self.activeFilters = [];
+			cycleDisplay();
 		};
 
 		/* Private */
+
+		const cycleDisplay = () => {
+			const resultsDisplayElement = document.getElementById('results-display');
+			$animate.addClass(resultsDisplayElement, 'fade-out');
+			self.items = self.allCardData.filter(filterDataItems);
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
+			bcpl.utility.windowShade.cycle(250, 2000);
+			$timeout(() => {
+				$animate.removeClass(resultsDisplayElement, 'fade-out');
+			}, 250);
+		};
 
 		/**
 		 * Loads up the list of filters and all of the branch data.
@@ -88,7 +96,10 @@
 				}
 			}
 
-			const isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
+			const isPickOne = foundFilterFamily.type ?
+				foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne :
+				false;
+
 			let tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -114,26 +125,17 @@
 			}
 		};
 
-		const showFilters = (collapseEvent) => {
+		const toggleIcon = (collapseEvent) => {
 			const $collapsible = angular.element(collapseEvent.currentTarget);
-			const $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
-		};
-
-		const hideFilters = (collapseEvent) => {
-			const $collapsible = angular.element(collapseEvent.currentTarget);
-			const $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+			const $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
 		/* init */
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		cardService.get(loadCardsAndFilters);
-
-		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
-		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 		/* test-code */
 		self.setActiveFilters = setActiveFilters;

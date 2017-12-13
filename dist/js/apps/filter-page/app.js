@@ -236,19 +236,27 @@
    * @param {string} filter
    */
 		self.setFilter = function (filter, filterFamily) {
-			var $resultsDisplay = angular.element('#results-display');
-
 			setActiveFilters(filter, filterFamily);
-			$animate.addClass($resultsDisplay, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
-			$resultsDisplay.trigger('bcpl.filter.changed', { items: self.items });
-			bcpl.utility.windowShade.cycle(250, 2000);
-			$timeout(function () {
-				$animate.removeClass($resultsDisplay, 'fade-out');
-			}, 250);
+			cycleDisplay();
+		};
+
+		self.clearFilters = function () {
+			self.activeFilters = [];
+			cycleDisplay();
 		};
 
 		/* Private */
+
+		var cycleDisplay = function cycleDisplay() {
+			var resultsDisplayElement = document.getElementById('results-display');
+			$animate.addClass(resultsDisplayElement, 'fade-out');
+			self.items = self.allCardData.filter(filterDataItems);
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
+			bcpl.utility.windowShade.cycle(250, 2000);
+			$timeout(function () {
+				$animate.removeClass(resultsDisplayElement, 'fade-out');
+			}, 250);
+		};
 
 		/**
    * Loads up the list of filters and all of the branch data.
@@ -312,7 +320,8 @@
 				}
 			}
 
-			var isPickOne = foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne;
+			var isPickOne = foundFilterFamily.type ? foundFilterFamily.type.toLowerCase() === CONSTANTS.filters.tags.types.pickOne : false;
+
 			var tagsToRemove = [];
 
 			if (shouldAddFilter && isPickOne) {
@@ -338,26 +347,17 @@
 			}
 		};
 
-		var showFilters = function showFilters(collapseEvent) {
+		var toggleIcon = function toggleIcon(collapseEvent) {
 			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-minus"></i> Hide Filters');
-		};
-
-		var hideFilters = function hideFilters(collapseEvent) {
-			var $collapsible = angular.element(collapseEvent.currentTarget);
-			var $collapseControl = $collapsible.siblings('.collapse-control');
-
-			$collapseControl.html('<i class="fa fa-plus"></i> Show Filters');
+			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
+			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
 		/* init */
+		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
+		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		cardService.get(loadCardsAndFilters);
-
-		angular.element(document).on('show.bs.collapse', '#filters', showFilters);
-		angular.element(document).on('hide.bs.collapse', '#filters', hideFilters);
 
 	};
 
@@ -443,15 +443,29 @@
 	var filtersDirective = function filtersDirective() {
 		var filterLink = function filterLink($scope) {
 			$scope.$watch('filterData', function () {
-				$scope.filterFamilies = $scope.filterData;
+				$scope.filterFamilies = $scope.filterData ? $scope.filterData.map(addFilterId) : $scope.filterFamilies;
 			});
+
+			var addFilterId = function addFilterId(filterFamily) {
+				var newFamily = filterFamily;
+
+				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
+
+				if (newFamily) {
+					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
+				}
+
+				return newFamily;
+			};
 		};
 
 		var directive = {
 			scope: {
+				familyNameOverride: '@',
 				filterHandler: '=',
 				filterData: '=',
-				activeFilters: '='
+				activeFilters: '=',
+				clearFilterFn: '='
 			},
 			restrict: 'E',
 			templateUrl: '/js/apps/filter-page/templates/filters.html',

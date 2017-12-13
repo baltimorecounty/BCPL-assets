@@ -1,0 +1,48 @@
+.expandos {
+	
+	.expando-wrapper {
+		border-bottom: 1px solid $gray-light;
+
+		&:first-child {
+			h4 {
+				margin-top: 1.5em;
+			}
+		}
+
+		&:last-child {
+			border-bottom: none;
+			margin-bottom: 1em;
+		}
+
+		&:only-child {
+			margin-bottom: 1em;			
+		}
+
+		h4 {
+			margin: .75em 0;
+			padding: 0;		
+
+			button {
+				display: block;
+				width: 100%;
+				text-align: left;
+				padding: 0;
+				outline: none;
+				line-height: 1.2em;
+				
+				i {
+					float: right;
+				}
+			}
+		}
+
+		label {
+			font-weight: 400;
+			font-size: 1em;
+		}
+
+		ul {
+			margin-bottom: 10px;
+		}
+	}
+}

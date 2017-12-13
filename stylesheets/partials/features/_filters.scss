@@ -36,19 +36,6 @@
 		}
 	}
 
-	.collapse {
-		display: block;
-		height: initial !important;
-	}
-
-	.collapse-control {
-		display: none;
-		background-color: $teal;
-		border-radius: 0 !important;
-		border: none !important;
-	}
-
-
 	.filter-controls-wrapper {
 		padding: .5em;
 
@@ -116,20 +103,6 @@
 @media (max-width: $screen-md) {
 	.filter-controls, .filters {
 		width: 98%;	
-	}
-
-	.filters {	
-		.collapse {
-			display: none;	
-			
-			&.in {
-				display: block;
-			}
-		}
-
-		.collapse-control {
-			display: inline-block;
-		}
 	}
 }
 
