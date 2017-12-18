@@ -30,3 +30,15 @@
 		}
 	}
 }
+
+@media (max-width: $screen-sm) {
+	.section-title-wrapper {
+		.actions {
+			.print {
+				display: none;
+			}
+
+			position: static;
+		}
+	}
+}
