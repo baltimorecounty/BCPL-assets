@@ -1,0 +1,14 @@
+button#scroll-to-top {
+	color: white;
+	padding: 1em .75em;
+	background: $teal;
+	border: 1px solid white;
+	bottom: 20px;
+	display: inline-block; 
+	right: 20px;
+	outline: none;
+		
+	i {
+		font-size: 2em;
+	}
+}
