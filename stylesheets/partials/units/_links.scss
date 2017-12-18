@@ -24,6 +24,17 @@ a {
 		-o-transition: color .25s ease;
 		transition: color .25s ease;
 	}
+
+	&:hover,
+	&:visited,
+	&:link,
+	&:active {
+		text-decoration: none;
+	}
+
+	&:focus {
+		color: $teal;		
+	}
 }
 
 p {

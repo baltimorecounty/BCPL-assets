@@ -39,7 +39,11 @@
 					float: none;
 					width: auto;
 					font-size: .8em;
-					font-weight: 400;
+					font-weight: 600;
+
+					&:hover {
+						text-decoration: none;
+					}
 				}
 			}
 		}
