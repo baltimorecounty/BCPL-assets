@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.events = (($) => {
+bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 	const activatePost = (event) => {
 		const $target = $(event.currentTarget);
 		const $animationTarget = $target.find('.animated');
@@ -15,6 +15,38 @@ bcpl.pageSpecific.homepage.events = (($) => {
 		$animationTarget.removeClass('active');
 	};
 
+	const formatTime = unformattedTime => {
+		return unformattedTime.replace(':00', '').replace(/\w\w$/, foundString => foundString.split('').join('.') + '.');
+	};
+
+	const processEvents = calendarEvent => {
+		const localCalendarEvent = calendarEvent;
+		const eventMoment = moment(calendarEvent.EventStart);
+
+		localCalendarEvent.eventMonth = eventMoment.format('MMM');
+		localCalendarEvent.eventDate = eventMoment.format('D');
+		localCalendarEvent.eventTime = formatTime(eventMoment.format('h:mm a'));
+		localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
+
+		return localCalendarEvent;
+	};
+
+	const eventsDataLoadedHandler = eventsResponse => {
+		if (eventsResponse.Events.length) {
+			const eventsWithDateAndMonth = eventsResponse.Events.map(processEvents);
+
+			const sourceHtml = $('#events-template').html();
+			const template = Handlebars.compile(sourceHtml);
+			const html = template(eventsWithDateAndMonth);
+
+			$('#events-target').html(html);
+		}
+	};
+
+	$.ajax('/data/mock-featured-events.json')
+		.catch()
+		.done(eventsDataLoadedHandler);
+
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
-})(jQuery);
+})(jQuery, Handlebars, moment);
