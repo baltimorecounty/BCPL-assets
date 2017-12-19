@@ -214,7 +214,8 @@ bcpl.constants = {
 	},
 	homepage: {
 		urls: {
-			flipper: '/sebin/y/d/homepage-flipper.json'
+			flipper: '/sebin/y/d/homepage-flipper.json',
+			events: '/sebin/s/w/mock-featured-events.json'
 		}
 	}
 };

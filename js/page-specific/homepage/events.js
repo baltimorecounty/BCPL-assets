@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
+bcpl.pageSpecific.homepage.events = (($, Handlebars, moment, CONSTANTS) => {
 	const activatePost = (event) => {
 		const $target = $(event.currentTarget);
 		const $animationTarget = $target.find('.animated');
@@ -43,7 +43,7 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 		}
 	};
 
-	$.ajax('/sebin/s/w/mock-featured-events.json')
+	$.ajax(CONSTANTS.homepage.urls.events)
 		.done(eventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
@@ -55,4 +55,4 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 		formatTime
 		/* end-test-code */
 	};
-})(jQuery, Handlebars, moment);
+})(jQuery, Handlebars, moment, bcpl.constants);

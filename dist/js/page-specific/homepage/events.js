@@ -2,7 +2,7 @@
 
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
+bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment, CONSTANTS) {
 	var activatePost = function activatePost(event) {
 		var $target = $(event.currentTarget);
 		var $animationTarget = $target.find('.animated');
@@ -47,7 +47,7 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
 		}
 	};
 
-	$.ajax('/sebin/s/w/mock-featured-events.json').done(eventsDataLoadedHandler);
+	$.ajax(CONSTANTS.homepage.urls.events).done(eventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
@@ -58,4 +58,4 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
 		formatTime: formatTime
 		/* end-test-code */
 	};
-}(jQuery, Handlebars, moment);
+}(jQuery, Handlebars, moment, bcpl.constants);
