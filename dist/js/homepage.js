@@ -44,7 +44,7 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
 		});
 	};
 
-	var processEvents = function processEvents(calendarEvent) {
+	var processEvent = function processEvent(calendarEvent) {
 		var localCalendarEvent = calendarEvent;
 		var eventMoment = moment(calendarEvent.EventStart);
 
@@ -58,7 +58,7 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
 
 	var eventsDataLoadedHandler = function eventsDataLoadedHandler(eventsResponse) {
 		if (eventsResponse.Events.length) {
-			var eventsWithDateAndMonth = eventsResponse.Events.map(processEvents);
+			var eventsWithDateAndMonth = eventsResponse.Events.map(processEvent);
 
 			var sourceHtml = $('#events-template').html();
 			var template = Handlebars.compile(sourceHtml);
@@ -68,10 +68,13 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment) {
 		}
 	};
 
-	$.ajax('/data/mock-featured-events.json').catch().done(eventsDataLoadedHandler);
+	$.ajax('/sebin/s/w/mock-featured-events.json').done(eventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
+
+	return {
+	};
 }(jQuery, Handlebars, moment);
 'use strict';
 

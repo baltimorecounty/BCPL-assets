@@ -43,7 +43,7 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 		}
 	};
 
-	$.ajax('/data/mock-featured-events.json')
+	$.ajax('/sebin/s/w/mock-featured-events.json')
 		.done(eventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
