@@ -19,7 +19,7 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 		return unformattedTime.replace(':00', '').replace(/\w\w$/, foundString => foundString.split('').join('.') + '.');
 	};
 
-	const processEvents = calendarEvent => {
+	const processEvent = calendarEvent => {
 		const localCalendarEvent = calendarEvent;
 		const eventMoment = moment(calendarEvent.EventStart);
 
@@ -33,7 +33,7 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 
 	const eventsDataLoadedHandler = eventsResponse => {
 		if (eventsResponse.Events.length) {
-			const eventsWithDateAndMonth = eventsResponse.Events.map(processEvents);
+			const eventsWithDateAndMonth = eventsResponse.Events.map(processEvent);
 
 			const sourceHtml = $('#events-template').html();
 			const template = Handlebars.compile(sourceHtml);
@@ -44,9 +44,15 @@ bcpl.pageSpecific.homepage.events = (($, Handlebars, moment) => {
 	};
 
 	$.ajax('/data/mock-featured-events.json')
-		.catch()
 		.done(eventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
+
+	return {
+		/* test-code */
+		processEvent,
+		formatTime
+		/* end-test-code */
+	};
 })(jQuery, Handlebars, moment);
