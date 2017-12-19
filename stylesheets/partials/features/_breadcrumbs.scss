@@ -45,3 +45,9 @@
 		}
 	}
 }
+
+@media (max-width: $screen-sm) {
+	.breadcrumbs-wrapper {
+		display: none;
+	}
+}

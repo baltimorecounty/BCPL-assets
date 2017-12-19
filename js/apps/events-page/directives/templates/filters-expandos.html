@@ -2,6 +2,6 @@
 <div id="{{filterType}}" class="collapse filter-group">
 	<label for="{{ removeDisallowedCharacters(item.Name) }}" ng-repeat="item in items">
 		<input type="checkbox" id="{{ removeDisallowedCharacters(item.Name) }}" name="{{filterType}}" ng-click="search(this, filterType, $event.target.checked)"> 
-		{{ item.Name }}
+		<span>{{ item.Name }}</span>
 	</label>
 </div>

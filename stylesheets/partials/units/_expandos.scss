@@ -39,6 +39,15 @@
 		label {
 			font-weight: 400;
 			font-size: 1em;
+
+			span {
+				display: block;
+				margin-left: 1.25em;
+			}
+
+			input {
+				float: left;				
+			}
 		}
 
 		ul {

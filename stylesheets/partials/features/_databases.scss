@@ -39,8 +39,24 @@
 					float: none;
 					width: auto;
 					font-size: .8em;
-					font-weight: 400;
+					font-weight: 600;
+					white-space: nowrap;
+
+					&:hover {
+						text-decoration: none;
+					}
 				}
+			}			
+		}
+	}
+}
+
+@media (max-width: $screen-md) {
+	.cards.database-cards {
+		.card {
+			.title-border {
+				border-bottom: 1px solid $gray-light;
+				margin: 10px 0 15px;
 			}
 		}
 	}

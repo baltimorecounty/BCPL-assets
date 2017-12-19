@@ -759,6 +759,34 @@ bcpl.navigation = function ($, keyCodes) {
 
 namespacer('bcpl');
 
+bcpl.scrollToTop = function ($) {
+	var backToTopButtonSelector = '#scroll-to-top';
+	var bodyHtmlSelector = 'body, html';
+	var scrollSpeed = 250;
+	var topScrollPosition = 0;
+
+	var scrollToTopHandler = function scrollToTopHandler() {
+		$(bodyHtmlSelector).animate({
+			scrollTop: topScrollPosition
+		}, scrollSpeed);
+	};
+
+	var init = function init() {
+		$(document).on('click', backToTopButtonSelector, scrollToTopHandler);
+	};
+
+	return {
+		init: init
+	};
+}(jQuery);
+
+$(function () {
+	return bcpl.scrollToTop.init();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
