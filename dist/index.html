@@ -7,13 +7,12 @@
 
 	<link href="/sebin/h/f/master.min.css" rel="stylesheet" type="text/css">
 	<link href="/sebin/r/e/home.min.css" rel="stylesheet" type="text/css">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-	    crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	    crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	    crossorigin="anonymous"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js" integrity="sha256-+JMHsXRyeTsws/tzbIh5YHQxRdKCuNjmvNcTFtY6DLc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
 	<script src="/sebin/v/z/master.js"></script>
 	<script src="/js/slick/slick.min.js"></script>
 	<script src="/sebin/d/o/homepage.min.js"></script>
@@ -445,93 +444,39 @@
 									<span class="registration-required">*</span> - Registration Required</a>
 							</div>
 						</header>
-						<div class="row flex">
-							<div class="col-md-3 flex flex-column">
-								<a href="#" class="post flex flex-column">
-									<time datetime="5-30 10:00-05:00">
-										<div class="animated animated-flip round-container">
-											<div class="big-round face front date">
-												<div class="month">May </div>
-												<div class="day">30</div>
-											</div>
-											<div class="big-round face back link">
-												<div>details</div>
-												<div class="day">
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
+						<div id="events-target" class="row flex">
+							<script id="events-template" type="text/x-handlebars-template">
+								{{#each this}}
+								<div class="col-md-3 flex flex-column">
+									<a href="/events-and-programs/list.html#!/{{EventId}}" class="post flex flex-column">
+										<time datetime="5-30 10:00-05:00">
+											<div class="animated animated-flip round-container">
+												<div class="big-round face front date">
+													<div class="month">{{eventMonth}}</div>
+													<div class="day">{{eventDate}}</div>
+												</div>
+												<div class="big-round face back link">
+													<div>details</div>
+													<div class="day">
+														<i class="fa fa-caret-right" aria-hidden="true"></i>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="time">10 a.m.</div>
-									</time>
-									<h4>Event Title Event Title Event Title</h4>
-									<p>Event Branch</p>
-								</a>
-							</div>
-							<div class="col-md-3 flex flex-column">
-								<a href="#" class="post flex flex-column">
-									<time datetime="6-1 11:00-05:00">
-										<div class="animated animated-flip round-container">
-											<div class="big-round face front date">
-												<div class="month">Jun </div>
-												<div class="day">1</div>
-											</div>
-											<div class="big-round face back link">
-												<div>details</div>
-												<div class="day">
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</div>
-											</div>
-										</div>
-										<div class="time">11 a.m.</div>
-									</time>
-									<h4>
-										<span class="registration-required">*</span> Event Title</h4>
-									<p>Event Branch</p>
-								</a>
-							</div>
-							<div class="col-md-3 flex flex-column">
-								<a href="#" class="post flex flex-column">
-									<time datetime="6-2 12:00-05:00">
-										<div class="animated animated-flip round-container">
-											<div class="big-round face front date">
-												<div class="month">Jun </div>
-												<div class="day">2</div>
-											</div>
-											<div class="big-round face back link">
-												<div>details</div>
-												<div class="day">
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</div>
-											</div>
-										</div>
-										<div class="time">12 p.m.</div>
-									</time>
-									<h4>Event Title</h4>
-									<p>Event Branch</p>
-								</a>
-							</div>
-							<div class="col-md-3 flex flex-column">
-								<a href="#" class="post flex flex-column">
-									<time datetime="6-3 13:00-05:00">
-										<div class="animated animated-flip round-container">
-											<div class="big-round face front date">
-												<div class="month">Jun </div>
-												<div class="day">3</div>
-											</div>
-											<div class="big-round face back link">
-												<div>details</div>
-												<div class="day">
-													<i class="fa fa-caret-right" aria-hidden="true"></i>
-												</div>
-											</div>
-										</div>
-										<div class="time">1 p.m.</div>
-									</time>
-									<h4>
-										<span class="registration-required">*</span> Event Title</h4>
-									<p>Event Branch</p>
-								</a>
-							</div>
+											<div class="time">{{eventTime}}</div>
+										</time>
+										<h4>{{Title}}</h4>
+										<p>
+											{{LocationName}}
+											{{#if requiresRegistration}}
+											<br />
+											<span class="registration-required"><i class="fa fa-star" aria-hidden="true"></i> Registration Required</span>
+											{{/if}}
+										</p>
+										
+									</a>
+								</div>
+								{{/each}}
+							</script>
 						</div>
 					</div>
 				</div>

@@ -38,6 +38,11 @@
 	}
 	.events {
 		padding-top: 2em;
+
+		.registration-required {
+			font-weight: 600;
+		}
+		
 		header {
 			position: relative;
 			.feed {
@@ -50,17 +55,7 @@
 				&:last-child {
 					margin-left: 0;
 				}
-			}
-			.registration-required {
-				top: 7px;
-			}
-		}
-		.registration-required {
-			color: $required-orange;
-			font-size: 24px;
-			position: relative;
-			top: 4px;
-			display: inline-block;			
+			}			
 		}
 		.post {
 			background: rgba(255, 255, 255, .75);
