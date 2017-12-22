@@ -1,5 +1,5 @@
 describe('Homepage Events', () => {
-	const ns = bcpl.pageSpecific.homepage.events;
+	const ns = bcpl.pageSpecific.homepage.featuredEvents;
 
 	describe('processEvent', () => {
 		const mockEvent = {

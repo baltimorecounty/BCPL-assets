@@ -31,20 +31,60 @@ bcpl.pageSpecific.homepage.featuredEvents = (($, Handlebars, moment, CONSTANTS) 
 		return localCalendarEvent;
 	};
 
-	const eventsDataLoadedHandler = eventsResponse => {
-		if (eventsResponse.Events.length) {
-			const eventsWithDateAndMonth = eventsResponse.Events.map(processEvent);
+	const eventDateComparer = (a, b) => {
+		return moment(a.EventStart).isAfter(moment(b.EventStart));
+	};
 
-			const sourceHtml = $('#events-template').html();
-			const template = Handlebars.compile(sourceHtml);
-			const html = template(eventsWithDateAndMonth);
+	const buildEventsTemplate = (eventList) => {
+		const eventsWithDateAndMonth = eventList.map(processEvent);
 
-			$('#events-target').html(html);
+		const sourceHtml = $('#events-template').html();
+		const template = Handlebars.compile(sourceHtml);
+		const html = template(eventsWithDateAndMonth);
+
+		$('#events-target').html(html);
+	};
+
+	const allEventsDataLoadedHandler = (allEventsResponse, featuredEvents) => {
+		if (allEventsResponse.Events && allEventsResponse.Events.length) {
+			const nonFeaturedEvents = allEventsResponse.Events
+				.filter(eventData => eventData.FeatureEvent === false);
+
+			const bufferedEvents = featuredEvents
+				.concat(nonFeaturedEvents)
+				.slice(0, 4)
+				.sort(eventDateComparer);
+
+			buildEventsTemplate(bufferedEvents);
 		}
 	};
 
-	$.ajax(CONSTANTS.homepage.urls.events)
-		.done(eventsDataLoadedHandler);
+	const featuredEventsDataLoadedHandler = featuredEventsResponse => {
+		if (featuredEventsResponse.Events) {
+			if (featuredEventsResponse.Events.length < 4) {
+				const allEventsRequestModel = featuredEventsRequestModel;
+				allEventsRequestModel.OnlyFeaturedEvents = false;
+
+				$.post(CONSTANTS.homepage.urls.events, allEventsRequestModel)
+					.done(allEventsResponse =>
+						allEventsDataLoadedHandler(allEventsResponse, featuredEventsResponse.Events));
+			} else {
+				buildEventsTemplate(featuredEventsResponse.Events);
+			}
+		}
+	};
+
+	const featuredEventsEndDate = moment().add(90, 'days').format('M/D/YYYY');
+
+	const featuredEventsRequestModel = {
+		Limit: 4,
+		Page: 1,
+		OnlyFeaturedEvents: true,
+		EndDate: featuredEventsEndDate
+	};
+
+	$.post(CONSTANTS.homepage.urls.events, featuredEventsRequestModel)
+		.done(featuredEventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
