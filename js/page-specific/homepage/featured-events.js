@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.events = (($, Handlebars, moment, CONSTANTS) => {
+bcpl.pageSpecific.homepage.featuredEvents = (($, Handlebars, moment, CONSTANTS) => {
 	const activatePost = (event) => {
 		const $target = $(event.currentTarget);
 		const $animationTarget = $target.find('.animated');
