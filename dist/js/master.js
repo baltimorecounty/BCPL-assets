@@ -215,7 +215,7 @@ bcpl.constants = {
 	homepage: {
 		urls: {
 			flipper: '/sebin/y/d/homepage-flipper.json',
-			events: 'http://ba224964:3100/api/evanced/signup/events'
+			events: 'https://testservices.bcpl.info/api/evanced/signup/events'
 		}
 	}
 };
