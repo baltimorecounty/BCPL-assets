@@ -23,7 +23,7 @@ $(function () {
 
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment, CONSTANTS) {
+bcpl.pageSpecific.homepage.featuredEvents = function ($, Handlebars, moment, CONSTANTS) {
 	var activatePost = function activatePost(event) {
 		var $target = $(event.currentTarget);
 		var $animationTarget = $target.find('.animated');
@@ -56,19 +56,57 @@ bcpl.pageSpecific.homepage.events = function ($, Handlebars, moment, CONSTANTS) 
 		return localCalendarEvent;
 	};
 
-	var eventsDataLoadedHandler = function eventsDataLoadedHandler(eventsResponse) {
-		if (eventsResponse.Events.length) {
-			var eventsWithDateAndMonth = eventsResponse.Events.map(processEvent);
+	var eventDateComparer = function eventDateComparer(a, b) {
+		return moment(a.EventStart).isAfter(moment(b.EventStart));
+	};
 
-			var sourceHtml = $('#events-template').html();
-			var template = Handlebars.compile(sourceHtml);
-			var html = template(eventsWithDateAndMonth);
+	var buildEventsTemplate = function buildEventsTemplate(eventList) {
+		var eventsWithDateAndMonth = eventList.map(processEvent);
 
-			$('#events-target').html(html);
+		var sourceHtml = $('#events-template').html();
+		var template = Handlebars.compile(sourceHtml);
+		var html = template(eventsWithDateAndMonth);
+
+		$('#events-target').html(html);
+	};
+
+	var allEventsDataLoadedHandler = function allEventsDataLoadedHandler(allEventsResponse, featuredEvents) {
+		if (allEventsResponse.Events && allEventsResponse.Events.length) {
+			var nonFeaturedEvents = allEventsResponse.Events.filter(function (eventData) {
+				return eventData.FeatureEvent === false;
+			});
+
+			var bufferedEvents = featuredEvents.concat(nonFeaturedEvents).slice(0, 4).sort(eventDateComparer);
+
+			buildEventsTemplate(bufferedEvents);
 		}
 	};
 
-	$.ajax(CONSTANTS.homepage.urls.events).done(eventsDataLoadedHandler);
+	var featuredEventsDataLoadedHandler = function featuredEventsDataLoadedHandler(featuredEventsResponse) {
+		if (featuredEventsResponse.Events) {
+			if (featuredEventsResponse.Events.length < 4) {
+				var allEventsRequestModel = featuredEventsRequestModel;
+				allEventsRequestModel.OnlyFeaturedEvents = false;
+
+				$.post(CONSTANTS.homepage.urls.events, allEventsRequestModel).done(function (allEventsResponse) {
+					return allEventsDataLoadedHandler(allEventsResponse, featuredEventsResponse.Events);
+				});
+			} else {
+				buildEventsTemplate(featuredEventsResponse.Events);
+			}
+		}
+	};
+
+	var featuredEventsEndDate = moment().add(90, 'days').format('M/D/YYYY');
+
+	var featuredEventsRequestModel = {
+		Limit: 4,
+		Page: 1,
+		OnlyFeaturedEvents: true,
+		EndDate: featuredEventsEndDate
+	};
+
+	$.post(CONSTANTS.homepage.urls.events, featuredEventsRequestModel).done(featuredEventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
