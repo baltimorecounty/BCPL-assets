@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="shortcut icon" type="image/x-icon" href="/sebin/b/q/favicon.ico" />
+		<link href="/sebin/h/f/master.min.css" rel="stylesheet" type="text/css">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+			crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script src="/sebin/b/m/master.min.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<form>
+						<div class="form-group">
+							<label for="firstname">First Name</label>
+							<input type="text" id="firstname" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="lastname">Last Name</label>
+							<input type="text" id="lastname" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="text" id="email" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="phone">Phone</label>
+							<input type="text" id="phone" class="form-control">
+						</div>
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="groupOptions" id="groupOptions[1]" value="0" checked aria-checked="true"> Single Registration
+							</label>
+						</div>
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="groupOptions" id="groupOptions[2]" value="1"> Group Registration
+							</label>
+						</div>	
+						<div class="form-group">
+							<label for="groupCount">Number of People in Group</label>
+							<input type="text" id="groupCount" class="form-control" disabled aria-disabled="true">
+						</div>
+						<div class="form-group">
+							<label for="notes">Notes</label>
+							<textarea id="notes" rows="3" class="form-control"></textarea>
+						</div>
+					</form>				
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
