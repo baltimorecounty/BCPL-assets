@@ -13,6 +13,10 @@
 
 	.menu-container {
 		position: relative;
+
+		.logo {
+			z-index: 1;
+		}
 	}
 	button {
 		font-size: 1.5em;
@@ -196,6 +200,7 @@
 		top: 48px;
 		right: 15px;
 		width: calc(100% - 15px);
+		z-index: 1;
 		
 		input {
 			flex-grow: 1;
