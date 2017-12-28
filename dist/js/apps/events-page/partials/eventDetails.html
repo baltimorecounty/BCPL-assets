@@ -28,9 +28,9 @@
 		<p>{{eventDetailsPage.data.Description}}</p>
 
 		<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
-			<button class="btn-primary btn-uppercase-bold">
+			<a href="#!/register/{{eventDetailsPage.data.EventId}}" class="btn-primary btn-uppercase-bold">
 				<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
-			</button>
+			</a>
 
 			<span class="pull-right">
 				<i class="fa fa-star" aria-hidden="true"></i> Registration is required for this event.
