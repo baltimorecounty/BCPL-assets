@@ -35,19 +35,24 @@
 							<label for="phone">Phone</label>
 							<input type="text" id="phone" class="form-control">
 						</div>
-						<div class="radio-inline">
+						<div class="radio">
 							<label>
-								<input type="radio" name="groupOptions" id="groupOptions[1]" value="0" checked aria-checked="true"> Single Registration
+								<input type="radio" name="groupOptions" id="groupOptions[1]" value="0" checked aria-checked="true"> Single registration
 							</label>
 						</div>
-						<div class="radio-inline">
+						<div class="radio">
 							<label>
-								<input type="radio" name="groupOptions" id="groupOptions[2]" value="1"> Group Registration
+								<input type="radio" name="groupOptions" id="groupOptions[2]" value="1"> Group registration
 							</label>
 						</div>	
 						<div class="form-group">
-							<label for="groupCount">Number of People in Group</label>
+							<label for="groupCount">Number of people in group</label>
 							<input type="text" id="groupCount" class="form-control" disabled aria-disabled="true" pattern="^\d+$">
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-primary">Register</button>
+							<button type="button" class="btn btn-default">Clear</button>
+							<button type="button" class="btn btn-default">Close</button>
 						</div>
 					</form>				
 				</div>
