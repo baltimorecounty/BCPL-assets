@@ -53,7 +53,7 @@
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
 		}).when('/register/:id', {
-			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
+			templateUrl: CONSTANTS.partialUrls.eventRegistrationPartial,
 			controller: 'EventRegistrationCtrl',
 			controllerAs: 'eventRegistrationPage'
 		});
@@ -288,18 +288,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService) {
-		var vm = this;
+	var EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService, dateUtilityService) {
 		var id = $routeParams.id;
+
+		var vm = this;
+
+		vm.isGroup = 'false';
+
+		vm.submit = function (submitEvent) {
+			console.log(submitEvent);
+		};
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService'];
+	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'));

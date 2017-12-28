@@ -23,48 +23,83 @@
 </div>
 <div class="col-md-9">
 	<div class="main-content top-border">
-		<h1>{{eventRegistration.data.Title}}</h1>
+		<div class="row">
+			<div class="col-md-12">
+				<h1>{{eventRegistrationPage.data.Title}}</h1>
+				<p>{{eventRegistrationPage.data.EventSchedule}}</p>
+				<p>{{eventRegistrationPage.data.Description}}</p>
 
-		<p>{{eventRegistration.data.Description}}</p>
-		
-		<div class="col-md-12">
-			<form>
-				<div class="form-group">
-					<label for="firstname">First Name</label>
-					<input type="text" id="firstname" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="lastname">Last Name</label>
-					<input type="text" id="lastname" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="text" id="email" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="phone">Phone</label>
-					<input type="text" id="phone" class="form-control">
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="groupOptions" id="groupOptions[1]" value="0" checked aria-checked="true"> Single registration
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="groupOptions" id="groupOptions[2]" value="1"> Group registration
-					</label>
-				</div>	
-				<div class="form-group">
-					<label for="groupCount">Number of people in group</label>
-					<input type="text" id="groupCount" class="form-control" disabled aria-disabled="true" pattern="^\d+$">
-				</div>
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-primary">Register</button>
-					<button type="button" class="btn btn-default">Clear</button>
-					<button type="button" class="btn btn-default">Close</button>
-				</div>
-			</form>				
-		</div>
+				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submit($event)">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="firstname">First Name</label>
+								<input type="text" id="firstName" name="firstName" class="form-control"
+									ng-model="eventRegistrationPage.firstName"
+									ng-minlength="1"
+									ng-maxlength="50"
+									ng-model-options="{ updateOn: 'blur' }"
+									ng-required="true">
+								<span class="form-validation-error" ng-if="eventRegistrationForm.firstName.$touched && eventRegistrationForm.firstName.$invalid">You must enter your first name.</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="lastname">Last Name</label>
+								<input type="text" id="lastName" name="lastName" class="form-control"
+									ng-model="eventRegistrationPage.lastName"
+									ng-minlength="1"
+									ng-maxlength="50"
+									ng-required="true"
+									ng-model-options="{ updateOn: 'blur' }">
+								<span class="form-validation-error" ng-if="eventRegistrationForm.lastName.$touched && eventRegistrationForm.lastName.$invalid">You must enter your last name.</span>
+							</div>
+						</div>
+					</div>					
+					<div class="form-group">
+						<label for="email">Email Address</label>
+						<input type="email" id="email" name="email" class="form-control" maxlength="100" 
+							ng-minlength="1"
+							ng-maxlength="50"
+							ng-required="true"
+							ng-model-options="{'updateOn': 'blur'}"
+							ng-model="eventRegistrationPage.email">
+						<span class="form-validation-error" ng-if="eventRegistrationForm.email.$touched && eventRegistrationForm.email.$invalid">You must enter a valid email address.</span>
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone</label>
+						<input type="text" id="phone" name="phone" class="form-control" maxlength="12" 
+							ng-model="eventRegistrationPage.phone"
+							ng-model-options="{'updateOn': 'blur'}"
+							ng-required="true"
+							ng-pattern="/\d\d\d-\d\d\d-\d\d\d\d/"> 
+						<span class="form-validation-error" ng-if="eventRegistrationForm.phone.$touched && eventRegistrationForm.phone.$invalid">Phone number must be in the following format: 410-555-1212.</span>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="groupOptions" id="groupOptions[1]" ng-model="eventRegistrationPage.isGroup" value="false" ng-checked="true"> Single registration
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="groupOptions" id="groupOptions[2]" ng-model="eventRegistrationPage.isGroup" value="true"> Group registration
+						</label>
+					</div>	
+					<div class="form-group">
+						<label for="groupCount">Number of people in group</label>
+						<input type="text" id="groupCount" name="groupCount" class="form-control" maxlength="2"
+							ng-model="eventRegistrationPage.groupCount" 
+							ng-disabled="eventRegistrationPage.isGroup !== 'true'"
+							ng-required="true"
+							ng-pattern="/^\d+$/"> 
+						<span class="form-validation-error" ng-if="eventRegistrationPage.isGroup === 'true' && eventRegistrationForm.groupCount.$touched && eventRegistrationForm.groupCount.$invalid">You must specify a numeric group count.</span>
+					</div>
+					<div class="btn-group" role="group">
+						<button type="submit" class="btn btn-primary" ng-disabled="eventRegistrationForm.$invalid">Register</button>
+						<button type="reset" class="btn btn-default">Clear</button>
+					</div>
+				</form>	
+			</div>
+		</div>		
 	</div>
 </div>

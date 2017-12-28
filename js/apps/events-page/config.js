@@ -14,7 +14,7 @@
 				controllerAs: 'eventDetailsPage'
 			})
 			.when('/register/:id', {
-				templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
+				templateUrl: CONSTANTS.partialUrls.eventRegistrationPartial,
 				controller: 'EventRegistrationCtrl',
 				controllerAs: 'eventRegistrationPage'
 			});
