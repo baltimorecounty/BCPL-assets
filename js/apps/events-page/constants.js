@@ -5,7 +5,8 @@
 		// baseUrl: 'https://testservices.bcpl.info',
 		baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
-			events: '/api/evanced/signup/events'
+			events: '/api/evanced/signup/events',
+			eventRegistration: '/api/evanced/signup/registration'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',

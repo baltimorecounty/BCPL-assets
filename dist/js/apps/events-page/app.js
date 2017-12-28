@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']);
+	angular.module('eventsPageApp', ['ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
@@ -14,7 +14,8 @@
 		// baseUrl: 'https://testservices.bcpl.info',
 		baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
-			events: '/api/evanced/signup/events'
+			events: '/api/evanced/signup/events',
+			eventRegistration: '/api/evanced/signup/registration'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
@@ -161,6 +162,35 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
+(function (app) {
+	'use strict';
+
+	var registrationService = function registrationService(CONSTANTS, $http, $q) {
+		var register = function register(registrationModel) {
+			return $q(function (resolve, reject) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.eventRegistration, registrationModel).then(function (response) {
+					if (response.data) {
+						resolve({
+							data: response.data
+						});
+					} else {
+						reject(response);
+					}
+				}, reject);
+			});
+		};
+
+		return {
+			register: register
+		};
+	};
+
+	registrationService.$inject = ['CONSTANTS', '$http', '$q'];
+
+	app.factory('registrationService', registrationService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function (app) {
@@ -288,15 +318,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService, dateUtilityService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService, registrationService, dateUtilityService) {
 		var id = $routeParams.id;
 
 		var vm = this;
 
 		vm.isGroup = 'false';
+		vm.postResult = {};
 
-		vm.submit = function (submitEvent) {
-			console.log(submitEvent);
+		vm.submitHandler = function () {
+			var postModel = {
+				RegistrationModel: {
+					EventId: parseInt(id, 10),
+					FirstName: vm.firstName,
+					LastName: vm.lastName,
+					Email: vm.email,
+					Phone: vm.phone,
+					IsGroup: vm.isGroup === 'true',
+					GroupCount: vm.groupCount
+				}
+			};
+
+			registrationService.register(postModel).then(function (postResult) {
+				vm.postResult = postResult.data;
+			});
 		};
 
 		var processEventData = function processEventData(data) {
@@ -307,7 +352,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService', 'dateUtilityService'];
+	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'));
