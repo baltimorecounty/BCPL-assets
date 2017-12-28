@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://ba224964:3100',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events'
 		},
@@ -30,7 +30,8 @@
 		},
 		partialUrls: {
 			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
-			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html'
+			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
+			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
 		requestChunkSize: 10
 	};
@@ -51,6 +52,10 @@
 			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
+		}).when('/register/:id', {
+			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
+			controller: 'EventRegistrationCtrl',
+			controllerAs: 'eventRegistrationPage'
 		});
 	};
 
@@ -277,6 +282,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService) {
+		var vm = this;
+		var id = $routeParams.id;
+
+		var processEventData = function processEventData(data) {
+			vm.data = data;
+		};
+
+		eventsService.getById(id).then(processEventData);
+	};
+
+	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService'];
+
+	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 

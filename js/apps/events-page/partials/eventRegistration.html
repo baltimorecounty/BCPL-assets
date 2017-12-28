@@ -1,0 +1,70 @@
+<div class="col-md-3">
+	<div class="secondary-nav">
+		<nav>
+			<ul>
+				<li>
+					<a href="/events.html">
+						<i class="fa fa-hand-o-left fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Return to Event List
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="fa fa-envelope fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Email a Friend
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="fa fa-download fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+<div class="col-md-9">
+	<div class="main-content top-border">
+		<h1>{{eventRegistration.data.Title}}</h1>
+
+		<p>{{eventRegistration.data.Description}}</p>
+		
+		<div class="col-md-12">
+			<form>
+				<div class="form-group">
+					<label for="firstname">First Name</label>
+					<input type="text" id="firstname" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="lastname">Last Name</label>
+					<input type="text" id="lastname" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="text" id="email" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="phone">Phone</label>
+					<input type="text" id="phone" class="form-control">
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="groupOptions" id="groupOptions[1]" value="0" checked aria-checked="true"> Single registration
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="groupOptions" id="groupOptions[2]" value="1"> Group registration
+					</label>
+				</div>	
+				<div class="form-group">
+					<label for="groupCount">Number of people in group</label>
+					<input type="text" id="groupCount" class="form-control" disabled aria-disabled="true" pattern="^\d+$">
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-primary">Register</button>
+					<button type="button" class="btn btn-default">Clear</button>
+					<button type="button" class="btn btn-default">Close</button>
+				</div>
+			</form>				
+		</div>
+	</div>
+</div>
