@@ -32,14 +32,17 @@
 			font-size: 2em;
 			position: absolute;
 			right: -28px;
-			top: -7px;			
 		}
-
+		
 		&:last-child {
 			&:after {
 				content: "";
 			}
 		}
+	}
+
+	span.breadcrumb:after {
+		top: -7px;			
 	}
 }
 
