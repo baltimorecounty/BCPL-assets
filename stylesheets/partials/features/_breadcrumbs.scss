@@ -23,10 +23,6 @@
 				font-family: FontAwesome;
 				margin-right: .5em;
 			}
-
-			&:after {
-				top: -7px;				
-			}
 		}
 
 		&:after {					
@@ -37,12 +33,16 @@
 			position: absolute;
 			right: -28px;
 		}
-
+		
 		&:last-child {
 			&:after {
 				content: "";
 			}
 		}
+	}
+
+	span.breadcrumb:after {
+		top: -7px;			
 	}
 }
 
