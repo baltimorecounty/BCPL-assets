@@ -7,5 +7,8 @@
 		"bcpl": true,
 		"describe": true,
 		"it": true
+	},
+	"rules": {
+		"max-len":"off"
 	}
 }
