@@ -13,6 +13,10 @@
 
 	.menu-container {
 		position: relative;
+
+		.logo {
+			z-index: 1;
+		}
 	}
 	button {
 		font-size: 1.5em;

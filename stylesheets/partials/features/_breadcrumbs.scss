@@ -23,10 +23,6 @@
 				font-family: FontAwesome;
 				margin-right: .5em;
 			}
-
-			&:after {
-				top: -7px;				
-			}
 		}
 
 		&:after {					
@@ -36,6 +32,7 @@
 			font-size: 2em;
 			position: absolute;
 			right: -28px;
+			top: -7px;			
 		}
 
 		&:last-child {
