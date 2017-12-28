@@ -2,6 +2,12 @@
 	.menu-wrapper {
 		position: relative;
 		top: 0px;	
+
+		.menu-container {
+			.logo {
+				z-index: initial;
+			}
+		}
 	}
 }
 
