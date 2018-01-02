@@ -28,12 +28,15 @@
 		<p>{{eventDetailsPage.data.Description}}</p>
 
 		<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
-			<a href="#!/register/{{eventDetailsPage.data.EventId}}" class="btn-primary btn-uppercase-bold">
+			<a href="#!/register/{{eventDetailsPage.data.EventId}}" class="btn-primary btn-uppercase-bold" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
 				<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
 			</a>
 
-			<span class="pull-right">
+			<span class="pull-right" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
 				<i class="fa fa-star" aria-hidden="true"></i> Registration is required for this event.
+			</span>
+			<span ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 2">
+				<i class="fa fa-star" aria-hidden="true"></i> In-person registration is required for this event at the {{eventDetailsPage.data.LocationName}} branch.
 			</span>
 		</p>
 

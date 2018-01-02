@@ -324,9 +324,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var vm = this;
 
 		vm.isGroup = 'false';
-		vm.postResult = {};
+		vm.isSubmitted = false;
+		vm.isLoadingResults = false;
 
 		vm.submitHandler = function () {
+			vm.isLoadingResults = true;
+
 			var postModel = {
 				RegistrationModel: {
 					EventId: parseInt(id, 10),
@@ -341,6 +344,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			registrationService.register(postModel).then(function (postResult) {
 				vm.postResult = postResult.data;
+				vm.isSubmitted = true;
+				vm.isLoadingResults = false;
 			});
 		};
 

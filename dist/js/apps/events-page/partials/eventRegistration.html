@@ -29,7 +29,7 @@
 				<p>{{eventRegistrationPage.data.EventSchedule}}</p>
 				<p>{{eventRegistrationPage.data.Description}}</p>
 				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event)">
-					<p ng-class="[eventRegistrationPage.postResult.Success ? 'bg-success' : 'bg-danger', 'registration-result']" ng-bind-html="eventRegistrationPage.postResult.Data.ConfirmationMessage"></p>
+					<p ng-if="eventRegistrationPage.isSubmitted" ng-class="[eventRegistrationPage.postResult.Success ? 'bg-success' : 'bg-danger', 'registration-result']" ng-bind-html="eventRegistrationPage.postResult.Data.ConfirmationMessage"></p>
 					<p class="required">* required field</p>
 					<div class="row">
 						<div class="col-md-6">
@@ -99,8 +99,10 @@
 						<span class="form-validation-error" ng-if="eventRegistrationPage.isGroup === 'true' && eventRegistrationForm.groupCount.$touched && eventRegistrationForm.groupCount.$invalid">You must specify a numeric group count.</span>
 					</div>
 					<div class="btn-group" role="group">
-						<button type="submit" class="btn btn-primary" ng-disabled="eventRegistrationForm.$invalid">Register</button>
-						<button type="reset" class="btn btn-default">Clear</button>
+						<button type="submit" class="btn btn-primary" ng-disabled="eventRegistrationForm.$invalid || eventRegistrationPage.isLoadingResults">
+							Register
+							<i class="fa fa-spinner fa-spin" aria-hidden="true" ng-if="eventRegistrationPage.isLoadingResults"></i>
+						</button>
 					</div>
 				</form>	
 			</div>

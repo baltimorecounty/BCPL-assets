@@ -7,9 +7,12 @@
 		const vm = this;
 
 		vm.isGroup = 'false';
-		vm.postResult = {};
+		vm.isSubmitted = false;
+		vm.isLoadingResults = false;
 
 		vm.submitHandler = () => {
+			vm.isLoadingResults = true;
+
 			const postModel = {
 				RegistrationModel: {
 					EventId: parseInt(id, 10),
@@ -24,6 +27,8 @@
 
 			registrationService.register(postModel).then(postResult => {
 				vm.postResult = postResult.data;
+				vm.isSubmitted = true;
+				vm.isLoadingResults = false;
 			});
 		};
 
