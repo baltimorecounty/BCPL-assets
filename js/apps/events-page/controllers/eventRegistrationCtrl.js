@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const EventRegistrationCtrl = function EventsPageCtrl($scope, $routeParams, eventsService, registrationService, dateUtilityService) {
+	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
 		const id = $routeParams.id;
 
 		const vm = this;
@@ -26,9 +26,13 @@
 			};
 
 			registrationService.register(postModel).then(postResult => {
+				// jQuery since ngAnimate can't do this.
+				const topOfContent = angular.element('.main-content').first().offset().top;
+
 				vm.postResult = postResult.data;
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
+				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
 			});
 		};
 
@@ -40,7 +44,7 @@
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'));
