@@ -14,15 +14,13 @@
 			vm.isLoadingResults = true;
 
 			const postModel = {
-				RegistrationModel: {
-					EventId: parseInt(id, 10),
-					FirstName: vm.firstName,
-					LastName: vm.lastName,
-					Email: vm.email,
-					Phone: vm.phone,
-					IsGroup: vm.isGroup === 'true',
-					GroupCount: vm.groupCount
-				}
+				EventId: parseInt(id, 10),
+				FirstName: vm.firstName,
+				LastName: vm.lastName,
+				Email: vm.email,
+				Phone: vm.phone,
+				IsGroup: vm.isGroup === 'true',
+				GroupCount: vm.groupCount
 			};
 
 			registrationService.register(postModel).then(postResult => {
