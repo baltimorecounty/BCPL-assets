@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngAnimate', 'ngRoute']);
+	angular.module('eventsPageApp', ['ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
@@ -14,7 +14,8 @@
 		baseUrl: 'https://testservices.bcpl.info',
 		// baseUrl: 'http://ba224964:3100',
 		serviceUrls: {
-			events: '/api/evanced/signup/events'
+			events: '/api/evanced/signup/events',
+			eventRegistration: '/api/evanced/signup/registration'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
@@ -30,7 +31,8 @@
 		},
 		partialUrls: {
 			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
-			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html'
+			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
+			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
 		requestChunkSize: 10
 	};
@@ -51,6 +53,10 @@
 			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 			controller: 'EventDetailsCtrl',
 			controllerAs: 'eventDetailsPage'
+		}).when('/register/:id', {
+			templateUrl: CONSTANTS.partialUrls.eventRegistrationPartial,
+			controller: 'EventRegistrationCtrl',
+			controllerAs: 'eventRegistrationPage'
 		});
 	};
 
@@ -153,6 +159,35 @@
 	metaService.$inject = ['$http', '$q'];
 
 	app.factory('metaService', metaService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var registrationService = function registrationService(CONSTANTS, $http, $q) {
+		var register = function register(registrationModel) {
+			return $q(function (resolve, reject) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.eventRegistration, registrationModel).then(function (response) {
+					if (response.data) {
+						resolve({
+							data: response.data
+						});
+					} else {
+						reject(response);
+					}
+				}, reject);
+			});
+		};
+
+		return {
+			register: register
+		};
+	};
+
+	registrationService.$inject = ['CONSTANTS', '$http', '$q'];
+
+	app.factory('registrationService', registrationService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -277,6 +312,56 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
+		var id = $routeParams.id;
+
+		var vm = this;
+
+		vm.isGroup = 'false';
+		vm.isSubmitted = false;
+		vm.isLoadingResults = false;
+
+		vm.submitHandler = function () {
+			vm.isLoadingResults = true;
+
+			var postModel = {
+				EventId: parseInt(id, 10),
+				FirstName: vm.firstName,
+				LastName: vm.lastName,
+				Email: vm.email,
+				Phone: vm.phone,
+				IsGroup: vm.isGroup === 'true',
+				GroupCount: vm.groupCount
+			};
+
+			registrationService.register(postModel).then(function (postResult) {
+				// jQuery since ngAnimate can't do this.
+				var topOfContent = angular.element('.main-content').first().offset().top;
+
+				vm.postResult = postResult.data;
+				vm.isSubmitted = true;
+				vm.isLoadingResults = false;
+				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
+			});
+		};
+
+		var processEventData = function processEventData(data) {
+			vm.data = data;
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+		};
+
+		eventsService.getById(id).then(processEventData);
+	};
+
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
+
+	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'));
 'use strict';
 

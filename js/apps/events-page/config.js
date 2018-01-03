@@ -12,7 +12,12 @@
 				templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 				controller: 'EventDetailsCtrl',
 				controllerAs: 'eventDetailsPage'
-			});			
+			})
+			.when('/register/:id', {
+				templateUrl: CONSTANTS.partialUrls.eventRegistrationPartial,
+				controller: 'EventRegistrationCtrl',
+				controllerAs: 'eventRegistrationPage'
+			});
 	};
 
 	config.$inject = ['$routeProvider', 'CONSTANTS'];

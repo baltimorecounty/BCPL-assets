@@ -1,0 +1,11 @@
+form {
+	.form-validation-error, .required {
+		color: #f00;
+		font-weight: 600;
+		font-size: .8em;
+	}
+
+	.registration-result {
+		padding: 1em;
+	}
+}

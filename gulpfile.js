@@ -135,7 +135,7 @@ gulp.task('process-pug', () => gulp.src(['mockups/pug/*.pug'])
 	.pipe(pug())
 	.pipe(gulp.dest('dist')));
 
-gulp.task('move-html', () => gulp.src('mockups/html/*.html')
+gulp.task('move-html', () => gulp.src('mockups/html/**/*.html')
 	.pipe(gulp.dest('dist')));
 
 gulp.task('code-coverage', () => gulp.src('/coverage/**/lcov.info')

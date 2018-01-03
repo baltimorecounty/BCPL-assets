@@ -2,6 +2,12 @@
 	.menu-wrapper {
 		position: relative;
 		top: 0px;	
+
+		.menu-container {
+			.logo {
+				z-index: initial;
+			}
+		}
 	}
 }
 
@@ -16,6 +22,7 @@
 
 		.logo {
 			z-index: 1;
+			max-width: 296px;
 		}
 	}
 	button {
