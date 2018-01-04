@@ -35,17 +35,22 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 		if (callback && typeof callback === 'function') {
 			$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alertNotification)
 				.then(
-					(data) => data ? callback(data, true) : callback(undefined, false),
-					() => callback(undefined, false)
+					(data) => onAlertSuccess(data, callback),
+					() => onAlertError(callback)
 				);
 		} else {
 			console.error('A missing or invalid callback has been supplied.');
 		}
 	};
 
+	const onAlertSuccess = (data, callback) => data ? callback(data, true) : callback(undefined, false);
+
+	const onAlertError = (callback) => callback(undefined, false);
+
 	const hideNotificationBar = ($container) => {
-		$container.addClass('dismissed');
-		$container.show();
+		$container
+			.addClass('dismissed')
+			.show();
 	};
 
 	const displayNotificationBar = (shouldHide) => {
@@ -53,11 +58,9 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
 
-		if (shouldHide) {
-			hideNotificationBar($alertBoxContainer);
-		}
+		const isAlertDismissed = sessionStorage && sessionStorage.getItem('isAlertDismissed');
 
-		if ((sessionStorage && !sessionStorage.getItem('isAlertDismissed')) || !sessionStorage) {
+		if (!isAlertDismissed && !shouldHide) {
 			setTimeout(() => {
 				$alertBoxContainer.slideDown(250);
 			}, 500);

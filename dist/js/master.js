@@ -222,18 +222,25 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 	var getAlertDescription = function getAlertDescription(callback) {
 		if (callback && typeof callback === 'function') {
 			$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alertNotification).then(function (data) {
-				return data ? callback(data, true) : callback(undefined, false);
+				return onAlertSuccess(data, callback);
 			}, function () {
-				return callback(undefined, false);
+				return onAlertError(callback);
 			});
 		} else {
 			console.error('A missing or invalid callback has been supplied.');
 		}
 	};
 
+	var onAlertSuccess = function onAlertSuccess(data, callback) {
+		return data ? callback(data, true) : callback(undefined, false);
+	};
+
+	var onAlertError = function onAlertError(callback) {
+		return callback(undefined, false);
+	};
+
 	var hideNotificationBar = function hideNotificationBar($container) {
-		$container.addClass('dismissed');
-		$container.show();
+		$container.addClass('dismissed').show();
 	};
 
 	var displayNotificationBar = function displayNotificationBar(shouldHide) {
@@ -241,11 +248,9 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
 
-		if (shouldHide) {
-			hideNotificationBar($alertBoxContainer);
-		}
+		var isAlertDismissed = sessionStorage && sessionStorage.getItem('isAlertDismissed');
 
-		if (sessionStorage && !sessionStorage.getItem('isAlertDismissed') || !sessionStorage) {
+		if (!isAlertDismissed && !shouldHide) {
 			setTimeout(function () {
 				$alertBoxContainer.slideDown(250);
 			}, 500);
