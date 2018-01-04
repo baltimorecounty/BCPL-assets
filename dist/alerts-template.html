@@ -1,0 +1,14 @@
+<script id="alerts-handlebars-template" type="text/x-handlebars-template">
+	<ul>
+	{{#each this}}
+		<li>
+			<h3>{{Description}}</h3>
+			<p>Alert active from {{DisplayStartDate}} to {{DisplayEndDate}}.</p>	
+			{{#if OtherDescription}}		
+			<p>{{OtherDescription}}</p>
+			{{/if}}
+		</li>
+	{{/each}}
+	</ul>
+</script>
+<div id="alerts-handlebars-target"></div>

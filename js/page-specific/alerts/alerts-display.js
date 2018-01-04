@@ -1,15 +1,16 @@
 namespacer('bcpl.pageSpecific.alerts');
 
-bcpl.pageSpecific.alerts = (($, Handlebars, CONSTANTS) => {
+bcpl.pageSpecific.alerts.alertDisplay = (($, Handlebars, moment, CONSTANTS) => {
 	const alertsTemplateSelector = '#alerts-handlebars-template';
 	const alertsTargetSelector = '#alerts-handlebars-target';
+	const dateFormat = 'M/D/YYYY';
 
 	const render = (alerts) => {
 		const alertsTemplateHtml = $(alertsTemplateSelector).html();
 
 		if (alertsTemplateHtml && alertsTemplateHtml.length) {
 			const alertsTemplate = Handlebars.compile(alertsTemplateHtml);
-			const renderedHtml = alertsTemplate({ alerts });
+			const renderedHtml = alertsTemplate(alerts);
 			$(alertsTargetSelector).html(renderedHtml);
 		}
 	};
@@ -17,7 +18,15 @@ bcpl.pageSpecific.alerts = (($, Handlebars, CONSTANTS) => {
 	const getAlertData = (callback) => {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts)
 			.then(
-				alerts => callback(alerts),
+				alerts => {
+					const displayAlerts = alerts.map(notification => {
+						return Object.assign({
+							DisplayStartDate: moment(notification.StartDate).format(dateFormat),
+							DisplayEndDate: moment(notification.EndDate).format(dateFormat)
+						}, notification);
+					});
+					callback(displayAlerts);
+				},
 				error => console.error(error)
 			);
 	};
@@ -29,8 +38,8 @@ bcpl.pageSpecific.alerts = (($, Handlebars, CONSTANTS) => {
 	return {
 		init
 	};
-})(jQuery, Handlebars, bcpl.constants);
+})(jQuery, Handlebars, moment, bcpl.constants);
 
 $(() => {
-	bcpl.pageSpecific.alerts.init();
+	bcpl.pageSpecific.alerts.alertDisplay.init();
 });
