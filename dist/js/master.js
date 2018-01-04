@@ -153,47 +153,6 @@ bcpl.utility.windowShade = function ($) {
 
 namespacer('bcpl');
 
-bcpl.alertBox = function ($) {
-	var alertBoxDismissButtonSelector = '#alert-box-dismiss';
-	var alertBoxContainerSelector = '.alert-container';
-
-	var $alertBoxDismissButton = void 0;
-	var $alertBoxContainer = void 0;
-
-	var alertBoxDismissButtonClicked = function alertBoxDismissButtonClicked(event) {
-		var $container = event.data.$container;
-
-		$container.addClass('dismissed');
-		sessionStorage.setItem('isAlertDismissed', true);
-	};
-
-	var init = function init() {
-		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
-		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
-		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
-
-		if (sessionStorage && !sessionStorage.getItem('isAlertDismissed') || !sessionStorage) {
-			setTimeout(function () {
-				$alertBoxContainer.slideDown(250);
-			}, 500);
-		} else {
-			$alertBoxContainer.addClass('dismissed');
-			$alertBoxContainer.show();
-		}
-	};
-
-	return {
-		init: init
-	};
-}(jQuery);
-
-$(function () {
-	bcpl.alertBox.init();
-});
-'use strict';
-
-namespacer('bcpl');
-
 bcpl.constants = {
 	baseApiUrl: 'http://ba224964:3100',
 	basePageUrl: '/dist',
@@ -215,10 +174,97 @@ bcpl.constants = {
 	homepage: {
 		urls: {
 			flipper: '/sebin/y/d/homepage-flipper.json',
-			events: 'https://testservices.bcpl.info/api/evanced/signup/events'
+			events: '/api/evanced/signup/events'
+		}
+	},
+	shared: {
+		urls: {
+			alerts: '/api/structured-content/alerts',
+			alertNotification: '/api/structured-content/alerts-notification'
 		}
 	}
 };
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
+	var alertBoxDismissButtonSelector = '#alert-box-dismiss';
+	var alertBoxContainerSelector = '.alert-container';
+
+	var $alertBoxDismissButton = void 0;
+	var $alertBoxContainer = void 0;
+
+	var alertBoxDismissButtonClicked = function alertBoxDismissButtonClicked(event) {
+		var $container = event.data.$container;
+
+		$container.addClass('dismissed');
+		sessionStorage.setItem('isAlertDismissed', true);
+	};
+
+	var renderAlertBox = function renderAlertBox(alertData) {
+		var alertsTemplateHtml = $('#alerts-template').html();
+		var $alertsTarget = $('#alerts-target');
+		var alertsTemplate = Handlebars.compile(alertsTemplateHtml);
+
+		if (alertData && alertData.IsEmergency) {
+			alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
+		}
+
+		$alertsTarget.html(alertsTemplate({ alertData: alertData }));
+
+		displayNotificationBar(!alertData);
+	};
+
+	var getAlertDescription = function getAlertDescription(callback) {
+		if (callback && typeof callback === 'function') {
+			$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alertNotification).then(function (data) {
+				return data ? callback(data, true) : callback(undefined, false);
+			}).catch(function () {
+				return callback(undefined, false);
+			});
+		} else {
+			console.error('A missing or invalid callback has been supplied.');
+		}
+	};
+
+	var hideNotificationBar = function hideNotificationBar($container) {
+		$container.addClass('dismissed');
+		$container.show();
+	};
+
+	var displayNotificationBar = function displayNotificationBar(shouldHide) {
+		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
+		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
+		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
+
+		if (shouldHide) {
+			hideNotificationBar($alertBoxContainer);
+		}
+
+		if (sessionStorage && !sessionStorage.getItem('isAlertDismissed') || !sessionStorage) {
+			setTimeout(function () {
+				$alertBoxContainer.slideDown(250);
+			}, 500);
+		} else {
+			hideNotificationBar($alertBoxContainer);
+		}
+	};
+
+	var init = function init() {
+		getAlertDescription(function (description) {
+			return renderAlertBox(description);
+		});
+	};
+
+	return {
+		init: init
+	};
+}(jQuery, Handlebars, bcpl.constants);
+
+$(function () {
+	bcpl.alertBox.init();
+});
 'use strict';
 
 namespacer('bcpl');
