@@ -43,10 +43,11 @@ bcpl.pageSpecific.homepage.featuredEvents = function ($, Handlebars, moment, CON
 		var eventsWithDateAndMonth = eventList.map(processEvent);
 
 		var sourceHtml = $('#events-template').html();
-		var template = Handlebars.compile(sourceHtml);
-		var html = template(eventsWithDateAndMonth);
-
-		$('#events-target').html(html);
+		if (sourceHtml && sourceHtml.length) {
+			var template = Handlebars.compile(sourceHtml);
+			var html = template(eventsWithDateAndMonth);
+			$('#events-target').html(html);
+		}
 	};
 
 	var allEventsDataLoadedHandler = function allEventsDataLoadedHandler(allEventsResponse, featuredEvents) {
