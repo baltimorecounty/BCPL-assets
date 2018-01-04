@@ -18,17 +18,19 @@ bcpl.pageSpecific.alerts.alertDisplay = (($, Handlebars, moment, CONSTANTS) => {
 	const getAlertData = (callback) => {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts)
 			.then(
-				alerts => {
-					const displayAlerts = alerts.map(notification => {
-						return Object.assign({
-							DisplayStartDate: moment(notification.StartDate).format(dateFormat),
-							DisplayEndDate: moment(notification.EndDate).format(dateFormat)
-						}, notification);
-					});
-					callback(displayAlerts);
-				},
+				alerts => onAlertsSuccess(alerts, callback),
 				error => console.error(error)
 			);
+	};
+
+	const onAlertsSuccess = (alerts, callback) => {
+		const displayAlerts = alerts.map(notification => {
+			return Object.assign({
+				DisplayStartDate: moment(notification.StartDate).format(dateFormat),
+				DisplayEndDate: moment(notification.EndDate).format(dateFormat)
+			}, notification);
+		});
+		callback(displayAlerts);
 	};
 
 	const init = () => {

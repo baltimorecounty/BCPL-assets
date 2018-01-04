@@ -19,16 +19,20 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
 
 	var getAlertData = function getAlertData(callback) {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts).then(function (alerts) {
-			var displayAlerts = alerts.map(function (notification) {
-				return Object.assign({
-					DisplayStartDate: moment(notification.StartDate).format(dateFormat),
-					DisplayEndDate: moment(notification.EndDate).format(dateFormat)
-				}, notification);
-			});
-			callback(displayAlerts);
+			return onAlertsSuccess(alerts, callback);
 		}, function (error) {
 			return console.error(error);
 		});
+	};
+
+	var onAlertsSuccess = function onAlertsSuccess(alerts, callback) {
+		var displayAlerts = alerts.map(function (notification) {
+			return Object.assign({
+				DisplayStartDate: moment(notification.StartDate).format(dateFormat),
+				DisplayEndDate: moment(notification.EndDate).format(dateFormat)
+			}, notification);
+		});
+		callback(displayAlerts);
 	};
 
 	var init = function init() {
