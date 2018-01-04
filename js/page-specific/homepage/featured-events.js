@@ -39,10 +39,11 @@ bcpl.pageSpecific.homepage.featuredEvents = (($, Handlebars, moment, CONSTANTS) 
 		const eventsWithDateAndMonth = eventList.map(processEvent);
 
 		const sourceHtml = $('#events-template').html();
-		const template = Handlebars.compile(sourceHtml);
-		const html = template(eventsWithDateAndMonth);
-
-		$('#events-target').html(html);
+		if (sourceHtml && sourceHtml.length) {
+			const template = Handlebars.compile(sourceHtml);
+			const html = template(eventsWithDateAndMonth);
+			$('#events-target').html(html);
+		}
 	};
 
 	const allEventsDataLoadedHandler = (allEventsResponse, featuredEvents) => {
@@ -65,7 +66,7 @@ bcpl.pageSpecific.homepage.featuredEvents = (($, Handlebars, moment, CONSTANTS) 
 				const allEventsRequestModel = featuredEventsRequestModel;
 				allEventsRequestModel.OnlyFeaturedEvents = false;
 
-				$.post(CONSTANTS.homepage.urls.events, allEventsRequestModel)
+				$.post(CONSTANTS.baseApiUrl + CONSTANTS.homepage.urls.events, allEventsRequestModel)
 					.done(allEventsResponse =>
 						allEventsDataLoadedHandler(allEventsResponse, featuredEventsResponse.Events));
 			} else {
@@ -83,7 +84,7 @@ bcpl.pageSpecific.homepage.featuredEvents = (($, Handlebars, moment, CONSTANTS) 
 		EndDate: featuredEventsEndDate
 	};
 
-	$.post(CONSTANTS.homepage.urls.events, featuredEventsRequestModel)
+	$.post(CONSTANTS.baseApiUrl + CONSTANTS.homepage.urls.events, featuredEventsRequestModel)
 		.done(featuredEventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);

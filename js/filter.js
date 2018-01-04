@@ -22,10 +22,12 @@ bcpl.filter = (($, windowShade) => {
 		const dataForTemplate = data;
 		dataForTemplate.items = sortedDataItems;
 		const source = $template.html();
-		const template = Handlebars.compile(source);
-		const html = template(dataForTemplate);
-		$target.html(html);
-		
+		if (source && source.length) {
+			const template = Handlebars.compile(source);
+			const html = template(dataForTemplate);
+			$target.html(html);
+		}
+
 		if (clickedFilterLabelText && isClickedFilterActive) {
 			activateTags($target, clickedFilterLabelText);
 		}

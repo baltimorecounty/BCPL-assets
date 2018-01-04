@@ -80,7 +80,15 @@ gulp.task('move-app-directive-templates', () => {
 });
 
 
-gulp.task('process-master-js', () => gulp.src(['js/utility/namespacer.js', 'js/utility/*.js', 'js/**/*.js', '!js/vendor/**/*.js', '!js/page-specific/**/*.js', '!js/apps/**/*'])
+gulp.task('process-master-js', () => gulp.src([
+	'js/utility/namespacer.js',
+	'js/utility/*.js',
+	'js/constants.js',
+	'js/**/*.js',
+	'!js/vendor/**/*.js',
+	'!js/page-specific/**/*.js',
+	'!js/apps/**/*'
+])
 	.pipe(jshint({
 		esversion: 6
 	}))

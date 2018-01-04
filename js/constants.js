@@ -21,7 +21,13 @@ bcpl.constants = {
 	homepage: {
 		urls: {
 			flipper: '/sebin/y/d/homepage-flipper.json',
-			events: 'https://testservices.bcpl.info/api/evanced/signup/events'
+			events: '/api/evanced/signup/events'
+		}
+	},
+	shared: {
+		urls: {
+			alerts: '/api/structured-content/alerts',
+			alertNotification: '/api/structured-content/alerts-notification'
 		}
 	}
 };
