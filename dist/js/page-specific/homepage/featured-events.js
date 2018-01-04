@@ -67,7 +67,7 @@ bcpl.pageSpecific.homepage.featuredEvents = function ($, Handlebars, moment, CON
 				var allEventsRequestModel = featuredEventsRequestModel;
 				allEventsRequestModel.OnlyFeaturedEvents = false;
 
-				$.post(CONSTANTS.homepage.urls.events, allEventsRequestModel).done(function (allEventsResponse) {
+				$.post(CONSTANTS.baseApiUrl + CONSTANTS.homepage.urls.events, allEventsRequestModel).done(function (allEventsResponse) {
 					return allEventsDataLoadedHandler(allEventsResponse, featuredEventsResponse.Events);
 				});
 			} else {
@@ -85,7 +85,7 @@ bcpl.pageSpecific.homepage.featuredEvents = function ($, Handlebars, moment, CON
 		EndDate: featuredEventsEndDate
 	};
 
-	$.post(CONSTANTS.homepage.urls.events, featuredEventsRequestModel).done(featuredEventsDataLoadedHandler);
+	$.post(CONSTANTS.baseApiUrl + CONSTANTS.homepage.urls.events, featuredEventsRequestModel).done(featuredEventsDataLoadedHandler);
 
 	$(document).on('mouseover', '.post', activatePost);
 	$(document).on('mouseout', '.post', deactivatePost);
