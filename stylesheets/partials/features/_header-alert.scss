@@ -11,6 +11,20 @@
 	&.emergency {
 		background-color: $emergency-orange;
 		color: white;
+
+		p {
+			& > span i {
+				color: white;
+			}
+
+			button, a {
+				background: white;
+
+				&:hover {
+					color: $emergency-orange;
+				}
+			}
+		}
 	}
 
 	.alert-container {
