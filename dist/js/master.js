@@ -245,7 +245,7 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 
 	var displayNotificationBar = function displayNotificationBar(shouldHide) {
 		$alertBoxDismissButton = $(alertBoxDismissButtonSelector);
-		$alertBoxContainer = $alertBoxDismissButton.closest(alertBoxContainerSelector);
+		$alertBoxContainer = $(alertBoxContainerSelector);
 		$alertBoxDismissButton.on('click', { $container: $alertBoxContainer }, alertBoxDismissButtonClicked);
 
 		var isAlertDismissed = sessionStorage && sessionStorage.getItem('isAlertDismissed');
