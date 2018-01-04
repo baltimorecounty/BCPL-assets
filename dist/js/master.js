@@ -296,9 +296,11 @@ bcpl.filter = function ($, windowShade) {
 		var dataForTemplate = data;
 		dataForTemplate.items = sortedDataItems;
 		var source = $template.html();
-		var template = Handlebars.compile(source);
-		var html = template(dataForTemplate);
-		$target.html(html);
+		if (source && source.length) {
+			var template = Handlebars.compile(source);
+			var html = template(dataForTemplate);
+			$target.html(html);
+		}
 
 		if (clickedFilterLabelText && isClickedFilterActive) {
 			activateTags($target, clickedFilterLabelText);
