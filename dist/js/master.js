@@ -205,13 +205,16 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 	var renderAlertBox = function renderAlertBox(alertData) {
 		var alertsTemplateHtml = $('#alerts-template').html();
 		var $alertsTarget = $('#alerts-target');
-		var alertsTemplate = Handlebars.compile(alertsTemplateHtml);
 
-		if (alertData && alertData.IsEmergency) {
-			alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
+		if (alertsTemplateHtml && alertsTemplateHtml.length) {
+			var alertsTemplate = Handlebars.compile(alertsTemplateHtml);
+
+			if (alertData && alertData.IsEmergency) {
+				alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
+			}
+
+			$alertsTarget.html(alertsTemplate({ alertData: alertData }));
 		}
-
-		$alertsTarget.html(alertsTemplate({ alertData: alertData }));
 
 		displayNotificationBar(!alertData);
 	};
@@ -220,7 +223,7 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 		if (callback && typeof callback === 'function') {
 			$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alertNotification).then(function (data) {
 				return data ? callback(data, true) : callback(undefined, false);
-			}).catch(function () {
+			}, function () {
 				return callback(undefined, false);
 			});
 		} else {

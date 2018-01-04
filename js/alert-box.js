@@ -17,13 +17,16 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 	const renderAlertBox = (alertData) => {
 		const alertsTemplateHtml = $('#alerts-template').html();
 		const $alertsTarget = $('#alerts-target');
-		const alertsTemplate = Handlebars.compile(alertsTemplateHtml);
 
-		if (alertData && alertData.IsEmergency) {
-			alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
+		if (alertsTemplateHtml && alertsTemplateHtml.length) {
+			const alertsTemplate = Handlebars.compile(alertsTemplateHtml);
+
+			if (alertData && alertData.IsEmergency) {
+				alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
+			}
+
+			$alertsTarget.html(alertsTemplate({ alertData }));
 		}
-
-		$alertsTarget.html(alertsTemplate({ alertData }));
 
 		displayNotificationBar(!alertData);
 	};
@@ -31,8 +34,10 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 	const getAlertDescription = (callback) => {
 		if (callback && typeof callback === 'function') {
 			$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alertNotification)
-				.then((data) => data ? callback(data, true) : callback(undefined, false))
-				.catch(() => callback(undefined, false));
+				.then(
+					(data) => data ? callback(data, true) : callback(undefined, false),
+					() => callback(undefined, false)
+				);
 		} else {
 			console.error('A missing or invalid callback has been supplied.');
 		}
