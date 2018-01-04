@@ -17,10 +17,7 @@ bcpl.pageSpecific.alerts.alertDisplay = (($, Handlebars, moment, CONSTANTS) => {
 
 	const getAlertData = (callback) => {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts)
-			.then(
-				alerts => onAlertsSuccess(alerts, callback),
-				error => console.error(error)
-			);
+			.then(alerts => onAlertsSuccess(alerts, callback), console.error);
 	};
 
 	const onAlertsSuccess = (alerts, callback) => {
