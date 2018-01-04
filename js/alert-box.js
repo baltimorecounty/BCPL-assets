@@ -10,8 +10,14 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 	const alertBoxDismissButtonClicked = (event) => {
 		const $container = event.data.$container;
 
-		$container.addClass('dismissed');
-		sessionStorage.setItem('isAlertDismissed', true);
+		$container
+			.addClass('dismissed')
+			.closest('.emergency')
+			.removeClass('emergency');
+
+		if (sessionStorage) {
+			sessionStorage.setItem('isAlertDismissed', true);
+		}
 	};
 
 	const renderAlertBox = (alertData) => {

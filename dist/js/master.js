@@ -198,7 +198,8 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 	var alertBoxDismissButtonClicked = function alertBoxDismissButtonClicked(event) {
 		var $container = event.data.$container;
 
-		$container.addClass('dismissed');
+		$container.addClass('dismissed').closest('.emergency').removeClass('emergency');
+
 		sessionStorage.setItem('isAlertDismissed', true);
 	};
 
