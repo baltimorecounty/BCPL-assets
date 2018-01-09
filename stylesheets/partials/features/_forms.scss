@@ -9,13 +9,13 @@ form {
 		padding: 1em;
 
 		&.bg-success {
-			border-top: 5px solid #93d493;
-			background: #eaf6e9;
+			border-top: 5px solid $form-response-success-border;
+			background: $form-response-success-background;
 		}
 
 		&.bg-danger {
-			border-top: 5px solid #cf989b;
-			background: #f9e6e7;
+			border-top: 5px solid $form-response-warning-border;
+			background: $form-response-warning-background;
 		}
 
 		.text-center {
