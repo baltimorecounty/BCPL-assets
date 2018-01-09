@@ -154,7 +154,8 @@ bcpl.utility.windowShade = function ($) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'http://ba224964:3100',
+	baseApiUrl: 'https://testservices.bcpl.info',
+	// baseApiUrl: 'http://ba224964:3100',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
@@ -200,7 +201,9 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 
 		$container.addClass('dismissed').closest('.emergency').removeClass('emergency');
 
-		sessionStorage.setItem('isAlertDismissed', true);
+		if (sessionStorage) {
+			sessionStorage.setItem('isAlertDismissed', true);
+		}
 	};
 
 	var renderAlertBox = function renderAlertBox(alertData) {
