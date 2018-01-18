@@ -1,7 +1,7 @@
 .alert-wrapper {
 	background-color: $gold;
 	color: black;
-	font-weight: 700;
+	font-weight: 600;
 	font-size: .8em;
 	padding: 0;
 	position: relative;
@@ -42,10 +42,12 @@
 		button, a {
 			color: black;
 			display: inline-block;
-			font-weight: 700;
+			font-weight: 600;
 			line-height: 1.5em;
 			margin-top: 4px;
 			padding: .25em 1em;
+			font-size: .9em;
+			text-transform: uppercase;
 
 			i {
 				margin-left: .5em;
