@@ -12,6 +12,7 @@
 	    crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js" integrity="sha256-+JMHsXRyeTsws/tzbIh5YHQxRdKCuNjmvNcTFtY6DLc=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/sebin/b/m/master.min.js"></script>
 </head>
@@ -309,24 +310,31 @@
 					</div>
 				</div>
 			</div>
-			<div class="alert-wrapper">
-				<div class="container alert-container" style="display: none;">
-					<div class="row">
-						<div class="col-md-12">
-							<p>
-								<span class="message">
-									<i class="fa fa-exclamation-circle fa-2x"></i>The Randallstown Branch is currently closed for renovations.</span>
-								<a class="view-all-alerts" href="#">View all alerts
-									<i class="fa fa-caret-right" aria-hidden="true"></i>
-								</a>
-								<button class="pull-right" id="alert-box-dismiss">Dismiss
-									<i class="fa fa-times"></i>
-								</button>
-							</p>
+			<script id="alerts-template" type="text/x-handlebars-template">
+				<div class="alert-wrapper {{alertData.EmergencyClass}}">
+					<div class="container alert-container" style="display: none;">
+						<div class="row">
+							<div class="col-md-12">
+								<p>																										
+									<span class="message">
+										<i class="fa fa-exclamation-circle fa-2x"></i>{{alertData.Description}}
+									</span>																											
+									<span class="controls pull-right">
+										<a class="view-all-alerts" href="/alerts.html">
+											<i class="fa fa-list" aria-hidden="true"></i>View All Alerts
+										</a>										
+										<span>|</span>
+										<button id="alert-box-dismiss">
+											<i class="fa fa-times-rectangle"></i>Dismiss	
+										</button>
+									</span>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</script>
+			<div id="alerts-target"></div>
 		</header>
 		<div class="container">
 			<header class="row">
