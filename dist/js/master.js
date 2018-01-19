@@ -188,6 +188,39 @@ bcpl.constants = {
 
 namespacer('bcpl');
 
+bcpl.accordion = function ($) {
+	var accordionSelector = '.content-accordion';
+	var accordionIcorSelector = 'h4 a i';
+	var collapsableSelector = '.content-accordion-body';
+	var panelSelector = '.content-accordion .panel';
+
+	var onCollapsableShown = function onCollapsableShown(collapseEvent) {
+		var $collapseButton = $(collapseEvent.currentTarget);
+
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-plus').addClass('fa-minus');
+	};
+
+	var onCollapsableHidden = function onCollapsableHidden(collapseEvent) {
+		var $collapseButton = $(collapseEvent.currentTarget);
+
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-minus').addClass('fa-plus');
+	};
+
+	var init = function init() {
+		$(document).on('show.bs.collapse', collapsableSelector, onCollapsableShown);
+		$(document).on('hide.bs.collapse', collapsableSelector, onCollapsableHidden);
+	};
+
+	return { init: init };
+}(jQuery);
+
+$(function () {
+	bcpl.accordion.init();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 	var alertBoxDismissButtonSelector = '#alert-box-dismiss';
 	var alertBoxContainerSelector = '.alert-container';
