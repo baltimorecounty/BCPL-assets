@@ -2,7 +2,7 @@ namespacer('bcpl');
 
 bcpl.constants = {
 	baseApiUrl: 'https://testservices.bcpl.info',
-	// baseApiUrl: 'http://ba224964:3100',
+	// baseApiUrl: 'http://oit226696:3100',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
