@@ -12,7 +12,7 @@
 		color: white;
 
 		p {
-			& > span.message i {
+			& > .message i {
 				color: white;
 			}
 
@@ -32,7 +32,7 @@
 		margin: 0;
 		margin-top: -4px;
 
-		& > span.message i {
+		& > .message i {
 			position: relative;
 			margin-right: .5em;
 			color: $tan-light;

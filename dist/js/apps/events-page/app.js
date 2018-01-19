@@ -72,6 +72,7 @@
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
 			var eventItemStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+
 			return eventItemStartDateLocaleString === eventDate;
 		};
 
