@@ -4,6 +4,7 @@
 	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
 			const eventItemStartDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
+
 			return eventItemStartDateLocaleString === eventDate;
 		};
 

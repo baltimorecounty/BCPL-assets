@@ -33,7 +33,6 @@ namespacer('bcpl.utility');
 bcpl.utility.flexDetect = function (document, $) {
 	var init = function init(testDoc) {
 		var actualDoc = testDoc || document;
-
 		var hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {
@@ -155,7 +154,7 @@ namespacer('bcpl');
 
 bcpl.constants = {
 	baseApiUrl: 'https://testservices.bcpl.info',
-	// baseApiUrl: 'http://ba224964:3100',
+	// baseApiUrl: 'http://oit226696:3100',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
