@@ -15,6 +15,7 @@ You will need to do these steps the first time you setup the project.
 1. Install [Node](https://nodejs.org/download/)
 1. Install [Python 2.7.x](https://www.python.org/)
 1. Install [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
+1. Install [C++ build tools](https://www.npmjs.com/package/windows-build-tools) (Must be installed as admin)
 1. Open terminal or command prompt to the root of your local repository
 1. Run `npm install` to install all local dependencies
 
