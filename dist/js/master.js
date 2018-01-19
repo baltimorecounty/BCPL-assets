@@ -33,7 +33,6 @@ namespacer('bcpl.utility');
 bcpl.utility.flexDetect = function (document, $) {
 	var init = function init(testDoc) {
 		var actualDoc = testDoc || document;
-
 		var hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {

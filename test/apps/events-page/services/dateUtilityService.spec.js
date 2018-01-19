@@ -10,13 +10,13 @@ describe('dateUtilityService', () => {
 
 	describe('get12HourValue', () => {
 		it('should return 12 when given 0', () => {
-			const actual = dateUtilityService.get12HourValue(moment('2017-11-01T0:00'));
+			const actual = dateUtilityService.get12HourValue(moment('2017-11-01T00:00'));
 
 			expect(actual).toEqual(12);
 		});
 
 		it('should return the hour when given an hour less than or equal to 12', () => {
-			const actual = dateUtilityService.get12HourValue(moment('2017-11-01T9:00'));
+			const actual = dateUtilityService.get12HourValue(moment('2017-11-01T09:00'));
 
 			expect(actual).toEqual(9);
 		});
@@ -30,13 +30,13 @@ describe('dateUtilityService', () => {
 
 	describe('getAmPm', () => {
 		it('should return "a.m." when given 0', () => {
-			const actual = dateUtilityService.getAmPm(moment('2017-11-01T0:00'));
+			const actual = dateUtilityService.getAmPm(moment('2017-11-01T00:00'));
 
 			expect(actual).toEqual('a.m.');
 		});
 
 		it('should return "a.m." when given an hour below 12', () => {
-			const actual = dateUtilityService.getAmPm(moment('2017-11-01T9:00'));
+			const actual = dateUtilityService.getAmPm(moment('2017-11-01T09:00'));
 
 			expect(actual).toEqual('a.m.');
 		});

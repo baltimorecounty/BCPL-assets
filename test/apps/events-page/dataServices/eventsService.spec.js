@@ -10,7 +10,7 @@ describe('eventsService', () => {
 
 	describe('isEventOnDate', () => {
 		let mockEvent = {
-			EventStart: '2017-11-01T9:00:00'
+			EventStart: '2017-11-01T09:00:00'
 		};
 
 		it('should return true when the date of an event matches the supplied date', () => {
@@ -40,17 +40,17 @@ describe('eventsService', () => {
 
 	describe('dateSplitter', () => {
 		const mockEvents = [{
-			EventStart: '2017-11-01T9:00:00'
+			EventStart: '2017-11-01T09:00:00'
 		}, {
-			EventStart: '2017-11-01T9:00:00'
+			EventStart: '2017-11-01T09:00:00'
 		}, {
-			EventStart: '2017-11-02T9:00:00'
+			EventStart: '2017-11-02T09:00:00'
 		}, {
-			EventStart: '2017-11-02T9:00:00'
+			EventStart: '2017-11-02T09:00:00'
 		}, {
-			EventStart: '2017-11-03T9:00:00'
+			EventStart: '2017-11-03T09:00:00'
 		}, {
-			EventStart: '2017-11-03T9:00:00'
+			EventStart: '2017-11-03T09:00:00'
 		}];
 
 		it('should break events over 3 days into an array with 3 values', () => {
