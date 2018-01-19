@@ -14,11 +14,11 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine-jquery', 'jasmine'],
 	
-	browserNoActivityTimeout: 60000,
+	browserNoActivityTimeout: 10000,
 
     // list of files / patterns to load in the browser
     files: [
-		'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js',
+		'node_modules/jquery/dist/jquery.min.js',
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
 		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
 		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
@@ -28,9 +28,9 @@ module.exports = function(config) {
 		'node_modules/angular-route/angular-route.min.js',
 		'node_modules/angular-mocks/angular-mocks.js',
 		'node_modules/angular-sanitize/angular-sanitize.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',	
-		'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js',	
+		'node_modules/handlebars/dist/handlebars.min.js',
+		'node_modules/underscore/underscore-min.js',	
+		'node_modules/moment/min/moment.min.js',	
 		'js/vendor/slick/slick.min.js',
 		{ pattern: 'dist/images/**/*.png', included: false, served: true, watched: false },
 		{ pattern: 'data/**/*.json', included: false, served: true, watched: false },
@@ -52,7 +52,7 @@ module.exports = function(config) {
 		'karma-mocha-reporter',
 		'karma-jasmine',
 		'karma-jasmine-jquery-2',
-		'karma-chrome-launcher',
+		'karma-firefox-launcher',
 		'karma-coverage',
 		'karma-coveralls'
 	],
@@ -96,7 +96,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['Firefox'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
