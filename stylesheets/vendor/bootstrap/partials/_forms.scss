@@ -8,9 +8,9 @@
 // Restyle and baseline non-control form elements.
 
 fieldset {
+	border: none;
   padding: 0 20px;
   margin: 30px auto;
-  border: 1px solid $input-border;
   border-radius: $input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
   // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
   // so we reset that to ensure it behaves more like a standard block element.
@@ -31,7 +31,7 @@ label {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 
@@ -633,4 +633,16 @@ input[type="checkbox"] {
 		visibility: visible;
 		content: '\f005';
 	}
+}
+
+.seLabelCell {
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.seSelect {
+	width: auto;
+}
+.seText label {
+	font-weight: 700;
 }
