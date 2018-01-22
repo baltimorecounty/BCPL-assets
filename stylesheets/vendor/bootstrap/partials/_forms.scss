@@ -8,9 +8,10 @@
 // Restyle and baseline non-control form elements.
 
 fieldset {
-  padding: 0;
-  margin: 0;
-  border: 0;
+  padding: 0 20px;
+  margin: 30px auto;
+  border: 1px solid $input-border;
+  border-radius: $input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
   // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
   // so we reset that to ensure it behaves more like a standard block element.
   // See https://github.com/twbs/bootstrap/issues/12359.
@@ -19,14 +20,11 @@ fieldset {
 
 legend {
   display: block;
-  width: 100%;
   padding: 0;
-  margin-bottom: $line-height-computed;
   font-size: ($font-size-base * 1.5);
   line-height: inherit;
   color: $legend-color;
   border: 0;
-  border-bottom: 1px solid $legend-border-color;
 }
 
 label {
@@ -111,7 +109,10 @@ output {
 // input[type="tel"]
 // input[type="color"]
 
-.form-control {
+.form-control,
+.seInput,
+.seTextarea,
+.seSelect {
   display: block;
   width: 100%;
   height: $input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
@@ -159,7 +160,8 @@ output {
 }
 
 // Reset height for `textarea`s
-textarea.form-control {
+textarea.form-control,
+textarea.seTextarea {
   height: auto;
 }
 
@@ -337,7 +339,8 @@ input[type="checkbox"] {
     line-height: $line-height-small;
     border-radius: $input-border-radius-small;
   }
-  select.form-control {
+  select.form-control,
+  .seSelect  {
     height: $input-height-small;
     line-height: $input-height-small;
   }
@@ -363,7 +366,8 @@ input[type="checkbox"] {
     line-height: $line-height-large;
     border-radius: $input-border-radius-large;
   }
-  select.form-control {
+  select.form-control,
+  .seSelect {
     height: $input-height-large;
     line-height: $input-height-large;
   }
@@ -614,4 +618,19 @@ input[type="checkbox"] {
       }
     }
   }
+}
+
+.SEAFWrapper {
+	margin: 15px auto;
+}
+
+.seRequiredMarker {
+	color: red;
+	visibility: hidden;
+
+	&:after {
+		font-family: FontAwesome;
+		visibility: visible;
+		content: '\f005';
+	}
 }
