@@ -1,0 +1,37 @@
+.content-accordion {
+    margin-bottom: 30px;
+    border: 1px solid $gray-light;
+
+    .panel {
+        &:last-child {
+            h4 {
+                margin-bottom: 0;
+            }
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 1px;
+
+            a {
+                padding: .5em;
+                display: block;      
+                    
+                &.collapsed {
+                    background: $gray-lightest;  
+                }
+
+                i {
+                    position: relative;
+                    top: 8px;
+                }
+            }            
+        }
+
+        .content-accordion-body {
+            .wrapper {
+                padding: 2em;
+            }
+        }
+    }
+}
