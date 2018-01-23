@@ -881,12 +881,12 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.siteSearch = function ($) {
-	var siteSearchBtnSelector = '.search-button';
+	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
-	var siteSearchClearIcon = '.site-search-input-container .fa-times';
-	var siteSearchSearchIcon = '.site-search-input-container .fa-search';
+	var siteSearchClearIconSelector = '.site-search-input-container .fa-times';
+	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
 
-	var onSearchBtnClick = function onSearchBtnClick(clickEvent) {
+	var onSearchTabClick = function onSearchTabClick(clickEvent) {
 		var $searchBtn = $(clickEvent.target);
 		$searchBtn.siblings().removeClass('active').end().addClass('active');
 	};
@@ -898,12 +898,12 @@ bcpl.siteSearch = function ($) {
 	var onSearchInputKeyup = function onSearchInputKeyup(keyupEvent) {
 		var $searchInput = $(keyupEvent.target);
 		var doesSearchHaveValue = $searchInput.val();
-		var $elmToHide = $(siteSearchSearchIcon);
-		var $elmToShow = $(siteSearchClearIcon);
+		var $elmToHide = $(siteSearchSearchIconSelector);
+		var $elmToShow = $(siteSearchClearIconSelector);
 
 		if (!doesSearchHaveValue) {
-			$elmToHide = $(siteSearchClearIcon);
-			$elmToShow = $(siteSearchSearchIcon);
+			$elmToHide = $(siteSearchClearIconSelector);
+			$elmToShow = $(siteSearchSearchIconSelector);
 		}
 
 		$elmToHide.hide();
@@ -911,13 +911,16 @@ bcpl.siteSearch = function ($) {
 	};
 
 	var init = function init() {
-		$(document).on('click', siteSearchBtnSelector, onSearchBtnClick);
-		$(document).on('click', siteSearchClearIcon, onSearchClearBtnClick);
+		$(document).on('click', siteSearchTabSelector, onSearchTabClick);
+		$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
 		$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
 	};
 
 	return {
-		init: init
+		init: init,
+		onSearchTabClick: onSearchTabClick,
+		onSearchClearBtnClick: onSearchClearBtnClick,
+		onSearchInputKeyup: onSearchInputKeyup
 	};
 }(jQuery);
 
