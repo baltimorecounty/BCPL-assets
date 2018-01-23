@@ -1,12 +1,12 @@
 namespacer('bcpl');
 
 bcpl.siteSearch = (($) => {
-	const siteSearchBtnSelector = '.search-button';
+	const siteSearchTabSelector = '.search-button';
 	const siteSearchInputSelector = '#site-search-input';
-	const siteSearchClearIcon = '.site-search-input-container .fa-times';
-	const siteSearchSearchIcon = '.site-search-input-container .fa-search';
+	const siteSearchClearIconSelector = '.site-search-input-container .fa-times';
+	const siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
 
-	const onSearchBtnClick = (clickEvent) => {
+	const onSearchTabClick = (clickEvent) => {
 		const $searchBtn = $(clickEvent.target);
 		$searchBtn
 			.siblings().removeClass('active').end()
@@ -23,12 +23,12 @@ bcpl.siteSearch = (($) => {
 	const onSearchInputKeyup = (keyupEvent) => {
 		const $searchInput = $(keyupEvent.target);
 		const doesSearchHaveValue = $searchInput.val();
-		let $elmToHide = $(siteSearchSearchIcon);
-		let $elmToShow = $(siteSearchClearIcon);
+		let $elmToHide = $(siteSearchSearchIconSelector);
+		let $elmToShow = $(siteSearchClearIconSelector);
 
 		if (!doesSearchHaveValue) {
-			$elmToHide = $(siteSearchClearIcon);
-			$elmToShow = $(siteSearchSearchIcon);
+			$elmToHide = $(siteSearchClearIconSelector);
+			$elmToShow = $(siteSearchSearchIconSelector);
 		}
 
 		$elmToHide.hide();
@@ -36,8 +36,8 @@ bcpl.siteSearch = (($) => {
 	};
 
 	const init = () => {
-		$(document).on('click', siteSearchBtnSelector, onSearchBtnClick);
-		$(document).on('click', siteSearchClearIcon, onSearchClearBtnClick);
+		$(document).on('click', siteSearchTabSelector, onSearchTabClick);
+		$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
 		$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
 	};
 
