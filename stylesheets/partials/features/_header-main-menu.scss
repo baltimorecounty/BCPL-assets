@@ -210,24 +210,27 @@
 		z-index: 1;
 		
 		input {
-			flex-grow: 1;
 			font-size: 1.2em;
 			font-weight: bold;
 			padding: .25em 2em .25em .5em;
 			border: none;
 			height: 35px;
+			width: 100%;
 		}
 		.search-button {
-			background: $teal;
+			background: transparent;
 			color: white;
-			display: block;
-			float: left;
+			display: inline-block;
 			font-size: 14px;
 			font-family: 'TTRoundsCondensed-Bold';
 			height: 35px;			
-			margin-left: 2px;
+			margin-right: 5px;
 			padding: .5em .75em;
 			text-transform: uppercase;
+
+			&.active {
+				background: $teal;
+			}
 
 			&:hover {
 				background: $teal-light;
@@ -239,9 +242,19 @@
 			}
 
 		}
+		.site-search-input-container {
+			position: relative;
+
+			i {
+				position: absolute;
+				right: 13px;
+				top: 6.5px;
+				font-size: 1.25em;
+				color: $gray-light;
+			}
+		}
 		&.active {
 			display: block;
-			display: flex;
 		}
 	}
 }
