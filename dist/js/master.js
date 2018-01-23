@@ -882,17 +882,38 @@ namespacer('bcpl');
 
 bcpl.siteSearch = function ($) {
 	var siteSearchBtnSelector = '.search-button';
-	var bodyHtmlSelector = 'body, html';
-	var scrollSpeed = 250;
-	var topScrollPosition = 0;
+	var siteSearchInputSelector = '#site-search-input';
+	var siteSearchClearIcon = '.site-search-input-container .fa-times';
+	var siteSearchSearchIcon = '.site-search-input-container .fa-search';
 
-	var handleSearchBtnClick = function handleSearchBtnClick(clickEvent) {
+	var onSearchBtnClick = function onSearchBtnClick(clickEvent) {
 		var $searchBtn = $(clickEvent.target);
 		$searchBtn.siblings().removeClass('active').end().addClass('active');
 	};
 
+	var onSearchClearBtnClick = function onSearchClearBtnClick() {
+		$(siteSearchInputSelector).val('').trigger('keyup').focus();
+	};
+
+	var onSearchInputKeyup = function onSearchInputKeyup(keyupEvent) {
+		var $searchInput = $(keyupEvent.target);
+		var doesSearchHaveValue = $searchInput.val();
+		var $elmToHide = $(siteSearchSearchIcon);
+		var $elmToShow = $(siteSearchClearIcon);
+
+		if (!doesSearchHaveValue) {
+			$elmToHide = $(siteSearchClearIcon);
+			$elmToShow = $(siteSearchSearchIcon);
+		}
+
+		$elmToHide.hide();
+		$elmToShow.show();
+	};
+
 	var init = function init() {
-		$(document).on('click', siteSearchBtnSelector, handleSearchBtnClick);
+		$(document).on('click', siteSearchBtnSelector, onSearchBtnClick);
+		$(document).on('click', siteSearchClearIcon, onSearchClearBtnClick);
+		$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
 	};
 
 	return {
