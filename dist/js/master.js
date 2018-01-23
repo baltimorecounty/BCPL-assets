@@ -880,6 +880,33 @@ $(function () {
 
 namespacer('bcpl');
 
+bcpl.siteSearch = function ($) {
+	var siteSearchBtnSelector = '.search-button';
+	var bodyHtmlSelector = 'body, html';
+	var scrollSpeed = 250;
+	var topScrollPosition = 0;
+
+	var handleSearchBtnClick = function handleSearchBtnClick(clickEvent) {
+		var $searchBtn = $(clickEvent.target);
+		$searchBtn.siblings().removeClass('active').end().addClass('active');
+	};
+
+	var init = function init() {
+		$(document).on('click', siteSearchBtnSelector, handleSearchBtnClick);
+	};
+
+	return {
+		init: init
+	};
+}(jQuery);
+
+$(function () {
+	return bcpl.siteSearch.init();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
