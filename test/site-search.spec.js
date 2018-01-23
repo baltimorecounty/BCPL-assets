@@ -3,8 +3,6 @@
 jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
 
 describe('Site Search', () => {
-	const siteSearch = bcpl.siteSearch;
-
 	beforeEach((done) => {
 		loadFixtures('site-search.fixture.html');
 		$('#activate-search-button').trigger('click');
