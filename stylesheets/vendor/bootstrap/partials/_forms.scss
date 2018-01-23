@@ -619,34 +619,3 @@ input[type="checkbox"] {
     }
   }
 }
-
-.SEAFWrapper {
-	margin: 15px auto;
-}
-
-.seRequiredMarker {
-	color: red;
-	visibility: hidden;
-
-	&:after {
-		font-family: FontAwesome;
-		visibility: visible;
-		content: '\f005';
-	}
-}
-
-.seLabelCell {
-	font-weight: 700;
-	margin-bottom: 5px;
-}
-
-.seSelect {
-	width: auto;
-}
-.seText label {
-	font-weight: 700;
-}
-.seCheckboxLabel,
-.seRadioLabel {
-	color: rgb(0, 188, 180);
-}
