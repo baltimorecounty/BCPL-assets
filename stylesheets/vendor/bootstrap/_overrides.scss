@@ -1,0 +1,46 @@
+/* Site Executive Specific Css */
+.SEAFWrapper {
+	margin: 15px auto;
+}
+
+.seRequiredMarker {
+	color: red;
+	visibility: hidden;
+
+	&:after {
+		font-family: FontAwesome;
+		visibility: visible;
+		content: '\f005';
+	}
+}
+
+.seLabelCell {
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.seSelect {
+	width: auto;
+}
+.seText label {
+	font-weight: 700;
+}
+.seCheckboxLabel,
+.seRadioLabel {
+	color: rgb(0, 161, 155);
+	cursor: pointer;
+}
+
+.seButton {
+	padding: .25em 1em !important;
+}
+
+
+.buttonPrimary,
+.seButton.buttonPrimary {
+	@extend .btn;
+	@extend .btn-primary;
+	@extend .btn-uppercase-bold;
+	border: none;
+	margin-bottom: 0 !important;
+}
