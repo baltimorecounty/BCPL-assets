@@ -51,8 +51,7 @@ $divider-color: blue;
 				display: inline-block;
 
 				font-size: 1.5em;
-				font-weight: 900;
-				font-family: Arial, sans-serif;
+				font-weight: 600;
 
 				padding: 14px 21px;
 				margin-right: 30px;
@@ -90,6 +89,12 @@ $divider-color: blue;
 }
 
 @media screen and (max-width: 600px) {
+	.step-list-container .step-list {
+		padding: 0;
+	}
+	.step-list-container .step-list li {
+		align-items: end;
+	}
 	.step-list-bcpl .step-list-divider {
 		top: 103px;
 	}
