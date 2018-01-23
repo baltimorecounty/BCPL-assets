@@ -251,6 +251,11 @@
 				top: 6.5px;
 				font-size: 1.25em;
 				color: $gray-light;
+
+				&.fa-times {
+					color: $gray-dark;
+					cursor: pointer;
+				}
 			}
 		}
 		&.active {
