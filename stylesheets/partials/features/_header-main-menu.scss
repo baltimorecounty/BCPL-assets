@@ -29,6 +29,11 @@
 		font-size: 1.5em;
 	}
 	.nav-and-search {
+		
+		button:focus {
+			outline-color: transparent;	
+		}
+
 		#responsive-sliding-navigation {
 			z-index: 100
 		}
@@ -96,7 +101,7 @@
 				float: right;
 				margin-right: 7em;
 
-				li {		
+				li {
 					&:hover,
 					&.active {
 						background: $teal-dark;
