@@ -52,6 +52,18 @@ bcpl.navigationSearch = (($) => {
 		}
 	};
 
+	const onDocumentClick = (clickEvent) => {
+		const $target = $(clickEvent.target);
+		const isTargetSearchButtonContainer = $target.closest('.search-button-container').length;
+		const isTargetSearchButton = $target.closest(searchBoxSelector).length;
+
+		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
+			if ($(searchBoxSelector).is(':visible')) {
+				$(searchButtonActivatorSelector).trigger('click');
+			}
+		}
+	};
+
 	/**
 	 * Click event handler for the search activator button.
 	 */
@@ -168,6 +180,8 @@ bcpl.navigationSearch = (($) => {
 			$menu,
 			$modalCover
 		}, modalDismissActionHandler);
+
+		$(document).on('click', onDocumentClick);
 
 		$(window).on('resize', {
 			$menu,
