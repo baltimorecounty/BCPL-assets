@@ -1243,6 +1243,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
+<<<<<<< HEAD
 SF:C:\Users\jepowell\Desktop\active-projects\BCPL-assets\js\accordion.js
 FNF:0
 FNH:0
@@ -1270,6 +1271,8 @@ BRF:0
 BRH:0
 end_of_record
 TN:
+=======
+>>>>>>> integration
 SF:C:\Users\jepowell\Desktop\active-projects\BCPL-assets\js\alert-box.js
 FNF:0
 FNH:0
@@ -1784,6 +1787,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
+<<<<<<< HEAD
 SF:C:\Users\jepowell\Desktop\active-projects\BCPL-assets\js\site-search.js
 FNF:0
 FNH:0
@@ -1822,6 +1826,8 @@ BRF:2
 BRH:1
 end_of_record
 TN:
+=======
+>>>>>>> integration
 SF:C:\Users\jepowell\Desktop\active-projects\BCPL-assets\js\tabs.js
 FNF:0
 FNH:0

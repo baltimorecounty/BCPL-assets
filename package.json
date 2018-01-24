@@ -4,8 +4,8 @@
   "description": "Web feature assets for BCPL",
   "main": "index.js",
   "dependencies": {
-    "flatpickr": "^3.0.7",
-    "estraverse": "^4.2.0"
+    "estraverse": "^4.2.0",
+    "flatpickr": "^3.0.7"
   },
   "devDependencies": {
     "angular": "^1.6.6",
