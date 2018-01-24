@@ -205,8 +205,8 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
