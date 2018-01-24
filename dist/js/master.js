@@ -532,13 +532,15 @@ bcpl.navigationSearch = function ($) {
 
 		hideHeroCallout(isSearchBoxHidden);
 
-		var $targetSearchElements = $searchButtonActivator.add($navAndSearchContainerSelector).add($searchBox);
+		var $targetSearchElements = $searchButtonActivator.add($searchBox);
 
 		if (isSearchBoxHidden) {
 			$targetSearchElements.addClass('active');
+			$navAndSearchContainerSelector.addClass('search-is-active');
 			$hamburgerButton.removeClass('active');
 		} else {
 			$targetSearchElements.removeClass('active');
+			$navAndSearchContainerSelector.removeClass('search-is-active');
 			$hamburgerButton.addClass('active');
 		}
 	};
@@ -844,8 +846,8 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
