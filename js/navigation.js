@@ -1,7 +1,7 @@
 namespacer('bcpl');
 
 bcpl.navigation = (($, keyCodes) => {
-	const navButtonSelector = '#responsive-sliding-navigation button';
+	const navButtonSelector = '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button';
 	const closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
 	const searchArtifactsSelector = '#activate-search-button, #search-box';
 	const heroCalloutContainerSelector = '.hero-callout-container';
@@ -191,7 +191,9 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
-	const navigationMouseover = () => {
+	const navigationMouseover = (mouseOverEvent) => {
+		const $navItem = $(mouseOverEvent.target);
+		$navItem.closest('li').siblings().removeClass('active');
 		hideHeroCallout(true);
 		hideSearchBox();
 	};
