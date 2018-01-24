@@ -201,10 +201,14 @@
 	.nav-and-search.search-is-active {
 		nav {
 			ul {
-				li {		
+				* {
+					cursor: default;		
+				}
+				li {
 					&:hover,
 					&.active {
 						background: transparent;
+
 						.overview {
 							display: none;
 						}
