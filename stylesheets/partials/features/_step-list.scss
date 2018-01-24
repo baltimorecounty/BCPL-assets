@@ -25,7 +25,7 @@ $divider-color: blue;
 
 		li {
 			display: flex;
-			align-items: center;
+			align-items: end;
 			margin-bottom: 45px;
 			position: relative;
 			z-index: 9;
@@ -91,9 +91,6 @@ $divider-color: blue;
 @media screen and (max-width: 600px) {
 	.step-list-container .step-list {
 		padding: 0;
-	}
-	.step-list-container .step-list li {
-		align-items: end;
 	}
 	.step-list-bcpl .step-list-divider {
 		top: 103px;
