@@ -520,6 +520,18 @@ bcpl.navigationSearch = function ($) {
 		}
 	};
 
+	var onDocumentClick = function onDocumentClick(clickEvent) {
+		var $target = $(clickEvent.target);
+		var isTargetSearchButtonContainer = $target.closest('.search-button-container').length;
+		var isTargetSearchButton = $target.closest(searchBoxSelector).length;
+
+		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
+			if ($(searchBoxSelector).is(':visible')) {
+				$(searchButtonActivatorSelector).trigger('click');
+			}
+		}
+	};
+
 	/**
   * Click event handler for the search activator button.
   */
@@ -632,6 +644,8 @@ bcpl.navigationSearch = function ($) {
 			$menu: $menu,
 			$modalCover: $modalCover
 		}, modalDismissActionHandler);
+
+		$(document).on('click', onDocumentClick);
 
 		$(window).on('resize', {
 			$menu: $menu,
