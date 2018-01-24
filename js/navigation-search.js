@@ -65,14 +65,15 @@ bcpl.navigationSearch = (($) => {
 		hideHeroCallout(isSearchBoxHidden);
 
 		const $targetSearchElements = $searchButtonActivator
-			.add($navAndSearchContainerSelector)
 			.add($searchBox);
 
 		if (isSearchBoxHidden) {
 			$targetSearchElements.addClass('active');
+			$navAndSearchContainerSelector.addClass('search-is-active');
 			$hamburgerButton.removeClass('active');
 		} else {
 			$targetSearchElements.removeClass('active');
+			$navAndSearchContainerSelector.removeClass('search-is-active');
 			$hamburgerButton.addClass('active');
 		}
 	};
