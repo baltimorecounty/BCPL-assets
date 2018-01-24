@@ -198,6 +198,41 @@
 			}
 		}
 	}
+	.nav-and-search.active {
+		nav {
+			ul {
+				li {		
+					&:hover,
+					&.active {
+						background: transparent;
+						.overview {
+							display: none;
+						}
+						ul {
+							display: none;
+						}
+						a,
+						button {
+							i.fa-caret-right::before {
+								content: "\f0da";
+							}
+						}
+						.wide {
+							.overview {
+								display: none;
+							}
+							ul {
+								display: none;
+							}
+						}
+						.submenu-wrapper {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
 	#search-box {
 		background-color: rgba(0, 0, 0, .5);
 		color: $gray-dark;
