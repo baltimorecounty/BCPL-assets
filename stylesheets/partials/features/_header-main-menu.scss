@@ -206,9 +206,6 @@
 	.nav-and-search.search-is-active {
 		nav {
 			ul {
-				* {
-					cursor: default;		
-				}
 				li {
 					&:hover,
 					&.active {
