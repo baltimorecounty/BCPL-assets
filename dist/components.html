@@ -7,12 +7,11 @@
 	<link rel="shortcut icon" type="image/x-icon" href="/sebin/b/q/favicon.ico" />
 	<link href="/sebin/h/f/master.min.css" rel="stylesheet" type="text/css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-	    crossorigin="anonymous">
+	 crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	    crossorigin="anonymous"></script>
+	 crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	    crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js" integrity="sha256-+JMHsXRyeTsws/tzbIh5YHQxRdKCuNjmvNcTFtY6DLc=" crossorigin="anonymous"></script>
+	 crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="/sebin/b/m/master.min.js"></script>
 </head>
@@ -310,30 +309,24 @@
 					</div>
 				</div>
 			</div>
-			<script id="alerts-template" type="text/x-handlebars-template">
-				<div class="alert-wrapper {{alertData.EmergencyClass}}">
-					<div class="container alert-container" style="display: none;">
-						<div class="row">
-							<div class="col-md-12">
-								<p>																										
-									<span class="message">
-										<i class="fa fa-exclamation-circle fa-2x"></i>{{alertData.Description}}
-									</span>																											
-									<span class="controls pull-right">
-										<a class="view-all-alerts" href="/alerts.html">
-											<i class="fa fa-list fa-lg" aria-hidden="true"></i>View All Alerts
-										</a>										
-										<button id="alert-box-dismiss">
-											<i class="fa fa-times-rectangle fa-lg"></i>Dismiss	
-										</button>
-									</span>
-								</p>
-							</div>
+			<div class="alert-wrapper">
+				<div class="container alert-container" style="display: none;">
+					<div class="row">
+						<div class="col-md-12">
+							<p>
+								<span class="message">
+									<i class="fa fa-exclamation-circle fa-2x"></i>The Randallstown Branch is currently closed for renovations.</span>
+								<a class="view-all-alerts" href="#">View all alerts
+									<i class="fa fa-caret-right" aria-hidden="true"></i>
+								</a>
+								<button class="pull-right" id="alert-box-dismiss">Dismiss
+									<i class="fa fa-times"></i>
+								</button>
+							</p>
 						</div>
 					</div>
 				</div>
-			</script>
-			<div id="alerts-target"></div>
+			</div>
 		</header>
 		<div class="container">
 			<header class="row">
@@ -344,11 +337,18 @@
 								<div class="row flex">
 									<div class="col-sm-8">
 										<div class="breadcrumbs-wrapper">
-											<span class="">
-												<span class="breadcrumb breadcrumb-first">Home</span>&nbsp; &nbsp;
-												<a class="breadcrumb breadcrumb-last" href="http://staging.bcpl.info/sample/index.html">Sample</a>
-											</span>
-											<span>&nbsp;</span>
+											<nav>
+												<ul>
+													<li>
+														<a href="/">
+															<i class="fa fa-home"></i>
+														</a>
+													</li>
+													<li>
+														<a href="#">Books and More</a>
+													</li>
+												</ul>
+											</nav>
 										</div>
 									</div>
 									<div class="col-sm-4 actions flex flex-align-end-end">
@@ -369,201 +369,99 @@
 						<nav>
 							<ul>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#" class="active">Catalog</a>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Databases</a>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">eBooks and Audiobooks</a>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Downloadable Magazines Item</a>
 								</li>
 								<li>
-									<a href="#" class="active">Navigation Item</a>
+									<a href="#">Movies</a>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Technology for Loan</a>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Special Collections</a>
+									<ul>
+										<li>
+											<a href="#">Government Documents</a>
+										</li>
+										<li>
+											<a href="#">Kits</a>
+										</li>
+										<li>
+											<a href="#">Local History Collections</a>
+										</li>
+										<li>
+											<a href="#">World Language Collection</a>
+										</li>
+									</ul>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Recommended Reading</a>
+									<ul>
+										<li>
+											<a href="#">Book Lists</a>
+										</li>
+										<li>
+											<a href="#">Reading Challenge</a>
+										</li>
+									</ul>
 								</li>
 								<li>
-									<a href="#">Navigation Item</a>
+									<a href="#">Can't Find It?</a>
+								</li>
+								<li>
+									<a href="#">Make a Purchase Suggestion</a>
 								</li>
 							</ul>
 						</nav>
 					</div>
 				</div>
 				<div class="col-md-9">
+					<h1>Bcpl Components</h1>
 					<div class="main-content">
-						<div class="content-banner">
-							<img src="/sebin/d/r/grumpy-cat.jpg" height="150" width="100%">
-						</div>
-						<h1>Heading 1</h1>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
-						<h2>Heading 2</h2>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
-						<h3>Heading 3</h3>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
-						<blockquote>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</blockquote>
-						<p>Lorem Ipsum is simply dummy text of the
-							<a href="#">printing and typesetting</a> industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-							when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-						<ul>
-							<li>This is a list item
-								<ul>
-									<li>This is a list item</li>
-									<li>This is a list item</li>
-								</ul>
-							</li>
-							<li>This is a list item</li>
-							<li>This is a list item</li>
-							<li>This is a list item</li>
-						</ul>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
-						<table>
-							<thead>
-								<tr>
-									<th>One</th>
-									<th>Two</th>
-									<th>Three</th>
-									<th>Four</th>
-									<th>Five</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>One</td>
-									<td>Two</td>
-									<td>Three</td>
-									<td>Four</td>
-									<td>Five</td>
-								</tr>
-								<tr>
-									<td>One</td>
-									<td>Two</td>
-									<td>Three</td>
-									<td>Four</td>
-									<td>Five</td>
-								</tr>
-								<tr>
-									<td>One</td>
-									<td>Two</td>
-									<td>Three</td>
-									<td>Four</td>
-									<td>Five</td>
-								</tr>
-								<tr>
-									<td>One</td>
-									<td>Two</td>
-									<td>Three</td>
-									<td>Four</td>
-									<td>Five</td>
-								</tr>
-								<tr>
-									<td>One</td>
-									<td>Two</td>
-									<td>Three</td>
-									<td>Four</td>
-									<td>Five</td>
-								</tr>
-							</tbody>
-						</table>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
-
-
-						
-						
-						<div class="content-accordion" id="accordion" role="tablist" aria-multiselectable="true">
-							<div class="panel">
-								<h4 id="headingOne">
-									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-										Collapsible Group Item #1
-										<i class="fa fa-plus pull-right" aria-hidden="true"></i>
-									</a>
-								</h4>
-								<div id="collapseOne" class="collapse content-accordion-body" role="tabpanel" aria-labelledby="headingOne">
-									<div class="wrapper">
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-									</div>
-								</div>
+						<section class="component">
+							<h2>Step List</h2>
+							<p>Allows the content editor to clearly describe a process that includes multiple steps. The flow will work vertically and the combination of
+								numbers and down arrows will make the flow clear to the user.</p>
+							<div class="example">
+								<section class="step-list-container step-list-bcpl">
+									<div class="step-list-divider">&nbsp;</div>
+									<ol class="step-list">
+										<li>
+											<p class="step-list-text">The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness.</p>
+										</li>
+										<li>
+											<p class="step-list-text">The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness. The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness. The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness.</p>
+										</li>
+										<li>
+											<p class="step-list-text">The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness.</p>
+										</li>
+										<li>
+											<p class="step-list-text">The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness. The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness.</p>
+										</li>
+										<li>
+											<p class="step-list-text">The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history.
+												It was born from humble roots, only to rise to well-seasoned greatness.</p>
+										</li>
+									</ol>
+								</section>
 							</div>
-							<div class="panel">
-								<h4 id="headingTwo">
-									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
-										Collapsible Group Item #2
-										<i class="fa fa-plus pull-right" aria-hidden="true"></i>
-									</a>
-								</h4>
-								<div id="collapseTwo" class="collapse content-accordion-body" role="tabpanel" aria-labelledby="headingTwo">
-									<div class="wrapper">
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="panel">
-								<h4 id="headingThree">
-									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="collapsed">
-										Collapsible Group Item #3
-										<i class="fa fa-plus pull-right" aria-hidden="true"></i>
-									</a>
-								</h4>
-								<div id="collapseThree" class="collapse content-accordion-body" role="tabpanel" aria-labelledby="headingThree">
-									<div class="wrapper">
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-											dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-											book.
-										</p>
-									</div>
-								</div>	
-							</div>
-						</div>
-
-
-
-
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-							dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-							book.
-						</p>
+						</section>
 					</div>
 				</div>
 			</main>
