@@ -467,6 +467,7 @@ bcpl.filter = function ($, windowShade) {
 namespacer('bcpl');
 
 bcpl.navigationSearch = function ($) {
+	var navAndSearchContainerSelector = '.nav-and-search';
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
@@ -523,6 +524,7 @@ bcpl.navigationSearch = function ($) {
   * Click event handler for the search activator button.
   */
 	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
+		var $navAndSearchContainerSelector = event.data.$navAndSearchContainerSelector;
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $hamburgerButton = event.data.$hamburgerButton;
@@ -530,14 +532,14 @@ bcpl.navigationSearch = function ($) {
 
 		hideHeroCallout(isSearchBoxHidden);
 
+		var $targetSearchElements = $searchButtonActivator.add($navAndSearchContainerSelector).add($searchBox);
+
 		if (isSearchBoxHidden) {
-			$searchButtonActivator.addClass('active');
+			$targetSearchElements.addClass('active');
 			$hamburgerButton.removeClass('active');
-			$searchBox.addClass('active');
 		} else {
-			$searchButtonActivator.removeClass('active');
+			$targetSearchElements.removeClass('active');
 			$hamburgerButton.addClass('active');
-			$searchBox.removeClass('active');
 		}
 	};
 
@@ -592,6 +594,7 @@ bcpl.navigationSearch = function ($) {
   * Attach events and inject any event dependencies.
   */
 	var init = function init() {
+		var $navAndSearchContainerSelector = $(navAndSearchContainerSelector);
 		var $searchButtonActivator = $(searchButtonActivatorSelector);
 		var $searchBox = $(searchBoxSelector);
 		var $searchButton = $(searchButtonSelector);
@@ -601,6 +604,7 @@ bcpl.navigationSearch = function ($) {
 		var $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
+			$navAndSearchContainerSelector: $navAndSearchContainerSelector,
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
 			$hamburgerButton: $hamburgerButton
@@ -917,10 +921,7 @@ bcpl.siteSearch = function ($) {
 	};
 
 	return {
-		init: init,
-		onSearchTabClick: onSearchTabClick,
-		onSearchClearBtnClick: onSearchClearBtnClick,
-		onSearchInputKeyup: onSearchInputKeyup
+		init: init
 	};
 }(jQuery);
 
