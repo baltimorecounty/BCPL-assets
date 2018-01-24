@@ -1,6 +1,7 @@
 namespacer('bcpl');
 
 bcpl.navigationSearch = (($) => {
+	const navAndSearchContainerSelector = '.nav-and-search';
 	const searchButtonActivatorSelector = '#activate-search-button';
 	const searchBoxSelector = '#search-box';
 	const searchButtonSelector = '#search-button';
@@ -55,6 +56,7 @@ bcpl.navigationSearch = (($) => {
 	 * Click event handler for the search activator button.
 	 */
 	const searchButtonActivatorClicked = (event) => {
+		const $navAndSearchContainerSelector = event.data.$navAndSearchContainerSelector;
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $hamburgerButton = event.data.$hamburgerButton;
@@ -62,14 +64,16 @@ bcpl.navigationSearch = (($) => {
 
 		hideHeroCallout(isSearchBoxHidden);
 
+		const $targetSearchElements = $searchButtonActivator
+			.add($navAndSearchContainerSelector)
+			.add($searchBox);
+
 		if (isSearchBoxHidden) {
-			$searchButtonActivator.addClass('active');
+			$targetSearchElements.addClass('active');
 			$hamburgerButton.removeClass('active');
-			$searchBox.addClass('active');
 		} else {
-			$searchButtonActivator.removeClass('active');
+			$targetSearchElements.removeClass('active');
 			$hamburgerButton.addClass('active');
-			$searchBox.removeClass('active');
 		}
 	};
 
@@ -127,6 +131,7 @@ bcpl.navigationSearch = (($) => {
 	 * Attach events and inject any event dependencies.
 	 */
 	const init = () => {
+		const $navAndSearchContainerSelector = $(navAndSearchContainerSelector);
 		const $searchButtonActivator = $(searchButtonActivatorSelector);
 		const $searchBox = $(searchBoxSelector);
 		const $searchButton = $(searchButtonSelector);
@@ -136,6 +141,7 @@ bcpl.navigationSearch = (($) => {
 		const $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
+			$navAndSearchContainerSelector,
 			$searchBox,
 			$searchButtonActivator,
 			$hamburgerButton
