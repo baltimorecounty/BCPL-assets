@@ -656,7 +656,7 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.navigation = function ($, keyCodes) {
-	var navButtonSelector = '#responsive-sliding-navigation button';
+	var navButtonSelector = '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button';
 	var closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
 	var searchArtifactsSelector = '#activate-search-button, #search-box';
 	var heroCalloutContainerSelector = '.hero-callout-container';
@@ -832,7 +832,9 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	var navigationMouseover = function navigationMouseover() {
+	var navigationMouseover = function navigationMouseover(mouseOverEvent) {
+		var $navItem = $(mouseOverEvent.target);
+		$navItem.closest('li').siblings().removeClass('active');
 		hideHeroCallout(true);
 		hideSearchBox();
 	};
