@@ -471,6 +471,7 @@ bcpl.navigationSearch = function ($) {
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
+	var searchButtonContainerSelector = '.search-button-container';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '#responsive-sliding-navigation';
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
@@ -523,7 +524,7 @@ bcpl.navigationSearch = function ($) {
 
 	var onDocumentClick = function onDocumentClick(clickEvent) {
 		var $target = $(clickEvent.target);
-		var isTargetSearchButtonContainer = $target.closest('.search-button-container').length;
+		var isTargetSearchButtonContainer = $target.closest(searchButtonContainerSelector).length;
 		var isTargetSearchButton = $target.closest(searchBoxSelector).length;
 
 		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
