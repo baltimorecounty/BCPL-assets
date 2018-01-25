@@ -744,16 +744,18 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
-		var $button = $(event.currentTarget);
-		var wasActive = $button.closest('li').hasClass('active');
-		hideSearchBox();
-		removeActiveClassFromAllButtons();
-		if (!wasActive) {
-			activateSubmenu($button);
-		} else {
-			deactivateSubmenu($button);
+		if (window.innerWidth <= mobileWidthThreshold) {
+			var $button = $(event.currentTarget);
+			var wasActive = $button.closest('li').hasClass('active');
+			hideSearchBox();
+			removeActiveClassFromAllButtons();
+			if (!wasActive) {
+				activateSubmenu($button);
+			} else {
+				deactivateSubmenu($button);
+			}
+			hideHeroCallout(!wasActive);
 		}
-		hideHeroCallout(!wasActive);
 	};
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
