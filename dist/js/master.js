@@ -876,7 +876,7 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button', navigationMouseover);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
 	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
