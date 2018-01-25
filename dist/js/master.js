@@ -792,10 +792,16 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.downArrow:
 			case keyCodes.upArrow:
 			case keyCodes.enter:
+				var $searchArtifactsSelector = $(searchArtifactsSelector);
+
 				keyboardEvent.preventDefault();
 				removeActiveClassFromAllButtons();
 				activateSubmenu($button);
 				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
+
+				if ($searchArtifactsSelector.is(':visible')) {
+					hideSearchBox();
+				}
 				break;
 			default:
 				break;
@@ -844,6 +850,7 @@ bcpl.navigation = function ($, keyCodes) {
 				keyboardEvent.preventDefault();
 				$link[0].click();
 				removeActiveClassFromAllButtons();
+
 				break;
 			default:
 				break;
