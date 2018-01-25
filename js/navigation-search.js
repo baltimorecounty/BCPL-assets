@@ -5,6 +5,7 @@ bcpl.navigationSearch = (($) => {
 	const searchButtonActivatorSelector = '#activate-search-button';
 	const searchBoxSelector = '#search-box';
 	const searchButtonSelector = '#search-button';
+	const searchButtonContainerSelector = '.search-button-container';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '#responsive-sliding-navigation';
 	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
@@ -55,7 +56,7 @@ bcpl.navigationSearch = (($) => {
 
 	const onDocumentClick = (clickEvent) => {
 		const $target = $(clickEvent.target);
-		const isTargetSearchButtonContainer = $target.closest('.search-button-container').length;
+		const isTargetSearchButtonContainer = $target.closest(searchButtonContainerSelector).length;
 		const isTargetSearchButton = $target.closest(searchBoxSelector).length;
 
 		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
