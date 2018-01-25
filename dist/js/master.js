@@ -467,12 +467,15 @@ bcpl.filter = function ($, windowShade) {
 namespacer('bcpl');
 
 bcpl.navigationSearch = function ($) {
+	var navAndSearchContainerSelector = '.nav-and-search';
 	var searchButtonActivatorSelector = '#activate-search-button';
 	var searchBoxSelector = '#search-box';
 	var searchButtonSelector = '#search-button';
+	var searchButtonContainerSelector = '.search-button-container';
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '#responsive-sliding-navigation';
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
+	var navItemSelector = '#responsive-sliding-navigation li';
 	var modalCoverSelector = '#modal-cover';
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var mobileWidthThreshold = 768;
@@ -519,10 +522,23 @@ bcpl.navigationSearch = function ($) {
 		}
 	};
 
+	var onDocumentClick = function onDocumentClick(clickEvent) {
+		var $target = $(clickEvent.target);
+		var isTargetSearchButtonContainer = $target.closest(searchButtonContainerSelector).length;
+		var isTargetSearchButton = $target.closest(searchBoxSelector).length;
+
+		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
+			if ($(searchBoxSelector).is(':visible')) {
+				$(searchButtonActivatorSelector).trigger('click');
+			}
+		}
+	};
+
 	/**
   * Click event handler for the search activator button.
   */
 	var searchButtonActivatorClicked = function searchButtonActivatorClicked(event) {
+		var $navAndSearchContainerSelector = event.data.$navAndSearchContainerSelector;
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $hamburgerButton = event.data.$hamburgerButton;
@@ -530,14 +546,16 @@ bcpl.navigationSearch = function ($) {
 
 		hideHeroCallout(isSearchBoxHidden);
 
+		var $targetSearchElements = $searchButtonActivator.add($searchBox);
+
 		if (isSearchBoxHidden) {
-			$searchButtonActivator.addClass('active');
-			$hamburgerButton.removeClass('active');
-			$searchBox.addClass('active');
+			$targetSearchElements.addClass('active');
+			$navAndSearchContainerSelector.addClass('search-is-active');
+			$hamburgerButton.add(navItemSelector).removeClass('active');
 		} else {
-			$searchButtonActivator.removeClass('active');
+			$targetSearchElements.removeClass('active');
+			$navAndSearchContainerSelector.removeClass('search-is-active');
 			$hamburgerButton.addClass('active');
-			$searchBox.removeClass('active');
 		}
 	};
 
@@ -592,6 +610,7 @@ bcpl.navigationSearch = function ($) {
   * Attach events and inject any event dependencies.
   */
 	var init = function init() {
+		var $navAndSearchContainerSelector = $(navAndSearchContainerSelector);
 		var $searchButtonActivator = $(searchButtonActivatorSelector);
 		var $searchBox = $(searchBoxSelector);
 		var $searchButton = $(searchButtonSelector);
@@ -601,6 +620,7 @@ bcpl.navigationSearch = function ($) {
 		var $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
+			$navAndSearchContainerSelector: $navAndSearchContainerSelector,
 			$searchBox: $searchBox,
 			$searchButtonActivator: $searchButtonActivator,
 			$hamburgerButton: $hamburgerButton
@@ -627,6 +647,8 @@ bcpl.navigationSearch = function ($) {
 			$modalCover: $modalCover
 		}, modalDismissActionHandler);
 
+		$(document).on('click', onDocumentClick);
+
 		$(window).on('resize', {
 			$menu: $menu,
 			$modalCover: $modalCover
@@ -650,7 +672,7 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.navigation = function ($, keyCodes) {
-	var navButtonSelector = '#responsive-sliding-navigation button';
+	var navButtonSelector = '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button';
 	var closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
 	var searchArtifactsSelector = '#activate-search-button, #search-box';
 	var heroCalloutContainerSelector = '.hero-callout-container';
@@ -723,16 +745,18 @@ bcpl.navigation = function ($, keyCodes) {
 	};
 
 	var navButtonClicked = function navButtonClicked(event) {
-		var $button = $(event.currentTarget);
-		var wasActive = $button.closest('li').hasClass('active');
-		hideSearchBox();
-		removeActiveClassFromAllButtons();
-		if (!wasActive) {
-			activateSubmenu($button);
-		} else {
-			deactivateSubmenu($button);
+		if (window.innerWidth <= mobileWidthThreshold) {
+			var $button = $(event.currentTarget);
+			var wasActive = $button.closest('li').hasClass('active');
+			hideSearchBox();
+			removeActiveClassFromAllButtons();
+			if (!wasActive) {
+				activateSubmenu($button);
+			} else {
+				deactivateSubmenu($button);
+			}
+			hideHeroCallout(!wasActive);
 		}
-		hideHeroCallout(!wasActive);
 	};
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
@@ -768,10 +792,16 @@ bcpl.navigation = function ($, keyCodes) {
 			case keyCodes.downArrow:
 			case keyCodes.upArrow:
 			case keyCodes.enter:
+				var $searchArtifactsSelector = $(searchArtifactsSelector);
+
 				keyboardEvent.preventDefault();
 				removeActiveClassFromAllButtons();
 				activateSubmenu($button);
 				$button.siblings('.submenu-wrapper').find('a:visible').first().focus();
+
+				if ($searchArtifactsSelector.is(':visible')) {
+					hideSearchBox();
+				}
 				break;
 			default:
 				break;
@@ -820,28 +850,44 @@ bcpl.navigation = function ($, keyCodes) {
 				keyboardEvent.preventDefault();
 				$link[0].click();
 				removeActiveClassFromAllButtons();
+
 				break;
 			default:
 				break;
 		}
 	};
 
-	var navigationMouseover = function navigationMouseover() {
-		hideHeroCallout(true);
-		hideSearchBox();
+	var stopNavMouseOver = function stopNavMouseOver(targetTimeout) {
+		clearTimeout(targetTimeout);
+	};
+
+	var mouseHoverDelay = void 0;
+
+	var navigationMouseover = function navigationMouseover(mouseOverEvent) {
+		if (window.window.innerWidth > mobileWidthThreshold) {
+			stopNavMouseOver(mouseHoverDelay);
+
+			mouseHoverDelay = setTimeout(function () {
+				var $navItem = $(mouseOverEvent.target);
+				$navItem.closest('li').siblings().removeClass('active').end().addClass('active');
+				hideHeroCallout(true);
+				hideSearchBox();
+			}, 250);
+		}
 	};
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
 		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
 		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			stopNavMouseOver(mouseHoverDelay);
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);
@@ -876,6 +922,44 @@ bcpl.scrollToTop = function ($) {
 $(function () {
 	return bcpl.scrollToTop.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.siteSearch = function ($) {
+	var siteSearchTabSelector = '.search-button';
+	var siteSearchInputSelector = '#site-search-input';
+	var siteSearchClearIconSelector = '.site-search-input-container .fa-times';
+	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
+
+	var onSearchTabClick = function onSearchTabClick(clickEvent) {
+		var $searchBtn = $(clickEvent.target);
+		$searchBtn.siblings().removeClass('active').end().addClass('active');
+	};
+
+	var onSearchClearBtnClick = function onSearchClearBtnClick() {
+		$(siteSearchInputSelector).val('').trigger('keyup').focus();
+	};
+
+	var onSearchInputKeyup = function onSearchInputKeyup(keyupEvent) {
+		var $searchInput = $(keyupEvent.target);
+		var doesSearchHaveValue = $searchInput.val();
+		var $elmToHide = $(siteSearchSearchIconSelector);
+		var $elmToShow = $(siteSearchClearIconSelector);
+
+		if (!doesSearchHaveValue) {
+			$elmToHide = $(siteSearchClearIconSelector);
+			$elmToShow = $(siteSearchSearchIconSelector);
+		}
+
+		$elmToHide.hide();
+		$elmToShow.show();
+	};
+
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
+	$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
+	$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
+}(jQuery);
 'use strict';
 
 namespacer('bcpl');

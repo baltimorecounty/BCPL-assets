@@ -1,7 +1,7 @@
 namespacer('bcpl');
 
 bcpl.navigation = (($, keyCodes) => {
-	const navButtonSelector = '#responsive-sliding-navigation button';
+	const navButtonSelector = '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button';
 	const closestMenuNodeSelector = '#responsive-sliding-navigation>ul>li';
 	const searchArtifactsSelector = '#activate-search-button, #search-box';
 	const heroCalloutContainerSelector = '.hero-callout-container';
@@ -76,16 +76,18 @@ bcpl.navigation = (($, keyCodes) => {
 	};
 
 	const navButtonClicked = (event) => {
-		const $button = $(event.currentTarget);
-		const wasActive = $button.closest('li').hasClass('active');
-		hideSearchBox();
-		removeActiveClassFromAllButtons();
-		if (!wasActive) {
-			activateSubmenu($button);
-		} else {
-			deactivateSubmenu($button);
+		if (window.innerWidth <= mobileWidthThreshold) {
+			const $button = $(event.currentTarget);
+			const wasActive = $button.closest('li').hasClass('active');
+			hideSearchBox();
+			removeActiveClassFromAllButtons();
+			if (!wasActive) {
+				activateSubmenu($button);
+			} else {
+				deactivateSubmenu($button);
+			}
+			hideHeroCallout(!wasActive);
 		}
-		hideHeroCallout(!wasActive);
 	};
 
 	const navigationKeyPressed = (keyboardEvent) => {
@@ -129,6 +131,8 @@ bcpl.navigation = (($, keyCodes) => {
 		case keyCodes.downArrow:
 		case keyCodes.upArrow:
 		case keyCodes.enter:
+			const $searchArtifactsSelector = $(searchArtifactsSelector);
+
 			keyboardEvent.preventDefault();
 			removeActiveClassFromAllButtons();
 			activateSubmenu($button);
@@ -137,6 +141,10 @@ bcpl.navigation = (($, keyCodes) => {
 				.find('a:visible')
 				.first()
 				.focus();
+
+			if ($searchArtifactsSelector.is(':visible')) {
+				hideSearchBox();
+			}
 			break;
 		default:
 			break;
@@ -185,28 +193,47 @@ bcpl.navigation = (($, keyCodes) => {
 			keyboardEvent.preventDefault();
 			$link[0].click();
 			removeActiveClassFromAllButtons();
+			
 			break;
 		default:
 			break;
 		}
 	};
 
-	const navigationMouseover = () => {
-		hideHeroCallout(true);
-		hideSearchBox();
+	const stopNavMouseOver = (targetTimeout) => {
+		clearTimeout(targetTimeout);
+	};
+
+	let mouseHoverDelay;
+
+	const navigationMouseover = (mouseOverEvent) => {
+		if (window.window.innerWidth > mobileWidthThreshold) {
+			stopNavMouseOver(mouseHoverDelay);
+
+			mouseHoverDelay = setTimeout(() => {
+				const $navItem = $(mouseOverEvent.target);
+				$navItem
+					.closest('li').siblings()
+					.removeClass('active').end()
+					.addClass('active');
+				hideHeroCallout(true);
+				hideSearchBox();
+			}, 250);
+		}
 	};
 
 	const navigationMouseleave = (mouseEvent) => {
 		const isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
 		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			stopNavMouseOver(mouseHoverDelay);
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
 		}
 	};
 
-	$(document).on('mouseover', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '#responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
 	$(document).on('click', navButtonSelector, navButtonClicked);

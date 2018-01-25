@@ -70,6 +70,12 @@
 			.nav-back-button {
 				display: none;
 			}
+
+			li,
+			li > button {
+				cursor: default;
+			}
+
 			a,
 			button {
 				color: white;
@@ -95,9 +101,14 @@
 			ul {
 				float: right;
 				margin-right: 7em;
+				
 
-				li {		
-					&:hover,
+				li {
+					background: transparent;
+					transition: background .50s ease;
+					&:hover {
+						background: $teal-dark;
+					}
 					&.active {
 						background: $teal-dark;
 						.overview {
@@ -198,6 +209,42 @@
 			}
 		}
 	}
+	.nav-and-search.search-is-active {
+		nav {
+			ul {
+				li {
+					&:hover,
+					&.active {
+						background: transparent;
+
+						.overview {
+							display: none;
+						}
+						ul {
+							display: none;
+						}
+						a,
+						button {
+							i.fa-caret-right::before {
+								content: "\f0da";
+							}
+						}
+						.wide {
+							.overview {
+								display: none;
+							}
+							ul {
+								display: none;
+							}
+						}
+						.submenu-wrapper {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
 	#search-box {
 		background-color: rgba(0, 0, 0, .5);
 		color: $gray-dark;
@@ -210,24 +257,27 @@
 		z-index: 1;
 		
 		input {
-			flex-grow: 1;
 			font-size: 1.2em;
 			font-weight: bold;
 			padding: .25em 2em .25em .5em;
 			border: none;
 			height: 35px;
+			width: 100%;
 		}
 		.search-button {
-			background: $teal;
+			background: transparent;
 			color: white;
-			display: block;
-			float: left;
+			display: inline-block;
 			font-size: 14px;
 			font-family: 'TTRoundsCondensed-Bold';
 			height: 35px;			
-			margin-left: 2px;
+			margin-right: 5px;
 			padding: .5em .75em;
 			text-transform: uppercase;
+
+			&.active {
+				background: $teal;
+			}
 
 			&:hover {
 				background: $teal-light;
@@ -239,9 +289,24 @@
 			}
 
 		}
+		.site-search-input-container {
+			position: relative;
+
+			i {
+				position: absolute;
+				right: 13px;
+				top: 6.5px;
+				font-size: 1.25em;
+				color: $gray-light;
+
+				&.fa-times {
+					color: $gray-dark;
+					cursor: pointer;
+				}
+			}
+		}
 		&.active {
 			display: block;
-			display: flex;
 		}
 	}
 }
@@ -313,9 +378,18 @@
 				ul {
 					float: none;
 					margin-right: 0;
+
+					li,
+					li > button {
+						cursor: pointer;
+					}
 					
 					li {
 						margin-right: 0;
+
+						.submenu-wrapper {
+							opacity: 1;
+						}
 
 						.submenu-wrapper.wide {
 							width: calc(#{$screen-sm} - 48px);

@@ -1,12 +1,15 @@
 namespacer('bcpl');
 
 bcpl.navigationSearch = (($) => {
+	const navAndSearchContainerSelector = '.nav-and-search';
 	const searchButtonActivatorSelector = '#activate-search-button';
 	const searchBoxSelector = '#search-box';
 	const searchButtonSelector = '#search-button';
+	const searchButtonContainerSelector = '.search-button-container';
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '#responsive-sliding-navigation';
 	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
+	const navItemSelector = '#responsive-sliding-navigation li';
 	const modalCoverSelector = '#modal-cover';
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const mobileWidthThreshold = 768;
@@ -51,10 +54,23 @@ bcpl.navigationSearch = (($) => {
 		}
 	};
 
+	const onDocumentClick = (clickEvent) => {
+		const $target = $(clickEvent.target);
+		const isTargetSearchButtonContainer = $target.closest(searchButtonContainerSelector).length;
+		const isTargetSearchButton = $target.closest(searchBoxSelector).length;
+
+		if (!isTargetSearchButton && !isTargetSearchButtonContainer) {
+			if ($(searchBoxSelector).is(':visible')) {
+				$(searchButtonActivatorSelector).trigger('click');
+			}
+		}
+	};
+
 	/**
 	 * Click event handler for the search activator button.
 	 */
 	const searchButtonActivatorClicked = (event) => {
+		const $navAndSearchContainerSelector = event.data.$navAndSearchContainerSelector;
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $hamburgerButton = event.data.$hamburgerButton;
@@ -62,14 +78,17 @@ bcpl.navigationSearch = (($) => {
 
 		hideHeroCallout(isSearchBoxHidden);
 
+		const $targetSearchElements = $searchButtonActivator
+			.add($searchBox);
+
 		if (isSearchBoxHidden) {
-			$searchButtonActivator.addClass('active');
-			$hamburgerButton.removeClass('active');
-			$searchBox.addClass('active');
+			$targetSearchElements.addClass('active');
+			$navAndSearchContainerSelector.addClass('search-is-active');
+			$hamburgerButton.add(navItemSelector).removeClass('active');
 		} else {
-			$searchButtonActivator.removeClass('active');
+			$targetSearchElements.removeClass('active');
+			$navAndSearchContainerSelector.removeClass('search-is-active');
 			$hamburgerButton.addClass('active');
-			$searchBox.removeClass('active');
 		}
 	};
 
@@ -127,6 +146,7 @@ bcpl.navigationSearch = (($) => {
 	 * Attach events and inject any event dependencies.
 	 */
 	const init = () => {
+		const $navAndSearchContainerSelector = $(navAndSearchContainerSelector);
 		const $searchButtonActivator = $(searchButtonActivatorSelector);
 		const $searchBox = $(searchBoxSelector);
 		const $searchButton = $(searchButtonSelector);
@@ -136,6 +156,7 @@ bcpl.navigationSearch = (($) => {
 		const $modalCover = $(modalCoverSelector);
 
 		$searchButtonActivator.on('click', {
+			$navAndSearchContainerSelector,
 			$searchBox,
 			$searchButtonActivator,
 			$hamburgerButton
@@ -161,6 +182,8 @@ bcpl.navigationSearch = (($) => {
 			$menu,
 			$modalCover
 		}, modalDismissActionHandler);
+
+		$(document).on('click', onDocumentClick);
 
 		$(window).on('resize', {
 			$menu,
