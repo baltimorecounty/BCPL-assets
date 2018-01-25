@@ -8,6 +8,7 @@ bcpl.navigationSearch = (($) => {
 	const hamburgerButtonSelector = '#hamburger-menu-button';
 	const menuSelector = '#responsive-sliding-navigation';
 	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
+	const navItemSelector = '#responsive-sliding-navigation li';
 	const modalCoverSelector = '#modal-cover';
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const mobileWidthThreshold = 768;
@@ -82,7 +83,7 @@ bcpl.navigationSearch = (($) => {
 		if (isSearchBoxHidden) {
 			$targetSearchElements.addClass('active');
 			$navAndSearchContainerSelector.addClass('search-is-active');
-			$hamburgerButton.removeClass('active');
+			$hamburgerButton.add(navItemSelector).removeClass('active');
 		} else {
 			$targetSearchElements.removeClass('active');
 			$navAndSearchContainerSelector.removeClass('search-is-active');
