@@ -131,6 +131,8 @@ bcpl.navigation = (($, keyCodes) => {
 		case keyCodes.downArrow:
 		case keyCodes.upArrow:
 		case keyCodes.enter:
+			const $searchArtifactsSelector = $(searchArtifactsSelector);
+
 			keyboardEvent.preventDefault();
 			removeActiveClassFromAllButtons();
 			activateSubmenu($button);
@@ -139,6 +141,10 @@ bcpl.navigation = (($, keyCodes) => {
 				.find('a:visible')
 				.first()
 				.focus();
+
+			if ($searchArtifactsSelector.is(':visible')) {
+				hideSearchBox();
+			}
 			break;
 		default:
 			break;
@@ -187,6 +193,7 @@ bcpl.navigation = (($, keyCodes) => {
 			keyboardEvent.preventDefault();
 			$link[0].click();
 			removeActiveClassFromAllButtons();
+			
 			break;
 		default:
 			break;
