@@ -1,0 +1,13 @@
+.pull-image-left,
+.pull-image-right {
+	@extend .img-responsive;
+}
+
+.pull-image-left {
+	@extend .pull-left;
+	margin: 5px 30px 20px 0;
+}
+.pull-image-right {
+	@extend .pull-right;
+	margin: 5px 0 20px 30px;
+}
