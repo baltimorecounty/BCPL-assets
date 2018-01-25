@@ -381,6 +381,10 @@
 					li {
 						margin-right: 0;
 
+						.submenu-wrapper {
+							opacity: 1;
+						}
+
 						.submenu-wrapper.wide {
 							width: calc(#{$screen-sm} - 48px);
 						}
