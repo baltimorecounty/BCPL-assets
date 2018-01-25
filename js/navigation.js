@@ -76,16 +76,18 @@ bcpl.navigation = (($, keyCodes) => {
 	};
 
 	const navButtonClicked = (event) => {
-		const $button = $(event.currentTarget);
-		const wasActive = $button.closest('li').hasClass('active');
-		hideSearchBox();
-		removeActiveClassFromAllButtons();
-		if (!wasActive) {
-			activateSubmenu($button);
-		} else {
-			deactivateSubmenu($button);
+		if (window.innerWidth <= mobileWidthThreshold) {
+			const $button = $(event.currentTarget);
+			const wasActive = $button.closest('li').hasClass('active');
+			hideSearchBox();
+			removeActiveClassFromAllButtons();
+			if (!wasActive) {
+				activateSubmenu($button);
+			} else {
+				deactivateSubmenu($button);
+			}
+			hideHeroCallout(!wasActive);
 		}
-		hideHeroCallout(!wasActive);
 	};
 
 	const navigationKeyPressed = (keyboardEvent) => {
