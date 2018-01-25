@@ -316,7 +316,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, bcFormat) {
 	'use strict';
 
 	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
@@ -336,7 +336,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				FirstName: vm.firstName,
 				LastName: vm.lastName,
 				Email: vm.email,
-				Phone: vm.phone,
+				Phone: bcFormat('phoneNumber', vm.phone, 'xxx-xxx-xxxx'),
 				IsGroup: vm.isGroup === 'true',
 				GroupCount: vm.groupCount
 			};
@@ -363,7 +363,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
 (function (app) {
