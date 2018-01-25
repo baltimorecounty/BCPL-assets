@@ -75,6 +75,12 @@
 			.nav-back-button {
 				display: none;
 			}
+
+			li,
+			li > button {
+				cursor: default;
+			}
+
 			a,
 			button {
 				color: white;
@@ -377,6 +383,11 @@
 				ul {
 					float: none;
 					margin-right: 0;
+
+					li,
+					li > button {
+						cursor: pointer;
+					}
 					
 					li {
 						margin-right: 0;
