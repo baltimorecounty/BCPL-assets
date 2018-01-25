@@ -474,6 +474,7 @@ bcpl.navigationSearch = function ($) {
 	var hamburgerButtonSelector = '#hamburger-menu-button';
 	var menuSelector = '#responsive-sliding-navigation';
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
+	var navItemSelector = '#responsive-sliding-navigation li';
 	var modalCoverSelector = '#modal-cover';
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var mobileWidthThreshold = 768;
@@ -549,7 +550,7 @@ bcpl.navigationSearch = function ($) {
 		if (isSearchBoxHidden) {
 			$targetSearchElements.addClass('active');
 			$navAndSearchContainerSelector.addClass('search-is-active');
-			$hamburgerButton.removeClass('active');
+			$hamburgerButton.add(navItemSelector).removeClass('active');
 		} else {
 			$targetSearchElements.removeClass('active');
 			$navAndSearchContainerSelector.removeClass('search-is-active');
@@ -846,23 +847,36 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
+	var stopNavMouseOver = function stopNavMouseOver(targetTimeout) {
+		clearTimeout(targetTimeout);
+	};
+
+	var mouseHoverDelay = void 0;
+
 	var navigationMouseover = function navigationMouseover(mouseOverEvent) {
-		var $navItem = $(mouseOverEvent.target);
-		$navItem.closest('li').siblings().removeClass('active');
-		hideHeroCallout(true);
-		hideSearchBox();
+		if (window.window.innerWidth > mobileWidthThreshold) {
+			stopNavMouseOver(mouseHoverDelay);
+
+			mouseHoverDelay = setTimeout(function () {
+				var $navItem = $(mouseOverEvent.target);
+				$navItem.closest('li').siblings().removeClass('active').end().addClass('active');
+				hideHeroCallout(true);
+				hideSearchBox();
+			}, 250);
+		}
 	};
 
 	var navigationMouseleave = function navigationMouseleave(mouseEvent) {
 		var isNextElementANavElement = $(mouseEvent.relatedTarget).closest('#responsive-sliding-navigation').length;
 
 		if (!isNextElementANavElement && !isMobileWidth($('body'), mobileWidthThreshold)) {
+			stopNavMouseOver(mouseHoverDelay);
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
 		}
 	};
 
-	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button', navigationMouseover);
 	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
 	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
