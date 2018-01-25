@@ -948,20 +948,10 @@ bcpl.siteSearch = function ($) {
 		$elmToShow.show();
 	};
 
-	var init = function init() {
-		$(document).on('click', siteSearchTabSelector, onSearchTabClick);
-		$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
-		$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
-	};
-
-	return {
-		init: init
-	};
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
+	$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
+	$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
 }(jQuery);
-
-$(function () {
-	return bcpl.siteSearch.init();
-});
 'use strict';
 
 namespacer('bcpl');
