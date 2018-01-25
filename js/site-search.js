@@ -35,15 +35,7 @@ bcpl.siteSearch = (($) => {
 		$elmToShow.show();
 	};
 
-	const init = () => {
-		$(document).on('click', siteSearchTabSelector, onSearchTabClick);
-		$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
-		$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
-	};
-
-	return {
-		init
-	};
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
+	$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
+	$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
 })(jQuery);
-
-$(() => bcpl.siteSearch.init());
