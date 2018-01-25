@@ -100,9 +100,14 @@
 			ul {
 				float: right;
 				margin-right: 7em;
+				
 
 				li {
-					&:hover,
+					background: transparent;
+					transition: background .50s ease;
+					&:hover {
+						background: $teal-dark;
+					}
 					&.active {
 						background: $teal-dark;
 						.overview {
