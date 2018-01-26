@@ -30,8 +30,8 @@
 		}
 	};
 
-	app.constant('CONSTANTS', constants);
-})(angular.module('filterPageApp'));
+	app.constant('bcpl.jobPostingsTableWidget.CONSTANTS', constants);
+})(angular.module('bcpl.jobPostingsTableWidget'));
 'use strict';
 
 (function (app) {
