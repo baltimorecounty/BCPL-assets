@@ -25,7 +25,7 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(rename({ suffix: '.min' }))
 	.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js'], () => gulp.src(['dist/js/**/*.js'])
+gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js', 'process-featured-events-widget-js'], () => gulp.src(['dist/js/**/*.js'])
 	.pipe(uglify())
 	.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
 	.pipe(rename({ suffix: '.min' }))
@@ -63,6 +63,34 @@ gulp.task('process-app-js', () => {
 			.pipe(concat('app.js'))
 			.pipe(gulp.dest(`dist/js/apps/${folder}`));
 	});
+});
+
+
+gulp.task('process-featured-events-widget-js', () => {
+	gulp.src([
+		'js/apps/events-page/app.js',
+		'js/apps/events-page/featuredEvents*.js',
+		'js/apps/events-page/constants.js',
+		'js/apps/events-page/config.js',
+		'js/apps/events-page/dataServices/**/*.js',
+		'js/apps/events-page/filters/**/*.js',
+		'js/apps/events-page/services/**/*.js',
+		'js/apps/events-page/controllers/**/featuredEvents*.js',
+		'js/apps/events-page/directives/**/featuredEvents.js'
+	])
+		.pipe(jshint({
+			esversion: 6
+		}))
+		.pipe(jshint.reporter(stylish))
+		.pipe(babel({
+			presets: ['es2015']
+		}))
+		.pipe(stripCode({
+			start_comment: 'test-code',
+			end_comment: 'end-test-code'
+		}))
+		.pipe(concat('featuredEventsWidget.js'))
+		.pipe(gulp.dest('dist/js/apps/events-page'));
 });
 
 gulp.task('move-app-directive-templates', () => {
