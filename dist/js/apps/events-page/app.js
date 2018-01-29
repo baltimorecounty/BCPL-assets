@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://ba224964:3100',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://localhost:54453',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -27,7 +27,8 @@
 			eventsListTemplate: '/_js/apps/events-page/templates/eventsList.html',
 			filtersTemplate: '/_js/apps/events-page/templates/filters.html',
 			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
-			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
+			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html',
+			featuredEventsTemplate: '/_js/apps/events-page/templates/featuredEvents.html'
 		},
 		partialUrls: {
 			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
@@ -99,8 +100,13 @@
 		};
 
 		var get = function get(eventRequestModel) {
+			var endpointUrl = CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events;
+
+			console.log(eventRequestModel, endpointUrl);
+
 			return $q(function (resolve, reject) {
-				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
+				$http.post(endpointUrl, eventRequestModel).then(function (response) {
+					console.log('resp', response);
 					if (response.data) {
 						resolve({
 							eventGroups: dateSplitter(response.data.Events),
@@ -574,6 +580,49 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
+	var FeaturedEventsCtrl = function FeaturedEventsCtrl(eventsService) {
+		var vm = this;
+
+		var handleError = function handleError(error) {
+			return console.error(error);
+		}; // eslint-disable-line no-console
+
+		var processEventData = function processEventData(featuredEventList) {
+			console.log(featuredEventList);
+			vm.featuredEventList = featuredEventList;
+		};
+
+		var requestPayload = {
+			Limit: 4,
+			Locations: [1, 2],
+			EventTypes: [10]
+		};
+
+		eventsService.get(requestPayload).then(processEventData).catch(handleError);
+	};
+
+	FeaturedEventsCtrl.$inject = ['eventsService'];
+
+	app.controller('FeaturedEventsCtrl', FeaturedEventsCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var FeaturedEventsCtrl = function FeaturedEventsCtrl() {
+		var vm = this;
+	};
+
+	FeaturedEventsCtrl.$inject = [];
+
+	app.controller('TestCtrl', FeaturedEventsCtrl);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
 	var datePickersDirective = function datePickersDirective($timeout, CONSTANTS) {
 		var datePickersLink = function datePickersLink(scope, attr, datePickersElement) {
 			var innerScope = scope;
@@ -668,6 +717,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
 
 	app.directive('eventsList', eventsListDirective);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS) {
+		var directive = {
+			restrict: 'E',
+			scope: {
+				resultsToDisplay: '=',
+				branch: '=',
+				eventType: '='
+			},
+			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
+			controller: 'FeaturedEventsCtrl',
+			controllerAs: 'featuredEvents',
+			bindToController: true
+		};
+
+		return directive;
+	};
+
+	featuredEventsDirective.$inject = ['CONSTANTS'];
+
+	app.directive('featuredEvents', featuredEventsDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 
