@@ -9,7 +9,7 @@
 				branch: '=',
 				eventType: '='
 			},
-			templateUrl: CONSTANTS.urls.templateUrls.featuredEventsTemplate,
+			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
 			controller: 'FeaturedEventsCtrl',
 			controllerAs: 'featuredEvents',
 			bindToController: true

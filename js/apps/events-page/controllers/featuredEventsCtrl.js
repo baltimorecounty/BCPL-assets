@@ -7,10 +7,17 @@
 		const handleError = (error) => console.error(error); // eslint-disable-line no-console
 
 		const processEventData = (featuredEventList) => {
-			vm.featuredEventList = eventList;
+			console.log(featuredEventList);
+			vm.featuredEventList = featuredEventList;
 		};
 
-		eventsService.get()
+		var requestPayload = {
+			Limit: 4,
+			Locations: [1, 2],
+			EventTypes: [10]
+		};
+
+		eventsService.get(requestPayload)
 			.then(processEventData)
 			.catch(handleError);
 	};

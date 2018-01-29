@@ -16,6 +16,17 @@
 	<script src="/sebin/v/z/master.js"></script>
 	<script src="/js/slick/slick.min.js"></script>
 	<script src="/sebin/d/o/homepage.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js" integrity="sha256-zBy1l2WBAh2vPF8rnjFMUXujsfkKjya0Jy5j6yKj0+Q="
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js" integrity="sha256-E6XubcgT4a601977ZZP4Yw/0UCB2/Ex+Bazst+JRw1U="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js" integrity="sha256-9per5naK1wbvJeCJC4Xr3gjiycTRg9Jno/eSvh12+ck="
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js" integrity="sha256-1XBp/KwjxhvrtZiQ+ecAScAyLPe4OStn2lMX0vxTq9U="
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js" crossorigin="anonymous"></script>
+	<script src="/js/apps/events-page/featuredEventsWidget.js"></script>
 </head>
 
 <body>
@@ -453,44 +464,14 @@
 							</div>
 						</header>
 						<div id="events-target" class="row flex">
-							<script id="events-template" type="text/x-handlebars-template">
-								{{#each this}}
-								<div class="col-md-3 flex flex-column">
-									<a href="/events-and-programs/list.html#!/{{EventId}}" class="post flex flex-column">
-										<time datetime="5-30 10:00-05:00">
-											<div class="animated animated-flip round-container">
-												<div class="big-round face front date">
-													<div class="month">{{eventMonth}}</div>
-													<div class="day">{{eventDate}}</div>
-												</div>
-												<div class="big-round face back link">
-													<div>details</div>
-													<div class="day">
-														<i class="fa fa-caret-right" aria-hidden="true"></i>
-													</div>
-												</div>
-											</div>
-											<div class="time">{{eventTime}}</div>
-										</time>
-										<h4>{{Title}}</h4>
-										<p>
-											{{LocationName}}
-											{{#if requiresRegistration}}
-											<br />
-											<span class="registration-required"><i class="fa fa-star" aria-hidden="true"></i> Registration Required</span>
-											{{/if}}
-										</p>
-										
-									</a>
-								</div>
-								{{/each}}
-							</script>
+							<div ng-app="eventsPageApp">
+								<featured-events />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-
 		<section class="blog-wrapper">
 			<div class="container">
 				<div class="row">

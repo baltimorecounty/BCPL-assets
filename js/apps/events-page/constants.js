@@ -2,8 +2,8 @@
 	'use strict';
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://ba224964:3100',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://localhost:54453',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -18,7 +18,8 @@
 			eventsListTemplate: '/_js/apps/events-page/templates/eventsList.html',
 			filtersTemplate: '/_js/apps/events-page/templates/filters.html',
 			filtersExpandosTemplate: '/_js/apps/events-page/templates/filters-expandos.html',
-			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html'
+			loadMoreTemplate: '/_js/apps/events-page/templates/loadMore.html',
+			featuredEventsTemplate: '/_js/apps/events-page/templates/featuredEvents.html'
 		},
 		partialUrls: {
 			eventListPartial: '/_js/apps/events-page/partials/eventList.html',
