@@ -75,16 +75,20 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect(sampleEvent.data.$searchBox.hasClass('active')).toBe(false);
 		});
 
-		it('should activate the hamburger button', () => {
+		it('should activate the hamburger button', (done) => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect($(sampleEvent.currentTarget).hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should activate the menu', () => {
+		it('should activate the menu', (done) => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.$menu.hasClass('active')).toBe(true);
+
+			done();
 		});
 
 		it('should activate the modal cover', () => {
@@ -108,6 +112,7 @@ describe('Search and sliding hamburger menu tests', () => {
 
 			sampleEvent = {
 				data: {
+					$navAndSearchContainerSelector: $('.nav-and-search'),
 					$searchBox: $('#search-box'),
 					$searchButtonActivator: $('#activate-search-button'),
 					$hamburgerButton: $('#hamburger-menu-button')
@@ -116,45 +121,53 @@ describe('Search and sliding hamburger menu tests', () => {
 			done();
 		});
 
-		it('should activate the search box button if the search box is hidden', () => {
+		it('should activate the search box button if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#activate-search-button').hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should deactivate the hamburger button if the search box is hidden', () => {
+		it('should deactivate the hamburger button if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#hamburger-menu-button').hasClass('active')).toBe(false);
+			done();
 		});
 
-		it('should activate the search box if the search box is hidden', () => {
+		it('should activate the search box if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#search-box').hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should deactivate the search box button if the search box is visible', () => {
+		it('should deactivate the search box button if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#activate-search-button').hasClass('active')).toBe(false);
+			done();
 		});
 
-		it('should activate the hamburger button if the search box is visible', () => {
+		it('should activate the hamburger button if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 			expect($('#hamburger-menu-button').hasClass('active')).toBe(true);
+			done();
 		});
 
-		it('should deactivate the search box if the search box is visible', () => {
+		it('should deactivate the search box if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#search-box').hasClass('active')).toBe(false);
+			done();
 		});
 	});
 
