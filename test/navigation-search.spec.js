@@ -197,58 +197,58 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect(sampleEvent.data.browserWindow.location).toContain('ABCDEFG');
 		});
 	});
+});
 
-	describe('windowResized', () => {
-		beforeEach((done) => {
-			loadFixtures('menuAndModal.fixture.html');
+describe('windowResized', () => {
+	beforeEach((done) => {
+		loadFixtures('menuAndModal.fixture.html');
 
-			sampleEvent = {
-				data: {
-					$menu: $('nav'),
-					$modalCover: $('#modal-cover')
-				}
-			};
+		sampleEvent = {
+			data: {
+				$menu: $('nav'),
+				$modalCover: $('#modal-cover')
+			}
+		};
 
+		done();
+	});
+
+	it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', (done) => {
+		$('body').width(1000);
+		$('nav').addClass('animatable');
+
+		bcpl.navigationSearch.windowResized(sampleEvent);
+
+		expect($('nav').hasClass('animatable')).toBe(false);
+		done();
+	});
+
+	it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', (done) => {
+		$('body').width(1000);
+
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
 			done();
 		});
+	});
 
-		it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', (done) => {
-			$('body').width(1000);
-			$('nav').addClass('animatable');
+	it('should add the "animatable" class if the body width is less than 768px', (done) => {
+		$('body').width(500);
+		$('nav').removeClass('animatable');
 
-			bcpl.navigationSearch.windowResized(sampleEvent);
-
-			expect($('nav').hasClass('animatable')).toBe(false);
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
 			done();
 		});
+	});
 
-		it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', (done) => {
-			$('body').width(1000);
+	it('should add the "animatable" class if the body width is equal to 768px', (done) => {
+		$('body').width(768);
+		$('nav').removeClass('animatable');
 
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
-		});
-
-		it('should add the "animatable" class if the body width is less than 768px', (done) => {
-			$('body').width(500);
-			$('nav').removeClass('animatable');
-
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
-		});
-
-		it('should add the "animatable" class if the body width is equal to 768px', (done) => {
-			$('body').width(768);
-			$('nav').removeClass('animatable');
-
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
+			done();
 		});
 	});
 });
