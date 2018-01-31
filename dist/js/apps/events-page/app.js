@@ -12,7 +12,7 @@
 
 	var constants = {
 		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://localhost:54453',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -67,7 +67,7 @@
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, moment) {
 	'use strict';
 
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
@@ -100,13 +100,8 @@
 		};
 
 		var get = function get(eventRequestModel) {
-			var endpointUrl = CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events;
-
-			console.log(eventRequestModel, endpointUrl);
-
 			return $q(function (resolve, reject) {
-				$http.post(endpointUrl, eventRequestModel).then(function (response) {
-					console.log('resp', response);
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
 						resolve({
 							eventGroups: dateSplitter(response.data.Events),
@@ -132,16 +127,58 @@
 			});
 		};
 
+		var formatTime = function formatTime(unformattedTime) {
+			return unformattedTime.replace(':00', '').replace(/\w\w$/, function (foundString) {
+				return foundString.split('').join('.') + '.';
+			});
+		};
+
+		var processEvent = function processEvent(calendarEvent) {
+			var localCalendarEvent = calendarEvent;
+			var eventMoment = moment(calendarEvent.EventStart);
+
+			localCalendarEvent.eventMonth = eventMoment.format('MMM');
+			localCalendarEvent.eventDate = eventMoment.format('D');
+			localCalendarEvent.eventTime = formatTime(eventMoment.format('h:mm a'));
+			localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
+
+			return localCalendarEvent;
+		};
+
+		var formatFeaturedEvents = function formatFeaturedEvents(events) {
+			var featuredEvents = [];
+
+			events.forEach(function (event) {
+				var processedEvent = processEvent(event);
+				featuredEvents.push(processedEvent);
+			});
+
+			return featuredEvents;
+		};
+
+		var getFeaturedEvents = function getFeaturedEvents(eventRequestModel) {
+			return $q(function (resolve, reject) {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
+					if (response.data) {
+						resolve(formatFeaturedEvents(response.data.Events));
+					} else {
+						reject(response);
+					}
+				}, reject);
+			});
+		};
+
 		return {
 			get: get,
-			getById: getById
+			getById: getById,
+			getFeaturedEvents: getFeaturedEvents
 		};
 	};
 
 	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
 
 	app.factory('eventsService', eventsService);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), window.moment);
 'use strict';
 
 (function (app) {
@@ -575,49 +612,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
-'use strict';
-
-(function (app) {
-	'use strict';
-
-	var FeaturedEventsCtrl = function FeaturedEventsCtrl(eventsService) {
-		var vm = this;
-
-		var handleError = function handleError(error) {
-			return console.error(error);
-		}; // eslint-disable-line no-console
-
-		var processEventData = function processEventData(featuredEventList) {
-			console.log(featuredEventList);
-			vm.featuredEventList = featuredEventList;
-		};
-
-		var requestPayload = {
-			Limit: 4,
-			Locations: [1, 2],
-			EventTypes: [10]
-		};
-
-		eventsService.get(requestPayload).then(processEventData).catch(handleError);
-	};
-
-	FeaturedEventsCtrl.$inject = ['eventsService'];
-
-	app.controller('FeaturedEventsCtrl', FeaturedEventsCtrl);
-})(angular.module('eventsPageApp'));
-'use strict';
-
-(function (app) {
-	'use strict';
-
-	var FeaturedEventsCtrl = function FeaturedEventsCtrl() {
-		var vm = this;
-	};
-
-	FeaturedEventsCtrl.$inject = [];
-
-	app.controller('TestCtrl', FeaturedEventsCtrl);
-})(angular.module('eventsPageApp'));
+"use strict";
 'use strict';
 
 (function (app) {
@@ -723,24 +718,61 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS) {
+	var featuredEventsLink = function featuredEventsLink(scope, eventsService) {
+		var branches = scope.branches && scope.branches.length ? scope.branches : [];
+		var eventTypes = scope.eventTypes && scope.eventTypes.length ? scope.eventTypes : [];
+		var resultsToDisplay = scope.resultsToDisplay || 3;
+		var shouldPrioritzeFeatured = !!scope.prioritizeFeatured;
+
+		var buildRequestPayLoad = function buildRequestPayLoad(limit, locations, events, prioritizeFeatured) {
+			var payLoad = {
+				Limit: limit,
+				ShouldPrioritzeFeatured: prioritizeFeatured
+			};
+
+			if (branches.length) {
+				payLoad.Locations = locations;
+			}
+
+			if (eventTypes.length) {
+				payLoad.EventTypes = events;
+			}
+
+			return payLoad;
+		};
+		var handleError = function handleError(error) {
+			return console.error(error);
+		};
+
+		var eventRequestPayload = buildRequestPayLoad(resultsToDisplay, branches, eventTypes, shouldPrioritzeFeatured);
+
+		eventsService.getFeaturedEvents(eventRequestPayload).then(function (featuredEventList) {
+			scope.featuredEventList = featuredEventList; // eslint-disable-line
+			if (featuredEventList.length === 0) {
+				scope.resultsToDisplay = 0; // eslint-disable-line
+			}
+		}).catch(handleError); // eslint-disable-line no-console
+	};
+
+	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS, eventsService) {
 		var directive = {
 			restrict: 'E',
 			scope: {
+				branches: '=',
 				resultsToDisplay: '=',
-				branch: '=',
-				eventType: '='
+				eventTypes: '=',
+				prioritizeFeatured: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
-			controller: 'FeaturedEventsCtrl',
-			controllerAs: 'featuredEvents',
-			bindToController: true
+			link: function link(scope) {
+				return featuredEventsLink(scope, eventsService);
+			}
 		};
 
 		return directive;
 	};
 
-	featuredEventsDirective.$inject = ['CONSTANTS'];
+	featuredEventsDirective.$inject = ['CONSTANTS', 'eventsService'];
 
 	app.directive('featuredEvents', featuredEventsDirective);
 })(angular.module('eventsPageApp'));

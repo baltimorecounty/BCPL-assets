@@ -447,7 +447,6 @@
 				</div>
 			</div>
 		</section>
-
 		<section class="events-wrapper">
 			<div class="container">
 				<div class="row">
@@ -463,9 +462,13 @@
 									<i class="fa fa-rss"></i>Subscribe to Events</a>
 							</div>
 						</header>
-						<div id="events-target" class="row flex">
+						<div id="events-target">
 							<div ng-app="eventsPageApp">
-								<featured-events />
+								<featured-events 
+									branches="[1]"
+									eventTypes="[7]"
+									results-to-display="3"
+									prioritize-featured="true" />
 							</div>
 						</div>
 					</div>
