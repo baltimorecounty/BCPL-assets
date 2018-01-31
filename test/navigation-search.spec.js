@@ -212,13 +212,14 @@ describe('Search and sliding hamburger menu tests', () => {
 			done();
 		});
 
-		it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', () => {
+		it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', (done) => {
 			$('body').width(1000);
 			$('nav').addClass('animatable');
 
 			bcpl.navigationSearch.windowResized(sampleEvent);
 
 			expect($('nav').hasClass('animatable')).toBe(false);
+			done();
 		});
 
 		it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', (done) => {
