@@ -75,16 +75,20 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect(sampleEvent.data.$searchBox.hasClass('active')).toBe(false);
 		});
 
-		it('should activate the hamburger button', () => {
+		it('should activate the hamburger button', (done) => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect($(sampleEvent.currentTarget).hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should activate the menu', () => {
+		it('should activate the menu', (done) => {
 			bcpl.navigationSearch.hamburgerButtonClicked(sampleEvent);
 
 			expect(sampleEvent.data.$menu.hasClass('active')).toBe(true);
+
+			done();
 		});
 
 		it('should activate the modal cover', () => {
@@ -108,6 +112,7 @@ describe('Search and sliding hamburger menu tests', () => {
 
 			sampleEvent = {
 				data: {
+					$navAndSearchContainerSelector: $('.nav-and-search'),
 					$searchBox: $('#search-box'),
 					$searchButtonActivator: $('#activate-search-button'),
 					$hamburgerButton: $('#hamburger-menu-button')
@@ -116,45 +121,53 @@ describe('Search and sliding hamburger menu tests', () => {
 			done();
 		});
 
-		it('should activate the search box button if the search box is hidden', () => {
+		it('should activate the search box button if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#activate-search-button').hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should deactivate the hamburger button if the search box is hidden', () => {
+		it('should deactivate the hamburger button if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#hamburger-menu-button').hasClass('active')).toBe(false);
+			done();
 		});
 
-		it('should activate the search box if the search box is hidden', () => {
+		it('should activate the search box if the search box is hidden', (done) => {
 			$('#search-box').css('display', 'none');
 
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#search-box').hasClass('active')).toBe(true);
+
+			done();
 		});
 
-		it('should deactivate the search box button if the search box is visible', () => {
+		it('should deactivate the search box button if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#activate-search-button').hasClass('active')).toBe(false);
+			done();
 		});
 
-		it('should activate the hamburger button if the search box is visible', () => {
+		it('should activate the hamburger button if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 			expect($('#hamburger-menu-button').hasClass('active')).toBe(true);
+			done();
 		});
 
-		it('should deactivate the search box if the search box is visible', () => {
+		it('should deactivate the search box if the search box is visible', (done) => {
 			bcpl.navigationSearch.searchButtonActivatorClicked(sampleEvent);
 
 			expect($('#search-box').hasClass('active')).toBe(false);
+			done();
 		});
 	});
 
@@ -184,57 +197,55 @@ describe('Search and sliding hamburger menu tests', () => {
 			expect(sampleEvent.data.browserWindow.location).toContain('ABCDEFG');
 		});
 	});
+});
 
-	describe('windowResized', () => {
-		beforeEach((done) => {
-			loadFixtures('menuAndModal.fixture.html');
+describe('windowResized', () => {
+	beforeEach((done) => {
+		loadFixtures('menuAndModal.fixture.html');
 
-			sampleEvent = {
-				data: {
-					$menu: $('nav'),
-					$modalCover: $('#modal-cover')
-				}
-			};
+		sampleEvent = {
+			data: {
+				$menu: $('nav'),
+				$modalCover: $('#modal-cover')
+			}
+		};
 
-			done();
+		done();
+	});
+
+	it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', (done) => {
+		$('body').width(1000);
+		$('nav').addClass('animatable');
+
+		bcpl.navigationSearch.windowResized(sampleEvent);
+
+		expect($('nav').hasClass('animatable')).toBe(false);
+		done();
+	});
+
+	it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', () => {
+		$('body').width(1000);
+
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
 		});
+	});
 
-		it('should remove the "animatable" class if the body width is greater than 768px and the nav has the "animatable" class', () => {
-			$('body').width(1000);
-			$('nav').addClass('animatable');
+	it('should add the "animatable" class if the body width is less than 768px', () => {
+		$('body').width(500);
+		$('nav').removeClass('animatable');
 
-			bcpl.navigationSearch.windowResized(sampleEvent);
-
-			expect($('nav').hasClass('animatable')).toBe(false);
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
 		});
+	});
 
-		it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', (done) => {
-			$('body').width(1000);
+	it('should add the "animatable" class if the body width is equal to 768px', () => {
+		$('body').width(768);
+		$('nav').removeClass('animatable');
 
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
-		});
-
-		it('should add the "animatable" class if the body width is less than 768px', (done) => {
-			$('body').width(500);
-			$('nav').removeClass('animatable');
-
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
-		});
-
-		it('should add the "animatable" class if the body width is equal to 768px', (done) => {
-			$('body').width(768);
-			$('nav').removeClass('animatable');
-
-			bcpl.navigationSearch.windowResized(sampleEvent, () => {
-				expect($('nav').hasClass('animatable')).toBe(true);
-				done();
-			});
+		bcpl.navigationSearch.windowResized(sampleEvent, () => {
+			expect($('nav').hasClass('animatable')).toBe(true);
 		});
 	});
 });
