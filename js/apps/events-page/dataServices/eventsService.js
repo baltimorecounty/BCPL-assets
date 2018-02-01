@@ -103,6 +103,8 @@
 			/* test-code */
 			isEventOnDate,
 			dateSplitter,
+			formatTime,
+			processEvent,
 			/* end-test-code */
 			get,
 			getById,
