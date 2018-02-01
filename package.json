@@ -57,7 +57,8 @@
     "underscore": "^1.8.3"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run"
+	"test": "./node_modules/.bin/karma start --single-run",
+	"watch-tests": "./node_modules/.bin/karma start"
   },
   "repository": {
     "type": "git",

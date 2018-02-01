@@ -596,7 +596,9 @@ bcpl.navigationSearch = function ($) {
 			killMenuAndModalCover($menu, $modalCover);
 			$menu.removeClass('animatable');
 		} else {
-			clearTimeout(resizeTimer);
+			if (resizeTimer) {
+				clearTimeout(resizeTimer);
+			}
 			resizeTimer = setTimeout(function () {
 				$menu.addClass('animatable');
 				if (callback && typeof callback === 'function') {
