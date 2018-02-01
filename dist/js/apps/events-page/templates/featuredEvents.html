@@ -7,7 +7,13 @@
 	<div
 		ng-show="featuredEventList.length" 
 		ng-repeat="featuredEvent in featuredEventList" 
-		class="col-md-{{featuredEventList.length}} flex flex-column">
+		class="col-md-{{featuredEventList.length}} flex flex-column"
+		style="position:relative;">
+			<span class="badge featured-event"
+				style="display: inline-block; position: absolute; top: 40px; left: 10px; padding: 5px 10px; background: #147876;color:white;"
+				ng-show="featuredEvent.FeatureEvent">
+				Featured
+			</span>
 			<a href="/events-and-programs/list.html#!/{{featuredEvent.EventId}}" class="post flex flex-column">
 				<time datetime="5-30 10:00-05:00">
 					<div class="animated animated-flip round-container">

@@ -7,10 +7,13 @@
 })();
 'use strict';
 
+/**
+ * Start of the Featured Events Widget
+ */
 (function () {
-	'use strict';
+  'use strict';
 
-	angular.module('featuredEventsWidget', []);
+  angular.module('featuredEventsWidget', []);
 })();
 'use strict';
 
@@ -335,7 +338,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	app.factory('querystringService', querystringService);
 })(angular.module('eventsPageApp'));
-"use strict";
 'use strict';
 
 (function (app) {
@@ -350,7 +352,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var buildRequestPayLoad = function buildRequestPayLoad(limit, locations, events, prioritizeFeatured) {
 			var payLoad = {
 				Limit: limit,
-				ShouldPrioritzeFeatured: prioritizeFeatured
+				OnlyFeaturedEvents: prioritizeFeatured
 			};
 
 			if (branches.length) {
@@ -358,7 +360,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			if (eventTypes.length) {
-				payLoad.EventTypes = events;
+				payLoad.EventsTypes = events;
 			}
 
 			return payLoad;
