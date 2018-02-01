@@ -16,17 +16,7 @@
 	<script src="/sebin/v/z/master.js"></script>
 	<script src="/js/slick/slick.min.js"></script>
 	<script src="/sebin/d/o/homepage.min.js"></script>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js" integrity="sha256-zBy1l2WBAh2vPF8rnjFMUXujsfkKjya0Jy5j6yKj0+Q="
-		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js" integrity="sha256-E6XubcgT4a601977ZZP4Yw/0UCB2/Ex+Bazst+JRw1U="
-	    crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js" integrity="sha256-9per5naK1wbvJeCJC4Xr3gjiycTRg9Jno/eSvh12+ck="
-	    crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js" integrity="sha256-1XBp/KwjxhvrtZiQ+ecAScAyLPe4OStn2lMX0vxTq9U="
-		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js" crossorigin="anonymous"></script>
-	<script src="/js/apps/events-page/featuredEventsWidget.js"></script>
+	<script src="/js/featured-events-widget/featured-events-widget.min.js"></script>
 </head>
 
 <body>
@@ -464,11 +454,7 @@
 						</header>
 						<div id="events-target">
 							<div ng-app="eventsPageApp">
-								<featured-events 
-									branches="[1]"
-									eventTypes="[7]"
-									results-to-display="3"
-									prioritize-featured="true" />
+								<featured-events />
 							</div>
 						</div>
 					</div>
