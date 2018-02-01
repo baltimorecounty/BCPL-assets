@@ -19,10 +19,6 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 		'node_modules/jquery/dist/jquery.min.js',
-		'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
-		'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
-		'node_modules/jasmine-core/lib/jasmine-core/boot.js',
-		'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
 		'node_modules/angular/angular.min.js',
 		'node_modules/angular-animate/angular-animate.min.js',
 		'node_modules/angular-route/angular-route.min.js',
@@ -41,7 +37,10 @@ module.exports = function(config) {
 		'js/page-specific/**/*.js',
 		'js/apps/**/*.js',
 		'js/*.js',
-		'test/**/*.spec.js'
+		{
+			pattern: 'test/**/*.spec.js', watched: false, served: true, included: true
+		}
+		
 	],
 	
     // list of files to exclude
@@ -70,7 +69,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'coverage', 'coveralls'],
+    reporters: ['mocha', 'coverage', 'coveralls'],
 
 	coverageReporter: {
 		type : 'lcovonly',
