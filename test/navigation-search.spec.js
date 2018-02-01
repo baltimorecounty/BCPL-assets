@@ -232,13 +232,12 @@ describe('windowResized', () => {
 		});
 	});
 
-	it('should add the "animatable" class if the body width is less than 768px', (done) => {
+	it('should add the "animatable" class if the body width is less than 768px', () => {
 		$('body').width(500);
 		$('nav').removeClass('animatable');
 
 		bcpl.navigationSearch.windowResized(sampleEvent, () => {
 			expect($('nav').hasClass('animatable')).toBe(true);
-			done();
 		});
 	});
 
