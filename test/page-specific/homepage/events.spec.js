@@ -34,7 +34,7 @@ describe('Homepage Events', () => {
 
 			expect(expected).toBe(actualEvent.requiresRegistration);
 		});
-});
+	});
 
 	describe('formatTime', () => {
 		it('should turn "12:00 pm" into "12 p.m."', () => {
