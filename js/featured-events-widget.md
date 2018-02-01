@@ -5,7 +5,7 @@
 
 
 ## Usage
-Special note. It is highly recommended that you include a comment with the snippet that describes what data is being pulled. This will allow future to read in plain english what the widget is display. Ids are hard to read!
+**Special note**: It is highly recommended that you include a comment with the snippet that describes what data is being pulled. This will allow future to read in plain english what the widget is display. Ids are hard to read!
 
 ### Basic Usage
 Show all events. Will show all branches, event types and will not prioritize featured events.
