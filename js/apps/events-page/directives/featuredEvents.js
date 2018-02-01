@@ -10,7 +10,7 @@
 		const buildRequestPayLoad = (limit, locations, events, prioritizeFeatured) => {
 			let payLoad = {
 				Limit: limit,
-				ShouldPrioritzeFeatured: prioritizeFeatured
+				OnlyFeaturedEvents: prioritizeFeatured
 			};
 
 			if (branches.length) {
@@ -18,7 +18,7 @@
 			}
 
 			if (eventTypes.length) {
-				payLoad.EventTypes = events;
+				payLoad.EventsTypes = events;
 			}
 
 			return payLoad;
