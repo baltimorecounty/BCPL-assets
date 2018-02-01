@@ -223,12 +223,11 @@ describe('windowResized', () => {
 		done();
 	});
 
-	it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', (done) => {
+	it('should add the "animatable" class if the body width is greater than 768px and the nav does not have the "animatable" class', () => {
 		$('body').width(1000);
 
 		bcpl.navigationSearch.windowResized(sampleEvent, () => {
 			expect($('nav').hasClass('animatable')).toBe(true);
-			done();
 		});
 	});
 
@@ -241,13 +240,12 @@ describe('windowResized', () => {
 		});
 	});
 
-	it('should add the "animatable" class if the body width is equal to 768px', (done) => {
+	it('should add the "animatable" class if the body width is equal to 768px', () => {
 		$('body').width(768);
 		$('nav').removeClass('animatable');
 
 		bcpl.navigationSearch.windowResized(sampleEvent, () => {
 			expect($('nav').hasClass('animatable')).toBe(true);
-			done();
 		});
 	});
 });
