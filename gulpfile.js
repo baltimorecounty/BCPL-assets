@@ -3,9 +3,11 @@ const clean = require('gulp-clean');
 const concat = require('gulp-concat');
 const coveralls = require('gulp-coveralls');
 const cssnano = require('gulp-cssnano');
+const download = require('gulp-download');
 const fs = require('fs');
 const gulp = require('gulp');
 const jshint = require('gulp-jshint');
+const order = require('gulp-order');
 const path = require('path');
 const pug = require('gulp-pug');
 const rename = require('gulp-rename');
@@ -25,12 +27,43 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(rename({ suffix: '.min' }))
 	.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js', 'process-featured-events-widget-js'], () => gulp.src(['dist/js/**/*.js'])
-	.pipe(uglify())
-	.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
-	.pipe(rename({ suffix: '.min' }))
-	.pipe(gulp.dest('dist/js')));
+gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js', 'process-featured-events-widget-js'], () => {
+	return gulp.src(['dist/js/**/*.js', '!dist/js/lib/*.js'])
+		.pipe(uglify())
+		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(gulp.dest('dist/js'));
+});
 
+
+gulp.task('download-angular-libs', () => {
+	const libFiles = [
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js'
+	];
+
+	return download(libFiles)
+		.pipe(gulp.dest('dist/js/lib'));
+});
+
+gulp.task('create-featured-events-widget-js', ['download-angular-libs'], () => {
+	const targetFiles = [
+		'dist/js/lib/angular.min.js',
+		'dist/js/lib/*.js',
+		'dist/js/apps/events-page/featuredEventsWidget.min.js'
+	];
+	return gulp.src(targetFiles)
+		.pipe(order([
+			'angular.min.js',
+			'*.js',
+			'dist/js/apps/events-page/featuredEventsWidget.min.js'
+		]))
+		.pipe(concat('featured-events-widget.min.js'))
+		.pipe(gulp.dest('dist/js/featured-events-widget'));
+});
 
 gulp.task('process-app-js', () => {
 	const appRootFolder = 'js/apps';
@@ -198,7 +231,7 @@ gulp.task('default', ['clean'], callback => runSequence([
 	'move-fonts',
 	'rewrite',
 	'move-data'
-], 'code-coverage', callback));
+], 'create-featured-events-widget-js', 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
