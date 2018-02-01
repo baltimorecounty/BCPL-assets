@@ -38,9 +38,11 @@ describe('Site Search', () => {
 
 	describe('Clearing the Search Field', () => {
 		let $searchInput;
+		let $searchBox;
 
 		beforeEach((done) => {
 			$searchInput = $('#site-search-input');
+			$searchBox = $('#search-box');
 
 			$searchInput
 				.val('test')
@@ -50,17 +52,17 @@ describe('Site Search', () => {
 		});
 
 		it('should show the clear icon when text is entered', () => {
-			const isClearButtonVisible = $('#site-search-input .fa-times').is(':visible');
+			const isClearButtonVisible = $searchBox.find('.fa-times').is(':visible');
 			expect(isClearButtonVisible).toEqual(true);
 		});
 
 		it('should not show the search icon when text is entered', () => {
-			const isClearButtonVisible = $('#site-search-input .fa-search').is(':visible');
+			const isClearButtonVisible = $searchBox.find('.fa-search').is(':visible');
 			expect(isClearButtonVisible).toEqual(false);
 		});
 
 		it('should clear the input\'s value after the clear button is selected', () => {
-			$('#site-search-input .fa-times').trigger('click');
+			$searchBox.find('.fa-times').trigger('click');
 
 			const hasSearchValue = !!$searchInput.val();
 			expect(hasSearchValue).toEqual(false);
