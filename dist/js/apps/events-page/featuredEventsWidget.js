@@ -7,13 +7,10 @@
 })();
 'use strict';
 
-/**
- * Start of the Featured Events Widget
- */
 (function () {
-  'use strict';
+	'use strict';
 
-  angular.module('featuredEventsWidget', []);
+	angular.module('featuredEventsWidget', []);
 })();
 'use strict';
 
