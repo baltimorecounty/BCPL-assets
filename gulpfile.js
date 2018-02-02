@@ -42,7 +42,8 @@ gulp.task('download-angular-libs', () => {
 		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js',
 		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js',
 		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js'
+		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js'
 	];
 
 	return download(libFiles)
@@ -57,6 +58,7 @@ gulp.task('create-featured-events-widget-js', ['download-angular-libs'], () => {
 	];
 	return gulp.src(targetFiles)
 		.pipe(order([
+			'moment.min.js',
 			'angular.min.js',
 			'*.js',
 			'dist/js/apps/events-page/featuredEventsWidget.min.js'
