@@ -1,3 +1,90 @@
+.events {
+	padding-top: 2em;
+
+	.registration-required {
+		font-weight: 600;
+	}
+	
+	header {
+		position: relative;
+		.feed {
+			position: relative;
+			top: 15px;
+			display: block;
+			float: right;
+			margin-left: 2em;
+
+			&:last-child {
+				margin-left: 0;
+			}
+		}			
+	}
+	.post {
+		background: $gray-lightest;
+		margin-top: 2em;
+		padding: 2em 1em;
+		text-align: center;
+		display: block;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: none;
+		}
+
+		time {
+			text-transform: uppercase;
+			transform-style: preserve-3d;				
+
+			.date, .link {
+				background-color: $red;
+				color: white;
+			
+				.month {
+					text-align: center;
+				}
+
+				.day {
+					text-align: center;
+					font-size: 2em;
+				}
+			}
+
+			.time {
+				font-size: .8em;
+				margin-top: .5em;
+				text-align: center;
+			}
+
+			.link {
+				background-color: $teal-dark;
+				box-shadow: $shadow-primary-darker;
+
+				div:first-child {
+					padding-top: .5em;						
+				}
+			}
+
+		}
+
+		footer {
+			margin: 0 -1em;
+			border-top: 1px dashed $gray-medium;
+			padding: 1em;
+
+			a {
+				display: block;
+				float: left;
+				color: $teal-dark;
+				font-size: .8em;
+
+				&:last-child {
+					float: right;
+				}
+			}
+		}
+	}
+}
+
 .registration-required {
 	color: red;
 	
