@@ -3,7 +3,7 @@
 
 	var constants = {
 		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://localhost:54453',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
