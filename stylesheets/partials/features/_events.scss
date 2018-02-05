@@ -420,12 +420,35 @@ a, button, input, label {
             text-align: left;
             padding-left: 1em;
         }
-    }
+	}
+	.events {
+		header {
+			.feed {
+				display: block;
+				float: none;
+				text-align: right;
+			}
+		}
+	}
 }
 
 @media (max-width: $screen-md) {
     .calendar-datepicker {
         display: block;
     }
+}
 
+@media (max-width: $screen-sm-max) {
+	#events-target {
+		padding: 2em 15px;
+		display: block;
+
+		.events {
+			padding-left: 0;
+			padding-top: 2em;
+			margin-top: 2em;
+			background-repeat: repeat-x;
+			background-position: top;
+		}
+	}
 }
