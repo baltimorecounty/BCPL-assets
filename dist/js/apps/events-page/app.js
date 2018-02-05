@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		//'baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -253,7 +253,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength) {
+		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+			if (isAllDay) return 'All Day';
+
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
@@ -688,7 +690,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 
 			innerScope.eventScheduleString = function (eventItem) {
-				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
 			};
 
 			innerScope.getDisplayDate = function (eventGroup) {
