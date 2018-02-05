@@ -3,9 +3,11 @@ const clean = require('gulp-clean');
 const concat = require('gulp-concat');
 const coveralls = require('gulp-coveralls');
 const cssnano = require('gulp-cssnano');
+const download = require('gulp-download');
 const fs = require('fs');
 const gulp = require('gulp');
 const jshint = require('gulp-jshint');
+const order = require('gulp-order');
 const path = require('path');
 const pug = require('gulp-pug');
 const rename = require('gulp-rename');
@@ -15,6 +17,7 @@ const stripCode = require('gulp-strip-code');
 const stylish = require('jshint-stylish');
 const uglify = require('gulp-uglify');
 const util = require('gulp-util');
+const featuredEventsFiles = require('./gulp-tasks/featured-events.files');
 
 gulp.task('clean', () => gulp.src('dist')
 	.pipe(clean()));
@@ -25,12 +28,40 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(rename({ suffix: '.min' }))
 	.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js'], () => gulp.src(['dist/js/**/*.js'])
-	.pipe(uglify())
-	.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
-	.pipe(rename({ suffix: '.min' }))
-	.pipe(gulp.dest('dist/js')));
+gulp.task('minify-js', [
+		'process-master-js', 
+		'process-homepage-js', 
+		'process-app-js', 
+		'move-page-specific-js', 
+		'process-featured-events-widget-js'
+	], () => {
+	return gulp.src([
+			'dist/js/**/*.js',
+			'!**/*min.js'
+		])
+		.pipe(uglify())
+		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(gulp.dest('dist/js'));
+});
 
+gulp.task('create-featured-events-widget-js', () => {
+	const targetFiles = [
+		'dist/js/angular/angular.min.js',
+		'dist/js/angular/*.js',
+		'dist/js/moment/*.js',
+		'dist/js/apps/events-page/featuredEventsWidget.min.js'
+	];
+	return gulp.src(targetFiles)
+		.pipe(order([
+			'dist/js/moment/*.js',
+			'dist/js/angular/angular.min.js',
+			'dist/js/angular/angular*.js',
+			'dist/js/apps/events-page/featuredEventsWidget.min.js'
+		], { base: './' }))
+		.pipe(concat('featured-events-widget.min.js'))
+		.pipe(gulp.dest('dist/js/featured-events-widget'));
+});
 
 gulp.task('process-app-js', () => {
 	const appRootFolder = 'js/apps';
@@ -63,6 +94,24 @@ gulp.task('process-app-js', () => {
 			.pipe(concat('app.js'))
 			.pipe(gulp.dest(`dist/js/apps/${folder}`));
 	});
+});
+
+
+gulp.task('process-featured-events-widget-js', () => {
+	gulp.src(featuredEventsFiles)
+		.pipe(jshint({
+			esversion: 6
+		}))
+		.pipe(jshint.reporter(stylish))
+		.pipe(babel({
+			presets: ['es2015']
+		}))
+		.pipe(stripCode({
+			start_comment: 'test-code',
+			end_comment: 'end-test-code'
+		}))
+		.pipe(concat('featuredEventsWidget.js'))
+		.pipe(gulp.dest('dist/js/apps/events-page'));
 });
 
 gulp.task('move-app-directive-templates', () => {
@@ -170,7 +219,7 @@ gulp.task('default', ['clean'], callback => runSequence([
 	'move-fonts',
 	'rewrite',
 	'move-data'
-], 'code-coverage', callback));
+], 'create-featured-events-widget-js', 'code-coverage', callback));
 
 gulp.task('watcher', () => {
 	gulp.watch('**/*.pug', ['default']);
