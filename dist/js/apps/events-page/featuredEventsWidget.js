@@ -18,8 +18,8 @@
 	'use strict';
 
 	var constants = {
-		//'baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -124,8 +124,10 @@
 		var getById = function getById(id) {
 			return $q(function (resolve, reject) {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
-					if (response.data && response.data.Description) {
-						response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+					if (response.data) {
+						if (response.data.Description) {
+							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+						}
 						resolve(response.data);
 					} else {
 						reject(response);
@@ -260,7 +262,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength) {
+		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+			if (isAllDay) return 'All Day';
+
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}

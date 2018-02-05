@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		//'baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -117,8 +117,10 @@
 		var getById = function getById(id) {
 			return $q(function (resolve, reject) {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
-					if (response.data && response.data.Description) {
-						response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+					if (response.data) {
+						if (response.data.Description) {
+							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+						}
 						resolve(response.data);
 					} else {
 						reject(response);
@@ -253,7 +255,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength) {
+		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+			if (isAllDay) return 'All Day';
+
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
@@ -345,7 +349,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			self.data = data;
 			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
-			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength);
+			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength, self.data.AllDay);
 			self.isRegistrationRequired = self.data.RegistrationTypeCodeEnum !== 0;
 			self.isOver = moment().isAfter(moment(self.data.EventStart).add(self.data.EventLength, 'm'));
 		};
@@ -397,7 +401,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
 		eventsService.getById(id).then(processEventData);
@@ -688,7 +692,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 
 			innerScope.eventScheduleString = function (eventItem) {
-				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
 			};
 
 			innerScope.getDisplayDate = function (eventGroup) {
