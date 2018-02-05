@@ -347,7 +347,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			self.data = data;
 			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
-			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength);
+			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength, self.data.AllDay);
 			self.isRegistrationRequired = self.data.RegistrationTypeCodeEnum !== 0;
 			self.isOver = moment().isAfter(moment(self.data.EventStart).add(self.data.EventLength, 'm'));
 		};
@@ -399,7 +399,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
 		eventsService.getById(id).then(processEventData);
