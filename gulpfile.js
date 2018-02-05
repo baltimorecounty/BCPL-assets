@@ -17,6 +17,7 @@ const stripCode = require('gulp-strip-code');
 const stylish = require('jshint-stylish');
 const uglify = require('gulp-uglify');
 const util = require('gulp-util');
+const featuredEventsFiles = require('./gulp-tasks/featured-events.files');
 
 gulp.task('clean', () => gulp.src('dist')
 	.pipe(clean()));
@@ -97,17 +98,7 @@ gulp.task('process-app-js', () => {
 
 
 gulp.task('process-featured-events-widget-js', () => {
-	gulp.src([
-		'js/apps/events-page/app.js',
-		'js/apps/events-page/featuredEvents*.js',
-		'js/apps/events-page/constants.js',
-		'js/apps/events-page/config.js',
-		'js/apps/events-page/dataServices/**/*.js',
-		'js/apps/events-page/filters/**/*.js',
-		'js/apps/events-page/services/**/*.js',
-		'js/apps/events-page/controllers/**/featuredEvents*.js',
-		'js/apps/events-page/directives/**/featuredEvents.js'
-	])
+	gulp.src(featuredEventsFiles)
 		.pipe(jshint({
 			esversion: 6
 		}))
