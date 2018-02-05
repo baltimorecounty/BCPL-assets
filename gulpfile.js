@@ -27,42 +27,37 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(rename({ suffix: '.min' }))
 	.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', ['process-master-js', 'process-homepage-js', 'process-app-js', 'move-page-specific-js', 'process-featured-events-widget-js'], () => {
-	return gulp.src(['dist/js/**/*.js', '!dist/js/lib/*.js'])
+gulp.task('minify-js', [
+		'process-master-js', 
+		'process-homepage-js', 
+		'process-app-js', 
+		'move-page-specific-js', 
+		'process-featured-events-widget-js'
+	], () => {
+	return gulp.src([
+			'dist/js/**/*.js',
+			'!**/*min.js'
+		])
 		.pipe(uglify())
 		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/js'));
 });
 
-
-gulp.task('download-angular-libs', () => {
-	const libFiles = [
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js'
-	];
-
-	return download(libFiles)
-		.pipe(gulp.dest('dist/js/lib'));
-});
-
-gulp.task('create-featured-events-widget-js', ['download-angular-libs'], () => {
+gulp.task('create-featured-events-widget-js', () => {
 	const targetFiles = [
-		'dist/js/lib/angular.min.js',
-		'dist/js/lib/*.js',
+		'dist/js/angular/angular.min.js',
+		'dist/js/angular/*.js',
+		'dist/js/moment/*.js',
 		'dist/js/apps/events-page/featuredEventsWidget.min.js'
 	];
 	return gulp.src(targetFiles)
 		.pipe(order([
-			'moment.min.js',
-			'angular.min.js',
-			'*.js',
+			'dist/js/moment/*.js',
+			'dist/js/angular/angular.min.js',
+			'dist/js/angular/angular*.js',
 			'dist/js/apps/events-page/featuredEventsWidget.min.js'
-		]))
+		], { base: './' }))
 		.pipe(concat('featured-events-widget.min.js'))
 		.pipe(gulp.dest('dist/js/featured-events-widget'));
 });
