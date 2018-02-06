@@ -73,7 +73,7 @@
 							ng-model="eventRegistrationPage.phone"
 							ng-model-options="{'updateOn': 'blur'}"
 							ng-required="true"
-							ng-pattern="/\d\d\d-\d\d\d-\d\d\d\d/"> 
+							ng-pattern="/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/"> 
 						<span class="form-validation-error" ng-if="eventRegistrationForm.phone.$touched && eventRegistrationForm.phone.$invalid">Phone number must be in the following format: 410-555-1212.</span>
 					</div>
 					<div>
