@@ -25,7 +25,7 @@
 	<div class="main-content top-border">
 		<h1>{{eventDetailsPage.data.Title}}</h1>
 
-		<p>{{eventDetailsPage.data.Description}}</p>
+		<p ng-if="eventDetailsPage.data.Description">{{eventDetailsPage.data.Description}}</p>
 
 		<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
 			<a href="#!/register/{{eventDetailsPage.data.EventId}}" class="btn-primary btn-uppercase-bold" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">

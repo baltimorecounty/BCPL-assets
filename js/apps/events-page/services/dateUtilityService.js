@@ -14,7 +14,9 @@
 			return date;
 		};
 
-		const formatSchedule = (eventStart, eventLength) => {
+		const formatSchedule = (eventStart, eventLength, isAllDay) => {
+			if (isAllDay) return 'All Day';
+
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}

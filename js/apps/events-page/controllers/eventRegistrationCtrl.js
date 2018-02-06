@@ -36,7 +36,7 @@
 
 		const processEventData = (data) => {
 			vm.data = data;
-			vm.data.EventSchedule =	dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+			vm.data.EventSchedule =	dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
 		eventsService.getById(id).then(processEventData);

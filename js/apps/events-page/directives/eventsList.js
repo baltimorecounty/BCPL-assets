@@ -13,7 +13,7 @@
 			};
 
 			innerScope.eventScheduleString = (eventItem) =>
-				dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+				dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
 
 			innerScope.getDisplayDate = (eventGroup) => eventGroup.date.toLocaleDateString('en-US', dateSettings);
 		};

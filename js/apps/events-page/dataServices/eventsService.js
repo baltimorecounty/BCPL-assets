@@ -1,4 +1,4 @@
-((app) => {
+((app, moment) => {
 	'use strict';
 
 	const eventsService = (CONSTANTS, $http, $q) => {
@@ -49,9 +49,51 @@
 			return $q((resolve, reject) => {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id)
 					.then((response) => {
-						if (response.data && response.data.Description) {
-							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+						if (response.data) {
+							if (response.data.Description) {
+								response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+							}
 							resolve(response.data);
+						} else {
+							reject(response);
+						}
+					}, reject);
+			});
+		};
+
+		const formatTime = unformattedTime => {
+			return unformattedTime.replace(':00', '').replace(/\w\w$/, foundString => foundString.split('').join('.') + '.');
+		};
+
+		const processEvent = calendarEvent => {
+			const localCalendarEvent = calendarEvent;
+			const eventMoment = moment(calendarEvent.EventStart);
+
+			localCalendarEvent.eventMonth = eventMoment.format('MMM');
+			localCalendarEvent.eventDate = eventMoment.format('D');
+			localCalendarEvent.eventTime = formatTime(eventMoment.format('h:mm a'));
+			localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
+
+			return localCalendarEvent;
+		};
+
+		const formatFeaturedEvents = (events) => {
+			const featuredEvents = [];
+
+			events.forEach((event) => {
+				const processedEvent = processEvent(event);
+				featuredEvents.push(processedEvent);
+			});
+
+			return featuredEvents;
+		};
+
+		const getFeaturedEvents = (eventRequestModel) => {
+			return $q((resolve, reject) => {
+				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
+					.then((response) => {
+						if (response.data) {
+							resolve(formatFeaturedEvents(response.data.Events));
 						} else {
 							reject(response);
 						}
@@ -63,13 +105,16 @@
 			/* test-code */
 			isEventOnDate,
 			dateSplitter,
+			formatTime,
+			processEvent,
 			/* end-test-code */
 			get,
-			getById
+			getById,
+			getFeaturedEvents
 		};
 	};
 
 	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
 
 	app.factory('eventsService', eventsService);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), window.moment);

@@ -16,6 +16,7 @@
 	<script src="/sebin/v/z/master.js"></script>
 	<script src="/js/slick/slick.min.js"></script>
 	<script src="/sebin/d/o/homepage.min.js"></script>
+	<script src="/js/featured-events-widget/featured-events-widget.min.js"></script>
 </head>
 
 <body>
@@ -436,7 +437,6 @@
 				</div>
 			</div>
 		</section>
-
 		<section class="events-wrapper">
 			<div class="container">
 				<div class="row">
@@ -452,45 +452,15 @@
 									<i class="fa fa-rss"></i>Subscribe to Events</a>
 							</div>
 						</header>
-						<div id="events-target" class="row flex">
-							<script id="events-template" type="text/x-handlebars-template">
-								{{#each this}}
-								<div class="col-md-3 flex flex-column">
-									<a href="/events-and-programs/list.html#!/{{EventId}}" class="post flex flex-column">
-										<time datetime="5-30 10:00-05:00">
-											<div class="animated animated-flip round-container">
-												<div class="big-round face front date">
-													<div class="month">{{eventMonth}}</div>
-													<div class="day">{{eventDate}}</div>
-												</div>
-												<div class="big-round face back link">
-													<div>details</div>
-													<div class="day">
-														<i class="fa fa-caret-right" aria-hidden="true"></i>
-													</div>
-												</div>
-											</div>
-											<div class="time">{{eventTime}}</div>
-										</time>
-										<h4>{{Title}}</h4>
-										<p>
-											{{LocationName}}
-											{{#if requiresRegistration}}
-											<br />
-											<span class="registration-required"><i class="fa fa-star" aria-hidden="true"></i> Registration Required</span>
-											{{/if}}
-										</p>
-										
-									</a>
-								</div>
-								{{/each}}
-							</script>
+						<div id="events-target">
+							<div ng-app="eventsPageApp">
+								<featured-events />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-
 		<section class="blog-wrapper">
 			<div class="container">
 				<div class="row">
