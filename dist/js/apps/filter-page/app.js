@@ -17,7 +17,7 @@
 		},
 		urls: {
 			// databases: 'http://ba224964:3100/api/structured-content/databases',
-			databases: 'http://testservices.bcpl.info/api/structured-content/databases',
+			databases: 'https://testservices.bcpl.info/api/structured-content/databases',
 			locations: '/sebin/q/r/branch-amenities.json'
 		},
 		filters: {
@@ -30,8 +30,8 @@
 		}
 	};
 
-	app.constant('bcpl.jobPostingsTableWidget.CONSTANTS', constants);
-})(angular.module('bcpl.jobPostingsTableWidget'));
+	app.constant('CONSTANTS', constants);
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {

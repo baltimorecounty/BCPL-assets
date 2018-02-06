@@ -1,0 +1,38 @@
+<div id="events-target" class="row flex">
+	<div ng-show="!featuredEventList.length">
+		<div class="col-xs-12">
+			<p class="post" style="padding-bottom: 20px;">Sorry, no events are available at this time.</p>
+		</div>
+	</div>
+	<div
+		ng-show="featuredEventList.length" 
+		ng-repeat="featuredEvent in featuredEventList" 
+		class="col-md-{{featuredEventList.length}} flex flex-column">
+			<a href="/events-and-programs/list.html#!/{{featuredEvent.EventId}}" class="post flex flex-column">
+				<time datetime="5-30 10:00-05:00">
+					<div class="animated animated-flip round-container">
+						<div class="big-round face front date">
+							<div class="month">{{featuredEvent.eventMonth}}</div>
+							<div class="day">{{featuredEvent.eventDate}}</div>
+						</div>
+						<div class="big-round face back link">
+							<div>details</div>
+							<div class="day">
+								<i class="fa fa-caret-right" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+					<div class="time">{{featuredEvent.eventTime}}</div>
+				</time>
+				<h4>{{featuredEvent.Title}}</h4>
+				<p>
+					{{featuredEvent.LocationName}}
+					<span ng-show="featuredEvent.requiresRegistration">
+						<br />
+						<span class="registration-required">
+							<i class="fa fa-star" aria-hidden="true"></i> Registration Required</span>
+					</span>
+				</p>
+			</a>
+	</div>
+</div>

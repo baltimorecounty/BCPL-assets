@@ -1,4 +1,4 @@
-((app) => {
+((app, bcFormat) => {
 	'use strict';
 
 	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
@@ -18,7 +18,7 @@
 				FirstName: vm.firstName,
 				LastName: vm.lastName,
 				Email: vm.email,
-				Phone: vm.phone,
+				Phone: bcFormat('phoneNumber', vm.phone, 'xxx-xxx-xxxx'),
 				IsGroup: vm.isGroup === 'true',
 				GroupCount: vm.groupCount
 			};
@@ -36,7 +36,7 @@
 
 		const processEventData = (data) => {
 			vm.data = data;
-			vm.data.EventSchedule =	dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+			vm.data.EventSchedule =	dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
 		eventsService.getById(id).then(processEventData);
@@ -45,4 +45,4 @@
 	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.utility.format);

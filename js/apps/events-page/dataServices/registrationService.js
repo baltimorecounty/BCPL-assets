@@ -24,5 +24,5 @@
 
 	registrationService.$inject = ['CONSTANTS', '$http', '$q'];
 
-	app.factory('jobPostingsTableWidget', registrationService);
-})(angular.module('jobPostingsTableWidget'));
+	app.factory('registrationService', registrationService);
+})(angular.module('eventsPageApp'));

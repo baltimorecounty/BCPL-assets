@@ -54,6 +54,12 @@ describe('dateUtilityService', () => {
 
 			expect(actual).toEqual('10 a.m. to 1 p.m.');
 		});
+
+		it('should return "All Day" if the event is an all day event', () => {
+			const actual = dateUtilityService.formatSchedule('2017-11-01T10:00:00', 180, true);
+
+			expect(actual).toEqual('All Day');
+		});
 	});
 
 	describe('addDays', () => {

@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "estraverse": "^4.2.0",
-    "flatpickr": "^3.0.7"
+    "flatpickr": "^3.0.7",
+    "gulp-download": "^0.0.1",
+    "gulp-order": "^1.1.1"
   },
   "devDependencies": {
     "angular": "^1.6.6",
@@ -57,7 +59,8 @@
     "underscore": "^1.8.3"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run"
+    "test": "./node_modules/.bin/karma start --single-run",
+    "watch-tests": "./node_modules/.bin/karma start"
   },
   "repository": {
     "type": "git",
