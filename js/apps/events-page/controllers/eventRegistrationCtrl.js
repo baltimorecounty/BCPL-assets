@@ -27,18 +27,21 @@
 			registrationService.register(postModel).then(postResult => {
 				// jQuery since ngAnimate can't do this.
 				const topOfContent = angular.element('.main-content').first().offset().top;
-
 				vm.postResult = postResult.data;
 
-				if (vm.postResult.HasErrors) {
-					vm.formConfirmationMessage = vm.postResult.Errors.length ? 
+				const data = vm.postResult.Data;
+
+				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+					vm.formConfirmationMessage = data.ConfirmationMessage;
+				}
+				else {
+					const hasErrors = vm.postResult && 
+						Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+						
+					vm.formConfirmationMessage = hasErrors ? 
 						vm.postResult.Errors[0].Error : 
 						"Something went wrong, please try again later";
 				}
-				else {
-					vm.formConfirmationMessage = vm.postResult.data.ConfirmationMessage;
-				}
-
 
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
