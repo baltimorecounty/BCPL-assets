@@ -9,6 +9,7 @@
 		vm.isGroup = 'false';
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
+		vm.formConfirmationMessage = null;
 
 		vm.submitHandler = () => {
 			vm.isLoadingResults = true;
@@ -26,8 +27,22 @@
 			registrationService.register(postModel).then(postResult => {
 				// jQuery since ngAnimate can't do this.
 				const topOfContent = angular.element('.main-content').first().offset().top;
-
 				vm.postResult = postResult.data;
+
+				const data = vm.postResult.Data;
+
+				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+					vm.formConfirmationMessage = data.ConfirmationMessage;
+				}
+				else {
+					const hasErrors = vm.postResult && 
+						Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+						
+					vm.formConfirmationMessage = hasErrors ? 
+						vm.postResult.Errors[0].Error : 
+						"Something went wrong, please try again later";
+				}
+
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
 				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
