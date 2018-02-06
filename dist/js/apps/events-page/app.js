@@ -392,13 +392,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			registrationService.register(postModel).then(function (postResult) {
 				// jQuery since ngAnimate can't do this.
 				var topOfContent = angular.element('.main-content').first().offset().top;
-
 				vm.postResult = postResult.data;
 
-				if (vm.postResult.HasErrors) {
-					vm.formConfirmationMessage = vm.postResult.Errors.length ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+				var data = vm.postResult.Data;
+
+				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
-					vm.formConfirmationMessage = vm.postResult.data.ConfirmationMessage;
+					var hasErrors = vm.postResult && Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+
+					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
 				}
 
 				vm.isSubmitted = true;
