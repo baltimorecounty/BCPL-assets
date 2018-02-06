@@ -374,6 +374,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isGroup = 'false';
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
+		vm.formConfirmationMessage = null;
 
 		vm.submitHandler = function () {
 			vm.isLoadingResults = true;
@@ -393,6 +394,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var topOfContent = angular.element('.main-content').first().offset().top;
 
 				vm.postResult = postResult.data;
+
+				if (vm.postResult.HasErrors) {
+					vm.formConfirmationMessage = vm.postResult.Errors.length ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+				} else {
+					vm.formConfirmationMessage = vm.postResult.data.ConfirmationMessage;
+				}
+
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
 				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
