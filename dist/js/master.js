@@ -1055,6 +1055,39 @@ bcpl.siteSearch = function ($) {
 
 namespacer('bcpl');
 
+bcpl.slideDownNav = function ($) {
+	var slideDownButtonSelector = '.slide-down-nav-item[data-target]';
+	var onSlideDownButtonSelectorClick = function onSlideDownButtonSelectorClick(clickEvent) {
+		clickEvent.preventDefault();
+		var $slideDownButton = $(clickEvent.currentTarget);
+		var targetElmId = $slideDownButton.data('target');
+		var $targetElm = $('#' + targetElmId);
+		var isTargetVisbile = $targetElm.is(':visible');
+		var downArrowClass = 'fa-angle-down';
+		var upArrowClass = 'fa-angle-up';
+		var activeClass = 'active';
+
+		if (isTargetVisbile) {
+			$targetElm.slideUp();
+
+			$slideDownButton.removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+		} else {
+			$targetElm.siblings().slideUp(function () {
+				$targetElm.slideDown();
+
+				$slideDownButton.siblings().removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+
+				$slideDownButton.addClass(activeClass).find('i').removeClass(downArrowClass).addClass(upArrowClass);
+			});
+		}
+	};
+
+	$(document).on('click', slideDownButtonSelector, onSlideDownButtonSelectorClick);
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
