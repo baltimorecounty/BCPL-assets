@@ -256,7 +256,6 @@ bcpl.constants = {
 namespacer('bcpl');
 
 bcpl.accordion = function ($) {
-	var accordionSelector = '.content-accordion';
 	var accordionIcorSelector = 'h4 a i';
 	var collapsableSelector = '.content-accordion-body';
 	var panelSelector = '.content-accordion .panel';
@@ -264,7 +263,7 @@ bcpl.accordion = function ($) {
 	var onCollapsableShown = function onCollapsableShown(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-right').addClass('fa-fa-chevron-down');
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-right').addClass('fa-chevron-down');
 	};
 
 	var onCollapsableHidden = function onCollapsableHidden(collapseEvent) {

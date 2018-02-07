@@ -1,7 +1,6 @@
 namespacer('bcpl');
 
 bcpl.accordion = (($) => {
-	const accordionSelector = '.content-accordion';
 	const accordionIcorSelector = 'h4 a i';
 	const collapsableSelector = '.content-accordion-body';
 	const panelSelector = '.content-accordion .panel';
@@ -13,7 +12,7 @@ bcpl.accordion = (($) => {
 			.closest(panelSelector)
 			.find(accordionIcorSelector)
 			.removeClass('fa-chevron-right')
-			.addClass('fa-fa-chevron-down');
+			.addClass('fa-chevron-down');
 	};
 
 	const onCollapsableHidden = (collapseEvent) => {

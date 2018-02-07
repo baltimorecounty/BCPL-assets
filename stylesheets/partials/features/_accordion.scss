@@ -15,11 +15,8 @@
 
             a {
                 padding: .5em;
-                display: block;      
-                    
-                &.collapsed {
-                    background: $gray-almost-white;  
-                }
+                display: block;   
+                background: $gray-almost-white;  
 
                 i {
                     position: relative;
