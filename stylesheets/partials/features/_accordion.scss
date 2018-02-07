@@ -14,13 +14,14 @@
             font-weight: 600;
 
             a {
-                padding: .5em;
+                padding: .5em .8em;
                 display: block;   
                 background: $gray-almost-white;  
 
                 i {
                     position: relative;
                     top: 8px;
+                    width: 25px;
                 }
             }            
         }
