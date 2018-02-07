@@ -1,0 +1,20 @@
+.drawer {
+	background: white;
+	box-shadow: $shadow-primary;
+	padding: 10px;
+
+	.drawer-section {
+		padding: 10px 40px;
+
+		&:first-child {
+			border-left: 3px solid $gray-lightest;
+		}
+	}
+}
+
+@media screen and (max-width: $screen-sm) {
+	.drawer .drawer-section:first-child {
+		border: none;
+		border-bottom: 3px solid $gray-lightest;
+	}
+}
