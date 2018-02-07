@@ -12,8 +12,8 @@ bcpl.accordion = (($) => {
 		$collapseButton
 			.closest(panelSelector)
 			.find(accordionIcorSelector)
-			.removeClass('fa-plus')
-			.addClass('fa-minus');
+			.removeClass('fa-chevron-right')
+			.addClass('fa-fa-chevron-down');
 	};
 
 	const onCollapsableHidden = (collapseEvent) => {
@@ -22,8 +22,8 @@ bcpl.accordion = (($) => {
 		$collapseButton
 			.closest(panelSelector)
 			.find(accordionIcorSelector)
-			.removeClass('fa-minus')
-			.addClass('fa-plus');
+			.removeClass('fa-chevron-down')
+			.addClass('fa-chevron-right');
 	};
 
 	const init = () => {

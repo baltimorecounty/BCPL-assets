@@ -264,13 +264,13 @@ bcpl.accordion = function ($) {
 	var onCollapsableShown = function onCollapsableShown(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-plus').addClass('fa-minus');
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-right').addClass('fa-fa-chevron-down');
 	};
 
 	var onCollapsableHidden = function onCollapsableHidden(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-minus').addClass('fa-plus');
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-down').addClass('fa-chevron-right');
 	};
 
 	var init = function init() {
