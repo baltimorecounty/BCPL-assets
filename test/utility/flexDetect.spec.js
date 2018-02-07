@@ -26,15 +26,18 @@ describe('flexDetect', () => {
 		done();
 	});
 
-	it('should not detect flexbox', () => {
+	it('should not detect flexbox', (done) => {
 		bcpl.utility.flexDetect.init(fakeDocNoFlex);
 
 		expect($('body').hasClass('no-flex')).toBe(true);
+		done();
 	});
 
-	it('should detect flexbox', () => {
+	it('should detect flexbox', (done) => {
 		bcpl.utility.flexDetect.init(fakeDocHasFlex);
 
 		expect($('body').hasClass('no-flex')).toBe(false);
+
+		done();
 	});
 });
