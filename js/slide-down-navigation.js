@@ -7,25 +7,28 @@ bcpl.slideDownNav = (($) => {
 		const $slideDownButton = $(clickEvent.currentTarget);
 		const targetElmId = $slideDownButton.data('target');
 		const $targetElm = $(`#${targetElmId}`);
+		const $closestContainer = $targetElm.closest('.container');
 		const isTargetVisbile = $targetElm.is(':visible');
 		const downArrowClass = 'fa-angle-down';
 		const upArrowClass = 'fa-angle-up';
 		const activeClass = 'active';
+		const animatationInterval = 500;
 
 		if (isTargetVisbile) {
 			$targetElm
-				.slideUp();
+				.slideUp(animatationInterval);
 
 			$slideDownButton
 				.removeClass(activeClass)
 				.find('i')
 					.removeClass(upArrowClass)
 					.addClass(downArrowClass);
+
 		}
 		else {
-			$targetElm.siblings().slideUp(() => {
+			$targetElm.siblings().slideUp(animatationInterval, () => {
 				$targetElm
-					.slideDown();
+					.slideDown(animatationInterval);
 				
 				$slideDownButton
 					.siblings()
@@ -39,8 +42,8 @@ bcpl.slideDownNav = (($) => {
 						.find('i')
 						.removeClass(downArrowClass)
 						.addClass(upArrowClass);
+
 			});
-			
 		}
 	};
 
