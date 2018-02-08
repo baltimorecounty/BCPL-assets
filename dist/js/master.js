@@ -1057,25 +1057,31 @@ namespacer('bcpl');
 
 bcpl.slideDownNav = function ($) {
 	var slideDownButtonSelector = '.slide-down-nav-item[data-target]';
+	var downArrowClass = 'fa-angle-down';
+	var upArrowClass = 'fa-angle-up';
+	var activeClass = 'active';
+	var animatationInterval = 500;
+
+	var deactivateSlideDownButton = function deactivateSlideDownButton($btns) {
+		$btns.removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+	};
+
 	var onSlideDownButtonSelectorClick = function onSlideDownButtonSelectorClick(clickEvent) {
 		clickEvent.preventDefault();
 		var $slideDownButton = $(clickEvent.currentTarget);
 		var targetElmId = $slideDownButton.data('target');
 		var $targetElm = $('#' + targetElmId);
 		var isTargetVisbile = $targetElm.is(':visible');
-		var downArrowClass = 'fa-angle-down';
-		var upArrowClass = 'fa-angle-up';
-		var activeClass = 'active';
 
 		if (isTargetVisbile) {
-			$targetElm.slideUp();
+			$targetElm.slideUp(animatationInterval);
 
-			$slideDownButton.removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+			deactivateSlideDownButton($slideDownButton);
 		} else {
-			$targetElm.siblings().slideUp(function () {
-				$targetElm.slideDown();
+			$targetElm.siblings().slideUp(animatationInterval, function () {
+				$targetElm.slideDown(animatationInterval);
 
-				$slideDownButton.siblings().removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+				deactivateSlideDownButton($slideDownButton.siblings());
 
 				$slideDownButton.addClass(activeClass).find('i').removeClass(downArrowClass).addClass(upArrowClass);
 			});
