@@ -1,3 +1,6 @@
+.slide-down-nav-panels {
+	height: 0;
+}
 .slide-down-nav-section {
     display: none;
 	margin: 30px auto;
@@ -12,7 +15,7 @@
 	&::after {
 		content: "";
 		position: absolute;
-		transition: all .5s ease;
+		transition: all .4s linear;
 		bottom: 20px;
 		width: 0;
 		height: 0;

@@ -1,20 +1,69 @@
+$drawer-border: 3px solid $gray-lightest;
 .drawer {
-	background: white;
-	box-shadow: $shadow-primary;
-	padding: 10px;
-
-	.drawer-section {
-		padding: 10px 40px;
-
-		&:first-child {
-			border-left: 3px solid $gray-lightest;
-		}
+    background: white;
+    box-shadow: $shadow-primary;
+    padding: 20px;
+    
+    h3 {
+        margin-bottom: 20px;
+        margin-top: 0;
+	}
+	.emphasize-text {
+		margin-bottom: 10px;
+	}
+    .floated-list {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            flex: 0 50%;
+        }
+    }
+    .drawer-link-list {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+    .drawer-information-list {
+        padding-left: 20px;
+        li {
+            margin-bottom: 20px;
+        }
+    }
+    img {
+        height: 100px;
+        width: 140px;
+    }
+    a {
+        @extend .emphasize-text;
+    }
+}
+.drawer-section {
+	padding: 15px 30px;
+	&.border-right {
+		border-right: $drawer-border;
+	}
+	&.border-left {
+		border-left: $drawer-border;
+	}
+	.drawer-callout-text {
+		/* creates space for text */
+		margin: 15px auto;
 	}
 }
 
 @media screen and (max-width: $screen-sm) {
-	.drawer .drawer-section:first-child {
-		border: none;
-		border-bottom: 3px solid $gray-lightest;
+    .drawer-section {
+		&.border-right,
+		&.border-left {
+			border: none;
+		}		
+
+		&:first-child {
+			border-bottom: 1px solid $gray-lightest;
+		}
+	}
+	.drawer-link-list li {
+		padding: 5px 0;
+		margin-bottom: 5px;
 	}
 }
