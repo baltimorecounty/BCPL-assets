@@ -14,6 +14,11 @@ bcpl.constants = {
 		tab: 9,
 		space: 32
 	},
+	breakpoints: {
+		medium: 992,
+		small: 768,
+		xsmall: 480
+	},
 	search: {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json'
@@ -28,7 +33,8 @@ bcpl.constants = {
 	shared: {
 		urls: {
 			alerts: '/api/structured-content/alerts',
-			alertNotification: '/api/structured-content/alerts-notification'
+			alertNotification: '/api/structured-content/alerts-notification',
+			bookCarousels: 'https://ils-test.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
 	}
 };
