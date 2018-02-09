@@ -411,10 +411,12 @@ bcpl.bookCarousel = function ($, constants) {
 
 		return $.ajax(url, {
 			dataType: 'jsonp'
-		}).then(onDataSuccess);
+		}).then(function (data) {
+			return onDataSuccess(data, carouselId);
+		});
 	};
 
-	var onDataSuccess = function onDataSuccess(data) {
+	var onDataSuccess = function onDataSuccess(data, carouselId) {
 		var $items = $(data.Carousel_Str).find('li').wrapInner('<div class="inner"></div>').find('[style]').attr('style', '').closest('.inner');
 
 		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items);
