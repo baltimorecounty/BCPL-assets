@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -472,7 +472,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		self.filterByDate = function () {
@@ -484,8 +484,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				self.eventGroups = [];
 				self.hasResults = true;
 				self.isLoading = true;
+				self.requestErrorMessage = '';
 
-				eventsService.get(requestModel).then(processEvents);
+				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 			}
 		};
 
@@ -508,7 +509,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		};
+
+		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
+			self.isLoading = false;
+			self.requestErrorMessage = "There was a problem retreiving events. Please try again later.";
 		};
 
 		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
@@ -552,7 +558,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.eventsTypes = requestModel.EventsTypes;
 			self.ageGroups = requestModel.AgeGroups;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		/* ** Private ** */
@@ -562,6 +568,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.eventGroups = eventResults.eventGroups;
 			self.isLoading = false;
 			self.hasResults = eventResults.eventGroups.length;
+			self.requestErrorMessage = '';
 
 			$timeout(function () {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -620,7 +627,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		eventsService.get(requestModel).then(processEvents);
+		eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
