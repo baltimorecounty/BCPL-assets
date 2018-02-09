@@ -22,18 +22,23 @@ bcpl.bookCarousel = (($, constants) => {
 	};
 
 	const loadData = (carouselId) => {
-		return $.ajax(constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId), {
-			dataType: 'jsonp'
-		}).then(data => {
-			const $items = $(data.Carousel_Str)
-				.find('li')
-				.wrapInner('<div class="inner"></div>')
-				.find('[style]')
-				.attr('style', '')
-				.closest('.inner');
+		const url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-			$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items);
-		});
+		return $.ajax(url, {
+			dataType: 'jsonp'
+		})
+			.then(onDataSuccess);
+	};
+
+	const onDataSuccess = data => {
+		const $items = $(data.Carousel_Str)
+			.find('li')
+			.wrapInner('<div class="inner"></div>')
+			.find('[style]')
+			.attr('style', '')
+			.closest('.inner');
+
+		$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items);
 	};
 
 	const init = () => {
