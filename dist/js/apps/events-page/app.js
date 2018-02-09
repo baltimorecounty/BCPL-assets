@@ -374,6 +374,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isGroup = 'false';
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
+		vm.formConfirmationMessage = null;
 
 		vm.submitHandler = function () {
 			vm.isLoadingResults = true;
@@ -391,8 +392,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			registrationService.register(postModel).then(function (postResult) {
 				// jQuery since ngAnimate can't do this.
 				var topOfContent = angular.element('.main-content').first().offset().top;
-
 				vm.postResult = postResult.data;
+
+				var data = vm.postResult.Data;
+
+				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+					vm.formConfirmationMessage = data.ConfirmationMessage;
+				} else {
+					var hasErrors = vm.postResult && Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+
+					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+				}
+
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
 				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);

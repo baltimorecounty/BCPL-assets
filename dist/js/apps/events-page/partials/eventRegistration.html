@@ -29,7 +29,11 @@
 				<p>{{eventRegistrationPage.data.EventSchedule}}</p>
 				<p>{{eventRegistrationPage.data.Description}}</p>
 				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event)">
-					<p ng-if="eventRegistrationPage.isSubmitted" ng-class="[eventRegistrationPage.postResult.Success ? 'bg-success' : 'bg-danger', 'registration-result']" ng-bind-html="eventRegistrationPage.postResult.Data.ConfirmationMessage"></p>
+					<p 
+						ng-if="eventRegistrationPage.isSubmitted" 
+						ng-class="[eventRegistrationPage.postResult.Success ? 'bg-success' : 'bg-danger', 'registration-result']" 
+						ng-bind-html="eventRegistrationPage.formConfirmationMessage"></p>
+
 					<p class="required">* required field</p>
 					<div class="row">
 						<div class="col-md-6">
