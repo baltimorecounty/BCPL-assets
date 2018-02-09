@@ -117,8 +117,10 @@
 		var getById = function getById(id) {
 			return $q(function (resolve, reject) {
 				$http.get(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events + '/' + id).then(function (response) {
-					if (response.data && response.data.Description) {
-						response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+					if (response.data) {
+						if (response.data.Description) {
+							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
+						}
 						resolve(response.data);
 					} else {
 						reject(response);
@@ -253,7 +255,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength) {
+		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+			if (isAllDay) return 'All Day';
+
 			if (!eventStart || isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
@@ -345,7 +349,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			self.data = data;
 			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
-			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength);
+			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength, self.data.AllDay);
 			self.isRegistrationRequired = self.data.RegistrationTypeCodeEnum !== 0;
 			self.isOver = moment().isAfter(moment(self.data.EventStart).add(self.data.EventLength, 'm'));
 		};
@@ -359,7 +363,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, bcFormat) {
 	'use strict';
 
 	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
@@ -370,6 +374,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isGroup = 'false';
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
+		vm.formConfirmationMessage = null;
 
 		vm.submitHandler = function () {
 			vm.isLoadingResults = true;
@@ -379,7 +384,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				FirstName: vm.firstName,
 				LastName: vm.lastName,
 				Email: vm.email,
-				Phone: vm.phone,
+				Phone: bcFormat('phoneNumber', vm.phone, 'xxx-xxx-xxxx'),
 				IsGroup: vm.isGroup === 'true',
 				GroupCount: vm.groupCount
 			};
@@ -387,8 +392,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			registrationService.register(postModel).then(function (postResult) {
 				// jQuery since ngAnimate can't do this.
 				var topOfContent = angular.element('.main-content').first().offset().top;
-
 				vm.postResult = postResult.data;
+
+				var data = vm.postResult.Data;
+
+				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+					vm.formConfirmationMessage = data.ConfirmationMessage;
+				} else {
+					var hasErrors = vm.postResult && Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+
+					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+				}
+
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
 				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
@@ -397,7 +412,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
 		eventsService.getById(id).then(processEventData);
@@ -406,7 +421,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
 (function (app) {
@@ -688,7 +703,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 
 			innerScope.eventScheduleString = function (eventItem) {
-				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength);
+				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
 			};
 
 			innerScope.getDisplayDate = function (eventGroup) {
