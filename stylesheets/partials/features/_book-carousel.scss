@@ -1,10 +1,9 @@
 .book-carousel {    
-    margin: 0 auto;
+    margin: 0 auto 30px;
     display: none;
     flex: 1;
-    margin: 1em 0;
+    margin: 2em 0;
     background-color: $gray-lightest;
-    box-shadow: $shadow-primary;
     
     .inner {
         text-align: center;
@@ -12,6 +11,11 @@
         
         img {
             display: inline-block;
+        }
+
+        a {
+            display: block;
+            margin-top: .5em;
         }
     }
     
@@ -22,7 +26,11 @@
 		text-decoration: none;
 		background-color: $teal;
 		color: white;
-		font-size: 2em;
+        font-size: 2em;
+        
+        &:hover {
+            background-color: $teal-light;
+        }
     }
 
     &.slick-slider,
