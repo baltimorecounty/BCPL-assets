@@ -10,6 +10,11 @@ button {
 
 .btn-primary {
 	background-color: $teal;
+	border: 1px solid $gray;
+	box-shadow: $shadow-primary-darker;
+	color: white !important;
+	padding: .5em 1em;
+	text-transform: uppercase;
 
 	&:hover {
 		background-color: $teal-light;
@@ -19,7 +24,6 @@ button {
 .btn-uppercase-bold {
 	text-transform: uppercase;
 	font-weight: 700;
-	padding: .25em 1em;
 	margin-bottom: 2em;
 }
 
@@ -27,5 +31,6 @@ button {
 .seButton {
 	background-color: $gray-lightest;
 	box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
+	padding: .5em 1em;
 }
 
