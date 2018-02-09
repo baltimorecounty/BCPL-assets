@@ -233,6 +233,11 @@ bcpl.constants = {
 		tab: 9,
 		space: 32
 	},
+	breakpoints: {
+		medium: 992,
+		small: 768,
+		xsmall: 480
+	},
 	search: {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json'
@@ -247,7 +252,8 @@ bcpl.constants = {
 	shared: {
 		urls: {
 			alerts: '/api/structured-content/alerts',
-			alertNotification: '/api/structured-content/alerts-notification'
+			alertNotification: '/api/structured-content/alerts-notification',
+			bookCarousels: 'https://ils-test.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
 	}
 };
@@ -375,6 +381,61 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 $(function () {
 	bcpl.alertBox.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.bookCarousel = function ($, constants) {
+	var promises = [];
+	var slickSettings = {
+		infinite: true,
+		arrows: true,
+		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
+		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
+		slidesToShow: 3,
+		responsive: [{
+			breakpoint: constants.breakpoints.medium,
+			settings: {
+				slidesToShow: 2
+			}
+		}, {
+			breakpoint: constants.breakpoints.small,
+			settings: {
+				slidesToShow: 1
+			}
+		}]
+	};
+
+	var loadData = function loadData(carouselId) {
+		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
+
+		return $.ajax(url, {
+			dataType: 'jsonp'
+		}).then(onDataSuccess);
+	};
+
+	var onDataSuccess = function onDataSuccess(data) {
+		var $items = $(data.Carousel_Str).find('li').wrapInner('<div class="inner"></div>').find('[style]').attr('style', '').closest('.inner');
+
+		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items);
+	};
+
+	var init = function init() {
+		$('.book-carousel').each(function (index, carouselElement) {
+			var carouselId = $(carouselElement).attr('data-carousel-id');
+
+			promises.push(loadData(carouselId));
+		});
+
+		$.when.apply($, promises).then(function () {
+			$('.book-carousel').slick(slickSettings);
+		});
+	};
+
+	return {
+		init: init
+	};
+}(jQuery, bcpl.constants);
 'use strict';
 
 namespacer('bcpl.pageSpecific.homepage');
