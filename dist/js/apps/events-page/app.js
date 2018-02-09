@@ -11,8 +11,8 @@
 	'use strict';
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -514,7 +514,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
 			self.isLoading = false;
-			self.requestErrorMessage = "There was a problem retreiving events. Please try again later.";
+			self.requestErrorMessage = "There was a problem retrieving events. Please try again later.";
 		};
 
 		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
