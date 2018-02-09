@@ -97,7 +97,7 @@
 
 		const handleFailedEventsGetRequest = (error) => {
 			self.isLoading = false;
-			self.requestErrorMessage = "There was a problem retreiving events. Please try again later.";
+			self.requestErrorMessage = "There was a problem retrieving events. Please try again later.";
 		};
 
 		const toggleFilter = (collection, id, shouldAddToCollection) => {
