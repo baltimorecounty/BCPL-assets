@@ -31,14 +31,27 @@ bcpl.bookCarousel = (($, constants) => {
 	};
 
 	const onDataSuccess = (data, carouselId) => {
-		const $items = $(data.Carousel_Str)
+		const $data = $(data.Carousel_Str);
+		const $images = $data.find('li div img');
+		const $links = $data.find('li div a');
+		const $items = $data
 			.find('li')
-			.wrapInner('<div class="inner"></div>')
-			.find('[style]')
-			.attr('style', '')
-			.closest('.inner');
+			.map((index, element) => cleanHtml(index, element, $images, $links));
 
-		$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items);
+		$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items.get());
+	};
+
+	const cleanHtml = (index, element, $images, $links) => {
+		const $image = $images.eq(index);
+		const $link = $links.eq(index);
+
+		$image
+			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
+			.attr('style', '');
+
+		return $('<div class="inner"></div>')
+			.append($image)
+			.append($link);
 	};
 
 	const init = () => {
