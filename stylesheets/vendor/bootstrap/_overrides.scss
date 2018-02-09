@@ -31,11 +31,6 @@
 	cursor: pointer;
 }
 
-.seButton {
-	padding: .25em 1em !important;
-}
-
-
 .buttonPrimary,
 .seButton.buttonPrimary {
 	@extend .btn;
@@ -43,4 +38,5 @@
 	@extend .btn-uppercase-bold;
 	border: none;
 	margin-bottom: 0 !important;
+	margin-right: 5px;
 }

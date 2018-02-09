@@ -10,6 +10,10 @@ form {
 	}
 }
 
+#formButtonContainer .SEAFWrapper {
+	display: inline-block;
+}
+
 .bg-success {
 	border-top: 5px solid $form-response-success-border;
 	background: $form-response-success-background;
