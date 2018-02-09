@@ -46,7 +46,10 @@
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService
+				.get(requestModel)
+				.then(processEvents)
+				.catch(handleFailedEventsGetRequest);
 		};
 
 		self.filterByDate = () => {
@@ -58,8 +61,12 @@
 				self.eventGroups = [];
 				self.hasResults = true;
 				self.isLoading = true;
+				self.requestErrorMessage = '';
 
-				eventsService.get(requestModel).then(processEvents);
+				eventsService
+					.get(requestModel)
+					.then(processEvents)
+					.catch(handleFailedEventsGetRequest);
 			}
 		};
 
@@ -82,7 +89,15 @@
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService
+				.get(requestModel)
+				.then(processEvents)
+				.catch(handleFailedEventsGetRequest);
+		};
+
+		const handleFailedEventsGetRequest = (error) => {
+			self.isLoading = false;
+			self.requestErrorMessage = "There was a problem retreiving events. Please try again later.";
 		};
 
 		const toggleFilter = (collection, id, shouldAddToCollection) => {
@@ -126,7 +141,10 @@
 			self.eventsTypes = requestModel.EventsTypes;
 			self.ageGroups = requestModel.AgeGroups;
 	
-			eventsService.get(requestModel).then(processEvents);
+			eventsService
+				.get(requestModel)
+				.then(processEvents)
+				.catch(handleFailedEventsGetRequest);
 		};
 
 		/* ** Private ** */
@@ -136,6 +154,7 @@
 			self.eventGroups = eventResults.eventGroups;
 			self.isLoading = false;
 			self.hasResults = eventResults.eventGroups.length;
+			self.requestErrorMessage = '';
 
 			$timeout(() => {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -194,7 +213,10 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		eventsService.get(requestModel).then(processEvents);
+		eventsService
+			.get(requestModel)
+			.then(processEvents)
+			.catch(handleFailedEventsGetRequest);
 	};
 
 	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
