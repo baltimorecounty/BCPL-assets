@@ -1,7 +1,6 @@
-.book-carousel,
-.book-carousel.slick-slider {
+.book-carousel {    
     margin: 0 auto;
-    display: flex;
+    display: none;
     flex: 1;
     margin: 1em 0;
     background-color: $gray-lightest;
@@ -24,6 +23,11 @@
 		background-color: $teal;
 		color: white;
 		font-size: 2em;
+    }
+
+    &.slick-slider,
+    &.slick-initialized {
+        display: flex;
     }
 }
 
