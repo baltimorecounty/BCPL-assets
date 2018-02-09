@@ -1,6 +1,8 @@
 a {
 	color: $teal;
-	line-height: 1.75em;
+	font-weight: normal;
+	line-height: 1.7em;
+	text-decoration: underline;
 
 	&.solo {
 		font-size: .8em;
@@ -23,13 +25,6 @@ a {
 		-moz-transition: color .25s ease;
 		-o-transition: color .25s ease;
 		transition: color .25s ease;
-	}
-
-	&:hover,
-	&:visited,
-	&:link,
-	&:active {
-		text-decoration: none;
 	}
 
 	&:focus {
