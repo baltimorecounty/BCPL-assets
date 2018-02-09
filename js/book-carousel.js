@@ -27,10 +27,10 @@ bcpl.bookCarousel = (($, constants) => {
 		return $.ajax(url, {
 			dataType: 'jsonp'
 		})
-			.then(onDataSuccess);
+			.then(data => onDataSuccess(data, carouselId));
 	};
 
-	const onDataSuccess = data => {
+	const onDataSuccess = (data, carouselId) => {
 		const $items = $(data.Carousel_Str)
 			.find('li')
 			.wrapInner('<div class="inner"></div>')
