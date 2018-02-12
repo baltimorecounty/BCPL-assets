@@ -2,24 +2,24 @@
 	'use strict';
 
 	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
-		const self = this;
+		const vm = this;
 
-		self.activeFilters = [];
-		self.allCardData = {};
-		self.isEverythingFilteredOut = false;
+		vm.activeFilters = [];
+		vm.allCardData = {};
+		vm.isEverythingFilteredOut = false;
 
 		/**
 		 * Makes sure the filters and tags are in sync.
 		 *
 		 * @param {string} filter
 		 */
-		self.setFilter = (filter, filterFamily) => {
+		vm.setFilter = (filter, filterFamily) => {
 			setActiveFilters(filter, filterFamily);
 			cycleDisplay();
 		};
 
-		self.clearFilters = () => {
-			self.activeFilters = [];
+		vm.clearFilters = () => {
+			vm.activeFilters = [];
 			cycleDisplay();
 		};
 
@@ -28,8 +28,8 @@
 		const cycleDisplay = () => {
 			const resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
-			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
+			vm.items = vm.allCardData.filter(filterDataItems);
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(() => {
 				$animate.removeClass(resultsDisplayElement, 'fade-out');
@@ -47,10 +47,10 @@
 
 			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
 
-			self.filters = filterService.build(taggedCardData);
-			self.allCardData = taggedCardData;
-			self.items = taggedCardData;
-			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			vm.filters = filterService.build(taggedCardData);
+			vm.allCardData = taggedCardData;
+			vm.items = taggedCardData;
+			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 			$scope.$apply();
 		};
 
@@ -67,13 +67,13 @@
 
 			const tags = _.pluck(cardDataItem.Tags, 'Tag');
 
-			angular.forEach(self.activeFilters, (activeFilter) => {
+			angular.forEach(vm.activeFilters, (activeFilter) => {
 				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
 			});
 
-			return matchCount === self.activeFilters.length;
+			return matchCount === vm.activeFilters.length;
 		};
 
 		/**
@@ -85,12 +85,12 @@
 		const setActiveFilters = (filter, filterFamily) => {
 			const isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
 			const tagString = isTagInfo ? filter.Tag : filter;
-			const filterIndex = self.activeFilters.indexOf(tagString);
+			const filterIndex = vm.activeFilters.indexOf(tagString);
 			const shouldAddFilter = filterIndex === -1;
 			let foundFilterFamily = filterFamily;
 
 			if (isTagInfo) {
-				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				foundFilterFamily = _.where(vm.filters, { name: filter.Name });
 				if (foundFilterFamily.length === 1) {
 					foundFilterFamily = foundFilterFamily[0];
 				}
@@ -111,17 +111,17 @@
 			}
 
 			angular.forEach(tagsToRemove, (tagToRemove) => {
-				const isFound = self.activeFilters.indexOf(tagToRemove) !== -1;
+				const isFound = vm.activeFilters.indexOf(tagToRemove) !== -1;
 
 				if (isFound) {
-					self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+					vm.activeFilters.splice(vm.activeFilters.indexOf(tagToRemove), 1);
 				}
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(tagString);
+				vm.activeFilters.push(tagString);
 			} else {
-				self.activeFilters.splice(filterIndex, 1);
+				vm.activeFilters.splice(filterIndex, 1);
 			}
 		};
 
@@ -138,8 +138,8 @@
 		cardService.get(loadCardsAndFilters);
 
 		/* test-code */
-		self.setActiveFilters = setActiveFilters;
-		self.filterDataItems = filterDataItems;
+		vm.setActiveFilters = setActiveFilters;
+		vm.filterDataItems = filterDataItems;
 		/* end-test-code */
 	};
 
