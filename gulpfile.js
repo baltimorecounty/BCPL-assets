@@ -51,13 +51,13 @@ gulp.task('create-featured-events-widget-js', () => {
 		'dist/js/angular/angular.min.js',
 		'dist/js/angular/angular-aria.min.js',
 		'dist/js/moment/*.js',
-		'dist/js/apps/events-page/featuredEventsWidget.min.js'
+		'dist/js/apps/events-page/featuredEventsWidgetApp.min.js'
 	];
 	return gulp.src(targetFiles)
 		.pipe(order([
 			'dist/js/moment/*.js',
 			'dist/js/angular/angular.min.js',
-			'dist/js/apps/events-page/featuredEventsWidget.min.js'
+			'dist/js/apps/events-page/featuredEventsWidgetApp.min.js'
 		], { base: './' }))
 		.pipe(concat('featured-events-widget.min.js'))
 		.pipe(gulp.dest('dist/js/featured-events-widget'));
@@ -101,7 +101,7 @@ gulp.task('process-featured-events-widget-js', () => {
 			start_comment: 'test-code',
 			end_comment: 'end-test-code'
 		}))
-		.pipe(concat('featuredEventsWidget.js'))
+		.pipe(concat('featuredEventsWidgetApp.js'))
 		.pipe(gulp.dest('dist/js/apps/events-page'));
 });
 
