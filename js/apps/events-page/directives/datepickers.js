@@ -51,7 +51,7 @@
 		return directive;
 	};
 
-	datePickersDirective.$inject = ['$timeout', 'CONSTANTS'];
+	datePickersDirective.$inject = ['$timeout', 'events.CONSTANTS'];
 
 	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));

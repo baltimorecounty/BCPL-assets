@@ -2,12 +2,10 @@
 	'use strict';
 
 	angular
-		.module('eventsPageApp', 
+		.module('featuredEventsWidgetApp', 
 			[
 				'dataServices',
 				'events',
-				'ngAria',
-				'ngRoute', 
-				'ngSanitize'
+				'ngAria'
 			]);
 })();

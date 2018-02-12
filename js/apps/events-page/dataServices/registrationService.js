@@ -22,7 +22,7 @@
 		};
 	};
 
-	registrationService.$inject = ['CONSTANTS', '$http', '$q'];
+	registrationService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
 	app.factory('registrationService', registrationService);
 })(angular.module('eventsPageApp'));

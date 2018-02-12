@@ -4,6 +4,7 @@
   "description": "Web feature assets for BCPL",
   "main": "index.js",
   "dependencies": {
+    "angular-aria": "^1.6.9",
     "estraverse": "^4.2.0",
     "flatpickr": "^3.0.7",
     "gulp-download": "^0.0.1",

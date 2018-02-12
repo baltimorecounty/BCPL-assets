@@ -219,7 +219,7 @@
 			.catch(handleFailedEventsGetRequest);
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
