@@ -6,6 +6,7 @@
 			[
 				'dataServices',
 				'events',
+				'ngAria',
 				'ngRoute', 
 				'ngSanitize'
 			]);
