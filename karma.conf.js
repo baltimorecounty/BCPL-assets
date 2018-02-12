@@ -21,6 +21,7 @@ module.exports = function(config) {
 		'node_modules/jquery/dist/jquery.min.js',
 		'node_modules/angular/angular.min.js',
 		'node_modules/angular-animate/angular-animate.min.js',
+		'node_modules/angular-aria/angular-aria.min.js',
 		'node_modules/angular-route/angular-route.min.js',
 		'node_modules/angular-mocks/angular-mocks.js',
 		'node_modules/angular-sanitize/angular-sanitize.min.js',
@@ -46,7 +47,7 @@ module.exports = function(config) {
     // list of files to exclude
     exclude: [
 		'js/apps/events-page/directives/featuredEvents.js',
-		'js/apps/**/featuredEventsWidget.js',
+		'js/apps/**/featuredEventsWidgetApp.js',
     ],
 
     plugins: [
