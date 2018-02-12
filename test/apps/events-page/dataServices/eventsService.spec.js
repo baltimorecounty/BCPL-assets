@@ -1,12 +1,11 @@
 describe('eventsService', () => {
-	let eventsService;
+	var eventsService;
 
-	beforeEach(() => {
-		angular.mock.module('eventsPageApp', () => {});
-		angular.mock.inject(function injectService(_eventsService_) {
-			eventsService = _eventsService_;
-		});
-	});
+	beforeEach(module('dataServices'));
+	beforeEach(module('events'));
+	beforeEach(inject(['dataServices.eventsService', function (_eventService) {
+		eventsService = _eventService;
+	}]));
 
 	describe('isEventOnDate', () => {
 		let mockEvent = {

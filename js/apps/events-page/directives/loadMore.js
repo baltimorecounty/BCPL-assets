@@ -14,7 +14,7 @@
 		return directive;
 	};
 
-	loadMoreDirective.$inject = ['CONSTANTS'];
+	loadMoreDirective.$inject = ['events.CONSTANTS'];
 
 	app.directive('loadMore', loadMoreDirective);
 })(angular.module('eventsPageApp'));

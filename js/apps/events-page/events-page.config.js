@@ -20,7 +20,7 @@
 			});
 	};
 
-	config.$inject = ['$routeProvider', 'CONSTANTS'];
+	config.$inject = ['$routeProvider', 'events.CONSTANTS'];
 
 	app.config(config);
 })(angular.module('eventsPageApp'));
