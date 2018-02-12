@@ -45,6 +45,8 @@ module.exports = function(config) {
 	
     // list of files to exclude
     exclude: [
+		'js/apps/events-page/directives/featuredEvents.js',
+		'js/apps/**/featuredEventsWidget.js',
     ],
 
     plugins: [
