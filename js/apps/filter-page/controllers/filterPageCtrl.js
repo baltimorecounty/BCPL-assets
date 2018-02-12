@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	const FilterPageCtrl = function FilterPageCtrl($location, $scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const vm = this;
 
 		vm.activeFilters = [];
@@ -135,15 +135,35 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		cardService.get(loadCardsAndFilters);
+		const getQueryParams = () => {
+			const queryParams = $location.search();
+
+			Object.keys(queryParams).forEach(function(key) {
+				const val = queryParams[key];
+
+				//TODO: need to map the key to the filters so we can pass in the values or
+				// call something to handle them inside of this loop.
+			});
+
+
+		};
+
+
+		const init = () => {
+			cardService
+				.get(loadCardsAndFilters);
+		};
 
 		/* test-code */
 		vm.setActiveFilters = setActiveFilters;
 		vm.filterDataItems = filterDataItems;
 		/* end-test-code */
+
+
+		init();
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
