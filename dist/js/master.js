@@ -417,9 +417,23 @@ bcpl.bookCarousel = function ($, constants) {
 	};
 
 	var onDataSuccess = function onDataSuccess(data, carouselId) {
-		var $items = $(data.Carousel_Str).find('li').wrapInner('<div class="inner"></div>').find('[style]').attr('style', '').closest('.inner');
+		var $data = $(data.Carousel_Str);
+		var $images = $data.find('li div img');
+		var $links = $data.find('li div a');
+		var $items = $data.find('li').map(function (index, element) {
+			return cleanHtml(index, element, $images, $links);
+		});
 
-		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items);
+		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items.get());
+	};
+
+	var cleanHtml = function cleanHtml(index, element, $images, $links) {
+		var $image = $images.eq(index);
+		var $link = $links.eq(index);
+
+		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
+
+		return $('<div class="inner"></div>').append($image).append($link);
 	};
 
 	var init = function init() {
