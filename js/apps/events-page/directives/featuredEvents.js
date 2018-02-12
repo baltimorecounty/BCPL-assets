@@ -54,7 +54,7 @@
 		return directive;
 	};
 
-	featuredEventsDirective.$inject = ['CONSTANTS', 'eventsService'];
+	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService'];
 
 	app.directive('featuredEvents', featuredEventsDirective);
-})(angular.module('eventsPageApp'));
+})(angular.module('featuredEventsWidget'));
