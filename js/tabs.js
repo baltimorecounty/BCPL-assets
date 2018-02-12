@@ -13,8 +13,8 @@ bcpl.tabs = (($) => {
 
 		event.data.$tabControls.removeClass('active');
 		$tabs.removeClass('active');
-		$targetTabControl.addClass('active');
-		$activatedTab
+		$activatedTab.addClass('active');
+		$targetTabControl
 			.addClass('active')
 			.trigger('tabControlChanged');
 	};

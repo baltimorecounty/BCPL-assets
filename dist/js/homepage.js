@@ -105,7 +105,7 @@ bcpl.pageSpecific.homepage.flipper = function ($, CONSTANTS) {
 
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.carousel = function ($) {
+bcpl.pageSpecific.homepage.bookCarousel = function ($) {
 	var tabSelector = '.tabs .tab-control';
 	var carouselSelector = '.book-carousel';
 

@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific.homepage');
 
-bcpl.pageSpecific.homepage.carousel = (($) => {
+bcpl.pageSpecific.homepage.bookCarousel = (($) => {
 	const tabSelector = '.tabs .tab-control';
 	const carouselSelector = '.book-carousel';
 

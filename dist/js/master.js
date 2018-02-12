@@ -1144,8 +1144,8 @@ bcpl.tabs = function ($) {
 
 		event.data.$tabControls.removeClass('active');
 		$tabs.removeClass('active');
-		$targetTabControl.addClass('active');
-		$activatedTab.addClass('active').trigger('tabControlChanged');
+		$activatedTab.addClass('active');
+		$targetTabControl.addClass('active').trigger('tabControlChanged');
 	};
 
 	var init = function init() {
