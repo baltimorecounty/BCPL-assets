@@ -125,6 +125,13 @@
 						if (response.data.Description) {
 							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 						}
+
+						response.data.isStarted = moment(response.data.EventStart).isBefore();
+						response.data.isFull = response.data.MainSpotsAvailable === 0;
+						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
+						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
+						response.data.shouldDisplayRegistrationButton = shouldDisplayRegistrationButton(response.data);
+
 						resolve(response.data);
 					} else {
 						reject(response);
@@ -149,6 +156,10 @@
 			localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
 
 			return localCalendarEvent;
+		};
+
+		var shouldDisplayRegistrationButton = function shouldDisplayRegistrationButton(eventData) {
+			return !eventData.isStarted && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
 		};
 
 		var formatFeaturedEvents = function formatFeaturedEvents(events) {
