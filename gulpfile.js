@@ -49,6 +49,7 @@ gulp.task('minify-js', [
 gulp.task('create-featured-events-widget-js', () => {
 	const targetFiles = [
 		'dist/js/angular/angular.min.js',
+		'dist/js/angular/angular-aria.min.js',
 		'dist/js/moment/*.js',
 		'dist/js/apps/events-page/featuredEventsWidget.min.js'
 	];
