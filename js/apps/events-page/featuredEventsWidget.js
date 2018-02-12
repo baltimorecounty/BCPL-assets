@@ -1,5 +1,10 @@
 (() => {
 	'use strict';
 
-	angular.module('featuredEventsWidget', []);
+	angular
+		.module('featuredEventsWidget', 
+			[
+				'dataServices',
+				'events'
+			]);
 })();
