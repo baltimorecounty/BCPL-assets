@@ -30,7 +30,7 @@
 		return directive;
 	};
 
-	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
+	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService'];
 
 	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));
