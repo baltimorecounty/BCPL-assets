@@ -11,7 +11,7 @@
 		vm.data.EventEndTime = '';
 		vm.isLoading = true;
 		vm.isError = false;
-		vm.requestErrorMessage = 'Unfortunately, there was a problem losding this event\'s details. Please try again in a few minutes.';
+		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
 
 		const processEventData = (data) => {
 			vm.data = data;
