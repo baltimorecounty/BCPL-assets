@@ -1,5 +1,12 @@
 (() => {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngRoute', 'ngSanitize']);
+	angular
+		.module('eventsPageApp', 
+			[
+				'dataServices',
+				'events',
+				'ngRoute', 
+				'ngSanitize'
+			]);
 })();
