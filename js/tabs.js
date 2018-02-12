@@ -9,16 +9,20 @@ bcpl.tabs = (($) => {
 		const $targetTabControl = $(event.currentTarget);
 		const $tabs = event.data.$tabContainer.find(tabSelector);
 		const tabControlIndex = $targetTabControl.index();
+		const $activatedTab = $tabs.eq(tabControlIndex);
 
 		event.data.$tabControls.removeClass('active');
 		$tabs.removeClass('active');
 		$targetTabControl.addClass('active');
-		$tabs.eq(tabControlIndex).addClass('active');
+		$activatedTab
+			.addClass('active')
+			.trigger('tabControlChanged');
 	};
 
 	const init = () => {
 		const $tabContainer = $(tabContainerSelector);
 		const $tabControls = $tabContainer.find(tabControlSelector);
+
 
 		$tabControls.on('click', {
 			$tabContainer,
