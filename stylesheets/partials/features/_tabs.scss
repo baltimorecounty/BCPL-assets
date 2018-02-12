@@ -35,9 +35,9 @@
 		
 
 		&.active {
-			display: flex;
-			justify-content: space-around;
-	}
+			display: block;
+			/* justify-content: space-around; */
+		}
 	}
 }
 

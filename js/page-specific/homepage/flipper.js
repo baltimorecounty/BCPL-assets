@@ -78,6 +78,6 @@ bcpl.pageSpecific.homepage.flipper = (($, CONSTANTS) => {
 	return { init };
 })(jQuery, bcpl.constants);
 
-$(() => {
+/* $(() => {
 	bcpl.pageSpecific.homepage.flipper.init();
-});
+}); */
