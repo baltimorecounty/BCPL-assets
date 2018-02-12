@@ -17,6 +17,7 @@ const stripCode = require('gulp-strip-code');
 const stylish = require('jshint-stylish');
 const uglify = require('gulp-uglify');
 const util = require('gulp-util');
+const eventPageAppFiles = require('./gulp-tasks/events-page-app.files');
 const featuredEventsFiles = require('./gulp-tasks/featured-events.files');
 
 gulp.task('clean', () => gulp.src('dist')
@@ -48,7 +49,6 @@ gulp.task('minify-js', [
 gulp.task('create-featured-events-widget-js', () => {
 	const targetFiles = [
 		'dist/js/angular/angular.min.js',
-		'dist/js/angular/*.js',
 		'dist/js/moment/*.js',
 		'dist/js/apps/events-page/featuredEventsWidget.min.js'
 	];
@@ -56,7 +56,6 @@ gulp.task('create-featured-events-widget-js', () => {
 		.pipe(order([
 			'dist/js/moment/*.js',
 			'dist/js/angular/angular.min.js',
-			'dist/js/angular/angular*.js',
 			'dist/js/apps/events-page/featuredEventsWidget.min.js'
 		], { base: './' }))
 		.pipe(concat('featured-events-widget.min.js'))
@@ -70,16 +69,7 @@ gulp.task('process-app-js', () => {
 	});
 
 	appFolders.forEach((folder) => {
-		gulp.src([
-			`js/apps/${folder}/app.js`,
-			`js/apps/${folder}/constants.js`,
-			`js/apps/${folder}/config.js`,
-			`js/apps/${folder}/filters/**/*.js`,
-			`js/apps/${folder}/dataServices/**/*.js`,
-			`js/apps/${folder}/services/**/*.js`,
-			`js/apps/${folder}/controllers/**/*.js`,
-			`js/apps/${folder}/directives/**/*.js`
-		])
+		gulp.src(eventPageAppFiles(folder))
 			.pipe(jshint({
 				esversion: 6
 			}))
