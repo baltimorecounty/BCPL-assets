@@ -132,7 +132,7 @@
 (function () {
 	'use strict';
 
-	angular.module('featuredEventsWidget', ['dataServices', 'events']);
+	angular.module('featuredEventsWidgetApp', ['dataServices', 'events', 'ngAria']);
 })();
 'use strict';
 
@@ -142,8 +142,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -233,4 +233,4 @@
 	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService'];
 
 	app.directive('featuredEvents', featuredEventsDirective);
-})(angular.module('featuredEventsWidget'));
+})(angular.module('featuredEventsWidgetApp'));
