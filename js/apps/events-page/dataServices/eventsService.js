@@ -1,5 +1,7 @@
-((app, moment) => {
+((moment) => {
 	'use strict';
+
+	const app = angular.module('dataServices', []);
 
 	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
@@ -114,7 +116,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
+	eventsService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
-	app.factory('eventsService', eventsService);
-})(angular.module('eventsPageApp'), window.moment);
+	app.factory('dataServices.eventsService', eventsService);
+})(window.moment);
