@@ -1,19 +1,17 @@
 .tabs {
-	margin: 5em 0 0;
-
 	nav {
 		ul {
 			li {
 				color: $teal;
-				font-size: .8em;
+				font-size: 1em;
 				font-weight: bold;
 				padding: .5em 1em;
 				text-transform: uppercase;
 				cursor: pointer;
-				height: 32px;
 				
 				&.active {
 					background-color: white;
+					box-shadow: $shadow-white-bottom, $shadow-primary;
 				}
 			}
 		}
@@ -31,13 +29,18 @@
 				height: 90px;
 				width: 70px;
 			}
-		}
-		
+		}	
 
 		&.active {
 			display: block;
-			/* justify-content: space-around; */
+			box-shadow: $shadow-primary;
 		}
+
+		p {
+			margin: 10px 0 0;
+			font-size: .8em;
+			text-transform: uppercase;
+		} 
 	}
 }
 
@@ -52,8 +55,19 @@
 	.tabs {
 		.tab {
 			&.active {
-				display: flex;
-				justify-content: space-around;
+				display: block;
+			}
+		}
+
+		nav {
+			ul {
+				li {
+					display: block;
+
+					&.active {
+						box-shadow: $shadow-primary;
+					}
+				}
 			}
 		}
 	}

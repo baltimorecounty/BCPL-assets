@@ -39,6 +39,12 @@
     }
 }
 
+.tabs {
+    .book-carousel {
+        margin-bottom: 0;
+    }
+}
+
 @media (max-width: $screen-xs) {
 	.book-carousel,
 	.book-carousel.slick-slider {
