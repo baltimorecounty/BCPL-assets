@@ -97,10 +97,6 @@ bcpl.pageSpecific.homepage.flipper = function ($, CONSTANTS) {
 
 	return { init: init };
 }(jQuery, bcpl.constants);
-
-/* $(() => {
-	bcpl.pageSpecific.homepage.flipper.init();
-}); */
 'use strict';
 
 namespacer('bcpl.pageSpecific.homepage');
