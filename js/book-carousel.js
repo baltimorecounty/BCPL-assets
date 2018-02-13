@@ -9,6 +9,11 @@ bcpl.bookCarousel = (($, constants) => {
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
 		slidesToShow: 4,
 		responsive: [{
+			breakpoint: constants.breakpoints.large,
+			settings: {
+				slidesToShow: 3
+			}
+		}, {
 			breakpoint: constants.breakpoints.medium,
 			settings: {
 				slidesToShow: 2

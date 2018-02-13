@@ -234,6 +234,7 @@ bcpl.constants = {
 		space: 32
 	},
 	breakpoints: {
+		large: 1200,
 		medium: 992,
 		small: 768,
 		xsmall: 480
@@ -394,6 +395,11 @@ bcpl.bookCarousel = function ($, constants) {
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
 		slidesToShow: 4,
 		responsive: [{
+			breakpoint: constants.breakpoints.large,
+			settings: {
+				slidesToShow: 3
+			}
+		}, {
 			breakpoint: constants.breakpoints.medium,
 			settings: {
 				slidesToShow: 2
