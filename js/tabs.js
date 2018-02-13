@@ -11,8 +11,7 @@ bcpl.tabs = (($) => {
 		const tabControlIndex = $targetTabControl.index();
 		const $activatedTab = $tabs.eq(tabControlIndex);
 
-		event.data.$tabControls.removeClass('active');
-		$tabs.removeClass('active');
+		event.data.$tabControls.add($tabs).removeClass('active');
 		$activatedTab.addClass('active');
 		$targetTabControl
 			.addClass('active')
