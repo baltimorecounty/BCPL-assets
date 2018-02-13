@@ -16,7 +16,9 @@ bcpl.tabs = (($) => {
 		$activatedTab.addClass('active');
 		$targetTabControl
 			.addClass('active')
-			.trigger('tabControlChanged');
+			.trigger('tabControlChanged')
+			.closest('ul')
+			.toggleClass('open');
 	};
 
 	const init = () => {
