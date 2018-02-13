@@ -97,7 +97,17 @@ bcpl.pageSpecific.homepage.flipper = function ($, CONSTANTS) {
 
 	return { init: init };
 }(jQuery, bcpl.constants);
+'use strict';
 
-$(function () {
-	bcpl.pageSpecific.homepage.flipper.init();
-});
+namespacer('bcpl.pageSpecific.homepage');
+
+bcpl.pageSpecific.homepage.bookCarousel = function ($) {
+	var tabSelector = '.tabs .tab-control';
+	var carouselSelector = '.book-carousel';
+
+	var tabControlChangedHandler = function tabControlChangedHandler() {
+		$(carouselSelector).slick('refresh');
+	};
+
+	$(document).on('tabControlChanged', tabSelector, tabControlChangedHandler);
+}(jQuery);

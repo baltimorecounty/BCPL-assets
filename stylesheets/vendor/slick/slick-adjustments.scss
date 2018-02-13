@@ -12,6 +12,10 @@
 	}
 }
 
+.slick-track {
+	min-width: 100%;
+}
+
 @media (max-width: $screen-md) {
 	.slick-dotted.slick-slider {
 		background-color: $gold;
