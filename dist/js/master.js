@@ -392,7 +392,7 @@ bcpl.bookCarousel = function ($, constants) {
 		arrows: true,
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
-		slidesToShow: 3,
+		slidesToShow: 4,
 		responsive: [{
 			breakpoint: constants.breakpoints.medium,
 			settings: {
