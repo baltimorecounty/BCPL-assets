@@ -80,11 +80,19 @@ describe('filterPageCtrl', () => {
 				
 				expect("").toEqual(actual);
 			});
+
 			it('should replace a "-" with a space', () => {
 				const key = 'Library-Card';
 				const actual = controller.formatKeyName(key);
 				
 				expect('Library Card').toEqual(actual);
+			});
+
+			it('should replace multiple "-" with multiple spaces', () => {
+				const key = 'My-Library-Card';
+				const actual = controller.formatKeyName(key);
+				
+				expect('My Library Card').toEqual(actual);
 			});
 
 			it('should not change the key if there is no "-" in the string', () => {
