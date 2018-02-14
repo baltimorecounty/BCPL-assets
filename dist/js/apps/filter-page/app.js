@@ -285,8 +285,8 @@
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
-
 			$scope.$apply();
+
 			if (callback && typeof callback === 'function') {
 				callback();
 			}
@@ -392,6 +392,15 @@
 			return containsMultipleFilters ? filterStr.split(',') : [filterStr];
 		};
 
+		var resetMap = function resetMap() {
+			setTimeout(function () {
+				var filteredItems = {
+					items: $scope.filteredItems
+				};
+				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
+			}, 250);
+		};
+
 		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
 			var queryParams = $location.search();
 
@@ -408,16 +417,6 @@
 
 				resetMap();
 			}
-		};
-
-		var resetMap = function resetMap() {
-			setTimeout(function () {
-				var filteredItems = {
-					items: $scope.filteredItems
-				};
-				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
-				//$scope.$apply();
-			}, 250);
 		};
 
 		var init = function init() {
