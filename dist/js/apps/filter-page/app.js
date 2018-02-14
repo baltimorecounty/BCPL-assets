@@ -245,8 +245,13 @@
 			cycleDisplay();
 		};
 
+		var clearQueryPararms = function clearQueryPararms() {
+			return $location.search({});
+		};
+
 		vm.clearFilters = function () {
 			vm.activeFilters = [];
+			clearQueryPararms();
 			cycleDisplay();
 		};
 
@@ -269,7 +274,7 @@
    * @param {[string]} filters
    * @param {[*]} branchData
    */
-		var loadCardsAndFilters = function loadCardsAndFilters(cardData) {
+		var loadCardsAndFilters = function loadCardsAndFilters(cardData, callback) {
 			if (!cardData.length) {
 				return;
 			}
@@ -280,7 +285,11 @@
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
+
 			$scope.$apply();
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		};
 
 		/**
@@ -386,21 +395,34 @@
 		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
 			var queryParams = $location.search();
 
-			Object.keys(queryParams).forEach(function (key) {
-				var filterStr = queryParams[key];
-				var filters = getFiltersFromString(filterStr);
-				var filterFamily = getFilterFamily(key);
+			if (queryParams) {
+				Object.keys(queryParams).forEach(function (key) {
+					var filterStr = queryParams[key];
+					var filters = getFiltersFromString(filterStr);
+					var filterFamily = getFilterFamily(key);
 
-				filters.forEach(function (filter) {
-					setActiveFilters(filter, filterFamily);
+					filters.forEach(function (filter) {
+						setActiveFilters(filter, filterFamily);
+					});
 				});
-			});
+
+				resetMap();
+			}
+		};
+
+		var resetMap = function resetMap() {
+			setTimeout(function () {
+				var filteredItems = {
+					items: $scope.filteredItems
+				};
+				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
+				//$scope.$apply();
+			}, 250);
 		};
 
 		var init = function init() {
 			cardService.get(function (data) {
-				loadCardsAndFilters(data);
-				setFiltersBasedOnQueryParams();
+				loadCardsAndFilters(data, setFiltersBasedOnQueryParams);
 			});
 		};
 
