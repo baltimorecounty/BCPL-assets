@@ -15,7 +15,39 @@
 		 */
 		vm.setFilter = (filter, filterFamily) => {
 			setActiveFilters(filter, filterFamily);
+			updateLocation(filter, filterFamily);
 			cycleDisplay();
+		};
+
+		const updateLocation = (filter, filterFamily) => {
+			const queryParams = $location.search();
+			const targetQueryParamKey = filterFamily.filterId;
+			const filterExists = !!queryParams[targetQueryParamKey];
+			const decodedQueryParamValue = decodeURI(queryParams[targetQueryParamKey]) || "";
+			const doesQueryParamMatchFilter =  decodedQueryParamValue.toLowerCase().indexOf(filter.toLowerCase()) > -1;
+			let filterValue = "test for marty";
+
+			if (doesQueryParamMatchFilter) {
+				if (decodedQueryParamValue.indexOf(',') > -1) {
+					var filters = getFiltersFromString(decodedQueryParamValue);
+					const updatedFilterList = [];
+					filters.forEach((urlFilter) => {
+						if (urlFilter.toLowerCase() !== filter.toLowerCase()) {
+							updatedFilterList.push(urlFilter);
+						}
+					});
+					filterValue = updatedFilterList.join(',');
+				}
+				else {
+					filterValue = null;
+				}
+				
+			}
+			else {
+				filterValue = filterExists ? `${queryParams[targetQueryParamKey]},${filter}` : filter;
+			}
+
+			$location.search(targetQueryParamKey, filterValue);
 		};
 
 		const clearQueryPararms = () => $location.search({});
@@ -201,6 +233,7 @@
 		vm.filterDataItems = filterDataItems;
 		vm.formatKeyName = formatKeyName;
 		vm.setActiveFilters = setActiveFilters;
+		vm.updateLocation = updateLocation;
 		/* end-test-code */
 
 		init();
