@@ -5,18 +5,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" type="image/x-icon" href="/sebin/b/q/favicon.ico" />
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link href="/sebin/h/f/master.min.css" rel="stylesheet" type="text/css">
 	<link href="/sebin/r/e/home.min.css" rel="stylesheet" type="text/css">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js" integrity="sha256-+JMHsXRyeTsws/tzbIh5YHQxRdKCuNjmvNcTFtY6DLc=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 	<script src="/sebin/v/z/master.js"></script>
-	<script src="/js/slick/slick.min.js"></script>
 	<script src="/sebin/d/o/homepage.min.js"></script>
-	<script src="/js/featured-events-widget/featured-events-widget.min.js"></script>
+	<script src="/sebin/v/l/featured-events-widget.min.js"></script>
 </head>
 
 <body>
@@ -370,8 +372,8 @@
 							<div class="row">
 								<div class="col-md-6 col-lg-4">
 									<div class="callout">
-										<h2 class="branding">Rocky ...road?</h2>
-										<p>Learn about all the activities happening this summer with interactive fun and entertainment for the entire family!</p>
+										<h2 class="branding">Black History Month</h2>
+										<p>Come explore, learn, create and connect during Black History Month.</p>
 										<a href="#">Learn More</a>
 									</div>
 								</div>
@@ -550,31 +552,38 @@
 		<section class="recommended-titles-wrapper">
 			<div class="container flipper-container">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<h2 class="branding">Recommended Titles</h2>
-						<div class="row">
-							<div class="col-xs-4 book-cover">
-								<img src="/sebin/d/r/grumpy-cat.jpg" width="100%" height="200">
-							</div>
-							<div class="col-xs-8 book-meta">
-								<h3 class="book-title">Book Title</h3>
-								<p class="book-description">Nunc lacinia ullamcorper purus, nec efficitur erat ultrices et. Proin consectetur vulputate diam, in hendrerit ligula
-									fermentum quis.</p>
-								<a class="book-url solo" href="#">
-									<i class="fa fa-play-circle"> </i>Read More</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
 						<div class="tabs flipper-tabs">
 							<nav>
 								<ul role="tablist">
-									<li class="tab-control active" role="tab" aria-controls="tab-1" aria-selected="true" tabindex="0">Recommended</li>
-									<li class="tab-control" role="tab" aria-controls="tab-2" aria-selected="false" tabindex="0">New Titles</li>
+									<li class="tab-control active" role="tab" aria-controls="tab-1" aria-selected="true" tabindex="0">Fiction</li>
+									<li class="tab-control" role="tab" aria-controls="tab-2" aria-selected="false" tabindex="0">Non-Fiction</li>
+									<li class="tab-control" role="tab" aria-controls="tab-3" aria-selected="true" tabindex="0">DVDs</li>
+									<li class="tab-control" role="tab" aria-controls="tab-4" aria-selected="false" tabindex="0">Audiobooks</li>
 								</ul>
 							</nav>
-							<div class="flipper-tab tab active" role="tabpanel" aria-labelledby="tab-1" aria-hidden="false" data-flipper-tab="Recommended"></div>
-							<div class="flipper-tab tab" role="tabpanel" aria-labelledby="tab-2" aria-hidden="true" data-flipper-tab="New Titles"></div>
+							<div class="flipper-tab tab active" role="tabpanel" aria-labelledby="tab-1" aria-hidden="false" data-flipper-tab="Fiction">
+								<div class="book-carousel" data-carousel-id="42675"></div>
+								<p><a href="https://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=brs=42675&by=KW&sort=AU&limit=&query=&page=0&searchid=1"><i class="fa fa-lg fa-play-circle" aria-hidden="true"></i> View all fiction titles</a></p>
+							</div>
+							<div class="flipper-tab tab" role="tabpanel" aria-labelledby="tab-2" aria-hidden="true" data-flipper-tab="Non-Fiction">
+								<div class="book-carousel" data-carousel-id="6671"></div>
+								<p><a href="https://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=brs=6671&by=KW&sort=AU&limit=&query=&page=0&searchid=2"><i class="fa fa-lg fa-play-circle" aria-hidden="true"></i> View all non-fiction titles</a></p>
+
+							</div>
+							<div class="flipper-tab tab" role="tabpanel" aria-labelledby="tab-3" aria-hidden="true" data-flipper-tab="DVDs">
+								<div class="book-carousel" data-carousel-id="42674"></div>
+								<p><a href="https://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=brs=42674&by=KW&sort=TI&limit=&query=&page=0&searchid=3"><i class="fa fa-lg fa-play-circle" aria-hidden="true"></i> View all DVDs</a></p>
+
+							</div>
+							<div class="flipper-tab tab" role="tabpanel" aria-labelledby="tab-4" aria-hidden="true" data-flipper-tab="Audiobooks">
+								<div class="book-carousel" data-carousel-id="6474"></div>
+								<p><a href="https://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=brs=6474&by=KW&sort=AU&limit=&query=&page=0&searchid=4"><i class="fa fa-lg fa-play-circle" aria-hidden="true"></i> View all audiobooks</a></p>
+							</div>
+							<script>
+								$(function() { bcpl.bookCarousel.init() });
+							</script>
 						</div>
 					</div>
 				</div>

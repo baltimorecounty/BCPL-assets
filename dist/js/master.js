@@ -1140,11 +1140,11 @@ bcpl.tabs = function ($) {
 		var $targetTabControl = $(event.currentTarget);
 		var $tabs = event.data.$tabContainer.find(tabSelector);
 		var tabControlIndex = $targetTabControl.index();
+		var $activatedTab = $tabs.eq(tabControlIndex);
 
-		event.data.$tabControls.removeClass('active');
-		$tabs.removeClass('active');
-		$targetTabControl.addClass('active');
-		$tabs.eq(tabControlIndex).addClass('active');
+		event.data.$tabControls.add($tabs).removeClass('active');
+		$activatedTab.addClass('active');
+		$targetTabControl.addClass('active').trigger('tabControlChanged').closest('ul').toggleClass('open');
 	};
 
 	var init = function init() {

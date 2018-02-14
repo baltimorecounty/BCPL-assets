@@ -30,16 +30,16 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(gulp.dest('dist/css')));
 
 gulp.task('minify-js', [
-		'process-master-js', 
-		'process-homepage-js', 
-		'process-app-js', 
-		'move-page-specific-js', 
-		'process-featured-events-widget-js'
-	], () => {
+	'process-master-js',
+	'process-homepage-js',
+	'process-app-js',
+	'move-page-specific-js',
+	'process-featured-events-widget-js'
+], () => {
 	return gulp.src([
-			'dist/js/**/*.js',
-			'!**/*min.js'
-		])
+		'dist/js/**/*.js',
+		'!**/*min.js'
+	])
 		.pipe(uglify())
 		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
 		.pipe(rename({ suffix: '.min' }))
