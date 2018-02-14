@@ -54,8 +54,8 @@
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
-
 			$scope.$apply();
+			
 			if (callback && typeof callback === 'function') {
 				callback();
 			}
