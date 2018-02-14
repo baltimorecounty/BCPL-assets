@@ -151,6 +151,96 @@ describe('filterPageCtrl', () => {
 				expect(expected).toEqual(actual);
 			});
 		});
+		describe('filter updates to the url', () => {
+			const mockFilterValue = 'History';
+			const mockFilterValue2 = 'Biography';
+			const mockFilterValue3 = 'Sports';
+			const mockFilters = [
+				{
+					name: 'test',
+					tags: ['tag1', 'tag2'],
+					type: "Many",
+					filterId: 'test'
+				},
+				{
+					name: 'test1',
+					tags: ['tag3', 'tag4'],
+					type: "Many",
+					filterId: 'test1'
+				}
+			];
+			let location;
+
+
+			beforeEach(inject(function($location) {
+				location = $location;
+				location.search({});
+			}));
+			
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue} to the url when no filters are selected`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  mockFilterValue;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param ${mockFilters[0].filterId}=${mockFilterValue} that filter is already selected`, () => {
+				location.search(mockFilters[0].filterId, mockFilterValue);
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				const actual = location.search();
+				const expected = {};
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue},${mockFilterValue2} when both filters are selected and the filter famliy is different`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				controller.updateLocation(mockFilterValue2, mockFilters[1]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  mockFilterValue;
+				expected[mockFilters[1].filterId] =  mockFilterValue2;
+
+				expect(expected).toEqual(actual);
+			});
+
+			
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue},${mockFilterValue2} when both filters are selected and the filter famliy is the same`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				controller.updateLocation(mockFilterValue2, mockFilters[0]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue},${mockFilterValue2}`;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue2} when ${mockFilterValue} is unselected`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); //remove
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue2}`;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue}, ${mockFilterValue3} when ${mockFilterValue} is unselected`, () => {
+				controller.updateLocation(mockFilterValue3, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); //remove
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue3},${mockFilterValue}`;
+
+				expect(expected).toEqual(actual);
+			});
+
+		});
 	});
 
 	describe('filterDataItems', () => {
