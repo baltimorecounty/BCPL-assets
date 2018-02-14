@@ -151,6 +151,7 @@ describe('filterPageCtrl', () => {
 				expect(expected).toEqual(actual);
 			});
 		});
+		
 		describe('filter updates to the url', () => {
 			const mockFilterValue = 'History';
 			const mockFilterValue2 = 'Biography';
