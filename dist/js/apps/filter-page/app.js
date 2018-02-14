@@ -223,7 +223,7 @@
 
 	app.factory('filterService', filterService);
 })(angular.module('filterPageApp'));
-'use strict';
+"use strict";
 
 (function (app) {
 	'use strict';
@@ -242,7 +242,36 @@
    */
 		vm.setFilter = function (filter, filterFamily) {
 			setActiveFilters(filter, filterFamily);
+			updateLocation(filter, filterFamily);
 			cycleDisplay();
+		};
+
+		var updateLocation = function updateLocation(filter, filterFamily) {
+			var queryParams = $location.search();
+			var targetQueryParamKey = filterFamily.filterId;
+			var filterExists = !!queryParams[targetQueryParamKey];
+			var decodedQueryParamValue = decodeURI(queryParams[targetQueryParamKey]) || "";
+			var doesQueryParamMatchFilter = decodedQueryParamValue.toLowerCase().indexOf(filter.toLowerCase()) > -1;
+			var filterValue = "test for marty";
+
+			if (doesQueryParamMatchFilter) {
+				if (decodedQueryParamValue.indexOf(',') > -1) {
+					var filters = getFiltersFromString(decodedQueryParamValue);
+					var updatedFilterList = [];
+					filters.forEach(function (urlFilter) {
+						if (urlFilter.toLowerCase() !== filter.toLowerCase()) {
+							updatedFilterList.push(urlFilter);
+						}
+					});
+					filterValue = updatedFilterList.join(',');
+				} else {
+					filterValue = null;
+				}
+			} else {
+				filterValue = filterExists ? queryParams[targetQueryParamKey] + "," + filter : filter;
+			}
+
+			$location.search(targetQueryParamKey, filterValue);
 		};
 
 		var clearQueryPararms = function clearQueryPararms() {
@@ -481,6 +510,9 @@
 			}
 
 			$scope.toggleFilter = function (activeFilter) {
+				console.log('toggle', $scope.filterFamily);
+				// Need to 
+
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
 			};
