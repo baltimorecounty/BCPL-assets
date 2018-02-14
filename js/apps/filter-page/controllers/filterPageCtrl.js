@@ -135,30 +135,58 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		const getQueryParams = () => {
-			const queryParams = $location.search();
+		const formatKeyName = (key) => {
+			if (!key) return "";
 
-			Object.keys(queryParams).forEach(function(key) {
-				const val = queryParams[key];
-
-				//TODO: need to map the key to the filters so we can pass in the values or
-				// call something to handle them inside of this loop.
-			});
-
-
+			return key.replace("-", " ");
 		};
 
+		const getFilterFamily = (key) => {
+			const formattedKeyName = formatKeyName(key);
+			const filterFamliy = vm.filters.filter((filter) => {
+				return formattedKeyName.toLowerCase() === filter.name.toLowerCase();
+			});
+
+			return filterFamliy.length ? filterFamliy[0] : null;
+		};
+
+		const getFiltersFromString = (filterStr) => {
+			if(!filterStr) return [];
+
+			const containsMultipleFilters = filterStr && filterStr.indexOf(',') > -1;
+
+			return containsMultipleFilters ?  filterStr.split(',') : [filterStr];
+		};
+
+		const setFiltersBasedOnQueryParams = () => {
+			const queryParams = $location.search();
+
+			Object.keys(queryParams).forEach((key) => {
+				const filterStr = queryParams[key];
+				const filters = getFiltersFromString(filterStr);
+				const filterFamily = getFilterFamily(key);
+
+				filters.forEach((filter) => {
+					setActiveFilters(filter, filterFamily);
+				});
+			});
+		};
 
 		const init = () => {
 			cardService
-				.get(loadCardsAndFilters);
+				.get((data) => {
+					loadCardsAndFilters(data);
+					setFiltersBasedOnQueryParams();
+				});
 		};
 
 		/* test-code */
-		vm.setActiveFilters = setActiveFilters;
+		vm.getFilterFamily = getFilterFamily;
+		vm.getFiltersFromString = getFiltersFromString;
 		vm.filterDataItems = filterDataItems;
+		vm.formatKeyName = formatKeyName;
+		vm.setActiveFilters = setActiveFilters;
 		/* end-test-code */
-
 
 		init();
 	};
