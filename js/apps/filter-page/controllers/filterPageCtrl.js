@@ -18,8 +18,11 @@
 			cycleDisplay();
 		};
 
+		const clearQueryPararms = () => $location.search({});
+
 		vm.clearFilters = () => {
 			vm.activeFilters = [];
+			clearQueryPararms();
 			cycleDisplay();
 		};
 
@@ -42,7 +45,7 @@
 		 * @param {[string]} filters
 		 * @param {[*]} branchData
 		 */
-		const loadCardsAndFilters = (cardData) => {
+		const loadCardsAndFilters = (cardData, callback) => {
 			if (!cardData.length) { return; }
 
 			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
@@ -51,7 +54,11 @@
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
+
 			$scope.$apply();
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		};
 
 		/**
@@ -154,25 +161,37 @@
 			return containsMultipleFilters ?  filterStr.split(',') : [filterStr];
 		};
 
+		const resetMap = () => {
+			setTimeout(() => {
+				const filteredItems = { 
+					items: $scope.filteredItems 
+				};
+				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
+			}, 250);
+		};
+
 		const setFiltersBasedOnQueryParams = () => {
 			const queryParams = $location.search();
 
-			Object.keys(queryParams).forEach((key) => {
-				const filterStr = queryParams[key];
-				const filters = getFiltersFromString(filterStr);
-				const filterFamily = getFilterFamily(key);
-
-				filters.forEach((filter) => {
-					setActiveFilters(filter, filterFamily);
+			if (queryParams) {
+				Object.keys(queryParams).forEach((key) => {
+					const filterStr = queryParams[key];
+					const filters = getFiltersFromString(filterStr);
+					const filterFamily = getFilterFamily(key);
+	
+					filters.forEach((filter) => {
+						setActiveFilters(filter, filterFamily);
+					});
 				});
-			});
+
+				resetMap();
+			}
 		};
 
 		const init = () => {
 			cardService
 				.get((data) => {
-					loadCardsAndFilters(data);
-					setFiltersBasedOnQueryParams();
+					loadCardsAndFilters(data, setFiltersBasedOnQueryParams);
 				});
 		};
 
