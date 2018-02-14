@@ -135,7 +135,7 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		const formatKeyName = (key) => !key ? "" : key.replace("-", " ");
+		const formatKeyName = (key) => !key ? "" : key.replace(/-/g, " ");
 
 		const getFilterFamily = (key) => {
 			const formattedKeyName = formatKeyName(key);
