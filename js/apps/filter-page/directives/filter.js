@@ -11,7 +11,7 @@
 			if (inputType === 'radio') {
 				$input.prop('name', $scope.filterFamily.name);
 			}
-						
+			
 			$scope.toggleFilter = (activeFilter) => {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);

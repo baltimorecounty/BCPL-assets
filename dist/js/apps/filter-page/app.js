@@ -363,9 +363,7 @@
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		var formatKeyName = function formatKeyName(key) {
-			if (!key) return "";
-
-			return key.replace("-", " ");
+			return !key ? "" : key.replace("-", " ");
 		};
 
 		var getFilterFamily = function getFilterFamily(key) {
