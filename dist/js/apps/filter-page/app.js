@@ -22,7 +22,7 @@
 		},
 		urls: {
 			databases: 'http://oit226471:1919/api/structured-content/databases',
-			// databases: 'https://testservices.bcpl.info/api/structured-content/databases',
+			//databases: 'https://testservices.bcpl.info/api/structured-content/databases',
 			locations: '/sebin/q/r/branch-amenities.json'
 		},
 		filters: {
