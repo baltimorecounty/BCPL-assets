@@ -188,8 +188,9 @@ describe('filterPageCtrl', () => {
 			});
 
 			it(`should remove the query param ${mockFilters[0].filterId}=${mockFilterValue} that filter is already selected`, () => {
-				location.search(mockFilters[0].filterId, mockFilterValue);
-				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // remove
+				
 				const actual = location.search();
 				const expected = {};
 
@@ -240,7 +241,26 @@ describe('filterPageCtrl', () => {
 
 				expect(expected).toEqual(actual);
 			});
-
+		});
+		describe('getFilterValue', () => {
+			const mockFilterStr = 'History';
+			const mockFilterObj = {
+				Name:"Age",
+				Tag:"Adults",
+				Type:"One"
+			};
+			it('should return null if there is no value passed in', () => {
+				const actual = controller.getFilterValue();
+				expect(null).toEqual(actual);
+			});
+			it('should return filter as a string when the filter is passed as a string', () => {
+				const actual = controller.getFilterValue(mockFilterStr);
+				expect(mockFilterStr).toEqual(actual);
+			});
+			it('should return Tag property of an object when the filter is passed as an object', () => {
+				const actual = controller.getFilterValue(mockFilterObj);
+				expect(mockFilterObj.Tag).toEqual(actual);
+			});
 		});
 	});
 
