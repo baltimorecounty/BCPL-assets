@@ -4,9 +4,9 @@
 
 1. Go to the SiteExecutive admin console
 1. Go to `inclusions > shared`
-1. Download a copy of `featured-events-widget.html`
-1. Modify the featured-events element to your needs
-1. Save and upload the file to the the `inclusions > shared` folder with a **meaningful name** (this could be re-used!)
+1. Make a copy of `featured-events-widget` page and give it a a **meaningful name** (this could be re-used!)
+1. Modify the featured-events element in the html snippet in your new page
+1. Approve and publish
 1. Add the inclusion to the desired page(s)
 
 
