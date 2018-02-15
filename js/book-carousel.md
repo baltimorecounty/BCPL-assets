@@ -56,7 +56,7 @@ Add the following code to a HTML snippet on your page:
 </script>
 ```
 
-### Multiple Carousels
+### Multiple Carousels (full-width)
 
 Add the following code to a HTML snippet on your page:
 
