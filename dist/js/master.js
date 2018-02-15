@@ -393,7 +393,7 @@ bcpl.bookCarousel = function ($, constants) {
 		arrows: true,
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
-		slidesToShow: 4,
+		slidesToShow: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
 			settings: {
@@ -443,13 +443,21 @@ bcpl.bookCarousel = function ($, constants) {
 	};
 
 	var init = function init() {
+		var maxSlides = void 0;
+
 		$('.book-carousel').each(function (index, carouselElement) {
-			var carouselId = $(carouselElement).attr('data-carousel-id');
+			var $carouselElement = $(carouselElement);
+			var carouselId = $carouselElement.attr('data-carousel-id');
+			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
 
 			promises.push(loadData(carouselId));
 		});
 
 		$.when.apply($, promises).then(function () {
+			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+				slickSettings.slidesToShow = maxSlides;
+			}
+
 			$('.book-carousel').slick(slickSettings);
 		});
 	};

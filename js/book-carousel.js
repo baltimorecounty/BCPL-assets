@@ -7,7 +7,7 @@ bcpl.bookCarousel = (($, constants) => {
 		arrows: true,
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
-		slidesToShow: 4,
+		slidesToShow: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
 			settings: {
@@ -60,13 +60,21 @@ bcpl.bookCarousel = (($, constants) => {
 	};
 
 	const init = () => {
+		let maxSlides;
+
 		$('.book-carousel').each((index, carouselElement) => {
-			const carouselId = $(carouselElement).attr('data-carousel-id');
+			const $carouselElement = $(carouselElement);
+			const carouselId = $carouselElement.attr('data-carousel-id');
+			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
 
 			promises.push(loadData(carouselId));
 		});
 
 		$.when.apply($, promises).then(() => {
+			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+				slickSettings.slidesToShow = maxSlides;
+			}
+
 			$('.book-carousel').slick(slickSettings);
 		});
 	};
