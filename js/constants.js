@@ -15,6 +15,7 @@ bcpl.constants = {
 		space: 32
 	},
 	breakpoints: {
+		large: 1200,
 		medium: 992,
 		small: 768,
 		xsmall: 480
