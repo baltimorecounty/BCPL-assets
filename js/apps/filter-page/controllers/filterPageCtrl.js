@@ -19,39 +19,6 @@
 			cycleDisplay();
 		};
 
-		const updateLocation = (filter, filterFamily) => {
-			const queryParams = $location.search();
-			const targetQueryParamKey = filterFamily.filterId;
-			const filterExists = !!queryParams[targetQueryParamKey];
-			const decodedQueryParamValue = decodeURI(queryParams[targetQueryParamKey]) || "";
-			const doesQueryParamMatchFilter =  decodedQueryParamValue.toLowerCase().indexOf(filter.toLowerCase()) > -1;
-			let filterValue = "test for marty";
-
-			if (doesQueryParamMatchFilter) {
-				if (decodedQueryParamValue.indexOf(',') > -1) {
-					var filters = getFiltersFromString(decodedQueryParamValue);
-					const updatedFilterList = [];
-					filters.forEach((urlFilter) => {
-						if (urlFilter.toLowerCase() !== filter.toLowerCase()) {
-							updatedFilterList.push(urlFilter);
-						}
-					});
-					filterValue = updatedFilterList.join(',');
-				}
-				else {
-					filterValue = null;
-				}
-				
-			}
-			else {
-				filterValue = filterExists ? `${queryParams[targetQueryParamKey]},${filter}` : filter;
-			}
-
-			$location.search(targetQueryParamKey, filterValue);
-		};
-
-		const clearQueryPararms = () => $location.search({});
-
 		vm.clearFilters = () => {
 			vm.activeFilters = [];
 			clearQueryPararms();
@@ -59,6 +26,67 @@
 		};
 
 		/* Private */
+
+		const buildFilterQueryString = (targetQueryParam, filterVal) => {
+			const queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			const doesQueryParamMatchFilter = queryParamHasValue ? 
+				targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : 
+				false;
+			
+			if (doesQueryParamMatchFilter) {
+				const doesQueryHaveMultipleValues = queryParamHasValue ? 
+					targetQueryParam.val.indexOf(',') > -1 : 
+					false;
+
+				if (!doesQueryHaveMultipleValues) return null; // Filters match, we want it from the url
+
+				const filters = getFiltersFromString(targetQueryParam.val);
+				const updatedFilterList = [];
+
+				filters.forEach((urlFilter) => {
+					if (urlFilter.toLowerCase() !== filterVal.toLowerCase()) {
+						updatedFilterList.push(urlFilter);
+					}
+				});
+
+				return updatedFilterList.join(',');
+			}
+
+			return targetQueryParam.val ? 
+				`${targetQueryParam.val},${filterVal}` : 
+				(filterVal || null);
+		};
+
+		const clearQueryPararms = () => $location.search({});
+
+		const getFilterValue = (filter) => filter && Object.hasOwnProperty.call(filter, 'Tag') ? 
+			filter.Tag : 
+			(filter || null);
+		
+		const getQueryParamObject = (filterFamily, queryParams) => {
+			const targetQueryParam = {
+				key: filterFamily.filterId
+			};
+			targetQueryParam.val = getValueFromObject(queryParams, targetQueryParam.key);
+			
+			return targetQueryParam;
+		};
+
+		const getValueFromObject = (obj, key) => obj && typeof obj === 'object' ? 
+			obj[key] || null : 
+			null;
+
+		const updateLocation = (filter, filterFamily) => {
+			const filterVal = getFilterValue(filter);
+
+			if (!filterVal) return;
+
+			const queryParams = $location.search();
+			const targetQueryParam = getQueryParamObject(filterFamily, queryParams);
+			const updatedQueryParamVal = buildFilterQueryString(targetQueryParam, filterVal);
+
+			$location.search(targetQueryParam.key, updatedQueryParamVal);
+		};
 
 		const cycleDisplay = () => {
 			const resultsDisplayElement = document.getElementById('results-display');
@@ -230,6 +258,7 @@
 		/* test-code */
 		vm.getFilterFamily = getFilterFamily;
 		vm.getFiltersFromString = getFiltersFromString;
+		vm.getFilterValue = getFilterValue;
 		vm.filterDataItems = filterDataItems;
 		vm.formatKeyName = formatKeyName;
 		vm.setActiveFilters = setActiveFilters;
