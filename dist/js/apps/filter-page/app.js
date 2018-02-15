@@ -223,7 +223,9 @@
 
 	app.factory('filterService', filterService);
 })(angular.module('filterPageApp'));
-"use strict";
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function (app) {
 	'use strict';
@@ -246,38 +248,6 @@
 			cycleDisplay();
 		};
 
-		var updateLocation = function updateLocation(filter, filterFamily) {
-			var queryParams = $location.search();
-			var targetQueryParamKey = filterFamily.filterId;
-			var filterExists = !!queryParams[targetQueryParamKey];
-			var decodedQueryParamValue = decodeURI(queryParams[targetQueryParamKey]) || "";
-			var doesQueryParamMatchFilter = decodedQueryParamValue.toLowerCase().indexOf(filter.toLowerCase()) > -1;
-			var filterValue = "test for marty";
-
-			if (doesQueryParamMatchFilter) {
-				if (decodedQueryParamValue.indexOf(',') > -1) {
-					var filters = getFiltersFromString(decodedQueryParamValue);
-					var updatedFilterList = [];
-					filters.forEach(function (urlFilter) {
-						if (urlFilter.toLowerCase() !== filter.toLowerCase()) {
-							updatedFilterList.push(urlFilter);
-						}
-					});
-					filterValue = updatedFilterList.join(',');
-				} else {
-					filterValue = null;
-				}
-			} else {
-				filterValue = filterExists ? queryParams[targetQueryParamKey] + "," + filter : filter;
-			}
-
-			$location.search(targetQueryParamKey, filterValue);
-		};
-
-		var clearQueryPararms = function clearQueryPararms() {
-			return $location.search({});
-		};
-
 		vm.clearFilters = function () {
 			vm.activeFilters = [];
 			clearQueryPararms();
@@ -285,6 +255,63 @@
 		};
 
 		/* Private */
+
+		var buildFilterQueryString = function buildFilterQueryString(targetQueryParam, filterVal) {
+			var queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			var doesQueryParamMatchFilter = queryParamHasValue ? targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : false;
+
+			if (doesQueryParamMatchFilter) {
+				var doesQueryHaveMultipleValues = queryParamHasValue ? targetQueryParam.val.indexOf(',') > -1 : false;
+
+				if (!doesQueryHaveMultipleValues) return null; // Filters match, we want it from the url
+
+				var filters = getFiltersFromString(targetQueryParam.val);
+				var updatedFilterList = [];
+
+				filters.forEach(function (urlFilter) {
+					if (urlFilter.toLowerCase() !== filterVal.toLowerCase()) {
+						updatedFilterList.push(urlFilter);
+					}
+				});
+
+				return updatedFilterList.join(',');
+			}
+
+			return targetQueryParam.val ? targetQueryParam.val + ',' + filterVal : filterVal || null;
+		};
+
+		var clearQueryPararms = function clearQueryPararms() {
+			return $location.search({});
+		};
+
+		var getFilterValue = function getFilterValue(filter) {
+			return filter && Object.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
+		};
+
+		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
+			var targetQueryParam = {
+				key: filterFamily.filterId
+			};
+			targetQueryParam.val = getValueFromObject(queryParams, targetQueryParam.key);
+
+			return targetQueryParam;
+		};
+
+		var getValueFromObject = function getValueFromObject(obj, key) {
+			return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' ? obj[key] || null : null;
+		};
+
+		var updateLocation = function updateLocation(filter, filterFamily) {
+			var filterVal = getFilterValue(filter);
+
+			if (!filterVal) return;
+
+			var queryParams = $location.search();
+			var targetQueryParam = getQueryParamObject(filterFamily, queryParams);
+			var updatedQueryParamVal = buildFilterQueryString(targetQueryParam, filterVal);
+
+			$location.search(targetQueryParam.key, updatedQueryParamVal);
+		};
 
 		var cycleDisplay = function cycleDisplay() {
 			var resultsDisplayElement = document.getElementById('results-display');
@@ -510,9 +537,6 @@
 			}
 
 			$scope.toggleFilter = function (activeFilter) {
-				console.log('toggle', $scope.filterFamily);
-				// Need to 
-
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
 			};
