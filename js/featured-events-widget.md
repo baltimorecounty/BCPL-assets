@@ -1,7 +1,13 @@
 # Featured Events Widget
 
-## Markup
+## Getting Started
 
+1. Go to the SiteExecutive admin console
+1. Go to `inclusions > shared`
+1. Make a copy of `featured-events-widget` page and give it a a **meaningful name** (this could be re-used!)
+1. Modify the featured-events element in the html snippet in your new page
+1. Approve and publish
+1. Add the inclusion to the desired page(s)
 
 
 ## Usage
