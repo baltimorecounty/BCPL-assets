@@ -95,13 +95,17 @@
 
 		const cycleDisplay = () => {
 			const resultsDisplayElement = document.getElementById('results-display');
-			$animate.addClass(resultsDisplayElement, 'fade-out');
-			vm.items = vm.allCardData.filter(filterDataItems);
-			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
-			bcpl.utility.windowShade.cycle(250, 2000);
-			$timeout(() => {
-				$animate.removeClass(resultsDisplayElement, 'fade-out');
-			}, 250);
+            $animate.addClass(resultsDisplayElement, 'fade-out');
+
+            if (vm.allCardData && vm.allCardData.length) {
+                vm.items = vm.allCardData.filter(filterDataItems);
+            }
+
+            angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
+            bcpl.utility.windowShade.cycle(250, 2000);
+            $timeout(() => {
+                $animate.removeClass(resultsDisplayElement, 'fade-out');
+            }, 250);
 		};
 
 		/**
@@ -240,7 +244,7 @@
 		const setFiltersBasedOnQueryParams = () => {
 			const queryParams = $location.search();
 
-			if (queryParams) {
+			if (Object.keys(queryParams).length) {
 				Object.keys(queryParams).forEach((key) => {
 					const filterStr = queryParams[key];
 					const filters = getFiltersFromString(filterStr);
@@ -254,6 +258,9 @@
 				});
 
 				resetMap();
+			}
+			else {
+				vm.clearFilters();
 			}
 		};
 
@@ -274,13 +281,12 @@
 		vm.updateLocation = updateLocation;
 		/* end-test-code */
 
-		vm.testClick = () => {
-			init();
-		};
-
 		$scope.$on('$locationChangeSuccess', function () {
-			console.log('location changed');
+			setFiltersBasedOnQueryParams();
+			cycleDisplay();
 		});
+
+		init();
 	};
 
 	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
