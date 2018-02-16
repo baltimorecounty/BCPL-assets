@@ -113,7 +113,9 @@
 		const loadCardsAndFilters = (cardData, callback) => {
 			if (!cardData.length) { return; }
 
-			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? 
+				cardData : 
+				filterService.transformAttributesToTags(cardData);
 
 			vm.filters = filterService.build(taggedCardData);
 			vm.allCardData = taggedCardData;
@@ -243,7 +245,9 @@
 					const filterStr = queryParams[key];
 					const filters = getFiltersFromString(filterStr);
 					const filterFamily = getFilterFamily(key);
-	
+					
+					vm.activeFilters = [];
+
 					filters.forEach((filter) => {
 						setActiveFilters(filter, filterFamily);
 					});
@@ -270,7 +274,13 @@
 		vm.updateLocation = updateLocation;
 		/* end-test-code */
 
-		init();
+		vm.testClick = () => {
+			init();
+		};
+
+		$scope.$on('$locationChangeSuccess', function () {
+			console.log('location changed');
+		});
 	};
 
 	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
