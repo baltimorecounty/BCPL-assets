@@ -241,7 +241,8 @@ bcpl.constants = {
 	},
 	search: {
 		urls: {
-			materialTypes: '/sebin/y/r/primaryMaterialType.json'
+			materialTypes: '/sebin/y/r/primaryMaterialType.json',
+			catalog: 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term='
 		}
 	},
 	homepage: {
@@ -1107,40 +1108,75 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.siteSearch = function ($) {
+bcpl.siteSearch = function ($, window, constants) {
 	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
-	var siteSearchClearIconSelector = '.site-search-input-container .fa-times';
 	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
+	var searchButtonCatalogSelector = '.search-button-catalog';
+	var searchButtonEventsSelector = '.search-button-events';
+	var searchButtonWebsiteSelector = '.search-button-website';
+	var searchAction = {};
 
 	var onSearchTabClick = function onSearchTabClick(clickEvent) {
-		var $searchBtn = $(clickEvent.target);
+		var $searchBtn = $(clickEvent.currentTarget);
 		$searchBtn.siblings().removeClass('active').end().addClass('active');
 	};
 
-	var onSearchClearBtnClick = function onSearchClearBtnClick() {
-		$(siteSearchInputSelector).val('').trigger('keyup').focus();
+	var onSearchCatalogClick = function onSearchCatalogClick() {
+		searchAction.search = function () {
+			searchCatalog(window);
+		};
 	};
 
-	var onSearchInputKeyup = function onSearchInputKeyup(keyupEvent) {
-		var $searchInput = $(keyupEvent.target);
-		var doesSearchHaveValue = $searchInput.val();
-		var $elmToHide = $(siteSearchSearchIconSelector);
-		var $elmToShow = $(siteSearchClearIconSelector);
+	var onSearchIconClick = function onSearchIconClick() {
+		var searchTerms = getSearchTerms();
 
-		if (!doesSearchHaveValue) {
-			$elmToHide = $(siteSearchClearIconSelector);
-			$elmToShow = $(siteSearchSearchIconSelector);
+		if (searchAction && searchAction.search && searchTerms.length) {
+			searchAction.search();
 		}
+	};
 
-		$elmToHide.hide();
-		$elmToShow.show();
+	var onSiteSearchKeyup = function onSiteSearchKeyup(keyupEvent) {
+		var keyCode = keyupEvent.which || keyupEvent.keyCode;
+
+		if (keyCode === bcpl.constants.keyCodes.enter) {
+			var searchTerms = getSearchTerms();
+
+			if (searchAction && searchAction.search && searchTerms.length) {
+				searchAction.search();
+			}
+		}
+	};
+
+	var searchCatalog = function searchCatalog(activeWindow) {
+		var searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			var searchUrl = constants.search.urls.catalog;
+			activeWindow.location.href = '' + searchUrl + searchTerms; // eslint-disable-line 			
+		}
+	};
+
+	var getSearchTerms = function getSearchTerms() {
+		var $searchBox = $(siteSearchInputSelector);
+		var searchTerms = $searchBox.val();
+		var trimmedSearchTerms = searchTerms.trim();
+		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
+
+		return encodedSearchTerms;
 	};
 
 	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
-	$(document).on('click', siteSearchClearIconSelector, onSearchClearBtnClick);
-	$(document).on('keyup', siteSearchInputSelector, onSearchInputKeyup);
-}(jQuery);
+	$(document).on('click', siteSearchSearchIconSelector, onSearchIconClick);
+	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
+	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
+	// $(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
+	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+
+	// Initially set up the catalog search
+	$(onSearchCatalogClick);
+
+}(jQuery, window, bcpl.constants);
 'use strict';
 
 namespacer('bcpl');
