@@ -64,12 +64,17 @@
 			(filter || null);
 		
 		const getQueryParamObject = (filterFamily, queryParams) => {
-			const targetQueryParam = {
-				key: filterFamily.filterId
+			const isFilterFamilyAnObject = filterFamily && typeof filterFamily === 'object';
+			const filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ?
+				filterFamily.filterId :
+				isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ?
+					filterFamily.Name :
+					(filterFamily || null);
+
+			return {
+				key: filterKey,
+				val: getValueFromObject(queryParams, filterKey)
 			};
-			targetQueryParam.val = getValueFromObject(queryParams, targetQueryParam.key);
-			
-			return targetQueryParam;
 		};
 
 		const getValueFromObject = (obj, key) => obj && typeof obj === 'object' ? 
