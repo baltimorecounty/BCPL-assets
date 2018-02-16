@@ -289,12 +289,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
-			var targetQueryParam = {
-				key: filterFamily.filterId
-			};
-			targetQueryParam.val = getValueFromObject(queryParams, targetQueryParam.key);
+			var isFilterFamilyAnObject = filterFamily && (typeof filterFamily === 'undefined' ? 'undefined' : _typeof(filterFamily)) === 'object';
+			var filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
 
-			return targetQueryParam;
+			return {
+				key: filterKey,
+				val: getValueFromObject(queryParams, filterKey)
+			};
 		};
 
 		var getValueFromObject = function getValueFromObject(obj, key) {
