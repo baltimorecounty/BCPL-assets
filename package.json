@@ -4,6 +4,8 @@
   "description": "Web feature assets for BCPL",
   "main": "index.js",
   "dependencies": {
+    "angular-aria": "^1.6.9",
+    "babel-eslint": "^8.2.1",
     "estraverse": "^4.2.0",
     "flatpickr": "^3.0.7",
     "gulp-download": "^0.0.1",
@@ -42,7 +44,7 @@
     "jasmine": "^2.8.0",
     "jasmine-core": "^2.8.0",
     "jasmine-jquery": "^2.1.1",
-    "jquery": "^1.11.1",
+    "jquery": "^3.3.1",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "karma": "^1.7.1",

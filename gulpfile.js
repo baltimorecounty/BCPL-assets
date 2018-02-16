@@ -17,6 +17,7 @@ const stripCode = require('gulp-strip-code');
 const stylish = require('jshint-stylish');
 const uglify = require('gulp-uglify');
 const util = require('gulp-util');
+const eventPageAppFiles = require('./gulp-tasks/events-page-app.files');
 const featuredEventsFiles = require('./gulp-tasks/featured-events.files');
 
 gulp.task('clean', () => gulp.src('dist')
@@ -29,16 +30,16 @@ gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheet
 	.pipe(gulp.dest('dist/css')));
 
 gulp.task('minify-js', [
-		'process-master-js', 
-		'process-homepage-js', 
-		'process-app-js', 
-		'move-page-specific-js', 
-		'process-featured-events-widget-js'
-	], () => {
+	'process-master-js',
+	'process-homepage-js',
+	'process-app-js',
+	'move-page-specific-js',
+	'process-featured-events-widget-js'
+], () => {
 	return gulp.src([
-			'dist/js/**/*.js',
-			'!**/*min.js'
-		])
+		'dist/js/**/*.js',
+		'!**/*min.js'
+	])
 		.pipe(uglify())
 		.on('error', (err) => { util.log(util.colors.red('[Error]'), err.toString()); })
 		.pipe(rename({ suffix: '.min' }))
@@ -48,16 +49,15 @@ gulp.task('minify-js', [
 gulp.task('create-featured-events-widget-js', () => {
 	const targetFiles = [
 		'dist/js/angular/angular.min.js',
-		'dist/js/angular/*.js',
+		'dist/js/angular/angular-aria.min.js',
 		'dist/js/moment/*.js',
-		'dist/js/apps/events-page/featuredEventsWidget.min.js'
+		'dist/js/apps/events-page/featuredEventsWidgetApp.min.js'
 	];
 	return gulp.src(targetFiles)
 		.pipe(order([
 			'dist/js/moment/*.js',
 			'dist/js/angular/angular.min.js',
-			'dist/js/angular/angular*.js',
-			'dist/js/apps/events-page/featuredEventsWidget.min.js'
+			'dist/js/apps/events-page/featuredEventsWidgetApp.min.js'
 		], { base: './' }))
 		.pipe(concat('featured-events-widget.min.js'))
 		.pipe(gulp.dest('dist/js/featured-events-widget'));
@@ -70,16 +70,7 @@ gulp.task('process-app-js', () => {
 	});
 
 	appFolders.forEach((folder) => {
-		gulp.src([
-			`js/apps/${folder}/app.js`,
-			`js/apps/${folder}/constants.js`,
-			`js/apps/${folder}/config.js`,
-			`js/apps/${folder}/filters/**/*.js`,
-			`js/apps/${folder}/dataServices/**/*.js`,
-			`js/apps/${folder}/services/**/*.js`,
-			`js/apps/${folder}/controllers/**/*.js`,
-			`js/apps/${folder}/directives/**/*.js`
-		])
+		gulp.src(eventPageAppFiles(folder))
 			.pipe(jshint({
 				esversion: 6
 			}))
@@ -110,7 +101,7 @@ gulp.task('process-featured-events-widget-js', () => {
 			start_comment: 'test-code',
 			end_comment: 'end-test-code'
 		}))
-		.pipe(concat('featuredEventsWidget.js'))
+		.pipe(concat('featuredEventsWidgetApp.js'))
 		.pipe(gulp.dest('dist/js/apps/events-page'));
 });
 

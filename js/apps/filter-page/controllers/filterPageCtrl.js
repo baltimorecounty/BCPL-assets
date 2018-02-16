@@ -1,25 +1,28 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
-		const self = this;
+	const FilterPageCtrl = function FilterPageCtrl($location, $scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+		const vm = this;
 
-		self.activeFilters = [];
-		self.allCardData = {};
-		self.isEverythingFilteredOut = false;
+		vm.activeFilters = [];
+		vm.allCardData = {};
+		vm.isEverythingFilteredOut = false;
 
 		/**
 		 * Makes sure the filters and tags are in sync.
 		 *
 		 * @param {string} filter
 		 */
-		self.setFilter = (filter, filterFamily) => {
+		vm.setFilter = (filter, filterFamily) => {
 			setActiveFilters(filter, filterFamily);
 			cycleDisplay();
 		};
 
-		self.clearFilters = () => {
-			self.activeFilters = [];
+		const clearQueryPararms = () => $location.search({});
+
+		vm.clearFilters = () => {
+			vm.activeFilters = [];
+			clearQueryPararms();
 			cycleDisplay();
 		};
 
@@ -28,8 +31,8 @@
 		const cycleDisplay = () => {
 			const resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
-			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
+			vm.items = vm.allCardData.filter(filterDataItems);
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(() => {
 				$animate.removeClass(resultsDisplayElement, 'fade-out');
@@ -42,16 +45,20 @@
 		 * @param {[string]} filters
 		 * @param {[*]} branchData
 		 */
-		const loadCardsAndFilters = (cardData) => {
+		const loadCardsAndFilters = (cardData, callback) => {
 			if (!cardData.length) { return; }
 
 			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
 
-			self.filters = filterService.build(taggedCardData);
-			self.allCardData = taggedCardData;
-			self.items = taggedCardData;
-			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			vm.filters = filterService.build(taggedCardData);
+			vm.allCardData = taggedCardData;
+			vm.items = taggedCardData;
+			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 			$scope.$apply();
+			
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		};
 
 		/**
@@ -67,13 +74,13 @@
 
 			const tags = _.pluck(cardDataItem.Tags, 'Tag');
 
-			angular.forEach(self.activeFilters, (activeFilter) => {
+			angular.forEach(vm.activeFilters, (activeFilter) => {
 				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
 			});
 
-			return matchCount === self.activeFilters.length;
+			return matchCount === vm.activeFilters.length;
 		};
 
 		/**
@@ -85,12 +92,12 @@
 		const setActiveFilters = (filter, filterFamily) => {
 			const isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
 			const tagString = isTagInfo ? filter.Tag : filter;
-			const filterIndex = self.activeFilters.indexOf(tagString);
+			const filterIndex = vm.activeFilters.indexOf(tagString);
 			const shouldAddFilter = filterIndex === -1;
 			let foundFilterFamily = filterFamily;
 
 			if (isTagInfo) {
-				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				foundFilterFamily = _.where(vm.filters, { name: filter.Name });
 				if (foundFilterFamily.length === 1) {
 					foundFilterFamily = foundFilterFamily[0];
 				}
@@ -111,17 +118,17 @@
 			}
 
 			angular.forEach(tagsToRemove, (tagToRemove) => {
-				const isFound = self.activeFilters.indexOf(tagToRemove) !== -1;
+				const isFound = vm.activeFilters.indexOf(tagToRemove) !== -1;
 
 				if (isFound) {
-					self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+					vm.activeFilters.splice(vm.activeFilters.indexOf(tagToRemove), 1);
 				}
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(tagString);
+				vm.activeFilters.push(tagString);
 			} else {
-				self.activeFilters.splice(filterIndex, 1);
+				vm.activeFilters.splice(filterIndex, 1);
 			}
 		};
 
@@ -135,15 +142,71 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		cardService.get(loadCardsAndFilters);
+		const formatKeyName = (key) => !key ? "" : key.replace(/-/g, " ");
+
+		const getFilterFamily = (key) => {
+			const formattedKeyName = formatKeyName(key);
+			const filterFamliy = vm.filters.filter((filter) => {
+				return formattedKeyName.toLowerCase() === filter.name.toLowerCase();
+			});
+
+			return filterFamliy.length ? filterFamliy[0] : null;
+		};
+
+		const getFiltersFromString = (filterStr) => {
+			if(!filterStr) return [];
+
+			const containsMultipleFilters = filterStr && filterStr.indexOf(',') > -1;
+
+			return containsMultipleFilters ?  filterStr.split(',') : [filterStr];
+		};
+
+		const resetMap = () => {
+			setTimeout(() => {
+				const filteredItems = { 
+					items: $scope.filteredItems 
+				};
+				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
+			}, 250);
+		};
+
+		const setFiltersBasedOnQueryParams = () => {
+			const queryParams = $location.search();
+
+			if (queryParams) {
+				Object.keys(queryParams).forEach((key) => {
+					const filterStr = queryParams[key];
+					const filters = getFiltersFromString(filterStr);
+					const filterFamily = getFilterFamily(key);
+	
+					filters.forEach((filter) => {
+						setActiveFilters(filter, filterFamily);
+					});
+				});
+
+				resetMap();
+			}
+		};
+
+		const init = () => {
+			cardService
+				.get((data) => {
+					loadCardsAndFilters(data, setFiltersBasedOnQueryParams);
+				});
+		};
 
 		/* test-code */
-		self.setActiveFilters = setActiveFilters;
-		self.filterDataItems = filterDataItems;
+		vm.getFilterFamily = getFilterFamily;
+		vm.getFiltersFromString = getFiltersFromString;
+		vm.filterDataItems = filterDataItems;
+		vm.formatKeyName = formatKeyName;
+		vm.setActiveFilters = setActiveFilters;
 		/* end-test-code */
+
+		init();
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

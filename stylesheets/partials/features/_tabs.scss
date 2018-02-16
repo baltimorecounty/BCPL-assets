@@ -1,19 +1,17 @@
 .tabs {
-	margin: 5em 0 0;
-
 	nav {
 		ul {
 			li {
 				color: $teal;
-				font-size: .8em;
+				font-size: 1em;
 				font-weight: bold;
 				padding: .5em 1em;
 				text-transform: uppercase;
 				cursor: pointer;
-				height: 32px;
 				
 				&.active {
 					background-color: white;
+					box-shadow: $shadow-white-bottom, $shadow-primary;
 				}
 			}
 		}
@@ -31,13 +29,18 @@
 				height: 90px;
 				width: 70px;
 			}
-		}
-		
+		}	
 
 		&.active {
-			display: flex;
-			justify-content: space-around;
-	}
+			display: block;
+			box-shadow: $shadow-primary;
+		}
+
+		p {
+			margin: 10px 0 0;
+			font-size: .8em;
+			text-transform: uppercase;
+		} 
 	}
 }
 
@@ -52,8 +55,45 @@
 	.tabs {
 		.tab {
 			&.active {
-				display: flex;
-				justify-content: space-around;
+				display: block;
+			}
+		}
+
+		nav {
+			ul {
+				position: relative;
+				height: 37px;
+
+				li {
+					display: block;
+					position: absolute;
+					background: white;
+					width: 100%;
+
+					&.active {
+						z-index: 100;
+						box-shadow: $shadow-white-bottom, $shadow-primary;
+
+						&:after {
+							font-family: 'FontAwesome';
+							color: $teal;
+							content: "\f0c9";
+							position: absolute;
+							right: 1em;
+							top: .5em;
+							z-index: 200;
+						}
+					}
+				}
+
+				
+				&.open {
+					height: auto;
+
+					li {
+						position: static;
+					}		
+				}
 			}
 		}
 	}

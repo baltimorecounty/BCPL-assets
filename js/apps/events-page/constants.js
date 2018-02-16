@@ -1,5 +1,7 @@
-((app) => {
+(() => {
 	'use strict';
+
+	const app = angular.module('events', []);
 
 	var constants = {
 		baseUrl: 'https://testservices.bcpl.info',
@@ -29,5 +31,5 @@
 		requestChunkSize: 10
 	};
 
-	app.constant('CONSTANTS', constants);
-})(angular.module('eventsPageApp'));
+	app.constant('events.CONSTANTS', constants);
+})();

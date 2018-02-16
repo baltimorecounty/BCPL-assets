@@ -51,6 +51,106 @@ describe('filterPageCtrl', () => {
 
 			expect(controller.activeFilters).toEqual(['test1', 'test3']);
 		});
+
+		describe('getFiltersFromString', () => {
+			it('should return a single filter if only one is listed', () => {
+				const filterStr = 'Adult';
+				const actual = controller.getFiltersFromString(filterStr);
+				
+				expect([filterStr]).toEqual(actual);
+			});
+			it('should return an array of filter if the string is comma seperated', () => {
+				const filterStr = 'Adult,Kids,All Ages';
+				const actual = controller.getFiltersFromString(filterStr);
+				const expected = ['Adult', 'Kids', 'All Ages'];
+				
+				expect(expected).toEqual(actual);
+			});
+
+			it('should return an empty array if the filter doesn\'t exist', () => {
+				const filterStr = null;
+				const actual = controller.getFiltersFromString(filterStr);
+				
+				expect([]).toEqual(actual);
+			});
+		});
+		describe('formatKeyName', () => {
+			it('should return an empty string if the does not exist', () => {
+				const actual = controller.formatKeyName(null);
+				
+				expect("").toEqual(actual);
+			});
+
+			it('should replace a "-" with a space', () => {
+				const key = 'Library-Card';
+				const actual = controller.formatKeyName(key);
+				
+				expect('Library Card').toEqual(actual);
+			});
+
+			it('should replace multiple "-" with multiple spaces', () => {
+				const key = 'My-Library-Card';
+				const actual = controller.formatKeyName(key);
+				
+				expect('My Library Card').toEqual(actual);
+			});
+
+			it('should not change the key if there is no "-" in the string', () => {
+				const key = 'LibraryCard';
+				const actual = controller.formatKeyName(key);
+				
+				expect(key).toEqual(actual);
+			});
+		});
+		describe('getFilterFamily', () => {
+			let mockFilters = [
+				{
+					name: 'test',
+					tags: ['tag1', 'tag2'],
+					type: "Many",
+					filterId: 'test'
+				},
+				{
+					name: 'test1',
+					tags: ['tag3', 'tag4'],
+					type: "Many",
+					filterId: 'test1'
+				}
+			];
+
+			beforeEach((done) => {
+				controller.filters = mockFilters;
+				done();
+			})
+
+			it(`should return null if the key is null`, () => {
+				const actual = controller.getFilterFamily(null);
+				
+				expect(null).toEqual(actual);
+			});
+
+			it(`should return null if there is no match`, () => {
+				const actual = controller.getFilterFamily("test3");
+				
+				expect(null).toEqual(actual);
+			});
+
+			it(`should return the first object form the mock filters: ${mockFilters[0].name}`, () => {
+				const key = 'test';
+				const actual = controller.getFilterFamily(key);
+				const expected = mockFilters[0];
+				
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should return the second object form the mock filters: ${mockFilters[1].name}`, () => {
+				const key = 'test1';
+				const actual = controller.getFilterFamily(key);
+				const expected = mockFilters[1];
+				
+				expect(expected).toEqual(actual);
+			});
+		});
 	});
 
 	describe('filterDataItems', () => {
@@ -111,4 +211,5 @@ describe('filterPageCtrl', () => {
 			expect(controller.filterDataItems(testDataItem)).toBe(false);
 		});
 	});
+	
 });

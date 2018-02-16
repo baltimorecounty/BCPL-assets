@@ -25,50 +25,73 @@
 	<div class="main-content top-border">
 		<h1>{{eventDetailsPage.data.Title}}</h1>
 
-		<p ng-if="eventDetailsPage.data.Description">{{eventDetailsPage.data.Description}}</p>
+		<div class="loading-spinner" ng-show="eventDetailsPage.isLoading">
+			<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+		</div>
 
-		<p class="registration-required" ng-show="eventDetailsPage.isRegistrationRequired && !eventDetailsPage.isOver">
-			<a href="#!/register/{{eventDetailsPage.data.EventId}}" class="btn-primary btn-uppercase-bold" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
-				<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
-			</a>
+		<div ng-show="eventsPage.isError" class="cards">
+			<p class="card">
+				{{eventDetailsPage.requestErrorMessage}}
+			</p>
+		</div>	
 
-			<span class="pull-right" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
-				<i class="fa fa-star" aria-hidden="true"></i> Registration is required for this event.
-			</span>
-			<span ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 2">
-				<i class="fa fa-star" aria-hidden="true"></i> In-person registration is required for this event at the {{eventDetailsPage.data.LocationName}} branch.
-			</span>
-		</p>
-
-		<table>
-			<tbody>
-				<tr>
-					<td class="table-column-25 horizontal-headers">Date</td>
-					<td>{{eventDetailsPage.data.EventStartDate}}</td>
-				</tr>
-				<tr>
-					<td class="table-column-25 horizontal-headers">Time</td>
-					<td>{{eventDetailsPage.data.EventSchedule}}
-						<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
-					</td>
-				</tr>
-				<tr>
-					<td class="table-column-25 horizontal-headers">Event Type</td>
-					<td>{{eventDetailsPage.data.EventTypesString}}</td>
-				</tr>
-				<tr>
-					<td class="table-column-25 horizontal-headers">Age Group</td>
-					<td>{{eventDetailsPage.data.AgeGroupsString}}</td>
-				</tr>
-				<tr>
-					<td class="table-column-25 horizontal-headers">Branch</td>
-					<td>{{eventDetailsPage.data.LocationName}}</td>
-				</tr>
-				<tr ng-show="eventDetailsPage.isRegistrationRequired">
-					<td class="table-column-25 horizontal-headers">Seats Available</td>
-					<td>{{eventDetailsPage.data.MainSpotsAvailable}}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div ng-hide="eventDetailsPage.isLoading && !eventsPage.isError">
+			<p ng-if="eventDetailsPage.data.Description">{{eventDetailsPage.data.Description}}</p>
+	
+			<p ng-if="eventDetailsPage.data.isFull">
+				<strong>
+					This event is currently full.
+					<span ng-if="eventDetailsPage.data.isFull && eventDetailsPage.data.isWaiting">You may still register for the waiting list.</span>
+				</strong>
+			</p>
+	
+			<p class="registration-required" ng-show="eventDetailsPage.data.shouldDisplayRegistrationButton">
+				<a href="#!/register/{{eventDetailsPage.data.EventId}}" 
+					class="btn-primary btn-uppercase-bold" 
+					ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
+					<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
+				</a>
+	
+				<span class="pull-right" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
+					<i class="fa fa-star" aria-hidden="true"></i> 
+					Registration is required for this event.
+				</span>
+				<span ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 2">
+					<i class="fa fa-star" aria-hidden="true"></i> 
+					In-person registration is required for this event at the {{eventDetailsPage.data.LocationName}} branch.
+				</span>
+			</p>
+	
+			<table>
+				<tbody>
+					<tr>
+						<td class="table-column-25 horizontal-headers">Date</td>
+						<td>{{eventDetailsPage.data.EventStartDate}}</td>
+					</tr>
+					<tr>
+						<td class="table-column-25 horizontal-headers">Time</td>
+						<td>{{eventDetailsPage.data.EventSchedule}}
+							<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="table-column-25 horizontal-headers">Event Type</td>
+						<td>{{eventDetailsPage.data.EventTypesString}}</td>
+					</tr>
+					<tr>
+						<td class="table-column-25 horizontal-headers">Age Group</td>
+						<td>{{eventDetailsPage.data.AgeGroupsString}}</td>
+					</tr>
+					<tr>
+						<td class="table-column-25 horizontal-headers">Branch</td>
+						<td>{{eventDetailsPage.data.LocationName}}</td>
+					</tr>
+					<tr ng-show="eventDetailsPage.isRegistrationRequired">
+						<td class="table-column-25 horizontal-headers">Seats Available</td>
+						<td>{{eventDetailsPage.data.MainSpotsAvailable}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

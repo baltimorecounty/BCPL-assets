@@ -5,21 +5,23 @@ form {
 		font-size: .8em;
 	}
 
-	.registration-result {
-		padding: 1em;
-
-		&.bg-success {
-			border-top: 5px solid $form-response-success-border;
-			background: $form-response-success-background;
-		}
-
-		&.bg-danger {
-			border-top: 5px solid $form-response-warning-border;
-			background: $form-response-warning-background;
-		}
-
-		.text-center {
-			text-align: left;
-		}
+	.text-center {
+		text-align: left;
 	}
+}
+
+#formButtonContainer .SEAFWrapper {
+	display: inline-block;
+}
+
+.bg-success {
+	border-top: 5px solid $form-response-success-border;
+	background: $form-response-success-background;
+	padding: 1em;
+}
+
+.bg-danger {
+	border-top: 5px solid $form-response-warning-border;
+	background: $form-response-warning-background;
+	padding: 1em;
 }

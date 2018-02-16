@@ -1,16 +1,20 @@
+.card {
+	background: white;
+	color: $gray;
+	display: block;
+	margin-bottom: 1.2em; 
+	padding: .5em;			
+	box-shadow: $shadow-primary;		
+}
+
 .cards {
 	margin: 1em 0 2em;
 	float: left;
 	width: 100%;
 
-	.card {
-		background: white;
-		color: $gray;
-		display: block;
-		margin-bottom: 1.2em; 
-		padding: .5em;		
-		transition: all 0.25s ease;		
-		box-shadow: $shadow-primary;		
+	.card {	
+		transition: all 0.25s ease;
+		margin-bottom: 15px;			
 		
 		h2 {
 			font-size: 18px;
@@ -23,6 +27,7 @@
 		float: left;
 		font-weight: 700;
 		margin: 0 .5em;
+		text-decoration: none !important;
 		
 		&.card {
 			padding: .5em;
@@ -62,6 +67,19 @@
 			min-height: 4em;
 			padding-top: .5em;
 		}
+	}
+}
+
+.card-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+
+	.card {
+		padding: 20px;
+	}
+	h3 {
+		color: $teal;
 	}
 }
 

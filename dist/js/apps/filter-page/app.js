@@ -1,9 +1,14 @@
-'use strict';
+"use strict";
 
 (function () {
-	'use strict';
+  "use strict";
 
-	angular.module('filterPageApp', ['ngAnimate']);
+  angular.module("filterPageApp", ["ngAnimate"]).config(function ($locationProvider) {
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
+  });
 })();
 'use strict';
 
@@ -223,25 +228,30 @@
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
-		var self = this;
+	var FilterPageCtrl = function FilterPageCtrl($location, $scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+		var vm = this;
 
-		self.activeFilters = [];
-		self.allCardData = {};
-		self.isEverythingFilteredOut = false;
+		vm.activeFilters = [];
+		vm.allCardData = {};
+		vm.isEverythingFilteredOut = false;
 
 		/**
    * Makes sure the filters and tags are in sync.
    *
    * @param {string} filter
    */
-		self.setFilter = function (filter, filterFamily) {
+		vm.setFilter = function (filter, filterFamily) {
 			setActiveFilters(filter, filterFamily);
 			cycleDisplay();
 		};
 
-		self.clearFilters = function () {
-			self.activeFilters = [];
+		var clearQueryPararms = function clearQueryPararms() {
+			return $location.search({});
+		};
+
+		vm.clearFilters = function () {
+			vm.activeFilters = [];
+			clearQueryPararms();
 			cycleDisplay();
 		};
 
@@ -250,8 +260,8 @@
 		var cycleDisplay = function cycleDisplay() {
 			var resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-			self.items = self.allCardData.filter(filterDataItems);
-			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: self.items });
+			vm.items = vm.allCardData.filter(filterDataItems);
+			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
 				$animate.removeClass(resultsDisplayElement, 'fade-out');
@@ -264,18 +274,22 @@
    * @param {[string]} filters
    * @param {[*]} branchData
    */
-		var loadCardsAndFilters = function loadCardsAndFilters(cardData) {
+		var loadCardsAndFilters = function loadCardsAndFilters(cardData, callback) {
 			if (!cardData.length) {
 				return;
 			}
 
 			var taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
 
-			self.filters = filterService.build(taggedCardData);
-			self.allCardData = taggedCardData;
-			self.items = taggedCardData;
-			angular.element('#results-display').trigger('bcpl.filter.changed', { items: self.items });
+			vm.filters = filterService.build(taggedCardData);
+			vm.allCardData = taggedCardData;
+			vm.items = taggedCardData;
+			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 			$scope.$apply();
+
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		};
 
 		/**
@@ -291,13 +305,13 @@
 
 			var tags = _.pluck(cardDataItem.Tags, 'Tag');
 
-			angular.forEach(self.activeFilters, function (activeFilter) {
+			angular.forEach(vm.activeFilters, function (activeFilter) {
 				if (tags.indexOf(activeFilter) !== -1) {
 					matchCount += 1;
 				}
 			});
 
-			return matchCount === self.activeFilters.length;
+			return matchCount === vm.activeFilters.length;
 		};
 
 		/**
@@ -309,12 +323,12 @@
 		var setActiveFilters = function setActiveFilters(filter, filterFamily) {
 			var isTagInfo = Object.prototype.hasOwnProperty.call(filter, 'Tag');
 			var tagString = isTagInfo ? filter.Tag : filter;
-			var filterIndex = self.activeFilters.indexOf(tagString);
+			var filterIndex = vm.activeFilters.indexOf(tagString);
 			var shouldAddFilter = filterIndex === -1;
 			var foundFilterFamily = filterFamily;
 
 			if (isTagInfo) {
-				foundFilterFamily = _.where(self.filters, { name: filter.Name });
+				foundFilterFamily = _.where(vm.filters, { name: filter.Name });
 				if (foundFilterFamily.length === 1) {
 					foundFilterFamily = foundFilterFamily[0];
 				}
@@ -333,17 +347,17 @@
 			}
 
 			angular.forEach(tagsToRemove, function (tagToRemove) {
-				var isFound = self.activeFilters.indexOf(tagToRemove) !== -1;
+				var isFound = vm.activeFilters.indexOf(tagToRemove) !== -1;
 
 				if (isFound) {
-					self.activeFilters.splice(self.activeFilters.indexOf(tagToRemove), 1);
+					vm.activeFilters.splice(vm.activeFilters.indexOf(tagToRemove), 1);
 				}
 			});
 
 			if (shouldAddFilter) {
-				self.activeFilters.push(tagString);
+				vm.activeFilters.push(tagString);
 			} else {
-				self.activeFilters.splice(filterIndex, 1);
+				vm.activeFilters.splice(filterIndex, 1);
 			}
 		};
 
@@ -357,11 +371,65 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		cardService.get(loadCardsAndFilters);
+		var formatKeyName = function formatKeyName(key) {
+			return !key ? "" : key.replace(/-/g, " ");
+		};
 
+		var getFilterFamily = function getFilterFamily(key) {
+			var formattedKeyName = formatKeyName(key);
+			var filterFamliy = vm.filters.filter(function (filter) {
+				return formattedKeyName.toLowerCase() === filter.name.toLowerCase();
+			});
+
+			return filterFamliy.length ? filterFamliy[0] : null;
+		};
+
+		var getFiltersFromString = function getFiltersFromString(filterStr) {
+			if (!filterStr) return [];
+
+			var containsMultipleFilters = filterStr && filterStr.indexOf(',') > -1;
+
+			return containsMultipleFilters ? filterStr.split(',') : [filterStr];
+		};
+
+		var resetMap = function resetMap() {
+			setTimeout(function () {
+				var filteredItems = {
+					items: $scope.filteredItems
+				};
+				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
+			}, 250);
+		};
+
+		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
+			var queryParams = $location.search();
+
+			if (queryParams) {
+				Object.keys(queryParams).forEach(function (key) {
+					var filterStr = queryParams[key];
+					var filters = getFiltersFromString(filterStr);
+					var filterFamily = getFilterFamily(key);
+
+					filters.forEach(function (filter) {
+						setActiveFilters(filter, filterFamily);
+					});
+				});
+
+				resetMap();
+			}
+		};
+
+		var init = function init() {
+			cardService.get(function (data) {
+				loadCardsAndFilters(data, setFiltersBasedOnQueryParams);
+			});
+		};
+
+
+		init();
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
@@ -442,8 +510,30 @@
 
 	var filtersDirective = function filtersDirective() {
 		var filterLink = function filterLink($scope) {
+			var findFilterMatch = function findFilterMatch(tagName, filter) {
+				return tagName.toLowerCase() === filter.toLowerCase();
+			};
+
 			$scope.$watch('filterData', function () {
 				$scope.filterFamilies = $scope.filterData ? $scope.filterData.map(addFilterId) : $scope.filterFamilies;
+
+				if ($scope.filterFamilies && $scope.filterFamilies.length) {
+					$scope.filterFamilies.forEach(function (filterFamily) {
+						var filterFamilyHasTags = filterFamily && Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+						var tags = filterFamilyHasTags ? filterFamily.tags : [];
+						var hasMatch = false;
+
+						$scope.activeFilters.forEach(function (filter) {
+							if (!hasMatch) {
+								hasMatch = !!tags.filter(function (tagName) {
+									return findFilterMatch(tagName, filter);
+								}).length;
+							}
+						});
+
+						filterFamily.isFilterActive = hasMatch;
+					});
+				}
 			});
 
 			var addFilterId = function addFilterId(filterFamily) {
@@ -454,7 +544,6 @@
 				if (newFamily) {
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
-
 				return newFamily;
 			};
 		};

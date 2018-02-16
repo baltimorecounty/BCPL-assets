@@ -41,7 +41,7 @@
 		return directive;
 	};
 
-	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+	filtersDirective.$inject = ['metaService', 'events.CONSTANTS'];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('eventsPageApp'));

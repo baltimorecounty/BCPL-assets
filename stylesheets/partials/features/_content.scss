@@ -1,22 +1,25 @@
-.main-content, .secondary-nav {
-	background-color: white;
-	margin-top: 1em;
+.main-content,
+.secondary-nav {
+    background-color: white;
+    margin-top: 1em;
 }
 
 .main-content {
-	padding: 1.8em;
-	margin-bottom: 3em;
-
-	&.top-border {
-		border-top: 4px solid $tan;
-	}
-
-	&.hub-page {
-		background: none;
-		padding: 0;
-	}
-
-	h1:first-of-type {
-		margin-top: 0;
-	}
+    padding: 1.8em;
+    margin-bottom: 3em;
+    &.top-border {
+        border-top: 4px solid $tan;
+    }
+    &.hub-page {
+        background: none;
+        padding: 0;
+    }
+    h1:first-of-type {
+        margin-top: 0;
+    }
+    a {
+        font-weight: normal;
+        line-height: 1.7em;
+        text-decoration: underline;
+    }
 }

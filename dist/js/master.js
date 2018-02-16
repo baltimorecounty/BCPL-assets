@@ -233,6 +233,12 @@ bcpl.constants = {
 		tab: 9,
 		space: 32
 	},
+	breakpoints: {
+		large: 1200,
+		medium: 992,
+		small: 768,
+		xsmall: 480
+	},
 	search: {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json'
@@ -247,7 +253,8 @@ bcpl.constants = {
 	shared: {
 		urls: {
 			alerts: '/api/structured-content/alerts',
-			alertNotification: '/api/structured-content/alerts-notification'
+			alertNotification: '/api/structured-content/alerts-notification',
+			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
 	}
 };
@@ -256,7 +263,6 @@ bcpl.constants = {
 namespacer('bcpl');
 
 bcpl.accordion = function ($) {
-	var accordionSelector = '.content-accordion';
 	var accordionIcorSelector = 'h4 a i';
 	var collapsableSelector = '.content-accordion-body';
 	var panelSelector = '.content-accordion .panel';
@@ -264,13 +270,13 @@ bcpl.accordion = function ($) {
 	var onCollapsableShown = function onCollapsableShown(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-plus').addClass('fa-minus');
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-right').addClass('fa-chevron-down');
 	};
 
 	var onCollapsableHidden = function onCollapsableHidden(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-minus').addClass('fa-plus');
+		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-down').addClass('fa-chevron-right');
 	};
 
 	var init = function init() {
@@ -376,6 +382,90 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 $(function () {
 	bcpl.alertBox.init();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.bookCarousel = function ($, constants) {
+	var promises = [];
+	var slickSettings = {
+		infinite: true,
+		arrows: true,
+		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
+		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
+		slidesToShow: 3,
+		responsive: [{
+			breakpoint: constants.breakpoints.large,
+			settings: {
+				slidesToShow: 3
+			}
+		}, {
+			breakpoint: constants.breakpoints.medium,
+			settings: {
+				slidesToShow: 2
+			}
+		}, {
+			breakpoint: constants.breakpoints.small,
+			settings: {
+				slidesToShow: 1
+			}
+		}]
+	};
+
+	var loadData = function loadData(carouselId) {
+		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
+
+		return $.ajax(url, {
+			dataType: 'jsonp'
+		}).then(function (data) {
+			return onDataSuccess(data, carouselId);
+		});
+	};
+
+	var onDataSuccess = function onDataSuccess(data, carouselId) {
+		var $data = $(data.Carousel_Str);
+		var $images = $data.find('li div img');
+		var $links = $data.find('li div a');
+		var $items = $data.find('li').map(function (index, element) {
+			return cleanHtml(index, element, $images, $links);
+		});
+
+		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items.get());
+	};
+
+	var cleanHtml = function cleanHtml(index, element, $images, $links) {
+		var $image = $images.eq(index);
+		var $link = $links.eq(index);
+
+		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
+
+		return $('<div class="inner"></div>').append($image).append($link);
+	};
+
+	var init = function init() {
+		var maxSlides = void 0;
+
+		$('.book-carousel').each(function (index, carouselElement) {
+			var $carouselElement = $(carouselElement);
+			var carouselId = $carouselElement.attr('data-carousel-id');
+			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
+
+			promises.push(loadData(carouselId));
+		});
+
+		$.when.apply($, promises).then(function () {
+			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+				slickSettings.slidesToShow = maxSlides;
+			}
+
+			$('.book-carousel').slick(slickSettings);
+		});
+	};
+
+	return {
+		init: init
+	};
+}(jQuery, bcpl.constants);
 'use strict';
 
 namespacer('bcpl.pageSpecific.homepage');
@@ -1103,11 +1193,11 @@ bcpl.tabs = function ($) {
 		var $targetTabControl = $(event.currentTarget);
 		var $tabs = event.data.$tabContainer.find(tabSelector);
 		var tabControlIndex = $targetTabControl.index();
+		var $activatedTab = $tabs.eq(tabControlIndex);
 
-		event.data.$tabControls.removeClass('active');
-		$tabs.removeClass('active');
-		$targetTabControl.addClass('active');
-		$tabs.eq(tabControlIndex).addClass('active');
+		event.data.$tabControls.add($tabs).removeClass('active');
+		$activatedTab.addClass('active');
+		$targetTabControl.addClass('active').trigger('tabControlChanged').closest('ul').toggleClass('open');
 	};
 
 	var init = function init() {

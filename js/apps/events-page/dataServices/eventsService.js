@@ -1,5 +1,7 @@
-((app, moment) => {
+((moment) => {
 	'use strict';
+
+	const app = angular.module('dataServices', []);
 
 	const eventsService = (CONSTANTS, $http, $q) => {
 		const isEventOnDate = (eventItem, eventDate) => {
@@ -53,6 +55,13 @@
 							if (response.data.Description) {
 								response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 							}
+
+							response.data.isStarted = moment(response.data.EventStart).isBefore();
+							response.data.isFull = response.data.MainSpotsAvailable === 0;
+							response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
+							response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
+							response.data.shouldDisplayRegistrationButton = shouldDisplayRegistrationButton(response.data);
+
 							resolve(response.data);
 						} else {
 							reject(response);
@@ -75,6 +84,12 @@
 			localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
 
 			return localCalendarEvent;
+		};
+
+		const shouldDisplayRegistrationButton = eventData => {
+			return !eventData.isStarted &&
+				eventData.requiresRegistration &&
+				(!eventData.isFull || (eventData.isFull && eventData.isWaiting));
 		};
 
 		const formatFeaturedEvents = (events) => {
@@ -114,7 +129,7 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
+	eventsService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
-	app.factory('eventsService', eventsService);
-})(angular.module('eventsPageApp'), window.moment);
+	app.factory('dataServices.eventsService', eventsService);
+})(window.moment);

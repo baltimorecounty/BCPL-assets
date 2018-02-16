@@ -3,16 +3,18 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['ngRoute', 'ngSanitize']);
+	angular.module('eventsPageApp', ['dataServices', 'events', 'ngAria', 'ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
-(function (app) {
+(function () {
 	'use strict';
 
+	var app = angular.module('events', []);
+
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -38,8 +40,8 @@
 		requestChunkSize: 10
 	};
 
-	app.constant('CONSTANTS', constants);
-})(angular.module('eventsPageApp'));
+	app.constant('events.CONSTANTS', constants);
+})();
 'use strict';
 
 (function (app) {
@@ -61,14 +63,16 @@
 		});
 	};
 
-	config.$inject = ['$routeProvider', 'CONSTANTS'];
+	config.$inject = ['$routeProvider', 'events.CONSTANTS'];
 
 	app.config(config);
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app, moment) {
+(function (moment) {
 	'use strict';
+
+	var app = angular.module('dataServices', []);
 
 	var eventsService = function eventsService(CONSTANTS, $http, $q) {
 		var isEventOnDate = function isEventOnDate(eventItem, eventDate) {
@@ -121,6 +125,13 @@
 						if (response.data.Description) {
 							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 						}
+
+						response.data.isStarted = moment(response.data.EventStart).isBefore();
+						response.data.isFull = response.data.MainSpotsAvailable === 0;
+						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
+						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
+						response.data.shouldDisplayRegistrationButton = shouldDisplayRegistrationButton(response.data);
+
 						resolve(response.data);
 					} else {
 						reject(response);
@@ -145,6 +156,10 @@
 			localCalendarEvent.requiresRegistration = localCalendarEvent.RegistrationTypeCodeEnum !== 0;
 
 			return localCalendarEvent;
+		};
+
+		var shouldDisplayRegistrationButton = function shouldDisplayRegistrationButton(eventData) {
+			return !eventData.isStarted && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
 		};
 
 		var formatFeaturedEvents = function formatFeaturedEvents(events) {
@@ -177,10 +192,10 @@
 		};
 	};
 
-	eventsService.$inject = ['CONSTANTS', '$http', '$q'];
+	eventsService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
-	app.factory('eventsService', eventsService);
-})(angular.module('eventsPageApp'), window.moment);
+	app.factory('dataServices.eventsService', eventsService);
+})(window.moment);
 'use strict';
 
 (function (app) {
@@ -231,7 +246,7 @@
 		};
 	};
 
-	registrationService.$inject = ['CONSTANTS', '$http', '$q'];
+	registrationService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
 	app.factory('registrationService', registrationService);
 })(angular.module('eventsPageApp'));
@@ -338,26 +353,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
-		var self = this;
+		var vm = this;
 		var id = $routeParams.id;
 
-		self.data = {};
-		self.data.EventStartDate = '';
-		self.data.EventStartTime = '';
-		self.data.EventEndTime = '';
+		vm.data = {};
+		vm.data.EventStartDate = '';
+		vm.data.EventStartTime = '';
+		vm.data.EventEndTime = '';
+		vm.isLoading = true;
+		vm.isError = false;
+		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
 
 		var processEventData = function processEventData(data) {
-			self.data = data;
-			self.data.EventStartDate = moment(self.data.EventStart).format('MMMM D, YYYY');
-			self.data.EventSchedule = dateUtilityService.formatSchedule(self.data.EventStart, self.data.EventLength, self.data.AllDay);
-			self.isRegistrationRequired = self.data.RegistrationTypeCodeEnum !== 0;
-			self.isOver = moment().isAfter(moment(self.data.EventStart).add(self.data.EventLength, 'm'));
+			vm.data = data;
+			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
+			vm.isOver = moment().isAfter(moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			vm.isLoading = false;
 		};
 
-		eventsService.getById(id).then(processEventData);
+		var requestError = function requestError(errorResponse) {
+			vm.isLoading = false;
+			vm.isError = true;
+		};
+
+		eventsService.getById(id).then(processEventData).catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'));
@@ -418,7 +442,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'eventsService', 'registrationService', 'dateUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
@@ -472,7 +496,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		self.filterByDate = function () {
@@ -484,8 +508,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				self.eventGroups = [];
 				self.hasResults = true;
 				self.isLoading = true;
+				self.requestErrorMessage = '';
 
-				eventsService.get(requestModel).then(processEvents);
+				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 			}
 		};
 
@@ -508,7 +533,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.hasResults = true;
 			self.isLoading = true;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		};
+
+		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
+			self.isLoading = false;
+			self.requestErrorMessage = "There was a problem retrieving events. Please try again later.";
 		};
 
 		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
@@ -552,7 +582,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.eventsTypes = requestModel.EventsTypes;
 			self.ageGroups = requestModel.AgeGroups;
 
-			eventsService.get(requestModel).then(processEvents);
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		/* ** Private ** */
@@ -562,6 +592,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.eventGroups = eventResults.eventGroups;
 			self.isLoading = false;
 			self.hasResults = eventResults.eventGroups.length;
+			self.requestErrorMessage = '';
 
 			$timeout(function () {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -620,10 +651,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		eventsService.get(requestModel).then(processEvents);
+		eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'CONSTANTS', 'eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
@@ -682,7 +713,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	datePickersDirective.$inject = ['$timeout', 'CONSTANTS'];
+	datePickersDirective.$inject = ['$timeout', 'events.CONSTANTS'];
 
 	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));
@@ -723,72 +754,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	eventsListDirective.$inject = ['$timeout', 'CONSTANTS', 'dateUtilityService'];
+	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService'];
 
 	app.directive('eventsList', eventsListDirective);
-})(angular.module('eventsPageApp'));
-'use strict';
-
-(function (app) {
-	'use strict';
-
-	var featuredEventsLink = function featuredEventsLink(scope, eventsService) {
-		var branches = scope.branches && scope.branches.length ? scope.branches : [];
-		var eventTypes = scope.eventTypes && scope.eventTypes.length ? scope.eventTypes : [];
-		var resultsToDisplay = scope.resultsToDisplay || 3;
-		var shouldPrioritzeFeatured = !!scope.prioritizeFeatured;
-
-		var buildRequestPayLoad = function buildRequestPayLoad(limit, locations, events, prioritizeFeatured) {
-			var payLoad = {
-				Limit: limit,
-				OnlyFeaturedEvents: prioritizeFeatured
-			};
-
-			if (branches.length) {
-				payLoad.Locations = locations;
-			}
-
-			if (eventTypes.length) {
-				payLoad.EventsTypes = events;
-			}
-
-			return payLoad;
-		};
-		var handleError = function handleError(error) {
-			return console.error(error);
-		};
-
-		var eventRequestPayload = buildRequestPayLoad(resultsToDisplay, branches, eventTypes, shouldPrioritzeFeatured);
-
-		eventsService.getFeaturedEvents(eventRequestPayload).then(function (featuredEventList) {
-			scope.featuredEventList = featuredEventList; // eslint-disable-line
-			if (featuredEventList.length === 0) {
-				scope.resultsToDisplay = 0; // eslint-disable-line
-			}
-		}).catch(handleError); // eslint-disable-line no-console
-	};
-
-	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS, eventsService) {
-		var directive = {
-			restrict: 'E',
-			scope: {
-				branches: '=',
-				resultsToDisplay: '=',
-				eventTypes: '=',
-				prioritizeFeatured: '='
-			},
-			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
-			link: function link(scope) {
-				return featuredEventsLink(scope, eventsService);
-			}
-		};
-
-		return directive;
-	};
-
-	featuredEventsDirective.$inject = ['CONSTANTS', 'eventsService'];
-
-	app.directive('featuredEvents', featuredEventsDirective);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -835,7 +803,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+	filtersDirective.$inject = ['metaService', 'events.CONSTANTS'];
 
 	app.directive('filtersExpandos', filtersDirective);
 })(angular.module('eventsPageApp'));
@@ -884,7 +852,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	filtersDirective.$inject = ['metaService', 'CONSTANTS'];
+	filtersDirective.$inject = ['metaService', 'events.CONSTANTS'];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('eventsPageApp'));
@@ -906,7 +874,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	loadMoreDirective.$inject = ['CONSTANTS'];
+	loadMoreDirective.$inject = ['events.CONSTANTS'];
 
 	app.directive('loadMore', loadMoreDirective);
 })(angular.module('eventsPageApp'));
