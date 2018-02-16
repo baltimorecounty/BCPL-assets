@@ -22,7 +22,8 @@ bcpl.constants = {
 	},
 	search: {
 		urls: {
-			materialTypes: '/sebin/y/r/primaryMaterialType.json'
+			materialTypes: '/sebin/y/r/primaryMaterialType.json',
+			catalog: 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term='
 		}
 	},
 	homepage: {

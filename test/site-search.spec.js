@@ -36,36 +36,68 @@ describe('Site Search', () => {
 		});
 	});
 
-	describe('Clearing the Search Field', () => {
+	describe('getSearchTerms', () => {
 		let $searchInput;
-		let $searchBox;
 
-		beforeEach((done) => {
+		beforeEach(() => {
 			$searchInput = $('#site-search-input');
-			$searchBox = $('#search-box');
-
-			$searchInput
-				.val('test')
-				.trigger('keyup');
-
-			done();
 		});
 
-		it('should show the clear icon when text is entered', () => {
-			const isClearButtonVisible = $searchBox.find('.fa-times').is(':visible');
-			expect(isClearButtonVisible).toEqual(true);
+		it('should return a single-word search term as-is', () => {
+			const expected = 'harry';
+			$searchInput.val('harry');
+
+			const actual = bcpl.siteSearch.getSearchTerms();
+
+			expect(actual).toEqual(expected);
 		});
 
-		it('should not show the search icon when text is entered', () => {
-			const isClearButtonVisible = $searchBox.find('.fa-search').is(':visible');
-			expect(isClearButtonVisible).toEqual(false);
+		it('should return a single-word search term with no white space at the beginning or end', () => {
+			const expected = 'harry';
+			$searchInput.val('    harry   ');
+
+			const actual = bcpl.siteSearch.getSearchTerms();
+
+			expect(actual).toEqual(expected);
 		});
 
-		it('should clear the input\'s value after the clear button is selected', () => {
-			$searchBox.find('.fa-times').trigger('click');
+		it('should encode the space in a two-word search term', () => {
+			const expected = 'harry%20potter';
+			$searchInput.val('harry potter');
 
-			const hasSearchValue = !!$searchInput.val();
-			expect(hasSearchValue).toEqual(false);
+			const actual = bcpl.siteSearch.getSearchTerms();
+
+			expect(actual).toEqual(expected);
+		});
+	});
+
+	describe('searchCatalog', () => {
+		let mockWindow = {
+			location: {
+				href: ''
+			}
+		};
+		let $searchInput;
+
+		beforeEach(() => {
+			$searchInput = $('#site-search-input');
+		});
+
+		it('should leave the location blank without a search term', () => {
+			const expected = '';
+
+			bcpl.siteSearch.searchCatalog(mockWindow);
+
+			expect(mockWindow.location.href).toEqual(expected);
+		});
+
+		it('should try to set the location to the catalog URL with a search term', () => {
+			const expected = 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term=harry%20potter';
+			$searchInput.val('harry potter');
+
+			bcpl.siteSearch.searchCatalog(mockWindow);
+
+			expect(mockWindow.location.href).toEqual(expected);
 		});
 	});
 });
