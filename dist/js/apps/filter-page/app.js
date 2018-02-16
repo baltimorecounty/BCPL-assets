@@ -317,7 +317,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var cycleDisplay = function cycleDisplay() {
 			var resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-			vm.items = vm.allCardData.filter(filterDataItems);
+
+			if (vm.allCardData && vm.allCardData.length) {
+				vm.items = vm.allCardData.filter(filterDataItems);
+			}
+
 			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
@@ -461,7 +465,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
 			var queryParams = $location.search();
 
-			if (queryParams) {
+			if (Object.keys(queryParams).length) {
 				Object.keys(queryParams).forEach(function (key) {
 					var filterStr = queryParams[key];
 					var filters = getFiltersFromString(filterStr);
@@ -475,6 +479,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				});
 
 				resetMap();
+			} else {
+				vm.clearFilters();
 			}
 		};
 
@@ -485,13 +491,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 
-		vm.testClick = function () {
-			init();
-		};
-
 		$scope.$on('$locationChangeSuccess', function () {
-			console.log('location changed');
+			setFiltersBasedOnQueryParams();
+			cycleDisplay();
 		});
+
+		init();
 	};
 
 	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
