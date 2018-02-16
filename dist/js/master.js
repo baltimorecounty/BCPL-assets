@@ -234,6 +234,7 @@ bcpl.constants = {
 		space: 32
 	},
 	breakpoints: {
+		large: 1200,
 		medium: 992,
 		small: 768,
 		xsmall: 480
@@ -253,7 +254,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://ils-test.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
+			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
 	}
 };
@@ -394,6 +395,11 @@ bcpl.bookCarousel = function ($, constants) {
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
 		slidesToShow: 3,
 		responsive: [{
+			breakpoint: constants.breakpoints.large,
+			settings: {
+				slidesToShow: 3
+			}
+		}, {
 			breakpoint: constants.breakpoints.medium,
 			settings: {
 				slidesToShow: 2
@@ -437,13 +443,21 @@ bcpl.bookCarousel = function ($, constants) {
 	};
 
 	var init = function init() {
+		var maxSlides = void 0;
+
 		$('.book-carousel').each(function (index, carouselElement) {
-			var carouselId = $(carouselElement).attr('data-carousel-id');
+			var $carouselElement = $(carouselElement);
+			var carouselId = $carouselElement.attr('data-carousel-id');
+			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
 
 			promises.push(loadData(carouselId));
 		});
 
 		$.when.apply($, promises).then(function () {
+			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+				slickSettings.slidesToShow = maxSlides;
+			}
+
 			$('.book-carousel').slick(slickSettings);
 		});
 	};

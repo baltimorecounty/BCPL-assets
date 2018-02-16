@@ -15,6 +15,7 @@ bcpl.constants = {
 		space: 32
 	},
 	breakpoints: {
+		large: 1200,
 		medium: 992,
 		small: 768,
 		xsmall: 480
@@ -34,7 +35,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://ils-test.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
+			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
 	}
 };
