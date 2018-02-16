@@ -1,8 +1,10 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://testservices.bcpl.info',
 	// baseApiUrl: 'http://oit226696:3100',
+	baseApiUrl: 'https://testservices.bcpl.info',
+	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
+	baseWebsiteUrl: 'http://dev.bcpl.info',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
@@ -23,7 +25,9 @@ bcpl.constants = {
 	search: {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
-			catalog: 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term='
+			catalog: '/polaris/search/searchresults.aspx?term=',
+			events: '/events-and-programs/list.html#!/?term=',
+			website: '/search?term='
 		}
 	},
 	homepage: {

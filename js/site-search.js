@@ -17,7 +17,11 @@ bcpl.siteSearch = (($, window, constants) => {
 	};
 
 	const onSearchCatalogClick = () => {
-		searchAction.search = () => { searchCatalog(window); };
+		searchAction.search = () => searchCatalog(window);
+	};
+
+	const onSearchEventsClick = () => {
+		searchAction.search = () => searchEvents(window);
 	};
 
 	const onSearchIconClick = () => {
@@ -44,8 +48,19 @@ bcpl.siteSearch = (($, window, constants) => {
 		const searchTerms = getSearchTerms();
 
 		if (searchTerms.length) {
+			const baseCatalogUrl = constants.baseCatalogUrl;
 			const searchUrl = constants.search.urls.catalog;
-			activeWindow.location.href = `${searchUrl}${searchTerms}`; // eslint-disable-line 			
+			activeWindow.location.href = `${baseCatalogUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+		}
+	};
+
+	const searchEvents = (activeWindow) => {
+		const searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			const baseWebsiteUrl = constants.baseWebsiteUrl;
+			const searchUrl = constants.search.urls.events;
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
 		}
 	};
 
@@ -62,7 +77,7 @@ bcpl.siteSearch = (($, window, constants) => {
 	$(document).on('click', siteSearchSearchIconSelector, onSearchIconClick);
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
-	// $(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
+	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
 	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
