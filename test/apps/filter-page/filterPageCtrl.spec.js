@@ -15,15 +15,24 @@ describe('filterPageCtrl', () => {
 		let controller;
 		let $scope;
 		let mockTagFamily;
+		let $rootScope;
 
-		beforeEach(angular.mock.inject(function injectController(_$controller_) {
+		beforeEach(angular.mock.inject(function injectController(_$controller_, _$rootScope_) {
 			$controller = _$controller_;
-			controller = $controller('FilterPageCtrl', { $scope: $scope });
+			$rootScope = _$rootScope_;
+			controller = $controller('FilterPageCtrl', { $scope: $rootScope.$new() });
 			mockTagFamily = {
 				name: 'test',
 				type: 'many',
 				tags: ['test1', 'test2', 'test3', 'test4']
 			};
+		}));
+
+		let location;
+
+		beforeEach(inject(function($location) {
+			location = $location;
+			location.search({});
 		}));
 
 		it('should add a filter to an empty list', () => {
@@ -170,13 +179,8 @@ describe('filterPageCtrl', () => {
 					filterId: 'test1'
 				}
 			];
-			let location;
 
-
-			beforeEach(inject(function($location) {
-				location = $location;
-				location.search({});
-			}));
+			
 			
 			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue} to the url when no filters are selected`, () => {
 				controller.updateLocation(mockFilterValue, mockFilters[0]);
@@ -268,6 +272,7 @@ describe('filterPageCtrl', () => {
 		let controller;
 		let $scope;
 		let testDataItem;
+		let $rootScope;
 
 		beforeAll(() => {
 			testDataItem = {
@@ -287,9 +292,10 @@ describe('filterPageCtrl', () => {
 			};
 		});
 
-		beforeEach(angular.mock.inject(function injectController(_$controller_) {
+		beforeEach(angular.mock.inject(function injectController(_$controller_, _$rootScope_) {
 			$controller = _$controller_;
-			controller = $controller('FilterPageCtrl', { $scope: $scope });
+			$rootScope = _$rootScope_;
+			controller = $controller('FilterPageCtrl', { $scope: $rootScope.$new() });
 		}));
 
 		it('should return true when an item matches a single filter', () => {			
