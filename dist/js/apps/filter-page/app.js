@@ -467,6 +467,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					var filters = getFiltersFromString(filterStr);
 					var filterFamily = getFilterFamily(key);
 
+					vm.activeFilters = [];
+
 					filters.forEach(function (filter) {
 						setActiveFilters(filter, filterFamily);
 					});
@@ -483,7 +485,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 
-		init();
+		vm.testClick = function () {
+			init();
+		};
+
+		$scope.$on('$locationChangeSuccess', function () {
+			console.log('location changed');
+		});
 	};
 
 	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
