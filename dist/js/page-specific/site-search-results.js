@@ -30,14 +30,14 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 	var getSearchResults = function getSearchResults(searchTerm, pageNumber) {
 		var currentPageNumber = pageNumber || 1;
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = constants.siteSearch.urls.api + cleanedSearchTerm + '/' + currentPageNumber;
+		var requestUrl = constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber;
 
 		$.ajax(requestUrl).then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
 	};
 
 	var postClickThroughData = function postClickThroughData(searchTerm, id, destinationUrl) {
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = constants.siteSearch.urls.trackClickThrough + cleanedSearchTerm + '/' + id;
+		var requestUrl = constants.search.urls.trackClickThrough + '/' + cleanedSearchTerm + '/' + id;
 
 		$.ajax({
 			type: 'POST',

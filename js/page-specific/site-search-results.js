@@ -30,7 +30,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 	const getSearchResults = (searchTerm, pageNumber) => {
 		const currentPageNumber = pageNumber || 1;
 		const cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		const requestUrl = constants.siteSearch.urls.api + cleanedSearchTerm + '/' + currentPageNumber;
+		const requestUrl = `${constants.search.urls.api}/${cleanedSearchTerm}/${currentPageNumber}`;
 
 		$.ajax(requestUrl)
 			.then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
@@ -38,7 +38,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 	const postClickThroughData = (searchTerm, id, destinationUrl) => {
 		const cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		const requestUrl = constants.siteSearch.urls.trackClickThrough + cleanedSearchTerm + '/' + id;
+		const requestUrl = `${constants.search.urls.trackClickThrough}/${cleanedSearchTerm}/${id}`;
 
 		$.ajax({
 			type: 'POST',
