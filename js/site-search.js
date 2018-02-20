@@ -78,6 +78,8 @@ bcpl.siteSearch = (($, window, constants) => {
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
+
+	// Leaving this in since it's being used in an upcoming branch.
 	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
