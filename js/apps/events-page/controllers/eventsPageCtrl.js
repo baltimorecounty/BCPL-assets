@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService) {
+	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, branchesService) {
 		const self = this;
 		const firstPage = 1;
 		const startDateLocaleString = moment().format();
@@ -208,13 +208,31 @@
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		/* ** Init ** */
+		const getKeywords = () => {
+			return $location.search().term && $location.search().term.length ? 
+				$location.search().term :
+				"";
+		};
 
+
+		/* ** Init ** */
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		if ($location.search().term && $location.search().term.length) {
-			self.keywords = $location.search().term;
+		const keywords = getKeywords();
+
+		const hasBranchQueryParams = $location.search().branches;
+
+		if (hasBranchQueryParams) {
+			const targetBranches = $location.search().branches.split(',');
+			const branchData = branchesService.getBranchesByName(targetBranches)
+				.then((branches) => {
+					// TODO: This got the branches right, and we can extract ids from that array to pass to the filter
+				});
+		}
+
+		if (keywords) {
+			self.keywords = keywords;
 			self.keywordSearch();
 		} else {
 			eventsService
@@ -224,7 +242,15 @@
 		}
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = [
+		'$scope',
+		'$timeout',
+		'$animate',
+		'$location',
+		'events.CONSTANTS',
+		'dataServices.eventsService',
+		'sharedServices.branchesService'
+	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
