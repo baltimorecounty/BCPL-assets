@@ -1180,7 +1180,7 @@ bcpl.siteSearch = function ($, window, constants) {
 
 	var getSearchTerms = function getSearchTerms() {
 		var $searchBox = $(siteSearchInputSelector);
-		var searchTerms = $searchBox.val();
+		var searchTerms = $searchBox.val() || '';
 		var trimmedSearchTerms = searchTerms.trim();
 		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
 
@@ -1192,6 +1192,8 @@ bcpl.siteSearch = function ($, window, constants) {
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
+
+	// Leaving this in since it's being used in an upcoming branch.
 	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
