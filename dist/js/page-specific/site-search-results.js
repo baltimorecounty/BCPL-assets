@@ -30,14 +30,14 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 	var getSearchResults = function getSearchResults(searchTerm, pageNumber) {
 		var currentPageNumber = pageNumber || 1;
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber;
+		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber;
 
 		$.ajax(requestUrl).then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
 	};
 
 	var postClickThroughData = function postClickThroughData(searchTerm, id, destinationUrl) {
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = constants.search.urls.trackClickThrough + '/' + cleanedSearchTerm + '/' + id;
+		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.trackClickThrough + '/' + cleanedSearchTerm + '/' + id;
 
 		$.ajax({
 			type: 'POST',
@@ -121,7 +121,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		var searchResults = buildSearchResults(hits);
 		var pageLinks = buildPageLinks(lastPage, info.current_page);
 
-		info.base_url = window.location.pathname + '?q=' + info.query + '&page=';
+		info.base_url = window.location.pathname + '?term=' + info.query + '&page=';
 
 		info.index = {
 			first: firstResultNumber,
@@ -149,8 +149,8 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
-		if (queryStringDictionary.q) {
-			getSearchResults(queryStringDictionary.q, queryStringDictionary.page);
+		if (queryStringDictionary.term) {
+			getSearchResults(queryStringDictionary.term, queryStringDictionary.page);
 		} else {
 			$searchResultsTarget.html(errorMessageHtml);
 		}
@@ -158,7 +158,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 
 	var trackClickThrough = function trackClickThrough(clickEvent) {
 		var $target = $(clickEvent.currentTarget);
-		var searchTerm = window.location.search.replace('?q=', '');
+		var searchTerm = window.location.search.replace('?term=', '');
 		var id = $target.attr('data-id');
 		var destinationUrl = $target.attr('href');
 

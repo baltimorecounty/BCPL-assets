@@ -30,7 +30,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 	const getSearchResults = (searchTerm, pageNumber) => {
 		const currentPageNumber = pageNumber || 1;
 		const cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		const requestUrl = `${constants.search.urls.api}/${cleanedSearchTerm}/${currentPageNumber}`;
+		const requestUrl = `${constants.baseApiUrl}${constants.search.urls.api}/${cleanedSearchTerm}/${currentPageNumber}`;
 
 		$.ajax(requestUrl)
 			.then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
@@ -38,7 +38,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 	const postClickThroughData = (searchTerm, id, destinationUrl) => {
 		const cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		const requestUrl = `${constants.search.urls.trackClickThrough}/${cleanedSearchTerm}/${id}`;
+		const requestUrl = `${constants.baseApiUrl}${constants.search.urls.trackClickThrough}/${cleanedSearchTerm}/${id}`;
 
 		$.ajax({
 			type: 'POST',
@@ -123,7 +123,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		const searchResults = buildSearchResults(hits);
 		const pageLinks = buildPageLinks(lastPage, info.current_page);
 
-		info.base_url = window.location.pathname + '?q=' + info.query + '&page=';
+		info.base_url = window.location.pathname + '?term=' + info.query + '&page=';
 
 		info.index = {
 			first: firstResultNumber,
@@ -151,8 +151,8 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
-		if (queryStringDictionary.q) {
-			getSearchResults(queryStringDictionary.q, queryStringDictionary.page);
+		if (queryStringDictionary.term) {
+			getSearchResults(queryStringDictionary.term, queryStringDictionary.page);
 		} else {
 			$searchResultsTarget.html(errorMessageHtml);
 		}
@@ -160,7 +160,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 	const trackClickThrough = (clickEvent) => {
 		const $target = $(clickEvent.currentTarget);
-		const searchTerm = window.location.search.replace('?q=', '');
+		const searchTerm = window.location.search.replace('?term=', '');
 		const id = $target.attr('data-id');
 		const destinationUrl = $target.attr('href');
 
