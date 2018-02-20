@@ -66,7 +66,7 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const getSearchTerms = () => {
 		const $searchBox = $(siteSearchInputSelector);
-		const searchTerms = $searchBox.val();
+		const searchTerms = $searchBox.val() || '';
 		const trimmedSearchTerms = searchTerms.trim();
 		const encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
 
