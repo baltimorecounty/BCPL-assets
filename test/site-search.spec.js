@@ -92,7 +92,7 @@ describe('Site Search', () => {
 		});
 
 		it('should try to set the location to the catalog URL with a search term', () => {
-			const expected = 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term=harry%20potter';
+			const expected = 'https://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term=harry%20potter';
 			$searchInput.val('harry potter');
 
 			bcpl.siteSearch.searchCatalog(mockWindow);

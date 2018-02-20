@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
+	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService) {
 		const self = this;
 		const firstPage = 1;
 		const startDateLocaleString = moment().format();
@@ -97,7 +97,7 @@
 
 		const handleFailedEventsGetRequest = (error) => {
 			self.isLoading = false;
-			self.requestErrorMessage = "There was a problem retrieving events. Please try again later.";
+			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
 		const toggleFilter = (collection, id, shouldAddToCollection) => {
@@ -140,7 +140,7 @@
 			self.locations = requestModel.Locations;
 			self.eventsTypes = requestModel.EventsTypes;
 			self.ageGroups = requestModel.AgeGroups;
-	
+
 			eventsService
 				.get(requestModel)
 				.then(processEvents)
@@ -213,13 +213,18 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		eventsService
-			.get(requestModel)
-			.then(processEvents)
-			.catch(handleFailedEventsGetRequest);
+		if ($location.search().term && $location.search().term.length) {
+			self.keywords = $location.search().term;
+			self.keywordSearch();
+		} else {
+			eventsService
+				.get(requestModel)
+				.then(processEvents)
+				.catch(handleFailedEventsGetRequest);
+		}
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));

@@ -220,8 +220,10 @@ bcpl.utility.windowShade = function ($) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://testservices.bcpl.info',
 	// baseApiUrl: 'http://oit226696:3100',
+	baseApiUrl: 'https://testservices.bcpl.info',
+	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
+	baseWebsiteUrl: 'http://dev.bcpl.info',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
@@ -242,7 +244,9 @@ bcpl.constants = {
 	search: {
 		urls: {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
-			catalog: 'http://ils-test.bcpl.lib.md.us/polaris/search/searchresults.aspx?term='
+			catalog: '/polaris/search/searchresults.aspx?term=',
+			events: '/events-and-programs/list.html#!/?term=',
+			website: '/search?term='
 		}
 	},
 	homepage: {
@@ -1124,7 +1128,13 @@ bcpl.siteSearch = function ($, window, constants) {
 
 	var onSearchCatalogClick = function onSearchCatalogClick() {
 		searchAction.search = function () {
-			searchCatalog(window);
+			return searchCatalog(window);
+		};
+	};
+
+	var onSearchEventsClick = function onSearchEventsClick() {
+		searchAction.search = function () {
+			return searchEvents(window);
 		};
 	};
 
@@ -1152,8 +1162,19 @@ bcpl.siteSearch = function ($, window, constants) {
 		var searchTerms = getSearchTerms();
 
 		if (searchTerms.length) {
+			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
-			activeWindow.location.href = '' + searchUrl + searchTerms; // eslint-disable-line 			
+			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
+		}
+	};
+
+	var searchEvents = function searchEvents(activeWindow) {
+		var searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			var baseWebsiteUrl = constants.baseWebsiteUrl;
+			var searchUrl = constants.search.urls.events;
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
 		}
 	};
 
@@ -1170,7 +1191,7 @@ bcpl.siteSearch = function ($, window, constants) {
 	$(document).on('click', siteSearchSearchIconSelector, onSearchIconClick);
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
-	// $(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
+	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
 	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
