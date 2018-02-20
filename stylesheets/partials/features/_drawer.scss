@@ -21,7 +21,8 @@ $drawer-border: 3px solid $gray-lightest;
     .drawer-link-list {
         padding: 0;
         margin: 0;
-        list-style-type: none;
+		list-style-type: none;
+		width: 100%;
     }
     .drawer-information-list {
         padding-left: 20px;
@@ -52,18 +53,57 @@ $drawer-border: 3px solid $gray-lightest;
 }
 
 @media screen and (max-width: $screen-sm) {
+	.drawer {
+		padding: 15px;
+	}
     .drawer-section {
+		padding: 15px;
+
 		&.border-right,
 		&.border-left {
 			border: none;
 		}		
+	}
+	.drawer-link-list, 
+	.drawer-link-list > li {
+		border-style: solid;
+  		border-color: rgba(0,0,0,.3);
+	}
 
-		&:first-child {
-			border-bottom: 1px solid $gray-lightest;
+	.drawer-link-list {
+		border-width: 1px 0 0 1px;
+	}
+
+	.drawer-link-list > li {
+		border-width: 0 1px 1px 0;
+	}
+
+	.drawer-link-list li {
+		margin: 0;
+		text-align: center;
+		flex: 0 33.333333333333% !important;
+
+		a,
+		span {
+			display: block;
+		}
+
+		a {
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		i {
+			display: block;
+			padding-top: 10px;
+			margin-bottom: 10px;
 		}
 	}
-	.drawer-link-list li {
-		padding: 5px 0;
-		margin-bottom: 5px;
+	.drawer-callout-btn {
+		display: inline-block;
 	}
 }
