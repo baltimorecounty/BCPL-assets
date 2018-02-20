@@ -1,8 +1,8 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'http://oit226696:3100',
-	// baseApiUrl: 'https://testservices.bcpl.info',
+	// baseApiUrl: 'http://oit226696:3100',
+	baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
 	baseWebsiteUrl: 'http://dev.bcpl.info',
 	basePageUrl: '/dist',
