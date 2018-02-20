@@ -48,10 +48,14 @@
 				let cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
 
 				angular.forEach(cardDataItem.attributes, (attribute) => {
+					const attributeList = attribute.split('|');
+					
+					if (attributeList.length !== 3) console.error('The attribute was not specified, this must be fixed.');
+
 					const tag = {
-						Name: 'none',
-						Tag: attribute,
-						Type: 'Many'
+						Name: attributeList[0] || 'none',
+						Tag: attributeList[1],
+						Type: attributeList[2] || 'Many'
 					};
 
 					cardDataItemWithTags.Tags.push(tag);
