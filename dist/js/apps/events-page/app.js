@@ -3,7 +3,78 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['dataServices', 'events', 'ngAria', 'ngRoute', 'ngSanitize']);
+	var app = angular.module('sharedServices', ['sharedConstants']);
+
+	var branchesService = function branchesService($q, $http, constants) {
+		var getBranches = function getBranches() {
+			var deferred = $q.defer();
+
+			return $http.get(constants.urls.getBranches).then(function (resp) {
+				return handleGetBranchesSuccess(resp, deferred);
+			}).catch(function (error) {
+				return handleFailedGetBranchesRequest(error, deferred);
+			});
+		};
+
+		var handleGetBranchesSuccess = function handleGetBranchesSuccess(resp, deferred) {
+			var dataToReturn = resp ? resp.data : "There was a problem getting data, please try again later.";
+			deferred.resolve(dataToReturn);
+
+			return deferred.promise;
+		};
+
+		var handleFailedGetBranchesRequest = function handleFailedGetBranchesRequest(error, deferred) {
+			deferred.reject(error);
+			return deferred.promise;
+		};
+
+		var getBranchesById = function getBranchesById(idList) {
+			return getBranches().then(function (branches) {
+				return branches.filter(function (branch) {
+					return idList.includes(branch.id);
+				});
+			});
+		};
+
+		var getBranchesByName = function getBranchesByName(nameList) {
+			return getBranches().then(function (branches) {
+				return branches.filter(function (branch) {
+					return nameList.map(function (branch) {
+						return branch.toLowerCase();
+					}).includes(branch.name.toLowerCase());
+				});
+			});
+		};
+
+		return {
+			getBranchesById: getBranchesById,
+			getBranchesByName: getBranchesByName
+		};
+	};
+
+	app.factory('sharedServices.branchesService', ['$q', '$http', 'sharedConstants.CONSTANTS', branchesService]);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
+	var app = angular.module('sharedConstants', []);
+
+	var constants = {
+		urls: {
+			getBranches: 'data/branch-amenities.json'
+		}
+	};
+
+	app.constant('sharedConstants.CONSTANTS', constants);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
+	angular.module('eventsPageApp', ['dataServices', 'events', 'sharedConstants', 'sharedServices', 'ngAria', 'ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
@@ -13,8 +84,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -451,7 +522,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, branchesService) {
 		var self = this;
 		var firstPage = 1;
 		var startDateLocaleString = moment().format();
@@ -646,20 +717,34 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		/* ** Init ** */
+		var getKeywords = function getKeywords() {
+			return $location.search().term && $location.search().term.length ? $location.search().term : "";
+		};
 
+		/* ** Init ** */
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		if ($location.search().term && $location.search().term.length) {
-			self.keywords = $location.search().term;
+		var keywords = getKeywords();
+
+		var hasBranchQueryParams = $location.search().branches;
+
+		if (hasBranchQueryParams) {
+			var targetBranches = $location.search().branches.split(',');
+			var branchData = branchesService.getBranchesByName(targetBranches).then(function (branches) {
+				console.log('branches', branches);
+			});
+		}
+
+		if (keywords) {
+			self.keywords = keywords;
 			self.keywordSearch();
 		} else {
 			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		}
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedServices.branchesService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));
