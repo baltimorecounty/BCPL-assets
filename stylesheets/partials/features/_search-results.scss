@@ -1,4 +1,8 @@
 #search-results {
+	.main-content {
+		margin-bottom: 1em;		
+	}
+	
 	.search-results-list {
 		list-style: none;
 		padding: 0;
@@ -21,16 +25,21 @@
 			}
 			
 			.details {
-				h3 {
+				h3 {					
 					margin-top: 0;
+
+					a {
+						font-weight: 700;
+					}
 				}
 
 				p {
+					font-size: .8em;				
 					margin-bottom: .5em;
 				}
 
 				.summary {
-					font-size: .8em;				
+					font-size: 1em;
 				}
 			}
 

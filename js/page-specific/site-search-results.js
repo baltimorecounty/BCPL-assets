@@ -4,7 +4,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 	let $searchResultsTarget;
 	const searchResultsTargetSelector = '#search-results-target';
 	const templateSelector = '#swiftype-search-results-template';
-	const errorMessageHtml = '<p>There were no results found for this search.</p>';
+	const errorMessageHtml = '<div class="main-content top-border"><p>There were no results found for this search.</p></div>';
 
 	const cleanSearchTerm = (termToClean) => {
 		let cleanedSearchTerm = termToClean.trim();
