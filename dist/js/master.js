@@ -246,7 +246,9 @@ bcpl.constants = {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
 			catalog: '/polaris/search/searchresults.aspx?term=',
 			events: '/events-and-programs/list.html#!/?term=',
-			website: '/search?term='
+			website: '/search-results.html?term=',
+			api: '/api/swiftype/site-search',
+			trackClickThrough: '/api/swiftype/track'
 		}
 	},
 	homepage: {
@@ -1122,8 +1124,10 @@ bcpl.siteSearch = function ($, window, constants) {
 	var searchAction = {};
 
 	var onSearchTabClick = function onSearchTabClick(clickEvent) {
-		var $searchBtn = $(clickEvent.currentTarget);
-		$searchBtn.siblings().removeClass('active').end().addClass('active');
+		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
+		var buttonCaption = $searchBtn.text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick() {
@@ -1135,6 +1139,12 @@ bcpl.siteSearch = function ($, window, constants) {
 	var onSearchEventsClick = function onSearchEventsClick() {
 		searchAction.search = function () {
 			return searchEvents(window);
+		};
+	};
+
+	var onSearchWebsiteClick = function onSearchWebsiteClick() {
+		searchAction.search = function () {
+			return searchWebsite(window);
 		};
 	};
 
@@ -1178,6 +1188,16 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
+	var searchWebsite = function searchWebsite(activeWindow) {
+		var searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			var baseWebsiteUrl = constants.baseWebsiteUrl;
+			var searchUrl = constants.search.urls.website;
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+		}
+	};
+
 	var getSearchTerms = function getSearchTerms() {
 		var $searchBox = $(siteSearchInputSelector);
 		var searchTerms = $searchBox.val() || '';
@@ -1192,9 +1212,7 @@ bcpl.siteSearch = function ($, window, constants) {
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
-
-	// Leaving this in since it's being used in an upcoming branch.
-	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
