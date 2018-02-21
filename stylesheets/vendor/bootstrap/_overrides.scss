@@ -48,3 +48,15 @@ button,
 .seButton.buttonPrimary {
 	text-decoration: none !important;
 }
+
+.visible-inline-sm,
+.visible-inline-xs {
+	display: none !important;
+}
+
+@media screen and (max-width: $screen-sm) {
+	.visible-inline-sm,
+	.visible-inline-xs {
+		display: inline-block !important;
+	}
+}
