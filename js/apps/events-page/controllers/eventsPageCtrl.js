@@ -35,6 +35,9 @@
 		self.hasResults = true;
 
 		self.locations = requestModel.Locations;
+
+		console.log('locations', requestModel.Locations);
+
 		self.eventsTypes = requestModel.EventsTypes;
 		self.ageGroups = requestModel.AgeGroups;
 
@@ -73,13 +76,13 @@
 		self.filterByTerms = (id, itemType, isChecked) => {
 			switch (itemType.toLowerCase()) {
 			case 'locations':
-				toggleFilter(requestModel.Locations, id, isChecked);
+				toggleFilter(requestModel.Locations, id, isChecked, itemType);
 				break;
 			case 'agegroups':
-				toggleFilter(requestModel.AgeGroups, id, isChecked);
+				toggleFilter(requestModel.AgeGroups, id, isChecked, itemType);
 				break;
 			case 'eventtypes':
-				toggleFilter(requestModel.EventsTypes, id, isChecked);
+				toggleFilter(requestModel.EventsTypes, id, isChecked, itemType);
 				break;
 			default:
 				break;
@@ -100,7 +103,8 @@
 			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
-		const toggleFilter = (collection, id, shouldAddToCollection) => {
+		const toggleFilter = (collection, id, shouldAddToCollection, itemType) => {
+			console.log(collection, id, shouldAddToCollection, itemType);
 			if (shouldAddToCollection) {
 				collection.push(id);
 			} else {
