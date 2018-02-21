@@ -70,13 +70,9 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 	};
 
 	var buildSearchResults = function buildSearchResults(hits) {
-		var results = [];
-
-		for (var i = 0, hitCount = hits.length; i < hitCount; i += 1) {
-			results.push(buildResultSettings(hits[i]));
-		}
-
-		return results;
+		return hits.map(function (hit) {
+			return buildResultSettings(hit);
+		});
 	};
 
 	var buildPageLinks = function buildPageLinks(lastPage, currentPage) {
@@ -118,7 +114,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		var lastResultNumber = calculateLastResultNumber(info);
 		var firstResultNumber = calculateFirstResultNumber(info);
 		var spellingSuggestion = info.spelling_suggestion ? info.spelling_suggestion.text : undefined;
-		var searchResults = buildSearchResults(hits);
+		var searchResult = buildSearchResults(hits);
 		var pageLinks = buildPageLinks(lastPage, info.current_page);
 
 		info.base_url = window.location.pathname + '?term=' + info.query + '&page=';
@@ -129,7 +125,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		};
 
 		var templateSettings = {
-			searchResult: searchResults,
+			searchResult: searchResult,
 			info: info,
 			pageLinks: pageLinks,
 			tooManyResults: tooManyResults,
@@ -140,8 +136,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		var searchResultsHtml = buildSearchResultsHtml(templateSettings);
 
 		$searchResultsTarget.html(searchResultsHtml);
-		$searchResultsTarget.find('.loading').hide();
-		$searchResultsTarget.find('.search-results-display').show();
+		$searchResultsTarget.find('.loading').hide().end().find('.search-results-display').show();
 	};
 
 	var init = function init() {

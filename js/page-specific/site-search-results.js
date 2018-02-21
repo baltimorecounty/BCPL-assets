@@ -63,21 +63,13 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 		return {
 			highlight,
-			title: title,
-			url: url,
-			id: id
+			title,
+			url,
+			id
 		};
 	};
 
-	const buildSearchResults = (hits) => {
-		const results = [];
-
-		for (let i = 0, hitCount = hits.length; i < hitCount; i += 1) {
-			results.push(buildResultSettings(hits[i]));
-		}
-
-		return results;
-	};
+	const buildSearchResults = (hits) => hits.map(hit => buildResultSettings(hit));
 
 	const buildPageLinks = (lastPage, currentPage) => {
 		const pageLinks = [];
@@ -120,10 +112,10 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		const lastResultNumber = calculateLastResultNumber(info);
 		const firstResultNumber = calculateFirstResultNumber(info);
 		const spellingSuggestion = info.spelling_suggestion ? info.spelling_suggestion.text : undefined;
-		const searchResults = buildSearchResults(hits);
+		const searchResult = buildSearchResults(hits);
 		const pageLinks = buildPageLinks(lastPage, info.current_page);
 
-		info.base_url = window.location.pathname + '?term=' + info.query + '&page=';
+		info.base_url = `${window.location.pathname}?term=${info.query}&page=`;
 
 		info.index = {
 			first: firstResultNumber,
@@ -131,19 +123,23 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		};
 
 		const templateSettings = {
-			searchResult: searchResults,
-			info: info,
-			pageLinks: pageLinks,
-			tooManyResults: tooManyResults,
-			spellingSuggestion: spellingSuggestion,
-			query: query
+			searchResult,
+			info,
+			pageLinks,
+			tooManyResults,
+			spellingSuggestion,
+			query
 		};
 
 		const searchResultsHtml = buildSearchResultsHtml(templateSettings);
 
 		$searchResultsTarget.html(searchResultsHtml);
-		$searchResultsTarget.find('.loading').hide();
-		$searchResultsTarget.find('.search-results-display').show();
+		$searchResultsTarget
+			.find('.loading')
+			.hide()
+			.end()
+			.find('.search-results-display')
+			.show();
 	};
 
 	const init = () => {
@@ -170,12 +166,12 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 	return {
 		/* test-code */
-		calculateLastResultNumber: calculateLastResultNumber,
-		calculateFirstResultNumber: calculateFirstResultNumber,
-		buildPageLinks: buildPageLinks,
+		calculateLastResultNumber,
+		calculateFirstResultNumber,
+		buildPageLinks,
 		/* end-test-code */
-		init: init,
-		trackClickThrough: trackClickThrough
+		init,
+		trackClickThrough
 	};
 })(jQuery, bcpl.utility.querystringer, Handlebars, bcpl.constants);
 
