@@ -62,7 +62,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		const id = result.id;
 
 		return {
-			highlight: highlight,
+			highlight,
 			title: title,
 			url: url,
 			id: id
@@ -104,7 +104,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 
 	const buildSearchResultsHtml = (templateSettings) => {
 		const source = $(templateSelector).html();
-		const template = Handlebars.compile(source);
+		const template = Handlebars.compile(source, { noEscape: true });
 		const searchResultsHtml = template(templateSettings);
 
 		return searchResultsHtml;

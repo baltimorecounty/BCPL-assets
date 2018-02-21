@@ -102,7 +102,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 
 	var buildSearchResultsHtml = function buildSearchResultsHtml(templateSettings) {
 		var source = $(templateSelector).html();
-		var template = Handlebars.compile(source);
+		var template = Handlebars.compile(source, { noEscape: true });
 		var searchResultsHtml = template(templateSettings);
 
 		return searchResultsHtml;
