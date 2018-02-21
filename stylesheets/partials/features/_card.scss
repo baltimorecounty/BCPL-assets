@@ -117,10 +117,30 @@
 
 				&.banner {
 					width: 100%;					
+				
+					figure {
+						img {
+							height: 100%;
+							width: 100%;
+						}
+					}		
 				}
 
-				figcaption {
-					min-height: auto;
+				figure {
+					display: flex;
+					flex: 1;
+					justify-content: space-between;
+					align-items: center;
+
+					img {
+						height: 40%;
+						width: 40%;
+					}
+					figcaption {
+						min-height: auto;
+						text-align: right;
+						padding-right: .4em;
+					}										
 				}
 			}
 		}
