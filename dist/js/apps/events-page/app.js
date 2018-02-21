@@ -451,7 +451,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, CONSTANTS, eventsService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService) {
 		var self = this;
 		var firstPage = 1;
 		var startDateLocaleString = moment().format();
@@ -538,7 +538,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
 			self.isLoading = false;
-			self.requestErrorMessage = "There was a problem retrieving events. Please try again later.";
+			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
 		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
@@ -651,10 +651,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		if ($location.search().term && $location.search().term.length) {
+			self.keywords = $location.search().term;
+			self.keywordSearch();
+		} else {
+			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		}
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'));

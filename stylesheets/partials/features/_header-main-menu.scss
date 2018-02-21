@@ -297,11 +297,11 @@
 				right: 13px;
 				top: 6.5px;
 				font-size: 1.25em;
-				color: $gray-light;
+				color: $gray-medium;
+				cursor: pointer;
 
-				&.fa-times {
-					color: $gray-dark;
-					cursor: pointer;
+				&:hover {
+					color: $gray;
 				}
 			}
 		}

@@ -200,10 +200,14 @@
 				var cardDataItemWithTags = angular.extend(cardDataItem, { Tags: [] });
 
 				angular.forEach(cardDataItem.attributes, function (attribute) {
+					var attributeList = attribute.split('|');
+
+					if (attributeList.length !== 3) console.error('The attribute was not specified, this must be fixed.');
+
 					var tag = {
-						Name: 'none',
-						Tag: attribute,
-						Type: 'Many'
+						Name: attributeList[0] || 'none',
+						Tag: attributeList[1],
+						Type: attributeList[2] || 'Many'
 					};
 
 					cardDataItemWithTags.Tags.push(tag);
@@ -225,6 +229,8 @@
 })(angular.module('filterPageApp'));
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function (app) {
 	'use strict';
 
@@ -242,11 +248,8 @@
    */
 		vm.setFilter = function (filter, filterFamily) {
 			setActiveFilters(filter, filterFamily);
+			updateLocation(filter, filterFamily);
 			cycleDisplay();
-		};
-
-		var clearQueryPararms = function clearQueryPararms() {
-			return $location.search({});
 		};
 
 		vm.clearFilters = function () {
@@ -257,10 +260,72 @@
 
 		/* Private */
 
+		var buildFilterQueryString = function buildFilterQueryString(targetQueryParam, filterVal) {
+			var queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			var doesQueryParamMatchFilter = queryParamHasValue ? targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : false;
+
+			if (doesQueryParamMatchFilter) {
+				var doesQueryHaveMultipleValues = queryParamHasValue ? targetQueryParam.val.indexOf(',') > -1 : false;
+
+				if (!doesQueryHaveMultipleValues) return null; // Filters match, we want it from the url
+
+				var filters = getFiltersFromString(targetQueryParam.val);
+				var updatedFilterList = [];
+
+				filters.forEach(function (urlFilter) {
+					if (urlFilter.toLowerCase() !== filterVal.toLowerCase()) {
+						updatedFilterList.push(urlFilter);
+					}
+				});
+
+				return updatedFilterList.join(',');
+			}
+
+			return targetQueryParam.val ? targetQueryParam.val + ',' + filterVal : filterVal || null;
+		};
+
+		var clearQueryPararms = function clearQueryPararms() {
+			return $location.search({});
+		};
+
+		var getFilterValue = function getFilterValue(filter) {
+			return filter && Object.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
+		};
+
+		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
+			var isFilterFamilyAnObject = filterFamily && (typeof filterFamily === 'undefined' ? 'undefined' : _typeof(filterFamily)) === 'object';
+			var filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
+
+			return {
+				key: filterKey,
+				val: getValueFromObject(queryParams, filterKey)
+			};
+		};
+
+		var getValueFromObject = function getValueFromObject(obj, key) {
+			return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' ? obj[key] || null : null;
+		};
+
+		var updateLocation = function updateLocation(filter, filterFamily) {
+			var filterVal = getFilterValue(filter);
+
+			if (!filterVal) return;
+
+			var queryParams = $location.search();
+			var targetQueryParam = getQueryParamObject(filterFamily, queryParams);
+			var updatedQueryParamVal = buildFilterQueryString(targetQueryParam, filterVal);
+
+			$location.search(targetQueryParam.key, updatedQueryParamVal);
+		};
+
 		var cycleDisplay = function cycleDisplay() {
 			var resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-			vm.items = vm.allCardData.filter(filterDataItems);
+
+			if (vm.allCardData && vm.allCardData.length) {
+				vm.items = vm.allCardData.filter(filterDataItems);
+			}
+
 			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
@@ -404,11 +469,13 @@
 		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
 			var queryParams = $location.search();
 
-			if (queryParams) {
+			if (Object.keys(queryParams).length) {
 				Object.keys(queryParams).forEach(function (key) {
 					var filterStr = queryParams[key];
 					var filters = getFiltersFromString(filterStr);
 					var filterFamily = getFilterFamily(key);
+
+					vm.activeFilters = [];
 
 					filters.forEach(function (filter) {
 						setActiveFilters(filter, filterFamily);
@@ -416,6 +483,8 @@
 				});
 
 				resetMap();
+			} else {
+				vm.clearFilters();
 			}
 		};
 
@@ -425,6 +494,11 @@
 			});
 		};
 
+
+		$scope.$on('$locationChangeSuccess', function () {
+			setFiltersBasedOnQueryParams();
+			cycleDisplay();
+		});
 
 		init();
 	};

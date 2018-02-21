@@ -15,10 +15,9 @@
 		 */
 		vm.setFilter = (filter, filterFamily) => {
 			setActiveFilters(filter, filterFamily);
+			updateLocation(filter, filterFamily);
 			cycleDisplay();
 		};
-
-		const clearQueryPararms = () => $location.search({});
 
 		vm.clearFilters = () => {
 			vm.activeFilters = [];
@@ -28,15 +27,85 @@
 
 		/* Private */
 
+		const buildFilterQueryString = (targetQueryParam, filterVal) => {
+			const queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			const doesQueryParamMatchFilter = queryParamHasValue ? 
+				targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : 
+				false;
+			
+			if (doesQueryParamMatchFilter) {
+				const doesQueryHaveMultipleValues = queryParamHasValue ? 
+					targetQueryParam.val.indexOf(',') > -1 : 
+					false;
+
+				if (!doesQueryHaveMultipleValues) return null; // Filters match, we want it from the url
+
+				const filters = getFiltersFromString(targetQueryParam.val);
+				const updatedFilterList = [];
+
+				filters.forEach((urlFilter) => {
+					if (urlFilter.toLowerCase() !== filterVal.toLowerCase()) {
+						updatedFilterList.push(urlFilter);
+					}
+				});
+
+				return updatedFilterList.join(',');
+			}
+
+			return targetQueryParam.val ? 
+				`${targetQueryParam.val},${filterVal}` : 
+				(filterVal || null);
+		};
+
+		const clearQueryPararms = () => $location.search({});
+
+		const getFilterValue = (filter) => filter && Object.hasOwnProperty.call(filter, 'Tag') ? 
+			filter.Tag : 
+			(filter || null);
+		
+		const getQueryParamObject = (filterFamily, queryParams) => {
+			const isFilterFamilyAnObject = filterFamily && typeof filterFamily === 'object';
+			const filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ?
+				filterFamily.filterId :
+				isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ?
+					filterFamily.Name :
+					(filterFamily || null);
+
+			return {
+				key: filterKey,
+				val: getValueFromObject(queryParams, filterKey)
+			};
+		};
+
+		const getValueFromObject = (obj, key) => obj && typeof obj === 'object' ? 
+			obj[key] || null : 
+			null;
+
+		const updateLocation = (filter, filterFamily) => {
+			const filterVal = getFilterValue(filter);
+
+			if (!filterVal) return;
+
+			const queryParams = $location.search();
+			const targetQueryParam = getQueryParamObject(filterFamily, queryParams);
+			const updatedQueryParamVal = buildFilterQueryString(targetQueryParam, filterVal);
+
+			$location.search(targetQueryParam.key, updatedQueryParamVal);
+		};
+
 		const cycleDisplay = () => {
 			const resultsDisplayElement = document.getElementById('results-display');
-			$animate.addClass(resultsDisplayElement, 'fade-out');
-			vm.items = vm.allCardData.filter(filterDataItems);
-			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
-			bcpl.utility.windowShade.cycle(250, 2000);
-			$timeout(() => {
-				$animate.removeClass(resultsDisplayElement, 'fade-out');
-			}, 250);
+            $animate.addClass(resultsDisplayElement, 'fade-out');
+
+            if (vm.allCardData && vm.allCardData.length) {
+                vm.items = vm.allCardData.filter(filterDataItems);
+            }
+
+            angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
+            bcpl.utility.windowShade.cycle(250, 2000);
+            $timeout(() => {
+                $animate.removeClass(resultsDisplayElement, 'fade-out');
+            }, 250);
 		};
 
 		/**
@@ -48,7 +117,9 @@
 		const loadCardsAndFilters = (cardData, callback) => {
 			if (!cardData.length) { return; }
 
-			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? 
+				cardData : 
+				filterService.transformAttributesToTags(cardData);
 
 			vm.filters = filterService.build(taggedCardData);
 			vm.allCardData = taggedCardData;
@@ -173,18 +244,23 @@
 		const setFiltersBasedOnQueryParams = () => {
 			const queryParams = $location.search();
 
-			if (queryParams) {
+			if (Object.keys(queryParams).length) {
 				Object.keys(queryParams).forEach((key) => {
 					const filterStr = queryParams[key];
 					const filters = getFiltersFromString(filterStr);
 					const filterFamily = getFilterFamily(key);
-	
+					
+					vm.activeFilters = [];
+
 					filters.forEach((filter) => {
 						setActiveFilters(filter, filterFamily);
 					});
 				});
 
 				resetMap();
+			}
+			else {
+				vm.clearFilters();
 			}
 		};
 
@@ -198,10 +274,17 @@
 		/* test-code */
 		vm.getFilterFamily = getFilterFamily;
 		vm.getFiltersFromString = getFiltersFromString;
+		vm.getFilterValue = getFilterValue;
 		vm.filterDataItems = filterDataItems;
 		vm.formatKeyName = formatKeyName;
 		vm.setActiveFilters = setActiveFilters;
+		vm.updateLocation = updateLocation;
 		/* end-test-code */
+
+		$scope.$on('$locationChangeSuccess', function () {
+			setFiltersBasedOnQueryParams();
+			cycleDisplay();
+		});
 
 		init();
 	};
