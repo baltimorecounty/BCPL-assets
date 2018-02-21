@@ -1,0 +1,119 @@
+$drawer-border: 3px solid $gray-lightest;
+.drawer {
+    background: white;
+    box-shadow: $shadow-primary;
+    padding: 20px;
+    
+    h3 {
+        margin-bottom: 20px;
+        margin-top: 0;
+	}
+	.emphasize-text {
+		margin-bottom: 10px;
+	}
+    .drawer-link-list {
+        padding: 0;
+        margin: 0;
+		list-style-type: none;
+		width: 100%;
+
+		display: flex;
+		flex-wrap: wrap;
+
+		&.no-flex-lg {
+			display: block;
+		}
+		
+        li {
+            flex: 0 50%;
+        }
+    }
+    .drawer-information-list {
+        padding-left: 20px;
+        li {
+            margin-bottom: 20px;
+        }
+    }
+    img {
+        height: 100px;
+        width: 140px;
+    }
+    a {
+        @extend .emphasize-text;
+    }
+}
+.drawer-section {
+	padding: 15px 30px;
+	&.border-right {
+		border-right: $drawer-border;
+	}
+	&.border-left {
+		border-left: $drawer-border;
+	}
+	.drawer-callout-text {
+		/* creates space for text */
+		margin: 15px auto;
+	}
+}
+
+@media screen and (max-width: $screen-md) {
+	.drawer {
+		padding: 15px;
+	}
+    .drawer-section {
+		padding: 15px;
+
+		&.border-right,
+		&.border-left {
+			border: none;
+		}		
+	}
+	.drawer-link-list, 
+	.drawer-link-list > li {
+		border-style: solid;
+  		border-color: rgba(0,0,0,.3);
+	}
+
+	.drawer-link-list {
+		border-width: 1px 0 0 1px;
+		display: flex !important;
+	}
+
+	.drawer-link-list > li {
+		border-width: 0 1px 1px 0;
+	}
+
+	.drawer-link-list li {
+		margin: 0;
+		text-align: center;
+		flex: 0 33.33333333333% !important;
+		
+		a,
+		span {
+			display: block;
+		}
+
+		a {
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		i {
+			display: block;
+			padding-top: 10px;
+			margin-bottom: 10px;
+		}
+	}
+	.drawer-callout-btn {
+		display: inline-block;
+	}
+}
+@media screen and (max-width: $screen-xs) {
+	.drawer-link-list li {
+		flex: 0 50% !important;
+	}
+}
