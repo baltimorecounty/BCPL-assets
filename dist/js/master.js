@@ -1244,35 +1244,54 @@ bcpl.slideDownNav = function ($) {
 namespacer('bcpl');
 
 bcpl.smartSideNav = function ($, window) {
-	var init = function init() {
-		var $allNavLinks = $('.secondary-nav nav ul li a');
+	var navLinksSelector = '.secondary-nav nav ul li a';
+	var activeWindow = window;
 
-		$allNavLinks.each(function (index, navLink) {
-			var $navLink = $(navLink);
-
-			if (!$navLink.attr('href')) {
-				$navLink.removeClass('active');
-				return true;
-			}
-
-			var hrefWithoutQueryString = $navLink.attr('href').toLowerCase().split('?')[0];
-			var locationUrlWithoutQueryString = window.location.href.toLowerCase().split('?')[0];
-
-			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
-				$navLink.addClass('active');
-				return false;
-			}
-
-			$navLink.removeClass('active');
-			return true;
-		});
+	var getHrefWithoutQueryString = function getHrefWithoutQueryString(href) {
+		return href ? href.toLowerCase().split('?')[0] : undefined;
 	};
 
-	return { init: init };
+	var compareNavLinks = function compareNavLinks(index, navLink) {
+		var $navLink = $(navLink);
+
+		if (!$navLink.attr('href')) {
+			$navLink.removeClass('active');
+			return true;
+		}
+
+		var hrefWithoutQueryString = getHrefWithoutQueryString($navLink.attr('href'));
+		var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+
+		if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+			$navLink.addClass('active');
+			return false;
+		}
+
+		$navLink.removeClass('active');
+		return true;
+	};
+
+	var init = function init(injectedWindow) {
+		if (injectedWindow) {
+			activeWindow = injectedWindow;
+		}
+	};
+
+	var setCurrentPageLinkActive = function setCurrentPageLinkActive() {
+		var $allNavLinks = $(navLinksSelector);
+
+		$allNavLinks.each(compareNavLinks);
+	};
+
+	return {
+		init: init,
+		setCurrentPageLinkActive: setCurrentPageLinkActive
+	};
 }(jQuery, window);
 
 $(function () {
-	return bcpl.smartSideNav.init();
+	bcpl.smartSideNav.init();
+	bcpl.smartSideNav.setCurrentPageLinkActive();
 });
 'use strict';
 
