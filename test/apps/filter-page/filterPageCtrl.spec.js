@@ -60,29 +60,7 @@ describe('filterPageCtrl', () => {
 
 			expect(controller.activeFilters).toEqual(['test1', 'test3']);
 		});
-
-		describe('getFiltersFromString', () => {
-			it('should return a single filter if only one is listed', () => {
-				const filterStr = 'Adult';
-				const actual = controller.getFiltersFromString(filterStr);
-				
-				expect([filterStr]).toEqual(actual);
-			});
-			it('should return an array of filter if the string is comma seperated', () => {
-				const filterStr = 'Adult,Kids,All Ages';
-				const actual = controller.getFiltersFromString(filterStr);
-				const expected = ['Adult', 'Kids', 'All Ages'];
-				
-				expect(expected).toEqual(actual);
-			});
-
-			it('should return an empty array if the filter doesn\'t exist', () => {
-				const filterStr = null;
-				const actual = controller.getFiltersFromString(filterStr);
-				
-				expect([]).toEqual(actual);
-			});
-		});
+		
 		describe('formatKeyName', () => {
 			it('should return an empty string if the does not exist', () => {
 				const actual = controller.formatKeyName(null);
