@@ -1204,6 +1204,45 @@ bcpl.siteSearch = function ($, window, constants) {
 
 namespacer('bcpl');
 
+bcpl.slideDownNav = function ($) {
+	var slideDownButtonSelector = '.slide-down-nav-item[data-target]';
+	var downArrowClass = 'fa-angle-down';
+	var upArrowClass = 'fa-angle-up';
+	var activeClass = 'active';
+	var animatationInterval = 500;
+
+	var deactivateSlideDownButton = function deactivateSlideDownButton($btns) {
+		$btns.removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+	};
+
+	var onSlideDownButtonSelectorClick = function onSlideDownButtonSelectorClick(clickEvent) {
+		clickEvent.preventDefault();
+		var $slideDownButton = $(clickEvent.currentTarget);
+		var targetElmId = $slideDownButton.data('target');
+		var $targetElm = $('#' + targetElmId);
+		var isTargetVisbile = $targetElm.is(':visible');
+
+		if (isTargetVisbile) {
+			$targetElm.slideUp(animatationInterval);
+
+			deactivateSlideDownButton($slideDownButton);
+		} else {
+			$targetElm.siblings().slideUp(animatationInterval, function () {
+				$targetElm.slideDown(animatationInterval);
+
+				deactivateSlideDownButton($slideDownButton.siblings());
+
+				$slideDownButton.addClass(activeClass).find('i').removeClass(downArrowClass).addClass(upArrowClass);
+			});
+		}
+	};
+
+	$(document).on('click', slideDownButtonSelector, onSlideDownButtonSelectorClick);
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
