@@ -11,9 +11,13 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const onSearchTabClick = (clickEvent) => {
 		const $searchBtn = $(clickEvent.currentTarget);
-		$searchBtn
+		const buttonCaption = $searchBtn
 			.siblings().removeClass('active').end()
-			.addClass('active');
+			.addClass('active')
+			.text()
+			.trim();
+
+		$(siteSearchInputSelector).attr('placeholder', `Search the ${buttonCaption}`);
 	};
 
 	const onSearchCatalogClick = () => {

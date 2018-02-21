@@ -1125,7 +1125,9 @@ bcpl.siteSearch = function ($, window, constants) {
 
 	var onSearchTabClick = function onSearchTabClick(clickEvent) {
 		var $searchBtn = $(clickEvent.currentTarget);
-		$searchBtn.siblings().removeClass('active').end().addClass('active');
+		var buttonCaption = $searchBtn.siblings().removeClass('active').end().addClass('active').text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick() {
