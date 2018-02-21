@@ -15,15 +15,24 @@ describe('filterPageCtrl', () => {
 		let controller;
 		let $scope;
 		let mockTagFamily;
+		let $rootScope;
 
-		beforeEach(angular.mock.inject(function injectController(_$controller_) {
+		beforeEach(angular.mock.inject(function injectController(_$controller_, _$rootScope_) {
 			$controller = _$controller_;
-			controller = $controller('FilterPageCtrl', { $scope: $scope });
+			$rootScope = _$rootScope_;
+			controller = $controller('FilterPageCtrl', { $scope: $rootScope.$new() });
 			mockTagFamily = {
 				name: 'test',
 				type: 'many',
 				tags: ['test1', 'test2', 'test3', 'test4']
 			};
+		}));
+
+		let location;
+
+		beforeEach(inject(function($location) {
+			location = $location;
+			location.search({});
 		}));
 
 		it('should add a filter to an empty list', () => {
@@ -151,12 +160,119 @@ describe('filterPageCtrl', () => {
 				expect(expected).toEqual(actual);
 			});
 		});
+		
+		describe('filter updates to the url', () => {
+			const mockFilterValue = 'History';
+			const mockFilterValue2 = 'Biography';
+			const mockFilterValue3 = 'Sports';
+			const mockFilters = [
+				{
+					name: 'test',
+					tags: ['tag1', 'tag2'],
+					type: "Many",
+					filterId: 'test'
+				},
+				{
+					name: 'test1',
+					tags: ['tag3', 'tag4'],
+					type: "Many",
+					filterId: 'test1'
+				}
+			];
+
+			
+			
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue} to the url when no filters are selected`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  mockFilterValue;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param ${mockFilters[0].filterId}=${mockFilterValue} that filter is already selected`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // remove
+				
+				const actual = location.search();
+				const expected = {};
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue},${mockFilterValue2} when both filters are selected and the filter famliy is different`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				controller.updateLocation(mockFilterValue2, mockFilters[1]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  mockFilterValue;
+				expected[mockFilters[1].filterId] =  mockFilterValue2;
+
+				expect(expected).toEqual(actual);
+			});
+
+			
+			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue},${mockFilterValue2} when both filters are selected and the filter famliy is the same`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);
+				controller.updateLocation(mockFilterValue2, mockFilters[0]);
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue},${mockFilterValue2}`;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue2} when ${mockFilterValue} is unselected`, () => {
+				controller.updateLocation(mockFilterValue, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); //remove
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue2}`;
+
+				expect(expected).toEqual(actual);
+			});
+
+			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue}, ${mockFilterValue3} when ${mockFilterValue} is unselected`, () => {
+				controller.updateLocation(mockFilterValue3, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); //remove
+				const actual = location.search();
+				const expected = {};
+				expected[mockFilters[0].filterId] =  `${mockFilterValue3},${mockFilterValue}`;
+
+				expect(expected).toEqual(actual);
+			});
+		});
+		describe('getFilterValue', () => {
+			const mockFilterStr = 'History';
+			const mockFilterObj = {
+				Name:"Age",
+				Tag:"Adults",
+				Type:"One"
+			};
+			it('should return null if there is no value passed in', () => {
+				const actual = controller.getFilterValue();
+				expect(null).toEqual(actual);
+			});
+			it('should return filter as a string when the filter is passed as a string', () => {
+				const actual = controller.getFilterValue(mockFilterStr);
+				expect(mockFilterStr).toEqual(actual);
+			});
+			it('should return Tag property of an object when the filter is passed as an object', () => {
+				const actual = controller.getFilterValue(mockFilterObj);
+				expect(mockFilterObj.Tag).toEqual(actual);
+			});
+		});
 	});
 
 	describe('filterDataItems', () => {
 		let controller;
 		let $scope;
 		let testDataItem;
+		let $rootScope;
 
 		beforeAll(() => {
 			testDataItem = {
@@ -176,9 +292,10 @@ describe('filterPageCtrl', () => {
 			};
 		});
 
-		beforeEach(angular.mock.inject(function injectController(_$controller_) {
+		beforeEach(angular.mock.inject(function injectController(_$controller_, _$rootScope_) {
 			$controller = _$controller_;
-			controller = $controller('FilterPageCtrl', { $scope: $scope });
+			$rootScope = _$rootScope_;
+			controller = $controller('FilterPageCtrl', { $scope: $rootScope.$new() });
 		}));
 
 		it('should return true when an item matches a single filter', () => {			
