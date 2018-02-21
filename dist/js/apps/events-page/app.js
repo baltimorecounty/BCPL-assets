@@ -74,6 +74,92 @@
 (function () {
 	'use strict';
 
+	var app = angular.module('sharedFilters', []);
+
+	var filterHelpers = function filterHelpers($location) {
+		var clearQueryParams = function clearQueryParams(key) {
+			$location.search({});
+		};
+
+		var doesKeyExist = function doesKeyExist(queryParams, key) {
+			if (!key) return false;
+
+			var matches = Object.keys(queryParams).filter(function (paramKey) {
+				return paramKey.toLowerCase() === key.toLowerCase();
+			});
+
+			return !!matches.length;
+		};
+
+		//TODO: FILTERS MUST BE A STRING???
+		var getFiltersFromString = function getFiltersFromString(filterStr) {
+			if (!filterStr) return [];
+
+			return filterStr && filterStr.indexOf(',') > -1 ? filterStr.split(',') : [filterStr];
+		};
+
+		var getQueryParams = function getQueryParams() {
+			return $location.search();
+		};
+
+		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key) {
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key]) : [];
+		};
+
+		var setQueryParams = function setQueryParams(key, val) {
+			if (!key) return;
+
+			var queryParam = $location.search();
+			queryParam[key] = val;
+
+			$location.search(queryParam);
+		};
+
+		var updateQueryParams = function updateQueryParams(key, val) {
+			var queryParams = getQueryParams();
+			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+			if (doesQueryParamKeyExist) {
+				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+				var shouldRemoveFilter = existingFilterValues.includes(val);
+				var newFilterValues = [];
+
+				if (shouldRemoveFilter) {
+					var targetFilterIndex = existingFilterValues.indexOf(val);
+					existingFilterValues.splice(targetFilterIndex, 1);
+				} else {
+					existingFilterValues.push(val);
+				}
+
+				newFilterValues = existingFilterValues;
+
+				if (!newFilterValues.length) {
+					clearQueryParams();
+				} else {
+					setQueryParams(key, newFilterValues.join(","));
+				}
+			} else {
+				setQueryParams(key, val);
+			}
+		};
+
+		return {
+			clearQueryParams: clearQueryParams,
+			doesKeyExist: doesKeyExist,
+			getFiltersFromString: getFiltersFromString,
+			getQueryParamValuesByKey: getQueryParamValuesByKey,
+			setQueryParams: setQueryParams,
+			updateQueryParams: updateQueryParams
+		};
+	};
+
+	app.factory('sharedFilters.filterHelperService', ['$location', filterHelpers]);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
 	angular.module('eventsPageApp', ['dataServices', 'events', 'sharedConstants', 'sharedServices', 'ngAria', 'ngRoute', 'ngSanitize']);
 })();
 'use strict';
@@ -556,6 +642,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.hasResults = true;
 
 		self.locations = requestModel.Locations;
+
+		console.log('locations', requestModel.Locations);
+
 		self.eventsTypes = requestModel.EventsTypes;
 		self.ageGroups = requestModel.AgeGroups;
 
@@ -588,13 +677,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		self.filterByTerms = function (id, itemType, isChecked) {
 			switch (itemType.toLowerCase()) {
 				case 'locations':
-					toggleFilter(requestModel.Locations, id, isChecked);
+					toggleFilter(requestModel.Locations, id, isChecked, itemType);
 					break;
 				case 'agegroups':
-					toggleFilter(requestModel.AgeGroups, id, isChecked);
+					toggleFilter(requestModel.AgeGroups, id, isChecked, itemType);
 					break;
 				case 'eventtypes':
-					toggleFilter(requestModel.EventsTypes, id, isChecked);
+					toggleFilter(requestModel.EventsTypes, id, isChecked, itemType);
 					break;
 				default:
 					break;
@@ -612,7 +701,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
-		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
+		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection, itemType) {
+			console.log(collection, id, shouldAddToCollection, itemType);
 			if (shouldAddToCollection) {
 				collection.push(id);
 			} else {
@@ -732,7 +822,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		if (hasBranchQueryParams) {
 			var targetBranches = $location.search().branches.split(',');
 			var branchData = branchesService.getBranchesByName(targetBranches).then(function (branches) {
-				console.log('branches', branches);
+				// TODO: This got the branches right, and we can extract ids from that array to pass to the filter
 			});
 		}
 
