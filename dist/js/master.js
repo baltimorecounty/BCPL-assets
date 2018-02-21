@@ -1243,6 +1243,41 @@ bcpl.slideDownNav = function ($) {
 
 namespacer('bcpl');
 
+bcpl.smartSideNav = function ($, window) {
+	var init = function init() {
+		var $allNavLinks = $('.secondary-nav nav ul li a');
+
+		$allNavLinks.each(function (index, navLink) {
+			var $navLink = $(navLink);
+
+			if (!$navLink.attr('href')) {
+				$navLink.removeClass('active');
+				return true;
+			}
+
+			var hrefWithoutQueryString = $navLink.attr('href').toLowerCase().split('?')[0];
+			var locationUrlWithoutQueryString = window.location.href.toLowerCase().split('?')[0];
+
+			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+				$navLink.addClass('active');
+				return false;
+			}
+
+			$navLink.removeClass('active');
+			return true;
+		});
+	};
+
+	return { init: init };
+}(jQuery, window);
+
+$(function () {
+	return bcpl.smartSideNav.init();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
