@@ -57,6 +57,7 @@
 				(filterVal || null);
 		};
 
+		//TODO: remove this in favor of the sahred helper
 		const clearQueryPararms = () => $location.search({});
 
 		const getFilterValue = (filter) => filter && Object.hasOwnProperty.call(filter, 'Tag') ? 
@@ -224,6 +225,8 @@
 			return filterFamliy.length ? filterFamliy[0] : null;
 		};
 
+
+		// TODO: remove this and use the shared filter helper service
 		const getFiltersFromString = (filterStr) => {
 			if(!filterStr) return [];
 
