@@ -10,21 +10,20 @@ bcpl.smartSideNav = (($, window) => {
 
 	const compareNavLinks = (index, navLink) => {
 		const $navLink = $(navLink);
-
-		if (!$navLink.attr('href')) {
-			$navLink.removeClass('active');
-			return true;
-		}
-
-		const hrefWithoutQueryString = getHrefWithoutQueryString($navLink.attr('href'));
-		const locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
-
-		if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
-			$navLink.addClass('active');
-			return false;
-		}
+		const navLinkHref = $navLink.attr('href');
 
 		$navLink.removeClass('active');
+
+		if (navLinkHref) {
+			const hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
+			const locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+
+			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+				$navLink.addClass('active');
+				return false;
+			}
+		}
+
 		return true;
 	};
 
@@ -35,9 +34,7 @@ bcpl.smartSideNav = (($, window) => {
 	};
 
 	const setCurrentPageLinkActive = () => {
-		const $allNavLinks = $(navLinksSelector);
-
-		$allNavLinks.each(compareNavLinks);
+		$(navLinksSelector).each(compareNavLinks);
 	};
 
 	return {

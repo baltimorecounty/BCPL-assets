@@ -1271,21 +1271,20 @@ bcpl.smartSideNav = function ($, window) {
 
 	var compareNavLinks = function compareNavLinks(index, navLink) {
 		var $navLink = $(navLink);
-
-		if (!$navLink.attr('href')) {
-			$navLink.removeClass('active');
-			return true;
-		}
-
-		var hrefWithoutQueryString = getHrefWithoutQueryString($navLink.attr('href'));
-		var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
-
-		if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
-			$navLink.addClass('active');
-			return false;
-		}
+		var navLinkHref = $navLink.attr('href');
 
 		$navLink.removeClass('active');
+
+		if (navLinkHref) {
+			var hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
+			var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+
+			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+				$navLink.addClass('active');
+				return false;
+			}
+		}
+
 		return true;
 	};
 
@@ -1296,9 +1295,7 @@ bcpl.smartSideNav = function ($, window) {
 	};
 
 	var setCurrentPageLinkActive = function setCurrentPageLinkActive() {
-		var $allNavLinks = $(navLinksSelector);
-
-		$allNavLinks.each(compareNavLinks);
+		$(navLinksSelector).each(compareNavLinks);
 	};
 
 	return {
