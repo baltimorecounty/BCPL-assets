@@ -3,77 +3,6 @@
 (function () {
 	'use strict';
 
-	var app = angular.module('sharedServices', ['sharedConstants']);
-
-	var branchesService = function branchesService($q, $http, constants) {
-		var getBranches = function getBranches() {
-			var deferred = $q.defer();
-
-			return $http.get(constants.urls.getBranches).then(function (resp) {
-				return handleGetBranchesSuccess(resp, deferred);
-			}).catch(function (error) {
-				return handleFailedGetBranchesRequest(error, deferred);
-			});
-		};
-
-		var handleGetBranchesSuccess = function handleGetBranchesSuccess(resp, deferred) {
-			var dataToReturn = resp ? resp.data : "There was a problem getting data, please try again later.";
-			deferred.resolve(dataToReturn);
-
-			return deferred.promise;
-		};
-
-		var handleFailedGetBranchesRequest = function handleFailedGetBranchesRequest(error, deferred) {
-			deferred.reject(error);
-			return deferred.promise;
-		};
-
-		var getBranchesById = function getBranchesById(idList) {
-			return getBranches().then(function (branches) {
-				return branches.filter(function (branch) {
-					return idList.includes(branch.id);
-				});
-			});
-		};
-
-		var getBranchesByName = function getBranchesByName(nameList) {
-			return getBranches().then(function (branches) {
-				return branches.filter(function (branch) {
-					return nameList.map(function (branch) {
-						return branch.toLowerCase();
-					}).includes(branch.name.toLowerCase());
-				});
-			});
-		};
-
-		return {
-			getBranchesById: getBranchesById,
-			getBranchesByName: getBranchesByName
-		};
-	};
-
-	app.factory('sharedServices.branchesService', ['$q', '$http', 'sharedConstants.CONSTANTS', branchesService]);
-})();
-'use strict';
-
-(function () {
-	'use strict';
-
-	var app = angular.module('sharedConstants', []);
-
-	var constants = {
-		urls: {
-			getBranches: 'data/branch-amenities.json'
-		}
-	};
-
-	app.constant('sharedConstants.CONSTANTS', constants);
-})();
-'use strict';
-
-(function () {
-	'use strict';
-
 	var app = angular.module('sharedFilters', []);
 
 	var filterHelpers = function filterHelpers($location) {
@@ -179,8 +108,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -590,7 +519,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
-					var hasErrors = vm.postResult && Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 
 					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
 				}
@@ -618,7 +547,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, branchesService, filterHelperService, metaService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, filterHelperService, metaService) {
 
 		var vm = this;
 		var firstPage = 1;
@@ -856,15 +785,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var getFilterId = function getFilterId(filterType, val) {
 			if (!val) return;
 
-			if (Object.hasOwnProperty.call(vm.data, filterType)) {
+			if (Object.prototype.hasOwnProperty.call(vm.data, filterType)) {
 				var matchedFilters = vm.data[filterType].filter(function (filter) {
-					return filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
+					return Object.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
 
 				if (filterType === 'locations') {
-					return matchedFilters[0] ? matchedFilters[0].LocationId : null;
+					return matchedFilters.length ? matchedFilters[0].LocationId : null;
 				}
-				return matchedFilters[0] ? matchedFilters[0].Id : null;
+				return matchedFilters.length ? matchedFilters[0].Id : null;
 			}
 
 			return;
@@ -947,7 +876,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		init();
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedServices.branchesService', 'sharedFilters.filterHelperService', 'metaService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
