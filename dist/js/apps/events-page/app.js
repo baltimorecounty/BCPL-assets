@@ -628,7 +628,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var setFilterData = function setFilterData(key, values) {
-			if (!Object.hasOwnProperty.call(vm.data, key)) {
+			if (!Object.prototype.hasOwnProperty.call(vm.data, key)) {
 				// Only set this one time
 				vm.data[key] = values;
 			}
@@ -785,9 +785,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var getFilterId = function getFilterId(filterType, val) {
 			if (!val) return;
 
-			if (Object.hasOwnProperty.call(vm.data, filterType)) {
+			var filterTypeExists = Object.prototype.hasOwnProperty.call(vm.data, filterType);
+
+			if (filterTypeExists) {
 				var matchedFilters = vm.data[filterType].filter(function (filter) {
-					return Object.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
+					return Object.prototype.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
 
 				if (filterType === 'locations') {
