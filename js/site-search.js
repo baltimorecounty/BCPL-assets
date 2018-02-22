@@ -10,10 +10,12 @@ bcpl.siteSearch = (($, window, constants) => {
 	const searchAction = {};
 
 	const onSearchTabClick = (clickEvent) => {
-		const $searchBtn = $(clickEvent.currentTarget);
-		$searchBtn
+		const $searchBtn = $(clickEvent.currentTarget)
 			.siblings().removeClass('active').end()
 			.addClass('active');
+		const buttonCaption = $searchBtn.text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', `Search the ${buttonCaption}`);
 	};
 
 	const onSearchCatalogClick = () => {
@@ -22,6 +24,10 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const onSearchEventsClick = () => {
 		searchAction.search = () => searchEvents(window);
+	};
+
+	const onSearchWebsiteClick = () => {
+		searchAction.search = () => searchWebsite(window);
 	};
 
 	const onSearchIconClick = () => {
@@ -64,6 +70,16 @@ bcpl.siteSearch = (($, window, constants) => {
 		}
 	};
 
+	const searchWebsite = (activeWindow) => {
+		const searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			const baseWebsiteUrl = constants.baseWebsiteUrl;
+			const searchUrl = constants.search.urls.website;
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+		}
+	};
+
 	const getSearchTerms = () => {
 		const $searchBox = $(siteSearchInputSelector);
 		const searchTerms = $searchBox.val() || '';
@@ -78,9 +94,7 @@ bcpl.siteSearch = (($, window, constants) => {
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
-
-	// Leaving this in since it's being used in an upcoming branch.
-	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);

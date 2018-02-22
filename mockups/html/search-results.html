@@ -1,0 +1,78 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="filters">
+			<h3>Sidebar</h3>
+			<div class="filter-controls-wrapper">
+				<div id="filters" class="expandos">
+					<p>Filters go here.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="row">
+			<div class="col-md-12">
+				<header>
+					<h1>Search Results</h1>
+				</header>
+			</div>
+		</div>
+		<div class="row">
+			<div class="md-col-12">
+				<div class="main-content top-border">
+					<p>Displaying results X to Y of Z for the query "searchtermgoeshere".</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="md-col-12">
+				<div class="cards">
+					<div id="results-display" class="list-view">
+						<script id="swiftype-search-results-template" type="text/x-handlebars-template">
+							<div class="loading">
+								<i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+								<span class="sr-only">Loading...</span>
+						  	</div>
+						   	<div class="search-results-display" style="display: none">
+								{{#if searchResult}}
+									{{#if spellingSuggestion}}
+									<p><em>Did you mean <strong><a href="/search/results.html?q={{spellingSuggestion}}">{{spellingSuggestion}}</a></strong>?</em></p>
+								{{/if}}
+								<p>Displaying results {{info.index.first}} to {{info.index.last}} of {{info.total_result_count}}.</p>
+								<ul>
+									{{#each searchResult}}
+									<li>
+										<a href="{{url}}" data-id="{{id}}" class="title">{{title}}</a>
+										<p>{{{highlight}}}</p>
+										<p class="url">{{url}}</p>
+									</li>
+									{{/each}}
+								</ul>
+								<div class="pager">
+									{{#each pageLinks}}
+										{{#if current}}
+											<strong>{{page}}</strong>
+										{{else}}
+											<a href="{{../../info.base_url}}{{page}}">{{page}}</a>
+										{{/if}}
+									{{/each}}
+									{{#if tooManyResults}}
+										<p><em>Your search returned more than 200 results. Try different terms to narrow your results.</em></p>
+									{{/if}}
+								</div>
+								{{else}}
+									<p>We couldn't find any pages matching your search for "{{query}}".</p>
+									{{#if spellingSuggestion}}
+										<p><em>Did you mean <strong><a href="/search/results.html?q={{spellingSuggestion}}">{{spellingSuggestion}}</a></strong>?</em></p>
+									{{/if}}
+								{{/if}}
+						 	</div>								
+						</script>
+
+						<div id="search-results-target"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

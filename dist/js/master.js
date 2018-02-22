@@ -223,7 +223,7 @@ bcpl.constants = {
 	// baseApiUrl: 'http://oit226696:3100',
 	baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'http://dev.bcpl.info',
+	baseWebsiteUrl: 'http://staging.bcpl.info',
 	basePageUrl: '/dist',
 	keyCodes: {
 		enter: 13,
@@ -246,7 +246,9 @@ bcpl.constants = {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
 			catalog: '/polaris/search/searchresults.aspx?term=',
 			events: '/events-and-programs/list.html#!/?term=',
-			website: '/search?term='
+			website: '/search-results.html?term=',
+			api: '/api/swiftype/site-search',
+			trackClickThrough: '/api/swiftype/track'
 		}
 	},
 	homepage: {
@@ -1136,8 +1138,10 @@ bcpl.siteSearch = function ($, window, constants) {
 	var searchAction = {};
 
 	var onSearchTabClick = function onSearchTabClick(clickEvent) {
-		var $searchBtn = $(clickEvent.currentTarget);
-		$searchBtn.siblings().removeClass('active').end().addClass('active');
+		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
+		var buttonCaption = $searchBtn.text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick() {
@@ -1149,6 +1153,12 @@ bcpl.siteSearch = function ($, window, constants) {
 	var onSearchEventsClick = function onSearchEventsClick() {
 		searchAction.search = function () {
 			return searchEvents(window);
+		};
+	};
+
+	var onSearchWebsiteClick = function onSearchWebsiteClick() {
+		searchAction.search = function () {
+			return searchWebsite(window);
 		};
 	};
 
@@ -1192,6 +1202,16 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
+	var searchWebsite = function searchWebsite(activeWindow) {
+		var searchTerms = getSearchTerms();
+
+		if (searchTerms.length) {
+			var baseWebsiteUrl = constants.baseWebsiteUrl;
+			var searchUrl = constants.search.urls.website;
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+		}
+	};
+
 	var getSearchTerms = function getSearchTerms() {
 		var $searchBox = $(siteSearchInputSelector);
 		var searchTerms = $searchBox.val() || '';
@@ -1206,14 +1226,102 @@ bcpl.siteSearch = function ($, window, constants) {
 	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
 	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
-
-	// Leaving this in since it's being used in an upcoming branch.
-	// $(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
 
 }(jQuery, window, bcpl.constants);
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.slideDownNav = function ($) {
+	var slideDownButtonSelector = '.slide-down-nav-item[data-target]';
+	var downArrowClass = 'fa-angle-down';
+	var upArrowClass = 'fa-angle-up';
+	var activeClass = 'active';
+	var animatationInterval = 500;
+
+	var deactivateSlideDownButton = function deactivateSlideDownButton($btns) {
+		$btns.removeClass(activeClass).find('i').removeClass(upArrowClass).addClass(downArrowClass);
+	};
+
+	var onSlideDownButtonSelectorClick = function onSlideDownButtonSelectorClick(clickEvent) {
+		clickEvent.preventDefault();
+		var $slideDownButton = $(clickEvent.currentTarget);
+		var targetElmId = $slideDownButton.data('target');
+		var $targetElm = $('#' + targetElmId);
+		var isTargetVisbile = $targetElm.is(':visible');
+
+		if (isTargetVisbile) {
+			$targetElm.slideUp(animatationInterval);
+
+			deactivateSlideDownButton($slideDownButton);
+		} else {
+			$targetElm.siblings().slideUp(animatationInterval, function () {
+				$targetElm.slideDown(animatationInterval);
+
+				deactivateSlideDownButton($slideDownButton.siblings());
+
+				$slideDownButton.addClass(activeClass).find('i').removeClass(downArrowClass).addClass(upArrowClass);
+			});
+		}
+	};
+
+	$(document).on('click', slideDownButtonSelector, onSlideDownButtonSelectorClick);
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.smartSideNav = function ($, window) {
+	var navLinksSelector = '.secondary-nav nav ul li a';
+	var activeWindow = window;
+
+	var getHrefWithoutQueryString = function getHrefWithoutQueryString(href) {
+		return href ? href.toLowerCase().split('?')[0] : undefined;
+	};
+
+	var compareNavLinks = function compareNavLinks(index, navLink) {
+		var $navLink = $(navLink);
+		var navLinkHref = $navLink.attr('href');
+
+		$navLink.removeClass('active');
+
+		if (navLinkHref) {
+			var hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
+			var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+
+			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+				$navLink.addClass('active');
+				return false;
+			}
+		}
+
+		return true;
+	};
+
+	var init = function init(injectedWindow) {
+		if (injectedWindow) {
+			activeWindow = injectedWindow;
+		}
+	};
+
+	var setCurrentPageLinkActive = function setCurrentPageLinkActive() {
+		$(navLinksSelector).each(compareNavLinks);
+	};
+
+	return {
+		init: init,
+		setCurrentPageLinkActive: setCurrentPageLinkActive
+	};
+}(jQuery, window);
+
+$(function () {
+	bcpl.smartSideNav.init();
+	bcpl.smartSideNav.setCurrentPageLinkActive();
+});
 'use strict';
 
 namespacer('bcpl');

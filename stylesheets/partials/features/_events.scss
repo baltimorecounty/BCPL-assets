@@ -1,6 +1,4 @@
 .events {
-	padding-top: 2em;
-
 	.registration-required {
 		font-weight: 600;
 	}
@@ -21,11 +19,11 @@
 	}
 	.post {
 		background: $gray-lightest;
-		margin-top: 2em;
 		padding: 2em 1em;
 		text-align: center;
 		display: block;
 		cursor: pointer;
+		text-decoration: none;
 
 		&:hover {
 			text-decoration: none;
@@ -414,6 +412,14 @@ a, button, input, label {
     -webkit-tap-highlight-color: transparent;
 }
 
+.event-info {
+	margin: 20px auto;
+
+	p {
+		margin: 0 auto;
+	}
+}
+
 @media (max-width: $screen-xs) {
     .event-date-bar {
         .registration-required {
@@ -435,7 +441,10 @@ a, button, input, label {
 @media (max-width: $screen-md) {
     .calendar-datepicker {
         display: block;
-    }
+	}
+	.post {
+		margin-bottom: 15px;
+	}
 }
 
 @media (max-width: $screen-sm-max) {

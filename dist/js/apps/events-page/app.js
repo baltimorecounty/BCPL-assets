@@ -514,8 +514,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var topOfContent = angular.element('.main-content').first().offset().top;
 				vm.postResult = postResult.data;
 
-				var data = vm.postResult.Data;
-
 				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
@@ -532,6 +530,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
+			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 		};
 
