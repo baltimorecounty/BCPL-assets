@@ -473,6 +473,20 @@ bcpl.bookCarousel = function ($, constants) {
 }(jQuery, bcpl.constants);
 'use strict';
 
+namespacer('bcpl');
+
+// requires bootstrap.js to be included in the page
+bcpl.boostrapCollapseHelper = function ($) {
+	var toggleCollapseById = function toggleCollapseById(id) {
+		$('#' + id).collapse('toggle');
+	};
+
+	return {
+		toggleCollapseById: toggleCollapseById
+	};
+}(jQuery);
+'use strict';
+
 namespacer('bcpl.pageSpecific.homepage');
 
 bcpl.pageSpecific.homepage.featuredEvents = function ($) {

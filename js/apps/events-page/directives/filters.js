@@ -19,12 +19,14 @@
 
 				return str.trim().replace(disallowedCharactersRegex, '-');
 			};
+			
+			innerScope.isFilterChecked = (filterType, item) => {
+				const targetId = filterType && filterType === 'locations' ? 
+					item.LocationId : 
+					item.Id;
 
-			innerScope.items = [];
-
-			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
-				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
-			}
+				return innerScope.activeFilters.includes(targetId);
+			};
 		};
 
 		const directive = {
@@ -33,7 +35,8 @@
 			scope: {
 				filterType: '@',
 				choiceType: '@',
-				searchFunction: '='
+				searchFunction: '=',
+				activeFilters: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.filtersTemplate
 		};

@@ -78,7 +78,15 @@
 
 	var filterHelpers = function filterHelpers($location) {
 		var clearQueryParams = function clearQueryParams(key) {
-			$location.search({});
+			var newQueryParams = {};
+
+			if (key) {
+				var queryParams = $location.search();
+				delete queryParams[key];
+				newQueryParams = queryParams;
+			}
+
+			$location.search(newQueryParams);
 		};
 
 		var doesKeyExist = function doesKeyExist(queryParams, key) {
@@ -92,18 +100,18 @@
 		};
 
 		//TODO: FILTERS MUST BE A STRING???
-		var getFiltersFromString = function getFiltersFromString(filterStr) {
+		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ? filterStr.split(',') : [filterStr];
+			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
 		};
 
 		var getQueryParams = function getQueryParams() {
 			return $location.search();
 		};
 
-		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key]) : [];
+		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
 		};
 
 		var setQueryParams = function setQueryParams(key, val) {
@@ -134,7 +142,7 @@
 				newFilterValues = existingFilterValues;
 
 				if (!newFilterValues.length) {
-					clearQueryParams();
+					clearQueryParams(key);
 				} else {
 					setQueryParams(key, newFilterValues.join(","));
 				}
@@ -147,6 +155,7 @@
 			clearQueryParams: clearQueryParams,
 			doesKeyExist: doesKeyExist,
 			getFiltersFromString: getFiltersFromString,
+			getQueryParams: getQueryParams,
 			getQueryParamValuesByKey: getQueryParamValuesByKey,
 			setQueryParams: setQueryParams,
 			updateQueryParams: updateQueryParams

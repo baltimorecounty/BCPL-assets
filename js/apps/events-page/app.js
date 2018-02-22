@@ -8,6 +8,7 @@
 				'events',
 				'sharedConstants',
 				'sharedServices',
+				'sharedFilters',
 				'ngAria',
 				'ngRoute', 
 				'ngSanitize'

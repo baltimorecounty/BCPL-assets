@@ -1,8 +1,19 @@
-((app) => {
+((app, bootstrapCollapseHelper) => {
 	'use strict';
 
-	const EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, branchesService) {
-		const self = this;
+	const EventsPageCtrl = function EventsPageCtrl(
+		$scope,
+		$timeout,
+		$animate,
+		$location,
+		CONSTANTS,
+		eventsService,
+		branchesService,
+		filterHelperService, 
+		metaService
+	) {
+
+		const vm = this;
 		const firstPage = 1;
 		const startDateLocaleString = moment().format();
 		const endDate = moment().add(30, 'd');
@@ -25,29 +36,30 @@
 
 		/* ** Public ** */
 
-		self.eventGroups = [];
-		self.keywords = '';
-		self.chunkSize = CONSTANTS.requestChunkSize;
-		self.totalResults = 0;
-		self.isLastPage = false;
-		self.areDatesInvalid = false;
-		self.isLoading = true;
-		self.hasResults = true;
+		vm.eventGroups = [];
+		vm.keywords = '';
+		vm.chunkSize = CONSTANTS.requestChunkSize;
+		vm.totalResults = 0;
+		vm.isLastPage = false;
+		vm.areDatesInvalid = false;
+		vm.isLoading = true;
+		vm.hasResults = true;
+		vm.data = {};
 
-		self.locations = requestModel.Locations;
+		vm.locations = requestModel.Locations;
 
-		console.log('locations', requestModel.Locations);
+		vm.eventsTypes = requestModel.EventsTypes;
+		vm.ageGroups = requestModel.AgeGroups;
 
-		self.eventsTypes = requestModel.EventsTypes;
-		self.ageGroups = requestModel.AgeGroups;
-
-		self.keywordSearch = () => {
-			requestModel.Keyword = self.keywords;
+		vm.keywordSearch = () => {
+			requestModel.Keyword = vm.keywords;
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.Page = 1;
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
+
+			updateFilterUrl('term', vm.keywords);
 
 			eventsService
 				.get(requestModel)
@@ -55,16 +67,30 @@
 				.catch(handleFailedEventsGetRequest);
 		};
 
-		self.filterByDate = () => {
-			self.areDatesInvalid = !isDateRangeValid(self.userStartDate, self.userEndDate);
-			if (!self.areDatesInvalid) {
-				requestModel.StartDate = self.userStartDate;
-				requestModel.EndDate = self.userEndDate;
+		const updateFilterUrl = (targetKey, vmModel) => {
+			if (vmModel) {
+				filterHelperService.setQueryParams(targetKey, vmModel);
+			}
+			else {
+				filterHelperService.clearQueryParams(targetKey);
+			}
+		};
+
+		vm.filterByDate = () => {
+			vm.areDatesInvalid = !isDateRangeValid(vm.userStartDate, vm.userEndDate);
+
+
+			if (!vm.areDatesInvalid) {
+				requestModel.StartDate = vm.userStartDate;
+				requestModel.EndDate = vm.userEndDate;
 				requestModel.Page = 1;
-				self.eventGroups = [];
-				self.hasResults = true;
-				self.isLoading = true;
-				self.requestErrorMessage = '';
+				vm.eventGroups = [];
+				vm.hasResults = true;
+				vm.isLoading = true;
+				vm.requestErrorMessage = '';
+
+				updateFilterUrl('startDate', vm.userStartDate);
+				updateFilterUrl('endDate', vm.userEndDate);
 
 				eventsService
 					.get(requestModel)
@@ -73,24 +99,30 @@
 			}
 		};
 
-		self.filterByTerms = (id, itemType, isChecked) => {
+		const setFilterData = (key, values) => {
+			if (!Object.hasOwnProperty.call(vm.data, key)) { // Only set this one time
+				vm.data[key] = values;
+			}
+		};
+
+		vm.filterByTerms = (id, itemType, isChecked, filterVal, shouldUpdateLocation = true) => {
 			switch (itemType.toLowerCase()) {
 			case 'locations':
-				toggleFilter(requestModel.Locations, id, isChecked, itemType);
+				toggleFilter(requestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			case 'agegroups':
-				toggleFilter(requestModel.AgeGroups, id, isChecked, itemType);
+				toggleFilter(requestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			case 'eventtypes':
-				toggleFilter(requestModel.EventsTypes, id, isChecked, itemType);
+				toggleFilter(requestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			default:
 				break;
 			}
 
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
 
 			eventsService
 				.get(requestModel)
@@ -99,12 +131,11 @@
 		};
 
 		const handleFailedEventsGetRequest = (error) => {
-			self.isLoading = false;
-			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
+			vm.isLoading = false;
+			vm.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
-		const toggleFilter = (collection, id, shouldAddToCollection, itemType) => {
-			console.log(collection, id, shouldAddToCollection, itemType);
+		const toggleFilter = (collection, id, shouldAddToCollection, filterKey, filterVal, shouldUpdateLocation) => {			
 			if (shouldAddToCollection) {
 				collection.push(id);
 			} else {
@@ -114,9 +145,13 @@
 					collection.splice(indexOfId, 1);
 				}
 			}
+
+			if(shouldUpdateLocation) {
+				filterHelperService.updateQueryParams(filterKey, filterVal);
+			}
 		};
 
-		self.loadNextPage = () => {
+		vm.loadNextPage = () => {
 			requestModel.Page += 1;
 
 			eventsService.get(requestModel).then(processAndCombineEvents).then(() => {
@@ -126,7 +161,7 @@
 			});
 		};
 
-		self.clearFilters = () => {
+		vm.clearFilters = () => {
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.EndDate = endDateLocaleString;
 			requestModel.Page = 1;
@@ -135,15 +170,17 @@
 			requestModel.EventsTypes = [];
 			requestModel.Locations = [];
 
-			self.keywords = '';
-			self.userStartDate = '';
-			self.userEndDate = '';
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
-			self.locations = requestModel.Locations;
-			self.eventsTypes = requestModel.EventsTypes;
-			self.ageGroups = requestModel.AgeGroups;
+			vm.keywords = '';
+			vm.userStartDate = '';
+			vm.userEndDate = '';
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
+			vm.locations = requestModel.Locations;
+			vm.eventsTypes = requestModel.EventsTypes;
+			vm.ageGroups = requestModel.AgeGroups;
+
+			filterHelperService.clearQueryParams();
 
 			eventsService
 				.get(requestModel)
@@ -154,11 +191,11 @@
 		/* ** Private ** */
 
 		const processEvents = (eventResults) => {
-			self.isLastPage = isLastPage(eventResults.totalResults);
-			self.eventGroups = eventResults.eventGroups;
-			self.isLoading = false;
-			self.hasResults = eventResults.eventGroups.length;
-			self.requestErrorMessage = '';
+			vm.isLastPage = isLastPage(eventResults.totalResults);
+			vm.eventGroups = eventResults.eventGroups;
+			vm.isLoading = false;
+			vm.hasResults = eventResults.eventGroups.length;
+			vm.requestErrorMessage = '';
 
 			$timeout(() => {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -166,12 +203,12 @@
 		};
 
 		const processAndCombineEvents = (eventResults) => {
-			self.isLastPage = isLastPage(eventResults.totalResults);
-			self.eventGroups = combineEventGroups(self.eventGroups, eventResults.eventGroups);
+			vm.isLastPage = isLastPage(eventResults.totalResults);
+			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
 
 		const isLastPage = (totalResults) => {
-			const totalResultsSoFar = requestModel.Page * self.chunkSize;
+			const totalResultsSoFar = requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
@@ -218,32 +255,107 @@
 				"";
 		};
 
-
 		/* ** Init ** */
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		const keywords = getKeywords();
+		const getFilterId = (filterType, val) => {
+			if (!val) return;
 
-		const hasBranchQueryParams = $location.search().branches;
-
-		if (hasBranchQueryParams) {
-			const targetBranches = $location.search().branches.split(',');
-			const branchData = branchesService.getBranchesByName(targetBranches)
-				.then((branches) => {
-					// TODO: This got the branches right, and we can extract ids from that array to pass to the filter
+			if (Object.hasOwnProperty.call(vm.data, filterType)) {
+				const matchedFilters = vm.data[filterType].filter(filter => {
+					return filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
-		}
 
-		if (keywords) {
-			self.keywords = keywords;
-			self.keywordSearch();
-		} else {
-			eventsService
-				.get(requestModel)
-				.then(processEvents)
-				.catch(handleFailedEventsGetRequest);
-		}
+				if (filterType === 'locations') {
+					return matchedFilters[0] ? matchedFilters[0].LocationId : null;
+				}
+				return matchedFilters[0] ? matchedFilters[0].Id : null;
+			}
+
+			return;
+		};
+
+
+		const setFiltersBasedOnQueryParams = () => {
+			const queryParams = filterHelperService.getQueryParams();
+
+			setDatesFromUrl(queryParams);
+
+			Object.keys(queryParams).forEach((queryParamKey) => {
+				const filterType = queryParamKey;
+				const isFilterTypeDate = filterType && filterType.toLowerCase().indexOf('date') > -1;
+
+				if (!isFilterTypeDate) {
+					const filterValStr = queryParams[queryParamKey];
+					const filterValues = filterHelperService.getFiltersFromString(filterValStr); 
+
+					filterValues.forEach((filterVal) => {
+						const filterId = getFilterId(filterType, filterVal);
+
+						if (filterId) {
+							vm.filterByTerms(filterId, filterType, true, filterVal, false);
+							
+						}
+					});
+
+					bootstrapCollapseHelper.toggleCollapseById(filterType);
+				}
+			});
+		};
+
+		const setIntialFilterData = (callback) => {
+			const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
+			let counter = 0;
+
+			filterTypes.forEach((filterType, index) => {
+				if (CONSTANTS.remoteServiceUrls[filterType]) {
+					metaService.request(CONSTANTS.remoteServiceUrls[filterType]).then((data) => {
+						setFilterData(filterType, data);
+
+						counter += 1;
+
+						const isLastItem = counter === filterTypes.length;
+						if (isLastItem && callback && typeof callback === 'function') {
+							callback();
+						}
+					});
+				}
+			});
+		};
+
+		const setDatesFromUrl = (queryParams) => {
+			const startDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
+			const endDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
+
+			if (startDate && endDate) {
+				vm.userStartDate = startDate;
+				vm.userEndDate = endDate;
+
+				vm.filterByDate();
+			}
+		};
+		
+		const init = () => {
+			// setIntialFilterData sets the data to the view model
+			setIntialFilterData(() => { 
+				setFiltersBasedOnQueryParams();
+
+				const keywords = getKeywords();
+
+				if (keywords) {
+					vm.keywords = keywords;
+					vm.keywordSearch();
+				} else {
+					eventsService
+						.get(requestModel)
+						.then(processEvents)
+						.catch(handleFailedEventsGetRequest);
+				}
+			}); 
+		};
+
+		init();
 	};
 
 	EventsPageCtrl.$inject = [
@@ -253,8 +365,10 @@
 		'$location',
 		'events.CONSTANTS',
 		'dataServices.eventsService',
-		'sharedServices.branchesService'
+		'sharedServices.branchesService',
+		'sharedFilters.filterHelperService',
+		'metaService'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);

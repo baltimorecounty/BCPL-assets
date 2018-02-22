@@ -394,8 +394,11 @@
 								<div class="events-search-wrapper filter-control-wapper">
 									<h4>Keyword Search</h4>
 									<div class="keyword-search-wrapper">
-										<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
-										    ng-change="eventsPage.keywordSearch()" />
+										<input 
+											class="keyword-search form-control" 
+											ng-model-options="{ updateOn: 'keyup', debounce: 500 }" 
+											ng-model="eventsPage.keywords"
+										    ng-change="eventsPage.keywordSearch();" />
 										<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
 									</div>
 								</div>
@@ -405,10 +408,20 @@
 								</div>
 
 								<h4 class="filter-headers">Branches <span>({{eventsPage.locations.length || 'all'}})</span></h4>
-								<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
+								<filters-expandos
+									is-initially-expanded="eventsPage.locations && eventsPage.locations.length" 
+									filter-type="locations" 
+									choice-type="one" 
+									search-function="eventsPage.filterByTerms">
+								</filters-expandos>
 
 								<h4 class="filter-headers">Event Types <span>({{eventsPage.eventsTypes.length || 'all'}})</span></h4>
-								<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
+								<filters-expandos 
+								is-initially-expanded="eventsPage.eventTypes && eventsPage.eventTypes.length"
+									filter-type="eventTypes" 
+									choice-type="many" 
+									search-function="eventsPage.filterByTerms">
+								</filters-expandos>
 
 								<h4 class="filter-headers">Age Groups <span>({{eventsPage.ageGroups.length || 'all'}})</span></h4>
 								<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
