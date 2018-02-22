@@ -37,6 +37,10 @@
     &.slick-initialized {
         display: flex;
     }
+
+    .slick-list {
+        flex: 1;
+    }
 }
 
 .tabs {
