@@ -6,6 +6,7 @@
 			[
 				'dataServices',
 				'events',
+				'sharedFilters',
 				'ngAria',
 				'ngRoute', 
 				'ngSanitize'

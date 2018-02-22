@@ -3,7 +3,102 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['dataServices', 'events', 'ngAria', 'ngRoute', 'ngSanitize']);
+	var app = angular.module('sharedFilters', []);
+
+	var filterHelpers = function filterHelpers($location) {
+		var clearQueryParams = function clearQueryParams(key) {
+			var newQueryParams = {};
+
+			if (key) {
+				var queryParams = $location.search();
+				delete queryParams[key];
+				newQueryParams = queryParams;
+			}
+
+			$location.search(newQueryParams);
+		};
+
+		var doesKeyExist = function doesKeyExist(queryParams, key) {
+			if (!key) return false;
+
+			var matches = Object.keys(queryParams).filter(function (paramKey) {
+				return paramKey.toLowerCase() === key.toLowerCase();
+			});
+
+			return !!matches.length;
+		};
+
+		//TODO: FILTERS MUST BE A STRING???
+		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
+			if (!filterStr) return [];
+
+			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
+		};
+
+		var getQueryParams = function getQueryParams() {
+			return $location.search();
+		};
+
+		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+		};
+
+		var setQueryParams = function setQueryParams(key, val) {
+			if (!key) return;
+
+			var queryParam = $location.search();
+			queryParam[key] = val;
+
+			$location.search(queryParam);
+		};
+
+		var updateQueryParams = function updateQueryParams(key, val) {
+			var queryParams = getQueryParams();
+			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+			if (doesQueryParamKeyExist) {
+				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+				var shouldRemoveFilter = existingFilterValues.includes(val);
+				var newFilterValues = [];
+
+				if (shouldRemoveFilter) {
+					var targetFilterIndex = existingFilterValues.indexOf(val);
+					existingFilterValues.splice(targetFilterIndex, 1);
+				} else {
+					existingFilterValues.push(val);
+				}
+
+				newFilterValues = existingFilterValues;
+
+				if (!newFilterValues.length) {
+					clearQueryParams(key);
+				} else {
+					setQueryParams(key, newFilterValues.join(","));
+				}
+			} else {
+				setQueryParams(key, val);
+			}
+		};
+
+		return {
+			clearQueryParams: clearQueryParams,
+			doesKeyExist: doesKeyExist,
+			getFiltersFromString: getFiltersFromString,
+			getQueryParams: getQueryParams,
+			getQueryParamValuesByKey: getQueryParamValuesByKey,
+			setQueryParams: setQueryParams,
+			updateQueryParams: updateQueryParams
+		};
+	};
+
+	app.factory('sharedFilters.filterHelperService', ['$location', filterHelpers]);
+})();
+'use strict';
+
+(function () {
+	'use strict';
+
+	angular.module('eventsPageApp', ['dataServices', 'events', 'sharedFilters', 'ngAria', 'ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
@@ -51,7 +146,8 @@
 		$routeProvider.when('/', {
 			templateUrl: CONSTANTS.partialUrls.eventListPartial,
 			controller: 'EventsPageCtrl',
-			controllerAs: 'eventsPage'
+			controllerAs: 'eventsPage',
+			reloadOnSearch: false
 		}).when('/:id', {
 			templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
 			controller: 'EventDetailsCtrl',
@@ -421,7 +517,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
-					var hasErrors = vm.postResult && Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 
 					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
 				}
@@ -447,11 +543,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app) {
+(function (app, bootstrapCollapseHelper) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService) {
-		var self = this;
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, filterHelperService, metaService) {
+
+		var vm = this;
 		var firstPage = 1;
 		var startDateLocaleString = moment().format();
 		var endDate = moment().add(30, 'd');
@@ -474,73 +571,98 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		/* ** Public ** */
 
-		self.eventGroups = [];
-		self.keywords = '';
-		self.chunkSize = CONSTANTS.requestChunkSize;
-		self.totalResults = 0;
-		self.isLastPage = false;
-		self.areDatesInvalid = false;
-		self.isLoading = true;
-		self.hasResults = true;
+		vm.eventGroups = [];
+		vm.keywords = '';
+		vm.chunkSize = CONSTANTS.requestChunkSize;
+		vm.totalResults = 0;
+		vm.isLastPage = false;
+		vm.areDatesInvalid = false;
+		vm.isLoading = true;
+		vm.hasResults = true;
+		vm.data = {};
 
-		self.locations = requestModel.Locations;
-		self.eventsTypes = requestModel.EventsTypes;
-		self.ageGroups = requestModel.AgeGroups;
+		vm.locations = requestModel.Locations;
 
-		self.keywordSearch = function () {
-			requestModel.Keyword = self.keywords;
+		vm.eventsTypes = requestModel.EventsTypes;
+		vm.ageGroups = requestModel.AgeGroups;
+
+		vm.keywordSearch = function () {
+			requestModel.Keyword = vm.keywords;
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.Page = 1;
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
+
+			updateFilterUrl('term', vm.keywords);
 
 			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
-		self.filterByDate = function () {
-			self.areDatesInvalid = !isDateRangeValid(self.userStartDate, self.userEndDate);
-			if (!self.areDatesInvalid) {
-				requestModel.StartDate = self.userStartDate;
-				requestModel.EndDate = self.userEndDate;
+		var updateFilterUrl = function updateFilterUrl(targetKey, vmModel) {
+			if (vmModel) {
+				filterHelperService.setQueryParams(targetKey, vmModel);
+			} else {
+				filterHelperService.clearQueryParams(targetKey);
+			}
+		};
+
+		vm.filterByDate = function () {
+			vm.areDatesInvalid = !isDateRangeValid(vm.userStartDate, vm.userEndDate);
+
+			if (!vm.areDatesInvalid) {
+				requestModel.StartDate = vm.userStartDate;
+				requestModel.EndDate = vm.userEndDate;
 				requestModel.Page = 1;
-				self.eventGroups = [];
-				self.hasResults = true;
-				self.isLoading = true;
-				self.requestErrorMessage = '';
+				vm.eventGroups = [];
+				vm.hasResults = true;
+				vm.isLoading = true;
+				vm.requestErrorMessage = '';
+
+				updateFilterUrl('startDate', vm.userStartDate);
+				updateFilterUrl('endDate', vm.userEndDate);
 
 				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 			}
 		};
 
-		self.filterByTerms = function (id, itemType, isChecked) {
+		var setFilterData = function setFilterData(key, values) {
+			if (!Object.prototype.hasOwnProperty.call(vm.data, key)) {
+				// Only set this one time
+				vm.data[key] = values;
+			}
+		};
+
+		vm.filterByTerms = function (id, itemType, isChecked, filterVal) {
+			var shouldUpdateLocation = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+
 			switch (itemType.toLowerCase()) {
 				case 'locations':
-					toggleFilter(requestModel.Locations, id, isChecked);
+					toggleFilter(requestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				case 'agegroups':
-					toggleFilter(requestModel.AgeGroups, id, isChecked);
+					toggleFilter(requestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				case 'eventtypes':
-					toggleFilter(requestModel.EventsTypes, id, isChecked);
+					toggleFilter(requestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				default:
 					break;
 			}
 
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
 
 			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
-			self.isLoading = false;
-			self.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
+			vm.isLoading = false;
+			vm.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
-		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection) {
+		var toggleFilter = function toggleFilter(collection, id, shouldAddToCollection, filterKey, filterVal, shouldUpdateLocation) {
 			if (shouldAddToCollection) {
 				collection.push(id);
 			} else {
@@ -550,9 +672,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					collection.splice(indexOfId, 1);
 				}
 			}
+
+			if (shouldUpdateLocation) {
+				filterHelperService.updateQueryParams(filterKey, filterVal);
+			}
 		};
 
-		self.loadNextPage = function () {
+		vm.loadNextPage = function () {
 			requestModel.Page += 1;
 
 			eventsService.get(requestModel).then(processAndCombineEvents).then(function () {
@@ -562,7 +688,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
-		self.clearFilters = function () {
+		vm.clearFilters = function () {
 			requestModel.StartDate = startDateLocaleString;
 			requestModel.EndDate = endDateLocaleString;
 			requestModel.Page = 1;
@@ -571,15 +697,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			requestModel.EventsTypes = [];
 			requestModel.Locations = [];
 
-			self.keywords = '';
-			self.userStartDate = '';
-			self.userEndDate = '';
-			self.eventGroups = [];
-			self.hasResults = true;
-			self.isLoading = true;
-			self.locations = requestModel.Locations;
-			self.eventsTypes = requestModel.EventsTypes;
-			self.ageGroups = requestModel.AgeGroups;
+			vm.keywords = '';
+			vm.userStartDate = '';
+			vm.userEndDate = '';
+			vm.eventGroups = [];
+			vm.hasResults = true;
+			vm.isLoading = true;
+			vm.locations = requestModel.Locations;
+			vm.eventsTypes = requestModel.EventsTypes;
+			vm.ageGroups = requestModel.AgeGroups;
+
+			filterHelperService.clearQueryParams();
 
 			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
@@ -587,11 +715,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		/* ** Private ** */
 
 		var processEvents = function processEvents(eventResults) {
-			self.isLastPage = isLastPage(eventResults.totalResults);
-			self.eventGroups = eventResults.eventGroups;
-			self.isLoading = false;
-			self.hasResults = eventResults.eventGroups.length;
-			self.requestErrorMessage = '';
+			vm.isLastPage = isLastPage(eventResults.totalResults);
+			vm.eventGroups = eventResults.eventGroups;
+			vm.isLoading = false;
+			vm.hasResults = eventResults.eventGroups.length;
+			vm.requestErrorMessage = '';
 
 			$timeout(function () {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -599,12 +727,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
-			self.isLastPage = isLastPage(eventResults.totalResults);
-			self.eventGroups = combineEventGroups(self.eventGroups, eventResults.eventGroups);
+			vm.isLastPage = isLastPage(eventResults.totalResults);
+			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
 
 		var isLastPage = function isLastPage(totalResults) {
-			var totalResultsSoFar = requestModel.Page * self.chunkSize;
+			var totalResultsSoFar = requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
@@ -645,23 +773,114 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		/* ** Init ** */
+		var getKeywords = function getKeywords() {
+			return $location.search().term && $location.search().term.length ? $location.search().term : "";
+		};
 
+		/* ** Init ** */
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		if ($location.search().term && $location.search().term.length) {
-			self.keywords = $location.search().term;
-			self.keywordSearch();
-		} else {
-			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
-		}
+		var getFilterId = function getFilterId(filterType, val) {
+			if (!val) return;
+
+			var filterTypeExists = Object.prototype.hasOwnProperty.call(vm.data, filterType);
+
+			if (filterTypeExists) {
+				var matchedFilters = vm.data[filterType].filter(function (filter) {
+					return Object.prototype.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
+				});
+
+				if (filterType === 'locations') {
+					return matchedFilters.length ? matchedFilters[0].LocationId : null;
+				}
+				return matchedFilters.length ? matchedFilters[0].Id : null;
+			}
+
+			return;
+		};
+
+		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
+			var queryParams = filterHelperService.getQueryParams();
+
+			setDatesFromUrl(queryParams);
+
+			Object.keys(queryParams).forEach(function (queryParamKey) {
+				var filterType = queryParamKey;
+				var isFilterTypeDate = filterType && filterType.toLowerCase().indexOf('date') > -1;
+
+				if (!isFilterTypeDate) {
+					var filterValStr = queryParams[queryParamKey];
+					var filterValues = filterHelperService.getFiltersFromString(filterValStr);
+
+					filterValues.forEach(function (filterVal) {
+						var filterId = getFilterId(filterType, filterVal);
+
+						if (filterId) {
+							vm.filterByTerms(filterId, filterType, true, filterVal, false);
+						}
+					});
+
+					bootstrapCollapseHelper.toggleCollapseById(filterType);
+				}
+			});
+		};
+
+		var setIntialFilterData = function setIntialFilterData(callback) {
+			var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
+			var counter = 0;
+
+			filterTypes.forEach(function (filterType, index) {
+				if (CONSTANTS.remoteServiceUrls[filterType]) {
+					metaService.request(CONSTANTS.remoteServiceUrls[filterType]).then(function (data) {
+						setFilterData(filterType, data);
+
+						counter += 1;
+
+						var isLastItem = counter === filterTypes.length;
+						if (isLastItem && callback && typeof callback === 'function') {
+							callback();
+						}
+					});
+				}
+			});
+		};
+
+		var setDatesFromUrl = function setDatesFromUrl(queryParams) {
+			var startDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
+			var endDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
+
+			if (startDate && endDate) {
+				vm.userStartDate = startDate;
+				vm.userEndDate = endDate;
+
+				vm.filterByDate();
+			}
+		};
+
+		var init = function init() {
+			// setIntialFilterData sets the data to the view model
+			setIntialFilterData(function () {
+				setFiltersBasedOnQueryParams();
+
+				var keywords = getKeywords();
+
+				if (keywords) {
+					vm.keywords = keywords;
+					vm.keywordSearch();
+				} else {
+					eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+				}
+			});
+		};
+
+		init();
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
 'use strict';
 
 (function (app) {
@@ -777,7 +996,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			innerScope.search = function (searchItem, termType, isChecked) {
 				var identifier = searchItem.item.Id || searchItem.item.LocationId;
-				innerScope.searchFunction(identifier, termType, isChecked);
+				var name = searchItem.item.Name || searchItem.item.Id;
+				innerScope.searchFunction(identifier, termType, isChecked, name, innerScope.items);
 			};
 
 			innerScope.removeDisallowedCharacters = function (str) {
@@ -786,11 +1006,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return str.trim().replace(disallowedCharactersRegex, '-');
 			};
 
-			innerScope.items = [];
+			innerScope.isFilterChecked = function (filterType, item) {
+				var targetId = filterType && filterType === 'locations' ? item.LocationId : item.Id;
 
-			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
-				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
-			}
+				return innerScope.activeFilters ? innerScope.activeFilters.includes(targetId) : false;
+			};
 		};
 
 		var directive = {
@@ -799,7 +1019,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			scope: {
 				filterType: '@',
 				choiceType: '@',
-				searchFunction: '='
+				searchFunction: '=',
+				items: '=',
+				activeFilters: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.filtersExpandosTemplate
 		};
@@ -835,11 +1057,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return str.trim().replace(disallowedCharactersRegex, '-');
 			};
 
-			innerScope.items = [];
+			innerScope.isFilterChecked = function (filterType, item) {
+				var targetId = filterType && filterType === 'locations' ? item.LocationId : item.Id;
 
-			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
-				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
-			}
+				return innerScope.activeFilters.includes(targetId);
+			};
 		};
 
 		var directive = {
@@ -848,7 +1070,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			scope: {
 				filterType: '@',
 				choiceType: '@',
-				searchFunction: '='
+				searchFunction: '=',
+				activeFilters: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.filtersTemplate
 		};

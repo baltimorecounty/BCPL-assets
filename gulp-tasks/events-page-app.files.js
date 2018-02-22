@@ -1,4 +1,5 @@
 const files = (folder) => [
+	'js/apps/shared/**/*.js',
 	`js/apps/${folder}/app.js`,
 	`js/apps/${folder}/constants.js`,
 	`js/apps/${folder}/events-page.config.js`,

@@ -6,7 +6,8 @@
 			.when('/', {
 				templateUrl: CONSTANTS.partialUrls.eventListPartial,
 				controller: 'EventsPageCtrl',
-				controllerAs: 'eventsPage'
+				controllerAs: 'eventsPage',
+				reloadOnSearch: false
 			})
 			.when('/:id', {
 				templateUrl: CONSTANTS.partialUrls.eventDetailsPartial,
