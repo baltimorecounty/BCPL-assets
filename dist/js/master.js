@@ -417,6 +417,7 @@ bcpl.bookCarousel = function ($, constants) {
 	var slickSettings = {
 		infinite: true,
 		arrows: true,
+		lazyLoad: 'progressive',
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
 		slidesToShow: 3,
@@ -480,7 +481,7 @@ bcpl.bookCarousel = function ($, constants) {
 		});
 
 		$.when.apply($, promises).then(function () {
-			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+			if (!isNaN(maxSlides) && maxSlides > 0) {
 				slickSettings.slidesToShow = maxSlides;
 			}
 
