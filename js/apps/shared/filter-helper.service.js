@@ -5,7 +5,15 @@
 
 	const filterHelpers = ($location) => {
 		const clearQueryParams = (key) => {
-			$location.search({});
+			let newQueryParams = {};
+
+			if (key) {
+				let queryParams = $location.search();
+				delete queryParams[key];
+				newQueryParams = queryParams;
+			}
+			
+			$location.search(newQueryParams);
 		};
 
 		const doesKeyExist = (queryParams, key) => {
@@ -18,20 +26,24 @@
 		};
 
 		//TODO: FILTERS MUST BE A STRING???
-		const getFiltersFromString = (filterStr) => {
+		const getFiltersFromString = (filterStr, isDate) => {
 			if(!filterStr) return [];
 
 			return filterStr && filterStr.indexOf(',') > -1 ?  
-				filterStr.split(',') : 
+				(
+					isDate ? 
+						filterStr : 
+						filterStr.split(',')
+				) : 
 				[ filterStr ];
 		};
 
 		const getQueryParams = () => $location.search();
 
-		const getQueryParamValuesByKey = (queryParams, key) => {
+		const getQueryParamValuesByKey = (queryParams, key, isDate) => {
 			return Object.hasOwnProperty.call(queryParams, key) ?
-				getFiltersFromString(queryParams[key]) :
-				[];
+				getFiltersFromString(queryParams[key], isDate) :
+				(isDate ? "" : []);
 		};
 
 		const setQueryParams = (key, val) => {
@@ -63,7 +75,7 @@
 				newFilterValues = existingFilterValues;
 
 				if (!newFilterValues.length) {
-					clearQueryParams();
+					clearQueryParams(key);
 				}
 				else {
 					setQueryParams(key, newFilterValues.join(","));
@@ -78,6 +90,7 @@
 			clearQueryParams,
 			doesKeyExist,
 			getFiltersFromString,
+			getQueryParams,
 			getQueryParamValuesByKey,
 			setQueryParams,
 			updateQueryParams
