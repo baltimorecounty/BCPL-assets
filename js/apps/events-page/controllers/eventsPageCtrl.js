@@ -99,7 +99,7 @@
 		};
 
 		const setFilterData = (key, values) => {
-			if (!Object.hasOwnProperty.call(vm.data, key)) { // Only set this one time
+			if (!Object.prototype.hasOwnProperty.call(vm.data, key)) { // Only set this one time
 				vm.data[key] = values;
 			}
 		};
@@ -261,9 +261,11 @@
 		const getFilterId = (filterType, val) => {
 			if (!val) return;
 
-			if (Object.hasOwnProperty.call(vm.data, filterType)) {
+			const filterTypeExists = Object.prototype.hasOwnProperty.call(vm.data, filterType);
+
+			if (filterTypeExists) {
 				const matchedFilters = vm.data[filterType].filter(filter => {
-					return Object.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
+					return Object.prototype.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
 
 				if (filterType === 'locations') {
