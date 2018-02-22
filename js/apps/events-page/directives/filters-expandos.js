@@ -11,7 +11,8 @@
 
 			innerScope.search = (searchItem, termType, isChecked) => {
 				const identifier = searchItem.item.Id || searchItem.item.LocationId;
-				innerScope.searchFunction(identifier, termType, isChecked);
+				const name = searchItem.item.Name || searchItem.item.Id;
+				innerScope.searchFunction(identifier, termType, isChecked, name, innerScope.items);
 			};
 
 			innerScope.removeDisallowedCharacters = (str) => {
@@ -20,11 +21,15 @@
 				return str.trim().replace(disallowedCharactersRegex, '-');
 			};
 
-			innerScope.items = [];
+			innerScope.isFilterChecked = (filterType, item) => {
+				const targetId = filterType && filterType === 'locations' ? 
+					item.LocationId : 
+					item.Id;
 
-			if (CONSTANTS.remoteServiceUrls[innerScope.filterType]) {
-				metaService.request(CONSTANTS.remoteServiceUrls[innerScope.filterType]).then(filterSuccess);
-			}
+				return innerScope.activeFilters ? 
+					innerScope.activeFilters.includes(targetId) : 
+					false;
+			};
 		};
 
 		const directive = {
@@ -33,7 +38,9 @@
 			scope: {
 				filterType: '@',
 				choiceType: '@',
-				searchFunction: '='
+				searchFunction: '=',
+				items: '=',
+				activeFilters: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.filtersExpandosTemplate
 		};
