@@ -356,7 +356,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		/* Private */
 
 		var buildFilterQueryString = function buildFilterQueryString(targetQueryParam, filterVal) {
-			var queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			var queryParamHasValue = Object.prototype.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
 			var doesQueryParamMatchFilter = queryParamHasValue ? targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : false;
 
 			if (doesQueryParamMatchFilter) {
@@ -379,18 +379,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return targetQueryParam.val ? targetQueryParam.val + ',' + filterVal : filterVal || null;
 		};
 
-		//TODO: remove this in favor of the sahred helper
+		//TODO: remove this in favor of the shared filter-helper.service.js
 		var clearQueryPararms = function clearQueryPararms() {
 			return $location.search({});
 		};
 
 		var getFilterValue = function getFilterValue(filter) {
-			return filter && Object.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
+			return filter && Object.prototype.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
 		};
 
 		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
 			var isFilterFamilyAnObject = filterFamily && (typeof filterFamily === 'undefined' ? 'undefined' : _typeof(filterFamily)) === 'object';
-			var filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
+			var filterKey = isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
 
 			return {
 				key: filterKey,
