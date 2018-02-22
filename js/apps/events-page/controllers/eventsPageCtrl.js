@@ -8,7 +8,6 @@
 		$location,
 		CONSTANTS,
 		eventsService,
-		branchesService,
 		filterHelperService, 
 		metaService
 	) {
@@ -264,13 +263,13 @@
 
 			if (Object.hasOwnProperty.call(vm.data, filterType)) {
 				const matchedFilters = vm.data[filterType].filter(filter => {
-					return filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
+					return Object.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
 
 				if (filterType === 'locations') {
-					return matchedFilters[0] ? matchedFilters[0].LocationId : null;
+					return matchedFilters.length ? matchedFilters[0].LocationId : null;
 				}
-				return matchedFilters[0] ? matchedFilters[0].Id : null;
+				return matchedFilters.length ? matchedFilters[0].Id : null;
 			}
 
 			return;
@@ -365,7 +364,6 @@
 		'$location',
 		'events.CONSTANTS',
 		'dataServices.eventsService',
-		'sharedServices.branchesService',
 		'sharedFilters.filterHelperService',
 		'metaService'
 	];
