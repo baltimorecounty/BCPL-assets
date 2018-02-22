@@ -7,6 +7,10 @@
 	flex-grow: 1;
 }
 
+.flex-dont-grow {
+	flex-grow: 0;
+}
+
 .flex-row {
 	flex-direction: row;
 }
@@ -38,6 +42,14 @@
 
 .flex-justify-start {
 	justify-content: flex-start;
+}
+
+.flex-justify-center {
+	justify-content: center;
+}
+
+.flex-align-center {
+	align-items: center;
 }
 
 .flex-10 { flex-basis: 10%; }
