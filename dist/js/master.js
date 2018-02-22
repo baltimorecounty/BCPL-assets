@@ -1261,6 +1261,57 @@ bcpl.slideDownNav = function ($) {
 
 namespacer('bcpl');
 
+bcpl.smartSideNav = function ($, window) {
+	var navLinksSelector = '.secondary-nav nav ul li a';
+	var activeWindow = window;
+
+	var getHrefWithoutQueryString = function getHrefWithoutQueryString(href) {
+		return href ? href.toLowerCase().split('?')[0] : undefined;
+	};
+
+	var compareNavLinks = function compareNavLinks(index, navLink) {
+		var $navLink = $(navLink);
+		var navLinkHref = $navLink.attr('href');
+
+		$navLink.removeClass('active');
+
+		if (navLinkHref) {
+			var hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
+			var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+
+			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+				$navLink.addClass('active');
+				return false;
+			}
+		}
+
+		return true;
+	};
+
+	var init = function init(injectedWindow) {
+		if (injectedWindow) {
+			activeWindow = injectedWindow;
+		}
+	};
+
+	var setCurrentPageLinkActive = function setCurrentPageLinkActive() {
+		$(navLinksSelector).each(compareNavLinks);
+	};
+
+	return {
+		init: init,
+		setCurrentPageLinkActive: setCurrentPageLinkActive
+	};
+}(jQuery, window);
+
+$(function () {
+	bcpl.smartSideNav.init();
+	bcpl.smartSideNav.setCurrentPageLinkActive();
+});
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
