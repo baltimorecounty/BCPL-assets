@@ -8,7 +8,7 @@
 					<h4>Keyword Search</h4>
 					<div class="keyword-search-wrapper">
 						<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
-						    ng-change="eventsPage.keywordSearch()" />
+						    ng-change="eventsPage.keywordSearch();" />
 						<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
 					</div>
 				</div>
@@ -19,12 +19,22 @@
 				<div class="expandos">
 					<div class="expando-wrapper">
 						<h4 class="filter-headers">
-							<button data-toggle="collapse" data-target="#locations" aria-live="polite" aria-expanded="false" aria-controls="locations">
+							<button 
+								data-toggle="collapse" 
+								data-target="#locations" 
+								aria-live="polite" 
+								aria-expanded="false" 
+								aria-controls="locations">
 								Branches
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos filter-type="locations" choice-type="one" search-function="eventsPage.filterByTerms"></filters-expandos>
+						<filters-expandos 
+							items="eventsPage.data.locations"
+							active-filters="eventsPage.locations"
+							filter-type="locations" 
+							choice-type="one" 
+							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 					<div class="expando-wrapper">
 						<h4 class="filter-headers">
@@ -33,7 +43,12 @@
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos filter-type="eventTypes" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
+						<filters-expandos 
+							items="eventsPage.data.eventTypes"
+							active-filters="eventsPage.eventsTypes"
+							filter-type="eventTypes" 
+							choice-type="many" 
+							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 					<div class="expando-wrapper">
 						<h4 class="filter-headers">
@@ -42,7 +57,12 @@
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos filter-type="ageGroups" choice-type="many" search-function="eventsPage.filterByTerms"></filters-expandos>
+						<filters-expandos 
+							items="eventsPage.data.ageGroups"
+							active-filters="eventsPage.ageGroups"
+							filter-type="ageGroups" 
+							choice-type="many" 
+							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 				</div>
 				<div class="button-wrapper filter-control-wapper">

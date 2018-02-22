@@ -34,7 +34,7 @@
 				}
 				else {
 					const hasErrors = vm.postResult && 
-						Object.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+						Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 						
 					vm.formConfirmationMessage = hasErrors ? 
 						vm.postResult.Errors[0].Error : 

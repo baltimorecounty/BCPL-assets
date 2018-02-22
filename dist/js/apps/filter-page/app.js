@@ -1,3 +1,98 @@
+'use strict';
+
+(function () {
+	'use strict';
+
+	var app = angular.module('sharedFilters', []);
+
+	var filterHelpers = function filterHelpers($location) {
+		var clearQueryParams = function clearQueryParams(key) {
+			var newQueryParams = {};
+
+			if (key) {
+				var queryParams = $location.search();
+				delete queryParams[key];
+				newQueryParams = queryParams;
+			}
+
+			$location.search(newQueryParams);
+		};
+
+		var doesKeyExist = function doesKeyExist(queryParams, key) {
+			if (!key) return false;
+
+			var matches = Object.keys(queryParams).filter(function (paramKey) {
+				return paramKey.toLowerCase() === key.toLowerCase();
+			});
+
+			return !!matches.length;
+		};
+
+		//TODO: FILTERS MUST BE A STRING???
+		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
+			if (!filterStr) return [];
+
+			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
+		};
+
+		var getQueryParams = function getQueryParams() {
+			return $location.search();
+		};
+
+		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+		};
+
+		var setQueryParams = function setQueryParams(key, val) {
+			if (!key) return;
+
+			var queryParam = $location.search();
+			queryParam[key] = val;
+
+			$location.search(queryParam);
+		};
+
+		var updateQueryParams = function updateQueryParams(key, val) {
+			var queryParams = getQueryParams();
+			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+			if (doesQueryParamKeyExist) {
+				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+				var shouldRemoveFilter = existingFilterValues.includes(val);
+				var newFilterValues = [];
+
+				if (shouldRemoveFilter) {
+					var targetFilterIndex = existingFilterValues.indexOf(val);
+					existingFilterValues.splice(targetFilterIndex, 1);
+				} else {
+					existingFilterValues.push(val);
+				}
+
+				newFilterValues = existingFilterValues;
+
+				if (!newFilterValues.length) {
+					clearQueryParams(key);
+				} else {
+					setQueryParams(key, newFilterValues.join(","));
+				}
+			} else {
+				setQueryParams(key, val);
+			}
+		};
+
+		return {
+			clearQueryParams: clearQueryParams,
+			doesKeyExist: doesKeyExist,
+			getFiltersFromString: getFiltersFromString,
+			getQueryParams: getQueryParams,
+			getQueryParamValuesByKey: getQueryParamValuesByKey,
+			setQueryParams: setQueryParams,
+			updateQueryParams: updateQueryParams
+		};
+	};
+
+	app.factory('sharedFilters.filterHelperService', ['$location', filterHelpers]);
+})();
 "use strict";
 
 (function () {
@@ -261,7 +356,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		/* Private */
 
 		var buildFilterQueryString = function buildFilterQueryString(targetQueryParam, filterVal) {
-			var queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			var queryParamHasValue = Object.prototype.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
 			var doesQueryParamMatchFilter = queryParamHasValue ? targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : false;
 
 			if (doesQueryParamMatchFilter) {
@@ -284,17 +379,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return targetQueryParam.val ? targetQueryParam.val + ',' + filterVal : filterVal || null;
 		};
 
+		//TODO: remove this in favor of the shared filter-helper.service.js
 		var clearQueryPararms = function clearQueryPararms() {
 			return $location.search({});
 		};
 
 		var getFilterValue = function getFilterValue(filter) {
-			return filter && Object.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
+			return filter && Object.prototype.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
 		};
 
 		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
 			var isFilterFamilyAnObject = filterFamily && (typeof filterFamily === 'undefined' ? 'undefined' : _typeof(filterFamily)) === 'object';
-			var filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
+			var filterKey = isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
 
 			return {
 				key: filterKey,
@@ -449,6 +545,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return filterFamliy.length ? filterFamliy[0] : null;
 		};
 
+		// TODO: remove this and use the shared filter helper service
 		var getFiltersFromString = function getFiltersFromString(filterStr) {
 			if (!filterStr) return [];
 

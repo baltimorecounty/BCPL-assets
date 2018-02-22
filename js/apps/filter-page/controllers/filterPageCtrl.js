@@ -28,7 +28,7 @@
 		/* Private */
 
 		const buildFilterQueryString = (targetQueryParam, filterVal) => {
-			const queryParamHasValue = Object.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
+			const queryParamHasValue = Object.prototype.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
 			const doesQueryParamMatchFilter = queryParamHasValue ? 
 				targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : 
 				false;
@@ -57,17 +57,18 @@
 				(filterVal || null);
 		};
 
+		//TODO: remove this in favor of the shared filter-helper.service.js
 		const clearQueryPararms = () => $location.search({});
 
-		const getFilterValue = (filter) => filter && Object.hasOwnProperty.call(filter, 'Tag') ? 
+		const getFilterValue = (filter) => filter && Object.prototype.hasOwnProperty.call(filter, 'Tag') ? 
 			filter.Tag : 
 			(filter || null);
 		
 		const getQueryParamObject = (filterFamily, queryParams) => {
 			const isFilterFamilyAnObject = filterFamily && typeof filterFamily === 'object';
-			const filterKey = isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'filterId') ?
+			const filterKey = isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'filterId') ?
 				filterFamily.filterId :
-				isFilterFamilyAnObject && Object.hasOwnProperty.call(filterFamily, 'Name') ?
+				isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'Name') ?
 					filterFamily.Name :
 					(filterFamily || null);
 
@@ -224,6 +225,8 @@
 			return filterFamliy.length ? filterFamliy[0] : null;
 		};
 
+
+		// TODO: remove this and use the shared filter helper service
 		const getFiltersFromString = (filterStr) => {
 			if(!filterStr) return [];
 
