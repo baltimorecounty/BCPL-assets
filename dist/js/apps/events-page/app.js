@@ -98,7 +98,7 @@
 (function () {
 	'use strict';
 
-	angular.module('eventsPageApp', ['dataServices', 'events', 'sharedConstants', 'sharedServices', 'sharedFilters', 'ngAria', 'ngRoute', 'ngSanitize']);
+	angular.module('eventsPageApp', ['dataServices', 'events', 'sharedFilters', 'ngAria', 'ngRoute', 'ngSanitize']);
 })();
 'use strict';
 
@@ -108,8 +108,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
@@ -785,7 +785,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var getFilterId = function getFilterId(filterType, val) {
 			if (!val) return;
 
-			if (Object.prototype.hasOwnProperty.call(vm.data, filterType)) {
+			if (Object.hasOwnProperty.call(vm.data, filterType)) {
 				var matchedFilters = vm.data[filterType].filter(function (filter) {
 					return Object.hasOwnProperty.call(filter, 'Name') && filter.Name.toLowerCase().trim() === val.toLowerCase().trim();
 				});
