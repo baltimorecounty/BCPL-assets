@@ -93,3 +93,17 @@
 
 	app.factory('sharedFilters.filterHelperService', ['$location', filterHelpers]);
 })();
+'use strict';
+
+namespacer('bcpl');
+
+// requires bootstrap.js to be included in the page
+bcpl.boostrapCollapseHelper = function ($) {
+	var toggleCollapseById = function toggleCollapseById(id) {
+		$('#' + id).collapse('toggle');
+	};
+
+	return {
+		toggleCollapseById: toggleCollapseById
+	};
+}(jQuery);
