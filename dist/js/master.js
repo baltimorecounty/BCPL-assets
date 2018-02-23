@@ -193,6 +193,25 @@ bcpl.utility.querystringer = function () {
 }();
 'use strict';
 
+/* eslint-disable no-extend-native */
+
+if (!String.prototype.endsWith) {
+	String.prototype.endsWith = function endsWith(searchString, position) {
+		var subjectString = this.toString();
+
+		if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+			position = subjectString.length;
+		}
+
+		position -= searchString.length;
+
+		var lastIndex = subjectString.indexOf(searchString, position);
+
+		return lastIndex !== -1 && lastIndex === position;
+	};
+}
+'use strict';
+
 namespacer('bcpl.utility');
 
 bcpl.utility.windowShade = function ($) {
@@ -398,6 +417,7 @@ bcpl.bookCarousel = function ($, constants) {
 	var slickSettings = {
 		infinite: true,
 		arrows: true,
+		lazyLoad: 'progressive',
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
 		slidesToShow: 3,
@@ -461,7 +481,7 @@ bcpl.bookCarousel = function ($, constants) {
 		});
 
 		$.when.apply($, promises).then(function () {
-			if (!Number.isNaN(maxSlides) && maxSlides > 0) {
+			if (!isNaN(maxSlides) && maxSlides > 0) {
 				slickSettings.slidesToShow = maxSlides;
 			}
 
