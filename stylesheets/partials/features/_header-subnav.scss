@@ -22,6 +22,8 @@
 					line-height: 50px;
 					padding: 0 1em;
 					color: $gray-lightest;
+					position: relative;
+					z-index: 99;
 				}
 			}
 		}
