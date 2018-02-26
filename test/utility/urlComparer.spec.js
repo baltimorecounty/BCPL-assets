@@ -4,7 +4,7 @@ describe('Href comparer utility', () => {
 			const url = 'https://www.bcpl.info/test/index.html';
 			const expected = 'https://www.bcpl.info/test';
 
-			const actual = bcpl.utility.hrefComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.hrefComparer.hrefEndingTypes.fileName);
+			const actual = bcpl.utility.urlComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.urlComparer.hrefEndingTypes.fileName);
 
 			expect(actual).toEqual(expected);
 		});
@@ -13,7 +13,7 @@ describe('Href comparer utility', () => {
 			const url = 'https://www.bcpl.info/test/abcdefg.html';
 			const expected = 'https://www.bcpl.info/test/abcdefg.html';
 
-			const actual = bcpl.utility.hrefComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.hrefComparer.hrefEndingTypes.fileName);
+			const actual = bcpl.utility.urlComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.urlComparer.hrefEndingTypes.fileName);
 
 			expect(actual).toEqual(expected);
 		});
@@ -22,7 +22,7 @@ describe('Href comparer utility', () => {
 			const url = 'https://www.bcpl.info/test/';
 			const expected = 'https://www.bcpl.info/test';
 
-			const actual = bcpl.utility.hrefComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.hrefComparer.hrefEndingTypes.slash);
+			const actual = bcpl.utility.urlComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.urlComparer.hrefEndingTypes.slash);
 
 			expect(actual).toEqual(expected);
 		});
@@ -31,7 +31,7 @@ describe('Href comparer utility', () => {
 			const url = 'https://www.bcpl.info/test';
 			const expected = 'https://www.bcpl.info/test';
 
-			const actual = bcpl.utility.hrefComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.hrefComparer.hrefEndingTypes.folderName);
+			const actual = bcpl.utility.urlComparer.removeFilenameAndTrailingSlash(url, bcpl.utility.urlComparer.hrefEndingTypes.folderName);
 
 			expect(actual).toEqual(expected);
 		});
@@ -42,7 +42,7 @@ describe('Href comparer utility', () => {
 			const url1 = 'https://www.bcpl.info/test/index.html';
 			const url2 = 'https://www.bcpl.info/test/index.html';
 
-			const actual = bcpl.utility.hrefComparer.isSamePage(url1, url2);
+			const actual = bcpl.utility.urlComparer.isSamePage(url1, url2);
 
 			expect(actual).toBe(true);
 		});
@@ -51,7 +51,7 @@ describe('Href comparer utility', () => {
 			const url1 = 'https://www.bcpl.info/test/';
 			const url2 = 'https://www.bcpl.info/test/';
 
-			const actual = bcpl.utility.hrefComparer.isSamePage(url1, url2);
+			const actual = bcpl.utility.urlComparer.isSamePage(url1, url2);
 
 			expect(actual).toBe(true);
 		});
@@ -60,7 +60,7 @@ describe('Href comparer utility', () => {
 			const url1 = 'https://www.bcpl.info/test';
 			const url2 = 'https://www.bcpl.info/test';
 
-			const actual = bcpl.utility.hrefComparer.isSamePage(url1, url2);
+			const actual = bcpl.utility.urlComparer.isSamePage(url1, url2);
 
 			expect(actual).toBe(true);
 		});

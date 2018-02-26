@@ -1,6 +1,6 @@
 namespacer('bcpl.utility');
 
-bcpl.utility.hrefComparer = ((constants) => {
+bcpl.utility.urlComparer = ((constants) => {
 	const hrefEndingTypes = {
 		fileName: 0,
 		slash: 1,

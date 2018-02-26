@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.smartSideNav = (($, hrefComparer, window) => {
+bcpl.smartSideNav = (($, urlComparer, window) => {
 	const navLinksSelector = '.secondary-nav nav ul li a';
 	let activeWindow = window;
 
@@ -18,7 +18,7 @@ bcpl.smartSideNav = (($, hrefComparer, window) => {
 			const hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
 			const locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
 
-			if (hrefComparer.isSamePage(hrefWithoutQueryString, locationUrlWithoutQueryString)) {
+			if (urlComparer.isSamePage(hrefWithoutQueryString, locationUrlWithoutQueryString)) {
 				$navLink.addClass('active');
 				return false;
 			}
@@ -45,7 +45,7 @@ bcpl.smartSideNav = (($, hrefComparer, window) => {
 		init,
 		setCurrentPageLinkActive
 	};
-})(jQuery, bcpl.utility.hrefComparer, window);
+})(jQuery, bcpl.utility.urlComparer, window);
 
 $(() => {
 	bcpl.smartSideNav.init();
