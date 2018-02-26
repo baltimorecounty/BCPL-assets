@@ -28,6 +28,8 @@
 				// jQuery since ngAnimate can't do this.
 				const topOfContent = angular.element('.main-content').first().offset().top;
 				vm.postResult = postResult.data;
+				
+				const data = vm.postResult.Data;
 
 				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
