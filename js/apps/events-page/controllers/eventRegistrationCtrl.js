@@ -30,7 +30,8 @@
 				vm.postResult = postResult.data;
 
 				const data = vm.postResult.Data;
-				const hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') &&
+				const hasConfirmationMessage = data && 
+					Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') &&
 					data.ConfirmationMessage.length;
 
 				if (hasConfirmationMessage) {
