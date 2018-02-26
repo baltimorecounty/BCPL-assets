@@ -30,7 +30,7 @@ describe('filterPageCtrl', () => {
 
 		let location;
 
-		beforeEach(inject(function($location) {
+		beforeEach(inject(function locationInjection($location) {
 			location = $location;
 			location.search({});
 		}));
@@ -60,32 +60,32 @@ describe('filterPageCtrl', () => {
 
 			expect(controller.activeFilters).toEqual(['test1', 'test3']);
 		});
-		
+
 		describe('formatKeyName', () => {
 			it('should return an empty string if the does not exist', () => {
 				const actual = controller.formatKeyName(null);
-				
-				expect("").toEqual(actual);
+
+				expect('').toEqual(actual);
 			});
 
 			it('should replace a "-" with a space', () => {
 				const key = 'Library-Card';
 				const actual = controller.formatKeyName(key);
-				
+
 				expect('Library Card').toEqual(actual);
 			});
 
 			it('should replace multiple "-" with multiple spaces', () => {
 				const key = 'My-Library-Card';
 				const actual = controller.formatKeyName(key);
-				
+
 				expect('My Library Card').toEqual(actual);
 			});
 
 			it('should not change the key if there is no "-" in the string', () => {
 				const key = 'LibraryCard';
 				const actual = controller.formatKeyName(key);
-				
+
 				expect(key).toEqual(actual);
 			});
 		});
@@ -94,13 +94,13 @@ describe('filterPageCtrl', () => {
 				{
 					name: 'test',
 					tags: ['tag1', 'tag2'],
-					type: "Many",
+					type: 'Many',
 					filterId: 'test'
 				},
 				{
 					name: 'test1',
 					tags: ['tag3', 'tag4'],
-					type: "Many",
+					type: 'Many',
 					filterId: 'test1'
 				}
 			];
@@ -108,17 +108,17 @@ describe('filterPageCtrl', () => {
 			beforeEach((done) => {
 				controller.filters = mockFilters;
 				done();
-			})
+			});
 
-			it(`should return null if the key is null`, () => {
+			it('should return null if the key is null', () => {
 				const actual = controller.getFilterFamily(null);
-				
+
 				expect(null).toEqual(actual);
 			});
 
-			it(`should return null if there is no match`, () => {
-				const actual = controller.getFilterFamily("test3");
-				
+			it('should return null if there is no match', () => {
+				const actual = controller.getFilterFamily('test3');
+
 				expect(null).toEqual(actual);
 			});
 
@@ -126,7 +126,7 @@ describe('filterPageCtrl', () => {
 				const key = 'test';
 				const actual = controller.getFilterFamily(key);
 				const expected = mockFilters[0];
-				
+
 				expect(expected).toEqual(actual);
 			});
 
@@ -134,11 +134,11 @@ describe('filterPageCtrl', () => {
 				const key = 'test1';
 				const actual = controller.getFilterFamily(key);
 				const expected = mockFilters[1];
-				
+
 				expect(expected).toEqual(actual);
 			});
 		});
-		
+
 		describe('filter updates to the url', () => {
 			const mockFilterValue = 'History';
 			const mockFilterValue2 = 'Biography';
@@ -147,24 +147,23 @@ describe('filterPageCtrl', () => {
 				{
 					name: 'test',
 					tags: ['tag1', 'tag2'],
-					type: "Many",
+					type: 'Many',
 					filterId: 'test'
 				},
 				{
 					name: 'test1',
 					tags: ['tag3', 'tag4'],
-					type: "Many",
+					type: 'Many',
 					filterId: 'test1'
 				}
 			];
 
-			
-			
+
 			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue} to the url when no filters are selected`, () => {
 				controller.updateLocation(mockFilterValue, mockFilters[0]);
 				const actual = location.search();
 				const expected = {};
-				expected[mockFilters[0].filterId] =  mockFilterValue;
+				expected[mockFilters[0].filterId] = mockFilterValue;
 
 				expect(expected).toEqual(actual);
 			});
@@ -172,7 +171,7 @@ describe('filterPageCtrl', () => {
 			it(`should remove the query param ${mockFilters[0].filterId}=${mockFilterValue} that filter is already selected`, () => {
 				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
 				controller.updateLocation(mockFilterValue, mockFilters[0]); // remove
-				
+
 				const actual = location.search();
 				const expected = {};
 
@@ -184,42 +183,42 @@ describe('filterPageCtrl', () => {
 				controller.updateLocation(mockFilterValue2, mockFilters[1]);
 				const actual = location.search();
 				const expected = {};
-				expected[mockFilters[0].filterId] =  mockFilterValue;
-				expected[mockFilters[1].filterId] =  mockFilterValue2;
+				expected[mockFilters[0].filterId] = mockFilterValue;
+				expected[mockFilters[1].filterId] = mockFilterValue2;
 
 				expect(expected).toEqual(actual);
 			});
 
-			
+
 			it(`should add the query param ${mockFilters[0].filterId}=${mockFilterValue},${mockFilterValue2} when both filters are selected and the filter famliy is the same`, () => {
 				controller.updateLocation(mockFilterValue, mockFilters[0]);
 				controller.updateLocation(mockFilterValue2, mockFilters[0]);
 				const actual = location.search();
 				const expected = {};
-				expected[mockFilters[0].filterId] =  `${mockFilterValue},${mockFilterValue2}`;
+				expected[mockFilters[0].filterId] = `${mockFilterValue},${mockFilterValue2}`;
 
 				expect(expected).toEqual(actual);
 			});
 
 			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue2} when ${mockFilterValue} is unselected`, () => {
-				controller.updateLocation(mockFilterValue, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
 				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
-				controller.updateLocation(mockFilterValue, mockFilters[0]); //remove
+				controller.updateLocation(mockFilterValue, mockFilters[0]); // remove
 				const actual = location.search();
 				const expected = {};
-				expected[mockFilters[0].filterId] =  `${mockFilterValue2}`;
+				expected[mockFilters[0].filterId] = `${mockFilterValue2}`;
 
 				expect(expected).toEqual(actual);
 			});
 
 			it(`should remove the query param, ${mockFilterValue}, and persist ${mockFilterValue}, ${mockFilterValue3} when ${mockFilterValue} is unselected`, () => {
-				controller.updateLocation(mockFilterValue3, mockFilters[0]);  //add
+				controller.updateLocation(mockFilterValue3, mockFilters[0]); // add
 				controller.updateLocation(mockFilterValue2, mockFilters[0]); // add
 				controller.updateLocation(mockFilterValue, mockFilters[0]); // add
-				controller.updateLocation(mockFilterValue2, mockFilters[0]); //remove
+				controller.updateLocation(mockFilterValue2, mockFilters[0]); // remove
 				const actual = location.search();
 				const expected = {};
-				expected[mockFilters[0].filterId] =  `${mockFilterValue3},${mockFilterValue}`;
+				expected[mockFilters[0].filterId] = `${mockFilterValue3},${mockFilterValue}`;
 
 				expect(expected).toEqual(actual);
 			});
@@ -227,9 +226,9 @@ describe('filterPageCtrl', () => {
 		describe('getFilterValue', () => {
 			const mockFilterStr = 'History';
 			const mockFilterObj = {
-				Name:"Age",
-				Tag:"Adults",
-				Type:"One"
+				Name: 'Age',
+				Tag: 'Adults',
+				Type: 'One'
 			};
 			it('should return null if there is no value passed in', () => {
 				const actual = controller.getFilterValue();
@@ -276,7 +275,7 @@ describe('filterPageCtrl', () => {
 			controller = $controller('FilterPageCtrl', { $scope: $rootScope.$new() });
 		}));
 
-		it('should return true when an item matches a single filter', () => {			
+		it('should return true when an item matches a single filter', () => {
 			controller.activeFilters = ['test1'];
 
 			expect(controller.filterDataItems(testDataItem)).toBe(true);
@@ -306,5 +305,4 @@ describe('filterPageCtrl', () => {
 			expect(controller.filterDataItems(testDataItem)).toBe(false);
 		});
 	});
-	
 });
