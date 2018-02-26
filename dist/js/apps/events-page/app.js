@@ -529,8 +529,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				vm.postResult = postResult.data;
 
 				var data = vm.postResult.Data;
+				var hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') && data.ConfirmationMessage.length;
 
-				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+				if (hasConfirmationMessage) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
 					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
