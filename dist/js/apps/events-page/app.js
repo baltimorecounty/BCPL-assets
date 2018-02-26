@@ -528,7 +528,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var topOfContent = angular.element('.main-content').first().offset().top;
 				vm.postResult = postResult.data;
 
-				if (data.ConfirmationMessage && data.ConfirmationMessage.length) {
+				var data = vm.postResult.Data;
+				var hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') && data.ConfirmationMessage.length;
+
+				if (hasConfirmationMessage) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
 					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
