@@ -28,6 +28,57 @@ var namespacer = function namespacer(ns) {
 };
 'use strict';
 
+namespacer('bcpl');
+
+bcpl.constants = {
+	// baseApiUrl: 'http://oit226696:3100',
+	baseApiUrl: 'https://testservices.bcpl.info',
+	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
+	baseWebsiteUrl: 'http://staging.bcpl.info',
+	basePageUrl: '/dist',
+	defaultDocument: 'index.html',
+	keyCodes: {
+		enter: 13,
+		escape: 27,
+		upArrow: 38,
+		downArrow: 40,
+		leftArrow: 37,
+		rightArrow: 39,
+		tab: 9,
+		space: 32
+	},
+	breakpoints: {
+		large: 1200,
+		medium: 992,
+		small: 768,
+		xsmall: 480
+	},
+	search: {
+		urls: {
+			materialTypes: '/sebin/y/r/primaryMaterialType.json',
+			catalog: '/polaris/search/searchresults.aspx?term=',
+			events: '/events-and-programs/list.html#!/?term=',
+			website: '/search-results.html?term=',
+			api: '/api/swiftype/site-search',
+			trackClickThrough: '/api/swiftype/track'
+		}
+	},
+	homepage: {
+		urls: {
+			flipper: '/sebin/y/d/homepage-flipper.json',
+			events: '/api/evanced/signup/events'
+		}
+	},
+	shared: {
+		urls: {
+			alerts: '/api/structured-content/alerts',
+			alertNotification: '/api/structured-content/alerts-notification',
+			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
+		}
+	}
+};
+'use strict';
+
 namespacer('bcpl.utility');
 
 bcpl.utility.flexDetect = function (document, $) {
@@ -214,6 +265,82 @@ if (!String.prototype.endsWith) {
 
 namespacer('bcpl.utility');
 
+bcpl.utility.urlComparer = function (constants) {
+	var hrefEndingTypes = {
+		fileName: 0,
+		slash: 1,
+		folderName: 2
+	};
+
+	var getEndingType = function getEndingType(href) {
+		var hrefParts = href.split('/');
+		var lastHrefPart = hrefParts[hrefParts.length - 1];
+		var lastPeriodIndex = lastHrefPart.lastIndexOf('.');
+		var lastSlashIndex = lastHrefPart.lastIndexOf('/');
+
+		if (lastHrefPart === '') {
+			return hrefEndingTypes.slash;
+		}
+
+		if (lastPeriodIndex > -1 && lastPeriodIndex > lastSlashIndex) {
+			return hrefEndingTypes.fileName;
+		}
+
+		return hrefEndingTypes.folderName;
+	};
+
+	var isSamePage = function isSamePage(navHref, locationHref) {
+		var navLinkEndingType = getEndingType(navHref);
+		var locationEndingType = getEndingType(locationHref);
+
+		if (navLinkEndingType === locationEndingType) {
+			return locationHref.endsWith(navHref);
+		}
+
+		switch (locationEndingType) {
+			case hrefEndingTypes.folderName:
+				return removeFilenameAndTrailingSlash(navHref, navLinkEndingType).endsWith(locationHref);
+			case hrefEndingTypes.slash:
+				return (removeFilenameAndTrailingSlash(navHref, navLinkEndingType) + '/').endsWith(locationHref);
+			default:
+				return navHref.endsWith(locationHref);
+		}
+	};
+
+	var removeFilenameAndTrailingSlash = function removeFilenameAndTrailingSlash(url, endingType) {
+		var urlParts = url.split('/');
+		var urlPartsLength = urlParts.length;
+		var isIndexPage = urlParts[urlParts.length - 1].toLowerCase() === constants.defaultDocument;
+
+		if (endingType === hrefEndingTypes.folderName) {
+			return url;
+		}
+
+		if (urlPartsLength > 0 && endingType === hrefEndingTypes.fileName && !isIndexPage) {
+			return url;
+		}
+
+		switch (urlPartsLength) {
+			case 0:
+				return ''; // this should never happen, but let's compensate just in case
+			case 1:
+				return urlParts[0]; // this means we just have a filename or foldername
+			default:
+				return Array.prototype.join.call(urlParts.slice(0, urlParts.length - 1), '/'); // removes filename and trailing slash
+		}
+	};
+
+	return {
+		isSamePage: isSamePage,
+		getEndingType: getEndingType,
+		removeFilenameAndTrailingSlash: removeFilenameAndTrailingSlash,
+		hrefEndingTypes: hrefEndingTypes
+	};
+}(bcpl.constants);
+'use strict';
+
+namespacer('bcpl.utility');
+
 bcpl.utility.windowShade = function ($) {
 	var windowShadeSelector = '#window-shade';
 	var timeout = void 0;
@@ -234,56 +361,6 @@ bcpl.utility.windowShade = function ($) {
 		cycle: cycle
 	};
 }(jQuery);
-'use strict';
-
-namespacer('bcpl');
-
-bcpl.constants = {
-	// baseApiUrl: 'http://oit226696:3100',
-	baseApiUrl: 'https://testservices.bcpl.info',
-	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'http://staging.bcpl.info',
-	basePageUrl: '/dist',
-	keyCodes: {
-		enter: 13,
-		escape: 27,
-		upArrow: 38,
-		downArrow: 40,
-		leftArrow: 37,
-		rightArrow: 39,
-		tab: 9,
-		space: 32
-	},
-	breakpoints: {
-		large: 1200,
-		medium: 992,
-		small: 768,
-		xsmall: 480
-	},
-	search: {
-		urls: {
-			materialTypes: '/sebin/y/r/primaryMaterialType.json',
-			catalog: '/polaris/search/searchresults.aspx?term=',
-			events: '/events-and-programs/list.html#!/?term=',
-			website: '/search-results.html?term=',
-			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track'
-		}
-	},
-	homepage: {
-		urls: {
-			flipper: '/sebin/y/d/homepage-flipper.json',
-			events: '/api/evanced/signup/events'
-		}
-	},
-	shared: {
-		urls: {
-			alerts: '/api/structured-content/alerts',
-			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
-		}
-	}
-};
 'use strict';
 
 namespacer('bcpl');
@@ -1295,7 +1372,7 @@ bcpl.slideDownNav = function ($) {
 
 namespacer('bcpl');
 
-bcpl.smartSideNav = function ($, window) {
+bcpl.smartSideNav = function ($, urlComparer, window) {
 	var navLinksSelector = '.secondary-nav nav ul li a';
 	var activeWindow = window;
 
@@ -1313,7 +1390,7 @@ bcpl.smartSideNav = function ($, window) {
 			var hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
 			var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
 
-			if (locationUrlWithoutQueryString.endsWith(hrefWithoutQueryString)) {
+			if (urlComparer.isSamePage(hrefWithoutQueryString, locationUrlWithoutQueryString)) {
 				$navLink.addClass('active');
 				return false;
 			}
@@ -1336,7 +1413,7 @@ bcpl.smartSideNav = function ($, window) {
 		init: init,
 		setCurrentPageLinkActive: setCurrentPageLinkActive
 	};
-}(jQuery, window);
+}(jQuery, bcpl.utility.urlComparer, window);
 
 $(function () {
 	bcpl.smartSideNav.init();

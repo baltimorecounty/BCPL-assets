@@ -6,6 +6,7 @@ bcpl.constants = {
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
 	baseWebsiteUrl: 'http://staging.bcpl.info',
 	basePageUrl: '/dist',
+	defaultDocument: 'index.html',
 	keyCodes: {
 		enter: 13,
 		escape: 27,

@@ -33,8 +33,8 @@ module.exports = function(config) {
 		{ pattern: 'data/**/*.json', included: false, served: true, watched: false },
 		{ pattern: 'test/**/*.fixture.html', included: false, served: true, watched: false },
 		'js/utility/namespacer.js',
-		'js/utility/*.js',
 		'js/constants.js',
+		'js/utility/*.js',
 		'js/page-specific/**/*.js',
 		'js/apps/**/*.js',
 		'js/*.js',
@@ -72,7 +72,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage', 'coveralls'],
+    reporters: ['dots', 'coverage', 'coveralls'],
 
 	coverageReporter: {
 		type : 'lcovonly',
