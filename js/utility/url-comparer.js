@@ -32,13 +32,13 @@ bcpl.utility.urlComparer = ((constants) => {
 			return locationHref.endsWith(navHref);
 		}
 
-		switch (navLinkEndingType) {
+		switch (locationEndingType) {
 		case hrefEndingTypes.folderName:
-			return removeFilenameAndTrailingSlash(locationHref, locationEndingType).endsWith(navHref);
+			return removeFilenameAndTrailingSlash(navHref, navLinkEndingType).endsWith(locationHref);
 		case hrefEndingTypes.slash:
-			return `${removeFilenameAndTrailingSlash(locationHref, locationEndingType)}/`.endsWith(navHref);
+			return `${removeFilenameAndTrailingSlash(navHref, navLinkEndingType)}/`.endsWith(locationHref);
 		default:
-			return locationHref.endsWith(navHref);
+			return navHref.endsWith(locationHref);
 		}
 	};
 
