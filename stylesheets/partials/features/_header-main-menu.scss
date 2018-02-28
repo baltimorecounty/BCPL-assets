@@ -316,7 +316,7 @@
 
 .internal {
 	.menu-wrapper {
-		margin: 0;
+		margin: -2px 0 0 0;
 		background: url("/sebin/x/s/background-internal-header.jpg") repeat-x;
 		background-position-y: 10%;
 		.menu-inner-wrapper {
@@ -404,7 +404,6 @@
 	}
 	.internal {
 		.menu-wrapper {
-			margin-top: 0;
 			.menu-inner-wrapper {
 				padding: 20px 0;
 			}
@@ -430,7 +429,6 @@
 
 	.menu-wrapper {
 		position: static;
-		margin-top: -2px;
 		padding-top: 1em;
 		background: $teal;
 		.nav-and-search {
