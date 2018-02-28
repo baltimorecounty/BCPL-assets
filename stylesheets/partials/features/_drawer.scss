@@ -68,25 +68,25 @@ $drawer-border: 3px solid $gray-lightest;
 			border: none;
 		}		
 	}
-	.drawer-link-list, 
+
 	.drawer-link-list > li {
 		border-style: solid;
-  		border-color: rgba(0,0,0,.3);
+  		border-color: $gray-lightest;
 	}
 
 	.drawer-link-list {
-		border-width: 1px 0 0 1px;
 		display: flex !important;
 	}
 
 	.drawer-link-list > li {
-		border-width: 0 1px 1px 0;
+		border-width: 3px;
+		border-radius: 15px;
+		margin: 10px;
 	}
 
 	.drawer-link-list li {
-		margin: 0;
 		text-align: center;
-		flex: 0 33.33333333333% !important;
+		flex: 0 30% !important;
 		
 		a,
 		span {
@@ -111,8 +111,15 @@ $drawer-border: 3px solid $gray-lightest;
 		display: inline-block;
 	}
 }
+
+@media screen and (max-width: $screen-sm) {
+	.drawer-link-list li {
+		flex: 0 45% !important;
+	}
+}
+
 @media screen and (max-width: $screen-xs) {
 	.drawer-link-list li {
-		flex: 0 50% !important;
+		flex: 0 100% !important;
 	}
 }
