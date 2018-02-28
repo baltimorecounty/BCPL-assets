@@ -1,0 +1,41 @@
+.card--blog {
+	display: flex;
+
+	h2 {
+        margin-top: 0;
+	}
+	
+    .card-content-img,
+    .card-content,
+    .card-icon-callout {
+        padding: 15px;
+	}
+	
+    .card-content-img-container {
+        text-align: center;
+        width: 15%;
+        .card-content-img {
+            max-width: 80%;
+            width: 100%;
+        }
+	}
+	
+    .card-content {
+        width: 70%;
+	}
+	
+    .card-icon-callout {
+        color: $gray-lightest;
+        text-align: center;
+		width: 15%;
+		
+        i {
+			display: block;
+			
+			/* HACK - Site Executive requires a 'i' element to have content which causes the alignment to get funky */
+            span {
+                display: none;
+            }
+        }
+    }
+}
