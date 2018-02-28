@@ -1,4 +1,4 @@
 node_modules
 rewrite.config
-**/web.config
+dist/web.config
 **/lcov.info
