@@ -12,8 +12,17 @@ bcpl.scrollToTop = (($) => {
 		}, scrollSpeed);
 	};
 
+	const windowScrollHandler = () => {
+		if (window.pageYOffset === 0) {
+			$(backToTopButtonSelector).hide();
+		} else {
+			$(backToTopButtonSelector).show();
+		}
+	};
+
 	const init = () => {
 		$(document).on('click', backToTopButtonSelector, scrollToTopHandler);
+		$(window).on('scroll', _.debounce(windowScrollHandler, 100));
 	};
 
 	return {
