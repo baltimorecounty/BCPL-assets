@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.scrollToTop = (($) => {
+bcpl.scrollToTop = (($, window, _) => {
 	const backToTopButtonSelector = '#scroll-to-top';
 	const bodyHtmlSelector = 'body, html';
 	const scrollSpeed = 250;
@@ -28,6 +28,6 @@ bcpl.scrollToTop = (($) => {
 	return {
 		init
 	};
-})(jQuery);
+})(jQuery, window, _);
 
 $(() => bcpl.scrollToTop.init());
