@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.scrollToTop = (($) => {
+bcpl.scrollToTop = (($, window, _) => {
 	const backToTopButtonSelector = '#scroll-to-top';
 	const bodyHtmlSelector = 'body, html';
 	const scrollSpeed = 250;
@@ -12,13 +12,22 @@ bcpl.scrollToTop = (($) => {
 		}, scrollSpeed);
 	};
 
+	const windowScrollHandler = () => {
+		if (window.pageYOffset === 0) {
+			$(backToTopButtonSelector).hide();
+		} else {
+			$(backToTopButtonSelector).show();
+		}
+	};
+
 	const init = () => {
 		$(document).on('click', backToTopButtonSelector, scrollToTopHandler);
+		$(window).on('scroll', _.debounce(windowScrollHandler, 100));
 	};
 
 	return {
 		init
 	};
-})(jQuery);
+})(jQuery, window, _);
 
 $(() => bcpl.scrollToTop.init());

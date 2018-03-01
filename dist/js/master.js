@@ -1197,7 +1197,7 @@ bcpl.navigation = function ($, keyCodes) {
 
 namespacer('bcpl');
 
-bcpl.scrollToTop = function ($) {
+bcpl.scrollToTop = function ($, window, _) {
 	var backToTopButtonSelector = '#scroll-to-top';
 	var bodyHtmlSelector = 'body, html';
 	var scrollSpeed = 250;
@@ -1209,14 +1209,23 @@ bcpl.scrollToTop = function ($) {
 		}, scrollSpeed);
 	};
 
+	var windowScrollHandler = function windowScrollHandler() {
+		if (window.pageYOffset === 0) {
+			$(backToTopButtonSelector).hide();
+		} else {
+			$(backToTopButtonSelector).show();
+		}
+	};
+
 	var init = function init() {
 		$(document).on('click', backToTopButtonSelector, scrollToTopHandler);
+		$(window).on('scroll', _.debounce(windowScrollHandler, 100));
 	};
 
 	return {
 		init: init
 	};
-}(jQuery);
+}(jQuery, window, _);
 
 $(function () {
 	return bcpl.scrollToTop.init();
