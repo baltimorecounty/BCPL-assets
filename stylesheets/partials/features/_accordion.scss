@@ -35,13 +35,7 @@
 }
 
 @media (max-width: $screen-md) {
-    .content-accordion {
-        .panel {
-            .content-accordion-body {
-                .wrapper {
-                    padding: 0;
-                }
-            }
-        }
+    .content-accordion .panel .content-accordion-body .wrapper {
+        padding: 1em;
     }
 }
