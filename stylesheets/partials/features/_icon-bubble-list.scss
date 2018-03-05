@@ -21,7 +21,11 @@
 			flex: 1;
 
 			i {
-				margin-bottom: .5em;
+                margin-bottom: .5em;
+                
+                span {
+                    display: none;
+                }
 			}
 
 			a {
