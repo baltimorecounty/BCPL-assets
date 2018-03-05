@@ -245,6 +245,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
 						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 						response.data.isStarted = moment(response.data.EventStart).isBefore();
+						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
 
 						response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
 						response.data.isFull = response.data.MainSpotsAvailable === 0;
