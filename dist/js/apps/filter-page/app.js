@@ -338,12 +338,10 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('filterPageApp'));
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($location, $scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var vm = this;
 
 		vm.activeFilters = [];
@@ -357,85 +355,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    */
 		vm.setFilter = function (filter, filterFamily) {
 			setActiveFilters(filter, filterFamily);
-			updateLocation(filter, filterFamily);
 			cycleDisplay();
 		};
 
 		vm.clearFilters = function () {
 			vm.activeFilters = [];
-			clearQueryPararms();
 			cycleDisplay();
 		};
 
 		/* Private */
 
-		var buildFilterQueryString = function buildFilterQueryString(targetQueryParam, filterVal) {
-			var queryParamHasValue = Object.prototype.hasOwnProperty.call(targetQueryParam, 'val') && targetQueryParam.val;
-			var doesQueryParamMatchFilter = queryParamHasValue ? targetQueryParam.val.toLowerCase().indexOf(filterVal.toLowerCase()) > -1 : false;
-
-			if (doesQueryParamMatchFilter) {
-				var doesQueryHaveMultipleValues = queryParamHasValue ? targetQueryParam.val.indexOf(',') > -1 : false;
-
-				if (!doesQueryHaveMultipleValues) return null; // Filters match, we want it from the url
-
-				var filters = getFiltersFromString(targetQueryParam.val);
-				var updatedFilterList = [];
-
-				filters.forEach(function (urlFilter) {
-					if (urlFilter.toLowerCase() !== filterVal.toLowerCase()) {
-						updatedFilterList.push(urlFilter);
-					}
-				});
-
-				return updatedFilterList.join(',');
-			}
-
-			return targetQueryParam.val ? targetQueryParam.val + ',' + filterVal : filterVal || null;
-		};
-
-		//TODO: remove this in favor of the shared filter-helper.service.js
-		var clearQueryPararms = function clearQueryPararms() {
-			return $location.search({});
-		};
-
-		var getFilterValue = function getFilterValue(filter) {
-			return filter && Object.prototype.hasOwnProperty.call(filter, 'Tag') ? filter.Tag : filter || null;
-		};
-
-		var getQueryParamObject = function getQueryParamObject(filterFamily, queryParams) {
-			var isFilterFamilyAnObject = filterFamily && (typeof filterFamily === 'undefined' ? 'undefined' : _typeof(filterFamily)) === 'object';
-			var filterKey = isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'filterId') ? filterFamily.filterId : isFilterFamilyAnObject && Object.prototype.hasOwnProperty.call(filterFamily, 'Name') ? filterFamily.Name : filterFamily || null;
-
-			return {
-				key: filterKey,
-				val: getValueFromObject(queryParams, filterKey)
-			};
-		};
-
-		var getValueFromObject = function getValueFromObject(obj, key) {
-			return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' ? obj[key] || null : null;
-		};
-
-		var updateLocation = function updateLocation(filter, filterFamily) {
-			var filterVal = getFilterValue(filter);
-
-			if (!filterVal) return;
-
-			var queryParams = $location.search();
-			var targetQueryParam = getQueryParamObject(filterFamily, queryParams);
-			var updatedQueryParamVal = buildFilterQueryString(targetQueryParam, filterVal);
-
-			$location.search(targetQueryParam.key, updatedQueryParamVal);
-		};
-
 		var cycleDisplay = function cycleDisplay() {
 			var resultsDisplayElement = document.getElementById('results-display');
 			$animate.addClass(resultsDisplayElement, 'fade-out');
-
-			if (vm.allCardData && vm.allCardData.length) {
-				vm.items = vm.allCardData.filter(filterDataItems);
-			}
-
+			vm.items = vm.allCardData.filter(filterDataItems);
 			angular.element(resultsDisplayElement).trigger('bcpl.filter.changed', { items: vm.items });
 			bcpl.utility.windowShade.cycle(250, 2000);
 			$timeout(function () {
@@ -449,7 +382,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * @param {[string]} filters
    * @param {[*]} branchData
    */
-		var loadCardsAndFilters = function loadCardsAndFilters(cardData, callback) {
+		var loadCardsAndFilters = function loadCardsAndFilters(cardData) {
 			if (!cardData.length) {
 				return;
 			}
@@ -461,10 +394,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 			$scope.$apply();
-
-			if (callback && typeof callback === 'function') {
-				callback();
-			}
 		};
 
 		/**
@@ -546,75 +475,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		var formatKeyName = function formatKeyName(key) {
-			return !key ? "" : key.replace(/-/g, " ");
-		};
+		cardService.get(loadCardsAndFilters);
 
-		var getFilterFamily = function getFilterFamily(key) {
-			var formattedKeyName = formatKeyName(key);
-			var filterFamliy = vm.filters.filter(function (filter) {
-				return formattedKeyName.toLowerCase() === filter.name.toLowerCase();
-			});
-
-			return filterFamliy.length ? filterFamliy[0] : null;
-		};
-
-		// TODO: remove this and use the shared filter helper service
-		var getFiltersFromString = function getFiltersFromString(filterStr) {
-			if (!filterStr) return [];
-
-			var containsMultipleFilters = filterStr && filterStr.indexOf(',') > -1;
-
-			return containsMultipleFilters ? filterStr.split(',') : [filterStr];
-		};
-
-		var resetMap = function resetMap() {
-			setTimeout(function () {
-				var filteredItems = {
-					items: $scope.filteredItems
-				};
-				angular.element('#results-display').trigger('bcpl.filter.changed', filteredItems);
-			}, 250);
-		};
-
-		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
-			var queryParams = $location.search();
-
-			if (Object.keys(queryParams).length) {
-				Object.keys(queryParams).forEach(function (key) {
-					var filterStr = queryParams[key];
-					var filters = getFiltersFromString(filterStr);
-					var filterFamily = getFilterFamily(key);
-
-					vm.activeFilters = [];
-
-					filters.forEach(function (filter) {
-						setActiveFilters(filter, filterFamily);
-					});
-				});
-
-				resetMap();
-			} else {
-				vm.clearFilters();
-			}
-		};
-
-		var init = function init() {
-			cardService.get(function (data) {
-				loadCardsAndFilters(data, setFiltersBasedOnQueryParams);
-			});
-		};
-
-
-		$scope.$on('$locationChangeSuccess', function () {
-			setFiltersBasedOnQueryParams();
-			cycleDisplay();
-		});
-
-		init();
 	};
 
-	FilterPageCtrl.$inject = ['$location', '$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
