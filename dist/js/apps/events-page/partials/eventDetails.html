@@ -45,6 +45,11 @@
 				</strong>
 			</p>
 	
+			<p ng-if="!eventDetailsPage.data.isRegistrationWindow && !response.data.isStarted">
+				You may register for this event between <strong>{{eventDetailsPage.data.registrationStartsDisplay}}</strong> 
+				and <strong>{{eventDetailsPage.data.registrationEndsDisplay}}</strong>
+			</p>
+
 			<p class="registration-required" ng-show="eventDetailsPage.data.shouldDisplayRegistrationButton">
 				<a href="#!/register/{{eventDetailsPage.data.EventId}}" 
 					class="btn-primary btn-uppercase-bold" 
