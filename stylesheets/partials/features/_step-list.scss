@@ -35,8 +35,14 @@ $divider-color: blue;
 				max-width: 75%;
 				margin: 0;
 				padding: 0;
-				position: relative;
-			}
+                position: relative;
+                
+                
+            }
+            
+            &:last-child {
+                margin-bottom: 20px;
+            }
 
 			&:before {
 				background: $number-background-color;
