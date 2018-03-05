@@ -52,6 +52,12 @@
     .blog-widget-item {
         flex: 0 100%;
     }
+    .blog-posts-header {
+        display: block;
+    }
+    .branding {
+        margin-bottom: 15px !important;
+    }
 }
 
 @media screen and (max-width: $screen-xs) {
