@@ -433,7 +433,7 @@
 		background: $teal;
 		.nav-and-search {
             padding: 0;
-            margin-top: -8px;
+            margin-top: -8px !important;
 
 			.search-button-container {
 				text-align: right;
@@ -656,7 +656,7 @@
 		.menu-container {
 			.logo {
 				img {
-					max-width: 225px;
+					max-width: 200px;
 				}
 			}
 			.nav-and-search {
