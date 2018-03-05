@@ -16,11 +16,16 @@
 			padding: 1em;
 			display: flex;
 			flex-direction: column;
-			align-items: center;
+            align-items: center;
+            text-align: center;
 			flex: 1;
 
 			i {
-				margin-bottom: .5em;
+                margin-bottom: .5em;
+                
+                span {
+                    display: none;
+                }
 			}
 
 			a {
