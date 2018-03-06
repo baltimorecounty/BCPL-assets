@@ -45,6 +45,16 @@
 				</strong>
 			</p>
 	
+			<p class="registration-required" ng-if="eventDetailsPage.data.requiresRegistration && !eventDetailsPage.data.isRegistrationWindow && !eventDetailsPage.data.isRegistrationClosed">
+				<i class="fa fa-star" aria-hidden="true"></i> 
+				Registration for this event begins on <strong>{{eventDetailsPage.data.registrationStartsDisplay}}</strong>
+			</p>
+
+			<p class="registration-required" ng-if="eventDetailsPage.data.requiresRegistration && eventDetailsPage.data.isRegistrationClosed">
+				<i class="fa fa-star" aria-hidden="true"></i> 
+				Registration for this event has closed.
+			</p>
+
 			<p class="registration-required" ng-show="eventDetailsPage.data.shouldDisplayRegistrationButton">
 				<a href="#!/register/{{eventDetailsPage.data.EventId}}" 
 					class="btn-primary btn-uppercase-bold" 

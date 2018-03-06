@@ -56,7 +56,18 @@
 								response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 							}
 
+							const momentDateFormat = 'M/D/YYYY @ h:mm a';
+
+							// Since moment().subtract() mutates the date rather than returning a new date,
+							// we need to calculate the date fresh every time.
+							response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
+							response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
+							response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
+							response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 							response.data.isStarted = moment(response.data.EventStart).isBefore();
+							response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
+
+							response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
 							response.data.isFull = response.data.MainSpotsAvailable === 0;
 							response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
 							response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
@@ -88,6 +99,7 @@
 
 		const shouldDisplayRegistrationButton = eventData => {
 			return !eventData.isStarted &&
+				eventData.isRegistrationWindow &&
 				eventData.requiresRegistration &&
 				(!eventData.isFull || (eventData.isFull && eventData.isWaiting));
 		};
