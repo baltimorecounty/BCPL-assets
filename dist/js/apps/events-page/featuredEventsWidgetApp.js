@@ -157,11 +157,11 @@
 		// baseUrl: 'http://oit226696:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
-			eventRegistration: '/api/evanced/signup/registration'
+			eventRegistration: '/api/evanced/signup/registration',
+			eventTypes: '/api/evanced/signup/eventtypes'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
-			eventTypes: 'https://bcpl.evanced.info/api/signup/eventtypes',
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {
