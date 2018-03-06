@@ -1204,6 +1204,7 @@ bcpl.scrollToTop = function ($, window, _) {
 	var backToTopButtonSelector = '#scroll-to-top';
 	var bodyHtmlSelector = 'body, html';
 	var scrollSpeed = 250;
+	var fadingSpeed = 200;
 	var topScrollPosition = 0;
 
 	var scrollToTopHandler = function scrollToTopHandler() {
@@ -1214,9 +1215,9 @@ bcpl.scrollToTop = function ($, window, _) {
 
 	var windowScrollHandler = function windowScrollHandler() {
 		if (window.pageYOffset === 0) {
-			$(backToTopButtonSelector).hide();
+			$(backToTopButtonSelector).fadeOut(fadingSpeed);
 		} else {
-			$(backToTopButtonSelector).show();
+			$(backToTopButtonSelector).fadeIn(fadingSpeed);
 		}
 	};
 

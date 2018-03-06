@@ -4,6 +4,7 @@ bcpl.scrollToTop = (($, window, _) => {
 	const backToTopButtonSelector = '#scroll-to-top';
 	const bodyHtmlSelector = 'body, html';
 	const scrollSpeed = 250;
+	const fadingSpeed = 200;
 	const topScrollPosition = 0;
 
 	const scrollToTopHandler = () => {
@@ -14,9 +15,9 @@ bcpl.scrollToTop = (($, window, _) => {
 
 	const windowScrollHandler = () => {
 		if (window.pageYOffset === 0) {
-			$(backToTopButtonSelector).hide();
+			$(backToTopButtonSelector).fadeOut(fadingSpeed);
 		} else {
-			$(backToTopButtonSelector).show();
+			$(backToTopButtonSelector).fadeIn(fadingSpeed);
 		}
 	};
 
