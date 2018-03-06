@@ -123,7 +123,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 	var constants = {
 		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'http://oit226696:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration'
