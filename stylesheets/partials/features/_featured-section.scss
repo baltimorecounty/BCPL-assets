@@ -9,3 +9,9 @@
         text-align: right;
     }
 }
+
+@media screen and (max-width: $screen-md) {
+    .featured-section .featured-section-cta-container {
+        text-align: left !important;
+    }
+}
