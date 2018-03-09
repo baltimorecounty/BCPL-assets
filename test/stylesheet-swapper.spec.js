@@ -79,26 +79,41 @@ describe('Stylesheet swapper', () => {
 			const expected = '/example/test-swapped.css';
 
 			const newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
+			const actual = newLinkTag.attributes.href.value;
 
-			expect(newLinkTag.attributes.href.value).toBe(expected);
+			expect(actual).toBe(expected);
+		});
+
+
+		it('should swap links back to the original when run twice', () => {
+			const targetHref = '/example/test2.css';
+			const newHref = '/example/test-swapped.css';
+			const expected = '/example/test2.css';
+
+			let newLinkTag;
+			newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, newHref);
+			newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, newHref);
+			const actual = newLinkTag.attributes.href.value;
+
+			expect(actual).toBe(expected);
 		});
 
 		it('should return null when provided a falsy targetHref', () => {
 			const targetHref = undefined;
 			const expected = null;
 
-			const newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
+			const actual = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
 
-			expect(newLinkTag).toBe(expected);
+			expect(actual).toBe(expected);
 		});
 
 		it('should return null when provided a falsy newHref', () => {
 			const targetHref = '/example/test2.css';
 			const expected = null;
 
-			const newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
+			const actual = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
 
-			expect(newLinkTag).toBe(expected);
+			expect(actual).toBe(expected);
 		});
 	});
 });

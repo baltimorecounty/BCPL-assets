@@ -1460,11 +1460,18 @@ bcpl.stylesheetSwapper = function ($) {
 			return null;
 		}
 
-		var linkTag = getLinkTagByHref(targetHref);
+		var firstLinkTag = getLinkTagByHref(targetHref);
+		var secondLinkTag = getLinkTagByHref(newHref);
 
-		if (linkTag && linkTag.attributes && linkTag.attributes.href) {
-			linkTag.attributes.href.value = newHref;
+		if (firstLinkTag) {
+			$(firstLinkTag).attr('href', newHref);
 		}
+
+		if (secondLinkTag) {
+			$(secondLinkTag).attr('href', targetHref);
+		}
+
+		var linkTag = firstLinkTag || secondLinkTag;
 
 		return linkTag;
 	};

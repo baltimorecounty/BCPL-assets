@@ -20,11 +20,18 @@ bcpl.stylesheetSwapper = (($) => {
 			return null;
 		}
 
-		const linkTag = getLinkTagByHref(targetHref);
+		const firstLinkTag = getLinkTagByHref(targetHref);
+		const secondLinkTag = getLinkTagByHref(newHref);
 
-		if (linkTag && linkTag.attributes && linkTag.attributes.href) {
-			linkTag.attributes.href.value = newHref;
+		if (firstLinkTag) {
+			$(firstLinkTag).attr('href', newHref);
 		}
+
+		if (secondLinkTag) {
+			$(secondLinkTag).attr('href', targetHref);
+		}
+
+		const linkTag = firstLinkTag || secondLinkTag;
 
 		return linkTag;
 	};
