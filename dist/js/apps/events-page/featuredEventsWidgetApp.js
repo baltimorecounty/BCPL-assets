@@ -57,7 +57,18 @@
 							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 						}
 
+						var momentDateFormat = 'M/D/YYYY @ h:mm a';
+
+						// Since moment().subtract() mutates the date rather than returning a new date,
+						// we need to calculate the date fresh every time.
+						response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
+						response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
+						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
+						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 						response.data.isStarted = moment(response.data.EventStart).isBefore();
+						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
+
+						response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
 						response.data.isFull = response.data.MainSpotsAvailable === 0;
 						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
 						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
@@ -90,7 +101,7 @@
 		};
 
 		var shouldDisplayRegistrationButton = function shouldDisplayRegistrationButton(eventData) {
-			return !eventData.isStarted && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
+			return !eventData.isStarted && eventData.isRegistrationWindow && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
 		};
 
 		var formatFeaturedEvents = function formatFeaturedEvents(events) {
@@ -143,14 +154,14 @@
 
 	var constants = {
 		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'http://oit226696:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
-			eventRegistration: '/api/evanced/signup/registration'
+			eventRegistration: '/api/evanced/signup/registration',
+			eventTypes: '/api/evanced/signup/eventtypes'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
-			eventTypes: 'https://bcpl.evanced.info/api/signup/eventtypes',
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {

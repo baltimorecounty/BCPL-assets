@@ -1,12 +1,5 @@
-.blog-wrapper {
-	margin: 2em 15px;
-}
 .blog-widget-container {
     background: white;
-	
-	a {
-		text-decoration: underline;
-	}
 }
 
 .blog-widget {
@@ -54,6 +47,13 @@
 @media screen and (max-width: $screen-sm) {
     .blog-widget-item {
         flex: 0 100%;
+    }
+    .blog-posts-header {
+        display: block;
+
+        .branding {
+            margin-bottom: 15px !important;
+        }
     }
 }
 

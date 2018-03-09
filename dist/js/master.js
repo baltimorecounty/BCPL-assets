@@ -540,10 +540,13 @@ bcpl.bookCarousel = function ($, constants) {
 	var cleanHtml = function cleanHtml(index, element, $images, $links) {
 		var $image = $images.eq(index);
 		var $link = $links.eq(index);
+		var $imageLink = $link.clone();
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
 
-		return $('<div class="inner"></div>').append($image).append($link);
+		$imageLink.text('').append($image);
+
+		return $('<div class="inner"></div>').append($imageLink).append($link);
 	};
 
 	var init = function init() {
@@ -1197,10 +1200,11 @@ bcpl.navigation = function ($, keyCodes) {
 
 namespacer('bcpl');
 
-bcpl.scrollToTop = function ($) {
+bcpl.scrollToTop = function ($, window, _) {
 	var backToTopButtonSelector = '#scroll-to-top';
 	var bodyHtmlSelector = 'body, html';
 	var scrollSpeed = 250;
+	var fadingSpeed = 200;
 	var topScrollPosition = 0;
 
 	var scrollToTopHandler = function scrollToTopHandler() {
@@ -1209,14 +1213,23 @@ bcpl.scrollToTop = function ($) {
 		}, scrollSpeed);
 	};
 
+	var windowScrollHandler = function windowScrollHandler() {
+		if (window.pageYOffset === 0) {
+			$(backToTopButtonSelector).fadeOut(fadingSpeed);
+		} else {
+			$(backToTopButtonSelector).fadeIn(fadingSpeed);
+		}
+	};
+
 	var init = function init() {
 		$(document).on('click', backToTopButtonSelector, scrollToTopHandler);
+		$(window).on('scroll', _.debounce(windowScrollHandler, 100));
 	};
 
 	return {
 		init: init
 	};
-}(jQuery);
+}(jQuery, window, _);
 
 $(function () {
 	return bcpl.scrollToTop.init();

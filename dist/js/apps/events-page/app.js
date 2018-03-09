@@ -123,14 +123,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 	var constants = {
 		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'http://oit226696:3100',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
-			eventRegistration: '/api/evanced/signup/registration'
+			eventRegistration: '/api/evanced/signup/registration',
+			eventTypes: '/api/evanced/signup/eventtypes'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
-			eventTypes: 'https://bcpl.evanced.info/api/signup/eventtypes',
 			locations: 'https://bcpl.evanced.info/api/signup/locations'
 		},
 		templateUrls: {
@@ -236,7 +236,18 @@ bcpl.boostrapCollapseHelper = function ($) {
 							response.data.Description = response.data.Description.replace(/<[\w/]+>/g, '');
 						}
 
+						var momentDateFormat = 'M/D/YYYY @ h:mm a';
+
+						// Since moment().subtract() mutates the date rather than returning a new date,
+						// we need to calculate the date fresh every time.
+						response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
+						response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
+						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
+						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 						response.data.isStarted = moment(response.data.EventStart).isBefore();
+						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
+
+						response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
 						response.data.isFull = response.data.MainSpotsAvailable === 0;
 						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
 						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
@@ -269,7 +280,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		};
 
 		var shouldDisplayRegistrationButton = function shouldDisplayRegistrationButton(eventData) {
-			return !eventData.isStarted && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
+			return !eventData.isStarted && eventData.isRegistrationWindow && eventData.requiresRegistration && (!eventData.isFull || eventData.isFull && eventData.isWaiting);
 		};
 
 		var formatFeaturedEvents = function formatFeaturedEvents(events) {
@@ -563,12 +574,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, CONSTANTS, eventsService, filterHelperService, metaService) {
-
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService) {
 		var vm = this;
 		var firstPage = 1;
-		var startDateLocaleString = moment().format();
-		var endDate = moment().add(30, 'd');
+		var startDateLocaleString = $window.moment().format();
+		var endDate = $window.moment().add(30, 'd');
 		var endDateLocaleString = endDate.format();
 		var requestModel = {
 			StartDate: startDateLocaleString,
@@ -674,7 +684,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
-		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest(error) {
+		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest() {
 			vm.isLoading = false;
 			vm.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
@@ -755,7 +765,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var isDateRangeValid = function isDateRangeValid(firstDate, secondDate) {
 			if (firstDate && secondDate) {
-				return moment(firstDate).isSameOrBefore(secondDate);
+				return $window.moment(firstDate).isSameOrBefore(secondDate);
 			}
 
 			return false;
@@ -763,7 +773,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var isSameDay = function isSameDay(day1Date, day2Date) {
 			if (day1Date && day2Date) {
-				return moment(day1Date).isSame(day2Date, 'day');
+				return $window.moment(day1Date).isSame(day2Date, 'day');
 			}
 
 			return false;
@@ -791,7 +801,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var getKeywords = function getKeywords() {
-			return $location.search().term && $location.search().term.length ? $location.search().term : "";
+			return $location.search().term && $location.search().term.length ? $location.search().term : '';
 		};
 
 		/* ** Init ** */
@@ -799,7 +809,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		var getFilterId = function getFilterId(filterType, val) {
-			if (!val) return;
+			if (!val) return -1;
 
 			var filterTypeExists = Object.prototype.hasOwnProperty.call(vm.data, filterType);
 
@@ -814,7 +824,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return matchedFilters.length ? matchedFilters[0].Id : null;
 			}
 
-			return;
+			return -1;
 		};
 
 		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
@@ -833,7 +843,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					filterValues.forEach(function (filterVal) {
 						var filterId = getFilterId(filterType, filterVal);
 
-						if (filterId) {
+						if (filterId && filterId > -1) {
 							vm.filterByTerms(filterId, filterType, true, filterVal, false);
 						}
 					});
@@ -843,58 +853,81 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
-		var setIntialFilterData = function setIntialFilterData(callback) {
+		var filterDataSuccessHandler = function filterDataSuccessHandler(data, filterType, callback) {
+			setFilterData(filterType, data);
+
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
+		};
+
+		var filterDataErrorHandler = function filterDataErrorHandler(error, callback) {
+			if (callback && typeof callback === 'function') {
+				callback(error);
+			}
+		};
+
+		var setIntialFilterData = function setIntialFilterData(successCallback, errorCallback) {
 			var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
-			var counter = 0;
+			var url = void 0;
 
 			filterTypes.forEach(function (filterType, index) {
 				if (CONSTANTS.remoteServiceUrls[filterType]) {
-					metaService.request(CONSTANTS.remoteServiceUrls[filterType]).then(function (data) {
-						setFilterData(filterType, data);
+					url = CONSTANTS.remoteServiceUrls[filterType];
+				} else if (CONSTANTS.serviceUrls[filterType]) {
+					url = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls[filterType];
+				}
 
-						counter += 1;
-
-						var isLastItem = counter === filterTypes.length;
-						if (isLastItem && callback && typeof callback === 'function') {
-							callback();
+				metaService.request(url).then(function (data) {
+					return filterDataSuccessHandler(data, filterType, function () {
+						if (index === filterTypes.length - 1) {
+							successCallback();
 						}
 					});
-				}
+				}, function (error) {
+					return filterDataErrorHandler(error, errorCallback);
+				});
 			});
 		};
 
 		var setDatesFromUrl = function setDatesFromUrl(queryParams) {
-			var startDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
-			var endDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
+			var userStartDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
+			var userEndDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
 
-			if (startDate && endDate) {
-				vm.userStartDate = startDate;
-				vm.userEndDate = endDate;
+			if (userStartDate && userEndDate) {
+				vm.userStartDate = userStartDate;
+				vm.userEndDate = userEndDate;
 
 				vm.filterByDate();
 			}
 		};
 
+		var initSuccessCallback = function initSuccessCallback() {
+			setFiltersBasedOnQueryParams();
+
+			var keywords = getKeywords();
+
+			if (keywords) {
+				vm.keywords = keywords;
+				vm.keywordSearch();
+			} else {
+				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+			}
+		};
+
+		var initErrorCallback = function initErrorCallback() {
+			return eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		};
+
 		var init = function init() {
 			// setIntialFilterData sets the data to the view model
-			setIntialFilterData(function () {
-				setFiltersBasedOnQueryParams();
-
-				var keywords = getKeywords();
-
-				if (keywords) {
-					vm.keywords = keywords;
-					vm.keywordSearch();
-				} else {
-					eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
-				}
-			});
+			setIntialFilterData(initSuccessCallback, initErrorCallback);
 		};
 
 		init();
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);

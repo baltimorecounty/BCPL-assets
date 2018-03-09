@@ -6,16 +6,16 @@
 		$timeout,
 		$animate,
 		$location,
+		$window,
 		CONSTANTS,
 		eventsService,
-		filterHelperService, 
+		filterHelperService,
 		metaService
 	) {
-
 		const vm = this;
 		const firstPage = 1;
-		const startDateLocaleString = moment().format();
-		const endDate = moment().add(30, 'd');
+		const startDateLocaleString = $window.moment().format();
+		const endDate = $window.moment().add(30, 'd');
 		const endDateLocaleString = endDate.format();
 		const requestModel = {
 			StartDate: startDateLocaleString,
@@ -69,8 +69,7 @@
 		const updateFilterUrl = (targetKey, vmModel) => {
 			if (vmModel) {
 				filterHelperService.setQueryParams(targetKey, vmModel);
-			}
-			else {
+			} else {
 				filterHelperService.clearQueryParams(targetKey);
 			}
 		};
@@ -129,12 +128,12 @@
 				.catch(handleFailedEventsGetRequest);
 		};
 
-		const handleFailedEventsGetRequest = (error) => {
+		const handleFailedEventsGetRequest = () => {
 			vm.isLoading = false;
 			vm.requestErrorMessage = 'There was a problem retrieving events. Please try again later.';
 		};
 
-		const toggleFilter = (collection, id, shouldAddToCollection, filterKey, filterVal, shouldUpdateLocation) => {			
+		const toggleFilter = (collection, id, shouldAddToCollection, filterKey, filterVal, shouldUpdateLocation) => {
 			if (shouldAddToCollection) {
 				collection.push(id);
 			} else {
@@ -145,7 +144,7 @@
 				}
 			}
 
-			if(shouldUpdateLocation) {
+			if (shouldUpdateLocation) {
 				filterHelperService.updateQueryParams(filterKey, filterVal);
 			}
 		};
@@ -213,7 +212,7 @@
 
 		const isDateRangeValid = (firstDate, secondDate) => {
 			if (firstDate && secondDate) {
-				return moment(firstDate).isSameOrBefore(secondDate);
+				return $window.moment(firstDate).isSameOrBefore(secondDate);
 			}
 
 			return false;
@@ -221,7 +220,7 @@
 
 		const isSameDay = (day1Date, day2Date) => {
 			if (day1Date && day2Date) {
-				return moment(day1Date).isSame(day2Date, 'day');
+				return $window.moment(day1Date).isSame(day2Date, 'day');
 			}
 
 			return false;
@@ -249,9 +248,9 @@
 		};
 
 		const getKeywords = () => {
-			return $location.search().term && $location.search().term.length ? 
+			return $location.search().term && $location.search().term.length ?
 				$location.search().term :
-				"";
+				'';
 		};
 
 		/* ** Init ** */
@@ -259,7 +258,7 @@
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
 		const getFilterId = (filterType, val) => {
-			if (!val) return;
+			if (!val) return -1;
 
 			const filterTypeExists = Object.prototype.hasOwnProperty.call(vm.data, filterType);
 
@@ -274,7 +273,7 @@
 				return matchedFilters.length ? matchedFilters[0].Id : null;
 			}
 
-			return;
+			return -1;
 		};
 
 
@@ -289,14 +288,13 @@
 
 				if (!isFilterTypeDate) {
 					const filterValStr = queryParams[queryParamKey];
-					const filterValues = filterHelperService.getFiltersFromString(filterValStr); 
+					const filterValues = filterHelperService.getFiltersFromString(filterValStr);
 
 					filterValues.forEach((filterVal) => {
 						const filterId = getFilterId(filterType, filterVal);
 
-						if (filterId) {
+						if (filterId && filterId > -1) {
 							vm.filterByTerms(filterId, filterType, true, filterVal, false);
-							
 						}
 					});
 
@@ -305,55 +303,79 @@
 			});
 		};
 
-		const setIntialFilterData = (callback) => {
+		const filterDataSuccessHandler = (data, filterType, callback) => {
+			setFilterData(filterType, data);
+
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
+		};
+
+		const filterDataErrorHandler = (error, callback) => {
+			if (callback && typeof callback === 'function') {
+				callback(error);
+			}
+		};
+
+		const setIntialFilterData = (successCallback, errorCallback) => {
 			const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
-			let counter = 0;
+			let url;
 
 			filterTypes.forEach((filterType, index) => {
 				if (CONSTANTS.remoteServiceUrls[filterType]) {
-					metaService.request(CONSTANTS.remoteServiceUrls[filterType]).then((data) => {
-						setFilterData(filterType, data);
-
-						counter += 1;
-
-						const isLastItem = counter === filterTypes.length;
-						if (isLastItem && callback && typeof callback === 'function') {
-							callback();
-						}
-					});
+					url = CONSTANTS.remoteServiceUrls[filterType];
+				} else if (CONSTANTS.serviceUrls[filterType]) {
+					url = `${CONSTANTS.baseUrl}${CONSTANTS.serviceUrls[filterType]}`;
 				}
+
+				metaService.request(url)
+					.then(
+						(data) => filterDataSuccessHandler(data, filterType, () => {
+							if (index === filterTypes.length - 1) {
+								successCallback();
+							}
+						}),
+						(error) => filterDataErrorHandler(error, errorCallback)
+					);
 			});
 		};
 
 		const setDatesFromUrl = (queryParams) => {
-			const startDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
-			const endDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
+			const userStartDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
+			const userEndDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
 
-			if (startDate && endDate) {
-				vm.userStartDate = startDate;
-				vm.userEndDate = endDate;
+			if (userStartDate && userEndDate) {
+				vm.userStartDate = userStartDate;
+				vm.userEndDate = userEndDate;
 
 				vm.filterByDate();
 			}
 		};
-		
+
+		const initSuccessCallback = () => {
+			setFiltersBasedOnQueryParams();
+
+			const keywords = getKeywords();
+
+			if (keywords) {
+				vm.keywords = keywords;
+				vm.keywordSearch();
+			} else {
+				eventsService
+					.get(requestModel)
+					.then(processEvents)
+					.catch(handleFailedEventsGetRequest);
+			}
+		};
+
+		const initErrorCallback = () => eventsService
+			.get(requestModel)
+			.then(processEvents)
+			.catch(handleFailedEventsGetRequest);
+
 		const init = () => {
 			// setIntialFilterData sets the data to the view model
-			setIntialFilterData(() => { 
-				setFiltersBasedOnQueryParams();
-
-				const keywords = getKeywords();
-
-				if (keywords) {
-					vm.keywords = keywords;
-					vm.keywordSearch();
-				} else {
-					eventsService
-						.get(requestModel)
-						.then(processEvents)
-						.catch(handleFailedEventsGetRequest);
-				}
-			}); 
+			setIntialFilterData(initSuccessCallback, initErrorCallback);
 		};
 
 		init();
@@ -364,6 +386,7 @@
 		'$timeout',
 		'$animate',
 		'$location',
+		'$window',
 		'events.CONSTANTS',
 		'dataServices.eventsService',
 		'sharedFilters.filterHelperService',

@@ -1,0 +1,26 @@
+.featured-section-cta-list {
+    margin: 7px auto;
+
+    .featured-section-cta-list-item {
+        font-size: .8em;
+        font-weight: 700 !important;
+        margin-right: 20px;
+        text-transform: uppercase;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    i {
+        margin-right: 5px;
+    }
+
+    i > span {
+        display: none;
+    }
+}

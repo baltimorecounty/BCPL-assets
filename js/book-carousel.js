@@ -50,13 +50,18 @@ bcpl.bookCarousel = (($, constants) => {
 	const cleanHtml = (index, element, $images, $links) => {
 		const $image = $images.eq(index);
 		const $link = $links.eq(index);
+		const $imageLink = $link.clone();
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
 			.attr('style', '');
 
+		$imageLink
+			.text('')
+			.append($image);
+
 		return $('<div class="inner"></div>')
-			.append($image)
+			.append($imageLink)
 			.append($link);
 	};
 
