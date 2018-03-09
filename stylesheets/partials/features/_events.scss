@@ -460,4 +460,16 @@ a, button, input, label {
 			background-position: top;
 		}
 	}
+
+	.events-list {
+		.cards {
+			.card {
+				.event-name {
+					border-top: 1px solid $gray-lightest;
+					margin-top: .5em;
+					padding-top: .5em;
+				}
+			}
+		}
+	}
 }
