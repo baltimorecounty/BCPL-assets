@@ -990,8 +990,12 @@ bcpl.navigation = function ($, keyCodes) {
 		return $('body').hasClass('nav-visible');
 	};
 
-	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('#responsive-sliding-navigation li.active a').first().focus();
+	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink(callback) {
+		$('#responsive-sliding-navigation li.active a').first().focus();
+
+		if (typeof callback === 'function') {
+			callback();
+		}
 	};
 
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
@@ -1432,6 +1436,43 @@ $(function () {
 	bcpl.smartSideNav.init();
 	bcpl.smartSideNav.setCurrentPageLinkActive();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.stylesheetSwapper = function ($) {
+	var getLinkTagByHref = function getLinkTagByHref(href) {
+		if (!href || typeof href === 'string' && !href.trim()) {
+			return null;
+		}
+
+		var loweredHref = href.toLowerCase();
+
+		// If multiple links have the same href, just use the last one
+		// because of the cascading nature of css.
+		var $targetLinkTag = $('link[href="' + loweredHref + '"]').last();
+
+		return $targetLinkTag[0] || null;
+	};
+
+	var swapLinkHrefs = function swapLinkHrefs(targetHref, newHref) {
+		if (!targetHref || !newHref || typeof targetHref !== 'string' || typeof newHref !== 'string') {
+			return null;
+		}
+
+		var linkTag = getLinkTagByHref(targetHref);
+
+		if (linkTag && linkTag.attributes && linkTag.attributes.href) {
+			linkTag.attributes.href.value = newHref;
+		}
+
+		return linkTag;
+	};
+
+	return {
+		swapLinkHrefs: swapLinkHrefs
+	};
+}(jQuery);
 'use strict';
 
 namespacer('bcpl');
