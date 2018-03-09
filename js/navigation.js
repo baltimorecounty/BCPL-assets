@@ -13,7 +13,13 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const isSlideNavigationVisible = () => $('body').hasClass('nav-visible');
 
-	const focusFirstActiveMenuLink = () => $('#responsive-sliding-navigation li.active a').first().focus();
+	const focusFirstActiveMenuLink = (callback) => {
+		$('#responsive-sliding-navigation li.active a').first().focus();
+
+		if (typeof callback === 'function') {
+			callback();
+		}
+	};
 
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
