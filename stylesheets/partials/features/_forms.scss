@@ -1,6 +1,6 @@
 form {
 	.form-validation-error, .required {
-		color: #f00;
+		color: $form-error;
 		font-weight: 600;
 		font-size: .8em;
 	}
@@ -24,4 +24,9 @@ form {
 	border-top: 5px solid $form-response-warning-border;
 	background: $form-response-warning-background;
 	padding: 1em;
+}
+
+.color-required,
+.color-error {
+    color: $required-orange;
 }
