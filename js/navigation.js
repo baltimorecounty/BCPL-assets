@@ -7,15 +7,19 @@ bcpl.navigation = (($, keyCodes) => {
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const activeLinksSelector = '.active, .clicked';
 	const activeMenuButtonSelector = 'li.active button';
-	const mobileNavSubmenuItemSelector = '#responsive-sliding-navigation.active li';
-	const mobileNavCalloutSelector = '.mobile-nav-callout';
 	const mobileWidthThreshold = 768;
 
 	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
 
 	const isSlideNavigationVisible = () => $('body').hasClass('nav-visible');
 
-	const focusFirstActiveMenuLink = () => $('#responsive-sliding-navigation li.active a').first().focus();
+	const focusFirstActiveMenuLink = (callback) => {
+		$('#responsive-sliding-navigation li.active a').first().focus();
+
+		if (typeof callback === 'function') {
+			callback();
+		}
+	};
 
 	const findClosestButtonToLink = ($link) => $link.closest(closestMenuNodeSelector).find('button');
 
@@ -90,7 +94,6 @@ bcpl.navigation = (($, keyCodes) => {
 			}
 			hideHeroCallout(!wasActive);
 		}
-		toggleMobileNavCallout();
 	};
 
 	const navigationKeyPressed = (keyboardEvent) => {
@@ -207,17 +210,6 @@ bcpl.navigation = (($, keyCodes) => {
 		clearTimeout(targetTimeout);
 	};
 
-	const toggleMobileNavCallout = () => {
-		const isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
-		const $mobileNavCallout = $(mobileNavCalloutSelector);
-
-		if (isSubMenuVisible) {
-			$mobileNavCallout.hide();
-		} else {
-			$mobileNavCallout.show();
-		}
-	};
-
 	let mouseHoverDelay;
 
 	const navigationMouseover = (mouseOverEvent) => {
@@ -245,6 +237,18 @@ bcpl.navigation = (($, keyCodes) => {
 			hideHeroCallout(false);
 		}
 	};
+
+	const toggleMobileNavCallout = () => {
+		const isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
+		const $mobileNavCallout = $(mobileNavCalloutSelector);
+
+		if (isSubMenuVisible) {
+			$mobileNavCallout.show();
+		} else {
+			$mobileNavCallout.show();
+		}
+	};
+
 
 	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
 	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
