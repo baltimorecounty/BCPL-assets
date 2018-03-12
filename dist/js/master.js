@@ -980,6 +980,8 @@ bcpl.navigation = function ($, keyCodes) {
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
 	var activeMenuButtonSelector = 'li.active button';
+	var mobileNavSubmenuItemSelector = '#responsive-sliding-navigation.active li';
+	var mobileNavCalloutSelector = '.mobile-nav-callout';
 	var mobileWidthThreshold = 768;
 
 	var isMobileWidth = function isMobileWidth($element, threshold) {
@@ -1059,6 +1061,7 @@ bcpl.navigation = function ($, keyCodes) {
 			}
 			hideHeroCallout(!wasActive);
 		}
+		toggleMobileNavCallout();
 	};
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
@@ -1161,6 +1164,17 @@ bcpl.navigation = function ($, keyCodes) {
 
 	var stopNavMouseOver = function stopNavMouseOver(targetTimeout) {
 		clearTimeout(targetTimeout);
+	};
+
+	var toggleMobileNavCallout = function toggleMobileNavCallout() {
+		var isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
+		var $mobileNavCallout = $(mobileNavCalloutSelector);
+
+		if (isSubMenuVisible) {
+			$mobileNavCallout.hide();
+		} else {
+			$mobileNavCallout.show();
+		}
 	};
 
 	var mouseHoverDelay = void 0;
