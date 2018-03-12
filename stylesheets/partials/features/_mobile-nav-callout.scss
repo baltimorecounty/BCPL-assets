@@ -1,5 +1,7 @@
 .mobile-nav-callout {
     margin: 2em 1em;
+    opacity: 1;
+    transition: 200ms all ease;
 
     .mobile-nav-callout-btn,
     p {
@@ -43,4 +45,7 @@
         padding: 0 !important;
         margin-left: 5px !important;
     }
+}
+.sub-menu + .mobile-nav-callout {
+    opacity: 0;
 }
