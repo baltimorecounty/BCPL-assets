@@ -51,11 +51,12 @@ describe('Navigation', () => {
 			done();
 		});
 
-		it('should focus the first active sliding navigation menu link', () => {
+		it('should focus the first active sliding navigation menu link', (done) => {
 			$('#responsive-sliding-navigation li').first().addClass('active');
 
-			bcpl.navigation.focusFirstActiveMenuLink();
-
+			bcpl.navigation.focusFirstActiveMenuLink(() => {
+				done();
+			});
 			const isFirstActiveLinkFocused = $('#responsive-sliding-navigation li.active a').first().is(':focus');
 
 			expect(isFirstActiveLinkFocused).toBe(true);
