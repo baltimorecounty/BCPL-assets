@@ -1196,17 +1196,6 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	var toggleMobileNavCallout = function toggleMobileNavCallout() {
-		var isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
-		var $mobileNavCallout = $(mobileNavCalloutSelector);
-
-		if (isSubMenuVisible) {
-			$mobileNavCallout.show();
-		} else {
-			$mobileNavCallout.show();
-		}
-	};
-
 	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
 	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
