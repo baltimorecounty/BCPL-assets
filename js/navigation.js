@@ -7,6 +7,8 @@ bcpl.navigation = (($, keyCodes) => {
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const activeLinksSelector = '.active, .clicked';
 	const activeMenuButtonSelector = 'li.active button';
+	const mobileNavSubmenuItemSelector = '#responsive-sliding-navigation.active li';
+	const mobileNavCalloutSelector = '.mobile-nav-callout';
 	const mobileWidthThreshold = 768;
 
 	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
@@ -88,6 +90,7 @@ bcpl.navigation = (($, keyCodes) => {
 			}
 			hideHeroCallout(!wasActive);
 		}
+		toggleMobileNavCallout();
 	};
 
 	const navigationKeyPressed = (keyboardEvent) => {
@@ -193,7 +196,7 @@ bcpl.navigation = (($, keyCodes) => {
 			keyboardEvent.preventDefault();
 			$link[0].click();
 			removeActiveClassFromAllButtons();
-			
+
 			break;
 		default:
 			break;
@@ -202,6 +205,17 @@ bcpl.navigation = (($, keyCodes) => {
 
 	const stopNavMouseOver = (targetTimeout) => {
 		clearTimeout(targetTimeout);
+	};
+
+	const toggleMobileNavCallout = () => {
+		const isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
+		const $mobileNavCallout = $(mobileNavCalloutSelector);
+
+		if (isSubMenuVisible) {
+			$mobileNavCallout.hide();
+		} else {
+			$mobileNavCallout.show();
+		}
 	};
 
 	let mouseHoverDelay;
