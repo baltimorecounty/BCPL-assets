@@ -3,7 +3,8 @@ namespacer('bcpl');
 bcpl.contraster = (($, browserStorage) => {
 	const selectors = {
 		contrastButton: '#contrastButton',
-		stylesheetMaster: '#stylesheetMaster'
+		stylesheetMaster: '#stylesheetMaster',
+		stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
 	};
 
 	const stylesheets = {
@@ -19,9 +20,15 @@ bcpl.contraster = (($, browserStorage) => {
 		const $stylesheetMaster = $(selectors.stylesheetMaster);
 
 		if ($stylesheetMaster.length) {
-			let masterHref = $stylesheetMaster.attr('href');
-			$stylesheetMaster.attr('href', masterHref === stylesheets.master.normal ? stylesheets.master.high : stylesheets.master.normal);
-			browserStorage.local(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
+			const $stylesheetMasterHighContrast = $(selectors.stylesheetMasterHighContrast);
+
+			if ($stylesheetMasterHighContrast.length) {
+				$stylesheetMasterHighContrast.remove();
+				browserStorage.local(localStorageHighContrastKey, 'false');
+			} else {
+				$stylesheetMaster.after(`<link id="stylesheetMasterHighContrast" href="${stylesheets.master.high}" rel="stylesheet">`);
+				browserStorage.local(localStorageHighContrastKey, 'true');
+			}
 		}
 	};
 
@@ -39,7 +46,12 @@ bcpl.contraster = (($, browserStorage) => {
 		}
 	};
 
-	return { init };
+	return {
+		/* test-code */
+		contrastButtonClickHandler,
+		/* end-test-code */
+		init
+	};
 })(jQuery, bcpl.utility.browserStorage);
 
 $(() => {

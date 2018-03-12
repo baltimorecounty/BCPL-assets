@@ -677,7 +677,8 @@ namespacer('bcpl');
 bcpl.contraster = function ($, browserStorage) {
 	var selectors = {
 		contrastButton: '#contrastButton',
-		stylesheetMaster: '#stylesheetMaster'
+		stylesheetMaster: '#stylesheetMaster',
+		stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
 	};
 
 	var stylesheets = {
@@ -693,9 +694,15 @@ bcpl.contraster = function ($, browserStorage) {
 		var $stylesheetMaster = $(selectors.stylesheetMaster);
 
 		if ($stylesheetMaster.length) {
-			var masterHref = $stylesheetMaster.attr('href');
-			$stylesheetMaster.attr('href', masterHref === stylesheets.master.normal ? stylesheets.master.high : stylesheets.master.normal);
-			browserStorage.local(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
+			var $stylesheetMasterHighContrast = $(selectors.stylesheetMasterHighContrast);
+
+			if ($stylesheetMasterHighContrast.length) {
+				$stylesheetMasterHighContrast.remove();
+				browserStorage.local(localStorageHighContrastKey, 'false');
+			} else {
+				$stylesheetMaster.after('<link id="stylesheetMasterHighContrast" href="' + stylesheets.master.high + '" rel="stylesheet">');
+				browserStorage.local(localStorageHighContrastKey, 'true');
+			}
 		}
 	};
 
@@ -713,7 +720,9 @@ bcpl.contraster = function ($, browserStorage) {
 		}
 	};
 
-	return { init: init };
+	return {
+		init: init
+	};
 }(jQuery, bcpl.utility.browserStorage);
 
 $(function () {
