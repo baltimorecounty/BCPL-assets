@@ -879,7 +879,7 @@ bcpl.navigationSearch = function ($) {
 
 		if ($activeMenuItem.length) {
 			$activeMenuItem.find('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
-				$(this).closest('li.active').removeClass('active');
+				$(this).closest('li.active').removeClass('active').closest('ul').removeClass('sub-menu');
 			});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
@@ -980,8 +980,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
 	var activeMenuButtonSelector = 'li.active button';
-	var mobileNavSubmenuItemSelector = '#responsive-sliding-navigation.active li';
-	var mobileNavCalloutSelector = '.mobile-nav-callout';
+	var subMenuClass = 'sub-menu';
 	var mobileWidthThreshold = 768;
 
 	var isMobileWidth = function isMobileWidth($element, threshold) {
@@ -992,8 +991,12 @@ bcpl.navigation = function ($, keyCodes) {
 		return $('body').hasClass('nav-visible');
 	};
 
-	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('#responsive-sliding-navigation li.active a').first().focus();
+	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink(callback) {
+		$('#responsive-sliding-navigation li.active a').first().focus();
+
+		if (typeof callback === 'function') {
+			callback();
+		}
 	};
 
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
@@ -1052,16 +1055,18 @@ bcpl.navigation = function ($, keyCodes) {
 		if (window.innerWidth <= mobileWidthThreshold) {
 			var $button = $(event.currentTarget);
 			var wasActive = $button.closest('li').hasClass('active');
+			var $closestMenu = $button.closest('ul');
 			hideSearchBox();
 			removeActiveClassFromAllButtons();
 			if (!wasActive) {
 				activateSubmenu($button);
+				$closestMenu.addClass(subMenuClass);
 			} else {
 				deactivateSubmenu($button);
+				$closestMenu.removeClass(subMenuClass);
 			}
 			hideHeroCallout(!wasActive);
 		}
-		toggleMobileNavCallout();
 	};
 
 	var navigationKeyPressed = function navigationKeyPressed(keyboardEvent) {
@@ -1166,17 +1171,6 @@ bcpl.navigation = function ($, keyCodes) {
 		clearTimeout(targetTimeout);
 	};
 
-	var toggleMobileNavCallout = function toggleMobileNavCallout() {
-		var isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
-		var $mobileNavCallout = $(mobileNavCalloutSelector);
-
-		if (isSubMenuVisible) {
-			$mobileNavCallout.hide();
-		} else {
-			$mobileNavCallout.show();
-		}
-	};
-
 	var mouseHoverDelay = void 0;
 
 	var navigationMouseover = function navigationMouseover(mouseOverEvent) {
@@ -1199,6 +1193,17 @@ bcpl.navigation = function ($, keyCodes) {
 			stopNavMouseOver(mouseHoverDelay);
 			removeActiveClassFromAllButtons();
 			hideHeroCallout(false);
+		}
+	};
+
+	var toggleMobileNavCallout = function toggleMobileNavCallout() {
+		var isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
+		var $mobileNavCallout = $(mobileNavCalloutSelector);
+
+		if (isSubMenuVisible) {
+			$mobileNavCallout.show();
+		} else {
+			$mobileNavCallout.show();
 		}
 	};
 
