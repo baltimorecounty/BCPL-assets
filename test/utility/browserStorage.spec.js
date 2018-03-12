@@ -6,41 +6,41 @@ describe('Browser storage', () => {
 			spyOn(console, 'error');
 		});
 
-		it('should write a new value to browser sessionStorage', () => {
+		it('should write a new value to browser localStorage', () => {
 			const expected = '12345';
-			bcpl.utility.browserStorage.session('test1', '12345');
+			bcpl.utility.browserStorage.local('test1', '12345');
 
-			const actual = sessionStorage.getItem('test1');
+			const actual = localStorage.getItem('test1');
 
 			expect(actual).toBe(expected);
 		});
 
-		it('should read a value from session storage', () => {
+		it('should read a value from local storage', () => {
 			const expected = '12345';
-			sessionStorage.setItem('test1', '12345');
+			localStorage.setItem('test1', '12345');
 
-			const actual = bcpl.utility.browserStorage.session('test1');
+			const actual = bcpl.utility.browserStorage.local('test1');
 
 			expect(actual).toBe(expected);
 		});
 
-		it('should read a value from session storage when supplied a non-string value', () => {
+		it('should read a value from local storage when supplied a non-string value', () => {
 			const expected = '12345';
 
-			sessionStorage.setItem('test1', '12345');
-			const actual = bcpl.utility.browserStorage.session('test1', {});
+			localStorage.setItem('test1', '12345');
+			const actual = bcpl.utility.browserStorage.local('test1', {});
 
 			expect(actual).toBe(expected);
 		});
 
 		it('should display an error in the console when the key is a blank string', () => {
-			bcpl.utility.browserStorage.session('');
+			bcpl.utility.browserStorage.local('');
 
 			expect(console.error).toHaveBeenCalled();
 		});
 
 		it('should display an error in the console when the key is not a string', () => {
-			bcpl.utility.browserStorage.session([]);
+			bcpl.utility.browserStorage.local([]);
 
 			expect(console.error).toHaveBeenCalled();
 		});
@@ -51,22 +51,22 @@ describe('Browser storage', () => {
 			spyOn(console, 'error');
 		});
 
-		it('should return a session value', () => {
+		it('should return a localStorage value', () => {
 			const expected = '12345';
-			sessionStorage.setItem('test2', '12345');
+			localStorage.setItem('test2', '12345');
 
-			const actual = bcpl.utility.browserStorage.getSessionValue('test2');
+			const actual = bcpl.utility.browserStorage.getLocalValue('test2');
 
 			expect(actual).toBe(expected);
 		});
 	});
 
 	describe('setSessionValue', () => {
-		it('should set a session value for a supplied key', () => {
+		it('should set a localStorage value for a supplied key', () => {
 			const expected = '12345';
 
-			bcpl.utility.browserStorage.setSessionValue('test3', '12345');
-			const actual = sessionStorage.getItem('test3');
+			bcpl.utility.browserStorage.setLocalValue('test3', '12345');
+			const actual = localStorage.getItem('test3');
 
 			expect(actual).toBe(expected);
 		});

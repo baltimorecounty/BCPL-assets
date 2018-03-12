@@ -1,47 +1,47 @@
 namespacer('bcpl.utility');
 
-bcpl.utility.browserStorage = ((sessionStorage) => {
+bcpl.utility.browserStorage = ((localStorage) => {
 	/**
-	 * Session storage management.
+	 * Local storage management.
 	 * @param {string} key Key for the stored item.
 	 * @param {string} [value] Value to set.
 	 */
-	const session = (key, value) => {
-		if (!sessionStorage) {
-			return console.error('Session storage is not supported in this browser.');
+	const local = (key, value) => {
+		if (!localStorage) {
+			return console.error('Local storage is not supported in this browser.');
 		}
 
 		if (key && typeof key === 'string') {
 			if (value && typeof value === 'string') {
-				return setSessionValue(key, value);
+				return setLocalValue(key, value);
 			}
 
-			return getSessionValue(key);
+			return getLocalValue(key);
 		}
 
-		return console.error('Your session storage key must be a string. Nothing stored.');
+		return console.error('Your local storage key must be a string. Nothing stored.');
 	};
 
 	/**
-	 * Retrieves a value from session storage.
+	 * Retrieves a value from local storage.
 	 * @param {string} key Key for the stored item.
 	 */
-	const getSessionValue = key => {
+	const getLocalValue = key => {
 		try {
-			return sessionStorage.getItem(key);
+			return localStorage.getItem(key);
 		} catch (error) {
 			return console.error(error);
 		}
 	};
 
 	/**
-	 * Sets a value in session storage.
+	 * Sets a value in local storage.
 	 * @param {string} key Key for the stored item.
 	 * @param {string} value Value to set.
 	 */
-	const setSessionValue = (key, value) => {
+	const setLocalValue = (key, value) => {
 		try {
-			return sessionStorage.setItem(key, value);
+			return localStorage.setItem(key, value);
 		} catch (error) {
 			return console.error(error);
 		}
@@ -49,9 +49,9 @@ bcpl.utility.browserStorage = ((sessionStorage) => {
 
 	return {
 		/* test-code */
-		getSessionValue,
-		setSessionValue,
+		getLocalValue,
+		setLocalValue,
 		/* end-test-code */
-		session
+		local
 	};
-})(sessionStorage);
+})(localStorage);

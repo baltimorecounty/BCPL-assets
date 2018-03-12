@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.contraster = (($, localStorage) => {
+bcpl.contraster = (($, browserStorage) => {
 	const selectors = {
 		contrastButton: '#contrastButton',
 		stylesheetMaster: '#stylesheetMaster'
@@ -21,7 +21,7 @@ bcpl.contraster = (($, localStorage) => {
 		if ($stylesheetMaster.length) {
 			let masterHref = $stylesheetMaster.attr('href');
 			$stylesheetMaster.attr('href', masterHref === stylesheets.master.normal ? stylesheets.master.high : stylesheets.master.normal);
-			localStorage.setItem(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
+			browserStorage.local(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
 		}
 	};
 
@@ -32,15 +32,15 @@ bcpl.contraster = (($, localStorage) => {
 			$contrastButton.on('click', contrastButtonClickHandler);
 		}
 
-		if (localStorage.getItem(localStorageHighContrastKey) === 'true') {
+		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
 			$contrastButton.trigger('click');
 		} else {
-			localStorage.setItem(localStorageHighContrastKey, 'false');
+			browserStorage.local(localStorageHighContrastKey, 'false');
 		}
 	};
 
 	return { init };
-})(jQuery, localStorage);
+})(jQuery, bcpl.utility.browserStorage);
 
 $(() => {
 	bcpl.contraster.init();

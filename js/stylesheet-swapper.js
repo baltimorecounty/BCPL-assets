@@ -24,17 +24,17 @@ bcpl.stylesheetSwapper = (($, regexTools, browserStorage) => {
 	 * @param {string} href
 	 * @param {string} sessionStorageKey
 	 */
-	const toggleStylesheet = (href, sessionStorageKey) => {
+	const toggleStylesheet = (href, localStorageKey) => {
 		const loweredHref = href.toLowerCase();
 
 		const linkTag = getLinkTagByHref(loweredHref);
 
 		if (linkTag && linkTag.parentElement) {
-			browserStorage.session(sessionStorageKey, false);
+			browserStorage.local(localStorageKey, false);
 			return linkTag.parentElement.removeChild(linkTag);
 		}
 
-		browserStorage.session(sessionStorageKey, true);
+		browserStorage.local(localStorageKey, true);
 		return $('head').append(`<link href="${href}" rel="stylesheet">`)[0];
 	};
 

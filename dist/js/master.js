@@ -84,57 +84,57 @@ bcpl.constants = {
 
 namespacer('bcpl.utility');
 
-bcpl.utility.browserStorage = function (sessionStorage) {
+bcpl.utility.browserStorage = function (localStorage) {
 	/**
-  * Session storage management.
+  * Local storage management.
   * @param {string} key Key for the stored item.
   * @param {string} [value] Value to set.
   */
-	var session = function session(key, value) {
-		if (!sessionStorage) {
-			return console.error('Session storage is not supported in this browser.');
+	var local = function local(key, value) {
+		if (!localStorage) {
+			return console.error('Local storage is not supported in this browser.');
 		}
 
 		if (key && typeof key === 'string') {
 			if (value && typeof value === 'string') {
-				return setSessionValue(key, value);
+				return setLocalValue(key, value);
 			}
 
-			return getSessionValue(key);
+			return getLocalValue(key);
 		}
 
-		return console.error('Your session storage key must be a string. Nothing stored.');
+		return console.error('Your local storage key must be a string. Nothing stored.');
 	};
 
 	/**
-  * Retrieves a value from session storage.
+  * Retrieves a value from local storage.
   * @param {string} key Key for the stored item.
   */
-	var getSessionValue = function getSessionValue(key) {
+	var getLocalValue = function getLocalValue(key) {
 		try {
-			return sessionStorage.getItem(key);
+			return localStorage.getItem(key);
 		} catch (error) {
 			return console.error(error);
 		}
 	};
 
 	/**
-  * Sets a value in session storage.
+  * Sets a value in local storage.
   * @param {string} key Key for the stored item.
   * @param {string} value Value to set.
   */
-	var setSessionValue = function setSessionValue(key, value) {
+	var setLocalValue = function setLocalValue(key, value) {
 		try {
-			return sessionStorage.setItem(key, value);
+			return localStorage.setItem(key, value);
 		} catch (error) {
 			return console.error(error);
 		}
 	};
 
 	return {
-		session: session
+		local: local
 	};
-}(sessionStorage);
+}(localStorage);
 'use strict';
 
 namespacer('bcpl.utility');
@@ -674,7 +674,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 namespacer('bcpl');
 
-bcpl.contraster = function ($, localStorage) {
+bcpl.contraster = function ($, browserStorage) {
 	var selectors = {
 		contrastButton: '#contrastButton',
 		stylesheetMaster: '#stylesheetMaster'
@@ -695,7 +695,7 @@ bcpl.contraster = function ($, localStorage) {
 		if ($stylesheetMaster.length) {
 			var masterHref = $stylesheetMaster.attr('href');
 			$stylesheetMaster.attr('href', masterHref === stylesheets.master.normal ? stylesheets.master.high : stylesheets.master.normal);
-			localStorage.setItem(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
+			browserStorage.local(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
 		}
 	};
 
@@ -706,15 +706,15 @@ bcpl.contraster = function ($, localStorage) {
 			$contrastButton.on('click', contrastButtonClickHandler);
 		}
 
-		if (localStorage.getItem(localStorageHighContrastKey) === 'true') {
+		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
 			$contrastButton.trigger('click');
 		} else {
-			localStorage.setItem(localStorageHighContrastKey, 'false');
+			browserStorage.local(localStorageHighContrastKey, 'false');
 		}
 	};
 
 	return { init: init };
-}(jQuery, localStorage);
+}(jQuery, bcpl.utility.browserStorage);
 
 $(function () {
 	bcpl.contraster.init();
@@ -1596,17 +1596,17 @@ bcpl.stylesheetSwapper = function ($, regexTools, browserStorage) {
   * @param {string} href
   * @param {string} sessionStorageKey
   */
-	var toggleStylesheet = function toggleStylesheet(href, sessionStorageKey) {
+	var toggleStylesheet = function toggleStylesheet(href, localStorageKey) {
 		var loweredHref = href.toLowerCase();
 
 		var linkTag = getLinkTagByHref(loweredHref);
 
 		if (linkTag && linkTag.parentElement) {
-			browserStorage.session(sessionStorageKey, false);
+			browserStorage.local(localStorageKey, false);
 			return linkTag.parentElement.removeChild(linkTag);
 		}
 
-		browserStorage.session(sessionStorageKey, true);
+		browserStorage.local(localStorageKey, true);
 		return $('head').append('<link href="' + href + '" rel="stylesheet">')[0];
 	};
 
