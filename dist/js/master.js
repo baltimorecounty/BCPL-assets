@@ -75,6 +75,9 @@ bcpl.constants = {
 			alertNotification: '/api/structured-content/alerts-notification',
 			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
+	},
+	expressions: {
+		justWordCharacters: /\w+/g
 	}
 };
 'use strict';
@@ -241,6 +244,31 @@ bcpl.utility.querystringer = function () {
 	return {
 		getAsDictionary: getAsDictionary
 	};
+}();
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.regexTools = function () {
+	/**
+  * Filters a string down to only characters that match the regex.
+  *
+  * @param {string} stringToFilter
+  * @param {RegExp} filterRegex
+  */
+	var filter = function filter(stringToFilter, filterRegex) {
+		var match = void 0;
+		var matches = [];
+
+		/* eslint-disable no-cond-assign */
+		while ((match = filterRegex.exec(stringToFilter)) !== null) {
+			matches.push(match[0]);
+		}
+
+		return matches.join('');
+	};
+
+	return { filter: filter };
 }();
 'use strict';
 
