@@ -69,7 +69,7 @@
 						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
 
 						response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
-						response.data.isFull = response.IsReservation && response.data.MainSpotsAvailable === 0;
+						response.data.isFull = response.data.RegistrationTypeCodeEnum === 1 && response.data.MainSpotsAvailable === 0;
 						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
 						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
 						response.data.shouldDisplayRegistrationButton = shouldDisplayRegistrationButton(response.data);
@@ -153,8 +153,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226696:3100',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
