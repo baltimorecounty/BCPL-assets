@@ -242,18 +242,6 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
-	const toggleMobileNavCallout = () => {
-		const isSubMenuVisible = $(mobileNavSubmenuItemSelector).hasClass('active');
-		const $mobileNavCallout = $(mobileNavCalloutSelector);
-
-		if (isSubMenuVisible) {
-			$mobileNavCallout.show();
-		} else {
-			$mobileNavCallout.show();
-		}
-	};
-
-
 	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
 	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
 	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
