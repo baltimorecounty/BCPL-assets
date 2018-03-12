@@ -71,3 +71,9 @@ h1 + p {
 .italicize {
 	font-style: italic;
 }
+
+@media screen and (max-width: $screen-xs) {
+    h1 {
+        font-size: 2.5em;
+    }
+}
