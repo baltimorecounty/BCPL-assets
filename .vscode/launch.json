@@ -1,5 +1,16 @@
 {
 	"version": "0.2.0",
-	"configurations": [],
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch via NPM",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": [
+				"test"
+			],
+			"port": 9876
+		}
+	],
 	"compounds": []
 }

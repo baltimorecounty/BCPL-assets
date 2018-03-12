@@ -1442,7 +1442,7 @@ namespacer('bcpl');
 
 bcpl.stylesheetSwapper = function ($) {
 	var getLinkTagByHref = function getLinkTagByHref(href) {
-		if (!href || typeof href === 'string' && !href.trim()) {
+		if (!href || typeof href === 'string' && href.trim().length === 0) {
 			return null;
 		}
 
@@ -1450,34 +1450,25 @@ bcpl.stylesheetSwapper = function ($) {
 
 		// If multiple links have the same href, just use the last one
 		// because of the cascading nature of css.
-		var $targetLinkTag = $('link[href="' + loweredHref + '"]').last();
+		var $targetLinkTag = $('link[rel=stylesheet][href~="' + loweredHref + '"]');
 
 		return $targetLinkTag[0] || null;
 	};
 
-	var swapLinkHrefs = function swapLinkHrefs(targetHref, newHref) {
-		if (!targetHref || !newHref || typeof targetHref !== 'string' || typeof newHref !== 'string') {
-			return null;
+	var toggleStylesheet = function toggleStylesheet(href) {
+		var loweredHref = href.toLowerCase();
+
+		var linkTag = getLinkTagByHref(loweredHref);
+
+		if (linkTag && linkTag.parentElement) {
+			return linkTag.parentElement.removeChild(linkTag);
 		}
 
-		var firstLinkTag = getLinkTagByHref(targetHref);
-		var secondLinkTag = getLinkTagByHref(newHref);
-
-		if (firstLinkTag) {
-			$(firstLinkTag).attr('href', newHref);
-		}
-
-		if (secondLinkTag) {
-			$(secondLinkTag).attr('href', targetHref);
-		}
-
-		var linkTag = firstLinkTag || secondLinkTag;
-
-		return linkTag;
+		return $('head').append('<link href="' + href + '" rel="stylesheet">')[0];
 	};
 
 	return {
-		swapLinkHrefs: swapLinkHrefs
+		toggleStylesheet: toggleStylesheet
 	};
 }(jQuery);
 'use strict';

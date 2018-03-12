@@ -62,58 +62,32 @@ describe('Stylesheet swapper', () => {
 		});
 	});
 
-	describe('swapLinkHrefs', () => {
+	describe('toggleStylesheet', () => {
 		beforeEach((done) => {
 			loadFixtures('stylesheet-swapper.fixture.html');
 			done();
 		});
 
 		it('should be a function', () => {
-			const actual = bcpl.stylesheetSwapper.swapLinkHrefs;
+			const actual = bcpl.stylesheetSwapper.toggleStylesheet;
 
 			expect(typeof actual).toBe('function');
 		});
 
-		it('should swap links from a found href', () => {
-			const targetHref = '/example/test2.css';
-			const expected = '/example/test-swapped.css';
+		it('should remove an active stylesheet', () => {
+			bcpl.stylesheetSwapper.toggleStylesheet('/example/test3.css');
 
-			const newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
-			const actual = newLinkTag.attributes.href.value;
+			const actualMatches = $('link[href~="/example/test3.css"]').length;
 
-			expect(actual).toBe(expected);
+			expect(actualMatches).toBe(0);
 		});
 
+		it('should add a new stylesheet', () => {
+			bcpl.stylesheetSwapper.toggleStylesheet('/example/test-added.css');
 
-		it('should swap links back to the original when run twice', () => {
-			const targetHref = '/example/test2.css';
-			const newHref = '/example/test-swapped.css';
-			const expected = '/example/test2.css';
+			const actualMatches = $('link[href~="/example/test-added.css"]').length;
 
-			let newLinkTag;
-			newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, newHref);
-			newLinkTag = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, newHref);
-			const actual = newLinkTag.attributes.href.value;
-
-			expect(actual).toBe(expected);
-		});
-
-		it('should return null when provided a falsy targetHref', () => {
-			const targetHref = undefined;
-			const expected = null;
-
-			const actual = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
-
-			expect(actual).toBe(expected);
-		});
-
-		it('should return null when provided a falsy newHref', () => {
-			const targetHref = '/example/test2.css';
-			const expected = null;
-
-			const actual = bcpl.stylesheetSwapper.swapLinkHrefs(targetHref, expected);
-
-			expect(actual).toBe(expected);
+			expect(actualMatches).toBe(1);
 		});
 	});
 });
