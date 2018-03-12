@@ -990,8 +990,12 @@ bcpl.navigation = function ($, keyCodes) {
 		return $('body').hasClass('nav-visible');
 	};
 
-	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink() {
-		return $('#responsive-sliding-navigation li.active a').first().focus();
+	var focusFirstActiveMenuLink = function focusFirstActiveMenuLink(callback) {
+		$('#responsive-sliding-navigation li.active a').first().focus();
+
+		if (typeof callback === 'function') {
+			callback();
+		}
 	};
 
 	var findClosestButtonToLink = function findClosestButtonToLink($link) {
