@@ -69,7 +69,7 @@
 						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
 
 						response.data.isRegistrationWindow = moment().isBetween(response.data.registrationStarts, response.data.registrationEnds);
-						response.data.isFull = response.data.MainSpotsAvailable === 0;
+						response.data.isFull = response.IsReservation && response.data.MainSpotsAvailable === 0;
 						response.data.isWaiting = response.data.WaitSpotsAvailable > 0;
 						response.data.requiresRegistration = response.data.RegistrationTypeCodeEnum !== 0;
 						response.data.shouldDisplayRegistrationButton = shouldDisplayRegistrationButton(response.data);
