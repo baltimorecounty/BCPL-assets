@@ -84,6 +84,61 @@ bcpl.constants = {
 
 namespacer('bcpl.utility');
 
+bcpl.utility.browserStorage = function (sessionStorage) {
+	/**
+  * Session storage management.
+  * @param {string} key Key for the stored item.
+  * @param {string} [value] Value to set.
+  */
+	var session = function session(key, value) {
+		if (!sessionStorage) {
+			return console.error('Session storage is not supported in this browser.');
+		}
+
+		if (key && typeof key === 'string') {
+			if (value && typeof value === 'string') {
+				return setSessionValue(key, value);
+			}
+
+			return getSessionValue(key);
+		}
+
+		return console.error('Your session storage key must be a string. Nothing stored.');
+	};
+
+	/**
+  * Retrieves a value from session storage.
+  * @param {string} key Key for the stored item.
+  */
+	var getSessionValue = function getSessionValue(key) {
+		try {
+			return sessionStorage.getItem(key);
+		} catch (error) {
+			return console.error(error);
+		}
+	};
+
+	/**
+  * Sets a value in session storage.
+  * @param {string} key Key for the stored item.
+  * @param {string} value Value to set.
+  */
+	var setSessionValue = function setSessionValue(key, value) {
+		try {
+			return sessionStorage.setItem(key, value);
+		} catch (error) {
+			return console.error(error);
+		}
+	};
+
+	return {
+		session: session
+	};
+}(sessionStorage);
+'use strict';
+
+namespacer('bcpl.utility');
+
 bcpl.utility.flexDetect = function (document, $) {
 	var init = function init(testDoc) {
 		var actualDoc = testDoc || document;
@@ -1468,7 +1523,11 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.stylesheetSwapper = function ($) {
+bcpl.stylesheetSwapper = function ($, regexTools, browserStorage) {
+	/**
+  * Gets the <link> tag element by searching for one with the supplies href value.
+  * @param {string} href
+  */
 	var getLinkTagByHref = function getLinkTagByHref(href) {
 		if (!href || typeof href === 'string' && href.trim().length === 0) {
 			return null;
@@ -1483,22 +1542,29 @@ bcpl.stylesheetSwapper = function ($) {
 		return $targetLinkTag[0] || null;
 	};
 
-	var toggleStylesheet = function toggleStylesheet(href) {
+	/**
+  * Conditionally adds or removes a <link> tag with the supplied regex.
+  * @param {string} href
+  * @param {string} sessionStorageKey
+  */
+	var toggleStylesheet = function toggleStylesheet(href, sessionStorageKey) {
 		var loweredHref = href.toLowerCase();
 
 		var linkTag = getLinkTagByHref(loweredHref);
 
 		if (linkTag && linkTag.parentElement) {
+			browserStorage.session(sessionStorageKey, false);
 			return linkTag.parentElement.removeChild(linkTag);
 		}
 
+		browserStorage.session(sessionStorageKey, true);
 		return $('head').append('<link href="' + href + '" rel="stylesheet">')[0];
 	};
 
 	return {
 		toggleStylesheet: toggleStylesheet
 	};
-}(jQuery);
+}(jQuery, bcpl.utility.regexTools, bcpl.utility.browserStorage);
 'use strict';
 
 namespacer('bcpl');
