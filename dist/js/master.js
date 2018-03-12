@@ -672,6 +672,55 @@ bcpl.boostrapCollapseHelper = function ($) {
 }(jQuery);
 'use strict';
 
+namespacer('bcpl');
+
+bcpl.contraster = function ($, localStorage) {
+	var selectors = {
+		contrastButton: '#contrastButton',
+		stylesheetMaster: '#stylesheetMaster'
+	};
+
+	var stylesheets = {
+		master: {
+			normal: '/sebin/h/f/master.min.css',
+			high: '/sebin/x/v/master-high-contrast.min.css'
+		}
+	};
+
+	var localStorageHighContrastKey = 'isHighContrast';
+
+	var contrastButtonClickHandler = function contrastButtonClickHandler() {
+		var $stylesheetMaster = $(selectors.stylesheetMaster);
+
+		if ($stylesheetMaster.length) {
+			var masterHref = $stylesheetMaster.attr('href');
+			$stylesheetMaster.attr('href', masterHref === stylesheets.master.normal ? stylesheets.master.high : stylesheets.master.normal);
+			localStorage.setItem(localStorageHighContrastKey, masterHref === stylesheets.master.normal);
+		}
+	};
+
+	var init = function init() {
+		var $contrastButton = $(selectors.contrastButton);
+
+		if ($contrastButton.length) {
+			$contrastButton.on('click', contrastButtonClickHandler);
+		}
+
+		if (localStorage.getItem(localStorageHighContrastKey) === 'true') {
+			$contrastButton.trigger('click');
+		} else {
+			localStorage.setItem(localStorageHighContrastKey, 'false');
+		}
+	};
+
+	return { init: init };
+}(jQuery, localStorage);
+
+$(function () {
+	bcpl.contraster.init();
+});
+'use strict';
+
 namespacer('bcpl.pageSpecific.homepage');
 
 bcpl.pageSpecific.homepage.featuredEvents = function ($) {
