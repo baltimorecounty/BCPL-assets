@@ -1581,52 +1581,6 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.stylesheetSwapper = function ($, regexTools, browserStorage) {
-	/**
-  * Gets the <link> tag element by searching for one with the supplies href value.
-  * @param {string} href
-  */
-	var getLinkTagByHref = function getLinkTagByHref(href) {
-		if (!href || typeof href === 'string' && href.trim().length === 0) {
-			return null;
-		}
-
-		var loweredHref = href.toLowerCase();
-
-		// If multiple links have the same href, just use the last one
-		// because of the cascading nature of css.
-		var $targetLinkTag = $('link[rel=stylesheet][href~="' + loweredHref + '"]');
-
-		return $targetLinkTag[0] || null;
-	};
-
-	/**
-  * Conditionally adds or removes a <link> tag with the supplied regex.
-  * @param {string} href
-  * @param {string} sessionStorageKey
-  */
-	var toggleStylesheet = function toggleStylesheet(href, localStorageKey) {
-		var loweredHref = href.toLowerCase();
-
-		var linkTag = getLinkTagByHref(loweredHref);
-
-		if (linkTag && linkTag.parentElement) {
-			browserStorage.local(localStorageKey, false);
-			return linkTag.parentElement.removeChild(linkTag);
-		}
-
-		browserStorage.local(localStorageKey, true);
-		return $('head').append('<link href="' + href + '" rel="stylesheet">')[0];
-	};
-
-	return {
-		toggleStylesheet: toggleStylesheet
-	};
-}(jQuery, bcpl.utility.regexTools, bcpl.utility.browserStorage);
-'use strict';
-
-namespacer('bcpl');
-
 bcpl.tabs = function ($) {
 	var tabContainerSelector = '.tabs';
 	var tabControlSelector = '.tab-control';
