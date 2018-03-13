@@ -675,42 +675,59 @@ bcpl.boostrapCollapseHelper = function ($) {
 namespacer('bcpl');
 
 bcpl.contraster = function ($, browserStorage) {
-	var selectors = {
-		contrastButton: '#contrastButton',
-		stylesheetMaster: '#stylesheetMaster',
-		stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
-	};
-
-	var stylesheets = {
-		master: {
-			normal: '/sebin/h/f/master.min.css',
+	var contrasterDefaults = {
+		stylesheet: {
 			high: '/sebin/x/v/master-high-contrast.min.css'
+		},
+		selectors: {
+			contrastButton: '#contrastButton',
+			stylesheetMaster: '#stylesheetMaster',
+			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
 		}
 	};
 
+	var contrasterSettings = {};
+
 	var localStorageHighContrastKey = 'isHighContrast';
 
-	var contrastButtonClickHandler = function contrastButtonClickHandler() {
-		var $stylesheetMaster = $(selectors.stylesheetMaster);
+	/**
+  * Handles the click event of the contrast button.
+  */
+	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
+		var settings = clickEvent.data;
+
+		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 
 		if ($stylesheetMaster.length) {
-			var $stylesheetMasterHighContrast = $(selectors.stylesheetMasterHighContrast);
+			var $stylesheetMasterHighContrast = $(settings.selectors.stylesheetMasterHighContrast);
 
 			if ($stylesheetMasterHighContrast.length) {
 				$stylesheetMasterHighContrast.remove();
 				browserStorage.local(localStorageHighContrastKey, 'false');
 			} else {
-				$stylesheetMaster.after('<link id="stylesheetMasterHighContrast" href="' + stylesheets.master.high + '" rel="stylesheet">');
+				$stylesheetMaster.after('<link id="stylesheetMasterHighContrast" href="' + settings.styleSheet + '" rel="stylesheet">');
 				browserStorage.local(localStorageHighContrastKey, 'true');
 			}
 		}
 	};
 
-	var init = function init() {
-		var $contrastButton = $(selectors.contrastButton);
+	/**
+  * Initializes the contraster with the new stylesheet.
+  * @param {{ stylesheetUrl: string, contrastButtonSelector: string, stylesheetMasterSelector: string, stylesheetMasterHighContrastSelector: string }} options - Options object to set the contraster.
+  */
+	var init = function init(options) {
+		contrasterSettings.styleSheet = options.stylesheetUrl && typeof options.stylesheetUrl === 'string' ? options.stylesheetUrl : contrasterDefaults.stylesheet.high;
+
+		contrasterSettings.selectors = {
+			contrastButton: options.contrastButtonSelector && typeof options.contrastButtonSelector === 'string' ? options.contrastButtonSelector : contrasterDefaults.selectors.contrastButton,
+			stylesheetMaster: options.stylesheetMasterSelector && typeof options.stylesheetMasterSelector === 'string' ? options.stylesheetMasterSelector : contrasterDefaults.selectors.stylesheetMaster,
+			stylesheetMasterHighContrast: options.stylesheetMasterHighContrastSelector && typeof options.stylesheetMasterHighContrastSelector === 'string' ? options.stylesheetMasterHighContrastSelector : contrasterDefaults.selectors.stylesheetMasterHighContrast
+		};
+
+		var $contrastButton = $(contrasterSettings.selectors.contrastButton);
 
 		if ($contrastButton.length) {
-			$contrastButton.on('click', contrastButtonClickHandler);
+			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler);
 		}
 
 		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
@@ -724,10 +741,6 @@ bcpl.contraster = function ($, browserStorage) {
 		init: init
 	};
 }(jQuery, bcpl.utility.browserStorage);
-
-$(function () {
-	bcpl.contraster.init();
-});
 'use strict';
 
 namespacer('bcpl.pageSpecific.homepage');
