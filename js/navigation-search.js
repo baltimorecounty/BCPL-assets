@@ -115,7 +115,9 @@ bcpl.navigationSearch = (($) => {
 				.animate({ right: '-300px' }, 250, function afterAnimation() {
 					$(this)
 						.closest('li.active')
-						.removeClass('active');
+						.removeClass('active')
+						.closest('ul')
+						.removeClass('sub-menu');
 				});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
