@@ -1020,7 +1020,7 @@ bcpl.navigationSearch = function ($) {
 
 		if ($activeMenuItem.length) {
 			$activeMenuItem.find('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
-				$(this).closest('li.active').removeClass('active');
+				$(this).closest('li.active').removeClass('active').closest('ul').removeClass('sub-menu');
 			});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
@@ -1121,6 +1121,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
 	var activeMenuButtonSelector = 'li.active button';
+	var subMenuClass = 'sub-menu';
 	var mobileWidthThreshold = 768;
 
 	var isMobileWidth = function isMobileWidth($element, threshold) {
@@ -1195,12 +1196,15 @@ bcpl.navigation = function ($, keyCodes) {
 		if (window.innerWidth <= mobileWidthThreshold) {
 			var $button = $(event.currentTarget);
 			var wasActive = $button.closest('li').hasClass('active');
+			var $closestMenu = $button.closest('ul');
 			hideSearchBox();
 			removeActiveClassFromAllButtons();
 			if (!wasActive) {
 				activateSubmenu($button);
+				$closestMenu.addClass(subMenuClass);
 			} else {
 				deactivateSubmenu($button);
+				$closestMenu.removeClass(subMenuClass);
 			}
 			hideHeroCallout(!wasActive);
 		}
