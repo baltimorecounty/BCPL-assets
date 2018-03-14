@@ -23,7 +23,7 @@ const featuredEventsFiles = require('./gulp-tasks/featured-events.files');
 gulp.task('clean', () => gulp.src('dist')
 	.pipe(clean()));
 
-gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheets/home.scss'])
+gulp.task('process-scss', () => gulp.src(['stylesheets/master.scss', 'stylesheets/master-high-contrast.scss', 'stylesheets/home.scss'])
 	.pipe(sass())
 	.pipe(cssnano({ autoprefixer: false, zindex: false }))
 	.pipe(rename({ suffix: '.min' }))

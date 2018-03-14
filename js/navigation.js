@@ -7,6 +7,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const activeLinksSelector = '.active, .clicked';
 	const activeMenuButtonSelector = 'li.active button';
+	const subMenuClass = 'sub-menu';
 	const mobileWidthThreshold = 768;
 
 	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
@@ -85,12 +86,15 @@ bcpl.navigation = (($, keyCodes) => {
 		if (window.innerWidth <= mobileWidthThreshold) {
 			const $button = $(event.currentTarget);
 			const wasActive = $button.closest('li').hasClass('active');
+			const $closestMenu = $button.closest('ul');
 			hideSearchBox();
 			removeActiveClassFromAllButtons();
 			if (!wasActive) {
 				activateSubmenu($button);
+				$closestMenu.addClass(subMenuClass);
 			} else {
 				deactivateSubmenu($button);
+				$closestMenu.removeClass(subMenuClass);
 			}
 			hideHeroCallout(!wasActive);
 		}
@@ -199,7 +203,7 @@ bcpl.navigation = (($, keyCodes) => {
 			keyboardEvent.preventDefault();
 			$link[0].click();
 			removeActiveClassFromAllButtons();
-			
+
 			break;
 		default:
 			break;

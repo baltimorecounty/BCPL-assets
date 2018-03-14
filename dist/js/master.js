@@ -75,8 +75,66 @@ bcpl.constants = {
 			alertNotification: '/api/structured-content/alerts-notification',
 			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
+	},
+	expressions: {
+		justWordCharacters: /\w+/g
 	}
 };
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.browserStorage = function (localStorage) {
+	/**
+  * Local storage management.
+  * @param {string} key Key for the stored item.
+  * @param {string} [value] Value to set.
+  */
+	var local = function local(key, value) {
+		if (!localStorage) {
+			return console.error('Local storage is not supported in this browser.');
+		}
+
+		if (key && typeof key === 'string') {
+			if (value && typeof value === 'string') {
+				return setLocalValue(key, value);
+			}
+
+			return getLocalValue(key);
+		}
+
+		return console.error('Your local storage key must be a string. Nothing stored.');
+	};
+
+	/**
+  * Retrieves a value from local storage.
+  * @param {string} key Key for the stored item.
+  */
+	var getLocalValue = function getLocalValue(key) {
+		try {
+			return localStorage.getItem(key);
+		} catch (error) {
+			return console.error(error);
+		}
+	};
+
+	/**
+  * Sets a value in local storage.
+  * @param {string} key Key for the stored item.
+  * @param {string} value Value to set.
+  */
+	var setLocalValue = function setLocalValue(key, value) {
+		try {
+			return localStorage.setItem(key, value);
+		} catch (error) {
+			return console.error(error);
+		}
+	};
+
+	return {
+		local: local
+	};
+}(localStorage);
 'use strict';
 
 namespacer('bcpl.utility');
@@ -241,6 +299,31 @@ bcpl.utility.querystringer = function () {
 	return {
 		getAsDictionary: getAsDictionary
 	};
+}();
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.regexTools = function () {
+	/**
+  * Filters a string down to only characters that match the regex.
+  *
+  * @param {string} stringToFilter
+  * @param {RegExp} filterRegex
+  */
+	var removeMatchingCharacters = function removeMatchingCharacters(stringToFilter, filterRegex) {
+		var match = void 0;
+		var matches = [];
+
+		/* eslint-disable no-cond-assign */
+		while ((match = filterRegex.exec(stringToFilter)) !== null) {
+			matches.push(match[0]);
+		}
+
+		return matches.join('');
+	};
+
+	return { removeMatchingCharacters: removeMatchingCharacters };
 }();
 'use strict';
 
@@ -589,6 +672,77 @@ bcpl.boostrapCollapseHelper = function ($) {
 }(jQuery);
 'use strict';
 
+namespacer('bcpl');
+
+bcpl.contraster = function ($, browserStorage) {
+	var contrasterDefaults = {
+		styleSheet: {
+			high: '/sebin/x/v/master-high-contrast.min.css'
+		},
+		selectors: {
+			contrastButton: '#contrastButton',
+			stylesheetMaster: '#stylesheetMaster',
+			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
+		}
+	};
+
+	var contrasterSettings = {};
+
+	var localStorageHighContrastKey = 'isHighContrast';
+
+	/**
+  * Handles the click event of the contrast button.
+  */
+	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
+		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
+
+		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
+
+		if ($stylesheetMaster.length) {
+			var $stylesheetMasterHighContrast = $(settings.selectors.stylesheetMasterHighContrast);
+
+			if ($stylesheetMasterHighContrast.length) {
+				$stylesheetMasterHighContrast.remove();
+				browserStorage.local(localStorageHighContrastKey, 'false');
+			} else {
+				$stylesheetMaster.after('<link id="stylesheetMasterHighContrast" href="' + settings.styleSheet + '" rel="stylesheet">');
+				browserStorage.local(localStorageHighContrastKey, 'true');
+			}
+		}
+	};
+
+	/**
+  * Initializes the contraster with the new stylesheet.
+  * @param {{ stylesheetUrl: string, contrastButtonSelector: string, stylesheetMasterSelector: string, stylesheetMasterHighContrastSelector: string }} options - Options object to set the contraster.
+  */
+	var init = function init(options) {
+		contrasterSettings.styleSheet = options.stylesheetUrl && typeof options.stylesheetUrl === 'string' ? options.stylesheetUrl : contrasterDefaults.styleSheet.high;
+
+		contrasterSettings.selectors = {
+			contrastButton: options.contrastButtonSelector && typeof options.contrastButtonSelector === 'string' ? options.contrastButtonSelector : contrasterDefaults.selectors.contrastButton,
+			stylesheetMaster: options.stylesheetMasterSelector && typeof options.stylesheetMasterSelector === 'string' ? options.stylesheetMasterSelector : contrasterDefaults.selectors.stylesheetMaster,
+			stylesheetMasterHighContrast: options.stylesheetMasterHighContrastSelector && typeof options.stylesheetMasterHighContrastSelector === 'string' ? options.stylesheetMasterHighContrastSelector : contrasterDefaults.selectors.stylesheetMasterHighContrast
+		};
+
+		var $contrastButton = $(contrasterSettings.selectors.contrastButton);
+
+		if ($contrastButton.length) {
+			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler);
+		}
+
+		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
+			$contrastButton.trigger('click');
+		} else {
+			browserStorage.local(localStorageHighContrastKey, 'false');
+		}
+	};
+
+	return {
+		init: init
+	};
+}(jQuery, bcpl.utility.browserStorage);
+'use strict';
+
 namespacer('bcpl.pageSpecific.homepage');
 
 bcpl.pageSpecific.homepage.featuredEvents = function ($) {
@@ -879,7 +1033,7 @@ bcpl.navigationSearch = function ($) {
 
 		if ($activeMenuItem.length) {
 			$activeMenuItem.find('.submenu-wrapper').animate({ right: '-300px' }, 250, function afterAnimation() {
-				$(this).closest('li.active').removeClass('active');
+				$(this).closest('li.active').removeClass('active').closest('ul').removeClass('sub-menu');
 			});
 		} else {
 			killMenuAndModalCover($menu, $modalCover);
@@ -980,6 +1134,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var activeLinksSelector = '.active, .clicked';
 	var activeMenuButtonSelector = 'li.active button';
+	var subMenuClass = 'sub-menu';
 	var mobileWidthThreshold = 768;
 
 	var isMobileWidth = function isMobileWidth($element, threshold) {
@@ -1054,12 +1209,15 @@ bcpl.navigation = function ($, keyCodes) {
 		if (window.innerWidth <= mobileWidthThreshold) {
 			var $button = $(event.currentTarget);
 			var wasActive = $button.closest('li').hasClass('active');
+			var $closestMenu = $button.closest('ul');
 			hideSearchBox();
 			removeActiveClassFromAllButtons();
 			if (!wasActive) {
 				activateSubmenu($button);
+				$closestMenu.addClass(subMenuClass);
 			} else {
 				deactivateSubmenu($button);
+				$closestMenu.removeClass(subMenuClass);
 			}
 			hideHeroCallout(!wasActive);
 		}

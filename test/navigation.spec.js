@@ -45,24 +45,6 @@ describe('Navigation', () => {
 		});
 	});
 
-	describe('focusFirstActiveMenuLink', () => {
-		beforeAll((done) => {
-			loadFixtures('menuAndModal.fixture.html');
-			done();
-		});
-
-		it('should focus the first active sliding navigation menu link', (done) => {
-			$('#responsive-sliding-navigation li').first().addClass('active');
-
-			bcpl.navigation.focusFirstActiveMenuLink(() => {
-				done();
-			});
-			const isFirstActiveLinkFocused = $('#responsive-sliding-navigation li.active a').first().is(':focus');
-
-			expect(isFirstActiveLinkFocused).toBe(true);
-		});
-	});
-
 	describe('findClosestButtonToLink', () => {
 		beforeAll((done) => {
 			loadFixtures('menuAndModal.fixture.html');
