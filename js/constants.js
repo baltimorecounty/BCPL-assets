@@ -45,5 +45,8 @@ bcpl.constants = {
 			alertNotification: '/api/structured-content/alerts-notification',
 			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
 		}
+	},
+	expressions: {
+		justWordCharacters: /\w+/g
 	}
 };
