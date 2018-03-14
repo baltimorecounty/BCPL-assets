@@ -7,7 +7,7 @@ bcpl.utility.regexTools = (() => {
 	 * @param {string} stringToFilter
 	 * @param {RegExp} filterRegex
 	 */
-	const filter = (stringToFilter, filterRegex) => {
+	const removeMatchingCharacters = (stringToFilter, filterRegex) => {
 		let match;
 		const matches = [];
 
@@ -19,5 +19,5 @@ bcpl.utility.regexTools = (() => {
 		return matches.join('');
 	};
 
-	return { filter };
+	return { removeMatchingCharacters };
 })();
