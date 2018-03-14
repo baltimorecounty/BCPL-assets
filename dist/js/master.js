@@ -311,7 +311,7 @@ bcpl.utility.regexTools = function () {
   * @param {string} stringToFilter
   * @param {RegExp} filterRegex
   */
-	var filter = function filter(stringToFilter, filterRegex) {
+	var removeMatchingCharacters = function removeMatchingCharacters(stringToFilter, filterRegex) {
 		var match = void 0;
 		var matches = [];
 
@@ -323,7 +323,7 @@ bcpl.utility.regexTools = function () {
 		return matches.join('');
 	};
 
-	return { filter: filter };
+	return { removeMatchingCharacters: removeMatchingCharacters };
 }();
 'use strict';
 
@@ -676,7 +676,7 @@ namespacer('bcpl');
 
 bcpl.contraster = function ($, browserStorage) {
 	var contrasterDefaults = {
-		stylesheet: {
+		styleSheet: {
 			high: '/sebin/x/v/master-high-contrast.min.css'
 		},
 		selectors: {
@@ -694,7 +694,7 @@ bcpl.contraster = function ($, browserStorage) {
   * Handles the click event of the contrast button.
   */
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
-		var settings = clickEvent.data;
+		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
 
 		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 
@@ -716,7 +716,7 @@ bcpl.contraster = function ($, browserStorage) {
   * @param {{ stylesheetUrl: string, contrastButtonSelector: string, stylesheetMasterSelector: string, stylesheetMasterHighContrastSelector: string }} options - Options object to set the contraster.
   */
 	var init = function init(options) {
-		contrasterSettings.styleSheet = options.stylesheetUrl && typeof options.stylesheetUrl === 'string' ? options.stylesheetUrl : contrasterDefaults.stylesheet.high;
+		contrasterSettings.styleSheet = options.stylesheetUrl && typeof options.stylesheetUrl === 'string' ? options.stylesheetUrl : contrasterDefaults.styleSheet.high;
 
 		contrasterSettings.selectors = {
 			contrastButton: options.contrastButtonSelector && typeof options.contrastButtonSelector === 'string' ? options.contrastButtonSelector : contrasterDefaults.selectors.contrastButton,
