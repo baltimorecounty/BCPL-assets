@@ -22,6 +22,7 @@
 		vm.clearFilters = () => {
 			vm.activeFilters = [];
 			cycleDisplay();
+			publishLoadedCardsEvent();
 		};
 
 		/* Private */
