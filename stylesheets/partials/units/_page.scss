@@ -1,0 +1,26 @@
+@media (max-width: $screen-xs) {
+	.container.content-page {
+		padding: 0;
+		background-color: white;
+
+		header {
+			.col-sm-12 {
+				padding: 0;
+			}
+		}
+
+		.row {
+			margin: 0;
+
+			.col-md-9 {
+				padding: 0;
+
+				.main-content {
+					margin-bottom: 0;
+					padding: 0 1em 1em;
+				}
+			}
+		}
+
+	}
+}
