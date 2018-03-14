@@ -22,9 +22,11 @@
 		</div>
 		<div class="col-sm-5 branch-email-phone">
 			<div class="branch-email-phone-wrapper">
-				<a href="mailto:{{cardData.email}}" class="branch-email">
-					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}
-				</a>
+                <div class="branch-location-email-button" id="s-la-widget-{{cardData.libAnswersId}}">
+                    <!-- <a href="#" class="branch-email">
+					    <i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}
+				    </a> -->
+                </div>
 				<a href="tel:{{cardData.phone}}" class="branch-phone">
 					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}
 				</a>
