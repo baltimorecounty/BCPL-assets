@@ -362,6 +362,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		vm.clearFilters = function () {
 			vm.activeFilters = [];
 			cycleDisplay();
+			publishLoadedCardsEvent();
 		};
 
 		/* Private */
@@ -381,7 +382,6 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 		var publishLoadedCardsEvent = function publishLoadedCardsEvent() {
 			document.dispatchEvent(loadedCardsEvent);
-			console.log('cards loaded');
 		};
 
 		/**
@@ -402,10 +402,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 
-			console.log('got here');
-
 			publishLoadedCardsEvent();
-
 			$scope.$apply();
 		};
 

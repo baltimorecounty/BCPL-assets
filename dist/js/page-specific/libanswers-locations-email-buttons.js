@@ -15,7 +15,6 @@
 	};
 
 	var onFilterCardsLoaded = function onFilterCardsLoaded() {
-		console.log('event triggered');
 		libAnswerIds.forEach(function (id) {
 			loadScript('https://api2.libanswers.com/1.0/widgets/' + id);
 		});
