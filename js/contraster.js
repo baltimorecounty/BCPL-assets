@@ -2,7 +2,7 @@ namespacer('bcpl');
 
 bcpl.contraster = (($, browserStorage) => {
 	const contrasterDefaults = {
-		stylesheet: {
+		styleSheet: {
 			high: '/sebin/x/v/master-high-contrast.min.css'
 		},
 		selectors: {
@@ -20,7 +20,7 @@ bcpl.contraster = (($, browserStorage) => {
 	 * Handles the click event of the contrast button.
 	 */
 	const contrastButtonClickHandler = (clickEvent) => {
-		const settings = clickEvent.data;
+		const settings = clickEvent ? clickEvent.data : contrasterDefaults;
 
 		const $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 
@@ -45,7 +45,7 @@ bcpl.contraster = (($, browserStorage) => {
 		contrasterSettings.styleSheet =
 			options.stylesheetUrl && typeof options.stylesheetUrl === 'string'
 				? options.stylesheetUrl
-				: contrasterDefaults.stylesheet.high;
+				: contrasterDefaults.styleSheet.high;
 
 		contrasterSettings.selectors = {
 			contrastButton: options.contrastButtonSelector && typeof options.contrastButtonSelector === 'string'
