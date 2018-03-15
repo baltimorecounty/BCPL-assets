@@ -1,0 +1,83 @@
+.modal-gallery-container {
+    border: 3px solid  $gray-lightest;
+    border-radius: 15px;
+    margin: 1em auto 2em;
+    padding: 15px;
+    padding: 15px;
+    display: flex;
+
+    a {
+        padding: 0 10px 0 0;
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
+.modal-gallery-trigger-button {
+    display: block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    &:after {
+        content: '\f083';
+        color: white;
+        top: 35%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: FontAwesome;
+        position: absolute;
+        font-size: 2em;
+        z-index: 99;
+    }
+}
+
+/* Overrides for Ekko Lightbox */
+.ekko-lightbox.modal {
+    .modal-dialog {
+        width: auto !important;
+    }
+    .modal-header,
+    .modal-footer {
+        border: none !important;
+    }
+    .modal-body {
+        padding: 0 15px;
+    }
+    .modal-footer {
+        text-align: center;
+    }
+    .modal-title {
+        @extend p;
+        font-size: .8em;
+    }
+    .close {
+        display: flex;
+        align-items: center;
+        opacity: 1 !important;
+
+        span {
+            color: $teal;
+        }
+
+        span:first-child {
+            background: $teal;
+            color: white;
+            padding: 0px 5px
+        }
+        .modal-dismiss-text {
+            font-size: 12px;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+@media screen and (max-width: $screen-xs) {
+    .modal-gallery-container {
+        display: block;
+    }
+}

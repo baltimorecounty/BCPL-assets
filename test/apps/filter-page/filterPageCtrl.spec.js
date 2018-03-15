@@ -1,5 +1,8 @@
 describe('filterPageCtrl', () => {
 	const fakeWindow = {
+		Event: function Event() {
+			// mock event
+		},
 		location: {
 			pathname: 'locations'
 		}

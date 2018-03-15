@@ -341,7 +341,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var vm = this;
 
 		vm.activeFilters = [];
@@ -356,11 +356,13 @@ bcpl.boostrapCollapseHelper = function ($) {
 		vm.setFilter = function (filter, filterFamily) {
 			setActiveFilters(filter, filterFamily);
 			cycleDisplay();
+			publishLoadedCardsEvent();
 		};
 
 		vm.clearFilters = function () {
 			vm.activeFilters = [];
 			cycleDisplay();
+			publishLoadedCardsEvent();
 		};
 
 		/* Private */
@@ -374,6 +376,12 @@ bcpl.boostrapCollapseHelper = function ($) {
 			$timeout(function () {
 				$animate.removeClass(resultsDisplayElement, 'fade-out');
 			}, 250);
+		};
+
+		var loadedCardsEvent = new $window.Event('bc-filter-cards-loaded');
+
+		var publishLoadedCardsEvent = function publishLoadedCardsEvent() {
+			document.dispatchEvent(loadedCardsEvent);
 		};
 
 		/**
@@ -393,6 +401,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
+
+			publishLoadedCardsEvent();
 			$scope.$apply();
 		};
 
@@ -479,7 +489,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
