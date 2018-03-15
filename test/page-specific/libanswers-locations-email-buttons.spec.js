@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
-
-describe('removeStyleTagByContainingRule', () => {
+describe('libAnswers EmailButtons', () => {
 	const mockCssRule = '.test ';
 
 	beforeEach((done) => {
@@ -8,29 +7,58 @@ describe('removeStyleTagByContainingRule', () => {
 		done();
 	});
 
-	it(`should remove all scripts containing the css rule: ${mockCssRule}`, (done) => {
-		const expectedNumberOfScripts = 0;
+	describe('removeStyleTagByContainingRule', () => {
+		it(`should remove all scripts containing the css rule: ${mockCssRule}`, (done) => {
+			const expectedNumberOfStyles = 0;
 
-		bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
+			bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
 
-		console.log('fixture-head', $('head style').html());
+			const actualNumberOfStyles = $(`style:contains("${mockCssRule}")`).length;
 
-		const actualNumberOfScripts = $('#fixture-head').find(`style:contains("${mockCssRule}")`).length;
+			expect(actualNumberOfStyles).toEqual(expectedNumberOfStyles);
 
-		expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
+			done();
+		});
 
-		done();
+		it(`should NOT remove similar styles thare are like the rule: ${mockCssRule}`, (done) => {
+			const expectedNumberOfStyles = 1;
+
+			bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
+
+
+			const actualNumberOfStyles = $(`style:contains("${mockCssRule.trim()}")`).length;
+
+			expect(actualNumberOfStyles).toEqual(expectedNumberOfStyles);
+
+			done();
+		});
 	});
+	describe('removeScriptByUrl', () => {
+		const mockScriptSrc = '//code.jquery.com/jquery-3.3.1.min.js';
 
-	it(`should NOT remove similar styles thare are like the rule: ${mockCssRule}`, (done) => {
-		const expectedNumberOfScripts = 1;
+		it(`should remove all scripts containing the src: ${mockScriptSrc} if we do not specifiy it's a duplicate`, (done) => {
+			const expectedNumberOfScripts = 0;
 
-		bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
+			bcpl.pageSpecific.libAnswers.emailButtons.removeScriptByUrl(mockScriptSrc);
 
-		const actualNumberOfScripts = $('#fixture-head').find(`style:contains("${mockCssRule.trim()}")`).length;
+			const actualNumberOfScripts = $(`script[src*="${mockScriptSrc}"]`).length;
 
-		expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
+			expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
 
-		done();
+			done();
+		});
+
+		it(`should remove all but one scripts containing the src: ${mockScriptSrc} if the script is a duplicate`, (done) => {
+			const expectedNumberOfScripts = 1;
+
+			bcpl.pageSpecific.libAnswers.emailButtons.removeScriptByUrl(mockScriptSrc, true);
+
+			const actualNumberOfScripts = $(`script[src*="${mockScriptSrc}"]`).length;
+
+			expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
+
+			done();
+		});
 	});
 });
+
