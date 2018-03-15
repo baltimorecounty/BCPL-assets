@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
 
 describe('removeStyleTagByContainingRule', () => {
 	const mockCssRule = '.test ';
@@ -14,7 +13,7 @@ describe('removeStyleTagByContainingRule', () => {
 
 		bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
 
-		console.log('fixture-head', $('#fixture-head').length);
+		console.log('fixture-head', $('head style').html());
 
 		const actualNumberOfScripts = $('#fixture-head').find(`style:contains("${mockCssRule}")`).length;
 
