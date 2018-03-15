@@ -57,3 +57,23 @@
 @import "partials/features/icon-bubble-list";
 @import "partials/features/card-blog";
 @import "partials/features/blog-post";
+
+.blog-wrapper time {
+	color: #565656;
+}
+
+a, p {
+	color: #196360;
+}
+
+footer .callouts-wrapper {
+	background-color: #084443;
+}
+
+.callouts-wrapper .row .callout {
+	border-right-color: #0b5554;
+}
+
+footer .copyright-wrapper { 
+	color: #ccc;
+}
