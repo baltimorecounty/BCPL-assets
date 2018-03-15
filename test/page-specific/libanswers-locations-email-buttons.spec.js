@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
+jasmine.getFixtures().fixturesPath = '/base/test/fixtures';
+
 describe('removeStyleTagByContainingRule', () => {
-	const mockCssRule = '.test';
+	const mockCssRule = '.test ';
 
 	beforeEach((done) => {
-		loadFixtures('libanswers-locations-email-buttons.html');
+		loadFixtures('libanswers-locations-email-buttons.fixture.html');
 		done();
 	});
 
@@ -12,7 +14,21 @@ describe('removeStyleTagByContainingRule', () => {
 
 		bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
 
-		const actualNumberOfScripts = $('head').find(`style:contains("${mockCssRule}")`).length;
+		console.log('fixture-head', $('#fixture-head').length);
+
+		const actualNumberOfScripts = $('#fixture-head').find(`style:contains("${mockCssRule}")`).length;
+
+		expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
+
+		done();
+	});
+
+	it(`should NOT remove similar styles thare are like the rule: ${mockCssRule}`, (done) => {
+		const expectedNumberOfScripts = 1;
+
+		bcpl.pageSpecific.libAnswers.emailButtons.removeStyleTagByContainingRule(mockCssRule);
+
+		const actualNumberOfScripts = $('#fixture-head').find(`style:contains("${mockCssRule.trim()}")`).length;
 
 		expect(actualNumberOfScripts).toEqual(expectedNumberOfScripts);
 
