@@ -43,7 +43,16 @@ bcpl.pageSpecific.libAnswers.emailButtons = function initEmailButtons($) {
 	};
 
 	var removeStyleTagByContainingRule = function removeStyleTagByContainingRule(rule) {
-		$('style:contains(' + rule + ')').remove();
+		var $style = $('style:contains(' + rule + ')');
+
+		$style.toArray().forEach(function (styleElm) {
+			var $styleElm = $(styleElm);
+			var styleContents = $styleElm.html();
+
+			if (styleContents.indexOf(rule) > -1) {
+				$styleElm.remove();
+			}
+		});
 	};
 
 	var onBranchEmailClick = function onBranchEmailClick(clickEvent) {
