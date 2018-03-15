@@ -65,36 +65,45 @@ $hi-burgundy: #7a0000;
 $hi-gray: #565656;
 $hi-light-gray: #ccc;
 
-.blog-wrapper time {
-	color: $hi-gray !important;
-}
+.blog-wrapper  {
+	time {
+		color: $hi-gray !important;
+	}
 
-footer .callouts-wrapper {
-	background-color: $hi-dark-green;
-}
-
-.callouts-wrapper .row .callout {
-	border-right-color: $hi-dark-green;
-}
-
-footer .copyright-wrapper { 
-	color: $hi-light-gray;
-
-	p {
-		color: white;
+	h2 {
+		color: $hi-dark-green !important;
 	}
 }
 
-footer .follow-wrapper .branding {
-	color: white;
-}
+footer {
+	.callouts-wrapper {
+		background-color: $hi-dark-green;
+		
+		.row .callout {
+			border-right-color: $hi-green;
+		}
+	
+		p {
+			color: white;
+		}
+	}
 
-footer .callouts-wrapper p {
-	color: white;
-}
+	.copyright-wrapper { 
+		color: $hi-light-gray;
 
-footer .copyright-wrapper nav ul li a {
-	color: $hi-light-gray;
+		p {
+			color: white;
+		}
+	}
+
+	.follow-wrapper .branding {
+		color: white;
+	}
+
+
+	.copyright-wrapper nav ul li a {
+		color: $hi-light-gray;
+	}
 }
 
 .hero-foreground p {
@@ -104,10 +113,6 @@ footer .copyright-wrapper nav ul li a {
 .menu-wrapper #search-box .search-button.active, .menu-wrapper #search-box .search-button:hover {
 	background-color: white;
 	color: $hi-dark-green;
-}
-
-.blog-wrapper h2 {
-	color: $hi-dark-green !important;
 }
 
 .subnav-wrapper p {
@@ -123,15 +128,17 @@ footer .copyright-wrapper nav ul li a {
 	background-image: none !important;
 }
 
-.internal .menu-wrapper .menu-inner-wrapper {
-	background: linear-gradient(180deg,$hi-dark-green 0,rgba(0,161,155,0) 200%);
-	background: -webkit-linear-gradient(top,$hi-dark-green,rgba(0,161,155,0) 200%);
-	background: -moz-linear-gradient(top,$hi-dark-green 0,rgba(0,161,155,0) 200%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$hi-dark-green",endColorstr="$hi-dark-green",GradientType=0);
-}
-
-.internal .menu-wrapper {
-	background-color: $hi-dark-green;
+.internal {
+	.menu-wrapper .menu-inner-wrapper {
+		background: linear-gradient(180deg,$hi-dark-green 0,rgba(0,161,155,0) 200%);
+		background: -webkit-linear-gradient(top,$hi-dark-green,rgba(0,161,155,0) 200%);
+		background: -moz-linear-gradient(top,$hi-dark-green 0,rgba(0,161,155,0) 200%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$hi-dark-green",endColorstr="$hi-dark-green",GradientType=0);
+	}
+	
+	 .menu-wrapper {
+		background-color: $hi-dark-green;
+	}
 }
 
 .main-header, .menu-wrapper {
