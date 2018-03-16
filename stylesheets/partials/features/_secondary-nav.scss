@@ -21,8 +21,8 @@
 							color: white;
 							
 							&:after {
-								border-top: 23px solid transparent;
-								border-bottom: 23px solid transparent;
+								border-top: 24px solid transparent;
+								border-bottom: 24px solid transparent;
 								border-left: .5em solid #00a19b;
 								content: "";
 								position: absolute;
@@ -62,6 +62,10 @@
 									padding-right: 1em;
 								}
 
+								&.active:after {
+									border-top: 20px solid transparent;
+									border-bottom: 20px solid transparent;
+								}
 								
 							}
 						}
