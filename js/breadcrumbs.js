@@ -8,10 +8,15 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 		popover: '<div class="popover breadcrumb-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	};
 	const classNames = {
+		breadCrumbContainer: 'breadcrumbs-wrapper',
 		firstBreadCrumb: 'breadcrumb-first',
 		hiddenBreadCrumbContainer: 'hidden-breadcrumb-container',
 		hiddenBreadCrumbTrigger: 'hidden-breadcrumb-trigger',
 		hiddenBreadCrumbPopover: 'hidden-breadcrumb-popover'
+	};
+
+	const selectors = {
+		breadCrumbChildren: '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span'
 	};
 
 	const buildBreadCrumbHtml = (hiddenBreadCrumbTriggerClassName) => {
@@ -32,17 +37,28 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 
 	const buildBreadCrumbTrigger = (breadCrumbTrigger) => `<span class="${breadCrumbTrigger}"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></span>`;
 
-	const cleanBreadCrumbs = () => {
-		const breadCrumbContainer = '.breadcrumbs-wrapper';
-		const childSelector = '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span';
-		const $childHtml = $(childSelector);
+	const isEmpty = ($elm) => !$.trim($elm.html().replace(/(?:\r\n|\r|\n|\s|&nbsp;)/g, ''));
 
-		$childHtml.html((i, html) => html.replace(/(?:\r\n|\r|\n|&nbsp;)/g, ''));
+	const cleanBreadCrumbs = () => {
+		const breadCrumbContainer = `.${classNames.breadCrumbContainer}`;
+		const childSelector = `${selectors.breadCrumbChildren}`;
+		const $childHtml = $(childSelector);
 
 		$(childSelector).remove();
 
+		$childHtml
+			.html((i, html) => html.replace(/(?:\r\n|\r|\n|&nbsp;)/g, ''));
+
 		$(breadCrumbContainer)
-			.append($childHtml);
+			.append($childHtml)
+			.find('*')
+			.toArray()
+			.forEach((childElm) => {
+				const $childElm = $(childElm);
+				if (isEmpty($childElm)) {
+					$childElm.remove();
+				}
+			});
 	};
 
 	const collapseBreadCrumbs = ($breadCrumbs) => {
@@ -72,10 +88,23 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 		$(clickEvent.currentTarget).toggleClass('active');
 	};
 
+	const toggleElm = ($elm, shouldShow) => {
+		if (shouldShow) {
+			$elm.show();
+		} else {
+			$elm.hide();
+		}
+	};
+
 	const init = (breadcrumbThreshold) => {
 		const breadcrumbThresholdLimit = breadcrumbThreshold || 3;
 
 		$(function onDocumentReady() {
+			const $breadCrumbContainer = $(`.${classNames.breadCrumbContainer}`);
+
+
+			toggleElm($breadCrumbContainer, false);
+
 			cleanBreadCrumbs();
 
 			const $breadCrumbs = $getBreadCrumbs();
@@ -90,6 +119,8 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 
 				initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
 			}
+
+			toggleElm($breadCrumbContainer, true);
 		});
 	};
 
