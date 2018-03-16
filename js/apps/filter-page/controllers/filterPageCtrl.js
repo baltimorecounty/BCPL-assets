@@ -38,8 +38,10 @@
 			}, 250);
 		};
 
+		const cardsLoadedEvent = new CustomEvent('bc-filter-cards-loaded');
+
 		const publishLoadedCardsEvent = () => {
-			angular.element(document).trigger('bc-filter-cards-loaded');
+			document.dispatchEvent(cardsLoadedEvent);
 		};
 
 		/**

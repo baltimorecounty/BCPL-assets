@@ -378,8 +378,10 @@ bcpl.boostrapCollapseHelper = function ($) {
 			}, 250);
 		};
 
+		var cardsLoadedEvent = new CustomEvent('bc-filter-cards-loaded');
+
 		var publishLoadedCardsEvent = function publishLoadedCardsEvent() {
-			angular.element(document).trigger('bc-filter-cards-loaded');
+			document.dispatchEvent(cardsLoadedEvent);
 		};
 
 		/**
