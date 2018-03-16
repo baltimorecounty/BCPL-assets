@@ -27,15 +27,21 @@
 		<div class="col-md-9">
 			<h1>Alerts and Notifications</h1>
 			<ul class="card-list">
-				{{#each this}}
-				<li class="card">
-					<h3>{{Description}}</h3>
-					{{#if OtherDescription}}
-					<p>{{OtherDescription}}</p>
-					{{/if}}
-				</li>
-				{{/each}}
-			</ul>
+				{{#if this}}
+					{{#each this}}
+					<li class="card">
+						<h3>{{Description}}</h3>
+						{{#if OtherDescription}}
+						<p>{{OtherDescription}}</p>
+						{{/if}}
+					</li>
+					{{/each}}
+				{{else}}
+					<li class="card">
+						<p>There are no active alerts at this time.</p>
+					</li>
+				{{/if}}
+			</ul>			
 		</div>
 	</div>
 </script>
