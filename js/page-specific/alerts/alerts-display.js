@@ -14,7 +14,7 @@ bcpl.pageSpecific.alerts.alertDisplay = (($, Handlebars, moment, CONSTANTS) => {
 
 		if (alertsTemplateHtml && alertsTemplateHtml.length) {
 			const alertsTemplate = Handlebars.compile(alertsTemplateHtml);
-			const renderedHtml = alertsTemplate(alerts);
+			const renderedHtml = alertsTemplate(alerts || []);
 			$(alertsTargetSelector).html(renderedHtml);
 		}
 	};
