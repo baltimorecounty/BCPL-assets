@@ -58,13 +58,6 @@
 @import "partials/features/card-blog";
 @import "partials/features/blog-post";
 
-$hi-dark-green: #084443;
-$hi-half-dark-green: #045d5a;
-$hi-green: #196360;
-$hi-burgundy: #7a0000;
-$hi-gray: #565656;
-$hi-light-gray: #ccc;
-
 .blog-wrapper  {
 	time {
 		color: $hi-gray !important;
@@ -172,4 +165,12 @@ footer {
 
 .alert-wrapper {
 	top: 0;
+}
+
+.tag button, 
+.tags .tag-list li button, 
+.tags .tag-list li span, 
+.tag span {
+	background: $gray-lighter;
+	color: $gray-dark;
 }
