@@ -682,10 +682,15 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 		popover: '<div class="popover breadcrumb-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	};
 	var classNames = {
+		breadCrumbContainer: 'breadcrumbs-wrapper',
 		firstBreadCrumb: 'breadcrumb-first',
 		hiddenBreadCrumbContainer: 'hidden-breadcrumb-container',
 		hiddenBreadCrumbTrigger: 'hidden-breadcrumb-trigger',
 		hiddenBreadCrumbPopover: 'hidden-breadcrumb-popover'
+	};
+
+	var selectors = {
+		breadCrumbChildren: '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span'
 	};
 
 	var buildBreadCrumbHtml = function buildBreadCrumbHtml(hiddenBreadCrumbTriggerClassName) {
@@ -708,18 +713,27 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 		return '<span class="' + breadCrumbTrigger + '"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></span>';
 	};
 
+	var isEmpty = function isEmpty($elm) {
+		return !$.trim($elm.html().replace(/(?:\r\n|\r|\n|\s|&nbsp;)/g, ''));
+	};
+
 	var cleanBreadCrumbs = function cleanBreadCrumbs() {
-		var breadCrumbContainer = '.breadcrumbs-wrapper';
-		var childSelector = '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span';
+		var breadCrumbContainer = '.' + classNames.breadCrumbContainer;
+		var childSelector = '' + selectors.breadCrumbChildren;
 		var $childHtml = $(childSelector);
+
+		$(childSelector).remove();
 
 		$childHtml.html(function (i, html) {
 			return html.replace(/(?:\r\n|\r|\n|&nbsp;)/g, '');
 		});
 
-		$(childSelector).remove();
-
-		$(breadCrumbContainer).append($childHtml);
+		$(breadCrumbContainer).append($childHtml).find('*').toArray().forEach(function (childElm) {
+			var $childElm = $(childElm);
+			if (isEmpty($childElm)) {
+				$childElm.remove();
+			}
+		});
 	};
 
 	var collapseBreadCrumbs = function collapseBreadCrumbs($breadCrumbs) {
@@ -753,10 +767,22 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 		$(clickEvent.currentTarget).toggleClass('active');
 	};
 
+	var toggleElm = function toggleElm($elm, shouldShow) {
+		if (shouldShow) {
+			$elm.show();
+		} else {
+			$elm.hide();
+		}
+	};
+
 	var init = function init(breadcrumbThreshold) {
 		var breadcrumbThresholdLimit = breadcrumbThreshold || 3;
 
 		$(function onDocumentReady() {
+			var $breadCrumbContainer = $('.' + classNames.breadCrumbContainer);
+
+			toggleElm($breadCrumbContainer, false);
+
 			cleanBreadCrumbs();
 
 			var $breadCrumbs = $getBreadCrumbs();
@@ -771,6 +797,8 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 
 				initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
 			}
+
+			toggleElm($breadCrumbContainer, true);
 		});
 	};
 
@@ -785,9 +813,7 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 	};
 }(jQuery);
 
-$(document).ready(function () {
-	bcpl.breadCrumbs.init();
-});
+bcpl.breadCrumbs.init();
 'use strict';
 
 namespacer('bcpl');
