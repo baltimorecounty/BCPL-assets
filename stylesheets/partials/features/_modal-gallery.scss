@@ -3,13 +3,10 @@
     border-radius: 15px;
     margin: 1em auto 2em;
     padding: 15px;
-    padding: 15px;
-    display: flex;
-
-    a {
-        padding: 0 10px 0 0;
+    text-align: center;
+    p {
+        margin-bottom: 10px;
     }
-
     img {
         width: 100%;
     }
@@ -24,13 +21,13 @@
     &:after {
         content: '\f083';
         color: white;
-        top: 35%;
+        top: 45%;
         left: 0;
         right: 0;
         text-align: center;
         font-family: FontAwesome;
         position: absolute;
-        font-size: 2em;
+        font-size: 2.5em;
         z-index: 99;
     }
 }
