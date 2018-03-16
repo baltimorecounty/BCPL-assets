@@ -378,10 +378,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 			}, 250);
 		};
 
-		var loadedCardsEvent = new $window.Event('bc-filter-cards-loaded');
+		var cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
 
 		var publishLoadedCardsEvent = function publishLoadedCardsEvent() {
-			document.dispatchEvent(loadedCardsEvent);
+			if (cardsLoadedEvent) {
+				document.dispatchEvent(cardsLoadedEvent);
+			} else {
+				angular.element(document).trigger('bc-filter-cards-loaded');
+			}
 		};
 
 		/**
