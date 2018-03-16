@@ -50,6 +50,7 @@
 .breadcrumb-popover {
     border: none;
     border-radius: 0;
+    margin-top: 13px !important;
 }
 
 .breadcrumb-popover.bottom>.arrow:after {
@@ -99,7 +100,7 @@ $large-triangle-size: 12px;
                 left: 0;
                 right: 0;
                 margin: auto;
-                top: 35px;
+                top: 34px;
             }
             &:before {
                 /* White Triangle that is bigger */
