@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($rootScope, $scope, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const vm = this;
 
 		vm.activeFilters = [];
@@ -38,10 +38,14 @@
 			}, 250);
 		};
 
-		const cardsLoadedEvent = new CustomEvent('bc-filter-cards-loaded');
+		const cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
 
 		const publishLoadedCardsEvent = () => {
-			document.dispatchEvent(cardsLoadedEvent);
+			if (cardsLoadedEvent) {
+				document.dispatchEvent(cardsLoadedEvent);
+			} else {
+				angular.element(document).trigger('bc-filter-cards-loaded');
+			}
 		};
 
 		/**
@@ -153,7 +157,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$rootScope', '$scope', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));
