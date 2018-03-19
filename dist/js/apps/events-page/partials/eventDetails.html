@@ -57,12 +57,14 @@
 
 			<p class="registration-required" ng-show="eventDetailsPage.data.shouldDisplayRegistrationButton">
 				<a href="#!/register/{{eventDetailsPage.data.EventId}}" 
-					class="btn-primary btn-uppercase-bold" 
+					class="btn-primary btn-uppercase-bold registration-btn" 
 					ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
 					<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
 				</a>
 	
-				<span class="pull-right" ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
+                <span 
+                    class="pull-right registration-msg" 
+                    ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
 					<i class="fa fa-star" aria-hidden="true"></i> 
 					Registration is required for this event.
 				</span>
