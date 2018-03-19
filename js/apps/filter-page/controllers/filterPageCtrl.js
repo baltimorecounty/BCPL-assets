@@ -38,10 +38,14 @@
 			}, 250);
 		};
 
-		const loadedCardsEvent = new $window.Event('bc-filter-cards-loaded');
+		const cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
 
 		const publishLoadedCardsEvent = () => {
-			document.dispatchEvent(loadedCardsEvent);
+			if (cardsLoadedEvent) {
+				document.dispatchEvent(cardsLoadedEvent);
+			} else {
+				angular.element(document).trigger('bc-filter-cards-loaded');
+			}
 		};
 
 		/**

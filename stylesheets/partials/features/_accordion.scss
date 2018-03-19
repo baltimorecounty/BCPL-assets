@@ -2,16 +2,18 @@
     margin-bottom: 30px;
 
     .panel {
-        &:last-child {
-            h4 {
+        &>:last-child {
+            h1, h2, h3, h4, p {
                 margin-bottom: 0;
             }
         }
 
-        h4 {
+        & > h1, & > h2, & > h3, & > h4, & > p {
             margin-top: 0;
             margin-bottom: 1px;
             font-weight: 600;
+            font-size: 18px;
+            font-family: inherit;
 
             a {
                 padding: .5em .8em;
@@ -21,7 +23,7 @@
                 i {
                     position: relative;
                     top: 8px;
-                    width: 25px;
+                    padding-right: 10px;
                 }
             }            
         }
