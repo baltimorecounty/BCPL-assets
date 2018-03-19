@@ -11,6 +11,7 @@ bcpl.navigationSearch = (($) => {
 	const navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	const navItemSelector = '#responsive-sliding-navigation li';
 	const modalCoverSelector = '#modal-cover';
+	const headerSelector = 'header';
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const mobileWidthThreshold = 768;
 
@@ -31,14 +32,14 @@ bcpl.navigationSearch = (($) => {
 	 * Click event handler for the hamburger button.
 	 */
 	const hamburgerButtonClicked = (event) => {
+		const $header = $(headerSelector);
 		const $searchBox = event.data.$searchBox;
 		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 		const $hamburgerButton = $(event.currentTarget);
 		const $modalCover = event.data.$modalCover;
 
-		// $menu.find('.slide-in').removeClass('slide-in');
-		$searchButtonActivator.trigger('click');
+		$header.first().trigger('click');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');

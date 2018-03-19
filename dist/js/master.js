@@ -948,6 +948,7 @@ bcpl.navigationSearch = function ($) {
 	var navBackButtonSelector = '#responsive-sliding-navigation > .nav-back-button button';
 	var navItemSelector = '#responsive-sliding-navigation li';
 	var modalCoverSelector = '#modal-cover';
+	var headerSelector = 'header';
 	var heroCalloutContainerSelector = '.hero-callout-container';
 	var mobileWidthThreshold = 768;
 
@@ -970,14 +971,14 @@ bcpl.navigationSearch = function ($) {
   * Click event handler for the hamburger button.
   */
 	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
+		var $header = $(headerSelector);
 		var $searchBox = event.data.$searchBox;
 		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 		var $hamburgerButton = $(event.currentTarget);
 		var $modalCover = event.data.$modalCover;
 
-		// $menu.find('.slide-in').removeClass('slide-in');
-		$searchButtonActivator.trigger('click');
+		$header.first().trigger('click');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');
