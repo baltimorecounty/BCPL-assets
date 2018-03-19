@@ -2,3 +2,4 @@ node_modules
 rewrite.config
 dist/web.config
 **/lcov.info
+.vscode

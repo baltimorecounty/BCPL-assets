@@ -143,6 +143,32 @@ main {
 	}
 }
 
+/*HACK - Overrides and external library */
+.branch-email-button {
+    margin-bottom: 15px !important;
+
+    button {
+        background-color: $teal !important;
+        border: 1px solid $gray !important;
+        border-radius: 0 !important;
+        box-shadow: $shadow-primary-darker !important;
+        color: white !important;
+        padding: .5em 1em .5em 2em !important;
+        text-transform: uppercase !important;
+        position: relative;
+        &:after {
+            content: '\f0e0';
+            position: absolute;
+            font-family: FontAwesome;
+            left: 6px;
+            top: 6.5px;
+        }
+        &:hover {
+            background-color: $teal-light !important;
+        }
+    }
+}
+
 @media (max-width: $screen-sm-max) {
 	.holiday-closings {
 		/* top: 30px; */

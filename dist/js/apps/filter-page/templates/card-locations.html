@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-sm-3 branch-name">
 			<div class="branch-photo" style="background: url(/images/branches/{{cardData.photo}})">
-				<a href="{{cardData.url}}">{{cardData.name}}
+				<a ng-href="{{cardData.url}}" target="_self">{{cardData.name}}
 					<i class="fa fa-caret-right" aria-hidden="true"></i>
 				</a>
 			</div>
@@ -22,8 +22,9 @@
 		</div>
 		<div class="col-sm-5 branch-email-phone">
 			<div class="branch-email-phone-wrapper">
-				<a href="mailto:{{cardData.email}}" class="branch-email">
-					<i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}
+                <div class="branch-location-email-button" style="display: none;" id="s-la-widget-{{cardData.libAnswersId}}"></div>
+                <a href="#" class="branch-email">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> Contact {{cardData.name}}
 				</a>
 				<a href="tel:{{cardData.phone}}" class="branch-phone">
 					<i class="fa fa-phone" aria-hidden="true"></i> {{cardData.phone}}
