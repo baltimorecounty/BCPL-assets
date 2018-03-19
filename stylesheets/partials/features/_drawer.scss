@@ -112,9 +112,15 @@ $drawer-border: 3px solid $gray-lightest;
 	}
 }
 
+@media screen and (max-width: $screen-md) {
+    .drawer-link-list li i {
+        margin-right: 0 !important;
+    }
+}
+
 @media screen and (max-width: $screen-sm) {
 	.drawer-link-list li {
-		flex: 0 45% !important;
+        flex: 0 45% !important;
 	}
 }
 
