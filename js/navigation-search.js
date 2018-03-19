@@ -38,7 +38,7 @@ bcpl.navigationSearch = (($) => {
 		const $modalCover = event.data.$modalCover;
 
 		// $menu.find('.slide-in').removeClass('slide-in');
-		$searchButtonActivator.removeClass('active');
+		$searchButtonActivator.trigger('click');
 		$searchBox.removeClass('active');
 		$hamburgerButton.addClass('active');
 		$menu.addClass('active');
