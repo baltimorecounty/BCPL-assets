@@ -10,31 +10,34 @@
 		CONSTANTS,
 		eventsService,
 		filterHelperService,
-		metaService
+		metaService,
+		RequestModel,
+		eventRequestService
 	) {
 		const vm = this;
-		const firstPage = 1;
-		const startDateLocaleString = $window.moment().format();
-		const endDate = $window.moment().add(30, 'd');
-		const endDateLocaleString = endDate.format();
-		const requestModel = {
-			StartDate: startDateLocaleString,
-			EndDate: endDateLocaleString,
-			Page: firstPage,
-			IsOngoingVisible: true,
-			IsSpacesReservationVisible: false,
-			Limit: CONSTANTS.requestChunkSize,
-			EventsTypes: [],
-			AgeGroups: [],
-			Locations: []
-		};
+		vm.requestModel = new RequestModel();
+		// const firstPage = 1;
+		// const startDateLocaleString = $window.moment().format();
+		// const endDate = $window.moment().add(30, 'd');
+		// const endDateLocaleString = endDate.format();
+		// const requestModel = {
+		// 	StartDate: startDateLocaleString,
+		// 	EndDate: endDateLocaleString,
+		// 	Page: firstPage,
+		// 	IsOngoingVisible: true,
+		// 	IsSpacesReservationVisible: false,
+		// 	Limit: CONSTANTS.requestChunkSize,
+		// 	EventsTypes: [],
+		// 	AgeGroups: [],
+		// 	Locations: []
+		// };
+
 		const eventDateBarStickySettings = {
 			zIndex: 100,
 			responsiveWidth: true
 		};
 
 		/* ** Public ** */
-
 		vm.eventGroups = [];
 		vm.keywords = '';
 		vm.chunkSize = CONSTANTS.requestChunkSize;
@@ -45,25 +48,38 @@
 		vm.hasResults = true;
 		vm.data = {};
 
-		vm.locations = requestModel.Locations;
+		vm.locations = [];
+		vm.eventsTypes = [];
+		vm.ageGroups = [];
 
-		vm.eventsTypes = requestModel.EventsTypes;
-		vm.ageGroups = requestModel.AgeGroups;
+		const getStartDateLocaleString = () => $window.moment().format();
+		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
 
-		vm.keywordSearch = () => {
-			requestModel.Keyword = vm.keywords;
-			requestModel.StartDate = startDateLocaleString;
-			requestModel.Page = 1;
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
 
-			updateFilterUrl('term', vm.keywords);
-
+		vm.filterEvents = (requestModel, callback) => {
 			eventsService
 				.get(requestModel)
-				.then(processEvents)
+				.then((events) => {
+					processEvents(events);
+					if (callback && typeof callback === 'function') {
+						callback();
+					}
+				})
 				.catch(handleFailedEventsGetRequest);
+		};
+
+		vm.keywordSearch = () => {
+			vm.requestModel.Keyword = vm.keywords;
+			vm.requestModel.StartDate = getStartDateLocaleString();
+			vm.requestModel.Page = 1;
+
+			vm.filterResults(vm.RequestModel, () => {
+				vm.eventGroups = [];
+				vm.hasResults = true;
+				vm.isLoading = true;
+
+				updateFilterUrl('term', vm.keywords);
+			});
 		};
 
 		const updateFilterUrl = (targetKey, vmModel) => {
@@ -390,7 +406,9 @@
 		'events.CONSTANTS',
 		'dataServices.eventsService',
 		'sharedFilters.filterHelperService',
-		'metaService'
+		'metaService',
+		'RequestModel',
+		'eventRequestService'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
