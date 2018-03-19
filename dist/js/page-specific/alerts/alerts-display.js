@@ -27,8 +27,8 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
   */
 	var getAlertData = function getAlertData(callback) {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts).then(function (alerts) {
-			return onAlertsSuccess(alerts, callback);
-		}, console.error);
+			return processAlerts(alerts, callback);
+		}, processAlerts([], callback));
 	};
 
 	/**
@@ -36,7 +36,7 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
   * @param {Object} alerts Alert data from structured contnet.
   * @param {function} callback Executed after the start and end dates are fixed up.
   */
-	var onAlertsSuccess = function onAlertsSuccess(alerts, callback) {
+	var processAlerts = function processAlerts(alerts, callback) {
 		var displayAlerts = Array.prototype.slice.call(alerts).map(function (notification) {
 			return Object.assign({
 				DisplayStartDate: moment(notification.StartDate).format(dateFormat),
