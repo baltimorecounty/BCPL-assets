@@ -45,18 +45,28 @@
 		const getStartDateLocaleString = () => $window.moment().format();
 		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
 
-		const getActiveFilters = (model) => {
-			const activeFilters = [];
+		const getFilterPanelStatus = (model) => {
+			const activePanels = [];
+			const inActivePanels = [];
 			if (model.Locations.length) {
-				activeFilters.push('locations');
+				activePanels.push('locations');
+			} else {
+				inActivePanels.push('locations');
 			}
 			if (model.EventsTypes.length) {
-				activeFilters.push('eventTypes');
+				activePanels.push('eventTypes');
+			} else {
+				inActivePanels.push('eventTypes');
 			}
 			if (model.AgeGroups.length) {
-				activeFilters.push('ageGroups');
+				activePanels.push('ageGroups');
+			} else {
+				inActivePanels.push('ageGroups');
 			}
-			return activeFilters;
+			return {
+				activePanels,
+				inActivePanels
+			};
 		};
 
 		vm.filterEvents = (eventRequestModel, callback) => {
@@ -77,9 +87,9 @@
 
 					vm.requestModel = eventRequestModel;
 
-					const activeFilters = getActiveFilters(eventRequestModel);
+					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
-					bootstrapCollapseHelper.toggleCollapseByIds(activeFilters);
+					bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
 
 					if (callback && typeof callback === 'function') {
 						callback(events);
@@ -441,14 +451,10 @@
 			vm.filterEvents(newRequestModel);
 		};
 
-		const initErrorCallback = () => {
-			resetRequestModel();
-
-			eventsService
-				.get(vm.requestModel)
-				.then(processEvents)
-				.catch(handleFailedEventsGetRequest);
-		};
+		const initErrorCallback = () => eventsService
+			.get(vm.requestModel)
+			.then(processEvents)
+			.catch(handleFailedEventsGetRequest);
 
 		const init = () => {
 			// setupListFilters sets the data to the view model
