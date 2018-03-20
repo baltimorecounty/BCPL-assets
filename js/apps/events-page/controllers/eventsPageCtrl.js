@@ -93,13 +93,16 @@
 
 		/** URL STUFF */
 		const updateFilterUrl = (keyValList) => {
-			const valueExists = keyValList.filter(x => !!x.val).length;
+			const termFilter = keyValList.filter(x => x.key === 'term');
+			const otherFilters = keyValList.filter(x => x.key !== 'term');
 
-			if (valueExists) {
-				filterHelperService.updateQueryParams(keyValList);
-			} else {
+			const valueExists = otherFilters.filter(x => !!x.val).length;
+
+			if (!valueExists || termFilter.length) {
 				const targetKeys = keyValList.map(keyVal => keyVal.key);
 				filterHelperService.clearQueryParams(targetKeys);
+			} else {
+				filterHelperService.updateQueryParams(keyValList);
 			}
 		};
 
@@ -111,7 +114,8 @@
 			newRequestModel.StartDate = getStartDateLocaleString();
 			newRequestModel.Page = 1;
 
-			updateFilterUrl([{
+
+			filterHelperService.setQueryParams([{
 				key: 'term',
 				val: vm.keywords
 			}]); // This will trigger a location change, therefore getting the new results
