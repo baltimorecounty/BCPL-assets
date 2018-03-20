@@ -129,9 +129,17 @@ namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
 bcpl.boostrapCollapseHelper = function ($) {
-	var toggleCollapseByIds = function toggleCollapseByIds(ids) {
-		ids.forEach(function (id) {
+	var toggleCollapseByIds = function toggleCollapseByIds(panels) {
+		var activePanels = panels.activePanels,
+		    inActivePanels = panels.inActivePanels;
+
+
+		activePanels.forEach(function (id) {
 			$('#' + id).collapse('show');
+		});
+
+		inActivePanels.forEach(function (id) {
+			$('#' + id).collapse('hide');
 		});
 	};
 
@@ -676,18 +684,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return $window.moment().add(30, 'd').format();
 		};
 
-		var getActiveFilters = function getActiveFilters(model) {
-			var activeFilters = [];
+		var getFilterPanelStatus = function getFilterPanelStatus(model) {
+			var activePanels = [];
+			var inActivePanels = [];
 			if (model.Locations.length) {
-				activeFilters.push('locations');
+				activePanels.push('locations');
+			} else {
+				inActivePanels.push('locations');
 			}
 			if (model.EventsTypes.length) {
-				activeFilters.push('eventTypes');
+				activePanels.push('eventTypes');
+			} else {
+				inActivePanels.push('eventTypes');
 			}
 			if (model.AgeGroups.length) {
-				activeFilters.push('ageGroups');
+				activePanels.push('ageGroups');
+			} else {
+				inActivePanels.push('ageGroups');
 			}
-			return activeFilters;
+			return {
+				activePanels: activePanels,
+				inActivePanels: inActivePanels
+			};
 		};
 
 		vm.filterEvents = function (eventRequestModel, callback) {
@@ -706,9 +724,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				vm.requestModel = eventRequestModel;
 
-				var activeFilters = getActiveFilters(eventRequestModel);
+				var filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
-				bootstrapCollapseHelper.toggleCollapseByIds(activeFilters);
+				bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
 
 				if (callback && typeof callback === 'function') {
 					callback(events);
@@ -1079,9 +1097,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var initErrorCallback = function initErrorCallback() {
-			resetRequestModel();
-
-			eventsService.get(vm.requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+			return eventsService.get(vm.requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		var init = function init() {
