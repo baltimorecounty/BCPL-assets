@@ -1,10 +1,13 @@
 ((app) => {
 	'use strict';
 
-	const requestModel = ($window, CONSTANTS) => {
-		return (model) => {
+	const RequestModel = ($window, CONSTANTS) => {
+		return (requestModel) => {
+			const model = requestModel || {};
+
 			const startDateLocaleString = $window.moment().format();
 			const endDateLocaleString = $window.moment().add(30, 'd').format();
+			const eventTypes = model.eventTypes || [];
 
 			return {
 				StartDate: model.StartDate || startDateLocaleString,
@@ -13,7 +16,7 @@
 				IsOngoingVisible: model.IsOngoingVisible || true,
 				IsSpacesReservationVisible: model.IsSpacesReservationVisible || false,
 				Limit: model.limit || CONSTANTS.requestChunkSize,
-				EventsTypes: model.EventTypes || [],
+				EventsTypes: eventTypes, // HACK: API Needs this
 				AgeGroups: model.AgeGroups || [],
 				Locations: model.locations || [],
 				Keyword: model.Keyword || ''
@@ -21,7 +24,7 @@
 		};
 	};
 
-	requestModel.$inject(['$window', 'CONSTANTS']);
+	RequestModel.$inject = ['$window', 'events.CONSTANTS'];
 
-	app.factory('RequestModel', requestModel);
+	app.factory('RequestModel', RequestModel);
 })(angular.module('eventsPageApp'));
