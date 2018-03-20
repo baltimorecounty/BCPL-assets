@@ -137,29 +137,25 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-animate@^1.6.6:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.6.8.tgz#f38554c9c68770c9588b39c49920bc24e0d6f98a"
+angular-animate@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.6.9.tgz#a0f926c1ba3190bd8929ef966a7fa79760682622"
 
 angular-aria@^1.6.9:
   version "1.6.9"
   resolved "https://registry.yarnpkg.com/angular-aria/-/angular-aria-1.6.9.tgz#150fa603ba7f604f48e3715b76ab3ec4b78971a6"
 
-angular-mocks@^1.6.6:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.6.8.tgz#ba2120057b4edaa56492d8789ddfbc8f18afa3c5"
+angular-route@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.6.9.tgz#73c63cec6a8a6b924698aec635eac32aa41f5e2b"
 
-angular-route@^1.6.7:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.6.8.tgz#82ace773e7b232bf77768370760244a8caab5d36"
+angular-sanitize@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.6.9.tgz#1adba33f6f513e5f93e3aca8071bef53666739ea"
 
-angular-sanitize@^1.6.8:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.6.8.tgz#68175a1a5853a6439fffcb251a88a538a44a8e70"
-
-angular@^1.6.6:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.8.tgz#5be378a58be91a5489e78b59c4518cd9fd273ffb"
+angular@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.9.tgz#bc812932e18909038412d594a5990f4bb66c0619"
 
 ansi-cyan@^0.1.1:
   version "0.1.1"
@@ -917,6 +913,10 @@ boom@5.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
     hoek "4.x.x"
+
+bootstrap@3.3.7:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
 
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.8"
@@ -2290,13 +2290,17 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flatpickr@^3.0.7:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.1.5.tgz#32b13ac2361c5f9d01484353a4f34cf5f079bc6e"
+flatpickr@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.3.2.tgz#6a477043c075ef36c3ff54fadb49b936a64d635f"
 
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
+
+font-awesome@4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -5636,6 +5640,10 @@ slice-ansi@1.0.0:
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-1.0.0.tgz#044f1a49d8842ff307aad6b505ed178bd950134d"
   dependencies:
     is-fullwidth-code-point "^2.0.0"
+
+slick-carousel@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/slick-carousel/-/slick-carousel-1.8.1.tgz#a4bfb29014887bb66ce528b90bd0cda262cc8f8d"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
