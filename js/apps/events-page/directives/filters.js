@@ -19,10 +19,10 @@
 
 				return str.trim().replace(disallowedCharactersRegex, '-');
 			};
-			
+
 			innerScope.isFilterChecked = (filterType, item) => {
-				const targetId = filterType && filterType === 'locations' ? 
-					item.LocationId : 
+				const targetId = filterType && filterType === 'locations' ?
+					item.LocationId :
 					item.Id;
 
 				return innerScope.activeFilters.includes(targetId);
