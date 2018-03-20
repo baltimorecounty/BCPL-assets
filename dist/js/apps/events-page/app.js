@@ -129,12 +129,14 @@ namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
 bcpl.boostrapCollapseHelper = function ($) {
-	var toggleCollapseById = function toggleCollapseById(id) {
-		$('#' + id).collapse('toggle');
+	var toggleCollapseByIds = function toggleCollapseByIds(ids) {
+		ids.forEach(function (id) {
+			$('#' + id).collapse('show');
+		});
 	};
 
 	return {
-		toggleCollapseById: toggleCollapseById
+		toggleCollapseByIds: toggleCollapseByIds
 	};
 }(jQuery);
 'use strict';
@@ -639,28 +641,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
 		var vm = this;
+		var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
 		/**
          * This contains the state of the filters on the page, this should match the most recent request, and results should be
          * visible on the page
          */
 		vm.requestModel = new RequestModel();
-
-		var firstPage = 1;
-		var startDateLocaleString = $window.moment().format();
-		var endDate = $window.moment().add(30, 'd');
-		var endDateLocaleString = endDate.format();
-		var requestModel = {
-			StartDate: startDateLocaleString,
-			EndDate: endDateLocaleString,
-			Page: firstPage,
-			IsOngoingVisible: true,
-			IsSpacesReservationVisible: false,
-			Limit: CONSTANTS.requestChunkSize,
-			EventsTypes: [],
-			AgeGroups: [],
-			Locations: []
-		};
 
 		var eventDateBarStickySettings = {
 			zIndex: 100,
@@ -689,6 +676,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return $window.moment().add(30, 'd').format();
 		};
 
+		var getActiveFilters = function getActiveFilters(model) {
+			var activeFilters = [];
+			if (model.Locations.length) {
+				activeFilters.push('locations');
+			}
+			if (model.EventsTypes.length) {
+				activeFilters.push('eventTypes');
+			}
+			if (model.AgeGroups.length) {
+				activeFilters.push('ageGroups');
+			}
+			return activeFilters;
+		};
+
 		vm.filterEvents = function (eventRequestModel, callback) {
 			// Clear out existing list of events
 			vm.eventGroups = [];
@@ -704,6 +705,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				vm.hasResults = !!getTotalResults(events);
 
 				vm.requestModel = eventRequestModel;
+
+				var activeFilters = getActiveFilters(eventRequestModel);
+
+				bootstrapCollapseHelper.toggleCollapseByIds(activeFilters);
 
 				if (callback && typeof callback === 'function') {
 					callback(events);
@@ -757,9 +762,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			filterHelperService.clearQueryParams();
 
-			vm.filterEvents(vm.requestModel, function () {
-				return '';
-			});
+			vm.filterEvents(vm.requestModel);
 		};
 
 		vm.loadNextPage = function () {
@@ -802,9 +805,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					break;
 			}
 
-			vm.filterEvents(newRequestModel, function () {
-				return '';
-			});
+			vm.filterEvents(newRequestModel);
 		};
 
 		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest() {
@@ -994,8 +995,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 							newRequestModel[requestModelKey] = getFilterArray(newRequestModel[requestModelKey], filterId);
 						}
 					});
-
-					bootstrapCollapseHelper.toggleCollapseById(filterType);
 				}
 			});
 
@@ -1033,7 +1032,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		// We need to load these on the page first, so that we can use that data
 		var setupListFilters = function setupListFilters(successCallback, errorCallback) {
-			var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 			var url = void 0;
 			var counter = 0;
 
@@ -1077,13 +1075,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var updateResultsBasedOnFilters = function updateResultsBasedOnFilters() {
 			var newRequestModel = getRequestModelBasedOnQueryParams();
 
-			vm.filterEvents(newRequestModel, function () {
-				return '';
-			});
+			vm.filterEvents(newRequestModel);
 		};
 
 		var initErrorCallback = function initErrorCallback() {
-			return eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+			resetRequestModel();
+
+			eventsService.get(vm.requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		var init = function init() {
