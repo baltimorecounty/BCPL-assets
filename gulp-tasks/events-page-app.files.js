@@ -7,9 +7,10 @@ const files = (folder) => [
 	`js/apps/${folder}/filters/**/*.js`,
 	`js/apps/${folder}/dataServices/**/*.js`,
 	`js/apps/${folder}/services/**/*.js`,
+	`js/apps/${folder}/models/**/*.js`,
 	`js/apps/${folder}/controllers/**/*.js`,
 	`js/apps/${folder}/directives/**/*.js`,
-	`!js/apps/${folder}/directives/**/featuredEvents.js`,
+	`!js/apps/${folder}/directives/**/featuredEvents.js`
 ];
 
 module.exports = files;
