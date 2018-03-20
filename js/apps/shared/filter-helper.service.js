@@ -56,7 +56,12 @@
 
 			keyValueList.forEach((item) => {
 				const { key, val } = item;
-				queryParam[key] = val;
+
+				if (val) {
+					queryParam[key] = val;
+				} else {
+					delete queryParam[key];
+				}
 			});
 
 			$location.search(queryParam);
