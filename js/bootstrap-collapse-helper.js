@@ -2,12 +2,13 @@ namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
 bcpl.boostrapCollapseHelper = (($) => {
-	const toggleCollapseById = (id) => {
-		$(`#${id}`).collapse('toggle');
+	const toggleCollapseByIds = (ids) => {
+		ids.forEach(id => {
+			$(`#${id}`).collapse('show');
+		});
 	};
 
 	return {
-		toggleCollapseById
+		toggleCollapseByIds
 	};
-
 })(jQuery);
