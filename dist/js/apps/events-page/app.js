@@ -6,13 +6,16 @@
 	var app = angular.module('sharedFilters', []);
 
 	var filterHelpers = function filterHelpers($location) {
-		var clearQueryParams = function clearQueryParams(key) {
+		var clearQueryParams = function clearQueryParams(keys) {
 			var newQueryParams = {};
 
-			if (key) {
+			if (keys) {
 				var queryParams = $location.search();
-				delete queryParams[key];
-				newQueryParams = queryParams;
+
+				keys.forEach(function (key) {
+					delete queryParams[key];
+					newQueryParams = queryParams;
+				});
 			}
 
 			$location.search(newQueryParams);
@@ -28,7 +31,7 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
@@ -40,44 +43,66 @@
 		};
 
 		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
-		var setQueryParams = function setQueryParams(key, val) {
-			if (!key) return;
+		var setQueryParams = function setQueryParams(keyValueList) {
+			if (!keyValueList) return;
 
 			var queryParam = $location.search();
-			queryParam[key] = val;
+
+			keyValueList.forEach(function (item) {
+				var key = item.key,
+				    val = item.val;
+
+				queryParam[key] = val;
+			});
 
 			$location.search(queryParam);
 		};
 
-		var updateQueryParams = function updateQueryParams(key, val) {
-			var queryParams = getQueryParams();
-			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+		var updateQueryParams = function updateQueryParams(keyValueList) {
+			if (!keyValueList) return;
 
-			if (doesQueryParamKeyExist) {
-				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
-				var shouldRemoveFilter = existingFilterValues.includes(val);
-				var newFilterValues = [];
+			var paramsToUpdate = [];
 
-				if (shouldRemoveFilter) {
-					var targetFilterIndex = existingFilterValues.indexOf(val);
-					existingFilterValues.splice(targetFilterIndex, 1);
+			keyValueList.forEach(function (item) {
+				var key = item.key,
+				    val = item.val;
+
+				var queryParams = getQueryParams();
+				var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+				if (doesQueryParamKeyExist) {
+					var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+					var shouldRemoveFilter = existingFilterValues.includes(val);
+					var newFilterValues = [];
+
+					if (shouldRemoveFilter) {
+						var targetFilterIndex = existingFilterValues.indexOf(val);
+						existingFilterValues.splice(targetFilterIndex, 1);
+					} else {
+						existingFilterValues.push(val);
+					}
+
+					newFilterValues = existingFilterValues;
+
+					if (!newFilterValues.length) {
+						clearQueryParams([key]);
+					} else {
+						paramsToUpdate.push({
+							key: key,
+							val: newFilterValues.join(',')
+						});
+					}
 				} else {
-					existingFilterValues.push(val);
+					paramsToUpdate.push({
+						key: key,
+						val: val
+					});
 				}
-
-				newFilterValues = existingFilterValues;
-
-				if (!newFilterValues.length) {
-					clearQueryParams(key);
-				} else {
-					setQueryParams(key, newFilterValues.join(","));
-				}
-			} else {
-				setQueryParams(key, val);
-			}
+			});
+			setQueryParams(paramsToUpdate);
 		};
 
 		return {
@@ -442,6 +467,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
+	var eventRequestService = function eventRequestService() {
+		var build = function build() {
+			return '';
+		};
+
+		return {
+			build: build
+		};
+	};
+
+	app.factory('eventRequestService', eventRequestService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
 	var querystringService = function querystringService() {
 		var build = function build(querystringSettings) {
 			if (!querystringSettings) {
@@ -468,6 +510,38 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	app.factory('querystringService', querystringService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var RequestModel = function RequestModel($window, CONSTANTS) {
+		return function (requestModel) {
+			var model = requestModel || {};
+
+			var startDateLocaleString = $window.moment().format();
+			var endDateLocaleString = $window.moment().add(30, 'd').format();
+			var eventTypes = model.eventTypes || [];
+
+			return {
+				StartDate: model.StartDate || startDateLocaleString,
+				EndDate: model.EndDate || endDateLocaleString,
+				Page: model.Page || 1,
+				IsOngoingVisible: model.IsOngoingVisible || true,
+				IsSpacesReservationVisible: model.IsSpacesReservationVisible || false,
+				Limit: model.limit || CONSTANTS.requestChunkSize,
+				EventsTypes: eventTypes, // HACK: API Needs this
+				AgeGroups: model.AgeGroups || [],
+				Locations: model.locations || [],
+				Keyword: model.Keyword || ''
+			};
+		};
+	};
+
+	RequestModel.$inject = ['$window', 'events.CONSTANTS'];
+
+	app.factory('RequestModel', RequestModel);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -575,8 +649,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService) {
+	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
 		var vm = this;
+
+		/**
+         * This contains the state of the filters on the page, this should match the most recent request, and results should be
+         * visible on the page
+         */
+		vm.requestModel = new RequestModel();
+
 		var firstPage = 1;
 		var startDateLocaleString = $window.moment().format();
 		var endDate = $window.moment().add(30, 'd');
@@ -592,13 +673,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			AgeGroups: [],
 			Locations: []
 		};
+
 		var eventDateBarStickySettings = {
 			zIndex: 100,
 			responsiveWidth: true
 		};
 
 		/* ** Public ** */
-
 		vm.eventGroups = [];
 		vm.keywords = '';
 		vm.chunkSize = CONSTANTS.requestChunkSize;
@@ -609,49 +690,118 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.hasResults = true;
 		vm.data = {};
 
-		vm.locations = requestModel.Locations;
+		vm.locations = [];
+		vm.eventsTypes = [];
+		vm.ageGroups = [];
 
-		vm.eventsTypes = requestModel.EventsTypes;
-		vm.ageGroups = requestModel.AgeGroups;
-
-		vm.keywordSearch = function () {
-			requestModel.Keyword = vm.keywords;
-			requestModel.StartDate = startDateLocaleString;
-			requestModel.Page = 1;
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
-
-			updateFilterUrl('term', vm.keywords);
-
-			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+		var getStartDateLocaleString = function getStartDateLocaleString() {
+			return $window.moment().format();
+		};
+		var getEndDateLocaleString = function getEndDateLocaleString() {
+			return $window.moment().add(30, 'd').format();
 		};
 
-		var updateFilterUrl = function updateFilterUrl(targetKey, vmModel) {
-			if (vmModel) {
-				filterHelperService.setQueryParams(targetKey, vmModel);
+		vm.filterEvents = function (eventRequestModel, callback) {
+			// Clear out existing list of events
+			vm.eventGroups = [];
+
+			// Let user know we are retreiving a new list of events
+			vm.isLoading = true;
+			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
+			vm.requestErrorMessage = '';
+
+			eventsService.get(eventRequestModel).then(function (events) {
+				processEvents(events);
+
+				vm.hasResults = !!getTotalResults(events);
+
+				vm.requestModel = eventRequestModel;
+
+				if (callback && typeof callback === 'function') {
+					callback(events);
+				}
+			}).catch(handleFailedEventsGetRequest);
+		};
+
+		/** HELPERS */
+		var getTotalResults = function getTotalResults(events) {
+			return events && Object.prototype.hasOwnProperty.call(events, 'totalResults') ? events.totalResults : 0;
+		};
+
+		/** URL STUFF */
+		var updateFilterUrl = function updateFilterUrl(keyValList) {
+			var valueExists = keyValList.filter(function (x) {
+				return !!x.val;
+			}).length;
+
+			if (valueExists) {
+				filterHelperService.updateQueryParams(keyValList);
 			} else {
-				filterHelperService.clearQueryParams(targetKey);
+				var targetKeys = keyValList.map(function (keyVal) {
+					return keyVal.key;
+				});
+				filterHelperService.clearQueryParams(targetKeys);
 			}
+		};
+
+		/** FILTER STUFF */
+		vm.keywordSearch = function () {
+			var newRequestModel = Object.assign({}, vm.requestModel);
+
+			newRequestModel.Keyword = vm.keywords;
+			newRequestModel.StartDate = getStartDateLocaleString();
+			newRequestModel.Page = 1;
+
+			updateFilterUrl([{
+				key: 'term',
+				val: vm.keywords
+			}]); // This will trigger a location change, therefore getting the new results
 		};
 
 		vm.filterByDate = function () {
 			vm.areDatesInvalid = !isDateRangeValid(vm.userStartDate, vm.userEndDate);
 
 			if (!vm.areDatesInvalid) {
-				requestModel.StartDate = vm.userStartDate;
-				requestModel.EndDate = vm.userEndDate;
-				requestModel.Page = 1;
-				vm.eventGroups = [];
-				vm.hasResults = true;
-				vm.isLoading = true;
-				vm.requestErrorMessage = '';
+				var newRequestModel = Object.assign({}, vm.requestModel);
 
-				updateFilterUrl('startDate', vm.userStartDate);
-				updateFilterUrl('endDate', vm.userEndDate);
+				newRequestModel.StartDate = vm.userStartDate;
+				newRequestModel.EndDate = vm.userEndDate;
+				newRequestModel.Page = 1;
 
-				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+				updateFilterUrl([{
+					key: 'startDate',
+					val: vm.userStartDate
+				}, {
+					key: 'endDate',
+					val: vm.userEndDate
+				}]); // This will trigger a location change, therefore getting the new results
 			}
+		};
+
+		vm.clearFilters = function () {
+			resetRequestModel();
+
+			resetUIFilterFields();
+
+			filterHelperService.clearQueryParams();
+
+			vm.filterEvents(vm.requestModel, function () {
+				return '';
+			});
+		};
+
+		vm.loadNextPage = function () {
+			var newRequestModel = Object.assign({}, vm.requestModel);
+			newRequestModel.Page += 1;
+
+			vm.requestModel = newRequestModel;
+
+			// TODO: Realistically this should add a url here, too
+			eventsService.get(newRequestModel).then(processAndCombineEvents).then(function () {
+				$timeout(function () {
+					$('.event-date-bar').sticky(eventDateBarStickySettings);
+				});
+			});
 		};
 
 		var setFilterData = function setFilterData(key, values) {
@@ -664,25 +814,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.filterByTerms = function (id, itemType, isChecked, filterVal) {
 			var shouldUpdateLocation = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
 
+			var newRequestModel = Object.assign({}, vm.requestModel);
+
 			switch (itemType.toLowerCase()) {
 				case 'locations':
-					toggleFilter(requestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+					toggleFilter(newRequestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				case 'agegroups':
-					toggleFilter(requestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+					toggleFilter(newRequestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				case 'eventtypes':
-					toggleFilter(requestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+					toggleFilter(newRequestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 					break;
 				default:
 					break;
 			}
 
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
-
-			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
+			vm.filterEvents(newRequestModel, function () {
+				return '';
+			});
 		};
 
 		var handleFailedEventsGetRequest = function handleFailedEventsGetRequest() {
@@ -702,46 +852,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			if (shouldUpdateLocation) {
-				filterHelperService.updateQueryParams(filterKey, filterVal);
+				filterHelperService.updateQueryParams([{
+					key: filterKey,
+					val: filterVal
+				}]);
 			}
 		};
 
-		vm.loadNextPage = function () {
-			requestModel.Page += 1;
-
-			eventsService.get(requestModel).then(processAndCombineEvents).then(function () {
-				$timeout(function () {
-					$('.event-date-bar').sticky(eventDateBarStickySettings);
-				});
-			});
+		var resetRequestModel = function resetRequestModel() {
+			vm.requestModel = new RequestModel();
 		};
 
-		vm.clearFilters = function () {
-			requestModel.StartDate = startDateLocaleString;
-			requestModel.EndDate = endDateLocaleString;
-			requestModel.Page = 1;
-			requestModel.Keyword = '';
-			requestModel.AgeGroups = [];
-			requestModel.EventsTypes = [];
-			requestModel.Locations = [];
-
+		var resetUIFilterFields = function resetUIFilterFields() {
 			vm.keywords = '';
 			vm.userStartDate = '';
 			vm.userEndDate = '';
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
-			vm.locations = requestModel.Locations;
-			vm.eventsTypes = requestModel.EventsTypes;
-			vm.ageGroups = requestModel.AgeGroups;
-
-			filterHelperService.clearQueryParams();
-
-			eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
 		};
 
 		/* ** Private ** */
 
+		// GOOD
 		var processEvents = function processEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = eventResults.eventGroups;
@@ -754,32 +884,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
+		// GOOD
 		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
 
+		// GOOD
 		var isLastPage = function isLastPage(totalResults) {
-			var totalResultsSoFar = requestModel.Page * vm.chunkSize;
+			var totalResultsSoFar = vm.requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
+		// GOOD
 		var isDateRangeValid = function isDateRangeValid(firstDate, secondDate) {
 			if (firstDate && secondDate) {
 				return $window.moment(firstDate).isSameOrBefore(secondDate);
 			}
-
 			return false;
 		};
 
+		// GOOD
 		var isSameDay = function isSameDay(day1Date, day2Date) {
-			if (day1Date && day2Date) {
-				return $window.moment(day1Date).isSame(day2Date, 'day');
-			}
-
-			return false;
+			return day1Date && day2Date ? $window.moment(day1Date).isSame(day2Date, 'day') : false;
 		};
 
+		// GOOD
 		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
 			var renderedEventGroups = oldEventGroups;
 			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
@@ -795,12 +925,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return renderedEventGroups;
 		};
 
+		// GOOD
 		var toggleIcon = function toggleIcon(collapseEvent) {
 			var $collapsible = angular.element(collapseEvent.currentTarget);
 			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
+		// GOOD
 		var getKeywords = function getKeywords() {
 			return $location.search().term && $location.search().term.length ? $location.search().term : '';
 		};
@@ -828,30 +960,89 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return -1;
 		};
 
-		var setFiltersBasedOnQueryParams = function setFiltersBasedOnQueryParams() {
+		var isEmptyObject = function isEmptyObject(obj) {
+			return Object.keys(obj).length === 0 && obj.constructor === Object;
+		};
+		var isFilterADate = function isFilterADate(filterType) {
+			return filterType && filterType.toLowerCase().indexOf('date') > -1;
+		};
+		var upperCaseFirstLetter = function upperCaseFirstLetter(word) {
+			return word.replace(/^\w/, function (chr) {
+				return chr.toUpperCase();
+			});
+		};
+
+		var getRequestModelBasedOnQueryParams = function getRequestModelBasedOnQueryParams() {
+			var newRequestModel = Object.assign({}, vm.requestModel);
 			var queryParams = filterHelperService.getQueryParams();
 
-			setDatesFromUrl(queryParams);
+			if (isEmptyObject(queryParams)) {
+				resetUIFilterFields();
+				return vm.requestModel;
+			}
 
-			Object.keys(queryParams).forEach(function (queryParamKey) {
-				var filterType = queryParamKey;
-				var isFilterTypeDate = filterType && filterType.toLowerCase().indexOf('date') > -1;
+			// Build the request model
+
+			// Keywords
+			var keywords = getKeywords();
+
+			if (keywords) {
+				newRequestModel.Keyword = keywords;
+				vm.keywords = keywords;
+			}
+
+			// Dates
+			var requestDates = getDatesFromUrl(queryParams);
+
+			if (requestDates) {
+				newRequestModel.StartDate = requestDates.StartDate;
+				newRequestModel.EndDate = requestDates.endDate;
+			}
+
+			// Lists
+			var queryParamKeys = Object.keys(queryParams);
+
+			queryParamKeys.forEach(function (filterType) {
+				var isFilterTypeDate = isFilterADate(filterType);
 
 				if (!isFilterTypeDate) {
-					var filterValStr = queryParams[queryParamKey];
+					var filterValStr = queryParams[filterType];
 					var filterValues = filterHelperService.getFiltersFromString(filterValStr);
 
 					filterValues.forEach(function (filterVal) {
 						var filterId = getFilterId(filterType, filterVal);
 
 						if (filterId && filterId > -1) {
-							vm.filterByTerms(filterId, filterType, true, filterVal, false);
+							var requestModelKey = upperCaseFirstLetter(filterType);
+
+							if (requestModelKey.indexOf('EventTypes') > -1) {
+								requestModelKey = 'EventsTypes';
+							}
+
+							newRequestModel[requestModelKey] = getFilterArray(newRequestModel[requestModelKey], filterId);
 						}
 					});
 
 					bootstrapCollapseHelper.toggleCollapseById(filterType);
 				}
 			});
+
+			return newRequestModel;
+		};
+
+		var getFilterArray = function getFilterArray(targetFilterArray, targetVal) {
+			var newArray = targetFilterArray ? targetFilterArray.slice() : [];
+			var doesTargetValueExist = targetFilterArray && targetFilterArray.length && targetFilterArray.includes(targetVal);
+
+			if (doesTargetValueExist) {
+				newArray = targetFilterArray.filter(function (x) {
+					return x !== targetVal;
+				});
+			} else {
+				newArray.push(targetVal);
+			}
+
+			return newArray;
 		};
 
 		var filterDataSuccessHandler = function filterDataSuccessHandler(data, filterType, callback) {
@@ -868,11 +1059,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 		};
 
-		var setIntialFilterData = function setIntialFilterData(successCallback, errorCallback) {
+		// We need to load these on the page first, so that we can use that data
+		var setupListFilters = function setupListFilters(successCallback, errorCallback) {
 			var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 			var url = void 0;
+			var counter = 0;
 
-			filterTypes.forEach(function (filterType, index) {
+			filterTypes.forEach(function (filterType) {
 				if (CONSTANTS.remoteServiceUrls[filterType]) {
 					url = CONSTANTS.remoteServiceUrls[filterType];
 				} else if (CONSTANTS.serviceUrls[filterType]) {
@@ -881,7 +1074,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				metaService.request(url).then(function (data) {
 					return filterDataSuccessHandler(data, filterType, function () {
-						if (index === filterTypes.length - 1) {
+						counter += 1;
+
+						if (counter === filterTypes.length) {
 							successCallback();
 						}
 					});
@@ -891,29 +1086,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
-		var setDatesFromUrl = function setDatesFromUrl(queryParams) {
+		var getDatesFromUrl = function getDatesFromUrl(queryParams) {
 			var userStartDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
 			var userEndDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
 
-			if (userStartDate && userEndDate) {
+			if (userStartDate || userEndDate) {
 				vm.userStartDate = userStartDate;
 				vm.userEndDate = userEndDate;
 
-				vm.filterByDate();
+				return {
+					startDate: userStartDate || getStartDateLocaleString(),
+					endDate: userEndDate || getEndDateLocaleString()
+				};
 			}
+			return null;
 		};
 
-		var initSuccessCallback = function initSuccessCallback() {
-			setFiltersBasedOnQueryParams();
+		var updateResultsBasedOnFilters = function updateResultsBasedOnFilters() {
+			var newRequestModel = getRequestModelBasedOnQueryParams();
 
-			var keywords = getKeywords();
-
-			if (keywords) {
-				vm.keywords = keywords;
-				vm.keywordSearch();
-			} else {
-				eventsService.get(requestModel).then(processEvents).catch(handleFailedEventsGetRequest);
-			}
+			vm.filterEvents(newRequestModel, function () {
+				return '';
+			});
 		};
 
 		var initErrorCallback = function initErrorCallback() {
@@ -921,14 +1115,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var init = function init() {
-			// setIntialFilterData sets the data to the view model
-			setIntialFilterData(initSuccessCallback, initErrorCallback);
+			// setupListFilters sets the data to the view model
+			setupListFilters(updateResultsBasedOnFilters, initErrorCallback);
 		};
+
+		$scope.$on('$locationChangeSuccess', function () {
+			resetRequestModel();
+
+			updateResultsBasedOnFilters();
+		});
 
 		init();
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService'];
+	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
@@ -951,7 +1151,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				onChange: function onChange() {
 					$timeout(function () {
 						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
-						innerScope.userEndDate = innerScope.userEndDate || innerScope.userStartDate;
+						innerScope.userEndDate = innerScope.userEndDate || innerScope.userEndDate;
 
 						$timeout(function () {
 							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {

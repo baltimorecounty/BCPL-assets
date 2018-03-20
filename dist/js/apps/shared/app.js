@@ -6,13 +6,16 @@
 	var app = angular.module('sharedFilters', []);
 
 	var filterHelpers = function filterHelpers($location) {
-		var clearQueryParams = function clearQueryParams(key) {
+		var clearQueryParams = function clearQueryParams(keys) {
 			var newQueryParams = {};
 
-			if (key) {
+			if (keys) {
 				var queryParams = $location.search();
-				delete queryParams[key];
-				newQueryParams = queryParams;
+
+				keys.forEach(function (key) {
+					delete queryParams[key];
+					newQueryParams = queryParams;
+				});
 			}
 
 			$location.search(newQueryParams);
@@ -28,7 +31,7 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
@@ -40,44 +43,66 @@
 		};
 
 		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
-		var setQueryParams = function setQueryParams(key, val) {
-			if (!key) return;
+		var setQueryParams = function setQueryParams(keyValueList) {
+			if (!keyValueList) return;
 
 			var queryParam = $location.search();
-			queryParam[key] = val;
+
+			keyValueList.forEach(function (item) {
+				var key = item.key,
+				    val = item.val;
+
+				queryParam[key] = val;
+			});
 
 			$location.search(queryParam);
 		};
 
-		var updateQueryParams = function updateQueryParams(key, val) {
-			var queryParams = getQueryParams();
-			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+		var updateQueryParams = function updateQueryParams(keyValueList) {
+			if (!keyValueList) return;
 
-			if (doesQueryParamKeyExist) {
-				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
-				var shouldRemoveFilter = existingFilterValues.includes(val);
-				var newFilterValues = [];
+			var paramsToUpdate = [];
 
-				if (shouldRemoveFilter) {
-					var targetFilterIndex = existingFilterValues.indexOf(val);
-					existingFilterValues.splice(targetFilterIndex, 1);
+			keyValueList.forEach(function (item) {
+				var key = item.key,
+				    val = item.val;
+
+				var queryParams = getQueryParams();
+				var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+				if (doesQueryParamKeyExist) {
+					var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+					var shouldRemoveFilter = existingFilterValues.includes(val);
+					var newFilterValues = [];
+
+					if (shouldRemoveFilter) {
+						var targetFilterIndex = existingFilterValues.indexOf(val);
+						existingFilterValues.splice(targetFilterIndex, 1);
+					} else {
+						existingFilterValues.push(val);
+					}
+
+					newFilterValues = existingFilterValues;
+
+					if (!newFilterValues.length) {
+						clearQueryParams([key]);
+					} else {
+						paramsToUpdate.push({
+							key: key,
+							val: newFilterValues.join(',')
+						});
+					}
 				} else {
-					existingFilterValues.push(val);
+					paramsToUpdate.push({
+						key: key,
+						val: val
+					});
 				}
-
-				newFilterValues = existingFilterValues;
-
-				if (!newFilterValues.length) {
-					clearQueryParams(key);
-				} else {
-					setQueryParams(key, newFilterValues.join(","));
-				}
-			} else {
-				setQueryParams(key, val);
-			}
+			});
+			setQueryParams(paramsToUpdate);
 		};
 
 		return {
