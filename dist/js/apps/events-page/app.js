@@ -55,7 +55,12 @@
 				var key = item.key,
 				    val = item.val;
 
-				queryParam[key] = val;
+
+				if (val) {
+					queryParam[key] = val;
+				} else {
+					delete queryParam[key];
+				}
 			});
 
 			$location.search(queryParam);
@@ -147,8 +152,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -711,22 +716,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return events && Object.prototype.hasOwnProperty.call(events, 'totalResults') ? events.totalResults : 0;
 		};
 
-		/** URL STUFF */
-		var updateFilterUrl = function updateFilterUrl(keyValList) {
-			var valueExists = keyValList.filter(function (x) {
-				return !!x.val;
-			}).length;
-
-			if (valueExists) {
-				filterHelperService.updateQueryParams(keyValList);
-			} else {
-				var targetKeys = keyValList.map(function (keyVal) {
-					return keyVal.key;
-				});
-				filterHelperService.clearQueryParams(targetKeys);
-			}
-		};
-
 		/** FILTER STUFF */
 		vm.keywordSearch = function () {
 			var newRequestModel = Object.assign({}, vm.requestModel);
@@ -735,7 +724,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			newRequestModel.StartDate = getStartDateLocaleString();
 			newRequestModel.Page = 1;
 
-			updateFilterUrl([{
+			filterHelperService.setQueryParams([{
 				key: 'term',
 				val: vm.keywords
 			}]); // This will trigger a location change, therefore getting the new results
@@ -751,7 +740,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				newRequestModel.EndDate = vm.userEndDate;
 				newRequestModel.Page = 1;
 
-				updateFilterUrl([{
+				filterHelperService.setQueryParams([{
 					key: 'startDate',
 					val: vm.userStartDate
 				}, {

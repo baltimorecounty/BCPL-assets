@@ -55,7 +55,12 @@
 				var key = item.key,
 				    val = item.val;
 
-				queryParam[key] = val;
+
+				if (val) {
+					queryParam[key] = val;
+				} else {
+					delete queryParam[key];
+				}
 			});
 
 			$location.search(queryParam);
