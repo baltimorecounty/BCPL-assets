@@ -520,7 +520,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			var startDateLocaleString = $window.moment().format();
 			var endDateLocaleString = $window.moment().add(30, 'd').format();
-			var eventTypes = model.eventTypes || [];
 
 			return {
 				StartDate: model.StartDate || startDateLocaleString,
@@ -529,7 +528,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				IsOngoingVisible: model.IsOngoingVisible || true,
 				IsSpacesReservationVisible: model.IsSpacesReservationVisible || false,
 				Limit: model.limit || CONSTANTS.requestChunkSize,
-				EventsTypes: eventTypes, // HACK: API Needs this
+				EventsTypes: model.eventTypes || [],
 				AgeGroups: model.AgeGroups || [],
 				Locations: model.locations || [],
 				Keyword: model.Keyword || ''
