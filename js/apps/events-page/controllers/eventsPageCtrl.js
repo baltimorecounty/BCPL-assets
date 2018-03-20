@@ -90,22 +90,6 @@
 		const getTotalResults = (events) => events && Object.prototype.hasOwnProperty.call(events, 'totalResults') ?
 			events.totalResults : 0;
 
-
-		/** URL STUFF */
-		const updateFilterUrl = (keyValList) => {
-			const termFilter = keyValList.filter(x => x.key === 'term');
-			const otherFilters = keyValList.filter(x => x.key !== 'term');
-
-			const valueExists = otherFilters.filter(x => !!x.val).length;
-
-			if (!valueExists || termFilter.length) {
-				const targetKeys = keyValList.map(keyVal => keyVal.key);
-				filterHelperService.clearQueryParams(targetKeys);
-			} else {
-				filterHelperService.updateQueryParams(keyValList);
-			}
-		};
-
 		/** FILTER STUFF */
 		vm.keywordSearch = () => {
 			const newRequestModel = Object.assign({}, vm.requestModel);
@@ -131,7 +115,7 @@
 				newRequestModel.EndDate = vm.userEndDate;
 				newRequestModel.Page = 1;
 
-				updateFilterUrl([
+				filterHelperService.setQueryParams([
 					{
 						key: 'startDate',
 						val: vm.userStartDate
