@@ -467,23 +467,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var eventRequestService = function eventRequestService() {
-		var build = function build() {
-			return '';
-		};
-
-		return {
-			build: build
-		};
-	};
-
-	app.factory('eventRequestService', eventRequestService);
-})(angular.module('eventsPageApp'));
-'use strict';
-
-(function (app) {
-	'use strict';
-
 	var querystringService = function querystringService() {
 		var build = function build(querystringSettings) {
 			if (!querystringSettings) {
