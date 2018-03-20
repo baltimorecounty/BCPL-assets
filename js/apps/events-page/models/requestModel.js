@@ -7,7 +7,6 @@
 
 			const startDateLocaleString = $window.moment().format();
 			const endDateLocaleString = $window.moment().add(30, 'd').format();
-			const eventTypes = model.eventTypes || [];
 
 			return {
 				StartDate: model.StartDate || startDateLocaleString,
@@ -16,7 +15,7 @@
 				IsOngoingVisible: model.IsOngoingVisible || true,
 				IsSpacesReservationVisible: model.IsSpacesReservationVisible || false,
 				Limit: model.limit || CONSTANTS.requestChunkSize,
-				EventsTypes: eventTypes, // HACK: API Needs this
+				EventsTypes: model.eventTypes || [],
 				AgeGroups: model.AgeGroups || [],
 				Locations: model.locations || [],
 				Keyword: model.Keyword || ''
