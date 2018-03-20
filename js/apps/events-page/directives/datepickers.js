@@ -15,7 +15,7 @@
 				onChange: function onChange() {
 					$timeout(() => {
 						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
-						innerScope.userEndDate = innerScope.userEndDate || innerScope.userStartDate;
+						innerScope.userEndDate = innerScope.userEndDate || innerScope.userEndDate;
 
 						$timeout(() => {
 							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
