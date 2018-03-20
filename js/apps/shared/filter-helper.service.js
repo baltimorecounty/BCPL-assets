@@ -4,15 +4,18 @@
 	const app = angular.module('sharedFilters', []);
 
 	const filterHelpers = ($location) => {
-		const clearQueryParams = (key) => {
+		const clearQueryParams = (keys) => {
 			let newQueryParams = {};
 
-			if (key) {
+			if (keys) {
 				let queryParams = $location.search();
-				delete queryParams[key];
-				newQueryParams = queryParams;
+
+				keys.forEach((key) => {
+					delete queryParams[key];
+					newQueryParams = queryParams;
+				});
 			}
-			
+
 			$location.search(newQueryParams);
 		};
 
@@ -25,17 +28,17 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		const getFiltersFromString = (filterStr, isDate) => {
-			if(!filterStr) return [];
+			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ?  
+			return filterStr && filterStr.indexOf(',') > -1 ?
 				(
-					isDate ? 
-						filterStr : 
+					isDate ?
+						filterStr :
 						filterStr.split(',')
-				) : 
-				[ filterStr ];
+				) :
+				[filterStr];
 		};
 
 		const getQueryParams = () => $location.search();
@@ -43,47 +46,62 @@
 		const getQueryParamValuesByKey = (queryParams, key, isDate) => {
 			return Object.hasOwnProperty.call(queryParams, key) ?
 				getFiltersFromString(queryParams[key], isDate) :
-				(isDate ? "" : []);
+				(isDate ? '' : []);
 		};
 
-		const setQueryParams = (key, val) => {
-			if (!key) return;
+		const setQueryParams = (keyValueList) => {
+			if (!keyValueList) return;
 
 			const queryParam = $location.search();
-			queryParam[key] = val;
+
+			keyValueList.forEach((item) => {
+				const { key, val } = item;
+				queryParam[key] = val;
+			});
 
 			$location.search(queryParam);
 		};
 
-		const updateQueryParams = (key, val) => {
-			const queryParams = getQueryParams();
-			const doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+		const updateQueryParams = (keyValueList) => {
+			if (!keyValueList) return;
 
-			if (doesQueryParamKeyExist) {
-				const existingFilterValues = getQueryParamValuesByKey(queryParams, key);
-				const shouldRemoveFilter = existingFilterValues.includes(val);
-				let newFilterValues = [];
+			let paramsToUpdate = [];
 
-				if (shouldRemoveFilter) {
-					const targetFilterIndex = existingFilterValues.indexOf(val);
-					existingFilterValues.splice(targetFilterIndex, 1);
-				}
-				else {
-					existingFilterValues.push(val);
-				}
+			keyValueList.forEach((item) => {
+				const { key, val } = item;
+				const queryParams = getQueryParams();
+				const doesQueryParamKeyExist = doesKeyExist(queryParams, key);
 
-				newFilterValues = existingFilterValues;
+				if (doesQueryParamKeyExist) {
+					const existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+					const shouldRemoveFilter = existingFilterValues.includes(val);
+					let newFilterValues = [];
 
-				if (!newFilterValues.length) {
-					clearQueryParams(key);
+					if (shouldRemoveFilter) {
+						const targetFilterIndex = existingFilterValues.indexOf(val);
+						existingFilterValues.splice(targetFilterIndex, 1);
+					} else {
+						existingFilterValues.push(val);
+					}
+
+					newFilterValues = existingFilterValues;
+
+					if (!newFilterValues.length) {
+						clearQueryParams([key]);
+					} else {
+						paramsToUpdate.push({
+							key,
+							val: newFilterValues.join(',')
+						});
+					}
+				} else {
+					paramsToUpdate.push({
+						key,
+						val
+					});
 				}
-				else {
-					setQueryParams(key, newFilterValues.join(","));
-				}
-			}
-			else {
-				setQueryParams(key, val);
-			}
+			});
+			setQueryParams(paramsToUpdate);
 		};
 
 		return {
