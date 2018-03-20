@@ -14,28 +14,13 @@
 		RequestModel
 	) {
 		const vm = this;
+		const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
 		/**
          * This contains the state of the filters on the page, this should match the most recent request, and results should be
          * visible on the page
          */
 		vm.requestModel = new RequestModel();
-
-		const firstPage = 1;
-		const startDateLocaleString = $window.moment().format();
-		const endDate = $window.moment().add(30, 'd');
-		const endDateLocaleString = endDate.format();
-		const requestModel = {
-			StartDate: startDateLocaleString,
-			EndDate: endDateLocaleString,
-			Page: firstPage,
-			IsOngoingVisible: true,
-			IsSpacesReservationVisible: false,
-			Limit: CONSTANTS.requestChunkSize,
-			EventsTypes: [],
-			AgeGroups: [],
-			Locations: []
-		};
 
 		const eventDateBarStickySettings = {
 			zIndex: 100,
@@ -60,6 +45,19 @@
 		const getStartDateLocaleString = () => $window.moment().format();
 		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
 
+		const getActiveFilters = (model) => {
+			const activeFilters = [];
+			if (model.Locations.length) {
+				activeFilters.push('locations');
+			}
+			if (model.EventsTypes.length) {
+				activeFilters.push('eventTypes');
+			}
+			if (model.AgeGroups.length) {
+				activeFilters.push('ageGroups');
+			}
+			return activeFilters;
+		};
 
 		vm.filterEvents = (eventRequestModel, callback) => {
 			// Clear out existing list of events
@@ -79,6 +77,10 @@
 
 					vm.requestModel = eventRequestModel;
 
+					const activeFilters = getActiveFilters(eventRequestModel);
+
+					bootstrapCollapseHelper.toggleCollapseByIds(activeFilters);
+
 					if (callback && typeof callback === 'function') {
 						callback(events);
 					}
@@ -97,7 +99,6 @@
 			newRequestModel.Keyword = vm.keywords;
 			newRequestModel.StartDate = getStartDateLocaleString();
 			newRequestModel.Page = 1;
-
 
 			filterHelperService.setQueryParams([{
 				key: 'term',
@@ -135,7 +136,7 @@
 
 			filterHelperService.clearQueryParams();
 
-			vm.filterEvents(vm.requestModel, () => '');
+			vm.filterEvents(vm.requestModel);
 		};
 
 		vm.loadNextPage = () => {
@@ -175,7 +176,7 @@
 				break;
 			}
 
-			vm.filterEvents(newRequestModel, () => '');
+			vm.filterEvents(newRequestModel);
 		};
 
 		const handleFailedEventsGetRequest = () => {
@@ -357,8 +358,6 @@
 							newRequestModel[requestModelKey] = getFilterArray(newRequestModel[requestModelKey], filterId);
 						}
 					});
-
-					bootstrapCollapseHelper.toggleCollapseById(filterType);
 				}
 			});
 
@@ -396,7 +395,6 @@
 
 		// We need to load these on the page first, so that we can use that data
 		const setupListFilters = (successCallback, errorCallback) => {
-			const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 			let url;
 			let counter = 0;
 
@@ -440,13 +438,17 @@
 		const updateResultsBasedOnFilters = () => {
 			const newRequestModel = getRequestModelBasedOnQueryParams();
 
-			vm.filterEvents(newRequestModel, () => '');
+			vm.filterEvents(newRequestModel);
 		};
 
-		const initErrorCallback = () => eventsService
-			.get(requestModel)
-			.then(processEvents)
-			.catch(handleFailedEventsGetRequest);
+		const initErrorCallback = () => {
+			resetRequestModel();
+
+			eventsService
+				.get(vm.requestModel)
+				.then(processEvents)
+				.catch(handleFailedEventsGetRequest);
+		};
 
 		const init = () => {
 			// setupListFilters sets the data to the view model
