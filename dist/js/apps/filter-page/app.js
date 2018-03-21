@@ -485,11 +485,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		if (vm.filterType && typeof vm.filterType === 'string') {
-			$document.ready(function () {
-				return cardService.get(loadCardsAndFilters, vm.filterType);
-			});
-		}
+		$document.ready(function () {
+			if (vm.filterType && typeof vm.filterType === 'string') {
+				cardService.get(loadCardsAndFilters, vm.filterType);
+			}
+		});
 
 	};
 
