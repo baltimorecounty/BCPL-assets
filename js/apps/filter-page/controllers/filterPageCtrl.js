@@ -153,7 +153,9 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		$document.ready(() => cardService.get(loadCardsAndFilters, vm.filterType));
+		if (vm.filterType && typeof vm.filterType === 'string') {
+			$document.ready(() => cardService.get(loadCardsAndFilters, vm.filterType));
+		}
 
 		/* test-code */
 		vm.setActiveFilters = setActiveFilters;
