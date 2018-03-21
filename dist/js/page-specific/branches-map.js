@@ -57,31 +57,33 @@ bcpl.pageSpecific.branchMap = function ($) {
 	};
 
 	var initMap = function initMap() {
-		map = new google.maps.Map(document.getElementById('location-map'), {
-			center: {
-				lat: 39.43,
-				lng: -76.65
-			},
-			zoom: 10,
-			mapTypeControl: false,
-			streetViewControl: false,
-			zoomControl: false,
-			fullscreenControl: false
-		});
+		setTimeout(function () {
+			map = new google.maps.Map(document.getElementById('location-map'), {
+				center: {
+					lat: 39.43,
+					lng: -76.65
+				},
+				zoom: 10,
+				mapTypeControl: false,
+				streetViewControl: false,
+				zoomControl: false,
+				fullscreenControl: false
+			});
 
-		var layer = new google.maps.FusionTablesLayer({
-			map: map,
-			heatmap: { enabled: false },
-			query: {
-				select: 'col4',
-				from: '1xdysxZ94uUFIit9eXmnw1fYc6VcQiXhceFd_CVKa',
-				where: 'col6 \x3d \x2705000US24005\x27'
-			},
-			options: {
-				styleId: 465,
-				templateId: 499
-			}
-		});
+			var layer = new google.maps.FusionTablesLayer({
+				map: map,
+				heatmap: { enabled: false },
+				query: {
+					select: 'col4',
+					from: '1xdysxZ94uUFIit9eXmnw1fYc6VcQiXhceFd_CVKa',
+					where: 'col6 \x3d \x2705000US24005\x27'
+				},
+				options: {
+					styleId: 465,
+					templateId: 499
+				}
+			});
+		}, 100);
 
 		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};
