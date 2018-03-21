@@ -57,6 +57,7 @@ bcpl.pageSpecific.branchMap = function ($) {
 	};
 
 	var initMap = function initMap() {
+		// this is wrapped in a setTimeout to avoid a race condition
 		setTimeout(function () {
 			map = new google.maps.Map(document.getElementById('location-map'), {
 				center: {
