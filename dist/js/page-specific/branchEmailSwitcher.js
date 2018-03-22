@@ -1,16 +1,32 @@
 'use strict';
 
 // Used on bcpl_askalibrarian form
+// Not using namespacer since it doesn't exist in this context.
 
-namespacer('bcpl.pageSpecific');
+var bcpl = window.bcpl || {};
+bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-bcpl.branchEmailSwitcher = function ($) {
+var jqueryTag = document.createElement('script');
+jqueryTag.src = '/sebin/z/y/jquery.min.js';
+
+document.querySelector('head').appendChild(jqueryTag);
+
+var jqueryLoadInterval = setInterval(function () {
+	if (jQuery) {
+		$(function () {
+			bcpl.branchEmailSwitcher.init($);
+		});
+		clearInterval(jqueryLoadInterval);
+	}
+}, 100);
+
+bcpl.branchEmailSwitcher = function () {
 	var branchData = [];
 
 	var findBranchEmail = function findBranchEmail(searchTerm) {
 		var foundEmail = branchData.find(function (branchEmailItem) {
 			if (branchEmailItem && branchEmailItem.myLibrarianEmail && typeof branchEmailItem.myLibrarianEmail === 'string') {
-				return branchEmailItem.myLibrarianEmail.toLowerCase() === searchTerm.toLowerCase();
+				return branchEmailItem.name.toLowerCase() === searchTerm.toLowerCase();
 			}
 
 			return false;
@@ -20,21 +36,27 @@ bcpl.branchEmailSwitcher = function ($) {
 	};
 
 	var branchChangeHandler = function branchChangeHandler(changeEvent) {
-		var branchSelectionValue = $(changeEvent.target).val();
+		var branchSelectionValue = changeEvent.target.value;
 		var branchEmailItem = findBranchEmail(branchSelectionValue);
 
-		$('#_seResultMail').val(branchEmailItem.email);
+		document.getElementById('_seResultMail').value = branchEmailItem.myLibrarianEmail;
 	};
 
-	var branchDataSuccessHandler = function branchDataSuccessHandler(branchJsonResponse) {
-		branchData = branchJsonResponse.data;
+	var branchDataSuccessHandler = function branchDataSuccessHandler(branchJson) {
+		branchData = branchJson;
 	};
 
 	var branchDataErrorHandler = function branchDataErrorHandler(error) {
 		console.error(error);
 	};
 
-	$.ajax('/sebin/q/r/branch-amenities.json').then(branchDataSuccessHandler, branchDataErrorHandler);
+	var init = function init($) {
+		$.ajax('/sebin/q/r/branch-amenities.json').then(branchDataSuccessHandler, branchDataErrorHandler);
 
-	$(document).on('change', '#whichBranch', branchChangeHandler);
-}(jQuery);
+		$(document).on('change', '#whichBranch', branchChangeHandler);
+	};
+
+	return {
+		init: init
+	};
+}();
