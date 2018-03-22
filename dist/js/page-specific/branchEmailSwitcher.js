@@ -1,24 +1,28 @@
 'use strict';
 
 // Used on bcpl_askalibrarian form
-// Not using namespacer since it doesn't exist in this context.
+// Not using namespacer since I can only load one file on the form.
+// Not extracting this to a module since I can only load one file on the form.
+// Not using constants since I can only load one file on the form.
 
 var bcpl = window.bcpl || {};
 bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-var jqueryTag = document.createElement('script');
-jqueryTag.src = '/sebin/z/y/jquery.min.js';
+(function () {
+	var jqueryTag = document.createElement('script');
+	jqueryTag.src = '/sebin/z/y/jquery.min.js';
 
-document.querySelector('head').appendChild(jqueryTag);
+	document.querySelector('head').appendChild(jqueryTag);
 
-var jqueryLoadInterval = setInterval(function () {
-	if (jQuery) {
-		$(function () {
-			bcpl.branchEmailSwitcher.init($);
-		});
-		clearInterval(jqueryLoadInterval);
-	}
-}, 100);
+	var jqueryLoadInterval = setInterval(function () {
+		if (jQuery) {
+			$(function () {
+				bcpl.branchEmailSwitcher.init($);
+			});
+			clearInterval(jqueryLoadInterval);
+		}
+	}, 100);
+})();
 
 bcpl.branchEmailSwitcher = function () {
 	var branchData = [];

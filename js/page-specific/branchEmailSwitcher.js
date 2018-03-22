@@ -1,22 +1,26 @@
 // Used on bcpl_askalibrarian form
-// Not using namespacer since it doesn't exist in this context.
+// Not using namespacer since I can only load one file on the form.
+// Not extracting this to a module since I can only load one file on the form.
+// Not using constants since I can only load one file on the form.
 
 const bcpl = window.bcpl || {};
 bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-const jqueryTag = document.createElement('script');
-jqueryTag.src = '/sebin/z/y/jquery.min.js';
+(() => {
+	const jqueryTag = document.createElement('script');
+	jqueryTag.src = '/sebin/z/y/jquery.min.js';
 
-document.querySelector('head').appendChild(jqueryTag);
+	document.querySelector('head').appendChild(jqueryTag);
 
-const jqueryLoadInterval = setInterval(() => {
-	if (jQuery) {
-		$(() => {
-			bcpl.branchEmailSwitcher.init($);
-		});
-		clearInterval(jqueryLoadInterval);
-	}
-}, 100);
+	const jqueryLoadInterval = setInterval(() => {
+		if (jQuery) {
+			$(() => {
+				bcpl.branchEmailSwitcher.init($);
+			});
+			clearInterval(jqueryLoadInterval);
+		}
+	}, 100);
+})();
 
 bcpl.branchEmailSwitcher = (() => {
 	let branchData = [];
