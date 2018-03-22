@@ -2,6 +2,7 @@
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
+		$document,
 		$scope,
 		$timeout,
 		$animate,
@@ -79,6 +80,14 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
+            const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+            const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+
+			$document.ready(() => {
+				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
+				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+			});
+
 			eventsService
 				.get(eventRequestModel)
 				.then((events) => {
@@ -108,7 +117,6 @@
 			const newRequestModel = Object.assign({}, vm.requestModel);
 
 			newRequestModel.Keyword = vm.keywords;
-			newRequestModel.StartDate = getStartDateLocaleString();
 			newRequestModel.Page = 1;
 
 			filterHelperService.setQueryParams([{
@@ -342,7 +350,7 @@
 			const requestDates = getDatesFromUrl(queryParams);
 
 			if (requestDates) {
-				newRequestModel.StartDate = requestDates.StartDate;
+				newRequestModel.StartDate = requestDates.startDate;
 				newRequestModel.EndDate = requestDates.endDate;
 			}
 
@@ -474,6 +482,7 @@
 	};
 
 	EventsPageCtrl.$inject = [
+		'$document',
 		'$scope',
 		'$timeout',
 		'$animate',
