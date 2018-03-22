@@ -71,8 +71,8 @@
     }
 }
 
-$small-triangle-size: 10px;
-$large-triangle-size: 12px;
+$small-triangle-size: 6px;
+$large-triangle-size: 8px;
 
 .hidden-breadcrumb-list {
     list-style-type: none;
@@ -100,7 +100,7 @@ $large-triangle-size: 12px;
                 left: 0;
                 right: 0;
                 margin: auto;
-                top: 34px;
+                top: 31px;
             }
             &:before {
                 /* White Triangle that is bigger */
@@ -114,9 +114,12 @@ $large-triangle-size: 12px;
                 border-top-color: white;
             }
         }
+        a {
+            font-size: 12px;
+        }
         a:after,
         a:before {
-            top: 38px;
+            top: 35px;
         }
         &:last-child {
             border: none;
