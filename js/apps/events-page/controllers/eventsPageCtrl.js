@@ -86,6 +86,8 @@
 			$document.ready(() => {
 				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
 				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 			});
 
 			eventsService
