@@ -162,8 +162,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -646,9 +646,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
+	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
 		var vm = this;
 		var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
+
+		var getStartDateLocaleString = function getStartDateLocaleString() {
+			return $window.moment().format();
+		};
+		var getEndDateLocaleString = function getEndDateLocaleString() {
+			return $window.moment().add(30, 'd').format();
+		};
 
 		/**
          * This contains the state of the filters on the page, this should match the most recent request, and results should be
@@ -676,13 +683,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
 
-		var getStartDateLocaleString = function getStartDateLocaleString() {
-			return $window.moment().format();
-		};
-		var getEndDateLocaleString = function getEndDateLocaleString() {
-			return $window.moment().add(30, 'd').format();
-		};
-
 		var getFilterPanelStatus = function getFilterPanelStatus(model) {
 			var activePanels = [];
 			var inActivePanels = [];
@@ -707,7 +707,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 		};
 
-		vm.filterEvents = function (eventRequestModel, callback) {
+		vm.filterEvents = function (eventRequestModel, isInit, callback) {
 			// Clear out existing list of events
 			vm.eventGroups = [];
 
@@ -715,17 +715,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.isLoading = true;
 			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
 			vm.requestErrorMessage = '';
+			vm.requestModel = eventRequestModel;
+
+			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+
+			$document.ready(function () {
+				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
+				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+			});
 
 			eventsService.get(eventRequestModel).then(function (events) {
 				processEvents(events);
 
 				vm.hasResults = !!getTotalResults(events);
 
-				vm.requestModel = eventRequestModel;
-
 				var filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
-				bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+				if (isInit) {
+					bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+				}
 
 				if (callback && typeof callback === 'function') {
 					callback(events);
@@ -743,7 +752,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			var newRequestModel = Object.assign({}, vm.requestModel);
 
 			newRequestModel.Keyword = vm.keywords;
-			newRequestModel.StartDate = getStartDateLocaleString();
 			newRequestModel.Page = 1;
 
 			filterHelperService.setQueryParams([{
@@ -975,17 +983,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			// Keywords
 			var keywords = getKeywords();
-
-			if (keywords) {
-				newRequestModel.Keyword = keywords;
-				vm.keywords = keywords;
-			}
+			newRequestModel.Keyword = keywords;
+			vm.keywords = keywords;
 
 			// Dates
 			var requestDates = getDatesFromUrl(queryParams);
 
 			if (requestDates) {
-				newRequestModel.StartDate = requestDates.StartDate;
+				newRequestModel.StartDate = requestDates.startDate;
 				newRequestModel.EndDate = requestDates.endDate;
 			}
 
@@ -1089,10 +1094,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return null;
 		};
 
-		var updateResultsBasedOnFilters = function updateResultsBasedOnFilters() {
+		var updateResultsBasedOnFilters = function updateResultsBasedOnFilters(isInit) {
 			var newRequestModel = getRequestModelBasedOnQueryParams();
 
-			vm.filterEvents(newRequestModel);
+			vm.filterEvents(newRequestModel, isInit);
 		};
 
 		var initErrorCallback = function initErrorCallback() {
@@ -1101,7 +1106,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var init = function init() {
 			// setupListFilters sets the data to the view model
-			setupListFilters(updateResultsBasedOnFilters, initErrorCallback);
+			setupListFilters(function () {
+				updateResultsBasedOnFilters(true);
+			}, initErrorCallback);
 		};
 
 		$scope.$on('$locationChangeSuccess', function () {
@@ -1113,7 +1120,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		init();
 	};
 
-	EventsPageCtrl.$inject = ['$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
+	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
@@ -1122,24 +1129,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var datePickersDirective = function datePickersDirective($timeout, CONSTANTS) {
+	var datePickersDirective = function datePickersDirective($timeout, $window, CONSTANTS) {
 		var datePickersLink = function datePickersLink(scope, attr, datePickersElement) {
 			var innerScope = scope;
+			var getStartDateLocaleString = function getStartDateLocaleString() {
+				return $window.moment().format();
+			};
+			var getEndDateLocaleString = function getEndDateLocaleString() {
+				return $window.moment().add(30, 'd').format();
+			};
 
 			innerScope.areDatesInvalid = false;
 
 			var flatpickrBasicSettings = {
 				dateFormat: 'F d, Y',
 				disable: [function disable(date) {
-					return moment(date).isBefore(new Date(), 'day');
+					return $window.moment(date).isBefore(new Date(), 'day');
 				}],
 				onChange: function onChange() {
 					$timeout(function () {
-						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
-						innerScope.userEndDate = innerScope.userEndDate || innerScope.userEndDate;
+						innerScope.userStartDate = innerScope.userStartDate || getStartDateLocaleString();
+						innerScope.userEndDate = innerScope.userEndDate || getEndDateLocaleString();
 
 						$timeout(function () {
-							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
+							if ($window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
 								innerScope.areDatesInvalid = false;
 								innerScope.filterByDate();
 							} else {
@@ -1155,7 +1168,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				flatpickr.open();
 			};
 
-			flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 		};
 
 		var directive = {
@@ -1172,7 +1185,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	datePickersDirective.$inject = ['$timeout', 'events.CONSTANTS'];
+	datePickersDirective.$inject = ['$timeout', '$window', 'events.CONSTANTS'];
 
 	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));
