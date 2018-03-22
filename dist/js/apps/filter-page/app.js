@@ -263,16 +263,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	'use strict';
 
 	var cardService = function cardService($location, $window, $injector) {
-		var getFileNameWithoutExtension = function getFileNameWithoutExtension(path) {
-			var pathParts = path.split('/');
-			var lastPathPart = pathParts[pathParts.length - 1];
-			var noExtension = lastPathPart.split('.')[0];
-			return noExtension;
-		};
-
-		var get = function get(afterDataLoadedCallback) {
-			var filenameWithoutExtension = getFileNameWithoutExtension($window.location.pathname);
-			var dataService = $injector.get(filenameWithoutExtension + 'Service');
+		var get = function get(afterDataLoadedCallback, filterType) {
+			var dataService = $injector.get(filterType + 'Service');
 
 			dataService.get(function (data) {
 				var sortedData = _.sortBy(data, function (dataItem) {
@@ -381,7 +373,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var FilterPageCtrl = function FilterPageCtrl($scope, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	var FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var vm = this;
 
 		vm.activeFilters = [];
@@ -403,6 +395,10 @@ bcpl.boostrapCollapseHelper = function ($) {
 			vm.activeFilters = [];
 			cycleDisplay();
 			publishLoadedCardsEvent();
+		};
+
+		vm.setFilterType = function (filterType) {
+			vm.filterType = filterType;
 		};
 
 		/* Private */
@@ -529,11 +525,15 @@ bcpl.boostrapCollapseHelper = function ($) {
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		cardService.get(loadCardsAndFilters);
+		$document.ready(function () {
+			if (vm.filterType && typeof vm.filterType === 'string') {
+				cardService.get(loadCardsAndFilters, vm.filterType);
+			}
+		});
 
 	};
 
-	FilterPageCtrl.$inject = ['$scope', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', '$document', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

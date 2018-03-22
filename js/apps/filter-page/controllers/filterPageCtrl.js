@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const FilterPageCtrl = function FilterPageCtrl($scope, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
+	const FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const vm = this;
 
 		vm.activeFilters = [];
@@ -23,6 +23,10 @@
 			vm.activeFilters = [];
 			cycleDisplay();
 			publishLoadedCardsEvent();
+		};
+
+		vm.setFilterType = (filterType) => {
+			vm.filterType = filterType;
 		};
 
 		/* Private */
@@ -149,7 +153,11 @@
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 		angular.element(document).on('show.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
 
-		cardService.get(loadCardsAndFilters);
+		$document.ready(() => {
+			if (vm.filterType && typeof vm.filterType === 'string') {
+				cardService.get(loadCardsAndFilters, vm.filterType);
+			}
+		});
 
 		/* test-code */
 		vm.setActiveFilters = setActiveFilters;
@@ -157,7 +165,7 @@
 		/* end-test-code */
 	};
 
-	FilterPageCtrl.$inject = ['$scope', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
+	FilterPageCtrl.$inject = ['$scope', '$document', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
 })(angular.module('filterPageApp'));

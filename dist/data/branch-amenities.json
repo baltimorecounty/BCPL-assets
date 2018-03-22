@@ -1,353 +1,448 @@
 [
-  {
-    "id": 1,
-    "libAnswersId": 6319,
-    "name": "Arbutus",
-    "address": "855 Sulphur Spring Road",
-    "city": "Arbutus",
-    "zip": "21227",
-    "phone": "410-887-1451",
-    "email": "arbutus@bcpl.net",
-    "photo": "branch-arbutus.jpg",
-    "location": { "lat": "39.24164898", "lng": "-76.71043047" },
-    "attributes": [
-      "Filter|Drive-Up Window|Many",
-      "Filter|Fax Machines|Many",
-      "Filter|Gaming|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Passport Services|Many",
-      "Filter|Study Rooms|Many",
-      "Filter|Study Space, Quiet|Many"
-    ]
-  },
-  {
-    "id": 2,
-    "libAnswersId": 6864,
-    "name": "Catonsville",
-    "address": "1100 Frederick Road",
-    "city": "Catonsville",
-    "zip": "21228",
-    "phone": "410-887-0951",
-    "email": "catonsvi@bcpl.net",
-    "photo": "branch-Catonsville.jpg",
-    "location": { "lat": "39.27045175", "lng": "-76.7400434" },
-    "attributes": [
-      "Filter|Gaming|Many",
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many"
-    ]
-  },
-  {
-    "id": 3,
-    "libAnswersId": 6865,
-    "name": "Cockeysville",
-    "address": "9833 Greenside Drive",
-    "city": "Cockeysville",
-    "zip": "21030",
-    "phone": "410-887-7750",
-    "email": "cockeysv@bcpl.net",
-    "photo": "branch-Cockeysville.jpg",
-    "location": { "lat": "39.46032921", "lng": "-76.62919318" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many",
-      "Filter|Korean Collection|Many"
-    ]
-  },
-  {
-    "id": 4,
-    "libAnswersId": 6866,
-    "name": "Essex",
-    "address": "1110 Eastern Boulevard",
-    "city": "Essex",
-    "zip": "21221",
-    "phone": "410-887-0295",
-    "email": "essex@bcpl.net",
-    "photo": "branch-Essex.jpg",
-    "location": { "lat": "39.31485289", "lng": "-76.46384423" },
-    "attributes": [
-      "Filter|Fax Machines|Many",
-      "Filter|Gaming|Many",
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Spanish Collection|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 5,
-    "libAnswersId": 6867,
-    "name": "Hereford",
-    "address": "16940 York Road",
-    "city": "Hereford",
-    "zip": "21111",
-    "phone": "410-887-1919",
-    "email": "hereford@bcpl.net",
-    "photo": "branch-Hereford.jpg",
-    "location": { "lat": "39.58979295", "lng": "-76.66379689" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 6,
-    "libAnswersId": 6868,
-    "name": "Lansdowne",
-    "address": "500 Third Avenue",
-    "city": "Lansdowne",
-    "zip": "21227",
-    "phone": "410-887-5602",
-    "email": "bcpl-la@bcpl.net",
-    "photo": "branch-Lansdowne.jpg",
-    "location": { "lat": "39.24372696", "lng": "-76.65368866" },
-    "attributes": [
-      "Filter|Fax Machines|Many",
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many"
-    ]
-  },
-  {
-    "id": 7,
-    "libAnswersId": 6869,
-    "name": "Loch Raven",
-    "address": "1046 Taylor Avenue",
-    "city": "Towson",
-    "zip": "21286",
-    "phone": "410-887-4444",
-    "email": "lochrave@bcpl.net",
-    "photo": "branch-lochraven.jpg",
-    "location": { "lat": "39.38442952", "lng": "-76.57319512" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many"
-    ]
-  },
-  {
-    "id": 8,
-    "libAnswersId": 6870,
-    "name": "Mobile Library Services",
-    "note": "Our bookmobiles make stops across Baltimore County.",
-    "noteLinkText": "View today's schedule.",
-    "noteLink": "#",
-    "phone": "410-887-7586",
-    "email": "libraryonthego@bcpl.net",
-    "photo": "branch-bookmobile.jpg",
-    "attributes": []
-  },
-  {
-    "id": 9,
-    "libAnswersId": 6871,
-    "name": "North Point",
-    "address": "1716 Merritt Boulevard",
-    "city": "Dundalk",
-    "zip": "21222",
-    "phone": "410-887-7255",
-    "email": "northpoi@bcpl.net",
-    "photo": "branch-northpoint.jpg",
-    "location": { "lat": "39.26962881", "lng": "-76.50414573" },
-    "attributes": [
-      "Filter|Fax Machines|Many",
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many"
-    ]
-  },
-  {
-    "id": 10,
-    "libAnswersId": 6872,
-    "name": "Owings Mills",
-    "address": "10302 Grand Central Avenue",
-    "city": "Owings Mills",
-    "zip": "21117",
-    "phone": "410-887-2092",
-    "email": "owingsmills@bcpl.net",
-    "photo": "branch-owingsmills.jpg",
-    "location": { "lat": "39.4071024", "lng": "-76.78188458" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Russian Collection|Many",
-      "Filter|Spanish Collection|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 11,
-    "libAnswersId": 6873,
-    "name": "Parkville-Carney",
-    "address": "9509 Harford Road",
-    "city": "Parkville",
-    "zip": "21234",
-    "phone": "410-887-5353",
-    "email": "parkvill@bcpl.net",
-    "photo": "branch-parkville.jpg",
-    "location": { "lat": "39.39346", "lng": "-76.52508084" },
-    "attributes": ["Filter|Korean Collection|Many"]
-  },
-  {
-    "id": 12,
-    "libAnswersId": 6874,
-    "name": "Perry Hall",
-    "address": "9685 Honeygo Boulevard",
-    "city": "Perry Hall",
-    "zip": "21128",
-    "phone": "410-887-5195",
-    "email": "perryhal@bcpl.net",
-    "photo": "branch-perryhall.jpg",
-    "location": { "lat": "39.41511226", "lng": "-76.45056657" },
-    "attributes": [
-      "Filter|Drive-Up Window|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 13,
-    "libAnswersId": 6875,
-    "name": "Pikesville",
-    "address": "1301 Reisterstown Road",
-    "city": "Pikesville",
-    "zip": "21208",
-    "phone": "410-887-1234",
-    "email": "pikesvil@bcpl.net",
-    "photo": "branch-Pikesville.jpg",
-    "location": { "lat": "39.37568769", "lng": "-76.72334584" },
-    "attributes": [
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Russian Collection|Many"
-    ]
-  },
-  {
-    "id": 14,
-    "libAnswersId": 6876,
-    "name": "Randallstown",
-    "address": "8604 Liberty Road",
-    "city": "Randallstown",
-    "zip": "21133",
-    "phone": "410-887-0770",
-    "email": "randalls@bcpl.net",
-    "photo": "branch-Randallstown.jpg",
-    "location": { "lat": "39.3620026", "lng": "-76.77902476" },
-    "attributes": [
-      "Filter|Gaming|Many",
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 15,
-    "libAnswersId": 6877,
-    "name": "Reisterstown",
-    "address": "21 Cockeys Mill Road",
-    "city": "Reisterstown",
-    "zip": "21136",
-    "phone": "410-887-1165",
-    "email": "reisters@bcpl.net",
-    "photo": "branch-Reisterstown.jpg",
-    "location": { "lat": "39.46367982", "lng": "-76.83100992" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Russian Collection|Many",
-      "Filter|Study Space, Quiet|Many"
-    ]
-  },
-  {
-    "id": 16,
-    "libAnswersId": 6878,
-    "name": "Rosedale",
-    "address": "6105 Kenwood Avenue",
-    "city": "Rosedale",
-    "zip": "21237",
-    "phone": "410-887-0512",
-    "email": "rosedale@bcpl.net",
-    "photo": "branch-Rosedale.jpg",
-    "location": { "lat": "39.34286702", "lng": "-76.50620873" },
-    "attributes": [
-      "Filter|Gaming|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 20,
-    "libAnswersId": 6879,
-    "name": "Sollers Point",
-    "address": "323 Sollers Point Road",
-    "city": "Dundalk",
-    "zip": "21222",
-    "phone": "410-887-2485",
-    "email": "sollerspoint@bcpl.net",
-    "photo": "branch-sollerspoint.jpg",
-    "location": { "lat": "39.24362859", "lng": "-76.50882206" },
-    "attributes": ["Filter|Local History Collection|Many"]
-  },
-  {
-    "id": 17,
-    "libAnswersId": 6777,
-    "name": "Towson",
-    "address": "320 York Road",
-    "city": "Towson",
-    "zip": "21204",
-    "phone": "410-887-6166",
-    "email": "towson@bcpl.net",
-    "photo": "branch-Towson.jpg",
-    "location": { "lat": "39.39890127", "lng": "-76.60243368" },
-    "attributes": [
-      "Filter|Cafe|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Passport Services|Many",
-      "Filter|Spanish Collection|Many",
-      "Filter|Study Space, Quiet|Many",
-      "Filter|Study Rooms|Many"
-    ]
-  },
-  {
-    "id": 18,
-    "libAnswersId": 6880,
-    "name": "White Marsh",
-    "address": "8133 Sandpiper Circle",
-    "city": "Baltimore",
-    "zip": "21236",
-    "phone": "410-887-5097",
-    "email": "whitemar@bcpl.net",
-    "photo": "branch-whitemarsh.jpg",
-    "location": { "lat": "39.37191838", "lng": "-76.47051026" },
-    "attributes": [
-      "Filter|Local History Collection|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Passport Services|Many",
-      "Filter|Study Space, Quiet|Many"
-    ]
-  },
-  {
-    "id": 19,
-    "libAnswersId": 6881,
-    "name": "Woodlawn",
-    "address": "1811 Woodlawn Drive",
-    "city": "Woodlawn",
-    "zip": "21207",
-    "phone": "410-887-1336",
-    "email": "woodlawn@bcpl.net",
-    "photo": "branch-Woodlawn.jpg",
-    "location": { "lat": "39.3167773", "lng": "-76.73661987" },
-    "attributes": [
-      "Filter|Gaming|Many",
-      "Filter|Study Rooms|Many",
-      "Filter|Meeting Room(s)|Many",
-      "Filter|Korean Collection|Many",
-      "Filter|Spanish Collection|Many"
-    ]
-  }
+    {
+        "id": 1,
+        "name": "Arbutus",
+        "libAnswersId": 6319,
+        "address": "855 Sulphur Spring Road",
+        "city": "Arbutus",
+        "zip": "21227",
+        "phone": "410-887-1451",
+        "url": "/branches/arbutus/index.html",
+        "email": "arbutus@bcpl.net",
+        "myLibrarianEmail": "arsched@bcpl.net",
+        "photo": "branch-arbutus.jpg",
+        "location": {
+            "lat": "39.24164898",
+            "lng": "-76.71043047"
+        },
+        "attributes": [
+            "Filter|Drive-Up Window|Many",
+            "Filter|Fax Machines|Many",
+            "Filter|Gaming|Many",
+            "Filter|Local History Collection|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Passport Services|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Catonsville",
+        "libAnswersId": 6864,
+        "address": "1100 Frederick Road",
+        "city": "Catonsville",
+        "zip": "21228",
+        "phone": "410-887-0951",
+        "url": "/branches/catonsville/index.html",
+        "email": "catonsvi@bcpl.net",
+        "myLibrarianEmail": "catonsvi@bcpl.net",
+        "photo": "branch-Catonsville.jpg",
+        "location": {
+            "lat": "39.27045175",
+            "lng": "-76.7400434"
+        },
+        "attributes": [
+            "Filter|Gaming|Many",
+            "Filter|Local History Collection|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Cockeysville",
+        "libAnswersId": 6865,
+        "address": "9833 Greenside Drive",
+        "city": "Cockeysville",
+        "zip": "21030",
+        "phone": "410-887-7750",
+        "url": "/branches/cockeysville/index.html",
+        "email": "cockeysv@bcpl.net",
+        "myLibrarianEmail": "cockeysv@bcpl.net",
+        "photo": "branch-Cockeysville.jpg",
+        "location": {
+            "lat": "39.46032921",
+            "lng": "-76.62919318"
+        },
+        "attributes": [
+            "Filter|Korean Collection|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Essex",
+        "libAnswersId": 6866,
+        "address": "1110 Eastern Boulevard",
+        "city": "Essex",
+        "zip": "21221",
+        "phone": "410-887-0295",
+        "url": "/branches/essex/index.html",
+        "email": "essex@bcpl.net",
+        "myLibrarianEmail": "essex@bcpl.net",        
+        "photo": "branch-Essex.jpg",
+        "location": {
+            "lat": "39.31485289",
+            "lng": "-76.46384423"
+        },
+        "attributes": [
+            "Filter|Fax Machines|Many",
+            "Filter|Gaming|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Spanish Collection|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Hereford",
+        "libAnswersId": 6867,
+        "address": "16940 York Road",
+        "city": "Hereford",
+        "zip": "21111",
+        "phone": "410-887-1919",
+        "url": "/branches/hereford/index.html",
+        "email": "hereford@bcpl.net",
+        "myLibrarianEmail": "hereford@bcpl.net",
+        "photo": "branch-Hereford.jpg",
+        "location": {
+            "lat": "39.58979295",
+            "lng": "-76.66379689"
+        },
+        "attributes": [
+            "Filter|Fax Machines|Many",		
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Lansdowne",
+        "libAnswersId": 6868,
+        "address": "500 Third Avenue",
+        "city": "Lansdowne",
+        "zip": "21227",
+        "phone": "410-887-5602",
+        "url": "/branches/lansdowne/index.html",
+        "email": "bcpl-la@bcpl.net",
+        "myLibrarianEmail": "lasched@bcpl.net",
+        "photo": "branch-Lansdowne.jpg",
+        "location": {
+            "lat": "39.24372696",
+            "lng": "-76.65368866"
+        },
+        "attributes": [
+            "Filter|Fax Machines|Many",
+            "Filter|Meeting Rooms|Many"
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Loch Raven",
+        "libAnswersId": 6869,
+        "address": "1046 Taylor Avenue",
+        "city": "Towson",
+        "zip": "21286",
+        "phone": "410-887-4444",
+        "url": "/branches/loch-raven/index.html",
+        "email": "lochrave@bcpl.net",
+        "myLibrarianEmail": "lochrave@bcpl.net",
+        "photo": "branch-lochraven.jpg",
+        "location": {
+            "lat": "39.38442952",
+            "lng": "-76.57319512"
+        },
+        "attributes": [
+            "Filter|Meeting Rooms|Many"
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Mobile Library Services",
+        "libAnswersId": 6870,
+        "note": "Our bookmobiles make stops across Baltimore County.",
+        "noteLinkText": "View today's schedule.",
+        "noteLink": "#",
+        "phone": "410-887-7586",
+        "url": "/branches/mobile-library-services/index.html",
+        "email": "libraryonthego@bcpl.net",
+        "photo": "branch-bookmobile.jpg",
+        "attributes": []
+    },
+    {
+        "id": 9,
+        "name": "North Point",
+        "libAnswersId": 6871,
+        "address": "1716 Merritt Boulevard",
+        "city": "Dundalk",
+        "zip": "21222",
+        "phone": "410-887-7255",
+        "url": "/branches/north-point/index.html",
+        "email": "northpoi@bcpl.net",
+        "myLibrarianEmail": "npschedules@bcpl.net",
+        "photo": "branch-northpoint.jpg",
+        "location": {
+            "lat": "39.26962881",
+            "lng": "-76.50414573"
+        },
+        "attributes": [
+            "Filter|Fax Machines|Many",
+            "Filter|Meeting Rooms|Many"
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Owings Mills",
+        "libAnswersId": 6872,
+        "address": "10302 Grand Central Avenue",
+        "city": "Owings Mills",
+        "zip": "21117",
+        "phone": "410-887-2092",
+        "url": "/branches/owings-mills/index.html",
+        "email": "owingsmills@bcpl.net",
+        "myLibrarianEmail": "owingsmills@bcpl.net",
+        "photo": "branch-owingsmills.jpg",
+        "location": {
+            "lat": "39.4071024",
+            "lng": "-76.78188458"
+        },
+        "attributes": [
+            "Filter|Cafe|Many",		
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Russian Collection|Many",
+            "Filter|Spanish Collection|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Parkville-Carney",
+        "libAnswersId": 6873,
+        "address": "9509 Harford Road",
+        "city": "Parkville",
+        "zip": "21234",
+        "phone": "410-887-5353",
+        "url": "/branches/parkville-carney/index.html",
+        "email": "parkvill@bcpl.net",
+        "myLibrarianEmail": "pasched@bcpl.net",
+        "photo": "branch-parkville.jpg",
+        "location": {
+            "lat": "39.39346",
+            "lng": "-76.52508084"
+        },
+        "attributes": [
+            "Filter|Korean Collection|Many"
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Perry Hall",
+        "libAnswersId": 6874,
+        "address": "9685 Honeygo Boulevard",
+        "city": "Perry Hall",
+        "zip": "21128",
+        "phone": "410-887-5195",
+        "url": "/branches/perry-hall/index.html",
+        "email": "perryhal@bcpl.net",
+        "myLibrarianEmail": "pe-libs@bcpl.net",
+        "photo": "branch-perryhall.jpg",
+        "location": {
+            "lat": "39.41511226",
+            "lng": "-76.45056657"
+        },
+        "attributes": [
+            "Filter|Drive-Up Window|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Pikesville",
+        "libAnswersId": 6875,
+        "address": "1301 Reisterstown Road",
+        "city": "Pikesville",
+        "zip": "21208",
+        "phone": "410-887-1234",
+        "url": "/branches/pikesville/index.html",
+        "email": "pikesvil@bcpl.net",
+        "myLibrarianEmail": "pikesvil@bcpl.net",
+        "photo": "branch-Pikesville.jpg",
+        "location": {
+            "lat": "39.37568769",
+            "lng": "-76.72334584"
+        },
+        "attributes": [
+            "Filter|Meeting Rooms|Many",
+            "Filter|Russian Collection|Many"
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Randallstown",
+        "libAnswersId": 6876,
+        "address": "8604 Liberty Road",
+        "city": "Randallstown",
+        "zip": "21133",
+        "phone": "410-887-0770",
+        "url": "/branches/randallstown/index.html",
+        "email": "randalls@bcpl.net",
+        "myLibrarianEmail": "ra-schedules@bcpl.net",
+        "photo": "branch-Randallstown.jpg",
+        "location": {
+            "lat": "39.3620026",
+            "lng": "-76.77902476"
+        },
+        "attributes": [
+            "Filter|Gaming|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Reisterstown",
+        "libAnswersId": 6877,
+        "address": "21 Cockeys Mill Road",
+        "city": "Reisterstown",
+        "zip": "21136",
+        "phone": "410-887-1165",
+        "url": "/branches/reisterstown/index.html",
+        "email": "reisters@bcpl.net",
+        "myLibrarianEmail": "reisters@bcpl.net",
+        "photo": "branch-Reisterstown.jpg",
+        "location": {
+            "lat": "39.46367982",
+            "lng": "-76.83100992"
+        },
+        "attributes": [
+            "Filter|Local History Collection|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Russian Collection|Many"
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Rosedale",
+        "libAnswersId": 6878,
+        "address": "6105 Kenwood Avenue",
+        "city": "Rosedale",
+        "zip": "21237",
+        "phone": "410-887-0512",
+        "url": "/branches/rosedale/index.html",
+        "email": "rosedale@bcpl.net",
+        "myLibrarianEmail": "ro-schedules@bcpl.net",
+        "photo": "branch-Rosedale.jpg",
+        "location": {
+            "lat": "39.34286702",
+            "lng": "-76.50620873"
+        },
+        "attributes": [
+            "Filter|Gaming|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Storyville|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Sollers Point",
+        "libAnswersId": 6879,
+        "address": "323 Sollers Point Road",
+        "city": "Dundalk",
+        "zip": "21222",
+        "phone": "410-887-2485",
+        "url": "/branches/sollers-point/index.html",
+        "email": "sollerspoint@bcpl.net",
+        "myLibrarianEmail": "sollerspoint@bcpl.net",
+        "photo": "branch-sollerspoint.jpg",
+        "location": {
+            "lat": "39.24362859",
+            "lng": "-76.50882206"
+        },
+        "attributes": [
+            "Filter|Fax Machines|Many"
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Towson",
+        "libAnswersId": 6777,
+        "address": "320 York Road",
+        "city": "Towson",
+        "zip": "21204",
+        "phone": "410-887-6166",
+        "url": "/branches/towson/index.html",
+        "email": "towson@bcpl.net",
+        "myLibrarianEmail": "to-schedules@bcpl.net",
+        "photo": "branch-Towson.jpg",
+        "location": {
+            "lat": "39.39890127",
+            "lng": "-76.60243368"
+        },
+        "attributes": [
+            "Filter|Meeting Rooms|Many",
+            "Filter|Passport Services|Many",
+            "Filter|Quiet Areas|Many",
+            "Filter|Spanish Collection|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    },
+    {
+        "id": 18,
+        "name": "White Marsh",
+        "libAnswersId": 6880,
+        "address": "8133 Sandpiper Circle",
+        "city": "Baltimore",
+        "zip": "21236",
+        "phone": "410-887-5097",
+        "url": "/branches/white-marsh/index.html",
+        "email": "whitemar@bcpl.net",
+        "myLibrarianEmail": "wh-schedules@bcpl.net",
+        "photo": "branch-whitemarsh.jpg",
+        "location": {
+            "lat": "39.37191838",
+            "lng": "-76.47051026"
+        },
+        "attributes": [
+            "Filter|Meeting Rooms|Many",
+            "Filter|Passport Services|Many",
+            "Filter|Quiet Areas|Many"
+        ]
+    },
+    {
+        "id": 19,
+        "name": "Woodlawn",
+        "libAnswersId": 6881,
+        "address": "1811 Woodlawn Drive",
+        "city": "Woodlawn",
+        "zip": "21207",
+        "phone": "410-887-1336",
+        "url": "/branches/woodlawn/index.html",
+        "email": "woodlawn@bcpl.net",
+        "myLibrarianEmail": "wo-schedules@bcpl.net",
+        "photo": "branch-Woodlawn.jpg",
+        "location": {
+            "lat": "39.3167773",
+            "lng": "-76.73661987"
+        },
+        "attributes": [
+            "Filter|Gaming|Many",
+            "Filter|Korean Collection|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Spanish Collection|Many",
+            "Filter|Storyville|Many",
+            "Filter|Study Rooms|Many"
+        ]
+    }
 ]
