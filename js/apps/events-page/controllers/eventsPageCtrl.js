@@ -16,6 +16,9 @@
 		const vm = this;
 		const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
+		const getStartDateLocaleString = () => $window.moment().format();
+		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
+
 		/**
          * This contains the state of the filters on the page, this should match the most recent request, and results should be
          * visible on the page
@@ -42,9 +45,6 @@
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
 
-		const getStartDateLocaleString = () => $window.moment().format();
-		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
-
 		const getFilterPanelStatus = (model) => {
 			const activePanels = [];
 			const inActivePanels = [];
@@ -69,7 +69,7 @@
 			};
 		};
 
-		vm.filterEvents = (eventRequestModel, callback) => {
+		vm.filterEvents = (eventRequestModel, isInit, callback) => {
 			// Clear out existing list of events
 			vm.eventGroups = [];
 
@@ -89,7 +89,9 @@
 
 					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
-					bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+					if (isInit) {
+						bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+					}
 
 					if (callback && typeof callback === 'function') {
 						callback(events);
@@ -445,10 +447,10 @@
 			return null;
 		};
 
-		const updateResultsBasedOnFilters = () => {
+		const updateResultsBasedOnFilters = (isInit) => {
 			const newRequestModel = getRequestModelBasedOnQueryParams();
 
-			vm.filterEvents(newRequestModel);
+			vm.filterEvents(newRequestModel, isInit);
 		};
 
 		const initErrorCallback = () => eventsService
@@ -458,7 +460,9 @@
 
 		const init = () => {
 			// setupListFilters sets the data to the view model
-			setupListFilters(updateResultsBasedOnFilters, initErrorCallback);
+			setupListFilters(() => {
+				updateResultsBasedOnFilters(true);
+			}, initErrorCallback);
 		};
 
 		$scope.$on('$locationChangeSuccess', () => {
