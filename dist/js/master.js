@@ -82,6 +82,52 @@ bcpl.constants = {
 };
 'use strict';
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+if (!Array.prototype.find) {
+      Object.defineProperty(Array.prototype, 'find', {
+            value: function value(predicate) {
+                  // 1. Let O be ? ToObject(this value).
+                  if (this == null) {
+                        throw new TypeError('"this" is null or not defined');
+                  }
+
+                  var o = Object(this);
+
+                  // 2. Let len be ? ToLength(? Get(O, "length")).
+                  var len = o.length >>> 0;
+
+                  // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+                  if (typeof predicate !== 'function') {
+                        throw new TypeError('predicate must be a function');
+                  }
+
+                  // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+                  var thisArg = arguments[1];
+
+                  // 5. Let k be 0.
+                  var k = 0;
+
+                  // 6. Repeat, while k < len
+                  while (k < len) {
+                        // a. Let Pk be ! ToString(k).
+                        // b. Let kValue be ? Get(O, Pk).
+                        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                        // d. If testResult is true, return kValue.
+                        var kValue = o[k];
+                        if (predicate.call(thisArg, kValue, k, o)) {
+                              return kValue;
+                        }
+                        // e. Increase k by 1.
+                        k++;
+                  }
+
+                  // 7. Return undefined.
+                  return undefined;
+            }
+      });
+}
+'use strict';
+
 namespacer('bcpl.utility');
 
 bcpl.utility.browserStorage = function (localStorage) {
@@ -1648,3 +1694,29 @@ bcpl.tabs = function ($) {
 $(function () {
 	bcpl.tabs.init();
 });
+'use strict';
+
+var bcpl = bcpl || {};
+
+bcpl.branchEmailSwitcher = function branchEmailSwitcher($) {
+	var branchEmails = [{ name: 'Arbutus', email: 'arsched@bcpl.net' }, { name: 'Catonsville', email: 'catonsvi@bcpl.net' }, { name: 'Cockeysville', email: 'cockeysv@bcpl.net' }, { name: 'Essex', email: 'essex@bcpl.net' }, { name: 'Hereford', email: 'hereford@bcpl.net' }, { name: 'Lansdowne', email: 'lasched@bcpl.net' }, { name: 'Loch Raven', email: 'lochrave@bcpl.net' }, { name: 'North Point', email: 'npschedules@bcpl.net' }, { name: 'Owings Mills', email: 'owingsmills@bcpl.net' }, { name: 'Parkville-Carney', email: 'pasched@bcpl.net' }, { name: 'Perry Hall', email: 'pe-libs@bcpl.net' }, { name: 'Pikesville', email: 'pikesvil@bcpl.net' }, { name: 'Randallstown', email: 'ra-schedules@bcpl.net' }, { name: 'Reisterstown', email: 'reisters@bcpl.net' }, { name: 'Rosedale', email: 'ro-schedules@bcpl.net' }, { name: 'Sollers Point', email: 'sollerspoint@bcpl.net' }, { name: 'Towson', email: 'to-schedules@bcpl.net' }, { name: 'White Marsh', email: 'wh-schedules@bcpl.net' }, { name: 'Woodlawn', email: 'wo-schedules@bcpl.net' }];
+
+	var findBranchEmail = function findBranchEmail(searchTerm) {
+		var foundEmail = branchEmails.find(function findEmaiItem(branchEmailItem) {
+			if (branchEmailItem && branchEmailItem.name && typeof branchEmailItem.name === 'string') {
+				return branchEmailItem.name.toLowerCase() === searchTerm.toLowerCase();
+			}
+
+			return false;
+		});
+
+		return foundEmail || '';
+	};
+
+	$(document).on('change', '#whichBranch', function whichBranchChangeEvent(changeEvent) {
+		var branchSelectionValue = $(changeEvent.target).val();
+		var branchEmailItem = findBranchEmail(branchSelectionValue);
+
+		$('#_seResultMail').val(branchEmailItem.email);
+	});
+}(jQuery);
