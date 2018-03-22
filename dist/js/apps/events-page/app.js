@@ -723,6 +723,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			$document.ready(function () {
 				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
 				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 			});
 
 			eventsService.get(eventRequestModel).then(function (events) {
