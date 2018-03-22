@@ -77,6 +77,7 @@
 			vm.isLoading = true;
 			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
 			vm.requestErrorMessage = '';
+			vm.requestModel = eventRequestModel;
 
 			eventsService
 				.get(eventRequestModel)
@@ -84,8 +85,6 @@
 					processEvents(events);
 
 					vm.hasResults = !!getTotalResults(events);
-
-					vm.requestModel = eventRequestModel;
 
 					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
