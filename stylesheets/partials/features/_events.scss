@@ -95,7 +95,6 @@
 		top: -1px;
 	}
 }
-
 .events-search-wrapper {
 	.keyword-search-wrapper {
 		position: relative;
@@ -435,7 +434,10 @@ a, button, input, label {
 				text-align: right;
 			}
 		}
-	}
+    }
+    .registration-msg {
+        margin: 1.5em auto 1em;
+    }
 }
 
 @media (max-width: $screen-md) {

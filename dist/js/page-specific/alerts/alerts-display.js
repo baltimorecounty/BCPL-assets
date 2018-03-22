@@ -27,8 +27,10 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
   */
 	var getAlertData = function getAlertData(callback) {
 		$.ajax(CONSTANTS.baseApiUrl + CONSTANTS.shared.urls.alerts).then(function (alerts) {
-			return onAlertsSuccess(alerts, callback);
-		}, console.error);
+			return onGetAlertsSuccess(alerts, callback);
+		}, function () {
+			return onGetAlertsError(callback);
+		});
 	};
 
 	/**
@@ -36,7 +38,7 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
   * @param {Object} alerts Alert data from structured contnet.
   * @param {function} callback Executed after the start and end dates are fixed up.
   */
-	var onAlertsSuccess = function onAlertsSuccess(alerts, callback) {
+	var onGetAlertsSuccess = function onGetAlertsSuccess(alerts, callback) {
 		var displayAlerts = Array.prototype.slice.call(alerts).map(function (notification) {
 			return Object.assign({
 				DisplayStartDate: moment(notification.StartDate).format(dateFormat),
@@ -44,6 +46,14 @@ bcpl.pageSpecific.alerts.alertDisplay = function ($, Handlebars, moment, CONSTAN
 			}, notification);
 		});
 		callback(displayAlerts);
+	};
+
+	/**
+  * Sends bacn an empty array if there's a 500.
+  * @param {function} callback Callback function.
+  */
+	var onGetAlertsError = function onGetAlertsError(callback) {
+		callback([]);
 	};
 
 	/**

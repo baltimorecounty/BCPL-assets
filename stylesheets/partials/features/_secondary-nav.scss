@@ -83,4 +83,16 @@
 			display: none;
 		}
 	}
+
+	.container {
+		.flex, 
+		.flex-lg, 
+		.flex-md, 
+		.flex-sm,
+		.flex-xs {
+			.secondary-nav {
+				display: block;
+			}
+		}
+	}
 }
