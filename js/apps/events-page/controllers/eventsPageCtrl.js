@@ -340,11 +340,8 @@
 
 			// Keywords
 			const keywords = getKeywords();
-
-			if (keywords) {
-				newRequestModel.Keyword = keywords;
-				vm.keywords = keywords;
-			}
+			newRequestModel.Keyword = keywords;
+			vm.keywords = keywords;
 
 			// Dates
 			const requestDates = getDatesFromUrl(queryParams);
