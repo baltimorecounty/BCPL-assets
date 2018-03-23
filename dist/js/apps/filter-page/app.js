@@ -602,10 +602,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 			var addFilterId = function addFilterId(filterFamily) {
 				var newFamily = filterFamily;
-
-				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
-
 				if (newFamily) {
+					newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
 				return newFamily;
