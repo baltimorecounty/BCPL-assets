@@ -583,19 +583,22 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 				if ($scope.filterFamilies && $scope.filterFamilies.length) {
 					$scope.filterFamilies.forEach(function (filterFamily) {
-						var filterFamilyHasTags = filterFamily && Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
-						var tags = filterFamilyHasTags ? filterFamily.tags : [];
-						var hasMatch = false;
+						if (filterFamily) {
+							var filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+							var tags = filterFamilyHasTags ? filterFamily.tags : [];
+							var hasMatch = false;
 
-						$scope.activeFilters.forEach(function (filter) {
-							if (!hasMatch) {
-								hasMatch = !!tags.filter(function (tagName) {
-									return findFilterMatch(tagName, filter);
-								}).length;
-							}
-						});
+							$scope.activeFilters.forEach(function (filter) {
+								if (!hasMatch) {
+									hasMatch = !!tags.filter(function (tagName) {
+										return findFilterMatch(tagName, filter);
+									}).length;
+								}
+							});
 
-						filterFamily.isFilterActive = hasMatch;
+							// This should probably be refactored to be immutable
+							filterFamily.isFilterActive = hasMatch; // eslint-disable-line no-param-reassign
+						}
 					});
 				}
 			});
@@ -603,11 +606,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			var addFilterId = function addFilterId(filterFamily) {
 				var newFamily = filterFamily;
 
-				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
-
 				if (newFamily) {
+					newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
+
 				return newFamily;
 			};
 		};
