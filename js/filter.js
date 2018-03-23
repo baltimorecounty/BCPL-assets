@@ -2,7 +2,6 @@ namespacer('bcpl');
 
 bcpl.filter = (($, windowShade) => {
 	let filterData = {};
-	let filtersChangedEvent;
 
 	const activateTags = ($filteredContent, clickedFilterLabelText) => {
 		const $buttons = $filteredContent.find('.tag-list button');
@@ -62,7 +61,6 @@ bcpl.filter = (($, windowShade) => {
 		const $checkedFilters = $labels.has('input:checked');
 		const clickedFilterLabelText = $clickedFilter.closest('label').text().trim().toLowerCase();
 		const isClickedFilterActive = $clickedFilter.prop('checked');
-		const shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
@@ -91,21 +89,21 @@ bcpl.filter = (($, windowShade) => {
 			});
 	};
 
-	const filterDataSuccess = (contentData) => {	
-		filterData = typeof contentData === 'string' ? JSON.parse(contentData) :contentData;
-		
+	const filterDataSuccess = (contentData) => {
+		filterData = typeof contentData === 'string' ? JSON.parse(contentData) : contentData;
+
 		render({
 			items: filterData,
 			length: filterData.length
 		}, $('#results-display-template'), $('#results-display'));
-		
+
 		const filters = generateFiltersList(filterData);
 
 		render(filters, $('#filters-template'), $('#filters'));
 	};
 
 	const filterDataError = (jqxhr, status, errorThrown) => {
-		console.log('err', errorThrown);
+		console.log('err', errorThrown); // eslint-disable-line no-console
 	};
 
 	const filtersShowing = (collapseEvent) => {
@@ -123,13 +121,13 @@ bcpl.filter = (($, windowShade) => {
 	const tagClicked = (clickEvent) => {
 		const $target = $(clickEvent.currentTarget);
 		const tagText = $target.text().trim().toLowerCase();
-		const $filterInputLabels = $('#filters label');		
+		const $filterInputLabels = $('#filters label');
 
 		$filterInputLabels.each((index, labelElement) => {
 			const $label = $(labelElement);
 
 			if ($label.text().trim().toLowerCase() === tagText) {
-				$label.find('input').trigger('click',  { shouldClearFilters: true });
+				$label.find('input').trigger('click', { shouldClearFilters: true });
 				$target.toggleClass('active');
 			} else {
 				$target.removeClass('active');
@@ -143,11 +141,12 @@ bcpl.filter = (($, windowShade) => {
 		const filtersChangedEvent = document.createEvent('Event');
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
-		$(document).on('click', '.tag-list button', tagClicked);
-		$(document).on('change', '#filters input', filterBoxChanged);		
-		$(document).on('show.bs.collapse', '#filters', filtersShowing);
-		$(document).on('hide.bs.collapse', '#filters', filtersHiding); 
+		$(document)
+			.on('click', '.tag-list button', tagClicked)
+			.on('change', '#filters input', filterBoxChanged)
+			.on('show.bs.collapse', '#filters', filtersShowing)
+			.on('hide.bs.collapse', '#filters', filtersHiding);
 	};
 
-	return { init };	
+	return { init };
 })(jQuery, bcpl.utility.windowShade);
