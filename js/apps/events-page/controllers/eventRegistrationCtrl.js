@@ -33,7 +33,7 @@
 				const hasConfirmationMessage = data &&
                     Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') &&
                     data.ConfirmationMessage &&
-					data.ConfirmationMessage.length;
+                    data.ConfirmationMessage.length;
 
 				if (hasConfirmationMessage) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
