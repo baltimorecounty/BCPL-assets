@@ -541,14 +541,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				vm.postResult = postResult.data;
 
 				var data = vm.postResult.Data;
-				var hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') && data.ConfirmationMessage.length;
+				var hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
 
 				if (hasConfirmationMessage) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
 					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 
-					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : 'Something went wrong, please try again later';
 				}
 
 				vm.isSubmitted = true;
