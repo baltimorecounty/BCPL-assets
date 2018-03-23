@@ -383,9 +383,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var addDays = function addDays(dateOrString, daysToAdd) {
 			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
 
-			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object' || date === 'Invalid Date') {
-				return date;
-			}
+			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object') return date;
 
 			date.setDate(date.getDate() + daysToAdd);
 
