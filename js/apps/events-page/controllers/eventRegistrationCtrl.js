@@ -30,20 +30,20 @@
 				vm.postResult = postResult.data;
 
 				const data = vm.postResult.Data;
-				const hasConfirmationMessage = data && 
-					Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') &&
+				const hasConfirmationMessage = data &&
+                    Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') &&
+                    data.ConfirmationMessage &&
 					data.ConfirmationMessage.length;
 
 				if (hasConfirmationMessage) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
-				}
-				else {
-					const hasErrors = vm.postResult && 
+				} else {
+					const hasErrors = vm.postResult &&
 						Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
-						
-					vm.formConfirmationMessage = hasErrors ? 
-						vm.postResult.Errors[0].Error : 
-						"Something went wrong, please try again later";
+
+					vm.formConfirmationMessage = hasErrors ?
+						vm.postResult.Errors[0].Error :
+						'Something went wrong, please try again later';
 				}
 
 				vm.isSubmitted = true;
