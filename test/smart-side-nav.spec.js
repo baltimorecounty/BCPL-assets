@@ -28,8 +28,6 @@ describe('Smart Side Nav', () => {
 	});
 
 	describe('compareNavLinks - filename', () => {
-		let smartSideNav;
-
 		const mockWindow = {
 			location: {
 				href: 'https://mydomain.com/abcde/testing.html'
@@ -66,8 +64,6 @@ describe('Smart Side Nav', () => {
 	});
 
 	describe('compareNavLinks - trailing slash', () => {
-		let smartSideNav;
-
 		const mockWindow = {
 			location: {
 				href: 'https://mydomain.com/abcde/fghijk/'
@@ -92,8 +88,6 @@ describe('Smart Side Nav', () => {
 	});
 
 	describe('compareNavLinks - foldername', () => {
-		let smartSideNav;
-
 		const mockWindow = {
 			location: {
 				href: 'https://mydomain.com/abcde/fghijk'

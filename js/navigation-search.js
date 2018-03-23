@@ -34,7 +34,6 @@ bcpl.navigationSearch = (($) => {
 	const hamburgerButtonClicked = (event) => {
 		const $header = $(headerSelector);
 		const $searchBox = event.data.$searchBox;
-		const $searchButtonActivator = event.data.$searchButtonActivator;
 		const $menu = event.data.$menu;
 		const $hamburgerButton = $(event.currentTarget);
 		const $modalCover = event.data.$modalCover;
