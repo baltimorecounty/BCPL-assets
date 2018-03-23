@@ -10,7 +10,10 @@
 
 				if ($scope.filterFamilies && $scope.filterFamilies.length) {
 					$scope.filterFamilies.forEach((filterFamily) => {
-						const filterFamilyHasTags = filterFamily && Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+						if (!filterFamily) return;
+
+						const filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+
 						const tags = filterFamilyHasTags ?
 							filterFamily.tags :
 							[];
@@ -23,17 +26,20 @@
 							}
 						});
 
-						filterFamily.isFilterActive = hasMatch;
+						// This should probably be refactored to be immutable
+						filterFamily.isFilterActive = hasMatch; // eslint-disable-line no-param-reassign
 					});
 				}
 			});
 
 			const addFilterId = (filterFamily) => {
 				const newFamily = filterFamily;
+
 				if (newFamily) {
 					newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
+
 				return newFamily;
 			};
 		};
