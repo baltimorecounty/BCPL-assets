@@ -222,7 +222,7 @@ $(function () {
 
 namespacer('bcpl.utility');
 
-bcpl.utility.format = function () {
+bcpl.utility.format = function format() {
 	'use strict';
 
 	function formatCurrency(input) {
@@ -230,7 +230,7 @@ bcpl.utility.format = function () {
 			return;
 		}
 
-		if (input && typeof input === 'string') {
+		if (typeof input === 'string') {
 			input = parseFloat(input);
 		}
 
@@ -842,7 +842,6 @@ namespacer('bcpl');
 
 bcpl.filter = function ($, windowShade) {
 	var filterData = {};
-	var filtersChangedEvent = void 0;
 
 	var activateTags = function activateTags($filteredContent, clickedFilterLabelText) {
 		var $buttons = $filteredContent.find('.tag-list button');
@@ -906,7 +905,6 @@ bcpl.filter = function ($, windowShade) {
 		var $checkedFilters = $labels.has('input:checked');
 		var clickedFilterLabelText = $clickedFilter.closest('label').text().trim().toLowerCase();
 		var isClickedFilterActive = $clickedFilter.prop('checked');
-		var shouldClearFilters = settings && settings.shouldClearFilters ? settings.shouldClearFilters : false;
 
 		$labels.not('input:checked').removeClass('active');
 		$checkedFilters.addClass('active');
@@ -947,7 +945,7 @@ bcpl.filter = function ($, windowShade) {
 	};
 
 	var filterDataError = function filterDataError(jqxhr, status, errorThrown) {
-		console.log('err', errorThrown);
+		console.log('err', errorThrown); // eslint-disable-line no-console
 	};
 
 	var filtersShowing = function filtersShowing(collapseEvent) {
@@ -981,10 +979,7 @@ bcpl.filter = function ($, windowShade) {
 		var filtersChangedEvent = document.createEvent('Event');
 		filtersChangedEvent.initEvent('bcpl.filter.changed', true, true);
 
-		$(document).on('click', '.tag-list button', tagClicked);
-		$(document).on('change', '#filters input', filterBoxChanged);
-		$(document).on('show.bs.collapse', '#filters', filtersShowing);
-		$(document).on('hide.bs.collapse', '#filters', filtersHiding);
+		$(document).on('click', '.tag-list button', tagClicked).on('change', '#filters input', filterBoxChanged).on('show.bs.collapse', '#filters', filtersShowing).on('hide.bs.collapse', '#filters', filtersHiding);
 	};
 
 	return { init: init };
@@ -1029,7 +1024,6 @@ bcpl.navigationSearch = function ($) {
 	var hamburgerButtonClicked = function hamburgerButtonClicked(event) {
 		var $header = $(headerSelector);
 		var $searchBox = event.data.$searchBox;
-		var $searchButtonActivator = event.data.$searchButtonActivator;
 		var $menu = event.data.$menu;
 		var $hamburgerButton = $(event.currentTarget);
 		var $modalCover = event.data.$modalCover;

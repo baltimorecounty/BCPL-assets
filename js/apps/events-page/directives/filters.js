@@ -5,10 +5,6 @@
 		const filtersLink = (scope) => {
 			const innerScope = scope;
 
-			const filterSuccess = (data) => {
-				innerScope.items = data;
-			};
-
 			innerScope.search = (searchItem, termType, isChecked) => {
 				const identifier = searchItem.item.Id || searchItem.item.LocationId;
 				innerScope.searchFunction(identifier, termType, isChecked);
