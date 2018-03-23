@@ -1,6 +1,6 @@
 namespacer('bcpl.utility');
 
-bcpl.utility.format = (function () {
+bcpl.utility.format = (function format() {
 	'use strict';
 
 	function formatCurrency(input) {
@@ -8,7 +8,7 @@ bcpl.utility.format = (function () {
 			return;
 		}
 
-		if (input && typeof input === 'string') {
+		if (typeof input === 'string') {
 			input = parseFloat(input);
 		}
 
