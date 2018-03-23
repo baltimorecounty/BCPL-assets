@@ -28,11 +28,11 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
+			return filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
 		};
 
 		var getQueryParams = function getQueryParams() {
@@ -40,7 +40,7 @@
 		};
 
 		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
 		var setQueryParams = function setQueryParams(key, val) {
@@ -73,7 +73,7 @@
 				if (!newFilterValues.length) {
 					clearQueryParams(key);
 				} else {
-					setQueryParams(key, newFilterValues.join(","));
+					setQueryParams(key, newFilterValues.join(','));
 				}
 			} else {
 				setQueryParams(key, val);

@@ -5,10 +5,6 @@
 		const filtersLink = (scope) => {
 			const innerScope = scope;
 
-			const filterSuccess = (data) => {
-				innerScope.items = data;
-			};
-
 			innerScope.search = (searchItem, termType, isChecked) => {
 				const identifier = searchItem.item.Id || searchItem.item.LocationId;
 				const name = searchItem.item.Name || searchItem.item.Id;
@@ -22,12 +18,12 @@
 			};
 
 			innerScope.isFilterChecked = (filterType, item) => {
-				const targetId = filterType && filterType === 'locations' ? 
-					item.LocationId : 
+				const targetId = filterType && filterType === 'locations' ?
+					item.LocationId :
 					item.Id;
 
-				return innerScope.activeFilters ? 
-					innerScope.activeFilters.includes(targetId) : 
+				return innerScope.activeFilters ?
+					innerScope.activeFilters.includes(targetId) :
 					false;
 			};
 		};
