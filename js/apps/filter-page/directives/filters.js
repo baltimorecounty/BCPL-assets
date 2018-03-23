@@ -13,6 +13,7 @@
 						if (!filterFamily) return;
 
 						const filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+
 						const tags = filterFamilyHasTags ?
 							filterFamily.tags :
 							[];

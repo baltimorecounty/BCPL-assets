@@ -586,6 +586,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 						if (!filterFamily) return;
 
 						var filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+
 						var tags = filterFamilyHasTags ? filterFamily.tags : [];
 						var hasMatch = false;
 
