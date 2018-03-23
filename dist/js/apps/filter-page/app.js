@@ -583,22 +583,22 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 				if ($scope.filterFamilies && $scope.filterFamilies.length) {
 					$scope.filterFamilies.forEach(function (filterFamily) {
-						if (filterFamily) {
-							var filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
-							var tags = filterFamilyHasTags ? filterFamily.tags : [];
-							var hasMatch = false;
+						if (!filterFamily) return;
 
-							$scope.activeFilters.forEach(function (filter) {
-								if (!hasMatch) {
-									hasMatch = !!tags.filter(function (tagName) {
-										return findFilterMatch(tagName, filter);
-									}).length;
-								}
-							});
+						var filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+						var tags = filterFamilyHasTags ? filterFamily.tags : [];
+						var hasMatch = false;
 
-							// This should probably be refactored to be immutable
-							filterFamily.isFilterActive = hasMatch; // eslint-disable-line no-param-reassign
-						}
+						$scope.activeFilters.forEach(function (filter) {
+							if (!hasMatch) {
+								hasMatch = !!tags.filter(function (tagName) {
+									return findFilterMatch(tagName, filter);
+								}).length;
+							}
+						});
+
+						// This should probably be refactored to be immutable
+						filterFamily.isFilterActive = hasMatch; // eslint-disable-line no-param-reassign
 					});
 				}
 			});
