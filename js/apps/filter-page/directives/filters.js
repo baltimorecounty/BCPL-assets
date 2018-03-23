@@ -11,11 +11,11 @@
 				if ($scope.filterFamilies && $scope.filterFamilies.length) {
 					$scope.filterFamilies.forEach((filterFamily) => {
 						const filterFamilyHasTags = filterFamily && Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
-						const tags = filterFamilyHasTags ? 
-							filterFamily.tags : 
+						const tags = filterFamilyHasTags ?
+							filterFamily.tags :
 							[];
 						let hasMatch = false;
-						
+
 						$scope.activeFilters.forEach((filter) => {
 							if (!hasMatch) {
 								hasMatch = !!tags
@@ -30,10 +30,8 @@
 
 			const addFilterId = (filterFamily) => {
 				const newFamily = filterFamily;
-
-				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
-
 				if (newFamily) {
+					newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
 				return newFamily;
