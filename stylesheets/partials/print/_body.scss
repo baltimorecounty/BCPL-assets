@@ -1,0 +1,21 @@
+@media print {
+	body {
+		background-color: white;
+	}
+
+	a[href]:after {
+		content: none !important;
+	}
+
+	.print-only {
+		display: initial !important;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	button#scroll-to-top {
+		display: none !important;
+	}
+}

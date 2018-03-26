@@ -1,0 +1,21 @@
+@media print {
+
+	.main-header { 
+		.subnav-wrapper,
+		.continaer,
+		.nav-and-search,
+		#alerts-target,
+		.logo a:first-child {
+			display: none;
+		}
+
+		.internal .menu-wrapper .menu-inner-wrapper {
+			background: white;
+		}
+	}
+
+	.section-title-wrapper {
+		display: none;
+	}
+	
+}
