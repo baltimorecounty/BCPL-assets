@@ -13,6 +13,26 @@
 
 		const hasConfirmationMessage = (data) => data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
 
+
+		const getEmailBodyHtml = () => {
+			const currentPage = $window.location.href;
+			const {
+				AgeGroupsString,
+				EventStartDate,
+				EventSchedule,
+				EventTypesString,
+				LocationName,
+				Title
+			} = vm.data;
+
+			return `${Title} \n ${currentPage}`;
+		};
+
+		const getEmailSubject = () => {
+			const { EventStartDate, Title } = vm.data;
+			return `${EventStartDate} - ${Title}`;
+		};
+
 		vm.submitHandler = () => {
 			vm.isLoadingResults = true;
 
@@ -57,6 +77,9 @@
 			vm.data = data;
 			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.emailSubject = getEmailSubject();
+			vm.emailBody = getEmailBodyHtml();
+			vm.shareUrl = `mailto:?subject=${vm.emailSubject}&body=${vm.emailBody}`;
 		};
 
 		eventsService.getById(id).then(processEventData);
