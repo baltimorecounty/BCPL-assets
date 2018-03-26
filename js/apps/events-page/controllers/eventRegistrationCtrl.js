@@ -11,6 +11,9 @@
 		vm.isLoadingResults = false;
 		vm.formConfirmationMessage = null;
 
+		const hasConfirmationMessage = (data) => data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') &&
+            data.ConfirmationMessage && data.ConfirmationMessage.length;
+
 		vm.submitHandler = () => {
 			vm.isLoadingResults = true;
 
@@ -24,16 +27,15 @@
 				GroupCount: vm.groupCount
 			};
 
+
 			registrationService.register(postModel).then(postResult => {
 				// jQuery since ngAnimate can't do this.
 				const topOfContent = angular.element('.main-content').first().offset().top;
 				vm.postResult = postResult.data;
 
 				const data = vm.postResult.Data;
-				const hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') &&
-                    data.ConfirmationMessage && data.ConfirmationMessage.length;
 
-				if (hasConfirmationMessage) {
+				if (hasConfirmationMessage(data)) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
 					const hasErrors = vm.postResult &&
