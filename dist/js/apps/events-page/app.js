@@ -158,8 +158,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -542,6 +542,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
 		var vm = this;
 		var id = $routeParams.id;
+		var getEmailBody = function getEmailBody() {
+			return 'Check out this event at the Baltimore County Public Library: ' + $window.location.href;
+		};
+		var getEmailSubject = function getEmailSubject() {
+			return vm.data.EventStartDate + ' - ' + vm.data.Title;
+		};
 
 		vm.data = {};
 		vm.data.EventStartDate = '';
@@ -551,37 +557,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isError = false;
 		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
 
-		var getEmailBodyHtml = function getEmailBodyHtml() {
-			var currentPage = $window.location.href;
-			var _vm$data = vm.data,
-			    AgeGroupsString = _vm$data.AgeGroupsString,
-			    EventStartDate = _vm$data.EventStartDate,
-			    EventSchedule = _vm$data.EventSchedule,
-			    EventTypesString = _vm$data.EventTypesString,
-			    LocationName = _vm$data.LocationName,
-			    Title = _vm$data.Title;
-
-
-			return Title + ' \n ' + currentPage;
-		};
-
-		var getEmailSubject = function getEmailSubject() {
-			var _vm$data2 = vm.data,
-			    EventStartDate = _vm$data2.EventStartDate,
-			    Title = _vm$data2.Title;
-
-			return EventStartDate + ' - ' + Title;
-		};
-
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
+			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
-			vm.isOver = moment().isAfter(moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.emailSubject = getEmailSubject();
-			vm.emailBody = getEmailBodyHtml();
+			vm.emailBody = getEmailBody();
 			vm.shareUrl = 'mailto:?subject=' + vm.emailSubject + '&body=' + vm.emailBody;
 		};
 
