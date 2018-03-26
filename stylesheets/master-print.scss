@@ -1,0 +1,58 @@
+@import "partials/core/colors";
+
+body {
+	background-color: white;
+}
+
+.main-header { 
+	.subnav-wrapper,
+	.continaer,
+	.nav-and-search,
+	#alerts-target,
+	.section-title-wrapper {
+		display: none;
+	}
+
+	.internal .menu-wrapper .menu-inner-wrapper {
+		background: white;
+		padding: 0;
+	}
+}
+
+main {
+	& > .col-md-3 {
+		display: none;
+	}
+
+	& > .col-md-9 {
+		width: 100%;
+
+		.main-content {
+			padding: 1.8em 0;
+
+			.content-banner { 
+				display: none;
+			}
+		}
+	}
+}
+
+footer {
+	.follow-wrapper,
+	.callouts-wrapper {
+		display: none;
+	}
+
+	.copyright-wrapper {
+		background-color: white;
+		color: $gray-dark;
+
+		& > .col-md-6 {
+			width: 100%;
+		}
+
+		.col-md-6:nth-child(1) {
+			display: none;
+		}
+	}
+}
