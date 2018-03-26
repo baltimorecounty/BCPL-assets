@@ -158,8 +158,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -536,7 +536,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, ICS) {
 	'use strict';
 
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
@@ -560,6 +560,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.isLoading = false;
 		};
 
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			var _vm$data = vm.data,
+			    LocationName = _vm$data.LocationName,
+			    Title = _vm$data.Title;
+
+			var eventTitle = 'Baltimore County Library, ' + LocationName + ' Branch - ' + Title;
+			var eventLocation = LocationName + ' Branch';
+			var eventDescription = 'This is an all day event';
+			var eventStartDate = null;
+			var eventEndDate = null;
+
+			var calEvent = new ICS();
+
+			calEvent.addEvent(eventTitle, eventDescription, eventLocation, eventStartDate, eventEndDate);
+			calEvent.download(Title);
+		};
+
 		var requestError = function requestError(errorResponse) {
 			vm.isLoading = false;
 			vm.isError = true;
@@ -571,7 +590,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), window.ics);
 'use strict';
 
 (function (app, bcFormat) {
