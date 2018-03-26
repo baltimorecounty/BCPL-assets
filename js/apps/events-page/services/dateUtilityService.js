@@ -3,11 +3,11 @@
 
 	const dateUtilityService = () => {
 		const addDays = (dateOrString, daysToAdd) => {
-			const date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
+			const date = typeof dateOrString === 'string' ?
+				new Date(dateOrString) :
+				dateOrString;
 
-			if (typeof date !== 'object' || date === 'Invalid Date') {
-				return date;
-			}
+			if (typeof date !== 'object') return date;
 
 			date.setDate(date.getDate() + daysToAdd);
 

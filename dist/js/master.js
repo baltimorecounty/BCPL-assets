@@ -1203,6 +1203,7 @@ bcpl.navigation = function ($, keyCodes) {
 	var activeLinksSelector = '.active, .clicked';
 	var activeMenuButtonSelector = 'li.active button';
 	var subMenuClass = 'sub-menu';
+	var backButtonSelector = '.window-back';
 	var mobileWidthThreshold = 768;
 
 	var isMobileWidth = function isMobileWidth($element, threshold) {
@@ -1389,6 +1390,11 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
+	var onBackButtonClicked = function onBackButtonClicked(clickEvent) {
+		clickEvent.preventDefault();
+		window.history.back();
+	};
+
 	var stopNavMouseOver = function stopNavMouseOver(targetTimeout) {
 		clearTimeout(targetTimeout);
 	};
@@ -1418,12 +1424,7 @@ bcpl.navigation = function ($, keyCodes) {
 		}
 	};
 
-	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
-	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
-	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
-	$(document).on('click', navButtonSelector, navButtonClicked);
-	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed).on('click', navButtonSelector, navButtonClicked).on('click', backButtonSelector, onBackButtonClicked).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
 
 }(jQuery, bcpl.constants.keyCodes);
 'use strict';
