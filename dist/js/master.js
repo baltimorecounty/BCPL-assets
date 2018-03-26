@@ -512,20 +512,20 @@ bcpl.utility.windowShade = function ($) {
 namespacer('bcpl');
 
 bcpl.accordion = function ($) {
-	var accordionIcorSelector = 'h4 a i';
+	var accordionIconSelector = 'h1:first-child a i, h2:first-child a i, h3:first-child a i, h4:first-child a i, p:first-child a i';
 	var collapsableSelector = '.content-accordion-body';
 	var panelSelector = '.content-accordion .panel';
 
 	var onCollapsableShown = function onCollapsableShown(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-right').addClass('fa-chevron-down');
+		$collapseButton.closest(panelSelector).find(accordionIconSelector).removeClass('fa-chevron-right').addClass('fa-chevron-down');
 	};
 
 	var onCollapsableHidden = function onCollapsableHidden(collapseEvent) {
 		var $collapseButton = $(collapseEvent.currentTarget);
 
-		$collapseButton.closest(panelSelector).find(accordionIcorSelector).removeClass('fa-chevron-down').addClass('fa-chevron-right');
+		$collapseButton.closest(panelSelector).find(accordionIconSelector).removeClass('fa-chevron-down').addClass('fa-chevron-right');
 	};
 
 	var init = function init() {
