@@ -1,4 +1,4 @@
-((app) => {
+((app, ICS) => {
 	'use strict';
 
 	const EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
@@ -22,6 +22,23 @@
 			vm.isLoading = false;
 		};
 
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			const { LocationName, Title } = vm.data;
+			const eventTitle = `Baltimore County Library, ${LocationName} Branch - ${Title}`;
+			const eventLocation = `${LocationName} Branch`;
+			const eventDescription = 'This is an all day event';
+			const eventStartDate = null;
+			const eventEndDate = null;
+
+
+			let calEvent = new ICS();
+
+			calEvent.addEvent(eventTitle, eventDescription, eventLocation, eventStartDate, eventEndDate);
+			calEvent.download(Title);
+		};
+
 		const requestError = (errorResponse) => {
 			vm.isLoading = false;
 			vm.isError = true;
@@ -36,4 +53,4 @@
 	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), window.ics);
