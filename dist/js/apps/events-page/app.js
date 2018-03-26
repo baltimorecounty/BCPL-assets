@@ -865,7 +865,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		/* ** Private ** */
 
-		// GOOD
 		var processEvents = function processEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = eventResults.eventGroups;
@@ -878,19 +877,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			});
 		};
 
-		// GOOD
 		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
 
-		// GOOD
 		var isLastPage = function isLastPage(totalResults) {
 			var totalResultsSoFar = vm.requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
-		// GOOD
 		var isDateRangeValid = function isDateRangeValid(firstDate, secondDate) {
 			if (firstDate && secondDate) {
 				return $window.moment(firstDate).isSameOrBefore(secondDate);
@@ -898,12 +894,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return false;
 		};
 
-		// GOOD
 		var isSameDay = function isSameDay(day1Date, day2Date) {
 			return day1Date && day2Date ? $window.moment(day1Date).isSame(day2Date, 'day') : false;
 		};
 
-		// GOOD
 		var combineEventGroups = function combineEventGroups(oldEventGroups, newEventGroups) {
 			var renderedEventGroups = oldEventGroups;
 			var lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
@@ -919,14 +913,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return renderedEventGroups;
 		};
 
-		// GOOD
 		var toggleIcon = function toggleIcon(collapseEvent) {
 			var $collapsible = angular.element(collapseEvent.currentTarget);
 			var $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		// GOOD
 		var getKeywords = function getKeywords() {
 			return $location.search().term && $location.search().term.length ? $location.search().term : '';
 		};
