@@ -517,6 +517,7 @@ bcpl.accordion = function ($) {
 	var panelSelector = '.content-accordion .panel';
 	var collapseSelector = '.collapse';
 	var htmlBodySelector = 'html, body';
+	var anchorNameRegex = /^#[\w-]+$/;
 
 	/**
   * Handles the collapseable "show" event.
@@ -545,7 +546,7 @@ bcpl.accordion = function ($) {
 	var openPanelFromUrl = function openPanelFromUrl() {
 		var fragmentIdentifier = window.location.hash;
 
-		if (fragmentIdentifier && fragmentIdentifier.length) {
+		if (fragmentIdentifier && fragmentIdentifier.length && anchorNameRegex.test(fragmentIdentifier)) {
 			var $fragment = $('a[name=' + fragmentIdentifier.replace('#', '') + ']');
 
 			if (!$fragment.length) return;

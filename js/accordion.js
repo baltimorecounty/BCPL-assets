@@ -6,6 +6,7 @@ bcpl.accordion = (($) => {
 	const panelSelector = '.content-accordion .panel';
 	const collapseSelector = '.collapse';
 	const htmlBodySelector = 'html, body';
+	const anchorNameRegex = /^#[\w-]+$/;
 
 	/**
 	 * Handles the collapseable "show" event.
@@ -42,7 +43,7 @@ bcpl.accordion = (($) => {
 	const openPanelFromUrl = () => {
 		const fragmentIdentifier = window.location.hash;
 
-		if (fragmentIdentifier && fragmentIdentifier.length) {
+		if (fragmentIdentifier && fragmentIdentifier.length && anchorNameRegex.test(fragmentIdentifier)) {
 			const $fragment = $(`a[name=${fragmentIdentifier.replace('#', '')}]`);
 
 			if (!$fragment.length) return;
