@@ -8,6 +8,7 @@ bcpl.navigation = (($, keyCodes) => {
 	const activeLinksSelector = '.active, .clicked';
 	const activeMenuButtonSelector = 'li.active button';
 	const subMenuClass = 'sub-menu';
+	const backButtonSelector = '.window-back';
 	const mobileWidthThreshold = 768;
 
 	const isMobileWidth = ($element, threshold) => parseFloat($element.width()) <= threshold;
@@ -210,6 +211,11 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
+	const onBackButtonClicked = (clickEvent) => {
+		clickEvent.preventDefault();
+		window.history.back();
+	};
+
 	const stopNavMouseOver = (targetTimeout) => {
 		clearTimeout(targetTimeout);
 	};
@@ -242,12 +248,14 @@ bcpl.navigation = (($, keyCodes) => {
 		}
 	};
 
-	$(document).on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover);
-	$(document).on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave);
-	$(document).on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed);
-	$(document).on('keydown', '#responsive-sliding-navigation', navigationKeyPressed);
-	$(document).on('click', navButtonSelector, navButtonClicked);
-	$(document).on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
+	$(document)
+		.on('mouseover', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseover)
+		.on('mouseleave', '.nav-and-search:not(.search-is-active) #responsive-sliding-navigation button, #responsive-sliding-navigation .submenu-wrapper', navigationMouseleave)
+		.on('keydown', '#responsive-sliding-navigation button', navigationButtonKeyPressed)
+		.on('keydown', '#responsive-sliding-navigation', navigationKeyPressed)
+		.on('click', navButtonSelector, navButtonClicked)
+		.on('click', backButtonSelector, onBackButtonClicked)
+		.on('keydown', '#responsive-sliding-navigation a', navigationMenuItemKeyPressed);
 
 	/* test-code */
 	return {
