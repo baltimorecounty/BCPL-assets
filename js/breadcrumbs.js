@@ -98,30 +98,26 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 
 	const init = (breadcrumbThreshold) => {
 		const breadcrumbThresholdLimit = breadcrumbThreshold || 3;
+		const $breadCrumbContainer = $(`.${classNames.breadCrumbContainer}`);
 
-		$(function onDocumentReady() {
-			const $breadCrumbContainer = $(`.${classNames.breadCrumbContainer}`);
+		toggleElm($breadCrumbContainer, false);
 
+		cleanBreadCrumbs();
 
-			toggleElm($breadCrumbContainer, false);
+		const $breadCrumbs = $getBreadCrumbs();
+		const numberOfBreadCrumbs = $breadCrumbs.length;
 
-			cleanBreadCrumbs();
+		if (numberOfBreadCrumbs > breadcrumbThresholdLimit) {
+			const $hiddenBreadCrumbs = $getBreadCrumbsToHide($breadCrumbs);
 
-			const $breadCrumbs = $getBreadCrumbs();
-			const numberOfBreadCrumbs = $breadCrumbs.length;
+			collapseBreadCrumbs($hiddenBreadCrumbs);
 
-			if (numberOfBreadCrumbs > breadcrumbThresholdLimit) {
-				const $hiddenBreadCrumbs = $getBreadCrumbsToHide($breadCrumbs);
+			createHiddenBreadCrumbs();
 
-				collapseBreadCrumbs($hiddenBreadCrumbs);
+			initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
+		}
 
-				createHiddenBreadCrumbs();
-
-				initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
-			}
-
-			toggleElm($breadCrumbContainer, true);
-		});
+		toggleElm($breadCrumbContainer, true);
 	};
 
 	$(document).on('click', '.hidden-breadcrumb-container', onHiddenBreadCrumbTriggerClick);
@@ -135,5 +131,6 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 	};
 }(jQuery));
 
-bcpl.breadCrumbs.init();
-
+$(function onDocumentReady() {
+	bcpl.breadCrumbs.init();
+});
