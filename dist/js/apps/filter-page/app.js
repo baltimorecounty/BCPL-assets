@@ -28,11 +28,11 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
+			return filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
 		};
 
 		var getQueryParams = function getQueryParams() {
@@ -40,7 +40,7 @@
 		};
 
 		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
 		var setQueryParams = function setQueryParams(key, val) {
@@ -73,7 +73,7 @@
 				if (!newFilterValues.length) {
 					clearQueryParams(key);
 				} else {
-					setQueryParams(key, newFilterValues.join(","));
+					setQueryParams(key, newFilterValues.join(','));
 				}
 			} else {
 				setQueryParams(key, val);
@@ -583,7 +583,10 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 				if ($scope.filterFamilies && $scope.filterFamilies.length) {
 					$scope.filterFamilies.forEach(function (filterFamily) {
-						var filterFamilyHasTags = filterFamily && Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+						if (!filterFamily) return;
+
+						var filterFamilyHasTags = Object.hasOwnProperty.call(filterFamily, 'tags') && filterFamily.tags.length;
+
 						var tags = filterFamilyHasTags ? filterFamily.tags : [];
 						var hasMatch = false;
 
@@ -595,7 +598,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 							}
 						});
 
-						filterFamily.isFilterActive = hasMatch;
+						// This should probably be refactored to be immutable
+						filterFamily.isFilterActive = hasMatch; // eslint-disable-line no-param-reassign
 					});
 				}
 			});
@@ -603,11 +607,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			var addFilterId = function addFilterId(filterFamily) {
 				var newFamily = filterFamily;
 
-				newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
-
 				if (newFamily) {
+					newFamily.name = newFamily.name === 'none' ? $scope.familyNameOverride : newFamily.name;
 					newFamily.filterId = newFamily.name.replace(/[^\w]/g, '-');
 				}
+
 				return newFamily;
 			};
 		};

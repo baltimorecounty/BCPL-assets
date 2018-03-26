@@ -28,11 +28,11 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		var getFiltersFromString = function getFiltersFromString(filterStr, isDate) {
 			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
+			return filterStr.indexOf(',') > -1 ? isDate ? filterStr : filterStr.split(',') : [filterStr];
 		};
 
 		var getQueryParams = function getQueryParams() {
@@ -40,7 +40,7 @@
 		};
 
 		var getQueryParamValuesByKey = function getQueryParamValuesByKey(queryParams, key, isDate) {
-			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? "" : [];
+			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
 		var setQueryParams = function setQueryParams(key, val) {
@@ -73,7 +73,7 @@
 				if (!newFilterValues.length) {
 					clearQueryParams(key);
 				} else {
-					setQueryParams(key, newFilterValues.join(","));
+					setQueryParams(key, newFilterValues.join(','));
 				}
 			} else {
 				setQueryParams(key, val);
@@ -383,9 +383,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var addDays = function addDays(dateOrString, daysToAdd) {
 			var date = typeof dateOrString === 'string' ? new Date(dateOrString) : dateOrString;
 
-			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object' || date === 'Invalid Date') {
-				return date;
-			}
+			if ((typeof date === 'undefined' ? 'undefined' : _typeof(date)) !== 'object') return date;
 
 			date.setDate(date.getDate() + daysToAdd);
 
@@ -522,6 +520,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isLoadingResults = false;
 		vm.formConfirmationMessage = null;
 
+		var hasConfirmationMessage = function hasConfirmationMessage(data) {
+			return data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
+		};
+
 		vm.submitHandler = function () {
 			vm.isLoadingResults = true;
 
@@ -541,19 +543,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				vm.postResult = postResult.data;
 
 				var data = vm.postResult.Data;
-				var hasConfirmationMessage = data && Object.prototype.hasOwnProperty.call(vm.postResult.Data, 'ConfirmationMessage') && data.ConfirmationMessage.length;
 
-				if (hasConfirmationMessage) {
+				if (hasConfirmationMessage(data)) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
 					var hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 
-					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : "Something went wrong, please try again later";
+					vm.formConfirmationMessage = hasErrors ? vm.postResult.Errors[0].Error : 'Something went wrong, please try again later';
 				}
 
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
-				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
+				angular.element('html, body').animate({
+					scrollTop: topOfContent
+				}, 250);
 			});
 		};
 
@@ -1041,10 +1044,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var filtersLink = function filtersLink(scope) {
 			var innerScope = scope;
 
-			var filterSuccess = function filterSuccess(data) {
-				innerScope.items = data;
-			};
-
 			innerScope.search = function (searchItem, termType, isChecked) {
 				var identifier = searchItem.item.Id || searchItem.item.LocationId;
 				var name = searchItem.item.Name || searchItem.item.Id;
@@ -1092,10 +1091,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
 		var filtersLink = function filtersLink(scope) {
 			var innerScope = scope;
-
-			var filterSuccess = function filterSuccess(data) {
-				innerScope.items = data;
-			};
 
 			innerScope.search = function (searchItem, termType, isChecked) {
 				var identifier = searchItem.item.Id || searchItem.item.LocationId;

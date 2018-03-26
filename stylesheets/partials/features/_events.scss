@@ -436,6 +436,8 @@ a, button, input, label {
 		}
     }
     .registration-msg {
+        display: block;
+        float: none !important;
         margin: 1.5em auto 1em;
     }
 }

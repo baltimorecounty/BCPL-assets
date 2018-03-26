@@ -12,7 +12,7 @@
 				delete queryParams[key];
 				newQueryParams = queryParams;
 			}
-			
+
 			$location.search(newQueryParams);
 		};
 
@@ -25,17 +25,17 @@
 			return !!matches.length;
 		};
 
-		//TODO: FILTERS MUST BE A STRING???
+		// TODO: FILTERS MUST BE A STRING???
 		const getFiltersFromString = (filterStr, isDate) => {
-			if(!filterStr) return [];
+			if (!filterStr) return [];
 
-			return filterStr && filterStr.indexOf(',') > -1 ?  
+			return filterStr.indexOf(',') > -1 ?
 				(
-					isDate ? 
-						filterStr : 
+					isDate ?
+						filterStr :
 						filterStr.split(',')
-				) : 
-				[ filterStr ];
+				) :
+				[filterStr];
 		};
 
 		const getQueryParams = () => $location.search();
@@ -43,7 +43,7 @@
 		const getQueryParamValuesByKey = (queryParams, key, isDate) => {
 			return Object.hasOwnProperty.call(queryParams, key) ?
 				getFiltersFromString(queryParams[key], isDate) :
-				(isDate ? "" : []);
+				(isDate ? '' : []);
 		};
 
 		const setQueryParams = (key, val) => {
@@ -67,8 +67,7 @@
 				if (shouldRemoveFilter) {
 					const targetFilterIndex = existingFilterValues.indexOf(val);
 					existingFilterValues.splice(targetFilterIndex, 1);
-				}
-				else {
+				} else {
 					existingFilterValues.push(val);
 				}
 
@@ -76,12 +75,10 @@
 
 				if (!newFilterValues.length) {
 					clearQueryParams(key);
+				} else {
+					setQueryParams(key, newFilterValues.join(','));
 				}
-				else {
-					setQueryParams(key, newFilterValues.join(","));
-				}
-			}
-			else {
+			} else {
 				setQueryParams(key, val);
 			}
 		};
