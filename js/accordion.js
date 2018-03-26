@@ -1,7 +1,7 @@
 namespacer('bcpl');
 
 bcpl.accordion = (($) => {
-	const accordionIcorSelector = 'h4 a i';
+	const accordionIconSelector = 'h1:first-child a i, h2:first-child a i, h3:first-child a i, h4:first-child a i, p:first-child a i';
 	const collapsableSelector = '.content-accordion-body';
 	const panelSelector = '.content-accordion .panel';
 
@@ -10,7 +10,7 @@ bcpl.accordion = (($) => {
 
 		$collapseButton
 			.closest(panelSelector)
-			.find(accordionIcorSelector)
+			.find(accordionIconSelector)
 			.removeClass('fa-chevron-right')
 			.addClass('fa-chevron-down');
 	};
@@ -20,7 +20,7 @@ bcpl.accordion = (($) => {
 
 		$collapseButton
 			.closest(panelSelector)
-			.find(accordionIcorSelector)
+			.find(accordionIconSelector)
 			.removeClass('fa-chevron-down')
 			.addClass('fa-chevron-right');
 	};
