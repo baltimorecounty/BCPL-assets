@@ -1,11 +1,10 @@
 ((app) => {
 	'use strict';
 
-	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
+	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService) {
 		const vm = this;
 		const id = $routeParams.id;
-		const getEmailBody = () => `Check out this event at the Baltimore County Public Library: ${$window.location.href}`;
-		const getEmailSubject = () => `${vm.data.EventStartDate} - ${vm.data.Title}`;
+
 
 		vm.data = {};
 		vm.data.EventStartDate = '';
@@ -22,9 +21,7 @@
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
 			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
-			vm.emailSubject = getEmailSubject();
-			vm.emailBody = getEmailBody();
-			vm.shareUrl = `mailto:?subject=${vm.emailSubject}&body=${vm.emailBody}`;
+			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
 		const requestError = (errorResponse) => {
@@ -38,7 +35,7 @@
 			.catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'));
