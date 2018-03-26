@@ -2,6 +2,7 @@
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
+		$document,
 		$scope,
 		$timeout,
 		$animate,
@@ -10,31 +11,27 @@
 		CONSTANTS,
 		eventsService,
 		filterHelperService,
-		metaService
+		metaService,
+		RequestModel
 	) {
 		const vm = this;
-		const firstPage = 1;
-		const startDateLocaleString = $window.moment().format();
-		const endDate = $window.moment().add(30, 'd');
-		const endDateLocaleString = endDate.format();
-		const requestModel = {
-			StartDate: startDateLocaleString,
-			EndDate: endDateLocaleString,
-			Page: firstPage,
-			IsOngoingVisible: true,
-			IsSpacesReservationVisible: false,
-			Limit: CONSTANTS.requestChunkSize,
-			EventsTypes: [],
-			AgeGroups: [],
-			Locations: []
-		};
+		const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
+
+		const getStartDateLocaleString = () => $window.moment().format();
+		const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
+
+		/**
+         * This contains the state of the filters on the page, this should match the most recent request, and results should be
+         * visible on the page
+         */
+		vm.requestModel = new RequestModel();
+
 		const eventDateBarStickySettings = {
 			zIndex: 100,
 			responsiveWidth: true
 		};
 
 		/* ** Public ** */
-
 		vm.eventGroups = [];
 		vm.keywords = '';
 		vm.chunkSize = CONSTANTS.requestChunkSize;
@@ -45,56 +42,136 @@
 		vm.hasResults = true;
 		vm.data = {};
 
-		vm.locations = requestModel.Locations;
+		vm.locations = [];
+		vm.eventsTypes = [];
+		vm.ageGroups = [];
 
-		vm.eventsTypes = requestModel.EventsTypes;
-		vm.ageGroups = requestModel.AgeGroups;
+		const getFilterPanelStatus = (model) => {
+			const activePanels = [];
+			const inActivePanels = [];
+			if (model.Locations.length) {
+				activePanels.push('locations');
+			} else {
+				inActivePanels.push('locations');
+			}
+			if (model.EventsTypes.length) {
+				activePanels.push('eventTypes');
+			} else {
+				inActivePanels.push('eventTypes');
+			}
+			if (model.AgeGroups.length) {
+				activePanels.push('ageGroups');
+			} else {
+				inActivePanels.push('ageGroups');
+			}
+			return {
+				activePanels,
+				inActivePanels
+			};
+		};
 
-		vm.keywordSearch = () => {
-			requestModel.Keyword = vm.keywords;
-			requestModel.StartDate = startDateLocaleString;
-			requestModel.Page = 1;
+		vm.filterEvents = (eventRequestModel, isInit, callback) => {
+			// Clear out existing list of events
 			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
 
-			updateFilterUrl('term', vm.keywords);
+			// Let user know we are retreiving a new list of events
+			vm.isLoading = true;
+			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
+			vm.requestErrorMessage = '';
+			vm.requestModel = eventRequestModel;
+
+            const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+            const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+
+			$document.ready(() => {
+				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
+				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
+			});
 
 			eventsService
-				.get(requestModel)
-				.then(processEvents)
+				.get(eventRequestModel)
+				.then((events) => {
+					processEvents(events);
+
+					vm.hasResults = !!getTotalResults(events);
+
+					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
+
+					if (isInit) {
+						bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+					}
+
+					if (callback && typeof callback === 'function') {
+						callback(events);
+					}
+				})
 				.catch(handleFailedEventsGetRequest);
 		};
 
-		const updateFilterUrl = (targetKey, vmModel) => {
-			if (vmModel) {
-				filterHelperService.setQueryParams(targetKey, vmModel);
-			} else {
-				filterHelperService.clearQueryParams(targetKey);
-			}
+		/** HELPERS */
+		const getTotalResults = (events) => events && Object.prototype.hasOwnProperty.call(events, 'totalResults') ?
+			events.totalResults : 0;
+
+		/** FILTER STUFF */
+		vm.keywordSearch = () => {
+			const newRequestModel = Object.assign({}, vm.requestModel);
+
+			newRequestModel.Keyword = vm.keywords;
+			newRequestModel.Page = 1;
+
+			filterHelperService.setQueryParams([{
+				key: 'term',
+				val: vm.keywords
+			}]); // This will trigger a location change, therefore getting the new results
 		};
 
 		vm.filterByDate = () => {
 			vm.areDatesInvalid = !isDateRangeValid(vm.userStartDate, vm.userEndDate);
 
-
 			if (!vm.areDatesInvalid) {
-				requestModel.StartDate = vm.userStartDate;
-				requestModel.EndDate = vm.userEndDate;
-				requestModel.Page = 1;
-				vm.eventGroups = [];
-				vm.hasResults = true;
-				vm.isLoading = true;
-				vm.requestErrorMessage = '';
+				const newRequestModel = Object.assign({}, vm.requestModel);
 
-				updateFilterUrl('startDate', vm.userStartDate);
-				updateFilterUrl('endDate', vm.userEndDate);
+				newRequestModel.StartDate = vm.userStartDate;
+				newRequestModel.EndDate = vm.userEndDate;
+				newRequestModel.Page = 1;
 
-				eventsService
-					.get(requestModel)
-					.then(processEvents)
-					.catch(handleFailedEventsGetRequest);
+				filterHelperService.setQueryParams([
+					{
+						key: 'startDate',
+						val: vm.userStartDate
+					},
+					{
+						key: 'endDate',
+						val: vm.userEndDate
+					}
+				]); // This will trigger a location change, therefore getting the new results
 			}
+		};
+
+		vm.clearFilters = () => {
+			resetRequestModel();
+
+			resetUIFilterFields();
+
+			filterHelperService.clearQueryParams();
+
+			vm.filterEvents(vm.requestModel);
+		};
+
+		vm.loadNextPage = () => {
+			const newRequestModel = Object.assign({}, vm.requestModel);
+			newRequestModel.Page += 1;
+
+			vm.requestModel = newRequestModel;
+
+			// TODO: Realistically this should add a url here, too
+			eventsService.get(newRequestModel).then(processAndCombineEvents).then(() => {
+				$timeout(() => {
+					$('.event-date-bar').sticky(eventDateBarStickySettings);
+				});
+			});
 		};
 
 		const setFilterData = (key, values) => {
@@ -104,28 +181,23 @@
 		};
 
 		vm.filterByTerms = (id, itemType, isChecked, filterVal, shouldUpdateLocation = true) => {
+			const newRequestModel = Object.assign({}, vm.requestModel);
+
 			switch (itemType.toLowerCase()) {
 			case 'locations':
-				toggleFilter(requestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+				toggleFilter(newRequestModel.Locations, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			case 'agegroups':
-				toggleFilter(requestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+				toggleFilter(newRequestModel.AgeGroups, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			case 'eventtypes':
-				toggleFilter(requestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
+				toggleFilter(newRequestModel.EventsTypes, id, isChecked, itemType, filterVal, shouldUpdateLocation);
 				break;
 			default:
 				break;
 			}
 
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
-
-			eventsService
-				.get(requestModel)
-				.then(processEvents)
-				.catch(handleFailedEventsGetRequest);
+			vm.filterEvents(newRequestModel);
 		};
 
 		const handleFailedEventsGetRequest = () => {
@@ -145,45 +217,21 @@
 			}
 
 			if (shouldUpdateLocation) {
-				filterHelperService.updateQueryParams(filterKey, filterVal);
+				filterHelperService.updateQueryParams([{
+					key: filterKey,
+					val: filterVal
+				}]);
 			}
 		};
 
-		vm.loadNextPage = () => {
-			requestModel.Page += 1;
-
-			eventsService.get(requestModel).then(processAndCombineEvents).then(() => {
-				$timeout(() => {
-					$('.event-date-bar').sticky(eventDateBarStickySettings);
-				});
-			});
+		const resetRequestModel = () => {
+			vm.requestModel = new RequestModel();
 		};
 
-		vm.clearFilters = () => {
-			requestModel.StartDate = startDateLocaleString;
-			requestModel.EndDate = endDateLocaleString;
-			requestModel.Page = 1;
-			requestModel.Keyword = '';
-			requestModel.AgeGroups = [];
-			requestModel.EventsTypes = [];
-			requestModel.Locations = [];
-
+		const resetUIFilterFields = () => {
 			vm.keywords = '';
 			vm.userStartDate = '';
 			vm.userEndDate = '';
-			vm.eventGroups = [];
-			vm.hasResults = true;
-			vm.isLoading = true;
-			vm.locations = requestModel.Locations;
-			vm.eventsTypes = requestModel.EventsTypes;
-			vm.ageGroups = requestModel.AgeGroups;
-
-			filterHelperService.clearQueryParams();
-
-			eventsService
-				.get(requestModel)
-				.then(processEvents)
-				.catch(handleFailedEventsGetRequest);
 		};
 
 		/* ** Private ** */
@@ -206,7 +254,7 @@
 		};
 
 		const isLastPage = (totalResults) => {
-			const totalResultsSoFar = requestModel.Page * vm.chunkSize;
+			const totalResultsSoFar = vm.requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
@@ -214,17 +262,12 @@
 			if (firstDate && secondDate) {
 				return $window.moment(firstDate).isSameOrBefore(secondDate);
 			}
-
 			return false;
 		};
 
-		const isSameDay = (day1Date, day2Date) => {
-			if (day1Date && day2Date) {
-				return $window.moment(day1Date).isSame(day2Date, 'day');
-			}
-
-			return false;
-		};
+		const isSameDay = (day1Date, day2Date) => day1Date && day2Date ?
+			$window.moment(day1Date).isSame(day2Date, 'day') :
+			false;
 
 		const combineEventGroups = (oldEventGroups, newEventGroups) => {
 			let renderedEventGroups = oldEventGroups;
@@ -247,11 +290,9 @@
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		const getKeywords = () => {
-			return $location.search().term && $location.search().term.length ?
-				$location.search().term :
-				'';
-		};
+		const getKeywords = () => $location.search().term && $location.search().term.length ?
+			$location.search().term :
+			'';
 
 		/* ** Init ** */
 		angular.element(document).on('hide.bs.collapse', '.expando-wrapper .collapse', toggleIcon);
@@ -276,31 +317,76 @@
 			return -1;
 		};
 
+		const isEmptyObject = (obj) => Object.keys(obj).length === 0 && obj.constructor === Object;
+		const isFilterADate = (filterType) => filterType && filterType.toLowerCase().indexOf('date') > -1;
+		const upperCaseFirstLetter = (word) => word.replace(/^\w/, (chr) => chr.toUpperCase());
 
-		const setFiltersBasedOnQueryParams = () => {
+		const getRequestModelBasedOnQueryParams = () => {
+			const newRequestModel = Object.assign({}, vm.requestModel);
 			const queryParams = filterHelperService.getQueryParams();
 
-			setDatesFromUrl(queryParams);
+			if (isEmptyObject(queryParams)) {
+				resetUIFilterFields();
+				return vm.requestModel;
+			}
 
-			Object.keys(queryParams).forEach((queryParamKey) => {
-				const filterType = queryParamKey;
-				const isFilterTypeDate = filterType && filterType.toLowerCase().indexOf('date') > -1;
+			// Build the request model
+
+			// Keywords
+			const keywords = getKeywords();
+			newRequestModel.Keyword = keywords;
+			vm.keywords = keywords;
+
+			// Dates
+			const requestDates = getDatesFromUrl(queryParams);
+
+			if (requestDates) {
+				newRequestModel.StartDate = requestDates.startDate;
+				newRequestModel.EndDate = requestDates.endDate;
+			}
+
+			// Lists
+			const queryParamKeys = Object.keys(queryParams);
+
+			queryParamKeys.forEach((filterType) => {
+				const isFilterTypeDate = isFilterADate(filterType);
 
 				if (!isFilterTypeDate) {
-					const filterValStr = queryParams[queryParamKey];
+					const filterValStr = queryParams[filterType];
 					const filterValues = filterHelperService.getFiltersFromString(filterValStr);
 
 					filterValues.forEach((filterVal) => {
 						const filterId = getFilterId(filterType, filterVal);
 
 						if (filterId && filterId > -1) {
-							vm.filterByTerms(filterId, filterType, true, filterVal, false);
+							let requestModelKey = upperCaseFirstLetter(filterType);
+
+							if (requestModelKey.indexOf('EventTypes') > -1) {
+								requestModelKey = 'EventsTypes';
+							}
+
+							newRequestModel[requestModelKey] = getFilterArray(newRequestModel[requestModelKey], filterId);
 						}
 					});
-
-					bootstrapCollapseHelper.toggleCollapseById(filterType);
 				}
 			});
+
+			return newRequestModel;
+		};
+
+		const getFilterArray = (targetFilterArray, targetVal) => {
+			let newArray = targetFilterArray ?
+				targetFilterArray.slice() :
+				[];
+			const doesTargetValueExist = targetFilterArray && targetFilterArray.length && targetFilterArray.includes(targetVal);
+
+			if (doesTargetValueExist) {
+				newArray = targetFilterArray.filter(x => x !== targetVal);
+			} else {
+				newArray.push(targetVal);
+			}
+
+			return newArray;
 		};
 
 		const filterDataSuccessHandler = (data, filterType, callback) => {
@@ -317,11 +403,12 @@
 			}
 		};
 
-		const setIntialFilterData = (successCallback, errorCallback) => {
-			const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
+		// We need to load these on the page first, so that we can use that data
+		const setupListFilters = (successCallback, errorCallback) => {
 			let url;
+			let counter = 0;
 
-			filterTypes.forEach((filterType, index) => {
+			filterTypes.forEach((filterType) => {
 				if (CONSTANTS.remoteServiceUrls[filterType]) {
 					url = CONSTANTS.remoteServiceUrls[filterType];
 				} else if (CONSTANTS.serviceUrls[filterType]) {
@@ -331,7 +418,9 @@
 				metaService.request(url)
 					.then(
 						(data) => filterDataSuccessHandler(data, filterType, () => {
-							if (index === filterTypes.length - 1) {
+							counter += 1;
+
+							if (counter === filterTypes.length) {
 								successCallback();
 							}
 						}),
@@ -340,48 +429,51 @@
 			});
 		};
 
-		const setDatesFromUrl = (queryParams) => {
+		const getDatesFromUrl = (queryParams) => {
 			const userStartDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'startDate', true);
 			const userEndDate = filterHelperService.getQueryParamValuesByKey(queryParams, 'endDate', true);
 
-			if (userStartDate && userEndDate) {
+			if (userStartDate || userEndDate) {
 				vm.userStartDate = userStartDate;
 				vm.userEndDate = userEndDate;
 
-				vm.filterByDate();
+				return {
+					startDate: userStartDate || getStartDateLocaleString(),
+					endDate: userEndDate || getEndDateLocaleString()
+				};
 			}
+			return null;
 		};
 
-		const initSuccessCallback = () => {
-			setFiltersBasedOnQueryParams();
+		const updateResultsBasedOnFilters = (isInit) => {
+			const newRequestModel = getRequestModelBasedOnQueryParams();
 
-			const keywords = getKeywords();
-
-			if (keywords) {
-				vm.keywords = keywords;
-				vm.keywordSearch();
-			} else {
-				eventsService
-					.get(requestModel)
-					.then(processEvents)
-					.catch(handleFailedEventsGetRequest);
-			}
+			vm.filterEvents(newRequestModel, isInit);
 		};
 
 		const initErrorCallback = () => eventsService
-			.get(requestModel)
+			.get(vm.requestModel)
 			.then(processEvents)
 			.catch(handleFailedEventsGetRequest);
 
 		const init = () => {
-			// setIntialFilterData sets the data to the view model
-			setIntialFilterData(initSuccessCallback, initErrorCallback);
+			// setupListFilters sets the data to the view model
+			setupListFilters(() => {
+				updateResultsBasedOnFilters(true);
+			}, initErrorCallback);
 		};
+
+		$scope.$on('$locationChangeSuccess', () => {
+			resetRequestModel();
+
+			updateResultsBasedOnFilters();
+		});
 
 		init();
 	};
 
 	EventsPageCtrl.$inject = [
+		'$document',
 		'$scope',
 		'$timeout',
 		'$animate',
@@ -390,7 +482,8 @@
 		'events.CONSTANTS',
 		'dataServices.eventsService',
 		'sharedFilters.filterHelperService',
-		'metaService'
+		'metaService',
+		'RequestModel'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);

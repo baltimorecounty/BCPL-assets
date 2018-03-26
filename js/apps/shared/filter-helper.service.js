@@ -4,16 +4,27 @@
 	const app = angular.module('sharedFilters', []);
 
 	const filterHelpers = ($location) => {
-		const clearQueryParams = (key) => {
-			let newQueryParams = {};
-
+		const removeObjectByKey = (key, obj) => {
+			let newObj = Object.assign({}, obj);
 			if (key) {
-				let queryParams = $location.search();
-				delete queryParams[key];
-				newQueryParams = queryParams;
+				delete newObj[key];
+			}
+			return newObj;
+		};
+
+		const clearQueryParams = (keys) => {
+			if (!keys) {
+				$location.search({});
+				return;
 			}
 
-			$location.search(newQueryParams);
+			let queryParams = Object.assign({}, $location.search());
+
+			keys.forEach((key) => {
+				queryParams = removeObjectByKey(key, queryParams);
+			});
+
+			$location.search(queryParams);
 		};
 
 		const doesKeyExist = (queryParams, key) => {
@@ -46,41 +57,52 @@
 				(isDate ? '' : []);
 		};
 
-		const setQueryParams = (key, val) => {
-			if (!key) return;
+		const setQueryParams = (keyValPairs) => {
+			keyValPairs.forEach(keyValPair => {
+				const { key, val } = keyValPair;
 
-			const queryParam = $location.search();
-			queryParam[key] = val;
+				if (!key) return;
 
-			$location.search(queryParam);
+				const queryParam = $location.search();
+				queryParam[key] = val;
+
+				$location.search(queryParam);
+			});
 		};
 
-		const updateQueryParams = (key, val) => {
+		const updateQueryParams = (keyValPairs) => {
 			const queryParams = getQueryParams();
-			const doesQueryParamKeyExist = doesKeyExist(queryParams, key);
 
-			if (doesQueryParamKeyExist) {
-				const existingFilterValues = getQueryParamValuesByKey(queryParams, key);
-				const shouldRemoveFilter = existingFilterValues.includes(val);
-				let newFilterValues = [];
+			keyValPairs.forEach((keyValPair) => {
+				const { key, val } = keyValPair;
+				const doesQueryParamKeyExist = doesKeyExist(queryParams, key);
 
-				if (shouldRemoveFilter) {
-					const targetFilterIndex = existingFilterValues.indexOf(val);
-					existingFilterValues.splice(targetFilterIndex, 1);
+				if (doesQueryParamKeyExist) {
+					const existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+					const shouldRemoveFilter = existingFilterValues.includes(val);
+					let newFilterValues = [];
+
+					if (shouldRemoveFilter) {
+						const targetFilterIndex = existingFilterValues.indexOf(val);
+						existingFilterValues.splice(targetFilterIndex, 1);
+					} else {
+						existingFilterValues.push(val);
+					}
+
+					newFilterValues = existingFilterValues;
+
+					if (!newFilterValues.length) {
+						clearQueryParams([key]);
+					} else {
+						setQueryParams([{
+							key,
+							val: newFilterValues.join(',')
+						}]);
+					}
 				} else {
-					existingFilterValues.push(val);
+					setQueryParams([{ key, val }]);
 				}
-
-				newFilterValues = existingFilterValues;
-
-				if (!newFilterValues.length) {
-					clearQueryParams(key);
-				} else {
-					setQueryParams(key, newFilterValues.join(','));
-				}
-			} else {
-				setQueryParams(key, val);
-			}
+			});
 		};
 
 		return {

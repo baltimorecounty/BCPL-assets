@@ -1,24 +1,26 @@
 ((app) => {
 	'use strict';
 
-	const datePickersDirective = ($timeout, CONSTANTS) => {
+	const datePickersDirective = ($timeout, $window, CONSTANTS) => {
 		const datePickersLink = (scope, attr, datePickersElement) => {
 			const innerScope = scope;
+			const getStartDateLocaleString = () => $window.moment().format();
+			const getEndDateLocaleString = () => $window.moment().add(30, 'd').format();
 
 			innerScope.areDatesInvalid = false;
 
 			const flatpickrBasicSettings = {
 				dateFormat: 'F d, Y',
 				disable: [function disable(date) {
-					return moment(date).isBefore(new Date(), 'day');
+					return $window.moment(date).isBefore(new Date(), 'day');
 				}],
 				onChange: function onChange() {
 					$timeout(() => {
-						innerScope.userStartDate = innerScope.userStartDate || innerScope.userEndDate;
-						innerScope.userEndDate = innerScope.userEndDate || innerScope.userStartDate;
+						innerScope.userStartDate = innerScope.userStartDate || getStartDateLocaleString();
+						innerScope.userEndDate = innerScope.userEndDate || getEndDateLocaleString();
 
 						$timeout(() => {
-							if (moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
+							if ($window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
 								innerScope.areDatesInvalid = false;
 								innerScope.filterByDate();
 							} else {
@@ -34,7 +36,7 @@
 				flatpickr.open();
 			};
 
-			flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 		};
 
 		const directive = {
@@ -51,7 +53,7 @@
 		return directive;
 	};
 
-	datePickersDirective.$inject = ['$timeout', 'events.CONSTANTS'];
+	datePickersDirective.$inject = ['$timeout', '$window', 'events.CONSTANTS'];
 
 	app.directive('datePickers', datePickersDirective);
 })(angular.module('eventsPageApp'));
