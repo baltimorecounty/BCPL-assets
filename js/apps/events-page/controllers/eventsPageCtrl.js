@@ -236,7 +236,6 @@
 
 		/* ** Private ** */
 
-		// GOOD
 		const processEvents = (eventResults) => {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = eventResults.eventGroups;
@@ -249,19 +248,16 @@
 			});
 		};
 
-		// GOOD
 		const processAndCombineEvents = (eventResults) => {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
 
-		// GOOD
 		const isLastPage = (totalResults) => {
 			const totalResultsSoFar = vm.requestModel.Page * vm.chunkSize;
 			return totalResultsSoFar >= totalResults;
 		};
 
-		// GOOD
 		const isDateRangeValid = (firstDate, secondDate) => {
 			if (firstDate && secondDate) {
 				return $window.moment(firstDate).isSameOrBefore(secondDate);
@@ -269,12 +265,10 @@
 			return false;
 		};
 
-		// GOOD
 		const isSameDay = (day1Date, day2Date) => day1Date && day2Date ?
 			$window.moment(day1Date).isSame(day2Date, 'day') :
 			false;
 
-		// GOOD
 		const combineEventGroups = (oldEventGroups, newEventGroups) => {
 			let renderedEventGroups = oldEventGroups;
 			let lastEventGroup = renderedEventGroups[renderedEventGroups.length - 1];
@@ -290,14 +284,12 @@
 			return renderedEventGroups;
 		};
 
-		// GOOD
 		const toggleIcon = (collapseEvent) => {
 			const $collapsible = angular.element(collapseEvent.currentTarget);
 			const $collapseIcon = $collapsible.closest('.expando-wrapper').find('i');
 			$collapseIcon.toggleClass('fa-plus-square').toggleClass('fa-minus-square');
 		};
 
-		// GOOD
 		const getKeywords = () => $location.search().term && $location.search().term.length ?
 			$location.search().term :
 			'';
