@@ -6,16 +6,27 @@
 	var app = angular.module('sharedFilters', []);
 
 	var filterHelpers = function filterHelpers($location) {
-		var clearQueryParams = function clearQueryParams(key) {
-			var newQueryParams = {};
-
+		var removeObjectByKey = function removeObjectByKey(key, obj) {
+			var newObj = Object.assign({}, obj);
 			if (key) {
-				var queryParams = $location.search();
-				delete queryParams[key];
-				newQueryParams = queryParams;
+				delete newObj[key];
+			}
+			return newObj;
+		};
+
+		var clearQueryParams = function clearQueryParams(keys) {
+			if (!keys) {
+				$location.search({});
+				return;
 			}
 
-			$location.search(newQueryParams);
+			var queryParams = Object.assign({}, $location.search());
+
+			keys.forEach(function (key) {
+				queryParams = removeObjectByKey(key, queryParams);
+			});
+
+			$location.search(queryParams);
 		};
 
 		var doesKeyExist = function doesKeyExist(queryParams, key) {
@@ -43,41 +54,56 @@
 			return Object.hasOwnProperty.call(queryParams, key) ? getFiltersFromString(queryParams[key], isDate) : isDate ? '' : [];
 		};
 
-		var setQueryParams = function setQueryParams(key, val) {
-			if (!key) return;
+		var setQueryParams = function setQueryParams(keyValPairs) {
+			keyValPairs.forEach(function (keyValPair) {
+				var key = keyValPair.key,
+				    val = keyValPair.val;
 
-			var queryParam = $location.search();
-			queryParam[key] = val;
 
-			$location.search(queryParam);
+				if (!key) return;
+
+				var queryParam = $location.search();
+				queryParam[key] = val;
+
+				$location.search(queryParam);
+			});
 		};
 
-		var updateQueryParams = function updateQueryParams(key, val) {
+		var updateQueryParams = function updateQueryParams(keyValPairs) {
 			var queryParams = getQueryParams();
-			var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
 
-			if (doesQueryParamKeyExist) {
-				var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
-				var shouldRemoveFilter = existingFilterValues.includes(val);
-				var newFilterValues = [];
+			keyValPairs.forEach(function (keyValPair) {
+				var key = keyValPair.key,
+				    val = keyValPair.val;
 
-				if (shouldRemoveFilter) {
-					var targetFilterIndex = existingFilterValues.indexOf(val);
-					existingFilterValues.splice(targetFilterIndex, 1);
+				var doesQueryParamKeyExist = doesKeyExist(queryParams, key);
+
+				if (doesQueryParamKeyExist) {
+					var existingFilterValues = getQueryParamValuesByKey(queryParams, key);
+					var shouldRemoveFilter = existingFilterValues.includes(val);
+					var newFilterValues = [];
+
+					if (shouldRemoveFilter) {
+						var targetFilterIndex = existingFilterValues.indexOf(val);
+						existingFilterValues.splice(targetFilterIndex, 1);
+					} else {
+						existingFilterValues.push(val);
+					}
+
+					newFilterValues = existingFilterValues;
+
+					if (!newFilterValues.length) {
+						clearQueryParams([key]);
+					} else {
+						setQueryParams([{
+							key: key,
+							val: newFilterValues.join(',')
+						}]);
+					}
 				} else {
-					existingFilterValues.push(val);
+					setQueryParams([{ key: key, val: val }]);
 				}
-
-				newFilterValues = existingFilterValues;
-
-				if (!newFilterValues.length) {
-					clearQueryParams(key);
-				} else {
-					setQueryParams(key, newFilterValues.join(','));
-				}
-			} else {
-				setQueryParams(key, val);
-			}
+			});
 		};
 
 		return {
@@ -99,12 +125,22 @@ namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
 bcpl.boostrapCollapseHelper = function ($) {
-	var toggleCollapseById = function toggleCollapseById(id) {
-		$('#' + id).collapse('toggle');
+	var toggleCollapseByIds = function toggleCollapseByIds(panels) {
+		var activePanels = panels.activePanels,
+		    inActivePanels = panels.inActivePanels;
+
+
+		activePanels.forEach(function (id) {
+			$('#' + id).collapse('show');
+		});
+
+		inActivePanels.forEach(function (id) {
+			$('#' + id).collapse('hide');
+		});
 	};
 
 	return {
-		toggleCollapseById: toggleCollapseById
+		toggleCollapseByIds: toggleCollapseByIds
 	};
 }(jQuery);
 "use strict";

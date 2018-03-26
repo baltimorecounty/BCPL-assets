@@ -725,12 +725,22 @@ namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
 bcpl.boostrapCollapseHelper = function ($) {
-	var toggleCollapseById = function toggleCollapseById(id) {
-		$('#' + id).collapse('toggle');
+	var toggleCollapseByIds = function toggleCollapseByIds(panels) {
+		var activePanels = panels.activePanels,
+		    inActivePanels = panels.inActivePanels;
+
+
+		activePanels.forEach(function (id) {
+			$('#' + id).collapse('show');
+		});
+
+		inActivePanels.forEach(function (id) {
+			$('#' + id).collapse('hide');
+		});
 	};
 
 	return {
-		toggleCollapseById: toggleCollapseById
+		toggleCollapseByIds: toggleCollapseByIds
 	};
 }(jQuery);
 'use strict';
@@ -840,29 +850,26 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 
 	var init = function init(breadcrumbThreshold) {
 		var breadcrumbThresholdLimit = breadcrumbThreshold || 3;
+		var $breadCrumbContainer = $('.' + classNames.breadCrumbContainer);
 
-		$(function onDocumentReady() {
-			var $breadCrumbContainer = $('.' + classNames.breadCrumbContainer);
+		toggleElm($breadCrumbContainer, false);
 
-			toggleElm($breadCrumbContainer, false);
+		cleanBreadCrumbs();
 
-			cleanBreadCrumbs();
+		var $breadCrumbs = $getBreadCrumbs();
+		var numberOfBreadCrumbs = $breadCrumbs.length;
 
-			var $breadCrumbs = $getBreadCrumbs();
-			var numberOfBreadCrumbs = $breadCrumbs.length;
+		if (numberOfBreadCrumbs > breadcrumbThresholdLimit) {
+			var $hiddenBreadCrumbs = $getBreadCrumbsToHide($breadCrumbs);
 
-			if (numberOfBreadCrumbs > breadcrumbThresholdLimit) {
-				var $hiddenBreadCrumbs = $getBreadCrumbsToHide($breadCrumbs);
+			collapseBreadCrumbs($hiddenBreadCrumbs);
 
-				collapseBreadCrumbs($hiddenBreadCrumbs);
+			createHiddenBreadCrumbs();
 
-				createHiddenBreadCrumbs();
+			initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
+		}
 
-				initHiddenBreadCrumbsPopover($hiddenBreadCrumbs);
-			}
-
-			toggleElm($breadCrumbContainer, true);
-		});
+		toggleElm($breadCrumbContainer, true);
 	};
 
 	$(document).on('click', '.hidden-breadcrumb-container', onHiddenBreadCrumbTriggerClick);
@@ -876,7 +883,9 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 	};
 }(jQuery);
 
-bcpl.breadCrumbs.init();
+$(function onDocumentReady() {
+	bcpl.breadCrumbs.init();
+});
 'use strict';
 
 namespacer('bcpl');

@@ -1,3 +1,4 @@
+/* global describe it expect beforeEach */
 describe('filterHelperService', () => {
 	let filterHelperService;
 	let location;
@@ -112,14 +113,19 @@ describe('filterHelperService', () => {
 		});
 	});
 	describe('setQueryParams', () => {
-		const mockQueryParam = {
-			test: 1
-		};
+		const mockQueryParam = [{
+			key: 'test',
+			val: 1
+		}];
 		it('should set query params based on mock object', () => {
-			filterHelperService.setQueryParams('test', mockQueryParam.test);
+			filterHelperService.setQueryParams(mockQueryParam);
+			let expected = {};
+			expected[mockQueryParam[0].key] = mockQueryParam[0].val;
 			const actual = location.search();
-			expect(actual).toEqual(mockQueryParam);
+
+			expect(actual).toEqual(expected);
 		});
+
 		it('should set query params based on mock object when query param already has other keys', () => {
 			const preExistingQueryParams = {
 				test19: 'test19',
@@ -127,73 +133,93 @@ describe('filterHelperService', () => {
 			};
 			location.search(preExistingQueryParams);
 
-			filterHelperService.setQueryParams('test', mockQueryParam.test);
+			filterHelperService.setQueryParams(mockQueryParam);
 
-			preExistingQueryParams.test = mockQueryParam.test;
+			preExistingQueryParams[mockQueryParam[0].key] = mockQueryParam[0].val;
 
 			const actual = location.search();
+
 			expect(actual).toEqual(preExistingQueryParams);
 		});
+
 		it('should not set anything if key doesn\'t exist', () => {
-			filterHelperService.setQueryParams('', 'test');
+			const mockBadQueryParams = [{
+				'': 'test'
+			}];
+			filterHelperService.setQueryParams(mockBadQueryParams);
+
 			const actual = location.search();
+
 			expect(actual).toEqual({});
 		});
 	});
 	describe('updateQueryParams', () => {
-		const mockFilters = {
-			test: '1',
-			test1: 'beaches',
-			test2: 'test2'
-		};
+		const mockFilters = [
+			{
+				key: 'test',
+				val: '1'
+			},
+			{
+				key: 'test',
+				val: '2'
+			},
+			{
+				key: 'test1',
+				val: 'beaches'
+			},
+			{
+				key: 'test2',
+				val: 'test2'
+			}
+		];
 
-		it(`should add the query param test=${mockFilters.test} to the url when no filters are selected`, () => {
-			filterHelperService.updateQueryParams('test', mockFilters.test);
+		it(`should add the query param ${mockFilters[0].key}=${mockFilters[0].val} to the url when no filters are selected`, () => {
+			filterHelperService.updateQueryParams([mockFilters[0]]);
 			const actual = location.search();
 			const expected = {};
-			expected.test = mockFilters.test;
+			expected[mockFilters[0].key] = mockFilters[0].val;
 
 			expect(expected).toEqual(actual);
 		});
 
-		it(`should remove the query param test=${mockFilters.test} that filter is already selected`, () => {
-			filterHelperService.updateQueryParams('test', mockFilters.test);
-			filterHelperService.updateQueryParams('test', mockFilters.test);
+		it(`should remove the query param ${mockFilters[0].key}=${mockFilters[0].val} that filter is already selected`, () => {
+			filterHelperService.updateQueryParams([mockFilters[0]]);
+			filterHelperService.updateQueryParams([mockFilters[0]]);
 			const actual = location.search();
 			const expected = {};
 
 			expect(expected).toEqual(actual);
 		});
 
-		it(`should add the query param ${mockFilters.test1} to ${mockFilters.test} when both filters are added to the same key`, () => {
-			filterHelperService.updateQueryParams('test', mockFilters.test);
-			filterHelperService.updateQueryParams('test', mockFilters.test1);
+		it(`should add the query param ${mockFilters[1].val} to ${mockFilters[0].val} when both filters are added to the same key`, () => {
+			filterHelperService.updateQueryParams([mockFilters[0]]);
+			filterHelperService.updateQueryParams([mockFilters[1]]);
 			const actual = location.search();
 			const expected = {};
-			expected.test = `${mockFilters.test},${mockFilters.test1}`;
+			expected.test = `${mockFilters[0].val},${mockFilters[1].val}`;
 
 			expect(expected).toEqual(actual);
 		});
 
-		it(`should remove the query param ${mockFilters.test} when ${mockFilters.test} and ${mockFilters.test1} both exist`, () => {
-			filterHelperService.updateQueryParams('test', mockFilters.test);
-			filterHelperService.updateQueryParams('test', mockFilters.test1);
-			filterHelperService.updateQueryParams('test', mockFilters.test);
+		it(`should remove the query param ${mockFilters[0].key} when ${mockFilters[0].val} and ${mockFilters[1].val} both exist`, () => {
+			filterHelperService.updateQueryParams([mockFilters[0]]);
+			filterHelperService.updateQueryParams([mockFilters[2]]);
+			filterHelperService.updateQueryParams([mockFilters[0]]);
 			const actual = location.search();
 			const expected = {};
-			expected.test = `${mockFilters.test1}`;
+			expected[mockFilters[2].key] = `${mockFilters[2].val}`;
 
 			expect(expected).toEqual(actual);
 		});
 
-		it(`should add the query param test2=${mockFilters.test2} when ${mockFilters.test} and ${mockFilters.test1} both exist for the "test" key`, () => {
-			filterHelperService.updateQueryParams('test', mockFilters.test);
-			filterHelperService.updateQueryParams('test', mockFilters.test1);
-			filterHelperService.updateQueryParams('test2', mockFilters.test2);
+		it(`should add the query param ${mockFilters[2].key}=${mockFilters[2].val} when ${mockFilters[0].val} and ${mockFilters[1].val} both exist for the "test" key`, () => {
+			filterHelperService.updateQueryParams([mockFilters[0]]);
+			filterHelperService.updateQueryParams([mockFilters[1]]);
+			filterHelperService.updateQueryParams([mockFilters[2]]);
 			const actual = location.search();
 			const expected = {};
-			expected.test = `${mockFilters.test},${mockFilters.test1}`;
-			expected.test2 = `${mockFilters.test2}`;
+			expected[mockFilters[0].key] = `${mockFilters[0].val},${mockFilters[1].val}`;
+			expected[mockFilters[2].key] = `${mockFilters[2].val}`;
 
 			expect(expected).toEqual(actual);
 		});
