@@ -554,7 +554,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				vm.isSubmitted = true;
 				vm.isLoadingResults = false;
-				angular.element('html, body').animate({ scrollTop: topOfContent }, 250);
+				angular.element('html, body').animate({
+					scrollTop: topOfContent
+				}, 250);
 			});
 		};
 
