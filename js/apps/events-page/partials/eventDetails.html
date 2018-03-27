@@ -16,7 +16,7 @@
 				</li>
 				<li>
 					<a href="#">
-						<i class="fa fa-download fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
+						<i class="fa fa fa-calendar-plus-o fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
 					</a>
 				</li>
 			</ul>
@@ -78,13 +78,19 @@
 	
 			<table>
 				<tbody>
-					<tr>
+					<tr ng-if="eventDetailsPage.data.EventStart">
 						<td class="table-column-25 horizontal-headers">Date</td>
 						<td>{{eventDetailsPage.data.EventStartDate}}</td>
 					</tr>
-					<tr>
+					<tr ng-if="eventDetailsPage.data.EventStart">
 						<td class="table-column-25 horizontal-headers">Time</td>
 						<td>{{eventDetailsPage.data.EventSchedule}}
+							<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
+						</td>
+                    </tr>
+                    <tr ng-if="!eventDetailsPage.data.EventStart">
+						<td class="table-column-25 horizontal-headers">Dates</td>
+						<td>{{eventDetailsPage.data.onGoingStartDate}} to {{eventDetailsPage.data.onGoingEndDate}}
 							<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
 						</td>
 					</tr>
