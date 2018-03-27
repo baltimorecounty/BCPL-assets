@@ -5,6 +5,7 @@
 		const id = $routeParams.id;
 		const vm = this;
 
+		vm.showGroups = false;
 		vm.isGroup = 'false';
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
