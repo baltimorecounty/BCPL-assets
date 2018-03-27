@@ -1,7 +1,7 @@
-((app) => {
+((app, ICS) => {
 	'use strict';
 
-	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService) {
+	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		const vm = this;
 		const id = $routeParams.id;
 
@@ -24,6 +24,12 @@
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			downloadCalendarEventService.downloadCalendarEvent(vm.data);
+		};
+
 		const requestError = (errorResponse) => {
 			vm.isLoading = false;
 			vm.isError = true;
@@ -35,7 +41,7 @@
 			.catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), window.ics);
