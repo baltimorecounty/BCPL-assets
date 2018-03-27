@@ -9,9 +9,13 @@
 			float: none;
 			width: 100%;
 
-			.events-list {
+			&.events-list {
 				button {
 					display: none;
+				}
+
+				.sticky-wrapper {
+					height: initial !important;
 				}
 
 				.event-date-bar {
