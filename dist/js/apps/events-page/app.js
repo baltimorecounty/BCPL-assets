@@ -726,6 +726,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
 		};
 
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			downloadCalendarEventService.downloadCalendarEvent(vm.data);
+		};
+
 		vm.submitHandler = function () {
 			vm.isLoadingResults = true;
 
@@ -760,12 +766,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					scrollTop: topOfContent
 				}, 250);
 			});
-		};
-
-		vm.downloadEvent = function downloadEvent(clickEvent) {
-			clickEvent.preventDefault();
-
-			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
 		var processEventData = function processEventData(data) {
