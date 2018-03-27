@@ -7,9 +7,8 @@
 .main-content {
     padding: 1.8em;
     margin-bottom: 3em;
-    &.top-border {
-        border-top: 5px solid $tan;
-    }
+    border-top: 4px solid $tan;
+
     &.card-header {
         margin-bottom: 1em;
     }
