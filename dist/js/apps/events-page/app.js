@@ -274,6 +274,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 						}
 
 						var momentDateFormat = 'M/D/YYYY @ h:mm a';
+						var momentDayFormat = 'M/D/YYYY';
 
 						// Since moment().subtract() mutates the date rather than returning a new date,
 						// we need to calculate the date fresh every time.
@@ -281,6 +282,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 						response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
 						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
 						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
+						response.data.onGoingStartDate = moment(response.data.OnGoingStartDate).format(momentDayFormat);
+						response.data.onGoingEndDate = moment(response.data.OnGoingEndDate).format(momentDayFormat);
 						response.data.isStarted = moment(response.data.EventStart).isBefore();
 						response.data.isRegistrationClosed = response.data.registrationEnds.isBefore();
 
