@@ -37,24 +37,31 @@ bcpl.accordion = (($) => {
 	};
 
 	/**
+	 * Scroll to the selected anchor.
+	 * @param {HTMLElement} anchor Anchor we're scrolling to.
+	 */
+	const scrollToAnchor = $anchor => {
+		$(htmlBodySelector).animate({
+			scrollTop: $anchor.first().offset().top
+		}, 250);
+	};
+
+	/**
 	 * If a named anchor exists in a panel, and the location has a matching hash,
 	 * open it, and scroll to it.
 	 */
 	const openPanelFromUrl = () => {
-		const fragmentIdentifier = window.location.hash;
+		const anchorIdentifier = window.location.hash;
 
-		if (fragmentIdentifier && fragmentIdentifier.length && anchorNameRegex.test(fragmentIdentifier)) {
-			const $fragment = $(`a[name=${fragmentIdentifier.replace('#', '')}]`);
+		if (anchorIdentifier && anchorIdentifier.length && anchorNameRegex.test(anchorIdentifier)) {
+			const $anchor = $(`a[name=${anchorIdentifier.replace('#', '')}]`);
 
-			if (!$fragment.length) return;
+			if (!$anchor.length) return;
 
-			$fragment
+			$anchor
 				.closest(collapseSelector)
-				.collapse('show');
-
-			$(htmlBodySelector).animate({
-				scrollTop: $fragment.first().offset().top
-			}, 250);
+				.collapse('show')
+				.on('shown.bs.collapse', () => scrollToAnchor($anchor));
 		}
 	};
 
