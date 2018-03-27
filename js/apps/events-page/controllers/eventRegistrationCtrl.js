@@ -10,7 +10,6 @@
 		vm.isLoadingResults = false;
 		vm.formConfirmationMessage = null;
 
-
 		const hasConfirmationMessage = (data) => data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
