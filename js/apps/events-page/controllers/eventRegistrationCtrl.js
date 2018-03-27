@@ -1,7 +1,7 @@
 ((app, bcFormat) => {
 	'use strict';
 
-	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService) {
+	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		const id = $routeParams.id;
 		const vm = this;
 
@@ -51,6 +51,12 @@
 			});
 		};
 
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			downloadCalendarEventService.downloadCalendarEvent(vm.data);
+		};
+
 		const processEventData = (data) => {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
@@ -63,7 +69,7 @@
 			.then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
