@@ -1,7 +1,7 @@
 ((app, bcFormat) => {
 	'use strict';
 
-	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService) {
+	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		const id = $routeParams.id;
 		const vm = this;
 
@@ -11,6 +11,12 @@
 		vm.formConfirmationMessage = null;
 
 		const hasConfirmationMessage = (data) => data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
+
+		vm.downloadEvent = function downloadEvent(clickEvent) {
+			clickEvent.preventDefault();
+
+			downloadCalendarEventService.downloadCalendarEvent(vm.data);
+		};
 
 		vm.submitHandler = () => {
 			vm.isLoadingResults = true;
@@ -63,7 +69,7 @@
 			.then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
