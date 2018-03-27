@@ -158,8 +158,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://testservices.bcpl.info',
+		// baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -498,6 +498,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			calendarEvent.download(calendarParts.eventTitle);
 		};
 
+		var formatTime = function formatTime(timeStr) {
+			var timeParts = timeStr.split(' ');
+
+			if (timeParts.length === 2) {
+				var time = timeParts[0].trim();
+				var amPm = timeParts[1].trim();
+
+				var formattedTime = time.indexOf(':') > -1 ? time + ':00' : time + ':00:00';
+
+				return formattedTime + ' ' + amPm;
+			}
+
+			return timeStr;
+		};
+
 		var getCalendarParts = function getCalendarParts(eventDetails) {
 			var eventDescription = eventDetails.Description,
 			    LocationName = eventDetails.LocationName,
@@ -534,9 +549,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var getEndTime = function getEndTime(eventSchedule, isAllDay) {
 			if (isAllDay) return '11:59:59 PM';
 
-			var timeparts = eventSchedule.split('to');
+			var timeParts = eventSchedule.split('to');
 
-			return timeparts.length === 2 ? timeparts[1].trim().replace(/\./g, '') : null;
+			return timeParts.length === 2 ? formatTime(timeParts[1].trim().replace(/\./g, '')) : null;
 		};
 
 		var getStartDate = function getStartDate(eventDetails) {
@@ -564,7 +579,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			getEndDate: getEndDate,
 			getEndTime: getEndTime,
 			getStartDate: getStartDate,
-			getEventDates: getEventDates
+			getEventDates: getEventDates,
+			formatTime: formatTime
 		};
 	};
 
