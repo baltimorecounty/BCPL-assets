@@ -20,6 +20,23 @@
 			calendarEvent.download(calendarParts.eventTitle);
 		};
 
+		const formatTime = (timeStr) => {
+			const timeParts = timeStr.split(' ');
+
+			if (timeParts.length === 2) {
+				const time = timeParts[0].trim();
+				const amPm = timeParts[1].trim();
+
+				const formattedTime = time.indexOf(':') > -1
+					? `${time}:00`
+					: `${time}:00:00`;
+
+				return `${formattedTime} ${amPm}`;
+			}
+
+			return timeStr;
+		};
+
 		const getCalendarParts = (eventDetails) => {
 			const {
 				Description: eventDescription,
@@ -55,10 +72,10 @@
 		const getEndTime = (eventSchedule, isAllDay) => {
 			if (isAllDay) return '11:59:59 PM';
 
-			const timeparts = eventSchedule.split('to');
+			const timeParts = eventSchedule.split('to');
 
-			return timeparts.length === 2 ?
-				timeparts[1].trim().replace(/\./g, '') :
+			return timeParts.length === 2 ?
+				formatTime(timeParts[1].trim().replace(/\./g, '')) :
 				null;
 		};
 
@@ -87,7 +104,8 @@
 			getEndDate,
 			getEndTime,
 			getStartDate,
-			getEventDates
+			getEventDates,
+			formatTime
 		};
 	};
 
