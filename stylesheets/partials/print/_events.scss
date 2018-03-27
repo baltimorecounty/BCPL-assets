@@ -1,0 +1,32 @@
+@media print {
+
+	main > div {
+		& > .col-md-3 {
+			display: none;
+		}
+
+		& > .col-md-9 {
+			float: none;
+			width: 100%;
+
+			&.events-list {
+				button {
+					display: none;
+				}
+
+				.sticky-wrapper {
+					height: initial !important;
+				}
+
+				.event-date-bar {
+					border: 1px solid black;
+					width: 100% !important;
+
+					.event-date {
+						font-size: 2em;
+					}
+				}
+			}
+		}
+	}
+}
