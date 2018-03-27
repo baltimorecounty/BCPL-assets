@@ -9,7 +9,7 @@
         background: white;
         border-radius: 16px;
         padding: .25em .75em;
-        margin: 0 1.1em;
+        margin: 0 1.5em;
         position: relative;
         text-decoration: none;
         &:first-child {
@@ -151,6 +151,6 @@ $large-triangle-size: 8px;
 
 @media (max-width: $screen-sm) {
     .breadcrumbs-wrapper {
-        display: none;
+        display: none !important;
     }
 }
