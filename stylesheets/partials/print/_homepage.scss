@@ -1,0 +1,70 @@
+/* Everything is !important because we have to override "style" attributes */
+
+@media print {
+
+	.relative {
+		.menu-wrapper {
+			position: static;
+		}
+	}
+
+	.slick-list {
+		height: auto !important;
+		overflow: visible !important;
+	}
+
+	.hero-wrapper {
+		margin-top: 2em;
+
+		.hero-background.slick-slide {
+			display: block !important;
+			position: static !important;
+			left: 0 !important;
+			top: 0 !important;
+			opacity: 1 !important;
+			height: auto !important;
+
+			.hero-foreground {
+				height: auto !important;
+
+				.callout {
+					margin-top: 0;
+					padding: 0;
+
+					& > a {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	.slick-track {
+		width: 100% !important;
+	}
+
+	.slick-dots {
+		display: none !important;
+	}
+
+	.feature-wrapper {
+		display: none;
+	}
+
+	.events-wrapper {
+		.events header .feed:last-child {
+			display: none;
+		}
+
+		#events-target {
+			.row.flex {
+				display: block;
+
+				.col-md-4 {
+					width: 25%;
+				}
+			}
+		}
+	}
+
+}
