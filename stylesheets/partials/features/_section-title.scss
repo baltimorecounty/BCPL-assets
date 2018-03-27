@@ -11,9 +11,19 @@
 		font-size: 2em;
 	}
 
-	span {
+	a {
 		display: inline-block;
-		margin-left: 2em;
+		font-weight: 700;
+
+		&.print {
+			margin-right: 1em;
+			cursor: pointer;
+		}
+	}
+
+	.addthis_inline_share_toolbox {
+		position: relative;
+		top: 5px;
 	}
 
 	.actions {
