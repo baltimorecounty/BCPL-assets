@@ -48,12 +48,14 @@
 	}
 
 	.feature-wrapper {
-		display: none;
+		.container {
+			display: none;
+		}
 	}
 
 	.events-wrapper {
-		.events header .feed:last-child {
-			display: none;
+		.feed {
+			display: none !important;
 		}
 
 		#events-target {
@@ -61,10 +63,30 @@
 				display: block;
 
 				.col-md-4 {
+					float: left !important;
 					width: 25%;
 				}
 			}
 		}
+	}
+
+	.blog-wrapper {
+		.feed {
+			display: none !important;
+		}
+		
+		.blog-widget-item-icon {
+			display: none;
+		}
+
+		.blog-widget-item {
+			display: block;
+			flex: 0 100%
+		}
+	}
+
+	.recommended-titles-wrapper {
+		display: none;
 	}
 
 }
