@@ -540,22 +540,30 @@ bcpl.accordion = function ($) {
 	};
 
 	/**
+  * Scroll to the selected anchor.
+  * @param {HTMLElement} anchor Anchor we're scrolling to.
+  */
+	var scrollToAnchor = function scrollToAnchor($anchor) {
+		$(htmlBodySelector).animate({
+			scrollTop: $anchor.first().offset().top
+		}, 250);
+	};
+
+	/**
   * If a named anchor exists in a panel, and the location has a matching hash,
   * open it, and scroll to it.
   */
 	var openPanelFromUrl = function openPanelFromUrl() {
-		var fragmentIdentifier = window.location.hash;
+		var anchorIdentifier = window.location.hash;
 
-		if (fragmentIdentifier && fragmentIdentifier.length && anchorNameRegex.test(fragmentIdentifier)) {
-			var $fragment = $('a[name=' + fragmentIdentifier.replace('#', '') + ']');
+		if (anchorIdentifier && anchorIdentifier.length && anchorNameRegex.test(anchorIdentifier)) {
+			var $anchor = $('a[name=' + anchorIdentifier.replace('#', '') + ']');
 
-			if (!$fragment.length) return;
+			if (!$anchor.length) return;
 
-			$fragment.closest(collapseSelector).collapse('show');
-
-			$(htmlBodySelector).animate({
-				scrollTop: $fragment.first().offset().top
-			}, 250);
+			$anchor.closest(collapseSelector).collapse('show').on('shown.bs.collapse', function () {
+				return scrollToAnchor($anchor);
+			});
 		}
 	};
 
