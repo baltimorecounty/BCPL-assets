@@ -1,9 +1,8 @@
 ((app, bcFormat) => {
 	'use strict';
 
-	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
+	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService) {
 		const id = $routeParams.id;
-
 		const vm = this;
 
 		vm.isGroup = 'false';
@@ -37,8 +36,7 @@
 				if (hasConfirmationMessage(data)) {
 					vm.formConfirmationMessage = data.ConfirmationMessage;
 				} else {
-					const hasErrors = vm.postResult &&
-              Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
+					const hasErrors = vm.postResult && Object.prototype.hasOwnProperty.call(vm.postResult, 'Errors') && vm.postResult.Errors.length;
 
 					vm.formConfirmationMessage = hasErrors ?
 						vm.postResult.Errors[0].Error :
@@ -55,14 +53,17 @@
 
 		const processEventData = (data) => {
 			vm.data = data;
-			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
+			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
-		eventsService.getById(id).then(processEventData);
+		eventsService
+			.getById(id)
+			.then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
