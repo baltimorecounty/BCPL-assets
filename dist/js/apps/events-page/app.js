@@ -473,6 +473,135 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'));
 'use strict';
 
+(function (app, ICS) {
+	'use strict';
+
+	var downloadCalendarEventService = function downloadCalendarEventService($window) {
+		var createEvent = function createEvent(calendarParts) {
+			var eventTitle = calendarParts.eventTitle,
+			    eventDescription = calendarParts.eventDescription,
+			    eventLocation = calendarParts.eventLocation,
+			    eventStartDate = calendarParts.eventStartDate,
+			    eventEndDate = calendarParts.eventEndDate;
+
+
+			var calEvent = new ICS();
+			calEvent.addEvent(eventTitle, eventDescription, eventLocation, eventStartDate, eventEndDate);
+
+			return calEvent;
+		};
+
+		var downloadCalendarEvent = function downloadCalendarEvent(eventDetails) {
+			var calendarParts = getCalendarParts(eventDetails);
+			var calendarEvent = createEvent(calendarParts);
+
+			calendarEvent.download(calendarParts.eventTitle);
+		};
+
+		var getCalendarParts = function getCalendarParts(eventDetails) {
+			var eventDescription = eventDetails.Description,
+			    LocationName = eventDetails.LocationName,
+			    Title = eventDetails.Title;
+
+
+			var eventTitle = 'Baltimore County Public Library, ' + LocationName + ' Branch - ' + Title;
+			var eventLocation = LocationName + ' Branch';
+			var eventDates = getEventDates(eventDetails);
+
+			return {
+				eventTitle: eventTitle,
+				eventDescription: eventDescription,
+				eventLocation: eventLocation,
+				eventStartDate: eventDates.eventStartDate,
+				eventEndDate: eventDates.eventEndDate
+			};
+		};
+
+		var getEndDate = function getEndDate(startDateAsString, eventDetails) {
+			var AllDay = eventDetails.AllDay,
+			    EventSchedule = eventDetails.EventSchedule,
+			    EventStart = eventDetails.EventStart,
+			    OnGoingEndDate = eventDetails.OnGoingEndDate;
+
+
+			var endDateAsString = $window.moment(startDateAsString).format('MM/DD/YYYY');
+			var eventEndTime = getEndTime(EventSchedule, AllDay);
+			var endDateTimeAsString = !EventStart ? OnGoingEndDate : endDateAsString + ' ' + eventEndTime;
+
+			return $window.moment(endDateTimeAsString).format('MM/DD/YYYY h:mm:ss a');
+		};
+
+		var getEndTime = function getEndTime(eventSchedule, isAllDay) {
+			if (isAllDay) return '11:59:59 PM';
+
+			var timeparts = eventSchedule.split('to');
+
+			return timeparts.length === 2 ? timeparts[1].trim().replace(/\./g, '') : null;
+		};
+
+		var getStartDate = function getStartDate(eventDetails) {
+			var EventStart = eventDetails.EventStart,
+			    OnGoingStartDate = eventDetails.OnGoingStartDate;
+
+			var startDateAsString = EventStart || OnGoingStartDate;
+			return $window.moment(startDateAsString).format('MM/DD/YYYY h:mm:ss a');
+		};
+
+		var getEventDates = function getEventDates(eventDetails) {
+			var eventStartDate = getStartDate(eventDetails);
+			var eventEndDate = getEndDate(eventStartDate, eventDetails);
+
+			return {
+				eventStartDate: eventStartDate,
+				eventEndDate: eventEndDate
+			};
+		};
+
+		return {
+			createEvent: createEvent,
+			downloadCalendarEvent: downloadCalendarEvent,
+			getCalendarParts: getCalendarParts,
+			getEndDate: getEndDate,
+			getEndTime: getEndTime,
+			getStartDate: getStartDate,
+			getEventDates: getEventDates
+		};
+	};
+
+	downloadCalendarEventService.$inject = ['$window'];
+
+	app.factory('downloadCalendarEventService', downloadCalendarEventService);
+})(angular.module('eventsPageApp'), window.ics);
+'use strict';
+
+(function (app) {
+	'use strict';
+
+	var emailUtilityService = function emailUtilityService() {
+		var getEmailBody = function getEmailBody(destinationUrl) {
+			return 'Check out this event at the Baltimore County Public Library: ' + destinationUrl;
+		};
+		var getEmailSubject = function getEmailSubject(data) {
+			return data.EventStartDate + ' - ' + data.Title;
+		};
+		var getShareUrl = function getShareUrl(data, url) {
+			var emailBody = getEmailBody(url);
+			var emailSubject = getEmailSubject(data);
+
+			return 'mailto:?subject=' + emailSubject + '&body=' + emailBody;
+		};
+
+		return {
+			getEmailBody: getEmailBody,
+			getEmailSubject: getEmailSubject,
+			getShareUrl: getShareUrl
+		};
+	};
+
+	app.factory('emailUtilityService', emailUtilityService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
 (function (app) {
 	'use strict';
 
@@ -539,7 +668,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, ICS) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		var vm = this;
 		var id = $routeParams.id;
 
@@ -553,30 +682,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
+			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
-			vm.isOver = moment().isAfter(moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
+			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
 			clickEvent.preventDefault();
 
-			var _vm$data = vm.data,
-			    LocationName = _vm$data.LocationName,
-			    Title = _vm$data.Title;
-
-			var eventTitle = 'Baltimore County Library, ' + LocationName + ' Branch - ' + Title;
-			var eventLocation = LocationName + ' Branch';
-			var eventDescription = 'This is an all day event';
-			var eventStartDate = null;
-			var eventEndDate = null;
-
-			var calEvent = new ICS();
-
-			calEvent.addEvent(eventTitle, eventDescription, eventLocation, eventStartDate, eventEndDate);
-			calEvent.download(Title);
+			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
 		var requestError = function requestError(errorResponse) {
@@ -587,7 +704,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData).catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
@@ -596,9 +713,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bcFormat) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService) {
 		var id = $routeParams.id;
-
 		var vm = this;
 
 		vm.isGroup = 'false';
@@ -648,14 +764,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEventData = function processEventData(data) {
 			vm.data = data;
-			vm.data.EventStartDate = moment(vm.data.EventStart).format('MMMM D, YYYY');
+			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
