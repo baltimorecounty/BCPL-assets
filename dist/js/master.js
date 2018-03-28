@@ -1615,6 +1615,20 @@ bcpl.navigation = function ($, keyCodes) {
 
 namespacer('bcpl');
 
+bcpl.relatedTopicsWidget = function ($) {
+	var widgetSelector = '.related-topics-widget';
+	$(function onReady() {
+		var $widget = $(widgetSelector);
+
+		if ($widget.length) {
+			$widget.removeClass('hidden');
+		}
+	});
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.scrollToTop = function ($, window, _) {
 	var backToTopButtonSelector = '#scroll-to-top';
 	var bodyHtmlSelector = 'body, html';
