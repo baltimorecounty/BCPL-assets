@@ -1617,11 +1617,21 @@ namespacer('bcpl');
 
 bcpl.relatedTopicsWidget = function ($) {
 	var widgetSelector = '.related-topics-widget';
+	var secondaryNavSelector = '.secondary-nav nav';
+
+	var moveWidget = function moveWidget($widget) {
+		return $(secondaryNavSelector).after($widget);
+	};
+	var showWidget = function showWidget($widget) {
+		return $widget.removeClass('hidden');
+	};
+
 	$(function onReady() {
 		var $widget = $(widgetSelector);
 
 		if ($widget.length) {
-			$widget.removeClass('hidden');
+			moveWidget($widget);
+			showWidget($widget);
 		}
 	});
 }(jQuery);
