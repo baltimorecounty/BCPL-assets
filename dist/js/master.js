@@ -1616,8 +1616,8 @@ bcpl.navigation = function ($, keyCodes) {
 namespacer('bcpl');
 
 bcpl.relatedTopicsWidget = function ($) {
+	var secondaryNavSelector = '.secondary-nav';
 	var widgetSelector = '.related-topics-widget';
-	var secondaryNavSelector = '.secondary-nav nav';
 
 	var moveWidget = function moveWidget($widget) {
 		return $(secondaryNavSelector).after($widget);
@@ -1626,7 +1626,8 @@ bcpl.relatedTopicsWidget = function ($) {
 		return $widget.removeClass('hidden');
 	};
 
-	$(function onReady() {
+	// OnDocument Ready
+	$(function () {
 		var $widget = $(widgetSelector);
 
 		if ($widget.length) {
