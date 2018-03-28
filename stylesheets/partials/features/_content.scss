@@ -1,5 +1,4 @@
-.main-content,
-.secondary-nav {
+.main-content {
     background-color: white;
     margin-top: 1em;
 }
@@ -33,6 +32,10 @@
     .flex, .flex-md {
         .main-content {
             margin-bottom: 0;
+
+            &.top-border {
+                border-top: none;
+            }
         }
     }
 }
