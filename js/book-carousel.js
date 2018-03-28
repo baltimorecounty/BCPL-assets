@@ -60,12 +60,14 @@ bcpl.bookCarousel = (($, constants) => {
 			.text('')
 			.append($image);
 
+		$link.addClass('media-title');
+
 		return $('<div class="inner"></div>')
 			.append($imageLink)
 			.append($link);
 	};
 
-	const init = () => {
+	const init = (isGrid) => {
 		let maxSlides;
 
 		$('.book-carousel').each((index, carouselElement) => {
@@ -76,13 +78,15 @@ bcpl.bookCarousel = (($, constants) => {
 			promises.push(loadData(carouselId));
 		});
 
-		$.when.apply($, promises).then(() => {
-			if (!isNaN(maxSlides) && maxSlides > 0) {
-				slickSettings.slidesToShow = maxSlides;
-			}
+		if (!isGrid) {
+			$.when.apply($, promises).then(() => {
+				if (!isNaN(maxSlides) && maxSlides > 0) {
+					slickSettings.slidesToShow = maxSlides;
+				}
 
-			$('.book-carousel').slick(slickSettings);
-		});
+				$('.book-carousel').slick(slickSettings);
+			});
+		}
 	};
 
 	return {
