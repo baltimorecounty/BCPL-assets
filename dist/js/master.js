@@ -1615,6 +1615,31 @@ bcpl.navigation = function ($, keyCodes) {
 
 namespacer('bcpl');
 
+bcpl.relatedTopicsWidget = function ($) {
+	var secondaryNavSelector = '.secondary-nav';
+	var widgetSelector = '.related-topics-widget';
+
+	var moveWidget = function moveWidget($widget) {
+		return $(secondaryNavSelector).after($widget);
+	};
+	var showWidget = function showWidget($widget) {
+		return $widget.removeClass('hidden');
+	};
+
+	// OnDocument Ready
+	$(function () {
+		var $widget = $(widgetSelector);
+
+		if ($widget.length) {
+			moveWidget($widget);
+			showWidget($widget);
+		}
+	});
+}(jQuery);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.scrollToTop = function ($, window, _) {
 	var backToTopButtonSelector = '#scroll-to-top';
 	var bodyHtmlSelector = 'body, html';
