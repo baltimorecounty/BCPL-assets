@@ -32,10 +32,14 @@
     .flex, .flex-md {
         .main-content {
             margin-bottom: 0;
-
-            &.top-border {
-                border-top: none;
-            }
         }
+    }
+
+
+}
+
+@media (max-width: $screen-xs) {
+    .main-content.top-border {
+        border-top: none;
     }
 }
