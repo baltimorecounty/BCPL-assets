@@ -1829,8 +1829,10 @@ bcpl.smartSideNav = function ($, urlComparer, window) {
 	var navLinksSelector = '.secondary-nav nav ul li a';
 	var activeWindow = window;
 
-	var getHrefWithoutQueryString = function getHrefWithoutQueryString(href) {
-		return href ? href.toLowerCase().split('?')[0] : undefined;
+	var getHrefWithout = function getHrefWithout(href, chars) {
+		return chars.reduce(function (newHref, char) {
+			return newHref ? newHref.toLowerCase().split(char)[0] : undefined;
+		}, href);
 	};
 
 	var compareNavLinks = function compareNavLinks(index, navLink) {
@@ -1840,10 +1842,11 @@ bcpl.smartSideNav = function ($, urlComparer, window) {
 		$navLink.removeClass('active');
 
 		if (navLinkHref) {
-			var hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
-			var locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+			var queryStringAndHashIdentifiers = ['?', '#'];
+			var hrefWithoutQueryStringAndHash = getHrefWithout(navLinkHref, queryStringAndHashIdentifiers);
+			var locationUrlWithoutQueryStringAndHash = getHrefWithout(activeWindow.location.href, queryStringAndHashIdentifiers);
 
-			if (urlComparer.isSamePage(hrefWithoutQueryString, locationUrlWithoutQueryString)) {
+			if (urlComparer.isSamePage(hrefWithoutQueryStringAndHash, locationUrlWithoutQueryStringAndHash)) {
 				$navLink.addClass('active');
 				return false;
 			}
