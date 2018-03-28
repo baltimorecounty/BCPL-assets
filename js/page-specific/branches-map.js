@@ -54,7 +54,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 	const initMap = () => {
 		// this is wrapped in a setTimeout to avoid a race condition
-		setTimeout(() => {
+		$(() => {
 			map = new google.maps.Map(document.getElementById('location-map'), {
 				center: {
 					lat: 39.43,
@@ -80,7 +80,7 @@ bcpl.pageSpecific.branchMap = (($) => {
 					templateId: 499
 				}
 			});
-		}, 100);
+		});
 
 		$(document).on('bcpl.filter.changed', '#results-display', updateMapMarkers);
 	};

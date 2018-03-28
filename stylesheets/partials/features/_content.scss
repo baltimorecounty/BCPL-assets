@@ -1,5 +1,4 @@
-.main-content,
-.secondary-nav {
+.main-content {
     background-color: white;
     margin-top: 1em;
 }
@@ -7,9 +6,11 @@
 .main-content {
     padding: 1.8em;
     margin-bottom: 3em;
+
     &.top-border {
-        border-top: 5px solid $tan;
+        border-top: 4px solid $tan;
     }
+
     &.card-header {
         margin-bottom: 1em;
     }
@@ -32,5 +33,13 @@
         .main-content {
             margin-bottom: 0;
         }
+    }
+
+
+}
+
+@media (max-width: $screen-xs) {
+    .main-content.top-border {
+        border-top: none;
     }
 }
