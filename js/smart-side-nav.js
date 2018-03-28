@@ -4,9 +4,11 @@ bcpl.smartSideNav = (($, urlComparer, window) => {
 	const navLinksSelector = '.secondary-nav nav ul li a';
 	let activeWindow = window;
 
-	const getHrefWithoutQueryString = (href) => {
-		return href ? href.toLowerCase().split('?')[0] : undefined;
-	};
+	const getHrefWithout = (href, chars) => chars.reduce((newHref, char) => {
+		return newHref
+			? newHref.toLowerCase().split(char)[0]
+			: undefined;
+	}, href);
 
 	const compareNavLinks = (index, navLink) => {
 		const $navLink = $(navLink);
@@ -15,10 +17,11 @@ bcpl.smartSideNav = (($, urlComparer, window) => {
 		$navLink.removeClass('active');
 
 		if (navLinkHref) {
-			const hrefWithoutQueryString = getHrefWithoutQueryString(navLinkHref);
-			const locationUrlWithoutQueryString = getHrefWithoutQueryString(activeWindow.location.href);
+			const queryStringAndHashIdentifiers = ['?', '#'];
+			const hrefWithoutQueryStringAndHash = getHrefWithout(navLinkHref, queryStringAndHashIdentifiers);
+			const locationUrlWithoutQueryStringAndHash = getHrefWithout(activeWindow.location.href, queryStringAndHashIdentifiers);
 
-			if (urlComparer.isSamePage(hrefWithoutQueryString, locationUrlWithoutQueryString)) {
+			if (urlComparer.isSamePage(hrefWithoutQueryStringAndHash, locationUrlWithoutQueryStringAndHash)) {
 				$navLink.addClass('active');
 				return false;
 			}
