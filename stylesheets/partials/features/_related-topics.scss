@@ -1,0 +1,26 @@
+.related-topics-widget {
+    &.hidden {
+        display: none !important;
+    }
+
+    table {
+        margin-top: .5em;
+
+        tbody {
+            /* SE won't let us add class names */
+            tr:first-child {
+                td {
+                    background-color: white !important;
+                    border-bottom: 4px solid $red;
+                    font-weight: 700;
+                }
+            }
+
+            tr:nth-child(2) {
+                td {
+                    background-color: white !important;
+                }
+            }
+        }
+    }
+}
