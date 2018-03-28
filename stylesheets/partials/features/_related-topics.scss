@@ -19,19 +19,13 @@
 
         li {
             border-bottom: 1px solid $tan-light;
+            font-weight: 700;
 
-            /* SE won't let us add class names */
-            &:first-child {
-                background-color: white !important;
-                font-weight: 700;
-            }
-            &:nth-child(2) {
-                background-color: white !important;
-            }
             &:last-child {
                 border: none;
                 margin-bottom: 0;
             }
+            
             a {
                 display: block;
                 font-size: .8em;
