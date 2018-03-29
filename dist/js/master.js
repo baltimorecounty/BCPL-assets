@@ -747,7 +747,7 @@ bcpl.bookCarousel = function ($, constants) {
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 			var title = encodeURIComponent($image.attr('title'));
-			var linkHref = 'http://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
+			var linkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
 
 			$imageLink.attr('href', linkHref);
 			$link.attr('href', linkHref);
@@ -758,12 +758,19 @@ bcpl.bookCarousel = function ($, constants) {
 
 	var init = function init(settings) {
 		var maxSlides = void 0;
+		var $carousel = $('.book-carousel');
 
-		if (settings && settings.isTitleSearch) {
-			isTitleSearch = settings.isTitleSearch;
+		if (settings) {
+			if (settings.isTitleSearch) {
+				isTitleSearch = settings.isTitleSearch;
+			}
+
+			if (settings.isGrid) {
+				$carousel.addClass('grid');
+			}
 		}
 
-		$('.book-carousel').each(function (index, carouselElement) {
+		$carousel.each(function (index, carouselElement) {
 			var $carouselElement = $(carouselElement);
 			var carouselId = $carouselElement.attr('data-carousel-id');
 			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
@@ -777,7 +784,7 @@ bcpl.bookCarousel = function ($, constants) {
 					slickSettings.slidesToShow = maxSlides;
 				}
 
-				$('.book-carousel').slick(slickSettings);
+				$carousel.slick(slickSettings);
 			});
 		}
 	};

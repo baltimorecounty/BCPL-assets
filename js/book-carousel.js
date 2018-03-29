@@ -79,7 +79,7 @@ bcpl.bookCarousel = (($, constants) => {
 				.contents()
 				.filter(textNodeFilter));
 			const title = encodeURIComponent($image.attr('title'));
-			const linkHref = `http://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
+			const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
 
 			$imageLink.attr('href', linkHref);
 			$link.attr('href', linkHref);
@@ -92,12 +92,19 @@ bcpl.bookCarousel = (($, constants) => {
 
 	const init = (settings) => {
 		let maxSlides;
+		const $carousel = $('.book-carousel');
 
-		if (settings && settings.isTitleSearch) {
-			isTitleSearch = settings.isTitleSearch;
+		if (settings) {
+			if (settings.isTitleSearch) {
+				isTitleSearch = settings.isTitleSearch;
+			}
+
+			if (settings.isGrid) {
+				$carousel.addClass('grid');
+			}
 		}
 
-		$('.book-carousel').each((index, carouselElement) => {
+		$carousel.each((index, carouselElement) => {
 			const $carouselElement = $(carouselElement);
 			const carouselId = $carouselElement.attr('data-carousel-id');
 			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
@@ -111,7 +118,7 @@ bcpl.bookCarousel = (($, constants) => {
 					slickSettings.slidesToShow = maxSlides;
 				}
 
-				$('.book-carousel').slick(slickSettings);
+				$carousel.slick(slickSettings);
 			});
 		}
 	};
