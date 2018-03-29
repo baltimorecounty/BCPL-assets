@@ -42,3 +42,9 @@
         }
     }
 }
+
+@media (max-width: $screen-md) {
+    .related-topics-widget {
+        margin-top: 0;
+    }
+}
