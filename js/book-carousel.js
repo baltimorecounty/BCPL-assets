@@ -26,6 +26,7 @@ bcpl.bookCarousel = (($, constants) => {
 			}
 		}]
 	};
+	let isTitleSearch = false;
 
 	const loadData = (carouselId) => {
 		const url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
@@ -36,20 +37,29 @@ bcpl.bookCarousel = (($, constants) => {
 			.then(data => onDataSuccess(data, carouselId));
 	};
 
+	const textNodeFilter = (index, node) => node.nodeType === 3;
+
+	const authorExtractor = (textNode) =>
+		$(textNode)
+			.text()
+			.split(',')
+			.slice(0, 2)
+			.join(',');
+
 	const onDataSuccess = (data, carouselId) => {
 		const $data = $(data.Carousel_Str);
-		const $images = $data.find('li div img');
-		const $links = $data.find('li div a');
 		const $items = $data
 			.find('li')
-			.map((index, element) => cleanHtml(index, element, $images, $links));
+			.map((index, element) => cleanHtml(index, element));
 
 		$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items.get());
 	};
 
-	const cleanHtml = (index, element, $images, $links) => {
-		const $image = $images.eq(index);
-		const $link = $links.eq(index);
+	const cleanHtml = (index, listItem) => {
+		const $listItem = $(listItem);
+
+		const $image = $listItem.find('img');
+		const $link = $listItem.find('a');
 		const $imageLink = $link.clone();
 
 		$image
@@ -62,13 +72,30 @@ bcpl.bookCarousel = (($, constants) => {
 
 		$link.addClass('media-title');
 
+		if (isTitleSearch) {
+			const author = authorExtractor($listItem
+				.find('div')
+				.eq(1)
+				.contents()
+				.filter(textNodeFilter));
+			const title = encodeURIComponent($image.attr('title'));
+			const linkHref = `http://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
+
+			$imageLink.attr('href', linkHref);
+			$link.attr('href', linkHref);
+		}
+
 		return $('<div class="inner"></div>')
 			.append($imageLink)
 			.append($link);
 	};
 
-	const init = (isGrid) => {
+	const init = (isGrid, isTitleSearchLocal) => {
 		let maxSlides;
+
+		if (isTitleSearchLocal) {
+			isTitleSearch = isTitleSearchLocal;
+		}
 
 		$('.book-carousel').each((index, carouselElement) => {
 			const $carouselElement = $(carouselElement);

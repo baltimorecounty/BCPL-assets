@@ -702,6 +702,7 @@ bcpl.bookCarousel = function ($, constants) {
 			}
 		}]
 	};
+	var isTitleSearch = false;
 
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
@@ -713,20 +714,28 @@ bcpl.bookCarousel = function ($, constants) {
 		});
 	};
 
+	var textNodeFilter = function textNodeFilter(index, node) {
+		return node.nodeType === 3;
+	};
+
+	var authorExtractor = function authorExtractor(textNode) {
+		return $(textNode).text().split(',').slice(0, 2).join(',');
+	};
+
 	var onDataSuccess = function onDataSuccess(data, carouselId) {
 		var $data = $(data.Carousel_Str);
-		var $images = $data.find('li div img');
-		var $links = $data.find('li div a');
 		var $items = $data.find('li').map(function (index, element) {
-			return cleanHtml(index, element, $images, $links);
+			return cleanHtml(index, element);
 		});
 
 		$('.book-carousel[data-carousel-id=' + carouselId + ']').append($items.get());
 	};
 
-	var cleanHtml = function cleanHtml(index, element, $images, $links) {
-		var $image = $images.eq(index);
-		var $link = $links.eq(index);
+	var cleanHtml = function cleanHtml(index, listItem) {
+		var $listItem = $(listItem);
+
+		var $image = $listItem.find('img');
+		var $link = $listItem.find('a');
 		var $imageLink = $link.clone();
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
@@ -735,11 +744,24 @@ bcpl.bookCarousel = function ($, constants) {
 
 		$link.addClass('media-title');
 
+		if (isTitleSearch) {
+			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
+			var title = encodeURIComponent($image.attr('title'));
+			var linkHref = 'http://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
+
+			$imageLink.attr('href', linkHref);
+			$link.attr('href', linkHref);
+		}
+
 		return $('<div class="inner"></div>').append($imageLink).append($link);
 	};
 
-	var init = function init(isGrid) {
+	var init = function init(isGrid, isTitleSearchLocal) {
 		var maxSlides = void 0;
+
+		if (isTitleSearchLocal) {
+			isTitleSearch = isTitleSearchLocal;
+		}
 
 		$('.book-carousel').each(function (index, carouselElement) {
 			var $carouselElement = $(carouselElement);
