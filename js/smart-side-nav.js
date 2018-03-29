@@ -39,7 +39,6 @@ bcpl.smartSideNav = (($, urlComparer, window) => {
 
 	return {
 		/* test-code */
-		getHrefWithoutQueryString,
 		compareNavLinks,
 		/* end-test-code */
 		init,
