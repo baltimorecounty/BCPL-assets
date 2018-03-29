@@ -957,6 +957,32 @@ $(function onDocumentReady() {
 
 namespacer('bcpl');
 
+bcpl.navigation = function ($, queryStringer, constants) {
+	var catalogSearchSelector = '#catalog-search, .catalog-search';
+
+	var getCatalogUrl = function getCatalogUrl(searchTerm) {
+		return '' + constants.baseCatalogUrl + constants.search.urls.catalog + searchTerm;
+	};
+
+	var onCatalogSearchClick = function onCatalogSearchClick(clickEvent) {
+		clickEvent.preventDefault();
+
+		var queryParams = queryStringer.getAsDictionary();
+		var searchTerm = queryParams.term;
+
+		window.location = getCatalogUrl(searchTerm);
+	};
+
+	$(document).on('click', catalogSearchSelector, onCatalogSearchClick);
+
+	return {
+		getCatalogUrl: getCatalogUrl
+	};
+}(jQuery, bcpl.utility.querystringer, bcpl.constants);
+'use strict';
+
+namespacer('bcpl');
+
 bcpl.contraster = function ($, browserStorage) {
 	var contrasterDefaults = {
 		styleSheet: {
