@@ -57,10 +57,10 @@ bcpl.bookCarousel = (($, constants) => {
 
 	const cleanHtml = (index, listItem) => {
 		const $listItem = $(listItem);
-
 		const $image = $listItem.find('img');
 		const $link = $listItem.find('a');
 		const $imageLink = $link.clone();
+		const titleRemoveString = ' : a novel';
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
@@ -78,7 +78,7 @@ bcpl.bookCarousel = (($, constants) => {
 				.eq(1)
 				.contents()
 				.filter(textNodeFilter));
-			const title = encodeURIComponent($image.attr('title'));
+			const title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 			const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
 
 			$imageLink.attr('href', linkHref);

@@ -733,10 +733,10 @@ bcpl.bookCarousel = function ($, constants) {
 
 	var cleanHtml = function cleanHtml(index, listItem) {
 		var $listItem = $(listItem);
-
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
 		var $imageLink = $link.clone();
+		var titleRemoveString = ' : a novel';
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
 
@@ -746,7 +746,7 @@ bcpl.bookCarousel = function ($, constants) {
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
-			var title = encodeURIComponent($image.attr('title'));
+			var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 			var linkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
 
 			$imageLink.attr('href', linkHref);
