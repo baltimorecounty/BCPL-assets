@@ -118,6 +118,17 @@ footer {
 	}
 }
 
+@media (max-width: $screen-sm) {
+	footer {
+		.copyright-wrapper {
+			nav {
+                float: none !important;
+                margin: 20px auto;
+            }
+        }
+    }
+}
+
 @media (max-width: $screen-xs-max) {
 	footer {
 		.copyright-wrapper {
