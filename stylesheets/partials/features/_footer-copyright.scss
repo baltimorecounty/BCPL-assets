@@ -118,6 +118,13 @@ footer {
 	}
 }
 
+@media (max-width: $screen-md) {
+	footer .copyright-wrapper nav {
+        float: none !important;
+        margin: 20px auto 0;
+    }
+}
+
 @media (max-width: $screen-xs-max) {
 	footer {
 		.copyright-wrapper {
