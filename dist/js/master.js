@@ -34,7 +34,7 @@ bcpl.constants = {
 	// baseApiUrl: 'http://oit226696:3100',
 	baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'http://staging.bcpl.info',
+	baseWebsiteUrl: 'https://staging.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
