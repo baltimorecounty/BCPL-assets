@@ -1829,10 +1829,11 @@ bcpl.smartSideNav = function ($, urlComparer, window) {
 	var navLinksSelector = '.secondary-nav nav ul li a';
 	var activeWindow = window;
 
+	var hrefReducer = function hrefReducer(newHref, char) {
+		return newHref ? newHref.toLowerCase().split(char)[0] : '';
+	};
 	var getHrefWithout = function getHrefWithout(href, chars) {
-		return chars.reduce(function (newHref, char) {
-			return newHref ? newHref.toLowerCase().split(char)[0] : undefined;
-		}, href);
+		return chars.reduce(hrefReducer, href);
 	};
 
 	var compareNavLinks = function compareNavLinks(index, navLink) {
