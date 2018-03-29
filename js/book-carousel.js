@@ -90,11 +90,11 @@ bcpl.bookCarousel = (($, constants) => {
 			.append($link);
 	};
 
-	const init = (isGrid, isTitleSearchLocal) => {
+	const init = (settings) => {
 		let maxSlides;
 
-		if (isTitleSearchLocal) {
-			isTitleSearch = isTitleSearchLocal;
+		if (settings && settings.isTitleSearch) {
+			isTitleSearch = settings.isTitleSearch;
 		}
 
 		$('.book-carousel').each((index, carouselElement) => {
@@ -105,7 +105,7 @@ bcpl.bookCarousel = (($, constants) => {
 			promises.push(loadData(carouselId));
 		});
 
-		if (!isGrid) {
+		if (!settings || !settings.isGrid) {
 			$.when.apply($, promises).then(() => {
 				if (!isNaN(maxSlides) && maxSlides > 0) {
 					slickSettings.slidesToShow = maxSlides;

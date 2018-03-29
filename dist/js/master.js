@@ -756,11 +756,11 @@ bcpl.bookCarousel = function ($, constants) {
 		return $('<div class="inner"></div>').append($imageLink).append($link);
 	};
 
-	var init = function init(isGrid, isTitleSearchLocal) {
+	var init = function init(settings) {
 		var maxSlides = void 0;
 
-		if (isTitleSearchLocal) {
-			isTitleSearch = isTitleSearchLocal;
+		if (settings && settings.isTitleSearch) {
+			isTitleSearch = settings.isTitleSearch;
 		}
 
 		$('.book-carousel').each(function (index, carouselElement) {
@@ -771,7 +771,7 @@ bcpl.bookCarousel = function ($, constants) {
 			promises.push(loadData(carouselId));
 		});
 
-		if (!isGrid) {
+		if (!settings || !settings.isGrid) {
 			$.when.apply($, promises).then(function () {
 				if (!isNaN(maxSlides) && maxSlides > 0) {
 					slickSettings.slidesToShow = maxSlides;
