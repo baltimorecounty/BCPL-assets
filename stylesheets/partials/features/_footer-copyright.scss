@@ -6,6 +6,16 @@ footer {
 		text-transform: uppercase;
 		padding: 1em 0;
 
+		p {
+			margin: 0 0 10px;
+		}
+
+		/* Google translate */
+		.goog-te-gadget-simple .goog-te-menu-value {
+			font-size: .75em;
+			font-weight: 600;
+		}
+
 		nav {
 			padding-bottom: .25em;
 			font-size: .8em;
