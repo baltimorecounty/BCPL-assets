@@ -4,11 +4,8 @@ bcpl.smartSideNav = (($, urlComparer, window) => {
 	const navLinksSelector = '.secondary-nav nav ul li a';
 	let activeWindow = window;
 
-	const getHrefWithout = (href, chars) => chars.reduce((newHref, char) => {
-		return newHref
-			? newHref.toLowerCase().split(char)[0]
-			: undefined;
-	}, href);
+    const hrefReducer = (newHref, char) => newHref ? newHref.toLowerCase().split(char)[0] : '';
+	const getHrefWithout = (href, chars) => chars.reduce(hrefReducer, href);
 
 	const compareNavLinks = (index, navLink) => {
 		const $navLink = $(navLink);
