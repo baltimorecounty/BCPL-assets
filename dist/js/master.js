@@ -733,10 +733,12 @@ bcpl.bookCarousel = function ($, constants) {
 
 		$imageLink.text('').append($image);
 
+		$link.addClass('media-title');
+
 		return $('<div class="inner"></div>').append($imageLink).append($link);
 	};
 
-	var init = function init() {
+	var init = function init(isGrid) {
 		var maxSlides = void 0;
 
 		$('.book-carousel').each(function (index, carouselElement) {
@@ -747,13 +749,15 @@ bcpl.bookCarousel = function ($, constants) {
 			promises.push(loadData(carouselId));
 		});
 
-		$.when.apply($, promises).then(function () {
-			if (!isNaN(maxSlides) && maxSlides > 0) {
-				slickSettings.slidesToShow = maxSlides;
-			}
+		if (!isGrid) {
+			$.when.apply($, promises).then(function () {
+				if (!isNaN(maxSlides) && maxSlides > 0) {
+					slickSettings.slidesToShow = maxSlides;
+				}
 
-			$('.book-carousel').slick(slickSettings);
-		});
+				$('.book-carousel').slick(slickSettings);
+			});
+		}
 	};
 
 	return {

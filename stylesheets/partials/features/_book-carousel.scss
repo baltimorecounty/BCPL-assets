@@ -41,6 +41,24 @@
     .slick-list {
         flex: 1;
     }
+
+    &.grid {
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 2em;
+        background-color: transparent;
+
+        .inner {
+            display: flex;
+            flex: 0 25%;
+            flex-direction: column;  
+            padding: 2em 2em 0;
+
+            .media-title {
+                display: none;
+            }
+        }
+    }
 }
 
 .tabs {
