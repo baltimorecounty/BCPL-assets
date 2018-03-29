@@ -69,3 +69,15 @@ Add the following code to a HTML snippet on your page:
 	$(function() { bcpl.bookCarousel.init() });
 </script>
 ```
+
+### Grid 
+
+You can also display books as a grid.
+
+```HTML
+<div class="book-carousel" data-carousel-id="57636"></div>
+
+<script>
+	$(function() { bcpl.bookCarousel.init(true) });
+</script>
+```
