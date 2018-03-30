@@ -787,26 +787,24 @@ bcpl.bookCarousel = function ($, constants) {
 		var $listItem = $(listItem);
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
-		var $imageLink = $link.clone();
+		var $titleDisplay = $('<p>' + $image.attr('title') + '</p>');
 		var titleRemoveString = ' : a novel';
-		var $accessibleImageHtml = $('<img src="' + $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif') + '" />');
+		var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 
-		$imageLink.text('').append($accessibleImageHtml.get().setAttribute('alt', ''));
+		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
-		$link.addClass('media-title');
+		$link.text('').append($image).append($titleDisplay);
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
-			var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
 			// the link below is temporary
 			var linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
 
-			$imageLink.attr('href', linkHref);
 			$link.attr('href', linkHref);
 		}
 
-		return $('<div class="inner"></div>').append($imageLink).append($link);
+		return $('<div class="inner"></div>').append($link);
 	};
 
 	var init = function init(settings) {
