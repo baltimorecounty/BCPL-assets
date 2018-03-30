@@ -748,6 +748,7 @@ bcpl.bookCarousel = function ($, constants) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 			var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
+			// the link below is temporary
 			var linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
 
 			$imageLink.attr('href', linkHref);
