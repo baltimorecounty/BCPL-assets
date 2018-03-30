@@ -734,8 +734,8 @@ bcpl.bookCarousel = function ($, constants) {
 		infinite: true,
 		arrows: true,
 		lazyLoad: 'progressive',
-		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
-		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
+		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true"><span>Scroll left</span></i></a>',
+		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true"><span>Scroll right</span></i></a>',
 		slidesToShow: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
@@ -787,27 +787,24 @@ bcpl.bookCarousel = function ($, constants) {
 		var $listItem = $(listItem);
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
-		var $imageLink = $link.clone();
+		var $titleDisplay = $('<p>' + $image.attr('title') + '</p>');
 		var titleRemoveString = ' : a novel';
+		var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
 
-		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
+		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
-		$imageLink.text('').append($image);
-
-		$link.addClass('media-title');
+		$link.text('').append($image).append($titleDisplay);
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
-			var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
-			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=${title}&relation=ALL&by=TI&term2=${author}&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0`;
+			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
 			// the link below is temporary
-			var linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Advanced&term=' + title + '&relation=ALL&by=TI&term2=' + author + '&relation2=ALL&by2=AU&bool1=AND&bool4=AND&limit=TOM=*&sort=MP&page=0';
+			var linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
-			$imageLink.attr('href', linkHref);
 			$link.attr('href', linkHref);
 		}
 
-		return $('<div class="inner"></div>').append($imageLink).append($link);
+		return $('<div class="inner"></div>').append($link);
 	};
 
 	var init = function init(settings) {
