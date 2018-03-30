@@ -597,8 +597,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var emailUtilityService = function emailUtilityService() {
+		var cleanUrl = function cleanUrl(url) {
+			return url.replace('!', '%21').replace('#', '%23');
+		};
 		var getEmailBody = function getEmailBody(destinationUrl) {
-			return 'Check out this event at the Baltimore County Public Library: ' + destinationUrl;
+			return 'Check out this event at the Baltimore County Public Library: ' + cleanUrl(destinationUrl);
 		};
 		var getEmailSubject = function getEmailSubject(data) {
 			return data.EventStartDate + ' - ' + data.Title;
@@ -611,6 +614,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		return {
+			cleanUrl: cleanUrl,
 			getEmailBody: getEmailBody,
 			getEmailSubject: getEmailSubject,
 			getShareUrl: getShareUrl
