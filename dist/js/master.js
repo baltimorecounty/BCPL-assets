@@ -966,7 +966,7 @@ $(function onDocumentReady() {
 
 namespacer('bcpl');
 
-bcpl.navigation = function ($, queryStringer, constants) {
+bcpl.catalogSearch = function ($, queryStringer, constants) {
 	var catalogSearchSelector = '#catalog-search, .catalog-search';
 
 	var getCatalogUrl = function getCatalogUrl(searchTerm) {
