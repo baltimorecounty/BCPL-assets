@@ -759,8 +759,7 @@ bcpl.bookCarousel = function ($, constants) {
 	};
 
 	var init = function init(settings) {
-		var maxSlides = void 0;
-		var $carousel = $('.book-carousel');
+		var $carousels = $('.book-carousel');
 
 		if (settings) {
 			if (settings.isTitleSearch) {
@@ -768,25 +767,24 @@ bcpl.bookCarousel = function ($, constants) {
 			}
 
 			if (settings.isGrid) {
-				$carousel.addClass('grid');
+				$carousels.addClass('grid');
 			}
 		}
 
-		$carousel.each(function (index, carouselElement) {
+		$carousels.each(function (index, carouselElement) {
 			var $carouselElement = $(carouselElement);
 			var carouselId = $carouselElement.attr('data-carousel-id');
-			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
 
 			promises.push(loadData(carouselId));
 		});
 
 		if (!settings || !settings.isGrid) {
 			$.when.apply($, promises).then(function () {
-				if (!isNaN(maxSlides) && maxSlides > 0) {
-					slickSettings.slidesToShow = maxSlides;
+				if (settings && settings.maxSlides > 0) {
+					slickSettings.slidesToShow = settings.maxSlides;
 				}
 
-				$carousel.slick(slickSettings);
+				$carousels.slick(slickSettings);
 			});
 		}
 	};

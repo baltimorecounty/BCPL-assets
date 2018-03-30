@@ -93,8 +93,7 @@ bcpl.bookCarousel = (($, constants) => {
 	};
 
 	const init = (settings) => {
-		let maxSlides;
-		const $carousel = $('.book-carousel');
+		const $carousels = $('.book-carousel');
 
 		if (settings) {
 			if (settings.isTitleSearch) {
@@ -102,25 +101,24 @@ bcpl.bookCarousel = (($, constants) => {
 			}
 
 			if (settings.isGrid) {
-				$carousel.addClass('grid');
+				$carousels.addClass('grid');
 			}
 		}
 
-		$carousel.each((index, carouselElement) => {
+		$carousels.each((index, carouselElement) => {
 			const $carouselElement = $(carouselElement);
 			const carouselId = $carouselElement.attr('data-carousel-id');
-			maxSlides = parseInt($carouselElement.attr('data-max-slides'), 10);
 
 			promises.push(loadData(carouselId));
 		});
 
 		if (!settings || !settings.isGrid) {
 			$.when.apply($, promises).then(() => {
-				if (!isNaN(maxSlides) && maxSlides > 0) {
-					slickSettings.slidesToShow = maxSlides;
+				if (settings && settings.maxSlides > 0) {
+					slickSettings.slidesToShow = settings.maxSlides;
 				}
 
-				$carousel.slick(slickSettings);
+				$carousels.slick(slickSettings);
 			});
 		}
 	};
