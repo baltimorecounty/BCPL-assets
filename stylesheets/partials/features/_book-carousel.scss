@@ -17,6 +17,11 @@
             display: block;
             margin-top: .5em;
         }
+
+        p {
+            font-size: 1em;
+            text-transform: none;
+        }
     }
     
     .slick-arrow {
@@ -54,7 +59,7 @@
             flex-direction: column;  
             padding: 2em 2em 0;
 
-            .media-title {
+            p {
                 display: none;
             }
         }
