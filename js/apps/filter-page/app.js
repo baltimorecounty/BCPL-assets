@@ -1,12 +1,12 @@
 (() => {
-  "use strict";
+	'use strict';
 
-  angular
-    .module("filterPageApp", ["ngAnimate"])
-    .config(function($locationProvider) {
-      $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-      });
-    });
+	angular
+		.module('filterPageApp', ['ngAnimate', 'ngAria'])
+		.config(function config($locationProvider) {
+			$locationProvider.html5Mode({
+				enabled: true,
+				requireBase: false
+			});
+		});
 })();
