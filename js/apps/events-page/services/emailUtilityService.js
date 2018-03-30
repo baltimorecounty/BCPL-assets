@@ -2,7 +2,8 @@
 	'use strict';
 
 	const emailUtilityService = () => {
-		const getEmailBody = (destinationUrl) => `Check out this event at the Baltimore County Public Library: ${destinationUrl}`;
+		const cleanUrl = (url) => url.replace('!', '%21').replace('#', '%23');
+		const getEmailBody = (destinationUrl) => `Check out this event at the Baltimore County Public Library: ${cleanUrl(destinationUrl)}`;
 		const getEmailSubject = (data) => `${data.EventStartDate} - ${data.Title}`;
 		const getShareUrl = (data, url) => {
 			const emailBody = getEmailBody(url);
@@ -12,6 +13,7 @@
 		};
 
 		return {
+			cleanUrl,
 			getEmailBody,
 			getEmailSubject,
 			getShareUrl

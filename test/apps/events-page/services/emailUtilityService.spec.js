@@ -43,4 +43,15 @@ describe('emailUtilityService', () => {
 			expect(actual).toEqual(expected);
 		});
 	});
+
+	describe('cleanUrl', () => {
+		it('should replace \'!\' and \'#\' with their ASCII encoded values', () => {
+			const mockUrl = 'https://staging.bcpl.info/events-and-programs/list.html#!/143473';
+
+			const expected = 'https://staging.bcpl.info/events-and-programs/list.html%23%21/143473';
+			const actual = emailUtilityService.cleanUrl(mockUrl);
+
+			expect(actual).toEqual(expected);
+		});
+	});
 });
