@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.navigation = (($, queryStringer, constants) => {
+bcpl.catalogSearch = (($, queryStringer, constants) => {
 	const catalogSearchSelector = '#catalog-search, .catalog-search';
 
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
