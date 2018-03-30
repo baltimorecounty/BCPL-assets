@@ -61,14 +61,11 @@ bcpl.bookCarousel = (($, constants) => {
 		const $link = $listItem.find('a');
 		const $imageLink = $link.clone();
 		const titleRemoveString = ' : a novel';
-
-		$image
-			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
-			.attr('style', '');
+		const $accessibleImageHtml = $(`<img src="${$image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')}" />`);
 
 		$imageLink
 			.text('')
-			.append($image);
+			.append($accessibleImageHtml.get().setAttribute('alt', ''));
 
 		$link.addClass('media-title');
 

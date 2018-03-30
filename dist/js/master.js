@@ -737,10 +737,9 @@ bcpl.bookCarousel = function ($, constants) {
 		var $link = $listItem.find('a');
 		var $imageLink = $link.clone();
 		var titleRemoveString = ' : a novel';
+		var $accessibleImageHtml = $('<img src="' + $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif') + '" />');
 
-		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '');
-
-		$imageLink.text('').append($image);
+		$imageLink.text('').append($accessibleImageHtml.get().setAttribute('alt', ''));
 
 		$link.addClass('media-title');
 
