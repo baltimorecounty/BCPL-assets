@@ -4,12 +4,14 @@
 }
 
 .seRequiredMarker {
-	color: red;
-	visibility: hidden;
+    color: red;
+    left: -9999px;
+    position: relative;
 
 	&:after {
-		font-family: FontAwesome;
-		visibility: visible;
+        font-family: FontAwesome;
+        left: 9995px;
+        position: relative;
 		content: '\f005';
 	}
 }
