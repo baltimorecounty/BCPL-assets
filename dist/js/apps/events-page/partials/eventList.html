@@ -7,7 +7,8 @@
 				<div class="events-search-wrapper filter-control-wapper">
 					<h4>Keyword Search</h4>
 					<div class="keyword-search-wrapper">
-						<input class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
+						<label for="keyword-search" class="sr-only">Keyword Search</label>
+						<input id="keyword-search" class="keyword-search form-control" ng-model-options="{ updateOn: 'keyup', debounce: 500 }" ng-model="eventsPage.keywords"
 						    ng-change="eventsPage.keywordSearch();" />
 						<i class="fa fa-search fa-lg keyword-search-icon" aria-hidden="true"></i>
 					</div>
@@ -72,7 +73,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-md-9 events-list">
+<div class="col-md-9 events-list" aria-live="polite">
 	<h1>Events</h1>
 	<div class="loading-spinner" ng-show="eventsPage.isLoading">
 		<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
