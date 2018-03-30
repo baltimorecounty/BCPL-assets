@@ -6,8 +6,8 @@ bcpl.bookCarousel = (($, constants) => {
 		infinite: true,
 		arrows: true,
 		lazyLoad: 'progressive',
-		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true" /></a>',
-		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true" /></a>',
+		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true"><span>Scroll left</span></i></a>',
+		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true"><span>Scroll right</span></i></a>',
 		slidesToShow: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
