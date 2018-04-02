@@ -8,7 +8,11 @@
 
 		.menu-container {
 			.logo {
-				z-index: initial;
+                z-index: initial;
+                
+                svg {
+                    max-width: 300px;
+                }
 			}
 		}
 	}
@@ -24,12 +28,11 @@
 		position: relative;
 
 		.logo {
-			z-index: 1;
-			max-width: 296px;
+            z-index: 1;
 
-			img {
-				max-width: 266px;
-			}
+            svg {
+                max-width: 300px;
+            }
 		}
 	}
 	button {
@@ -433,13 +436,15 @@
 
 	.menu-wrapper {
 		position: static;
-		padding-top: 1em;
+        padding-top: 1em;
+        padding-bottom: 9px;
 		background: $teal;
 		.nav-and-search {
             padding: 0;
             margin-top: -8px !important;
 
 			.search-button-container {
+                margin-top: 4px;
 				text-align: right;
 			}
 
@@ -646,7 +651,7 @@
 	.internal {
 		.menu-wrapper {
 			background: $teal;
-			padding-top: 0;
+            padding-top: 0;
 			.menu-inner-wrapper {
 				padding: 0;
 				.menu-container {
@@ -659,12 +664,19 @@
 
 @media (max-width: $screen-xs) {
 	.menu-wrapper {
+        padding-bottom: 0;
+
+        .nav-and-search .search-button-container {
+            margin-top: 0;
+        }
+
 		.menu-container {
 			.logo {
 				img {
 					max-width: 200px;
 				}
-			}
+            }
+            
 			.nav-and-search {
 				padding: 0;
 				margin-top: 0;
@@ -674,4 +686,52 @@
 			}
 		}
 	}
+}
+
+@media (max-width: 600px) {
+	.menu-wrapper {
+		.menu-container {
+			.logo {
+                margin-top: 2.5px;
+                width: 60%;
+			}
+		}
+	}
+}
+
+@media (max-width: 400px) {
+	.menu-wrapper {
+        
+		.menu-container {
+			.logo {
+                margin-top: 7.5px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 320px) {
+    .menu-wrapper {
+        padding: 5px 0;
+
+        .nav-and-search {
+            .search-button-container {
+                margin-top: 3px;
+            }
+            
+            #activate-search-button,
+            #hamburger-menu-button {
+                font-size: 1em;
+                margin: auto;
+                padding: .6em 0;
+                width: 45px;
+            }
+        }
+
+    }
+
+    .search-button-container {
+        margin: 4px 10px 0 0;
+        padding: 10px 0;
+    }
 }
