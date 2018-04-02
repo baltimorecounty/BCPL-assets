@@ -47,4 +47,6 @@
 }
 .sub-menu + .mobile-nav-callout {
     opacity: 0;
+    position: relative;
+    z-index: -99999;
 }
