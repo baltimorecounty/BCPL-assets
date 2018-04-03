@@ -1409,6 +1409,39 @@ bcpl.pageSpecific.libAnswers = function libAnswers($, constants) {
 }(jQuery, bcpl.constants);
 'use strict';
 
+(function init($, constants) {
+	var libAnswersModalSelector = '#s-la-widget-modal';
+	var modalTitleSelector = '.modal-title';
+
+	var getBranchId = function getBranchId($contactForm) {
+		var idParts = $contactForm.attr('id').split('_');
+		return idParts[idParts.length - 1];
+	};
+	var getBranchName = function getBranchName(branchId) {
+		var $branchEmailDiv = $('#s-la-widget-' + branchId);
+		return $branchEmailDiv.closest('card').find('.branch-name').text().trim();
+	};
+	var getModalTitle = function getModalTitle(branchName, branchId) {
+		return branchName && branchName.toLowerCase().indexOf('mobile services') > -1 ? 'Email the ' + branchName : constants.libAnswers.generalBranchId === parseInt(branchId, 10) ? 'Email a General Question or Request' : 'Email the ' + branchName + ' Branch';
+	};
+
+	var onModalShow = function onModalShow(showEvent) {
+		var $modal = $(showEvent.currentTarget);
+		var $contactForm = $modal.find('form');
+
+		var branchId = getBranchId($contactForm);
+		var branchName = getBranchName(branchId);
+
+		if (!branchName) return;
+
+		var modalTitle = getModalTitle(branchName, branchId);
+
+		$modal.find(modalTitleSelector).text(modalTitle);
+	};
+	$(document).on('show.bs.modal', libAnswersModalSelector, onModalShow);
+})(jQuery, bcpl.constants);
+'use strict';
+
 namespacer('bcpl');
 
 bcpl.navigationSearch = function ($) {
