@@ -795,18 +795,19 @@ bcpl.bookCarousel = function ($, constants) {
 		var $titleDisplay = $('<p>' + $image.attr('title') + '</p>');
 		var titleRemoveString = ' : a novel';
 		var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
+		var linkHref = $link.attr('href').replace('http:', 'https:');
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
-		$link.text('').append($image).append($titleDisplay);
+		$link.attr('href', linkHref).text('').append($image).append($titleDisplay);
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
 			// the link below is temporary
-			var linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
+			var _linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
-			$link.attr('href', linkHref);
+			$link.attr('href', _linkHref);
 		}
 
 		return $('<div class="inner"></div>').append($link);
