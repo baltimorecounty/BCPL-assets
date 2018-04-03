@@ -31,9 +31,9 @@
 			const eventId = bcpl.utility.querystringer.getAsDictionary().eventid;
 
 			if (eventId) {
-				$window.location = `/events-and-programs/list.html#!/${eventId}`; // eslint-disable-line no-param-reassign
-			} else {
-				$window.location = `/events-and-programs/list.html#!/${$window.location.search}`; // eslint-disable-line no-param-reassign
+				$window.location = eventId ?
+					`/events-and-programs/list.html#!/${eventId}` :
+					`/events-and-programs/list.html#!/${$window.location.search}`; // eslint-disable-line no-param-reassign
 			}
 		}
 	};
