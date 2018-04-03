@@ -36,7 +36,7 @@ bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
 	};
 
 	const onFilterCardsLoaded = () => {
-		loadScripts(libAnswerIds);
+		loadScripts(moduleOptions.ids);
 	};
 
 	const removeDuplicateScriptsAndStyles = () => {
