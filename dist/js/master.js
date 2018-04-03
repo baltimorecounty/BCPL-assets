@@ -69,6 +69,11 @@ bcpl.constants = {
 			events: '/api/evanced/signup/events'
 		}
 	},
+	libAnswers: {
+		allBranchIds: [6319, 6864, 6865, 6866, 6867, 6868, 6869, 6870, 6871, 6872, 6873, 6874, 6875, 6876, 6877, 6878, 6879, 6777, 6880, 6881],
+		generalBranchId: 7783,
+		widgetJs: '//api2.libanswers.com/js2.18.5/LibAnswers_widget.min.js'
+	},
 	shared: {
 		urls: {
 			alerts: '/api/structured-content/alerts',
@@ -1276,6 +1281,164 @@ bcpl.filter = function ($, windowShade) {
 
 	return { init: init };
 }(jQuery, bcpl.utility.windowShade);
+'use strict';
+
+/*
+    This script is used to add a contact form for each branch, that is displayed in the modal.
+    Note: This script only needs to be include on the location filter page app
+ */
+namespacer('bcpl.pageSpecific');
+
+bcpl.pageSpecific.libAnswers = function libAnswers($, constants) {
+	var generalContactFormId = constants.libAnswers.generalBranchId;
+	var libAnswerWidgetJs = constants.libAnswers.widgetJs;
+	var libAnswerCssStyleRule = '.s-la-widget .btn-default';
+
+	var moduleOptions = void 0;
+
+	var bindEvents = function bindEvents(targetSelector, loadEvent) {
+		$(document).on('click', targetSelector, onBranchEmailClick);
+
+		if (loadEvent) {
+			$(document).on(loadEvent, onFilterCardsLoaded);
+		}
+	};
+
+	var getOptions = function getOptions(options) {
+		var newOptions = options || {};
+
+		newOptions.ids = newOptions.ids || [generalContactFormId];
+		newOptions.loadEvent = newOptions.loadEvent || null;
+		newOptions.targetSelector = newOptions.targetSelector || '.branch-email';
+
+		return newOptions;
+	};
+
+	var loadScript = function loadScript(url, callback) {
+		removeScriptByUrl(url); // Remove script id if it exists
+
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = url;
+
+		document.getElementsByTagName('head')[0].appendChild(script);
+
+		if (callback && typeof callback === 'function') {
+			callback();
+		}
+	};
+
+	var loadScripts = function loadScripts(ids) {
+		ids.forEach(function (id) {
+			loadScript('https://api2.libanswers.com/1.0/widgets/' + id);
+		});
+
+		setTimeout(function () {
+			removeDuplicateScriptsAndStyles();
+		}, 1000);
+	};
+
+	var onBranchEmailClick = function onBranchEmailClick(clickEvent) {
+		clickEvent.preventDefault();
+
+		$(clickEvent.currentTarget).parent().find('[id*="s-la-widget"]').trigger('click');
+	};
+
+	var onFilterCardsLoaded = function onFilterCardsLoaded() {
+		loadScripts(moduleOptions.ids);
+	};
+
+	var removeDuplicateScriptsAndStyles = function removeDuplicateScriptsAndStyles() {
+		removeScriptByUrl(libAnswerWidgetJs, true);
+		removeStyleTagByContainingRule(libAnswerCssStyleRule);
+	};
+
+	var removeScriptByUrl = function removeScriptByUrl(url, isDuplicate) {
+		var selector = isDuplicate ? 'script[src*="' + url + '"]:not(:first)' : 'script[src*="' + url + '"]';
+
+		$(selector).remove();
+	};
+
+	var removeStyleTagByContainingRule = function removeStyleTagByContainingRule(rule) {
+		var $style = $('style:contains(' + rule + ')');
+
+		$style.toArray().forEach(function (styleElm) {
+			var $styleElm = $(styleElm);
+			var styleContents = $styleElm.html();
+
+			if (styleContents.indexOf(rule) > -1) {
+				$styleElm.remove();
+			}
+		});
+	};
+
+	var setContactButtonMarkup = function setContactButtonMarkup(id) {
+		setupContactDiv(moduleOptions.targetSelector, id);
+	};
+
+	var setupContactDiv = function setupContactDiv(targetSelector, id) {
+		var targetDivHtml = '<div id="s-la-widget-' + id + '"></div>';
+		var $libAnswerDiv = $('#s-la-widget-' + id);
+		var $targetDiv = $(targetDivHtml).css('display', 'none');
+
+		if (!$libAnswerDiv.length) {
+			$(targetSelector).after($targetDiv);
+		}
+	};
+
+	var init = function init(options) {
+		moduleOptions = getOptions(options);
+
+		loadScript(libAnswerWidgetJs, function () {
+			moduleOptions.ids.forEach(setContactButtonMarkup);
+
+			if (!moduleOptions.loadEvent) {
+				loadScripts(moduleOptions.ids);
+			}
+
+			bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
+		}); // Load the required javascript if it doesn't exist
+	};
+
+	return {
+		init: init,
+		removeScriptByUrl: removeScriptByUrl,
+		removeStyleTagByContainingRule: removeStyleTagByContainingRule
+	};
+}(jQuery, bcpl.constants);
+'use strict';
+
+(function init($, constants) {
+	var libAnswersModalSelector = '#s-la-widget-modal';
+	var modalTitleSelector = '.modal-title';
+
+	var getBranchId = function getBranchId($contactForm) {
+		var idParts = $contactForm.attr('id').split('_');
+		return idParts[idParts.length - 1];
+	};
+	var getBranchName = function getBranchName(branchId) {
+		var $branchEmailDiv = $('#s-la-widget-' + branchId);
+		return $branchEmailDiv.closest('card').find('.branch-name').text().trim();
+	};
+	var getModalTitle = function getModalTitle(branchName, branchId) {
+		return branchName && branchName.toLowerCase().indexOf('mobile services') > -1 ? 'Email the ' + branchName : constants.libAnswers.generalBranchId === parseInt(branchId, 10) ? 'Email a General Question or Request' : 'Email the ' + branchName + ' Branch';
+	};
+
+	var onModalShow = function onModalShow(showEvent) {
+		var $modal = $(showEvent.currentTarget);
+		var $contactForm = $modal.find('form');
+
+		var branchId = getBranchId($contactForm);
+		var branchName = getBranchName(branchId);
+
+		if (!branchName) return;
+
+		var modalTitle = getModalTitle(branchName, branchId);
+
+		$modal.find(modalTitleSelector).text(modalTitle);
+	};
+	$(document).on('show.bs.modal', libAnswersModalSelector, onModalShow);
+})(jQuery, bcpl.constants);
 'use strict';
 
 namespacer('bcpl');
