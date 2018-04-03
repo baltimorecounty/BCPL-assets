@@ -1287,9 +1287,9 @@ bcpl.filter = function ($, windowShade) {
     This script is used to add a contact form for each branch, that is displayed in the modal.
     Note: This script only needs to be include on the location filter page app
  */
-namespacer('bcpl.pageSpecific');
+namespacer('bcpl');
 
-bcpl.pageSpecific.libAnswers = function libAnswers($, constants) {
+bcpl.libAnswers = function libAnswers($, constants) {
 	var generalContactFormId = constants.libAnswers.generalBranchId;
 	var libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	var libAnswerCssStyleRule = '.s-la-widget .btn-default';
@@ -1406,6 +1406,12 @@ bcpl.pageSpecific.libAnswers = function libAnswers($, constants) {
 		removeStyleTagByContainingRule: removeStyleTagByContainingRule
 	};
 }(jQuery, bcpl.constants);
+
+(function onReady($) {
+	$(document).ready(function () {
+		bcpl.libAnswers.init();
+	});
+})(jQuery);
 'use strict';
 
 (function init($, constants) {

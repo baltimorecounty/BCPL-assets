@@ -11,7 +11,7 @@ describe('libAnswers EmailButtons', () => {
 		it(`should remove all scripts containing the css rule: ${mockCssRule}`, (done) => {
 			const expectedNumberOfStyles = 0;
 
-			bcpl.pageSpecific.libAnswers.removeStyleTagByContainingRule(mockCssRule);
+			bcpl.libAnswers.removeStyleTagByContainingRule(mockCssRule);
 
 			const actualNumberOfStyles = $(`style:contains("${mockCssRule}")`).length;
 
@@ -23,7 +23,7 @@ describe('libAnswers EmailButtons', () => {
 		it(`should NOT remove similar styles thare are like the rule: ${mockCssRule}`, (done) => {
 			const expectedNumberOfStyles = 1;
 
-			bcpl.pageSpecific.libAnswers.removeStyleTagByContainingRule(mockCssRule);
+			bcpl.libAnswers.removeStyleTagByContainingRule(mockCssRule);
 
 
 			const actualNumberOfStyles = $(`style:contains("${mockCssRule.trim()}")`).length;
@@ -39,7 +39,7 @@ describe('libAnswers EmailButtons', () => {
 		it(`should remove all scripts containing the src: ${mockScriptSrc} if we do not specifiy it's a duplicate`, (done) => {
 			const expectedNumberOfScripts = 0;
 
-			bcpl.pageSpecific.libAnswers.removeScriptByUrl(mockScriptSrc);
+			bcpl.libAnswers.removeScriptByUrl(mockScriptSrc);
 
 			const actualNumberOfScripts = $(`script[src*="${mockScriptSrc}"]`).length;
 
@@ -51,7 +51,7 @@ describe('libAnswers EmailButtons', () => {
 		it(`should remove all but one scripts containing the src: ${mockScriptSrc} if the script is a duplicate`, (done) => {
 			const expectedNumberOfScripts = 1;
 
-			bcpl.pageSpecific.libAnswers.removeScriptByUrl(mockScriptSrc, true);
+			bcpl.libAnswers.removeScriptByUrl(mockScriptSrc, true);
 
 			const actualNumberOfScripts = $(`script[src*="${mockScriptSrc}"]`).length;
 
