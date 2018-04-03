@@ -8,7 +8,6 @@ bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
 	const generalContactFormId = constants.libAnswers.generalBranchId;
 	const libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	const libAnswerCssStyleRule = '.s-la-widget .btn-default';
-	let libAnswerIds;
 	let moduleOptions;
 
 	const loadScript = (url, callback) => {
