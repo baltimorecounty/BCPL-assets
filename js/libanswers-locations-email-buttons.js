@@ -24,7 +24,6 @@ bcpl.pageSpecific.libAnswers = (function libAnswers($, constants) {
 	const getOptions = (options) => {
 		let newOptions = options || {};
 
-		newOptions = options || {};
 		newOptions.ids = newOptions.ids || [generalContactFormId];
 		newOptions.loadEvent = newOptions.loadEvent || null;
 		newOptions.targetSelector = newOptions.targetSelector || '.branch-email';

@@ -1307,7 +1307,6 @@ bcpl.pageSpecific.libAnswers = function libAnswers($, constants) {
 	var getOptions = function getOptions(options) {
 		var newOptions = options || {};
 
-		newOptions = options || {};
 		newOptions.ids = newOptions.ids || [generalContactFormId];
 		newOptions.loadEvent = newOptions.loadEvent || null;
 		newOptions.targetSelector = newOptions.targetSelector || '.branch-email';
