@@ -10,7 +10,6 @@ bcpl.pageSpecific.libAnswers = function initEmailButtons($, constants) {
 	var generalContactFormId = constants.libAnswers.generalBranchId;
 	var libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	var libAnswerCssStyleRule = '.s-la-widget .btn-default';
-	var libAnswerIds = void 0;
 	var moduleOptions = void 0;
 
 	var loadScript = function loadScript(url, callback) {
@@ -38,7 +37,7 @@ bcpl.pageSpecific.libAnswers = function initEmailButtons($, constants) {
 	};
 
 	var onFilterCardsLoaded = function onFilterCardsLoaded() {
-		loadScripts(libAnswerIds);
+		loadScripts(moduleOptions.ids);
 	};
 
 	var removeDuplicateScriptsAndStyles = function removeDuplicateScriptsAndStyles() {
