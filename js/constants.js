@@ -39,6 +39,11 @@ bcpl.constants = {
 			events: '/api/evanced/signup/events'
 		}
 	},
+	libAnswers: {
+		allBranchIds: [6319, 6864, 6865, 6866, 6867, 6868, 6869, 6870, 6871, 6872, 6873, 6874, 6875, 6876, 6877, 6878, 6879, 6777, 6880, 6881],
+		generalBranchId: 7783,
+		widgetJs: '//api2.libanswers.com/js2.18.5/LibAnswers_widget.min.js'
+	},
 	shared: {
 		urls: {
 			alerts: '/api/structured-content/alerts',
