@@ -4,11 +4,33 @@
  */
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
+bcpl.pageSpecific.libAnswers = (function libAnswers($, constants) {
 	const generalContactFormId = constants.libAnswers.generalBranchId;
 	const libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	const libAnswerCssStyleRule = '.s-la-widget .btn-default';
+
 	let moduleOptions;
+
+	const bindEvents = (targetSelector, loadEvent) => {
+		$(document)
+			.on('click', targetSelector, onBranchEmailClick);
+
+		if (loadEvent) {
+			$(document)
+				.on(loadEvent, onFilterCardsLoaded);
+		}
+	};
+
+	const getOptions = (options) => {
+		let newOptions = options || {};
+
+		newOptions = options || {};
+		newOptions.ids = newOptions.ids || [generalContactFormId];
+		newOptions.loadEvent = newOptions.loadEvent || null;
+		newOptions.targetSelector = newOptions.targetSelector || '.branch-email';
+
+		return newOptions;
+	};
 
 	const loadScript = (url, callback) => {
 		removeScriptByUrl(url); // Remove script id if it exists
@@ -32,6 +54,15 @@ bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
 		setTimeout(() => {
 			removeDuplicateScriptsAndStyles();
 		}, 1000);
+	};
+
+	const onBranchEmailClick = (clickEvent) => {
+		clickEvent.preventDefault();
+
+		$(clickEvent.currentTarget)
+			.parent()
+			.find('[id*="s-la-widget"]')
+			.trigger('click');
 	};
 
 	const onFilterCardsLoaded = () => {
@@ -64,6 +95,10 @@ bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
 		});
 	};
 
+	const setContactButtonMarkup = (id) => {
+		setupContactDiv(moduleOptions.targetSelector, id);
+	};
+
 	const setupContactDiv = (targetSelector, id) => {
 		const targetDivHtml = `<div id="s-la-widget-${id}"></div>`;
 		const $libAnswerDiv = $(`#s-la-widget-${id}`);
@@ -72,40 +107,6 @@ bcpl.pageSpecific.libAnswers = (function initEmailButtons($, constants) {
 		if (!$libAnswerDiv.length) {
 			$(targetSelector).after($targetDiv);
 		}
-	};
-
-	const setContactButtonMarkup = (id) => {
-		setupContactDiv(moduleOptions.targetSelector, id);
-	};
-
-	const onBranchEmailClick = (clickEvent) => {
-		clickEvent.preventDefault();
-
-		$(clickEvent.currentTarget)
-			.parent()
-			.find('[id*="s-la-widget"]')
-			.trigger('click');
-	};
-
-	const bindEvents = (targetSelector, loadEvent) => {
-		$(document)
-			.on('click', targetSelector, onBranchEmailClick);
-
-		if (loadEvent) {
-			$(document)
-				.on(loadEvent, onFilterCardsLoaded);
-		}
-	};
-
-	const getOptions = (options) => {
-		let newOptions = options || {};
-
-		newOptions = options || {};
-		newOptions.ids = newOptions.ids || [generalContactFormId];
-		newOptions.loadEvent = newOptions.loadEvent || null;
-		newOptions.targetSelector = newOptions.targetSelector || '.branch-email';
-
-		return newOptions;
 	};
 
 	const init = (options) => {
