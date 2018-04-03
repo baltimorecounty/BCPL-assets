@@ -27,7 +27,8 @@ gulp.task('process-scss', () => gulp.src([
 	'stylesheets/master.scss',
 	'stylesheets/master-high-contrast.scss',
 	'stylesheets/home.scss',
-	'stylesheets/master-print.scss'
+	'stylesheets/master-print.scss',
+	'stylesheets/ie.scss'
 ])
 	.pipe(sass())
 	.pipe(cssnano({ autoprefixer: false, zindex: false }))
