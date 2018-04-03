@@ -62,6 +62,7 @@ bcpl.bookCarousel = (($, constants) => {
 		const $titleDisplay = $(`<p>${$image.attr('title')}</p>`);
 		const titleRemoveString = ' : a novel';
 		const title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
+		const linkHref = $link.attr('href').replace('http:', 'https:');
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
@@ -70,6 +71,7 @@ bcpl.bookCarousel = (($, constants) => {
 			.attr('alt', `${$image.attr('alt')} - book cover`);
 
 		$link
+			.attr('href', linkHref)
 			.text('')
 			.append($image)
 			.append($titleDisplay);
