@@ -192,7 +192,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var config = function config($routeProvider, CONSTANTS) {
+	var config = function config($locationProvider, $routeProvider, CONSTANTS) {
 		$routeProvider.when('/', {
 			templateUrl: CONSTANTS.partialUrls.eventListPartial,
 			controller: 'EventsPageCtrl',
@@ -209,9 +209,27 @@ bcpl.boostrapCollapseHelper = function ($) {
 		});
 	};
 
-	config.$inject = ['$routeProvider', 'events.CONSTANTS'];
+	/**
+  * We're doing this to get around SiteExecutive's butchering of AngularJS URLs.
+  */
+	var run = function run($window, $location) {
+		var absoluteUrl = $location.absUrl();
 
-	app.config(config);
+		if (absoluteUrl.indexOf('#!') === -1 && absoluteUrl.indexOf('?') > -1) {
+			var eventId = bcpl.utility.querystringer.getAsDictionary().eventid;
+
+			if (eventId) {
+				$window.location = '/events-and-programs/list.html#!/' + eventId; // eslint-disable-line no-param-reassign
+			} else {
+				$window.location = '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
+			}
+		}
+	};
+
+	config.$inject = ['$locationProvider', '$routeProvider', 'events.CONSTANTS'];
+	run.$inject = ['$window', '$location'];
+
+	app.config(config).run(run);
 })(angular.module('eventsPageApp'));
 'use strict';
 
