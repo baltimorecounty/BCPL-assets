@@ -48,7 +48,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
+			bookCarousels: 'https://testservices.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
 		}
 	},
 	expressions: {
