@@ -3,7 +3,7 @@ namespacer('bcpl');
 bcpl.constants = {
 	baseApiUrl: 'https://services.bcpl.info',
 	baseCatalogUrl: 'https://ils.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://bcpl.info',
+	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
