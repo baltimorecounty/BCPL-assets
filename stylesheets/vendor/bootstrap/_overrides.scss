@@ -56,7 +56,7 @@ button,
 	display: none !important;
 }
 
-@media screen and (max-width: $screen-sm) {
+@media screen and (max-width: $screen-md) {
 	.visible-inline-sm,
 	.visible-inline-xs {
 		display: inline-block !important;
