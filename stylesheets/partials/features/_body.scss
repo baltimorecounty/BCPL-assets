@@ -1,0 +1,7 @@
+body {
+	background-color: $tan-light;
+
+	&.nav-visible {
+		overflow: hidden;
+	}
+}

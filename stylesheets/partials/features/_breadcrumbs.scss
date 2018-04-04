@@ -1,0 +1,156 @@
+.breadcrumbs-wrapper {
+    margin: .5em 0;
+    text-transform: uppercase;
+    font-size: .75em;
+    span {
+        margin-left: 0;
+    }
+    .breadcrumb {
+        background: white;
+        border-radius: 16px;
+        padding: .25em .75em;
+        margin: 0 1.5em;
+        position: relative;
+        text-decoration: none;
+        &:first-child {
+            margin-left: 0;
+            &:before {
+                content: "\f015";
+                display: inline-block;
+                font-family: FontAwesome;
+                margin-right: .5em;
+            }
+        }
+        &:after {
+            color: $tan;
+            content: "\f061";
+            font-family: FontAwesome;
+            font-size: 2em;
+            position: absolute;
+            right: -28px;
+        }
+        &:last-child {
+            &:after {
+                content: "";
+            }
+        }
+    }
+    span.breadcrumb:after {
+        top: -7px;
+    }
+}
+
+.breadcrumb-alt:hover,
+.hidden-breadcrumb-container.active,
+.breadcrumb-popover {
+    background: $teal !important;
+    color: white;
+}
+
+.breadcrumb-popover {
+    border: none;
+    border-radius: 0;
+    margin-top: 13px !important;
+}
+
+.breadcrumb-popover.bottom>.arrow:after {
+    border-bottom-color: $teal;
+}
+
+.breadcrumb-popover .popover-content {
+    margin: 0;
+    padding: 0;
+}
+
+.hidden-breadcrumb-container {
+    display: inline-block;
+    position: relative;
+    margin: 0 1.75em !important;
+    &:after {
+        top: -6px;
+    }
+}
+
+$small-triangle-size: 6px;
+$large-triangle-size: 8px;
+
+.hidden-breadcrumb-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+        border-bottom: 1px solid white;
+        text-transform: uppercase;
+        text-align: center;
+        position: relative;
+        a,
+        span {
+            color: white !important;
+            display: block;
+            padding: 10px 20px 5px;
+            &:before,
+            &:after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: $small-triangle-size solid transparent;
+                border-right: $small-triangle-size solid transparent;
+                border-top: $small-triangle-size solid $teal;
+                left: 0;
+                right: 0;
+                margin: auto;
+                top: 31px;
+            }
+            &:before {
+                /* White Triangle that is bigger */
+                z-index: 99;
+            }
+            &:after {
+                /* Teal Triangle that is smaller */
+                border-left-width: $large-triangle-size;
+                border-right-width: $large-triangle-size;
+                border-top-width: $large-triangle-size;
+                border-top-color: white;
+            }
+        }
+        a {
+            font-size: 12px;
+        }
+        a:after,
+        a:before {
+            top: 35px;
+        }
+        &:last-child {
+            border: none;
+            a:after,
+            a:before,
+            span:after,
+            span:before {
+                display: none;
+            }
+        }
+    }
+}
+
+.hidden-breadcrumb-trigger {
+    cursor: pointer;
+    display: inline-block;
+    i {
+        font-size: .6em;
+        margin-right: 2.5px;
+        &:last-child {
+            margin: 0;
+        }
+    }
+    &:before {
+        content: '' !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: $screen-sm) {
+    .breadcrumbs-wrapper {
+        display: none !important;
+    }
+}

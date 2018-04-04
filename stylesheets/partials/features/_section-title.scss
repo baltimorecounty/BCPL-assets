@@ -1,0 +1,51 @@
+.section-title-wrapper {
+	/*border-bottom: 1px solid $teal-light;*/
+	color: $teal;
+	margin-top: .6em;
+	border-bottom: 1px solid $teal;
+	padding-bottom: .5em;
+	margin-bottom: 1em;
+	
+	.section-title {
+		color: $teal-light;
+		font-size: 2em;
+	}
+
+	.actions {
+		a {
+			display: inline-block;
+			font-weight: 700;
+
+			&.print {
+				margin-right: 1em;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.actions {
+		text-transform: uppercase;
+		font-size: .75em;
+		font-weight: bold;
+		position: absolute;
+		top: 21px;
+		right: 0;
+
+		i {
+			font-size: 1.5em;
+			margin-right: .25em;
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.section-title-wrapper {
+		.actions {
+			.print {
+				display: none;
+			}
+
+			position: static;
+		}
+	}
+}

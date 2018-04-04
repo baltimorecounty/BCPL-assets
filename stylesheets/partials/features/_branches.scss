@@ -1,0 +1,275 @@
+.cards.branch-cards {
+	.card {
+		.branch-address {
+			p {
+				font-size: .8em;
+				
+				a {
+					float: none;
+					margin: 0;
+					width: auto;
+				}
+			}
+		}
+		address {
+			line-height: 1.7em;
+			margin-bottom: 0;
+		}
+
+		.branch-photo {
+			display: table;
+
+			a {
+				color: white;
+				display: table-cell;
+				float: none;
+				font-weight: 700;
+				height: 100px;
+				text-align: center;
+				text-transform: uppercase;
+				vertical-align: middle;
+				width: 180px;
+			}
+		}
+
+		.branch-email-phone {
+			.branch-email-phone-wrapper {
+				position: relative;
+				top: 12px;
+
+				a {
+					display: block;
+					float: none;
+					font-size: .8em;
+					font-weight: 700;
+					line-height: 3em;
+					text-transform: uppercase;
+					width: 100%;
+
+					&.branch-phone {
+						i {
+							background: $teal;
+							border-radius: 5px;	
+							color: white;
+							font-size: 1.5em;
+							line-height: 28px;						
+						}
+					}
+
+					i {
+						display: inline-block;
+						font-size: 2em;
+						margin-right: .25em;
+						text-align: center;
+						width: 28px;
+					}
+				}
+			}
+		}
+	}
+}
+
+main {
+	.filters.branch-filters {
+		float: left;
+		width: calc(25% - 15px);
+		margin-right: 30px;
+
+		.expandos .expando-wrapper:first-child h4 {
+			margin-top: .75em;
+		}
+	}
+
+	header {
+		float: left;
+		width: calc(75% - 15px);
+	}
+
+	.branch-general-info {
+		background: white;
+		border-top: 5px solid $tan;
+		float: left;
+		width: calc(75% - 15px);
+
+		.branch-hours-wrapper {
+			padding-right: 1em;
+		}
+
+		.map-wrapper {
+			padding: 1.5em 0 1em 1em;
+		
+			#location-map {
+				border: 1px solid $tan;
+				height: 375px;	
+				
+				.info-window {
+					a {
+						font-weight: 700;
+						
+						i {
+							display: inline-block;
+							margin-right: .25em;
+							text-align: center;
+							width: 30px;
+						}
+					}
+				}
+			}
+		}		
+	}	
+
+	.cards {
+		&.branch-cards {
+			float: right;
+			width: calc(75% - 15px);
+		}
+	}
+}
+
+
+.holiday-closings {
+	position: absolute;
+	right: 15px;
+	top: 45px;
+
+	a {
+		font-size: 12px;
+		font-weight: 700;
+		text-transform: uppercase;
+
+		i {
+			font-size: 18px;
+		}
+	}
+}
+
+/*HACK - Overrides and external library */
+.branch-email-button {
+    margin-bottom: 30px !important;
+
+    button {
+        background-color: $teal !important;
+        border: 1px solid $gray !important;
+        border-radius: 0 !important;
+        box-shadow: $shadow-primary-darker !important;
+        color: white !important;
+        padding: .5em 1em .5em 2em !important;
+        text-transform: uppercase !important;
+        position: relative;
+        &:after {
+            content: '\f0e0';
+            position: absolute;
+            font-family: FontAwesome;
+            left: 6px;
+            top: 6.5px;
+        }
+        &:hover {
+            background-color: $teal-light !important;
+        }
+    }
+}
+
+@media (max-width: $screen-sm-max) {
+	.holiday-closings {
+		/* top: 30px; */
+	}
+
+	.map-wrapper {
+		display: none;
+	}
+
+	.branch-general-info {
+		.branch-hours-wrapper {
+			padding: 0 1em;
+		}
+	} 
+
+	main {
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+
+			.filters {
+				min-height: initial;
+				width: 100%;
+				order: 3;
+			}
+	
+			header {
+				width: 100%;
+				order: 1;
+			}
+	
+			.branch-general-info {
+				width: 100%;
+				order: 2;
+			}
+	
+			.cards {
+				display: table-footer-group;
+				width: 100%;
+				order: 4;
+
+
+			}		
+	
+		}		
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+	.holiday-closings {
+		position: static;
+		margin-bottom: 1em;
+	}
+
+	.cards.branch-cards {
+		.card {
+			.row {
+				margin: 0;
+
+				.branch-name {
+					a {
+						font-size: 1.3em;
+						text-transform: none;
+					}
+				}
+
+				.branch-photo {
+					background: none !important;
+
+					a {
+						color: $teal;
+						height: initial;
+						text-align: left;
+						width: auto;							
+					}
+				}
+				.branch-email-phone {
+					.branch-email-phone-wrapper {
+						top: 0;
+					}
+				}
+
+				.branch-email {
+					display: block;
+					margin-top: 1em;							
+					font-size: .8em;
+
+					i {
+						font-size: 1.5em;
+					}
+				}
+
+				& > div {
+					border-bottom: 1px solid $gray-light;
+					padding: .5em 0;
+
+					&:last-child {
+						border-bottom: none;
+					}
+				}
+			}
+		}
+	}
+}

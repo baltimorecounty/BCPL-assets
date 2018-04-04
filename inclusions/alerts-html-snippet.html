@@ -1,0 +1,31 @@
+<script id="alerts-handlebars-template" type="text/x-handlebars-template">
+    <div class="row">
+		<div class="col-md-3">
+			<div class="secondary-nav">
+				<nav>
+					<ul>
+						<li><a href="#previous-page"><i class="fa fa-hand-o-left fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i> Previous Page</a></li>
+						<li><a href="#previous-page"><i class="fa fa-clock-o fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i> Hours and Locations</a></li>
+						<li><a href="#previous-page"><i class="fa fa-tree fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i> Holiday Closings</a></li>
+						<li><a href="#previous-page"><i class="fa fa-calendar fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i> Events Calendar</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<h1>Notifications</h1>
+			<ul class="card-list">
+				{{#each this}}
+					<li class="card">
+							<h3>{{Description}}</h3>
+							{{#if OtherDescription}}                
+								<p>{{OtherDescription}}</p>
+							{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	
+</script>
+<div id="alerts-handlebars-target"></div>

@@ -1,9 +1,9 @@
-namespacer('seniorExpo.utility');
+namespacer('bcpl.utility');
 
-seniorExpo.utility.flexDetect = ((document, $, undefined) => {
-
-	const init = () => {
-		const hasFlex = document.createElement('div').style.flex !== undefined;
+bcpl.utility.flexDetect = ((document, $) => {
+	const init = (testDoc) => {
+		const actualDoc = testDoc || document;
+		const hasFlex = actualDoc.createElement('div').style.flex !== undefined;
 
 		if (!hasFlex) {
 			$('body').addClass('no-flex');
@@ -11,9 +11,8 @@ seniorExpo.utility.flexDetect = ((document, $, undefined) => {
 	};
 
 	return { init };
-
 })(document, jQuery);
 
 $(() => {
-	seniorExpo.utility.flexDetect.init();
+	bcpl.utility.flexDetect.init();
 });

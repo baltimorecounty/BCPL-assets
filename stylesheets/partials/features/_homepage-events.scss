@@ -1,0 +1,180 @@
+.events-wrapper {
+	border-bottom: 1em solid $gold;
+	background-color: $purple-dark;
+	background-image: url("/sebin/r/v/book-signing.png");
+	background-size: cover;
+	background-position-y: center;
+	h2 {
+		color: white;
+		margin: 0;
+		padding: 0;
+	}
+	h4 {
+		font-weight: bold;
+		margin-bottom: 0;
+		color: black;
+	}
+	time {
+		font-weight: bold;
+		color: $gray-dark;
+	}
+	p {
+		padding: .5em 0 1em;
+		color: black;
+	}
+	a {
+		&:hover {
+			color: white;
+		}
+		&:visited {
+			color: white;
+		}
+		&:active {
+			color: white;
+		}
+		&:link {
+			color: white;
+		}
+	}
+	.events {
+		padding-top: 2em;
+
+		.registration-required {
+			font-weight: 600;
+		}
+		
+		header {
+			position: relative;
+			.feed {
+				position: relative;
+				top: 15px;
+				display: block;
+				float: right;
+                margin-left: 2em;
+                margin-top: -8px;
+
+				&:last-child {
+					margin-left: 0;
+				}
+            }
+            .solo {
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }			
+		}
+		.post {
+			background: rgba(255, 255, 255, .75);
+			margin-top: 2em;
+			padding: 2em 1em 0;
+			text-align: center;
+			display: block;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: none;
+			}
+
+			time {
+				text-transform: uppercase;
+				transform-style: preserve-3d;				
+
+				.date, .link {
+					background-color: $red;
+					color: white;
+				
+					.month {
+						text-align: center;
+					}
+
+					.day {
+						text-align: center;
+						font-size: 2em;
+					}
+				}
+
+				.time {
+					font-size: .8em;
+					margin-top: .5em;
+					text-align: center;
+				}
+
+				.link {
+					background-color: $teal-dark;
+					box-shadow: $shadow-primary-darker;
+
+					div:first-child {
+						padding-top: .5em;						
+					}
+				}
+
+			}
+
+			footer {
+				margin: 0 -1em;
+				border-top: 1px dashed $gray-medium;
+				padding: 1em;
+
+				a {
+					display: block;
+					float: left;
+					color: $teal-dark;
+					font-size: .8em;
+
+					&:last-child {
+						float: right;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm-max) {
+	.events-wrapper {
+		padding: 2em 15px;
+		.container {
+			.row.flex {
+				display: block;
+			}
+		}
+		.events {
+			padding-left: 0;
+			padding-top: 0;
+			margin-top: 0;
+			background-repeat: repeat-x;
+			background-position: top;
+
+			#events-target {
+				padding: 0;
+            }
+            
+            header .feed {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+    .events header .feed {
+        float: none !important;
+    }
+}
+
+@media (max-width: $screen-xs) {
+	.events-wrapper {
+		.events {
+			header {
+				.feed {
+					display: block;
+                    float: none;
+                    text-align: left;
+				}
+			}
+		}
+	}
+}

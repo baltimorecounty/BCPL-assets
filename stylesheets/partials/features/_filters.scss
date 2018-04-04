@@ -1,0 +1,121 @@
+.filters {
+	background: white;
+	margin-top: 1em;
+	border: 20px solid $tan;
+
+	h3 {		
+		background: $gray;
+		color: white;
+		font-size: 18px;
+		margin: 0;
+		padding: .75em;
+	}	
+ 
+	header {
+		color: $gray;
+		float: none;
+		padding: .5em;
+		width: 100%;
+
+		p {
+			margin-bottom: 1em;
+		}
+
+		ul {
+			margin-bottom: 1em;
+
+			li {								
+				margin-bottom: .8em;
+				padding-left: .5em;
+			}
+		}
+
+		hr {
+			color: $gray-light;
+			margin: .5em 0 0;
+		}
+	}
+
+	.filter-controls-wrapper {
+		padding: .5em;
+
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		.filter-family {
+			&:last-child {
+				ul {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
+		label {
+			clear: both;
+			cursor: pointer; 
+			display: block;
+			font-weight: normal;
+			padding: .25em;
+
+			&.active {
+				background-color: $teal;
+				color: white;
+			}
+
+			input {
+				cursor: pointer; 
+				display: block;
+				float: left;
+				margin-bottom: 1em;
+				margin-right: .5em;
+			}
+		}
+	}
+
+}
+
+.filter-controls {
+	margin-top: 2.5em;
+
+	.button-group-label {
+		float: left;
+		line-height: 33px;
+		margin-right: 1em;
+	}
+
+}
+
+#results-display {
+	transition: .25s all ease;
+	opacity: 1;
+	
+	&.fade-in {
+		opacity: 1;
+	}
+	
+	&.fade-out {
+		opacity: 0;
+	}
+}
+
+@media (max-width: $screen-md) {
+	.filter-controls, .filters {
+		width: 98%;	
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.filter-controls, .filters {
+		.col-md-6 {
+			clear: both;
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.filter-controls, .filters {
+		width: 100%;
+	}
+}

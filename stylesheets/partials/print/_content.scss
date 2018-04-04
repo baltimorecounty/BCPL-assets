@@ -1,0 +1,58 @@
+@media print {
+	main {
+		& > .col-md-3 {
+			display: none;
+		}
+
+		& > .col-md-9 {
+			width: 100%;
+
+			.main-content {
+				padding: 0 0 1.8em;
+				margin-top: 0;
+				margin-bottom: 0;
+
+				&.top-border {
+					border-top: none;
+				}
+
+				.content-banner { 
+					display: none;
+				}
+
+				table {
+					border-spacing: 0;
+					border-collapse: collapse;
+
+					td {
+						border: 1px solid $gray;
+					}
+				}
+			}
+		}
+
+		header {
+			float: none;
+			width: 100%;
+		}
+
+		.hub-page {
+			.card.banner {
+				display: none;
+			}
+
+			.cards a figcaption {
+				min-height: auto;
+				padding-top: 0;
+			}
+
+			.card {
+				width: 100%;
+
+				img {
+					display: none;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,77 @@
+#search-results {
+	.main-content {
+		margin-bottom: 1em;
+	}
+	
+	.search-results-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		.search-result {
+			margin: .5em 0;
+			padding: 1em;
+			background: white;
+
+			&:hover {
+				.icon {
+					font-size:1.2em;
+				}
+			}		
+
+			.icon {
+				color: $teal;
+				transition: .25s all ease;
+			}
+			
+			.details {
+				h3 {
+					margin-top: 0;
+
+					a {
+						font-weight: 700;
+					}
+				}
+
+				p {
+					font-size: .8em;
+					margin-bottom: .5em;
+				}
+
+				.summary {
+					font-size: 1em;
+				}
+			}
+
+			.buttons {
+				button {
+					margin-bottom: .25em;
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	#pager {
+		padding: 1em 1em 0;
+
+		.page-numbers {
+			text-align: right;
+		}
+
+		.active {
+			display: inline-block;
+			padding: 1px 3px;
+		}
+
+		button {
+			color: $teal;
+			padding: 1px 3px;
+
+			&:hover {
+				background: $teal;
+				color: white;
+			}
+		}
+	}
+}

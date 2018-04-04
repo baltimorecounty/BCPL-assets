@@ -1,0 +1,60 @@
+@media print {
+
+	.filters {
+		display: none;
+	}
+
+	.cards {
+		width: 100% !important;
+		float: none !important;
+
+		.card {
+			border-bottom: 1px solid black;
+
+			& > .row > div {
+				float: none;
+				width: 100%;				
+			}
+
+			& * {
+				border: none;
+			}
+		}
+	}
+
+	/* Databases */
+
+	.database-help-link { 
+		display: none;
+	}
+
+	/* Locations */
+	
+	.branch-general-info,
+	.holiday-closings {
+		display: none;
+	}
+
+	.cards .card .branch-name {
+		display: none;
+	}
+
+	.cards.branch-cards .card .branch-email-phone .branch-email-phone-wrapper {
+		position: static;
+		top: 0;
+
+		a.branch-email {
+			display: none;
+		}
+		
+		a {
+			font-size: 1em;
+			line-height: initial;
+			margin: 0;
+
+			i {
+				display: none;
+			}
+		}
+	}
+}

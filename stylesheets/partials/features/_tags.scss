@@ -1,0 +1,34 @@
+.tag {
+	display: inline-block;
+	padding: .25em;
+
+	button,
+	span {
+		background: $gray-light;
+		border-radius: 1em;
+		color: white;
+		padding: .25em .75em;
+
+		&.active {
+			background: $red;
+			color: white;
+		}
+	}
+}
+
+.tags {
+	font-size: .8em;
+	font-style: italic;
+	margin: .75em 0 0;
+	
+	.tag-list {
+		display: inline-block;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			@extend .tag;
+		}			
+	}
+}

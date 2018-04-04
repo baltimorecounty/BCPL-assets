@@ -1,0 +1,52 @@
+.icon-bubble-list {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	li {
+		margin-bottom: 1em;
+		display: flex;
+		flex-basis: 32%;
+
+		.icon-bubble-list-item-wrapper {
+			border: 5px solid $gray-lightest;
+			border-radius: 15px;
+			padding: 1em;
+			display: flex;
+			flex-direction: column;
+            align-items: center;
+            text-align: center;
+			flex: 1;
+
+			i {
+                margin-bottom: .5em;
+                
+                span {
+                    display: none;
+                }
+			}
+
+			a {
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.icon-bubble-list {
+		li {
+			flex-basis: 48%;
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.icon-bubble-list {
+		li {
+			flex-basis: 100%;
+		}
+	}
+}

@@ -1,0 +1,17 @@
+.featured-section  {
+    margin: 15px auto;
+
+    h2 {
+        margin: 0 auto 20px;
+    }
+
+    .featured-section-cta-container {
+        text-align: right;
+    }
+}
+
+@media screen and (max-width: $screen-md) {
+    .featured-section .featured-section-cta-container {
+        text-align: left !important;
+    }
+}

@@ -1,0 +1,40 @@
+.flipper-container {
+
+	.flipper-tabs {
+		nav {
+			li {
+				&.active {
+					box-shadow: $shadow-white-bottom, $shadow-primary;
+				}
+				transition: all .25s ease;	
+			}
+		}
+
+		.flipper-tab {
+			&.active {
+				box-shadow: $shadow-primary;
+			}
+
+			button {
+				padding: 4px;
+				transition: background-color .25s ease;
+				
+				&.active {
+					background-color: $teal;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.flipper-container {
+		.book-cover {
+			display: none;
+		}
+
+		.book-meta {
+			width: 100%;
+		}
+	}
+}

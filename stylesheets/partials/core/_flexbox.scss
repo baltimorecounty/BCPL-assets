@@ -1,0 +1,137 @@
+.flex {
+	display: flex;
+	flex: 1 1 auto;
+}
+
+@media (max-width: $screen-lg) {
+	.flex-lg {
+		display: flex;
+		flex: 1 1 auto;
+	}
+}
+
+@media (max-width: $screen-md) {
+	.flex-md {
+		display: flex;
+		flex: 1 1 auto;
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.flex-sm {
+		display: flex;
+		flex: 1 1 auto;
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.flex-xs {
+		display: flex;
+		flex: 1 1 auto;
+	}
+}
+
+.flex-order-1 {
+	order: 1;
+}
+
+.flex-order-2 {
+	order: 2;
+}
+
+.flex-order-3 {
+	order: 3;
+}
+
+.flex-order-4 {
+	order: 4;
+}
+
+.flex-order-5 {
+	order: 5;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.flex-dont-grow {
+	flex-grow: 0;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+.flex-space-around {
+	justify-content: space-around;
+}
+
+.flex-space-between {
+	justify-content: space-between;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-align-end-end {
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+.flex-justify-end {
+	justify-content: flex-end;
+}
+
+.flex-justify-start {
+	justify-content: flex-start;
+}
+
+.flex-justify-center {
+	justify-content: center;
+}
+
+.flex-align-center {
+	align-items: center;
+}
+
+.flex-10 { flex-basis: 10%; }
+
+.flex-20 { flex-basis: 20%; }
+
+.flex-25 { flex-basis: 25%; }
+
+.flex-30 { flex-basis: 30%; }
+
+.flex-33 { flex-basis: 33%; }
+
+.flex-40 { flex-basis: 40%; }
+
+.flex-50 { flex-basis: 50%; }
+
+.flex-60 { flex-basis: 60%; }
+
+.flex-66 { flex-basis: 66%; }
+
+.flex-70 { flex-basis: 70%; }
+
+.flex-75 { flex-basis: 75%; }
+
+.flex-80 { flex-basis: 80%; }
+
+.flex-90 { flex-basis: 90%; }
+
+/* **** The no flex zone **** */
+
+.no-flex {
+
+	.flex {
+		display: block;
+	}
+
+}

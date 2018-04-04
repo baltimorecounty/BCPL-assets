@@ -1,0 +1,32 @@
+.slick-dotted.slick-slider {
+	margin-bottom: 0;
+	.slick-dots {
+		bottom: 25px;
+		li {
+			margin: 0 10px;
+			button:before {
+				text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+				font-size: 50px;
+			}
+		}
+	}
+}
+
+.slick-track {
+	min-width: 100%;
+}
+
+@media (max-width: $screen-md) {
+	.slick-dotted.slick-slider {
+		background-color: $gold;
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.slick-dotted.slick-slider {
+		padding-top: 1em;
+		.slick-dots {
+			display: none !important;
+		}
+	}
+}

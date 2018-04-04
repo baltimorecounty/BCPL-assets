@@ -1,0 +1,52 @@
+.mobile-nav-callout {
+    margin: 2em 1em;
+    opacity: 1;
+    transition: 200ms all ease;
+
+    .mobile-nav-callout-btn,
+    p {
+        margin: 1em 0;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .mobile-nav-callout-btn {
+        font-family: TTRoundsCondensed-Bold;
+        display: block;
+        font-size: inherit;
+        line-height: 2em;
+        text-transform: uppercase;
+        border: 2px solid white;
+        border-radius: 15px;
+        padding: 8px 16px;
+        text-align: center;
+    }
+
+    i,
+    h2 {
+        color: white;
+    }
+
+    .text {
+        display: block;
+    }
+
+    .callout-icon {
+        display: inline-block;
+        padding: 0 !important;
+        padding-right: 20px !important;
+        margin: 0px !important;
+    }
+
+    .nav-icon {
+        padding: 0 !important;
+        margin-left: 5px !important;
+    }
+}
+.sub-menu + .mobile-nav-callout {
+    opacity: 0;
+    position: relative;
+    z-index: -99999;
+}

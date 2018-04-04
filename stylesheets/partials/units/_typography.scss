@@ -1,0 +1,80 @@
+body {
+	color: $gray;
+	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+.branding {
+	font-family: QuotesScript-Regular;
+}
+
+.ligatures {
+	font-variant-ligatures: contextual;	
+}
+
+h1, h2, h3, p, ul, ol, table {
+	margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+h1 {
+	font-size: 3.2em;
+	color: $red;
+	font-weight: normal;
+	font-family: QuotesScript-Regular;
+	font-variant-ligatures: none;
+}
+
+h2 {
+	font-size: 1.8em;
+	color: $teal-dark;
+}
+
+h3 {
+    font-size: 1.4em;
+	font-weight: 700;
+}
+
+h4 {
+	font-weight: 700;
+}
+
+p {
+	line-height: 1.7em;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+.internal {
+	h2, h3, h4, h5, h6 {
+		font-weight: 700;
+	}
+}
+
+blockquote {
+	color: $red;
+	display: inline-block;
+	font-style: italic;
+	margin: 0 1em 1em;
+	border-right: 5px solid $gray-lightest;
+}
+
+h1 + p {
+	margin-top: 20px;
+}
+
+.italicize {
+	font-style: italic;
+}
+
+@media screen and (max-width: $screen-xs) {
+    h1 {
+        font-size: 2.5em;
+    }
+}

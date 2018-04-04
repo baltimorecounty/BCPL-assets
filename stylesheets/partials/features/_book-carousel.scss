@@ -1,0 +1,84 @@
+.book-carousel {    
+    margin: 0 auto 30px;
+    display: none;
+    flex: 1;
+    background-color: $gray-lightest;
+    
+    .inner {
+        text-align: center;
+        padding: 2em;
+        
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        a {
+            display: block;
+            margin-top: .5em;
+        }
+
+        p {
+            font-size: 1em;
+            text-transform: none;
+        }
+    }
+    
+    .slick-arrow {
+		display: flex;
+		align-items: center;
+		padding: .5em;
+		text-decoration: none;
+		background-color: $teal;
+		color: white;
+        font-size: 2em;
+        
+        &:hover {
+            background-color: $teal-light;
+        }
+    }
+
+    &.slick-slider,
+    &.slick-initialized {
+        display: flex;
+    }
+
+    .slick-list {
+        flex: 1;
+    }
+
+    &.grid {
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 2em;
+        background-color: transparent;
+
+        .inner {
+            display: flex;
+            flex: 0 25%;
+            flex-direction: column;  
+            padding: 2em 2em 0;
+
+            p {
+                display: none;
+            }
+        }
+    }
+}
+
+.tabs {
+    .book-carousel {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: $screen-xs) {
+	.book-carousel,
+	.book-carousel.slick-slider {
+		display: block;
+
+		.slick-arrow:last-child {
+			justify-content: flex-end;
+		}
+	}
+}

@@ -1,0 +1,32 @@
+form {
+	.form-validation-error, .required {
+		color: $form-error;
+		font-weight: 600;
+		font-size: .8em;
+	}
+
+	.text-center {
+		text-align: left;
+	}
+}
+
+#formButtonContainer .SEAFWrapper {
+	display: inline-block;
+}
+
+.bg-success {
+	border-top: 5px solid $form-response-success-border;
+	background: $form-response-success-background;
+	padding: 1em;
+}
+
+.bg-danger {
+	border-top: 5px solid $form-response-warning-border;
+	background: $form-response-warning-background;
+	padding: 1em;
+}
+
+.color-required,
+.color-error {
+    color: $required-orange;
+}

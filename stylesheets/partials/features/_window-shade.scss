@@ -1,0 +1,16 @@
+#window-shade {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: $red;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .75);
+	width: 100%;
+	z-index: 1000;
+
+	p {
+		color: white;
+		font-weight: 700;
+		line-height: 4em;
+		text-align: center;
+	}
+}

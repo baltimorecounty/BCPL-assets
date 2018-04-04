@@ -1,0 +1,71 @@
+/*!
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Core variables and mixins
+@import "partials/variables";
+@import "partials/mixins";
+
+// Reset and dependencies
+@import "partials/normalize";
+@import "partials/print";
+@import "partials/glyphicons";
+
+// Core CSS
+@import "partials/scaffolding";
+@import "partials/type";
+@import "partials/code";
+@import "partials/grid";
+@import "partials/tables";
+@import "partials/forms";
+@import "partials/buttons";
+
+// Components
+
+@import "partials/component-animations";
+/*@import "partials/dropdowns";
+*/
+@import "partials/button-groups";
+/*
+@import "partials/input-groups";
+@import "partials/navs";
+@import "partials/navbar";
+@import "partials/breadcrumbs";
+@import "partials/pagination";
+@import "partials/pager";
+@import "partials/labels";
+@import "partials/badges";
+@import "partials/jumbotron";
+@import "partials/thumbnails";
+@import "partials/alerts";
+@import "partials/progress-bars";
+@import "partials/media";
+@import "partials/list-group";
+@import "partials/panels";
+@import "partials/responsive-embed";
+@import "partials/wells";
+*/
+@import "partials/close";
+
+// Components w/ JavaScript
+
+@import "partials/modals";
+/*
+@import "partials/tooltip";
+*/
+@import "partials/popovers";
+/*
+@import "partials/carousel";
+*/
+// Utility classes
+@import "partials/utilities";
+@import "partials/responsive-utilities";
+
+// Overrides
+.container-fluid {
+	padding: 0;
+}
+
+@import "overrides";

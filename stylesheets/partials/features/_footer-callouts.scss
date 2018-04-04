@@ -1,0 +1,58 @@
+footer {
+	.callouts-wrapper {
+		background-color: $teal;
+		color: white;
+
+		.row {
+			display: flex;
+			flex: 1;
+			flex-direction: row;
+		
+
+			.callout {
+				border-right: 10px solid $teal-light;
+				padding: 1em;
+
+				&:last-child {
+					border-right: none;
+				}
+
+				p, address, .phone {
+					font-size: .8em;
+				}
+
+				a {
+					color: white;
+				}
+
+				a.logo {
+					display: block;
+					margin-bottom: 1em;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+	footer {
+		.callouts-wrapper {
+
+			.row {
+				display: block;
+			
+
+				.callout {
+					border-top: 10px solid $teal-light;
+					border-right: none;
+					padding: 1em;
+
+					&:first-child {
+						border: none;
+					}
+					
+				}
+			}
+		}
+	}
+}
