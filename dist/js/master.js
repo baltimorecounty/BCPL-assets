@@ -796,9 +796,7 @@ bcpl.bookCarousel = function ($, constants) {
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-		return $.ajax(url, {
-			dataType: 'jsonp'
-		}).then(function (data) {
+		return $.ajax(url).then(function (data) {
 			return onDataSuccess(data, carouselId);
 		});
 	};
