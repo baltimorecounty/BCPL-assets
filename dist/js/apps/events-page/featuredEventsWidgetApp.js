@@ -21,8 +21,9 @@
 				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
+					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
 					eventsByDate.push({
-						date: new Date(eventItem.EventStart),
+						date: new Date(eventDate),
 						events: eventData.filter(function (thisEvent) {
 							return isEventOnDate(thisEvent, eventStartDateLocaleString);
 						})
@@ -157,8 +158,8 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',

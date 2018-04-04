@@ -158,8 +158,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		// baseUrl: 'https://testservices.bcpl.info',
+		baseUrl: 'http://oit226471:1919',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -252,8 +252,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
+					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
 					eventsByDate.push({
-						date: new Date(eventItem.EventStart),
+						date: new Date(eventDate),
 						events: eventData.filter(function (thisEvent) {
 							return isEventOnDate(thisEvent, eventStartDateLocaleString);
 						})
@@ -445,15 +446,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+		var formatSchedule = function formatSchedule(eventItem, eventLength, isAllDay) {
+			var eventStart = eventItem.EventStart || null;
+			var onGoingStartDate = eventItem.OnGoingStartDate;
+			var onGoingEndDate = eventItem.OnGoingEndDate;
+
 			if (isAllDay) return 'All Day';
 
-			if (!eventStart || isNaN(Date.parse(eventStart))) {
+			if (!eventStart && !onGoingStartDate && !onGoingEndDate || eventStart && isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
 
-			if (typeof eventLength !== 'number' || eventLength <= 0) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
 				return 'Bad event length format';
+			}
+
+			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+				return moment(onGoingStartDate).format('M/D') + ' to ' + moment(onGoingEndDate).format('M/D');
 			}
 
 			var eventStartDate = moment(eventStart);
@@ -722,9 +731,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
-			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			var eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
+			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
@@ -811,7 +821,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
@@ -1381,7 +1391,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 
 			innerScope.eventScheduleString = function (eventItem) {
-				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
+				return dateUtilityService.formatSchedule(eventItem, eventItem.EventLength, eventItem.AllDay);
 			};
 
 			innerScope.getDisplayDate = function (eventGroup) {
