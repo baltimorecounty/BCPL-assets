@@ -704,7 +704,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, ICS) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $rootScope, $anchorScroll, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		var vm = this;
 		var id = $routeParams.id;
 
@@ -739,10 +739,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		eventsService.getById(id).then(processEventData).catch(requestError);
 
-		$window.scrollTo(0, 0);
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$rootScope', '$anchorScroll', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
