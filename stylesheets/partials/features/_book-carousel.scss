@@ -56,11 +56,16 @@
         .inner {
             display: flex;
             flex: 0 25%;
-            flex-direction: column;  
+            flex-direction: column;              
             padding: 2em 2em 0;
-
+            align-items: center;
+            
             p {
                 display: none;
+            }
+
+            img {
+                max-width: 132px;
             }
         }
     }
