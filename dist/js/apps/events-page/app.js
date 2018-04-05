@@ -705,6 +705,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var vm = this;
 		var id = $routeParams.id;
 
@@ -738,8 +740,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		eventsService.getById(id).then(processEventData).catch(requestError);
-
-		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
 	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
@@ -752,6 +752,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var id = $routeParams.id;
 		var vm = this;
 
@@ -815,8 +817,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		eventsService.getById(id).then(processEventData);
-
-		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
 	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
