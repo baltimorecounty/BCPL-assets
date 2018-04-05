@@ -3,8 +3,8 @@
 
 	var constants = {
 		templates: {
-			databases: '/js/apps/filter-page/templates/card-databases.html',
-			locations: '/js/apps/filter-page/templates/card-locations.html'
+			databases: '/_js/apps/filter-page/templates/card-databases.html',
+			locations: '/_js/apps/filter-page/templates/card-locations.html'
 		},
 		urls: {
 			databases: 'https://services.bcpl.info/api/structured-content/databases',
