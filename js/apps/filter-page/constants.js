@@ -7,7 +7,7 @@
 			locations: '/_js/apps/filter-page/templates/card-locations.html',
 			filter: '/_js/apps/filter-page/templates/filter.html',
 			filters: '/_js/apps/filter-page/templates/filters.html',
-			tag: '/js/apps/filter-page/templates/tag.html'
+			tag: '/_js/apps/filter-page/templates/tag.html'
 		},
 		urls: {
 			databases: 'https://services.bcpl.info/api/structured-content/databases',
