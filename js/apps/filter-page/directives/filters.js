@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const filtersDirective = () => {
+	const filtersDirective = (constants) => {
 		const filterLink = function filterLink($scope) {
 			const findFilterMatch = (tagName, filter) => tagName.toLowerCase() === filter.toLowerCase();
 
@@ -54,12 +54,14 @@
 				clearFilterFn: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/filters.html',
+			templateUrl: constants.templates.filters,
 			link: filterLink
 		};
 
 		return directive;
 	};
+
+	filtersDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));

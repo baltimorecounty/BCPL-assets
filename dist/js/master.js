@@ -31,10 +31,9 @@ var namespacer = function namespacer(ns) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	// baseApiUrl: 'http://oit226696:3100',
-	baseApiUrl: 'https://testservices.bcpl.info',
-	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://staging.bcpl.info',
+	baseApiUrl: 'https://services.bcpl.info',
+	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
+	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
@@ -78,7 +77,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://catalog.bcpl.lib.md.us/ContentXchange/APICarouselToolkit/1/CAROUSEL_ID/2'
+			bookCarousels: 'https://services.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
 		}
 	},
 	expressions: {
@@ -797,9 +796,7 @@ bcpl.bookCarousel = function ($, constants) {
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-		return $.ajax(url, {
-			dataType: 'jsonp'
-		}).then(function (data) {
+		return $.ajax(url).then(function (data) {
 			return onDataSuccess(data, carouselId);
 		});
 	};

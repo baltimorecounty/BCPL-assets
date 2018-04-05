@@ -32,8 +32,8 @@
 					<p>{{eventRegistrationPage.data.EventStartDate}}</p>
 					<p>{{eventRegistrationPage.data.EventSchedule}}</p>
 					<p>{{eventRegistrationPage.data.LocationName}}</p>
-				</div>
-				<p>{{eventRegistrationPage.data.Description}}</p>
+                </div>
+                <p ng-if="eventRegistrationPage.data.Description" ng-bind-html="eventRegistrationPage.data.Description"></p>
 				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event)">
 					<p 
 						ng-if="eventRegistrationPage.isSubmitted" 

@@ -2,6 +2,8 @@
 	'use strict';
 
 	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		const id = $routeParams.id;
 		const vm = this;
 

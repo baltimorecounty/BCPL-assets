@@ -158,8 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		// baseUrl: 'https://testservices.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://services.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -218,9 +217,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		if (absoluteUrl.indexOf('#!') === -1 && absoluteUrl.indexOf('?') > -1) {
 			var eventId = bcpl.utility.querystringer.getAsDictionary().eventid;
 
-			if (eventId) {
-				$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
-			}
+			$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
 		}
 	};
 
@@ -717,6 +714,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var vm = this;
 		var id = $routeParams.id;
 
@@ -763,6 +762,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var id = $routeParams.id;
 		var vm = this;
 
@@ -838,6 +839,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var vm = this;
 		var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
