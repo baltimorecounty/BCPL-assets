@@ -38,7 +38,7 @@
 		</div>	
 
 		<div ng-hide="eventDetailsPage.isLoading && !eventsPage.isError">
-			<div style="margin-bottom: 30px;" ng-if="eventDetailsPage.data.Description" ng-bind-html="eventDetailsPage.data.Description"></div>
+			<p style="margin-bottom: 30px;" ng-if="eventDetailsPage.data.Description" ng-bind-html="eventDetailsPage.data.Description"></p>
 	
 			<p ng-if="eventDetailsPage.data.isFull">
 				<strong>
