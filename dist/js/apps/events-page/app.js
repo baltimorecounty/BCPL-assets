@@ -217,9 +217,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		if (absoluteUrl.indexOf('#!') === -1 && absoluteUrl.indexOf('?') > -1) {
 			var eventId = bcpl.utility.querystringer.getAsDictionary().eventid;
 
-			if (eventId) {
-				$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
-			}
+			$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
 		}
 	};
 
