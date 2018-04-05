@@ -21,8 +21,9 @@
 				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
+					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
 					eventsByDate.push({
-						date: new Date(eventItem.EventStart),
+						date: new Date(eventDate),
 						events: eventData.filter(function (thisEvent) {
 							return isEventOnDate(thisEvent, eventStartDateLocaleString);
 						})

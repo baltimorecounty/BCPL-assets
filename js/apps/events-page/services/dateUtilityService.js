@@ -14,15 +14,24 @@
 			return date;
 		};
 
-		const formatSchedule = (eventStart, eventLength, isAllDay) => {
+		const formatSchedule = (eventItem, eventLength, isAllDay) => {
+			const eventStart = eventItem.EventStart || null;
+			const onGoingStartDate = eventItem.OnGoingStartDate;
+			const onGoingEndDate = eventItem.OnGoingEndDate;
+
 			if (isAllDay) return 'All Day';
 
-			if (!eventStart || isNaN(Date.parse(eventStart))) {
+			if ((!eventStart && !onGoingStartDate && !onGoingEndDate) || (eventStart && isNaN(Date.parse(eventStart)))) {
 				return 'Bad start date format';
 			}
 
-			if (typeof eventLength !== 'number' || eventLength <= 0) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
 				return 'Bad event length format';
+			}
+
+			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+				const dateFormat = 'M/D';
+				return `${moment(onGoingStartDate).format(dateFormat)} to ${moment(onGoingEndDate).format(dateFormat)}`;
 			}
 
 			const eventStartDate = moment(eventStart);

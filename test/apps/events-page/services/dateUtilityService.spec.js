@@ -49,16 +49,32 @@ describe('dateUtilityService', () => {
 	});
 
 	describe('formatSchedule', () => {
+		const mockEventItem = {
+			EventStart: '2017-11-01T10:00:00'
+		};
+
 		it('should return "10:00 a.m. to 1:00 p.m." when given a timespan on 3 hours starting at 10 a.m.', () => {
-			const actual = dateUtilityService.formatSchedule('2017-11-01T10:00:00', 180);
+			const actual = dateUtilityService.formatSchedule(mockEventItem, 180);
 
 			expect(actual).toEqual('10 a.m. to 1 p.m.');
 		});
 
 		it('should return "All Day" if the event is an all day event', () => {
-			const actual = dateUtilityService.formatSchedule('2017-11-01T10:00:00', 180, true);
+			const actual = dateUtilityService.formatSchedule(mockEventItem, 180, true);
 
 			expect(actual).toEqual('All Day');
+		});
+
+		it('should return a dateRange for an on going event', () => {
+			const onGoingMockEventItem = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-02T00:00:00',
+				OnGoingEndDate: '2018-04-08T23:59:59'
+			};
+			const actual = dateUtilityService.formatSchedule(onGoingMockEventItem);
+			const expected = '4/2 to 4/8';
+
+			expect(actual).toEqual(expected);
 		});
 	});
 
