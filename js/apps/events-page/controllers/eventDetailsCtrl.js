@@ -1,7 +1,7 @@
 ((app, ICS) => {
 	'use strict';
 
-	const EventDetailsCtrl = function EventsPageCtrl($scope, $rootScope, $anchorScroll, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
 		const vm = this;
 		const id = $routeParams.id;
 
@@ -39,10 +39,10 @@
 			.then(processEventData)
 			.catch(requestError);
 
-		$window.scrollTo(0, 0);
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$rootScope', '$anchorScroll', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
