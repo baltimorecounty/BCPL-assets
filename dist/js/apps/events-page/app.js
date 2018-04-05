@@ -829,6 +829,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var vm = this;
 		var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
