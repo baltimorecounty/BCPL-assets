@@ -30,7 +30,8 @@
 			}
 
 			if (!eventStart && onGoingStartDate && onGoingEndDate) {
-				return `${moment(onGoingStartDate).format('M/D')} to ${moment(onGoingEndDate).format('M/D')}`;
+				const dateFormat = 'M/D';
+				return `${moment(onGoingStartDate).format(dateFormat)} to ${moment(onGoingEndDate).format(dateFormat)}`;
 			}
 
 			const eventStartDate = moment(eventStart);
