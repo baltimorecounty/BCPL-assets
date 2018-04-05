@@ -118,13 +118,13 @@
 	};
 
 	app.factory('sharedFilters.filterHelperService', ['$location', filterHelpers]);
-}());
+})();
 'use strict';
 
 namespacer('bcpl');
 
 // requires bootstrap.js to be included in the page
-bcpl.boostrapCollapseHelper = (function ($) {
+bcpl.boostrapCollapseHelper = function ($) {
 	var toggleCollapseByIds = function toggleCollapseByIds(panels) {
 		var activePanels = panels.activePanels,
 		    inActivePanels = panels.inActivePanels;
@@ -142,7 +142,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	return {
 		toggleCollapseByIds: toggleCollapseByIds
 	};
-}(jQuery));
+}(jQuery);
 'use strict';
 
 (function () {
@@ -154,7 +154,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 			requireBase: false
 		});
 	});
-}());
+})();
 'use strict';
 
 (function (app) {
@@ -183,7 +183,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	};
 
 	app.constant('CONSTANTS', constants);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -212,7 +212,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	cardVisibilityFilter.$inject = [];
 
 	app.filter('cardVisibilityFilter', cardVisibilityFilter);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -229,7 +229,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	databasesService.$inject = ['CONSTANTS'];
 
 	app.factory('databasesService', databasesService);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -254,7 +254,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	locationsService.$inject = ['CONSTANTS'];
 
 	app.factory('locationsService', locationsService);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -280,7 +280,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	cardService.$inject = ['$location', '$window', '$injector'];
 
 	app.factory('cardService', cardService);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -365,7 +365,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	};
 
 	app.factory('filterService', filterService);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -528,12 +528,13 @@ bcpl.boostrapCollapseHelper = (function ($) {
 				cardService.get(loadCardsAndFilters, vm.filterType);
 			}
 		});
+
 	};
 
 	FilterPageCtrl.$inject = ['$scope', '$document', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -564,7 +565,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	cardDirective.$inject = ['$compile', '$injector', '$templateRequest', 'CONSTANTS'];
 
 	app.directive('card', cardDirective);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -605,7 +606,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -675,7 +676,7 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	filtersDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filters', filtersDirective);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
 'use strict';
 
 (function (app) {
@@ -712,4 +713,4 @@ bcpl.boostrapCollapseHelper = (function ($) {
 	tagDirective.$inject = ['CONSTANTS'];
 
 	app.directive('tag', tagDirective);
-}(angular.module('filterPageApp')));
+})(angular.module('filterPageApp'));
