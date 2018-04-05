@@ -68,6 +68,8 @@
 		eventsService
 			.getById(id)
 			.then(processEventData);
+
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
 	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
