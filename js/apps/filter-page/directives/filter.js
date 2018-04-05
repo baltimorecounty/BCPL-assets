@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const filterDirective = () => {
+	const filterDirective = (constants) => {
 		const filterLink = function filterLink($scope, filterElement) {
 			const $filterElement = angular.element(filterElement);
 			const $input = $filterElement.find('input');
@@ -11,7 +11,7 @@
 			if (inputType === 'radio') {
 				$input.prop('name', $scope.filterFamily.name);
 			}
-			
+
 			$scope.toggleFilter = (activeFilter) => {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
@@ -26,12 +26,14 @@
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/filter.html',
+			templateUrl: constants.templates.filter,
 			link: filterLink
 		};
 
 		return directive;
 	};
+
+	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
 })(angular.module('filterPageApp'));
