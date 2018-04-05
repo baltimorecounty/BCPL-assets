@@ -5,7 +5,6 @@
 		const vm = this;
 		const id = $routeParams.id;
 
-
 		vm.data = {};
 		vm.data.EventStartDate = '';
 		vm.data.EventStartTime = '';
@@ -39,6 +38,8 @@
 			.getById(id)
 			.then(processEventData)
 			.catch(requestError);
+
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 	};
 
 	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
