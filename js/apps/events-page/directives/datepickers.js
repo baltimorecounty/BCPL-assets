@@ -36,7 +36,9 @@
 				flatpickr.open();
 			};
 
-			$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			angular.element(document).ready(() => {
+				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			});
 		};
 
 		const directive = {
