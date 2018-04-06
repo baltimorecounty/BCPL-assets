@@ -20,14 +20,25 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const onSearchCatalogClick = () => {
 		searchAction.search = () => searchCatalog(window);
+		$.get('example_collection.json', enableCatalogAutoComplete, 'json');
+	};
+
+	const enableCatalogAutoComplete = (data) => {
+		$(siteSearchInputSelector).typeahead({ source: data });
+	};
+
+	const disableCatalogAutocomplete = () => {
+		$(siteSearchInputSelector).typeahead('destroy');
 	};
 
 	const onSearchEventsClick = () => {
 		searchAction.search = () => searchEvents(window);
+		disableCatalogAutocomplete();
 	};
 
 	const onSearchWebsiteClick = () => {
 		searchAction.search = () => searchWebsite(window);
+		disableCatalogAutocomplete();
 	};
 
 	const onSearchIconClick = () => {
