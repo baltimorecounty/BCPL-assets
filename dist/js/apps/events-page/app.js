@@ -910,10 +910,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
-
 			$document.ready(function () {
+				var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+				var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+
 				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
 				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
 				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
