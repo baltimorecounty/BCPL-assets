@@ -88,47 +88,47 @@ bcpl.constants = {
 
 // https://tc39.github.io/ecma262/#sec-array.prototype.find
 if (!Array.prototype.find) {
-  Object.defineProperty(Array.prototype, 'find', {
-    value: function value(predicate) {
-      // 1. Let O be ? ToObject(this value).
-      if (this == null) {
-        throw new TypeError('"this" is null or not defined');
-      }
+      Object.defineProperty(Array.prototype, 'find', {
+            value: function value(predicate) {
+                  // 1. Let O be ? ToObject(this value).
+                  if (this == null) {
+                        throw new TypeError('"this" is null or not defined');
+                  }
 
-      var o = Object(this);
+                  var o = Object(this);
 
-      // 2. Let len be ? ToLength(? Get(O, "length")).
-      var len = o.length >>> 0;
+                  // 2. Let len be ? ToLength(? Get(O, "length")).
+                  var len = o.length >>> 0;
 
-      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
-      if (typeof predicate !== 'function') {
-        throw new TypeError('predicate must be a function');
-      }
+                  // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+                  if (typeof predicate !== 'function') {
+                        throw new TypeError('predicate must be a function');
+                  }
 
-      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
-      var thisArg = arguments[1];
+                  // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+                  var thisArg = arguments[1];
 
-      // 5. Let k be 0.
-      var k = 0;
+                  // 5. Let k be 0.
+                  var k = 0;
 
-      // 6. Repeat, while k < len
-      while (k < len) {
-        // a. Let Pk be ! ToString(k).
-        // b. Let kValue be ? Get(O, Pk).
-        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
-        // d. If testResult is true, return kValue.
-        var kValue = o[k];
-        if (predicate.call(thisArg, kValue, k, o)) {
-          return kValue;
-        }
-        // e. Increase k by 1.
-        k++;
-      }
+                  // 6. Repeat, while k < len
+                  while (k < len) {
+                        // a. Let Pk be ! ToString(k).
+                        // b. Let kValue be ? Get(O, Pk).
+                        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                        // d. If testResult is true, return kValue.
+                        var kValue = o[k];
+                        if (predicate.call(thisArg, kValue, k, o)) {
+                              return kValue;
+                        }
+                        // e. Increase k by 1.
+                        k++;
+                  }
 
-      // 7. Return undefined.
-      return undefined;
-    }
-  });
+                  // 7. Return undefined.
+                  return undefined;
+            }
+      });
 }
 'use strict';
 
@@ -822,22 +822,20 @@ bcpl.bookCarousel = function ($, constants) {
 		var $listItem = $(listItem);
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
-		var $titleDisplay = $('<p>' + $image.attr('title') + '</p>');
-		var titleRemoveString = ' : a novel';
-		var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
-		var linkHref = $link.attr('href').replace('http:', 'https:');
+		var imageTitle = $image.attr('title');
+		var $titleDisplay = $('<p>' + imageTitle + '</p>');
+		var title = encodeURIComponent(imageTitle.split(':')[0]);
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
-		$link.attr('href', linkHref).text('').append($image).append($titleDisplay);
+		$link.text('').append($image).append($titleDisplay);
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
-			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
-			// the link below is temporary
-			var _linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
-			$link.attr('href', _linkHref);
+			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
+
+			$link.attr('href', newLinkHref);
 		}
 
 		return $('<div class="inner"></div>').append($link);
