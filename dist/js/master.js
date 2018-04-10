@@ -1094,6 +1094,12 @@ bcpl.contraster = function ($, browserStorage) {
   */
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
+		var $eventTarget = $(clickEvent.currentTarget);
+
+		if ($eventTarget.is('.toggle-text')) {
+			$eventTarget.parent().find('input').trigger('click');
+			return;
+		}
 
 		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 
