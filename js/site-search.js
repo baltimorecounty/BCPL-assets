@@ -20,7 +20,7 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const onSearchCatalogClick = () => {
 		searchAction.search = () => searchCatalog(window);
-		$.get('example_collection.json', enableCatalogAutoComplete, 'json');
+		$.get(constants.search.urls.searchTerms, enableCatalogAutoComplete, 'json');
 	};
 
 	const enableCatalogAutoComplete = (data) => {
