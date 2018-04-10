@@ -162,12 +162,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 	var constants = {
 		templates: {
-			databases: '/js/apps/filter-page/templates/card-databases.html',
-			locations: '/js/apps/filter-page/templates/card-locations.html'
+			databases: '/_js/apps/filter-page/templates/card-databases.html',
+			locations: '/_js/apps/filter-page/templates/card-locations.html',
+			filter: '/_js/apps/filter-page/templates/filter.html',
+			filters: '/_js/apps/filter-page/templates/filters.html',
+			tag: '/_js/apps/filter-page/templates/tag.html'
 		},
 		urls: {
-			// databases: 'http://ba224964:3100/api/structured-content/databases',
-			databases: 'https://testservices.bcpl.info/api/structured-content/databases',
+			databases: 'https://services.bcpl.info/api/structured-content/databases',
 			locations: '/sebin/q/r/branch-amenities.json'
 		},
 		filters: {
@@ -569,7 +571,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var filterDirective = function filterDirective() {
+	var filterDirective = function filterDirective(constants) {
 		var filterLink = function filterLink($scope, filterElement) {
 			var $filterElement = angular.element(filterElement);
 			var $input = $filterElement.find('input');
@@ -594,12 +596,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/filter.html',
+			templateUrl: constants.templates.filter,
 			link: filterLink
 		};
 
 		return directive;
 	};
+
+	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
 })(angular.module('filterPageApp'));
@@ -608,7 +612,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var filtersDirective = function filtersDirective() {
+	var filtersDirective = function filtersDirective(constants) {
 		var filterLink = function filterLink($scope) {
 			var findFilterMatch = function findFilterMatch(tagName, filter) {
 				return tagName.toLowerCase() === filter.toLowerCase();
@@ -662,12 +666,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 				clearFilterFn: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/filters.html',
+			templateUrl: constants.templates.filters,
 			link: filterLink
 		};
 
 		return directive;
 	};
+
+	filtersDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filters', filtersDirective);
 })(angular.module('filterPageApp'));
@@ -676,7 +682,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	'use strict';
 
-	var tagDirective = function tagDirective() {
+	var tagDirective = function tagDirective(constants) {
 		var tagLink = function filterLink($scope) {
 			$scope.toggleFilter = function (activeFilter) {
 				var activeTags = $scope.tagData.Tags.filter(function (tagInfo) {
@@ -697,12 +703,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/tag.html',
+			templateUrl: constants.templates.tag,
 			link: tagLink
 		};
 
 		return directive;
 	};
+
+	tagDirective.$inject = ['CONSTANTS'];
 
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));

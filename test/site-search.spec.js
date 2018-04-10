@@ -93,6 +93,7 @@ describe('Site Search', () => {
 
 		it('should try to set the location to the catalog URL with a search term', () => {
 			const expected = 'harry%20potter';
+
 			$searchInput.val('harry potter');
 
 			bcpl.siteSearch.searchCatalog(mockWindow);

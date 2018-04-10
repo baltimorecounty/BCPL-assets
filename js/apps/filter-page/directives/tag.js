@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const tagDirective = () => {
+	const tagDirective = (constants) => {
 		const tagLink = function filterLink($scope) {
 			$scope.toggleFilter = (activeFilter) => {
 				const activeTags = $scope.tagData.Tags.filter((tagInfo) => {
@@ -22,12 +22,14 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: '/js/apps/filter-page/templates/tag.html',
+			templateUrl: constants.templates.tag,
 			link: tagLink
 		};
 
 		return directive;
 	};
+
+	tagDirective.$inject = ['CONSTANTS'];
 
 	app.directive('tag', tagDirective);
 })(angular.module('filterPageApp'));
