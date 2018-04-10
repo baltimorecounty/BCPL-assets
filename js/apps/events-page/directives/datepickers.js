@@ -35,7 +35,7 @@
 				const flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
 				flatpickr.open();
 			};
-
+      
 			angular.element(document).ready(() => {
 				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 			});

@@ -92,12 +92,15 @@ describe('Site Search', () => {
 		});
 
 		it('should try to set the location to the catalog URL with a search term', () => {
-			const expected = 'https://catalog.bcpl.lib.md.us/polaris/view.aspx?keyword=harry%20potter';
+			const expected = 'harry%20potter';
+
 			$searchInput.val('harry potter');
 
 			bcpl.siteSearch.searchCatalog(mockWindow);
 
-			expect(mockWindow.location.href).toEqual(expected);
+			const actual = mockWindow.location.href.indexOf(expected) > -1;
+
+			expect(actual).toEqual(true);
 		});
 	});
 });
