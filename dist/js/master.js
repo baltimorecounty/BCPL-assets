@@ -59,7 +59,8 @@ bcpl.constants = {
 			events: '/events-and-programs/list.html#!/?term=',
 			website: '/search-results.html?term=',
 			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track'
+			trackClickThrough: '/api/swiftype/track',
+			searchTerms: '/api/polaris/searchterm'
 		}
 	},
 	homepage: {
@@ -907,7 +908,7 @@ bcpl.boostrapCollapseHelper = function ($) {
  */
 namespacer('bcpl');
 
-bcpl.breadCrumbs = function breadCrumbs($) {
+bcpl.breadCrumbs = function ($) {
 	var templates = {
 		popover: '<div class="popover breadcrumb-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	};
@@ -918,7 +919,6 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 		hiddenBreadCrumbTrigger: 'hidden-breadcrumb-trigger',
 		hiddenBreadCrumbPopover: 'hidden-breadcrumb-popover'
 	};
-
 	var selectors = {
 		breadCrumbChildren: '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span'
 	};
@@ -993,6 +993,7 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 			template: templates.popover
 		});
 	};
+
 	var onHiddenBreadCrumbTriggerClick = function onHiddenBreadCrumbTriggerClick(clickEvent) {
 		$(clickEvent.currentTarget).toggleClass('active');
 	};
@@ -1040,7 +1041,7 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 	};
 }(jQuery);
 
-$(function onDocumentReady() {
+$(function () {
 	bcpl.breadCrumbs.init();
 });
 'use strict';
@@ -1990,6 +1991,8 @@ $(function () {
 });
 'use strict';
 
+// Requires jQuery and https://github.com/bassjobsen/Bootstrap-3-Typeahead
+
 namespacer('bcpl');
 
 bcpl.siteSearch = function ($, window, constants) {
@@ -2001,29 +2004,77 @@ bcpl.siteSearch = function ($, window, constants) {
 	var searchButtonWebsiteSelector = '.search-button-website';
 	var searchAction = {};
 
-	var onSearchTabClick = function onSearchTabClick(clickEvent) {
-		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
-		var buttonCaption = $searchBtn.text().trim();
-
-		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
+	var afterTypeAheadSelect = function afterTypeAheadSelect() {
+		searchCatalog(window);
 	};
 
-	var onSearchCatalogClick = function onSearchCatalogClick() {
+	var clearCatalogSearch = function clearCatalogSearch() {
+		$(siteSearchInputSelector).val('').trigger('keyup');
+	};
+
+	var disableCatalogAutocomplete = function disableCatalogAutocomplete() {
+		$(siteSearchInputSelector).typeahead('destroy');
+	};
+
+	var enableCatalogAutoComplete = function enableCatalogAutoComplete() {
+		$(siteSearchInputSelector).typeahead({
+			source: onTypeAheadSource,
+			minLength: 2,
+			highlight: true,
+			autoSelect: false,
+			delay: 100,
+			sorter: function sorter(results) {
+				return results;
+			},
+			afterSelect: afterTypeAheadSelect
+		});
+	};
+
+	var focusSiteSearch = function focusSiteSearch(currentTarget) {
+		$(currentTarget).closest('.nav-and-search').find('#site-search-input').focus();
+	};
+
+	var getAutocompleteValues = function getAutocompleteValues(searchResults) {
+		if (!searchResults) return [];
+
+		return searchResults.map(function (searchResult) {
+			return {
+				id: searchResult.Id,
+				name: searchResult.Name
+			};
+		});
+	};
+
+	var getSearchResults = function getSearchResults(searchResultsResponse) {
+		return searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results') ? searchResultsResponse.Results : [];
+	};
+
+	var getSearchTerms = function getSearchTerms() {
+		var searchTerms = $(siteSearchInputSelector).val() || '';
+		var trimmedSearchTerms = searchTerms.trim();
+		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
+
+		return encodedSearchTerms;
+	};
+
+	var getSearchUrl = function getSearchUrl(searchTerm) {
+		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm;
+	};
+
+	var onSearchCatalogClick = function onSearchCatalogClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = function () {
 			return searchCatalog(window);
 		};
+		enableCatalogAutoComplete();
 	};
 
-	var onSearchEventsClick = function onSearchEventsClick() {
+	var onSearchEventsClick = function onSearchEventsClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = function () {
 			return searchEvents(window);
 		};
-	};
-
-	var onSearchWebsiteClick = function onSearchWebsiteClick() {
-		searchAction.search = function () {
-			return searchWebsite(window);
-		};
+		disableCatalogAutocomplete();
 	};
 
 	var onSearchIconClick = function onSearchIconClick() {
@@ -2034,6 +2085,14 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
+	var onSearchWebsiteClick = function onSearchWebsiteClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
+		searchAction.search = function () {
+			return searchWebsite(window);
+		};
+		disableCatalogAutocomplete();
+	};
+
 	var onSiteSearchKeyup = function onSiteSearchKeyup(keyupEvent) {
 		var keyCode = keyupEvent.which || keyupEvent.keyCode;
 
@@ -2041,17 +2100,36 @@ bcpl.siteSearch = function ($, window, constants) {
 			var searchTerms = getSearchTerms();
 
 			if (searchAction && searchAction.search && searchTerms.length) {
-				searchAction.search();
+				searchAction.search(searchTerms);
 			}
 		}
 	};
 
-	var searchCatalog = function searchCatalog(activeWindow) {
-		var searchTerms = getSearchTerms();
+	var onSearchTabClick = function onSearchTabClick(clickEvent) {
+		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
+		var buttonCaption = $searchBtn.text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
+	};
+
+	var onTypeAheadSource = function onTypeAheadSource(query, process) {
+		var searchUrl = getSearchUrl(query);
+
+		return $.get(searchUrl, {}, function (searchResultsResponse) {
+			var searchResults = getSearchResults(searchResultsResponse);
+			var selectData = getAutocompleteValues(searchResults);
+
+			return process(selectData);
+		});
+	};
+
+	var searchCatalog = function searchCatalog(activeWindow, searchTerm) {
+		var searchTerms = searchTerm || getSearchTerms();
 
 		if (searchTerms.length) {
 			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
+			clearCatalogSearch();
 			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
 		}
 	};
@@ -2076,21 +2154,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
-	var getSearchTerms = function getSearchTerms() {
-		var $searchBox = $(siteSearchInputSelector);
-		var searchTerms = $searchBox.val() || '';
-		var trimmedSearchTerms = searchTerms.trim();
-		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
-
-		return encodedSearchTerms;
-	};
-
-	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
-	$(document).on('click', siteSearchSearchIconSelector, onSearchIconClick);
-	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
-	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
-	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
-	$(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick).on('click', siteSearchSearchIconSelector, onSearchIconClick).on('click', searchButtonCatalogSelector, onSearchCatalogClick).on('keyup', siteSearchInputSelector, onSiteSearchKeyup).on('click', searchButtonEventsSelector, onSearchEventsClick).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
