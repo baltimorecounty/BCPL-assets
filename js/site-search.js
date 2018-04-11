@@ -1,3 +1,5 @@
+// Requires jQuery and https://github.com/bassjobsen/Bootstrap-3-Typeahead
+
 namespacer('bcpl');
 
 bcpl.siteSearch = (($, window, constants) => {
@@ -29,6 +31,8 @@ bcpl.siteSearch = (($, window, constants) => {
 			minLength: 2,
 			highlight: true,
 			autoSelect: false,
+			delay: 100,
+			sorter: (results) => results,
 			afterSelect: afterTypeAheadSelect
 		});
 	};
