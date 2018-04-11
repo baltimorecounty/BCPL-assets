@@ -908,7 +908,7 @@ bcpl.boostrapCollapseHelper = function ($) {
  */
 namespacer('bcpl');
 
-bcpl.breadCrumbs = function breadCrumbs($) {
+bcpl.breadCrumbs = function ($) {
 	var templates = {
 		popover: '<div class="popover breadcrumb-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	};
@@ -919,7 +919,6 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 		hiddenBreadCrumbTrigger: 'hidden-breadcrumb-trigger',
 		hiddenBreadCrumbPopover: 'hidden-breadcrumb-popover'
 	};
-
 	var selectors = {
 		breadCrumbChildren: '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span'
 	};
@@ -994,6 +993,7 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 			template: templates.popover
 		});
 	};
+
 	var onHiddenBreadCrumbTriggerClick = function onHiddenBreadCrumbTriggerClick(clickEvent) {
 		$(clickEvent.currentTarget).toggleClass('active');
 	};
@@ -1041,17 +1041,9 @@ bcpl.breadCrumbs = function breadCrumbs($) {
 	};
 }(jQuery);
 
-$(function onDocumentReady() {
+$(function () {
 	bcpl.breadCrumbs.init();
 });
-'use strict';
-
-/**
- * Requires jQuery and Bootstrap, Bootstrap Typeahead
- */
-namespacer('bcpl');
-
-bcpl.breadCrumbs = function breadCrumbs($) {}(jQuery);
 'use strict';
 
 namespacer('bcpl');
