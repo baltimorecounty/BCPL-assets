@@ -2029,6 +2029,10 @@ bcpl.siteSearch = function ($, window, constants) {
 		});
 	};
 
+	var focusSiteSearch = function focusSiteSearch(currentTarget) {
+		$(currentTarget).closest('.nav-and-search').find('#site-search-input').focus();
+	};
+
 	var getAutocompleteValues = function getAutocompleteValues(searchResults) {
 		if (!searchResults) return [];
 
@@ -2056,14 +2060,16 @@ bcpl.siteSearch = function ($, window, constants) {
 		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm;
 	};
 
-	var onSearchCatalogClick = function onSearchCatalogClick() {
+	var onSearchCatalogClick = function onSearchCatalogClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = function () {
 			return searchCatalog(window);
 		};
 		enableCatalogAutoComplete();
 	};
 
-	var onSearchEventsClick = function onSearchEventsClick() {
+	var onSearchEventsClick = function onSearchEventsClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = function () {
 			return searchEvents(window);
 		};
@@ -2078,7 +2084,8 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
-	var onSearchWebsiteClick = function onSearchWebsiteClick() {
+	var onSearchWebsiteClick = function onSearchWebsiteClick(clickEvent) {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = function () {
 			return searchWebsite(window);
 		};
@@ -2121,7 +2128,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		if (searchTerms.length) {
 			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
-			// clearCatalogSearch();
+			clearCatalogSearch();
 			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
 		}
 	};
