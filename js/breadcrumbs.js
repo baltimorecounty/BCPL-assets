@@ -3,7 +3,7 @@
  */
 namespacer('bcpl');
 
-bcpl.breadCrumbs = (function breadCrumbs($) {
+bcpl.breadCrumbs = (($) => {
 	const templates = {
 		popover: '<div class="popover breadcrumb-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 	};
@@ -14,7 +14,6 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 		hiddenBreadCrumbTrigger: 'hidden-breadcrumb-trigger',
 		hiddenBreadCrumbPopover: 'hidden-breadcrumb-popover'
 	};
-
 	const selectors = {
 		breadCrumbChildren: '.breadcrumbs-wrapper a, .breadcrumbs-wrapper span'
 	};
@@ -83,7 +82,8 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 			placement: 'bottom',
 			template: templates.popover
 		});
-	};
+    };
+    
 	const onHiddenBreadCrumbTriggerClick = (clickEvent) => {
 		$(clickEvent.currentTarget).toggleClass('active');
 	};
@@ -120,7 +120,8 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 		toggleElm($breadCrumbContainer, true);
 	};
 
-	$(document).on('click', '.hidden-breadcrumb-container', onHiddenBreadCrumbTriggerClick);
+	$(document)
+		.on('click', '.hidden-breadcrumb-container', onHiddenBreadCrumbTriggerClick);
 
 	return {
 		cleanBreadCrumbs,
@@ -129,8 +130,8 @@ bcpl.breadCrumbs = (function breadCrumbs($) {
 		$getBreadCrumbsToHide,
 		init
 	};
-}(jQuery));
+})(jQuery);
 
-$(function onDocumentReady() {
+$(() => {
 	bcpl.breadCrumbs.init();
 });

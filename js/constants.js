@@ -29,7 +29,8 @@ bcpl.constants = {
 			events: '/events-and-programs/list.html#!/?term=',
 			website: '/search-results.html?term=',
 			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track'
+			trackClickThrough: '/api/swiftype/track',
+			searchTerms: '/api/polaris/searchterm'
 		}
 	},
 	homepage: {
