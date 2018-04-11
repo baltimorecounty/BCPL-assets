@@ -8,7 +8,8 @@ bcpl.contraster = (($, browserStorage) => {
 		selectors: {
 			contrastButton: '#contrastButton',
 			stylesheetMaster: '#stylesheetMaster',
-			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
+			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast',
+			toggleText: '.toggle-text'
 		}
 	};
 
@@ -23,7 +24,7 @@ bcpl.contraster = (($, browserStorage) => {
 		const settings = clickEvent ? clickEvent.data : contrasterDefaults;
 		const $eventTarget = $(clickEvent.currentTarget);
 
-		if ($eventTarget.is('.toggle-text')) {
+		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.parent().find('input').trigger('click');
 			return;
 		}
