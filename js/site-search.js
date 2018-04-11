@@ -106,9 +106,9 @@ bcpl.siteSearch = (($, window, constants) => {
 		const $searchBtn = $(clickEvent.currentTarget)
 			.siblings().removeClass('active').end()
 			.addClass('active');
-		const buttonCaption = $searchBtn.text().trim();
+		const buttonCaption = $searchBtn.find('i span').text().trim();
 
-		$(siteSearchInputSelector).attr('placeholder', `Search the ${buttonCaption}`);
+		$(siteSearchInputSelector).attr('placeholder', `${buttonCaption}`);
 	};
 
 	const onTypeAheadSource = (query, process) => {
@@ -167,7 +167,6 @@ bcpl.siteSearch = (($, window, constants) => {
 	/* test-code */
 
 	return {
-		activeSearchTerm,
 		getSearchTerms,
 		searchCatalog
 	};
