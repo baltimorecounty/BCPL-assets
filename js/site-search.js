@@ -167,7 +167,6 @@ bcpl.siteSearch = (($, window, constants) => {
 	/* test-code */
 
 	return {
-		activeSearchTerm,
 		getSearchTerms,
 		searchCatalog
 	};
