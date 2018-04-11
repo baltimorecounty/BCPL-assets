@@ -1098,7 +1098,8 @@ bcpl.contraster = function ($, browserStorage) {
 		var $eventTarget = $(clickEvent.currentTarget);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
-			$eventTarget.parent().find('input').trigger('click');
+			$eventTarget.closest('.contraster').find('input').trigger('click');
+
 			return;
 		}
 
