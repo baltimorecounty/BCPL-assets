@@ -33,6 +33,10 @@ bcpl.siteSearch = (($, window, constants) => {
 		});
 	};
 
+	const focusSiteSearch = (currentTarget) => {
+		$(currentTarget).closest('.nav-and-search').find('#site-search-input').focus();
+	};
+
 	const getAutocompleteValues = (searchResults) => {
 		if (!searchResults) return [];
 
@@ -56,12 +60,14 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const getSearchUrl = (searchTerm) => `${constants.baseApiUrl}${constants.search.urls.searchTerms}/${searchTerm}`;
 
-	const onSearchCatalogClick = () => {
+	const onSearchCatalogClick = (clickEvent) => {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchCatalog(window);
 		enableCatalogAutoComplete();
 	};
 
-	const onSearchEventsClick = () => {
+	const onSearchEventsClick = (clickEvent) => {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchEvents(window);
 		disableCatalogAutocomplete();
 	};
@@ -74,7 +80,8 @@ bcpl.siteSearch = (($, window, constants) => {
 		}
 	};
 
-	const onSearchWebsiteClick = () => {
+	const onSearchWebsiteClick = (clickEvent) => {
+		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchWebsite(window);
 		disableCatalogAutocomplete();
 	};
