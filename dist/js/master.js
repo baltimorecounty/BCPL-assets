@@ -1081,7 +1081,8 @@ bcpl.contraster = function ($, browserStorage) {
 		selectors: {
 			contrastButton: '#contrastButton',
 			stylesheetMaster: '#stylesheetMaster',
-			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
+			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast',
+			toggleText: '.toggle-text'
 		}
 	};
 
@@ -1094,6 +1095,13 @@ bcpl.contraster = function ($, browserStorage) {
   */
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
+		var $eventTarget = $(clickEvent.currentTarget);
+
+		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
+			$eventTarget.closest('.contraster').find('input').trigger('click');
+
+			return;
+		}
 
 		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 
