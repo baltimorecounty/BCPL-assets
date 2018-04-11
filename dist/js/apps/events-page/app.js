@@ -1342,8 +1342,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
 				flatpickr.open();
 			};
-
-			$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			angular.element(document).ready(function () {
+				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
+			});
 		};
 
 		var directive = {

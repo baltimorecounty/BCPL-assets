@@ -31,8 +31,8 @@ var namespacer = function namespacer(ns) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	// baseApiUrl: 'http://oit226696:3100',
-	baseApiUrl: 'https://testservices.bcpl.info',
+	baseApiUrl: 'http://oit226471:1919',
+	// baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
 	baseWebsiteUrl: 'https://staging.bcpl.info',
 	basePageUrl: '/dist',
@@ -60,7 +60,8 @@ bcpl.constants = {
 			events: '/events-and-programs/list.html#!/?term=',
 			website: '/search-results.html?term=',
 			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track'
+			trackClickThrough: '/api/swiftype/track',
+			searchTerms: '/api/polaris/searchterm'
 		}
 	},
 	homepage: {
@@ -1050,6 +1051,14 @@ $(function onDocumentReady() {
 });
 'use strict';
 
+/**
+ * Requires jQuery and Bootstrap, Bootstrap Typeahead
+ */
+namespacer('bcpl');
+
+bcpl.breadCrumbs = function breadCrumbs($) {}(jQuery);
+'use strict';
+
 namespacer('bcpl');
 
 bcpl.catalogSearch = function ($, queryStringer, constants) {
@@ -1998,29 +2007,67 @@ bcpl.siteSearch = function ($, window, constants) {
 	var searchButtonWebsiteSelector = '.search-button-website';
 	var searchAction = {};
 
-	var onSearchTabClick = function onSearchTabClick(clickEvent) {
-		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
-		var buttonCaption = $searchBtn.text().trim();
+	var afterTypeAheadSelect = function afterTypeAheadSelect() {
+		searchCatalog(window);
+	};
 
-		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
+	var clearCatalogSearch = function clearCatalogSearch() {
+		$(siteSearchInputSelector).val('').trigger('keyup');
+	};
+
+	var disableCatalogAutocomplete = function disableCatalogAutocomplete() {
+		$(siteSearchInputSelector).typeahead('destroy');
+	};
+
+	var enableCatalogAutoComplete = function enableCatalogAutoComplete() {
+		$(siteSearchInputSelector).typeahead({
+			source: onTypeAheadSource,
+			minLength: 2,
+			highlight: true,
+			autoSelect: false,
+			afterSelect: afterTypeAheadSelect
+		});
+	};
+
+	var getAutocompleteValues = function getAutocompleteValues(searchResults) {
+		if (!searchResults) return [];
+
+		return searchResults.map(function (searchResult) {
+			return {
+				id: searchResult.Id,
+				name: searchResult.Name
+			};
+		});
+	};
+
+	var getSearchResults = function getSearchResults(searchResultsResponse) {
+		return searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results') ? searchResultsResponse.Results : [];
+	};
+
+	var getSearchTerms = function getSearchTerms() {
+		var searchTerms = $(siteSearchInputSelector).val() || '';
+		var trimmedSearchTerms = searchTerms.trim();
+		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
+
+		return encodedSearchTerms;
+	};
+
+	var getSearchUrl = function getSearchUrl(searchTerm) {
+		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm;
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick() {
 		searchAction.search = function () {
 			return searchCatalog(window);
 		};
+		enableCatalogAutoComplete();
 	};
 
 	var onSearchEventsClick = function onSearchEventsClick() {
 		searchAction.search = function () {
 			return searchEvents(window);
 		};
-	};
-
-	var onSearchWebsiteClick = function onSearchWebsiteClick() {
-		searchAction.search = function () {
-			return searchWebsite(window);
-		};
+		disableCatalogAutocomplete();
 	};
 
 	var onSearchIconClick = function onSearchIconClick() {
@@ -2031,6 +2078,13 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
+	var onSearchWebsiteClick = function onSearchWebsiteClick() {
+		searchAction.search = function () {
+			return searchWebsite(window);
+		};
+		disableCatalogAutocomplete();
+	};
+
 	var onSiteSearchKeyup = function onSiteSearchKeyup(keyupEvent) {
 		var keyCode = keyupEvent.which || keyupEvent.keyCode;
 
@@ -2038,17 +2092,36 @@ bcpl.siteSearch = function ($, window, constants) {
 			var searchTerms = getSearchTerms();
 
 			if (searchAction && searchAction.search && searchTerms.length) {
-				searchAction.search();
+				searchAction.search(searchTerms);
 			}
 		}
 	};
 
-	var searchCatalog = function searchCatalog(activeWindow) {
-		var searchTerms = getSearchTerms();
+	var onSearchTabClick = function onSearchTabClick(clickEvent) {
+		var $searchBtn = $(clickEvent.currentTarget).siblings().removeClass('active').end().addClass('active');
+		var buttonCaption = $searchBtn.text().trim();
+
+		$(siteSearchInputSelector).attr('placeholder', 'Search the ' + buttonCaption);
+	};
+
+	var onTypeAheadSource = function onTypeAheadSource(query, process) {
+		var searchUrl = getSearchUrl(query);
+
+		return $.get(searchUrl, {}, function (searchResultsResponse) {
+			var searchResults = getSearchResults(searchResultsResponse);
+			var selectData = getAutocompleteValues(searchResults);
+
+			return process(selectData);
+		});
+	};
+
+	var searchCatalog = function searchCatalog(activeWindow, searchTerm) {
+		var searchTerms = searchTerm || getSearchTerms();
 
 		if (searchTerms.length) {
 			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
+			// clearCatalogSearch();
 			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
 		}
 	};
@@ -2073,21 +2146,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
-	var getSearchTerms = function getSearchTerms() {
-		var $searchBox = $(siteSearchInputSelector);
-		var searchTerms = $searchBox.val() || '';
-		var trimmedSearchTerms = searchTerms.trim();
-		var encodedSearchTerms = encodeURIComponent(trimmedSearchTerms);
-
-		return encodedSearchTerms;
-	};
-
-	$(document).on('click', siteSearchTabSelector, onSearchTabClick);
-	$(document).on('click', siteSearchSearchIconSelector, onSearchIconClick);
-	$(document).on('click', searchButtonCatalogSelector, onSearchCatalogClick);
-	$(document).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
-	$(document).on('click', searchButtonEventsSelector, onSearchEventsClick);
-	$(document).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick).on('click', siteSearchSearchIconSelector, onSearchIconClick).on('click', searchButtonCatalogSelector, onSearchCatalogClick).on('keyup', siteSearchInputSelector, onSiteSearchKeyup).on('click', searchButtonEventsSelector, onSearchEventsClick).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
