@@ -1,8 +1,8 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	// baseApiUrl: 'http://oit226696:3100',
-	baseApiUrl: 'https://testservices.bcpl.info',
+	baseApiUrl: 'http://oit226471:1919',
+	// baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
 	baseWebsiteUrl: 'https://staging.bcpl.info',
 	basePageUrl: '/dist',
@@ -31,7 +31,7 @@ bcpl.constants = {
 			website: '/search-results.html?term=',
 			api: '/api/swiftype/site-search',
 			trackClickThrough: '/api/swiftype/track',
-			searchTerms: '/api/polaris/search/cats'
+			searchTerms: '/api/polaris/searchterm'
 		}
 	},
 	homepage: {
