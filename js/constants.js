@@ -1,9 +1,9 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://testservices.bcpl.info',
-	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://staging.bcpl.info',
+	baseApiUrl: 'https://services.bcpl.info',
+	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
+	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
@@ -48,7 +48,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://testservices.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
+			bookCarousels: 'https://services.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
 		}
 	},
 	expressions: {

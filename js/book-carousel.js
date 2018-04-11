@@ -31,10 +31,7 @@ bcpl.bookCarousel = (($, constants) => {
 	const loadData = (carouselId) => {
 		const url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-		return $.ajax(url, {
-			dataType: 'jsonp'
-		})
-			.then(data => onDataSuccess(data, carouselId));
+		return $.ajax(url).then(data => onDataSuccess(data, carouselId));
 	};
 
 	const textNodeFilter = (index, node) => node.nodeType === 3;
@@ -59,10 +56,9 @@ bcpl.bookCarousel = (($, constants) => {
 		const $listItem = $(listItem);
 		const $image = $listItem.find('img');
 		const $link = $listItem.find('a');
-		const $titleDisplay = $(`<p>${$image.attr('title')}</p>`);
-		const titleRemoveString = ' : a novel';
-		const title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
-		const linkHref = $link.attr('href').replace('http:', 'https:');
+		const imageTitle = $image.attr('title');
+		const $titleDisplay = $(`<p>${imageTitle}</p>`);
+		const title = encodeURIComponent(imageTitle.split(':')[0]);
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
@@ -71,7 +67,6 @@ bcpl.bookCarousel = (($, constants) => {
 			.attr('alt', `${$image.attr('alt')} - book cover`);
 
 		$link
-			.attr('href', linkHref)
 			.text('')
 			.append($image)
 			.append($titleDisplay);
@@ -82,11 +77,10 @@ bcpl.bookCarousel = (($, constants) => {
 				.eq(1)
 				.contents()
 				.filter(textNodeFilter));
-			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
-			// the link below is temporary
-			const linkHref = `https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
 
-			$link.attr('href', linkHref);
+			const newLinkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
+
+			$link.attr('href', newLinkHref);
 		}
 
 		return $('<div class="inner"></div>')

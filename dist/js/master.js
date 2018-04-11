@@ -31,9 +31,9 @@ var namespacer = function namespacer(ns) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://testservices.bcpl.info',
-	baseCatalogUrl: 'https://ils-test.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://staging.bcpl.info',
+	baseApiUrl: 'https://services.bcpl.info',
+	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
+	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
@@ -78,7 +78,7 @@ bcpl.constants = {
 		urls: {
 			alerts: '/api/structured-content/alerts',
 			alertNotification: '/api/structured-content/alerts-notification',
-			bookCarousels: 'https://testservices.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
+			bookCarousels: 'https://services.bcpl.info/api/polaris/carousel/CAROUSEL_ID'
 		}
 	},
 	expressions: {
@@ -797,9 +797,7 @@ bcpl.bookCarousel = function ($, constants) {
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-		return $.ajax(url, {
-			dataType: 'jsonp'
-		}).then(function (data) {
+		return $.ajax(url).then(function (data) {
 			return onDataSuccess(data, carouselId);
 		});
 	};
@@ -825,22 +823,20 @@ bcpl.bookCarousel = function ($, constants) {
 		var $listItem = $(listItem);
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
-		var $titleDisplay = $('<p>' + $image.attr('title') + '</p>');
-		var titleRemoveString = ' : a novel';
-		var title = encodeURIComponent($image.attr('title').replace(titleRemoveString, ''));
-		var linkHref = $link.attr('href').replace('http:', 'https:');
+		var imageTitle = $image.attr('title');
+		var $titleDisplay = $('<p>' + imageTitle + '</p>');
+		var title = encodeURIComponent(imageTitle.split(':')[0]);
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
-		$link.attr('href', linkHref).text('').append($image).append($titleDisplay);
+		$link.text('').append($image).append($titleDisplay);
 
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
-			// const linkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
-			// the link below is temporary
-			var _linkHref = 'https://catalog.bcpl.lib.md.us/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
-			$link.attr('href', _linkHref);
+			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
+
+			$link.attr('href', newLinkHref);
 		}
 
 		return $('<div class="inner"></div>').append($link);
@@ -1094,7 +1090,8 @@ bcpl.contraster = function ($, browserStorage) {
 		selectors: {
 			contrastButton: '#contrastButton',
 			stylesheetMaster: '#stylesheetMaster',
-			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast'
+			stylesheetMasterHighContrast: '#stylesheetMasterHighContrast',
+			toggleText: '.toggle-text'
 		}
 	};
 
@@ -1107,6 +1104,13 @@ bcpl.contraster = function ($, browserStorage) {
   */
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
+		var $eventTarget = $(clickEvent.currentTarget);
+
+		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
+			$eventTarget.closest('.contraster').find('input').trigger('click');
+
+			return;
+		}
 
 		var $stylesheetMaster = $(settings.selectors.stylesheetMaster);
 

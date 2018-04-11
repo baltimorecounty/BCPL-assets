@@ -158,8 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://testservices.bcpl.info',
-		// baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://services.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -218,9 +217,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		if (absoluteUrl.indexOf('#!') === -1 && absoluteUrl.indexOf('?') > -1) {
 			var eventId = bcpl.utility.querystringer.getAsDictionary().eventid;
 
-			if (eventId) {
-				$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
-			}
+			$window.location = eventId ? '/events-and-programs/list.html#!/' + eventId : '/events-and-programs/list.html#!/' + $window.location.search; // eslint-disable-line no-param-reassign
 		}
 	};
 
@@ -252,8 +249,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
+					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
 					eventsByDate.push({
-						date: new Date(eventItem.EventStart),
+						date: new Date(eventDate),
 						events: eventData.filter(function (thisEvent) {
 							return isEventOnDate(thisEvent, eventStartDateLocaleString);
 						})
@@ -445,15 +443,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
-		var formatSchedule = function formatSchedule(eventStart, eventLength, isAllDay) {
+		var formatSchedule = function formatSchedule(eventItem, eventLength, isAllDay) {
+			var eventStart = eventItem.EventStart || null;
+			var onGoingStartDate = eventItem.OnGoingStartDate;
+			var onGoingEndDate = eventItem.OnGoingEndDate;
+
 			if (isAllDay) return 'All Day';
 
-			if (!eventStart || isNaN(Date.parse(eventStart))) {
+			if (!eventStart && !onGoingStartDate && !onGoingEndDate || eventStart && isNaN(Date.parse(eventStart))) {
 				return 'Bad start date format';
 			}
 
-			if (typeof eventLength !== 'number' || eventLength <= 0) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
 				return 'Bad event length format';
+			}
+
+			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+				var dateFormat = 'M/D';
+				return moment(onGoingStartDate).format(dateFormat) + ' to ' + moment(onGoingEndDate).format(dateFormat);
 			}
 
 			var eventStartDate = moment(eventStart);
@@ -708,6 +715,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var vm = this;
 		var id = $routeParams.id;
 
@@ -722,9 +731,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
-			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			var eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
+			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
@@ -753,6 +763,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	'use strict';
 
 	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		var id = $routeParams.id;
 		var vm = this;
 
@@ -811,7 +823,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var processEventData = function processEventData(data) {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
 
@@ -898,10 +910,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
-
 			$document.ready(function () {
+				var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+				var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+
 				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
 				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
 				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
@@ -1342,6 +1354,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
 				flatpickr.open();
 			};
+
 			angular.element(document).ready(function () {
 				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 			});
@@ -1382,7 +1395,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			};
 
 			innerScope.eventScheduleString = function (eventItem) {
-				return dateUtilityService.formatSchedule(eventItem.EventStart, eventItem.EventLength, eventItem.AllDay);
+				return dateUtilityService.formatSchedule(eventItem, eventItem.EventLength, eventItem.AllDay);
 			};
 
 			innerScope.getDisplayDate = function (eventGroup) {

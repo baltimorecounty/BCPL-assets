@@ -2,9 +2,10 @@
 	'use strict';
 
 	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+
 		const vm = this;
 		const id = $routeParams.id;
-
 
 		vm.data = {};
 		vm.data.EventStartDate = '';
@@ -17,9 +18,10 @@
 		const processEventData = (data) => {
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
-			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data.EventStart, vm.data.EventLength, vm.data.AllDay);
+			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
-			vm.isOver = $window.moment().isAfter($window.moment(vm.data.EventStart).add(vm.data.EventLength, 'm'));
+			const eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
+			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 		};
