@@ -1999,6 +1999,8 @@ $(function () {
 });
 'use strict';
 
+// Requires jQuery and https://github.com/bassjobsen/Bootstrap-3-Typeahead
+
 namespacer('bcpl');
 
 bcpl.siteSearch = function ($, window, constants) {
@@ -2028,6 +2030,10 @@ bcpl.siteSearch = function ($, window, constants) {
 			minLength: 2,
 			highlight: true,
 			autoSelect: false,
+			delay: 100,
+			sorter: function sorter(results) {
+				return results;
+			},
 			afterSelect: afterTypeAheadSelect
 		});
 	};
