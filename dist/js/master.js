@@ -2009,7 +2009,7 @@ bcpl.siteSearch = function ($, window, constants) {
 	};
 
 	var clearCatalogSearch = function clearCatalogSearch() {
-		$(siteSearchInputSelector).val('').trigger('keyup');
+		$(siteSearchInputSelector).val('');
 	};
 
 	var disableCatalogAutocomplete = function disableCatalogAutocomplete() {
@@ -2129,7 +2129,6 @@ bcpl.siteSearch = function ($, window, constants) {
 		if (searchTerms.length) {
 			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
-			clearCatalogSearch();
 			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
 		}
 	};
@@ -2154,10 +2153,15 @@ bcpl.siteSearch = function ($, window, constants) {
 		}
 	};
 
-	$(document).on('click', siteSearchTabSelector, onSearchTabClick).on('click', siteSearchSearchIconSelector, onSearchIconClick).on('click', searchButtonCatalogSelector, onSearchCatalogClick).on('keyup', siteSearchInputSelector, onSiteSearchKeyup).on('click', searchButtonEventsSelector, onSearchEventsClick).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+	$(document).on('click', siteSearchTabSelector, onSearchTabClick).on('click', siteSearchSearchIconSelector, onSearchIconClick).on('click', searchButtonCatalogSelector, onSearchCatalogClick).on('click', searchButtonEventsSelector, onSearchEventsClick).on('click', searchButtonWebsiteSelector, onSearchWebsiteClick).on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
+
+	// On Document Ready
+	$(function () {
+		clearCatalogSearch();
+	});
 
 }(jQuery, window, bcpl.constants);
 'use strict';

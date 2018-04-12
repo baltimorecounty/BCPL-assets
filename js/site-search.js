@@ -17,8 +17,7 @@ bcpl.siteSearch = (($, window, constants) => {
 
 	const clearCatalogSearch = () => {
 		$(siteSearchInputSelector)
-			.val('')
-			.trigger('keyup');
+			.val('');
 	};
 
 	const disableCatalogAutocomplete = () => {
@@ -128,7 +127,6 @@ bcpl.siteSearch = (($, window, constants) => {
 		if (searchTerms.length) {
 			const baseCatalogUrl = constants.baseCatalogUrl;
 			const searchUrl = constants.search.urls.catalog;
-			clearCatalogSearch();
 			activeWindow.location.href = `${baseCatalogUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
 		}
 	};
@@ -157,19 +155,22 @@ bcpl.siteSearch = (($, window, constants) => {
 		.on('click', siteSearchTabSelector, onSearchTabClick)
 		.on('click', siteSearchSearchIconSelector, onSearchIconClick)
 		.on('click', searchButtonCatalogSelector, onSearchCatalogClick)
-		.on('keyup', siteSearchInputSelector, onSiteSearchKeyup)
 		.on('click', searchButtonEventsSelector, onSearchEventsClick)
-		.on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+		.on('click', searchButtonWebsiteSelector, onSearchWebsiteClick)
+		.on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
 
-	/* test-code */
+	// On Document Ready
+	$(() => {
+		clearCatalogSearch();
+	});
 
+	/* test-code */
 	return {
 		getSearchTerms,
 		searchCatalog
 	};
-
 	/* end-test-code */
 })(jQuery, window, bcpl.constants);
