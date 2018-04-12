@@ -39,11 +39,11 @@ bcpl.branchEmailSwitcher = (() => {
 	};
 
 	const branchChangeHandler = (changeEvent) => {
-		const whichBranch = changeEvent.target;
-		const branchSelectionValue = whichBranch.value;
+		const selectedBranch = changeEvent.target;
+		const branchSelectionValue = selectedBranch.value;
 		const branchEmailItem = findBranchEmail(branchSelectionValue);
 
-		$(whichBranch)
+		$(selectedBranch)
 			.closest('form')
 			.find(formResultMailFieldSelector)
 			.attr('value', branchEmailItem.myLibrarianEmail);
