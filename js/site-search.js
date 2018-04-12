@@ -155,9 +155,9 @@ bcpl.siteSearch = (($, window, constants) => {
 		.on('click', siteSearchTabSelector, onSearchTabClick)
 		.on('click', siteSearchSearchIconSelector, onSearchIconClick)
 		.on('click', searchButtonCatalogSelector, onSearchCatalogClick)
-		.on('keyup', siteSearchInputSelector, onSiteSearchKeyup)
 		.on('click', searchButtonEventsSelector, onSearchEventsClick)
-		.on('click', searchButtonWebsiteSelector, onSearchWebsiteClick);
+		.on('click', searchButtonWebsiteSelector, onSearchWebsiteClick)
+		.on('keyup', siteSearchInputSelector, onSiteSearchKeyup);
 
 	// Initially set up the catalog search
 	$(onSearchCatalogClick);
