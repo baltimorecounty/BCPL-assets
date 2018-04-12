@@ -24,6 +24,7 @@ bcpl.pageSpecific = bcpl.pageSpecific || {};
 
 bcpl.branchEmailSwitcher = (() => {
 	let branchData = [];
+	const formResultMailFieldSelector = '#_seResultMail';
 
 	const findBranchEmail = (searchTerm) => {
 		const foundEmail = branchData.find((branchEmailItem) => {
@@ -38,10 +39,14 @@ bcpl.branchEmailSwitcher = (() => {
 	};
 
 	const branchChangeHandler = (changeEvent) => {
-		const branchSelectionValue = changeEvent.target.value;
+		const whichBranch = changeEvent.target;
+		const branchSelectionValue = whichBranch.value;
 		const branchEmailItem = findBranchEmail(branchSelectionValue);
 
-		document.getElementById('_seResultMail').value = branchEmailItem.myLibrarianEmail;
+		$(whichBranch)
+			.closest('form')
+			.find(formResultMailFieldSelector)
+			.attr('value', branchEmailItem.myLibrarianEmail);
 	};
 
 	const branchDataSuccessHandler = (branchJson) => {
