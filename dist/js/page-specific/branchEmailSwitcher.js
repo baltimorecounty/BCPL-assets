@@ -40,10 +40,11 @@ bcpl.branchEmailSwitcher = function () {
 	};
 
 	var branchChangeHandler = function branchChangeHandler(changeEvent) {
-		var branchSelectionValue = changeEvent.target.value;
+		var whichBranch = changeEvent.target;
+		var branchSelectionValue = whichBranch.value;
 		var branchEmailItem = findBranchEmail(branchSelectionValue);
 
-		document.getElementById('_seResultMail').value = branchEmailItem.myLibrarianEmail;
+		$(whichBranch).closest('form').find('#_seResultMail').attr('value', branchEmailItem.myLibrarianEmail);
 	};
 
 	var branchDataSuccessHandler = function branchDataSuccessHandler(branchJson) {
