@@ -3,34 +3,6 @@
 	flex: 1 1 auto;
 }
 
-@media (max-width: $screen-lg) {
-	.flex-lg {
-		display: flex;
-		flex: 1 1 auto;
-	}
-}
-
-@media (max-width: $screen-md) {
-	.flex-md {
-		display: flex;
-		flex: 1 1 auto;
-	}
-}
-
-@media (max-width: $screen-sm) {
-	.flex-sm {
-		display: flex;
-		flex: 1 1 auto;
-	}
-}
-
-@media (max-width: $screen-xs) {
-	.flex-xs {
-		display: flex;
-		flex: 1 1 auto;
-	}
-}
-
 .flex-order-1 {
 	order: 1;
 }
@@ -126,6 +98,50 @@
 
 .flex-90 { flex-basis: 90%; }
 
+@media (max-width: $screen-lg) {
+	.flex-lg {
+		display: flex;
+		flex: 1 1 auto;
+	}
+
+	.flex-column-lg {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: $screen-md) {
+	.flex-md {
+		display: flex;
+		flex: 1 1 auto;
+	}
+
+	.flex-column-md {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.flex-sm {
+		display: flex;
+		flex: 1 1 auto;
+	}
+
+	.flex-column-sm {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.flex-xs {
+		display: flex;
+		flex: 1 1 auto;
+	}
+
+	.flex-column-xs {
+		flex-direction: column;
+	}
+}
+
 /* **** The no flex zone **** */
 
 .no-flex {
@@ -135,3 +151,4 @@
 	}
 
 }
+
