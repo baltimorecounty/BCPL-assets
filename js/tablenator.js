@@ -7,12 +7,16 @@ bcpl.tablenator = (($, _) => {
 	const buildTwoColumnTables = ($headings, $dataRows) => {
 		const newTableBodyCollection = [];
 
+		if (!$headings || $headings.length === 0 || !$dataRows || $dataRows.length === 0) {
+			return newTableBodyCollection;
+		}
+
 		$dataRows.each((rowIndex, rowElement) => {
 			const $newTable = $('<table class="tablenator-responsive-table"><tbody></tbody><table>');
 			const $newTableBody = $newTable.find('tbody');
 			const $row = $(rowElement);
 
-			$headings.each((headingIndex, headingElement) => {
+			$headings.each((headingIndex) => {
 				const headingText = $headings.eq(headingIndex).text();
 				const dataHtml = $row.find('td').eq(headingIndex).html();
 
@@ -48,13 +52,19 @@ bcpl.tablenator = (($, _) => {
 			$originalTableCache.each(reformat);
 		} else {
 			const parentCollection = $('.tablenator-responsive-table').map((index, tableElement) => $(tableElement).parent().get());
+
 			$.unique(parentCollection).each((index, parentElement) => $(parentElement).empty().append($originalTableCache.eq(index)));
 		}
 	};
 
 	const init = (tableSelector, screenBreakpoint) => {
 		$originalTableCache = $(tableSelector);
-		breakpoint = screenBreakpoint;
+
+		if (screenBreakpoint && typeof screenBreakpoint === 'number') {
+			breakpoint = screenBreakpoint;
+		} else {
+			return;
+		}
 
 		if ($originalTableCache.length) {
 			const lazyWindowResizeHandler = _.debounce(windowResizehandler, 100);
@@ -63,6 +73,11 @@ bcpl.tablenator = (($, _) => {
 	};
 
 	return {
+		/* test-code */
+		buildTwoColumnTables,
+		reformat,
+		windowResizehandler,
+		/* end-test-code */
 		init
 	};
 })(jQuery, _);
