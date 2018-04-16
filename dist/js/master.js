@@ -1095,7 +1095,7 @@ bcpl.contraster = function ($, browserStorage) {
   * Handles the click event of the contrast button.
   */
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
-		var settings = clickEvent ? clickEvent.data : contrasterDefaults;
+		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
@@ -2258,6 +2258,88 @@ $(function () {
 	bcpl.smartSideNav.init();
 	bcpl.smartSideNav.setCurrentPageLinkActive();
 });
+'use strict';
+
+namespacer('bcpl');
+
+bcpl.tablenator = function ($, _) {
+	var $originalTableCache = void 0;
+	var breakpoint = void 0;
+
+	var buildTwoColumnTables = function buildTwoColumnTables($headings, $dataRows) {
+		var newTableBodyCollection = [];
+
+		if (!$headings || $headings.length === 0 || !$dataRows || $dataRows.length === 0) {
+			return newTableBodyCollection;
+		}
+
+		$dataRows.each(function (rowIndex, rowElement) {
+			var $newTable = $('<table class="tablenator-responsive-table"><tbody></tbody><table>');
+			var $newTableBody = $newTable.find('tbody');
+			var $row = $(rowElement);
+
+			$headings.each(function (headingIndex) {
+				var headingText = $headings.eq(headingIndex).text();
+				var dataHtml = $row.find('td').eq(headingIndex).html();
+
+				$newTableBody.append('<tr><td>' + headingText + '</td><td>' + dataHtml + '</td></tr>');
+			});
+
+			newTableBodyCollection.push($newTable);
+		});
+
+		return newTableBodyCollection;
+	};
+
+	var reformat = function reformat(tableIndex, tableElement) {
+		var $table = $(tableElement);
+		var $headings = $table.find('th');
+		var $dataRows = $table.find('tr').not($headings.closest('tr'));
+
+		var newTableBodyCollection = buildTwoColumnTables($headings, $dataRows);
+
+		newTableBodyCollection.map(function ($newTable) {
+			return $originalTableCache.eq(tableIndex).parent().append($newTable);
+		});
+
+		$table.detach();
+	};
+
+	var windowResizehandler = function windowResizehandler(resizeEvent) {
+		var windowWidth = $(resizeEvent.target).width();
+
+		if (windowWidth < breakpoint) {
+			$originalTableCache.each(reformat);
+		} else {
+			var parentCollection = $('.tablenator-responsive-table').map(function (index, tableElement) {
+				return $(tableElement).parent().get();
+			});
+
+			$.unique(parentCollection).each(function (index, parentElement) {
+				return $(parentElement).empty().append($originalTableCache.eq(index));
+			});
+		}
+	};
+
+	var init = function init(tableSelector, screenBreakpoint) {
+		$originalTableCache = $(tableSelector);
+
+		if (screenBreakpoint && typeof screenBreakpoint === 'number') {
+			breakpoint = screenBreakpoint;
+		} else {
+			return;
+		}
+
+		if ($originalTableCache.length) {
+			var lazyWindowResizeHandler = _.debounce(windowResizehandler, 100);
+			$(window).on('resize', lazyWindowResizeHandler);
+		}
+	};
+
+	return {
+		init: init
+	};
+}(jQuery, _);
 'use strict';
 
 namespacer('bcpl');

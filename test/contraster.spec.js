@@ -1,13 +1,20 @@
 /* eslint-disable no-undef */
 
 describe('Contraster', () => {
+	let mockClickEvent;
+
 	beforeEach((done) => {
 		loadFixtures('contraster.fixture.html');
+
+		mockClickEvent = {
+			currentTarget: $('#contrastButton').get()
+		};
+
 		done();
 	});
 
 	it('should add a stylesheet that doesn\'t exist to the page', () => {
-		bcpl.contraster.contrastButtonClickHandler();
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
 
 		const actual = $('#stylesheetMasterHighContrast').length;
 
@@ -15,8 +22,8 @@ describe('Contraster', () => {
 	});
 
 	it('should remove the high-contrast stylesheet from the page', () => {
-		bcpl.contraster.contrastButtonClickHandler();
-		bcpl.contraster.contrastButtonClickHandler();
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
 
 		const actual = $('#stylesheetMasterHighContrast').length;
 
@@ -25,7 +32,7 @@ describe('Contraster', () => {
 
 	it('should set a local storage value to true when adding the high-contrast stylesheet', () => {
 		const expected = 'true';
-		bcpl.contraster.contrastButtonClickHandler();
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
 
 		const actual = localStorage.getItem('isHighContrast');
 
@@ -34,8 +41,8 @@ describe('Contraster', () => {
 
 	it('should set a local storage value to false when removing the high-contrast stylesheet', () => {
 		const expected = 'false';
-		bcpl.contraster.contrastButtonClickHandler();
-		bcpl.contraster.contrastButtonClickHandler();
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
+		bcpl.contraster.contrastButtonClickHandler(mockClickEvent);
 
 		const actual = localStorage.getItem('isHighContrast');
 
