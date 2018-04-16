@@ -26,6 +26,7 @@ bcpl.pageSpecific = bcpl.pageSpecific || {};
 
 bcpl.branchEmailSwitcher = function () {
 	var branchData = [];
+	var formResultMailFieldSelector = '#_seResultMail';
 
 	var findBranchEmail = function findBranchEmail(searchTerm) {
 		var foundEmail = branchData.find(function (branchEmailItem) {
@@ -40,11 +41,11 @@ bcpl.branchEmailSwitcher = function () {
 	};
 
 	var branchChangeHandler = function branchChangeHandler(changeEvent) {
-		var whichBranch = changeEvent.target;
-		var branchSelectionValue = whichBranch.value;
+		var selectedBranch = changeEvent.target;
+		var branchSelectionValue = selectedBranch.value;
 		var branchEmailItem = findBranchEmail(branchSelectionValue);
 
-		$(whichBranch).closest('form').find('#_seResultMail').attr('value', branchEmailItem.myLibrarianEmail);
+		$(selectedBranch).closest('form').find(formResultMailFieldSelector).attr('value', branchEmailItem.myLibrarianEmail);
 	};
 
 	var branchDataSuccessHandler = function branchDataSuccessHandler(branchJson) {
