@@ -78,15 +78,6 @@ describe('Tablenator', () => {
 			expect(actual).toBe(expected);
 		});
 
-		it('should do nothing when "tabaleSelector" is undefined', () => {
-			const expected = $._data(window, 'events').resize.length;
-			bcpl.tablenator.init(undefined, 9999); // 9999 to force the reformat
-
-			const actual = $._data(window, 'events').resize.length;
-
-			expect(actual).toBe(expected);
-		});
-
 		it('should do nothing when "screenBreakpoint" is undefined', () => {
 			const expected = $._data(window, 'events').resize.length;
 			bcpl.tablenator.init('#test-table', undefined); // 9999 to force the reformat
