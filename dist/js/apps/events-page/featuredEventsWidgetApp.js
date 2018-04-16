@@ -158,7 +158,7 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://services.bcpl.info',
+		baseUrl: 'https://testservices.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',

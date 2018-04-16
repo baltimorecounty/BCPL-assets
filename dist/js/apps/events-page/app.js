@@ -158,7 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://services.bcpl.info',
+		baseUrl: 'https://testservices.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -784,7 +784,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		vm.submitHandler = function () {
+		vm.submitHandler = function (submitEvent, registrationForm) {
+			if (!registrationForm.$valid) return;
+
 			vm.isLoadingResults = true;
 
 			var postModel = {

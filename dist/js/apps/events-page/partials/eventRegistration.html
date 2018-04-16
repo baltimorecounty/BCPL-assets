@@ -34,7 +34,7 @@
 					<p>{{eventRegistrationPage.data.LocationName}}</p>
                 </div>
                 <p ng-if="eventRegistrationPage.data.Description" ng-bind-html="eventRegistrationPage.data.Description"></p>
-				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event)">
+				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event, eventRegistrationForm)">
 					<p 
 						ng-if="eventRegistrationPage.isSubmitted" 
 						ng-class="[eventRegistrationPage.postResult.Success ? 'bg-success' : 'bg-danger', 'registration-result']" 
@@ -51,7 +51,8 @@
 									ng-maxlength="50"
 									ng-model-options="{ updateOn: 'blur' }"
 									ng-required="true">
-								<span class="form-validation-error" ng-if="eventRegistrationForm.firstName.$touched && eventRegistrationForm.firstName.$invalid">You must enter your first name.</span>
+                                <span class="form-validation-error" 
+                                ng-if="(eventRegistrationForm.firstName.$touched || eventRegistrationForm.$submitted) && eventRegistrationForm.firstName.$invalid">You must enter your first name.</span>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -63,7 +64,7 @@
 									ng-maxlength="50"
 									ng-required="true"
 									ng-model-options="{ updateOn: 'blur' }">
-								<span class="form-validation-error" ng-if="eventRegistrationForm.lastName.$touched && eventRegistrationForm.lastName.$invalid">You must enter your last name.</span>
+								<span class="form-validation-error" ng-if="(eventRegistrationForm.lastName.$touched || eventRegistrationForm.$submitted) && eventRegistrationForm.lastName.$invalid">You must enter your last name.</span>
 							</div>
 						</div>
 					</div>					
@@ -75,7 +76,7 @@
 							ng-required="true"
 							ng-model-options="{'updateOn': 'blur'}"
 							ng-model="eventRegistrationPage.email">
-						<span class="form-validation-error" ng-if="eventRegistrationForm.email.$touched && eventRegistrationForm.email.$invalid">You must enter a valid email address.</span>
+						<span class="form-validation-error" ng-if="(eventRegistrationForm.email.$touched || eventRegistrationForm.$submitted) && eventRegistrationForm.email.$invalid">You must enter a valid email address.</span>
 					</div>
 					<div class="form-group">
 						<label for="phone">Phone<span class="required">*</span></label>
@@ -84,7 +85,7 @@
 							ng-model-options="{'updateOn': 'blur'}"
 							ng-required="true"
 							ng-pattern="/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/"> 
-						<span class="form-validation-error" ng-if="eventRegistrationForm.phone.$touched && eventRegistrationForm.phone.$invalid">Phone number must be in the following format: 410-555-1212.</span>
+						<span class="form-validation-error" ng-if="(eventRegistrationForm.phone.$touched || eventRegistrationForm.$submitted) && eventRegistrationForm.phone.$invalid">Phone number must be in the following format: 410-555-1212.</span>
 					</div>
 					<div ng-show="eventRegistrationPage.showGroups">
 						<strong>Are you registering a single person or a group?<span class="required">*</span></strong>
@@ -109,7 +110,10 @@
 						<span class="form-validation-error" ng-if="eventRegistrationPage.isGroup === 'true' && eventRegistrationForm.groupCount.$touched && eventRegistrationForm.groupCount.$invalid">You must specify a numeric group count.</span>
 					</div>
 					<div class="btn-group" role="group">
-						<button type="submit" class="btn btn-primary" ng-disabled="eventRegistrationForm.$invalid || eventRegistrationPage.isLoadingResults">
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            ng-disabled="eventRegistrationPage.isLoadingResults">
 							Register
 							<i class="fa fa-spinner fa-spin" aria-hidden="true" ng-if="eventRegistrationPage.isLoadingResults"></i>
 						</button>
