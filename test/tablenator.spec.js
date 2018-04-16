@@ -69,7 +69,7 @@ describe('Tablenator', () => {
 	});
 
 	describe('init', () => {
-		it('should do nothing when "tabaleSelector" is undefined', () => {
+		it('should do nothing when "tableSelector" is undefined', () => {
 			const expected = $._data(window, 'events').resize.length;
 			bcpl.tablenator.init(undefined, 9999); // 9999 to force the reformat
 
