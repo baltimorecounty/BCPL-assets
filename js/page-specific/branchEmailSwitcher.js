@@ -6,11 +6,12 @@
 const bcpl = window.bcpl || {};
 bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-(() => {
+(($) => {
 	const jqueryTag = document.createElement('script');
-	jqueryTag.src = '/sebin/z/y/jquery.min.js';
-
-	document.querySelector('head').appendChild(jqueryTag);
+	if (!$) {
+		jqueryTag.src = '/sebin/z/y/jquery.min.js';
+		document.querySelector('head').appendChild(jqueryTag);
+	}
 
 	const jqueryLoadInterval = setInterval(() => {
 		if (jQuery) {
@@ -20,9 +21,9 @@ bcpl.pageSpecific = bcpl.pageSpecific || {};
 			clearInterval(jqueryLoadInterval);
 		}
 	}, 100);
-})();
+})(jQuery);
 
-bcpl.branchEmailSwitcher = (() => {
+bcpl.branchEmailSwitcher = (($) => {
 	let branchData = [];
 	const formResultMailFieldSelector = '#_seResultMail';
 
@@ -66,4 +67,4 @@ bcpl.branchEmailSwitcher = (() => {
 	return {
 		init
 	};
-})();
+})(jQuery);

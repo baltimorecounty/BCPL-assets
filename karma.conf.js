@@ -35,9 +35,11 @@ module.exports = function(config) {
 		{ pattern: 'test/**/*.fixture.html', included: false, served: true, watched: false },
 		'js/utility/namespacer.js',
 		'js/constants.js',
-		'js/utility/*.js',
+        'js/utility/*.js',
+        { pattern: 'js/libanswers*.js', included: false, served: false, watched: false },
 		'js/page-specific/**/*.js',
-		'js/apps/**/*.js',
+        'js/apps/**/*.js',
+        { pattern: 'test/**/libanswers*.spec.js', included: false, served: false, watched: false },
 		'js/*.js',
 		{
 			pattern: 'test/**/*.spec.js', watched: false, served: true, included: true
