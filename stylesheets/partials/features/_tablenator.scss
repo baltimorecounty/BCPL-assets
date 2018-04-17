@@ -1,0 +1,23 @@
+.tablenator-responsive-table {
+	background-color: $alternating-row;
+	border-collapse: collapse;
+
+	tr:nth-child(even) {
+		td:last-child {
+			background-color: white;
+		}
+	}
+
+	td {
+		border: 1px solid $gray-light;
+	
+
+		&:first-child {
+			background: $red;
+			color: white;
+			font-weight: 700;
+			width: 33%;
+		}	
+
+	}
+}
