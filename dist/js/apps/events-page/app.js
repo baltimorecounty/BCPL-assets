@@ -943,15 +943,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			$document.ready(function () {
-				var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-				var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+			var startDatePicker = angular.element('#start-date').get()._flatpickr; // eslint-disable-line 
+			var endDatePicker = angular.element('#end-date').get()._flatpickr; // eslint-disable-line 
 
-				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
-				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
-				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
-			});
+			var runFlatPickrStart = startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
+			var runFlatPickrEnd = endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
+			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 
 			eventsService.get(eventRequestModel).then(function (events) {
 				processEvents(events);

@@ -80,15 +80,13 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			$document.ready(() => {
-				const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-				const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+			const startDatePicker = angular.element('#start-date').get()._flatpickr; // eslint-disable-line 
+			const endDatePicker = angular.element('#end-date').get()._flatpickr; // eslint-disable-line 
 
-				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
-				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
-				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
-			});
+			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 
 			eventsService
 				.get(eventRequestModel)
