@@ -22,9 +22,11 @@
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
 					const eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
+					const filteredEvents = eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventStartDateLocaleString));
+
 					eventsByDate.push({
 						date: new Date(eventDate),
-						events: eventGroupSorter(eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventStartDateLocaleString)))
+						events: filteredEvents
 					});
 
 					lastEventDateLocaleString = eventStartDateLocaleString;
@@ -34,29 +36,28 @@
 			return eventsByDate;
 		};
 
-		const sortSplitEventsByEventStart = (eventGroup) => {
-			return eventGroup.sort(eventGroupSorter);
-		};
-
-		const eventGroupSorter = (eventItemA, eventItemB) => {
-			if (moment(eventItemA.EventStart).isSame(eventItemB.EventStart, 'minute')) {
+		const sortEventGroups = (eventGroupA, eventGroupB) => {
+			if (moment(eventGroupA.date).isSame(eventGroupB.date, 'day')) {
 				return 0;
 			}
 
-			if (moment(eventItemA.EventStart).isBefore(eventItemB.EventStart)) {
-				return 1;
+			if (moment(eventGroupA.date).isBefore(eventGroupB.date)) {
+				return -1;
 			}
 
-			return -1;
+			return 1;
 		};
 
 		const get = (eventRequestModel) => {
 			return $q((resolve, reject) => {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
 					.then((response) => {
-						if (response.data) {						
+						if (response.data) {
+							const eventGroups = dateSplitter(response.data.Events);
+							const sortedEventGroups = eventGroups.sort(sortEventGroups);
+
 							resolve({
-								eventGroups: dateSplitter(response.data.Events),
+								eventGroups: sortedEventGroups,
 								totalResults: response.data.TotalResults
 							});
 						} else {
@@ -171,7 +172,7 @@
 			formatTime,
 			processEvent,
 			setStartDateForOnGoingEvent,
-			sortSplitEventsByEventStart,
+			sortEventGroups,
 			/* end-test-code */
 			get,
 			getById,

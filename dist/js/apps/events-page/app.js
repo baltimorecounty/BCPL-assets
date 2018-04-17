@@ -252,11 +252,13 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
 					var eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
+					var filteredEvents = eventData.filter(function (thisEvent) {
+						return isEventOnDate(thisEvent, eventStartDateLocaleString);
+					});
+
 					eventsByDate.push({
 						date: new Date(eventDate),
-						events: eventData.filter(function (thisEvent) {
-							return isEventOnDate(thisEvent, eventStartDateLocaleString);
-						})
+						events: filteredEvents
 					});
 
 					lastEventDateLocaleString = eventStartDateLocaleString;
@@ -266,12 +268,27 @@ bcpl.boostrapCollapseHelper = function ($) {
 			return eventsByDate;
 		};
 
+		var sortEventGroups = function sortEventGroups(eventGroupA, eventGroupB) {
+			if (moment(eventGroupA.date).isSame(eventGroupB.date, 'day')) {
+				return 0;
+			}
+
+			if (moment(eventGroupA.date).isBefore(eventGroupB.date)) {
+				return -1;
+			}
+
+			return 1;
+		};
+
 		var get = function get(eventRequestModel) {
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
+						var eventGroups = dateSplitter(response.data.Events);
+						var sortedEventGroups = eventGroups.sort(sortEventGroups);
+
 						resolve({
-							eventGroups: dateSplitter(response.data.Events),
+							eventGroups: sortedEventGroups,
 							totalResults: response.data.TotalResults
 						});
 					} else {

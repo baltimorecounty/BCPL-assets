@@ -43,15 +43,15 @@ describe('eventsService', () => {
 		const mockEvents = [{
 			EventStart: '2017-11-01T09:00:00'
 		}, {
-			EventStart: '2017-11-01T09:00:00'
+			EventStart: '2017-11-01T10:00:00'
 		}, {
 			EventStart: '2017-11-02T09:00:00'
 		}, {
-			EventStart: '2017-11-02T09:00:00'
+			EventStart: '2017-11-02T10:00:00'
 		}, {
 			EventStart: '2017-11-03T09:00:00'
 		}, {
-			EventStart: '2017-11-03T09:00:00'
+			EventStart: '2017-11-03T10:00:00'
 		}];
 
 		it('should break events over 3 days into an array with 3 values', () => {
@@ -143,29 +143,37 @@ describe('eventsService', () => {
 		});
 	});
 
-	describe('sortSplitEventsByEventStart', ()=> {
-		const mockEventGroup =  [{
-			EventStart: '2018-04-01T11:00:00'
-		}, {
-			EventStart: '2018-04-01T10:00:00'
-		}, {
-			EventStart: '2018-04-01T09:00:00'
-		}];
+	describe('sortEventGroups', ()=> {
+		const mockDate1 = {
+			date: '2018-04-01T11:00:00'
+		};
 
-		it('should sort the event group by EventStart', () => {
-			const expected = [{
-				EventStart: '2018-04-01T11:00:00'
-			}, {
-				EventStart: '2018-04-01T10:00:00'
-			}, {
-				EventStart: '2018-04-01T09:00:00'
-			}];
+		const mockDate2 = {
+			date: '2018-04-02T11:00:00'
+		};
 
-			const actual = eventsService.sortSplitEventsByEventStart(mockEventGroup);
+		it('should sort the events group by date - ascending', () => {
+			const expected = 1;
 
-			expect(actual[0].EventStart).toBe(expected[0].EventStart);
-			expect(actual[1].EventStart).toBe(expected[1].EventStart);
-			expect(actual[2].EventStart).toBe(expected[2].EventStart);
+			const actual = eventsService.sortEventGroups(mockDate1, mockDate2);
+
+			expect(actual).toBe(expected);
+		});
+
+		it('should sort the events group by date - descending', () => {
+			const expected = -1;
+
+			const actual = eventsService.sortEventGroups(mockDate2, mockDate1);
+
+			expect(actual).toBe(expected);
+		});
+
+		it('should sort the events group by date - equal', () => {
+			const expected = 0;
+
+			const actual = eventsService.sortEventGroups(mockDate1, mockDate1);
+
+			expect(actual).toBe(expected);
 		});
 	});
 });
