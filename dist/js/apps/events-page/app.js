@@ -246,15 +246,19 @@ bcpl.boostrapCollapseHelper = function ($) {
 			var lastEventDateLocaleString = void 0;
 
 			angular.forEach(eventData, function (eventItem) {
-				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+				var fixedEvent = eventItem.EventStart ? eventItem : setStartDateForOnGoingEvent(eventItem, moment());
+
+				var eventStartDateLocaleString = new Date(fixedEvent.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
-					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
+					var eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
+					var filteredEvents = eventData.filter(function (thisEvent) {
+						return isEventOnDate(thisEvent, eventStartDateLocaleString);
+					});
+
 					eventsByDate.push({
 						date: new Date(eventDate),
-						events: eventData.filter(function (thisEvent) {
-							return isEventOnDate(thisEvent, eventStartDateLocaleString);
-						})
+						events: filteredEvents
 					});
 
 					lastEventDateLocaleString = eventStartDateLocaleString;
@@ -264,12 +268,27 @@ bcpl.boostrapCollapseHelper = function ($) {
 			return eventsByDate;
 		};
 
+		var sortEventGroups = function sortEventGroups(eventGroupA, eventGroupB) {
+			if (moment(eventGroupA.date).isSame(eventGroupB.date, 'day')) {
+				return 0;
+			}
+
+			if (moment(eventGroupA.date).isBefore(eventGroupB.date)) {
+				return -1;
+			}
+
+			return 1;
+		};
+
 		var get = function get(eventRequestModel) {
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
+						var eventGroups = dateSplitter(response.data.Events);
+						var sortedEventGroups = eventGroups.sort(sortEventGroups);
+
 						resolve({
-							eventGroups: dateSplitter(response.data.Events),
+							eventGroups: sortedEventGroups,
 							totalResults: response.data.TotalResults
 						});
 					} else {
@@ -358,6 +377,20 @@ bcpl.boostrapCollapseHelper = function ($) {
 					}
 				}, reject);
 			});
+		};
+
+		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
+			var cleanOnGoingStartDate = signupEvent.OnGoingStartDate.replace('T', ' ');
+			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
+			var localSignupEvent = signupEvent;
+
+			if (isEventStartingToday) {
+				localSignupEvent.EventStart = signupEvent.OnGoingStartDate;
+			} else {
+				localSignupEvent.EventStart = currentDate;
+			}
+
+			return localSignupEvent;
 		};
 
 		return {
@@ -910,15 +943,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			$document.ready(function () {
-				var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-				var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
+			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
 
-				startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate());
-				endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate());
-				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
-			});
+			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 
 			eventsService.get(eventRequestModel).then(function (events) {
 				processEvents(events);

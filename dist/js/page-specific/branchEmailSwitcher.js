@@ -8,11 +8,12 @@
 var bcpl = window.bcpl || {};
 bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-(function () {
+(function ($) {
 	var jqueryTag = document.createElement('script');
-	jqueryTag.src = '/sebin/z/y/jquery.min.js';
-
-	document.querySelector('head').appendChild(jqueryTag);
+	if (!$) {
+		jqueryTag.src = '/sebin/z/y/jquery.min.js';
+		document.querySelector('head').appendChild(jqueryTag);
+	}
 
 	var jqueryLoadInterval = setInterval(function () {
 		if (jQuery) {
@@ -22,9 +23,9 @@ bcpl.pageSpecific = bcpl.pageSpecific || {};
 			clearInterval(jqueryLoadInterval);
 		}
 	}, 100);
-})();
+})(jQuery);
 
-bcpl.branchEmailSwitcher = function () {
+bcpl.branchEmailSwitcher = function ($) {
 	var branchData = [];
 	var formResultMailFieldSelector = '#_seResultMail';
 
@@ -65,4 +66,4 @@ bcpl.branchEmailSwitcher = function () {
 	return {
 		init: init
 	};
-}();
+}(jQuery);
