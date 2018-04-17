@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
+
 describe('eventsService', () => {
 	var eventsService;
 
 	beforeEach(module('dataServices'));
 	beforeEach(module('events'));
-	beforeEach(inject(['dataServices.eventsService', function (_eventService) {
+	beforeEach(inject(['dataServices.eventsService', function injector(_eventService) {
 		eventsService = _eventService;
 	}]));
 
@@ -107,6 +109,63 @@ describe('eventsService', () => {
 			const expected = false;
 
 			expect(expected).toBe(actualEvent.requiresRegistration);
+		});
+	});
+
+	describe('setStartDateForOnGoingEvent', () => {
+		it('should set the StartDate to the current date if the event starts today', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-15T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-04-15T09:00:00';
+			const cleanCurrentDate = '2018-04-15 09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(cleanCurrentDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
+
+		it('should set the StartDate to the current date if the event starts yesterday', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-01T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-04-15T09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(currentDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
+	});
+
+	describe('sortSplitEventsByEventStart', ()=> {
+		const mockEventGroup =  [{
+			EventStart: '2018-04-01T11:00:00'
+		}, {
+			EventStart: '2018-04-01T10:00:00'
+		}, {
+			EventStart: '2018-04-01T09:00:00'
+		}];
+
+		it('should sort the event group by EventStart', () => {
+			const expected = [{
+				EventStart: '2018-04-01T11:00:00'
+			}, {
+				EventStart: '2018-04-01T10:00:00'
+			}, {
+				EventStart: '2018-04-01T09:00:00'
+			}];
+
+			const actual = eventsService.sortSplitEventsByEventStart(mockEventGroup);
+
+			expect(actual[0].EventStart).toBe(expected[0].EventStart);
+			expect(actual[1].EventStart).toBe(expected[1].EventStart);
+			expect(actual[2].EventStart).toBe(expected[2].EventStart);
 		});
 	});
 });

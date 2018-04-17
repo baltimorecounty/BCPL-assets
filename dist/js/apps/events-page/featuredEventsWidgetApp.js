@@ -18,10 +18,12 @@
 			var lastEventDateLocaleString = void 0;
 
 			angular.forEach(eventData, function (eventItem) {
-				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+				var fixedEvent = eventItem.EventStart ? eventItem : setStartDateForOnGoingEvent(eventItem, moment());
+
+				var eventStartDateLocaleString = new Date(fixedEvent.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
-					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
+					var eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
 					eventsByDate.push({
 						date: new Date(eventDate),
 						events: eventData.filter(function (thisEvent) {
@@ -130,6 +132,20 @@
 					}
 				}, reject);
 			});
+		};
+
+		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
+			var cleanOnGoingStartDate = signupEvent.OnGoingStartDate.replace('T', ' ');
+			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
+			var localSignupEvent = signupEvent;
+
+			if (isEventStartingToday) {
+				localSignupEvent.EventStart = signupEvent.OnGoingStartDate;
+			} else {
+				localSignupEvent.EventStart = currentDate;
+			}
+
+			return localSignupEvent;
 		};
 
 		return {
