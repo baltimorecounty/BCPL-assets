@@ -153,7 +153,7 @@ describe('eventsService', () => {
 		};
 
 		it('should sort the events group by date - ascending', () => {
-			const expected = 1;
+			const expected = -1;
 
 			const actual = eventsService.sortEventGroups(mockDate1, mockDate2);
 
@@ -161,7 +161,7 @@ describe('eventsService', () => {
 		});
 
 		it('should sort the events group by date - descending', () => {
-			const expected = -1;
+			const expected = 1;
 
 			const actual = eventsService.sortEventGroups(mockDate2, mockDate1);
 
