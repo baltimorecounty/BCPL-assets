@@ -181,7 +181,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
-		requestChunkSize: 10
+		requestChunkSize: 10,
+		messages: {
+			ageDisclaimer: 'Children under 8 must be accompanied by adult.'
+		},
+		ageGroupsForDisclaimer: [9, 10, 11, 12]
 	};
 
 	app.constant('events.CONSTANTS', constants);
@@ -458,6 +462,28 @@ bcpl.boostrapCollapseHelper = function ($) {
 	registrationService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
 	app.factory('registrationService', registrationService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var ageDisclaimerService = function ageDisclaimerService($window, CONSTANTS) {
+		var shouldShowDisclaimer = function shouldShowDisclaimer(eventItem) {
+			var ageGroupsForDisclaimer = CONSTANTS.ageGroupsForDisclaimer;
+			var ageGroupsFromEvent = eventItem.AgeGroups;
+
+			var intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
+
+			return intersection > 0;
+		};
+
+		return {
+			shouldShowDisclaimer: shouldShowDisclaimer
+		};
+	};
+
+	ageDisclaimerService.$inject = ['$window', 'events.CONSTANTS'];
+
+	app.factory('ageDisclaimerService', ageDisclaimerService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -827,8 +853,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		vm.submitHandler = function () {
-			vm.isLoadingResults = true;
+		vm.isFieldValid = function (form, field) {
+			return (form[field].$touched || form.$submitted) && form[field].$invalid;
+		};
+
+		vm.submitHandler = function (submitEvent, registrationForm) {
+			if (!registrationForm.$valid) {
+				vm.isLoadingResults = false;
+				return;
+			}
 
 			var postModel = {
 				EventId: parseInt(id, 10),
