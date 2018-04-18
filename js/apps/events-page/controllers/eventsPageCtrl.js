@@ -86,7 +86,7 @@
 			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
 			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');								
+			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
 
 			eventsService
 				.get(eventRequestModel)
