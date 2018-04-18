@@ -152,13 +152,14 @@
 		};
 
 		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
-			var cleanOnGoingStartDate = signupEvent.OnGoingStartDate.replace('T', ' ');
+			var cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate.replace('T', ' '));
 			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
 			var localSignupEvent = signupEvent;
+			var isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);
+			localSignupEvent.EventStart = (isFutureEvent || isEventStartingToday) && signupEvent.OnGoingStartDate;
 
-			if (isEventStartingToday) {
-				localSignupEvent.EventStart = signupEvent.OnGoingStartDate;
-			} else {
+			// Cant' short-circuit this since it'll return false instead of date.
+			if (!localSignupEvent.EventStart) {
 				localSignupEvent.EventStart = currentDate;
 			}
 
