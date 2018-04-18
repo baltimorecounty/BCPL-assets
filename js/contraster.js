@@ -21,7 +21,7 @@ bcpl.contraster = (($, browserStorage) => {
 	 * Handles the click event of the contrast button.
 	 */
 	const contrastButtonClickHandler = (clickEvent) => {
-		const settings = clickEvent ? clickEvent.data : contrasterDefaults;
+		const settings = clickEvent.data || contrasterDefaults;
 		const $eventTarget = $(clickEvent.currentTarget);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {

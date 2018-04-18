@@ -3,3 +3,4 @@ rewrite.config
 dist/web.config
 **/lcov.info
 .vscode
+yarn-error.log
