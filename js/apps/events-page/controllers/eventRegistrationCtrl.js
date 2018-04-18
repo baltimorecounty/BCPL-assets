@@ -21,8 +21,13 @@
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		vm.submitHandler = () => {
-			vm.isLoadingResults = true;
+		vm.isFieldValid = (form, field) => (form[field].$touched || form.$submitted) && form[field].$invalid;
+
+		vm.submitHandler = (submitEvent, registrationForm) => {
+			if (!registrationForm.$valid) {
+				vm.isLoadingResults = false;
+				return;
+			}
 
 			const postModel = {
 				EventId: parseInt(id, 10),

@@ -80,7 +80,7 @@
 				<tbody>
 					<tr ng-if="eventDetailsPage.data.EventStart">
 						<td class="table-column-25 horizontal-headers">Date</td>
-						<td>{{eventDetailsPage.data.EventStartDate}}</td>
+						<td>{{eventDetailsPage.eventDayOfWeek}}, {{eventDetailsPage.data.EventStartDate}}</td>
 					</tr>
 					<tr ng-if="eventDetailsPage.data.EventStart">
 						<td class="table-column-25 horizontal-headers">Time</td>
@@ -90,7 +90,7 @@
                     </tr>
                     <tr ng-if="!eventDetailsPage.data.EventStart">
 						<td class="table-column-25 horizontal-headers">Dates</td>
-						<td>{{eventDetailsPage.data.onGoingStartDate}} to {{eventDetailsPage.data.onGoingEndDate}}
+						<td>{{eventDetailsPage.eventDayOfWeek}}, {{eventDetailsPage.data.onGoingStartDate}} to {{eventDetailsPage.onGoingEventEndDayOfWeek}}, {{eventDetailsPage.data.onGoingEndDate}}
 							<span class="registration-required" ng-show="eventDetailsPage.isOver">(This event has ended.)</span>
 						</td>
 					</tr>

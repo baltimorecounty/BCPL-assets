@@ -16,14 +16,17 @@
 			let lastEventDateLocaleString;
 
 			angular.forEach(eventData, (eventItem) => {
-				let eventStartDateLocaleString = (new Date(eventItem.EventStart)).toLocaleDateString();
+				const fixedEvent = eventItem.EventStart ? eventItem : setStartDateForOnGoingEvent(eventItem, moment());
+
+				let eventStartDateLocaleString = (new Date(fixedEvent.EventStart)).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
-					const eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
+					const eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
+					const filteredEvents = eventData.filter((thisEvent) => isEventOnDate(thisEvent, eventStartDateLocaleString));
+
 					eventsByDate.push({
 						date: new Date(eventDate),
-						events: eventData.filter((thisEvent) =>
-							isEventOnDate(thisEvent, eventStartDateLocaleString))
+						events: filteredEvents
 					});
 
 					lastEventDateLocaleString = eventStartDateLocaleString;
@@ -33,13 +36,28 @@
 			return eventsByDate;
 		};
 
+		const sortEventGroups = (eventGroupA, eventGroupB) => {
+			if (moment(eventGroupA.date).isSame(eventGroupB.date, 'day')) {
+				return 0;
+			}
+
+			if (moment(eventGroupA.date).isBefore(eventGroupB.date)) {
+				return -1;
+			}
+
+			return 1;
+		};
+
 		const get = (eventRequestModel) => {
 			return $q((resolve, reject) => {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel)
 					.then((response) => {
 						if (response.data) {
+							const eventGroups = dateSplitter(response.data.Events);
+							const sortedEventGroups = eventGroups.sort(sortEventGroups);
+
 							resolve({
-								eventGroups: dateSplitter(response.data.Events),
+								eventGroups: sortedEventGroups,
 								totalResults: response.data.TotalResults
 							});
 						} else {
@@ -133,12 +151,29 @@
 			});
 		};
 
+		const setStartDateForOnGoingEvent = (signupEvent, currentDate) => {
+			const cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate);
+			const isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
+			const localSignupEvent = signupEvent;
+			const isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);
+			localSignupEvent.EventStart = (isFutureEvent || isEventStartingToday) && signupEvent.OnGoingStartDate;
+
+			// Cant' short-circuit this since it'll return false instead of date.
+			if (!localSignupEvent.EventStart) {
+				localSignupEvent.EventStart = currentDate;
+			}
+
+			return localSignupEvent;
+		};
+
 		return {
 			/* test-code */
 			isEventOnDate,
 			dateSplitter,
 			formatTime,
 			processEvent,
+			setStartDateForOnGoingEvent,
+			sortEventGroups,
 			/* end-test-code */
 			get,
 			getById,

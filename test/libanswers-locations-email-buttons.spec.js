@@ -1,4 +1,12 @@
 /* eslint-disable no-undef */
+
+/*
+    IMPORTANT: These tests have been ignored in the karma.config. This script that thes tests address
+    loads a vendor javascript file that triggers an error in the browser. As a result, tests are failing inconsistently.
+    Once this issue is resolved, we will re-enable these tests. Issue can be found here
+    https://github.com/baltimorecounty/BCPL-assets/issues/336
+*/
+
 describe('libAnswers EmailButtons', () => {
 	const mockCssRule = '.test ';
 

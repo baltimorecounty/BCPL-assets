@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
+
 describe('eventsService', () => {
 	var eventsService;
 
 	beforeEach(module('dataServices'));
 	beforeEach(module('events'));
-	beforeEach(inject(['dataServices.eventsService', function (_eventService) {
+	beforeEach(inject(['dataServices.eventsService', function injector(_eventService) {
 		eventsService = _eventService;
 	}]));
 
@@ -41,15 +43,15 @@ describe('eventsService', () => {
 		const mockEvents = [{
 			EventStart: '2017-11-01T09:00:00'
 		}, {
-			EventStart: '2017-11-01T09:00:00'
+			EventStart: '2017-11-01T10:00:00'
 		}, {
 			EventStart: '2017-11-02T09:00:00'
 		}, {
-			EventStart: '2017-11-02T09:00:00'
+			EventStart: '2017-11-02T10:00:00'
 		}, {
 			EventStart: '2017-11-03T09:00:00'
 		}, {
-			EventStart: '2017-11-03T09:00:00'
+			EventStart: '2017-11-03T10:00:00'
 		}];
 
 		it('should break events over 3 days into an array with 3 values', () => {
@@ -107,6 +109,85 @@ describe('eventsService', () => {
 			const expected = false;
 
 			expect(expected).toBe(actualEvent.requiresRegistration);
+		});
+	});
+
+	describe('setStartDateForOnGoingEvent', () => {
+		it('should set the StartDate to the current date if the event starts today', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-15T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-04-15T09:00:00';
+			const cleanCurrentDate = '2018-04-15 09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(cleanCurrentDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
+
+		it('should set the StartDate to the current date if the event starts yesterday', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-01T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-04-15T09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(currentDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
+
+		it('should set the start date to the OnGoingStartDate if the event is in the future', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-01T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-03-01T09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(mockOnGoingEvent.OnGoingStartDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
+	});
+
+	describe('sortEventGroups', ()=> {
+		const mockDate1 = {
+			date: '2018-04-01T11:00:00'
+		};
+
+		const mockDate2 = {
+			date: '2018-04-02T11:00:00'
+		};
+
+		it('should sort the events group by date - ascending', () => {
+			const expected = -1;
+
+			const actual = eventsService.sortEventGroups(mockDate1, mockDate2);
+
+			expect(actual).toBe(expected);
+		});
+
+		it('should sort the events group by date - descending', () => {
+			const expected = 1;
+
+			const actual = eventsService.sortEventGroups(mockDate2, mockDate1);
+
+			expect(actual).toBe(expected);
+		});
+
+		it('should sort the events group by date - equal', () => {
+			const expected = 0;
+
+			const actual = eventsService.sortEventGroups(mockDate1, mockDate1);
+
+			expect(actual).toBe(expected);
 		});
 	});
 });

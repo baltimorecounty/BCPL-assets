@@ -18,15 +18,19 @@
 			var lastEventDateLocaleString = void 0;
 
 			angular.forEach(eventData, function (eventItem) {
-				var eventStartDateLocaleString = new Date(eventItem.EventStart).toLocaleDateString();
+				var fixedEvent = eventItem.EventStart ? eventItem : setStartDateForOnGoingEvent(eventItem, moment());
+
+				var eventStartDateLocaleString = new Date(fixedEvent.EventStart).toLocaleDateString();
 
 				if (lastEventDateLocaleString !== eventStartDateLocaleString) {
-					var eventDate = eventItem.EventStart || eventItem.OnGoingStartDate;
+					var eventDate = fixedEvent.EventStart || fixedEvent.OnGoingStartDate;
+					var filteredEvents = eventData.filter(function (thisEvent) {
+						return isEventOnDate(thisEvent, eventStartDateLocaleString);
+					});
+
 					eventsByDate.push({
 						date: new Date(eventDate),
-						events: eventData.filter(function (thisEvent) {
-							return isEventOnDate(thisEvent, eventStartDateLocaleString);
-						})
+						events: filteredEvents
 					});
 
 					lastEventDateLocaleString = eventStartDateLocaleString;
@@ -36,12 +40,27 @@
 			return eventsByDate;
 		};
 
+		var sortEventGroups = function sortEventGroups(eventGroupA, eventGroupB) {
+			if (moment(eventGroupA.date).isSame(eventGroupB.date, 'day')) {
+				return 0;
+			}
+
+			if (moment(eventGroupA.date).isBefore(eventGroupB.date)) {
+				return -1;
+			}
+
+			return 1;
+		};
+
 		var get = function get(eventRequestModel) {
 			return $q(function (resolve, reject) {
 				$http.post(CONSTANTS.baseUrl + CONSTANTS.serviceUrls.events, eventRequestModel).then(function (response) {
 					if (response.data) {
+						var eventGroups = dateSplitter(response.data.Events);
+						var sortedEventGroups = eventGroups.sort(sortEventGroups);
+
 						resolve({
-							eventGroups: dateSplitter(response.data.Events),
+							eventGroups: sortedEventGroups,
 							totalResults: response.data.TotalResults
 						});
 					} else {
@@ -130,6 +149,21 @@
 					}
 				}, reject);
 			});
+		};
+
+		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
+			var cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate);
+			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
+			var localSignupEvent = signupEvent;
+			var isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);
+			localSignupEvent.EventStart = (isFutureEvent || isEventStartingToday) && signupEvent.OnGoingStartDate;
+
+			// Cant' short-circuit this since it'll return false instead of date.
+			if (!localSignupEvent.EventStart) {
+				localSignupEvent.EventStart = currentDate;
+			}
+
+			return localSignupEvent;
 		};
 
 		return {
