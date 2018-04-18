@@ -32,9 +32,9 @@
 					<p>{{eventRegistrationPage.data.EventStartDate}}</p>
 					<p>{{eventRegistrationPage.data.EventSchedule}}</p>
 					<p>{{eventRegistrationPage.data.LocationName}}</p>
-					<p ng-if="eventRegistrationPage.shouldShowDisclaimer">Children under 8 must be accompanied by an adult.</p>
                 </div>
                 <p ng-if="eventRegistrationPage.data.Description" ng-bind-html="eventRegistrationPage.data.Description"></p>
+				<p ng-if="eventRegistrationPage.shouldShowDisclaimer">Children under 8 must be accompanied by an adult.</p>
 				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event, eventRegistrationForm)">
 					<p 
 						ng-if="eventRegistrationPage.isSubmitted" 
