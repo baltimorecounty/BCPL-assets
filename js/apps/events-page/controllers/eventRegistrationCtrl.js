@@ -22,9 +22,10 @@
 		};
 
 		vm.submitHandler = (submitEvent, registrationForm) => {
-			if (!registrationForm.$valid) return;
-
-			vm.isLoadingResults = true;
+			if (!registrationForm.$valid) {
+				vm.isLoadingResults = false;
+				return;
+			}
 
 			const postModel = {
 				EventId: parseInt(id, 10),
