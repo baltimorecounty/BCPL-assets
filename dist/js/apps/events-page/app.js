@@ -380,7 +380,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		};
 
 		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
-			var cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate.replace('T', ' '));
+			var cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate);
 			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
 			var localSignupEvent = signupEvent;
 			var isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);

@@ -152,7 +152,7 @@
 		};
 
 		const setStartDateForOnGoingEvent = (signupEvent, currentDate) => {
-			const cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate.replace('T', ' '));
+			const cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate);
 			const isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
 			const localSignupEvent = signupEvent;
 			const isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);
