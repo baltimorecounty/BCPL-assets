@@ -817,6 +817,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
+		vm.isFieldValid = function (form, field) {
+			return (form[field].$touched || form.$submitted) && form[field].$invalid;
+		};
+
 		vm.submitHandler = function (submitEvent, registrationForm) {
 			if (!registrationForm.$valid) {
 				vm.isLoadingResults = false;
