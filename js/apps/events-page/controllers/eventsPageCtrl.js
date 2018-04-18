@@ -236,8 +236,8 @@
 
 		const processEvents = (eventResults) => {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
-			vm.eventGroups = eventResults.eventGroups;
 			vm.isLoading = false;
+			vm.eventGroups = eventResults.eventGroups;
 			vm.hasResults = eventResults.eventGroups.length;
 			vm.requestErrorMessage = '';
 

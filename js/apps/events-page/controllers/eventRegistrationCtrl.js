@@ -1,7 +1,17 @@
 ((app, bcFormat) => {
 	'use strict';
 
-	const EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	const EventRegistrationCtrl = function EventsPageCtrl(
+		$window,
+		$scope,
+		$routeParams,
+		eventsService,
+		registrationService,
+		dateUtilityService,
+		emailUtilityService,
+		downloadCalendarEventService,
+		ageDisclaimerService
+	) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		const id = $routeParams.id;
@@ -70,6 +80,7 @@
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 		};
 
 		eventsService
@@ -77,7 +88,8 @@
 			.then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService',
+		'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);

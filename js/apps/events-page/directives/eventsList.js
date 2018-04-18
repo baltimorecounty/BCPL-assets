@@ -1,7 +1,7 @@
 ((app) => {
 	'use strict';
 
-	const eventsListDirective = ($timeout, CONSTANTS, dateUtilityService) => {
+	const eventsListDirective = ($timeout, CONSTANTS, dateUtilityService, ageDisclaimerService) => {
 		const eventsListLink = (scope) => {
 			const innerScope = scope;
 
@@ -16,6 +16,8 @@
 				dateUtilityService.formatSchedule(eventItem, eventItem.EventLength, eventItem.AllDay);
 
 			innerScope.getDisplayDate = (eventGroup) => eventGroup.date.toLocaleDateString('en-US', dateSettings);
+
+			innerScope.shouldShowDisclaimer = eventItem => ageDisclaimerService.shouldShowDisclaimer(eventItem);
 		};
 
 		const directive = {
@@ -30,7 +32,7 @@
 		return directive;
 	};
 
-	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService'];
+	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService', 'ageDisclaimerService'];
 
 	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));
