@@ -21,6 +21,8 @@
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
+		vm.isFieldValid = (form, field) => (form[field].$touched || form.$submitted) && form[field].$invalid;
+
 		vm.submitHandler = (submitEvent, registrationForm) => {
 			if (!registrationForm.$valid) {
 				vm.isLoadingResults = false;
