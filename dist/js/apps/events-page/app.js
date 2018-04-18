@@ -380,13 +380,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 		};
 
 		var setStartDateForOnGoingEvent = function setStartDateForOnGoingEvent(signupEvent, currentDate) {
-			var cleanOnGoingStartDate = signupEvent.OnGoingStartDate.replace('T', ' ');
+			var cleanOnGoingStartDate = moment(signupEvent.OnGoingStartDate);
 			var isEventStartingToday = moment(cleanOnGoingStartDate).isSame(currentDate, 'day');
 			var localSignupEvent = signupEvent;
+			var isFutureEvent = cleanOnGoingStartDate.isAfter(currentDate);
+			localSignupEvent.EventStart = (isFutureEvent || isEventStartingToday) && signupEvent.OnGoingStartDate;
 
-			if (isEventStartingToday) {
-				localSignupEvent.EventStart = signupEvent.OnGoingStartDate;
-			} else {
+			// Cant' short-circuit this since it'll return false instead of date.
+			if (!localSignupEvent.EventStart) {
 				localSignupEvent.EventStart = currentDate;
 			}
 
@@ -476,6 +477,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
+		/**
+   * Formats the event schedule for display.
+   *
+   * @param {{ EventStart: Date, OnGoingStartDate: string, OnGoingEndDate: string }} eventItem
+   * @param {number} eventLength
+   * @param {boolean} isAllDay
+   */
 		var formatSchedule = function formatSchedule(eventItem, eventLength, isAllDay) {
 			var eventStart = eventItem.EventStart || null;
 			var onGoingStartDate = eventItem.OnGoingStartDate;
@@ -487,11 +495,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return 'Bad start date format';
 			}
 
-			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength < 0)) {
 				return 'Bad event length format';
 			}
 
-			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+			if (onGoingStartDate && onGoingEndDate) {
 				var dateFormat = 'M/D';
 				return moment(onGoingStartDate).format(dateFormat) + ' to ' + moment(onGoingEndDate).format(dateFormat);
 			}
@@ -767,6 +775,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
 			var eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
+			vm.eventDayOfWeek = $window.moment(eventDate).format('dddd');
+			vm.onGoingEventEndDayOfWeek = vm.data.OnGoingEndDate && $window.moment(vm.data.OnGoingEndDate).format('dddd');
 			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);

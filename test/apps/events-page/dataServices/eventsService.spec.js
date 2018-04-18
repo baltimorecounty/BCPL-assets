@@ -141,6 +141,20 @@ describe('eventsService', () => {
 
 			expect(actual).toBeTruthy();
 		});
+
+		it('should set the start date to the OnGoingStartDate if the event is in the future', () => {
+			const mockOnGoingEvent = {
+				EventStart: null,
+				OnGoingStartDate: '2018-04-01T09:00:00',
+				OnGoingEndDate: '2018-04-30T09:00:00'
+			};
+			const currentDate = '2018-03-01T09:00:00';
+
+			const actualEvent = eventsService.setStartDateForOnGoingEvent(mockOnGoingEvent, currentDate);
+			const actual = moment(actualEvent.EventStart).isSame(mockOnGoingEvent.OnGoingStartDate, 'day');
+
+			expect(actual).toBeTruthy();
+		});
 	});
 
 	describe('sortEventGroups', ()=> {

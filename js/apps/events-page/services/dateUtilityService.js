@@ -14,6 +14,13 @@
 			return date;
 		};
 
+		/**
+		 * Formats the event schedule for display.
+		 *
+		 * @param {{ EventStart: Date, OnGoingStartDate: string, OnGoingEndDate: string }} eventItem
+		 * @param {number} eventLength
+		 * @param {boolean} isAllDay
+		 */
 		const formatSchedule = (eventItem, eventLength, isAllDay) => {
 			const eventStart = eventItem.EventStart || null;
 			const onGoingStartDate = eventItem.OnGoingStartDate;
@@ -25,11 +32,11 @@
 				return 'Bad start date format';
 			}
 
-			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength < 0)) {
 				return 'Bad event length format';
 			}
 
-			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+			if (onGoingStartDate && onGoingEndDate) {
 				const dateFormat = 'M/D';
 				return `${moment(onGoingStartDate).format(dateFormat)} to ${moment(onGoingEndDate).format(dateFormat)}`;
 			}
