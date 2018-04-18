@@ -775,6 +775,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.isRegistrationRequired = vm.data.RegistrationTypeCodeEnum !== 0;
 			var eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
+			vm.eventDayOfWeek = $window.moment(eventDate).format('dddd');
+			vm.onGoingEventEndDayOfWeek = vm.data.OnGoingEndDate && $window.moment(vm.data.OnGoingEndDate).format('dddd');
 			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
