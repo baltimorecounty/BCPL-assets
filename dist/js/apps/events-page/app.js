@@ -476,6 +476,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return date;
 		};
 
+		/**
+   * Formats the event schedule for display.
+   *
+   * @param {{ EventStart: Date, OnGoingStartDate: string, OnGoingEndDate: string }} eventItem
+   * @param {number} eventLength
+   * @param {boolean} isAllDay
+   */
 		var formatSchedule = function formatSchedule(eventItem, eventLength, isAllDay) {
 			var eventStart = eventItem.EventStart || null;
 			var onGoingStartDate = eventItem.OnGoingStartDate;
@@ -487,11 +494,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return 'Bad start date format';
 			}
 
-			if (eventStart && (typeof eventLength !== 'number' || eventLength <= 0)) {
+			if (eventStart && (typeof eventLength !== 'number' || eventLength < 0)) {
 				return 'Bad event length format';
 			}
 
-			if (!eventStart && onGoingStartDate && onGoingEndDate) {
+			if (onGoingStartDate && onGoingEndDate) {
 				var dateFormat = 'M/D';
 				return moment(onGoingStartDate).format(dateFormat) + ' to ' + moment(onGoingEndDate).format(dateFormat);
 			}
