@@ -92,28 +92,32 @@
 
 	.alert-wrapper {
 
-		p > span > i {
-			display: none;
-		}
 
 		.message {
 			display: block;
-		}
 
-		p {
-			button, a {
-				margin: 0 .5em .5em 0;
-				padding: .25em 1em;
-				text-align: left;
-				width: auto;
+			div:first-child {
+				display: none;
 			}
 
-			a {
-				padding-left: 0;
-			}
+			p {
+				padding: 0;
+				margin-bottom: 1em;
 
-			.pull-right {
-				float: none !important;
+				button, a {
+					margin: 0 .5em .5em 0;
+					padding: .25em 1em;
+					text-align: left;
+					width: auto;
+				}
+
+				a {
+					padding-left: 0;
+				}
+
+				.pull-right {
+					float: none !important;
+				}
 			}
 		}
 
