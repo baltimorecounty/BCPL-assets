@@ -14,10 +14,10 @@
 		metaService,
 		RequestModel
 	) {
-        window.onload = () => {
-            $window.scrollTo(0, 0); // Ensure the event details are visible on mobile
-        };
-        
+		setTimeout(() => {
+			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+		}, 500);
+
 		const vm = this;
 		const filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
