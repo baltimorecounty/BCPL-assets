@@ -31,7 +31,7 @@ var namespacer = function namespacer(ns) {
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://services.bcpl.info',
+	baseApiUrl: 'https://testservices.bcpl.info',
 	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
 	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',

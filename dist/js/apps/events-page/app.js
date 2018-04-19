@@ -158,7 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'http://localhost:3100', // 'https://services.bcpl.info',
+		baseUrl: 'https://services.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -808,7 +808,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			var eventDate = vm.data.EventStart || vm.data.OnGoingStartDate;
 			vm.eventDayOfWeek = $window.moment(eventDate).format('dddd');
 			vm.onGoingEventEndDayOfWeek = vm.data.OnGoingEndDate && $window.moment(vm.data.OnGoingEndDate).format('dddd');
-			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
+			vm.isOver = vm.data.EventStart ? $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm')) : $window.moment().startOf('day').isAfter($window.moment(eventDate).endOf('day'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
