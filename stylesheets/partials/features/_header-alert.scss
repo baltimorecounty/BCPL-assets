@@ -15,58 +15,59 @@
 		background-color: $emergency-banner;
 		color: white;
 
-		p {
-			& > .message i {
-				color: white;
+		.message {
+			display: flex;
+			flex: 1;
+
+			p {
+				margin: 0;
+				padding: 0 1em;
+			}
+
+			div {
+				white-space: nowrap;
+
+				i {
+					margin-right: .25em;
+				}
 			}
 
 			button, a {
 				color: white;
+				text-transform: uppercase;
 			}
 		}
-
 	}
 
 	.alert-container {
 		padding: 1em 15px;
 	}
 
-	p {
-		padding: 0;
-		margin: 0;
-		margin-top: -4px;
+	.message {
+		display: flex;
+		flex: 1;
+		justify-content: space-between;
 
-		& > .message i {
-			position: relative;
-			margin-right: .5em;
-			color: $tan-light;
-			top: 4px;
+		p {
+			margin: 0;
+			padding: 0 1em;
+			flex: 1;
+		}
+
+		div {
+			white-space: nowrap;
+
+			i {
+				margin-right: .25em;
+			}
 		}
 
 		button, a {
 			color: black;
-			display: inline-block;
+			text-transform: uppercase;
 			font-weight: 600;
 			line-height: 1.5em;
-			margin-top: 4px;
-			padding: .25em 1em;
 			font-size: .9em;
-			text-transform: uppercase;
-
-			i {
-				margin-left: .5em;
-				color: inherit;
-				position: relative;
-				left: -5px;
-			}
-
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-
-		button {
-			padding-right: 0;
 		}
 	}
 
@@ -91,28 +92,32 @@
 
 	.alert-wrapper {
 
-		p > span > i {
-			display: none;
-		}
 
 		.message {
 			display: block;
-		}
 
-		p {
-			button, a {
-				margin: 0 .5em .5em 0;
-				padding: .25em 1em;
-				text-align: left;
-				width: auto;
+			div:first-child {
+				display: none;
 			}
 
-			a {
-				padding-left: 0;
-			}
+			p {
+				padding: 0;
+				margin-bottom: 1em;
 
-			.pull-right {
-				float: none !important;
+				button, a {
+					margin: 0 .5em .5em 0;
+					padding: .25em 1em;
+					text-align: left;
+					width: auto;
+				}
+
+				a {
+					padding-left: 0;
+				}
+
+				.pull-right {
+					float: none !important;
+				}
 			}
 		}
 
