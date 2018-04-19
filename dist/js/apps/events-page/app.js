@@ -158,7 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://services.bcpl.info',
+		baseUrl: 'http://localhost:3100', // 'https://services.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -796,6 +796,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
 
 		var processEventData = function processEventData(data) {
+			if (Object.prototype.hasOwnProperty.call(data, 'EventId') && !data.EventId) {
+				requestError();
+				return;
+			}
+
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);

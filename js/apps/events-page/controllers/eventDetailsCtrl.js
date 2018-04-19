@@ -27,6 +27,11 @@
 		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
 
 		const processEventData = (data) => {
+			if (Object.prototype.hasOwnProperty.call(data, 'EventId') && !data.EventId) {
+				requestError();
+				return;
+			}
+
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
