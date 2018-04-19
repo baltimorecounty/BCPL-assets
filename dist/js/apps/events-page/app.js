@@ -158,8 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		// baseUrl: 'https://services.bcpl.info',
-		baseUrl: 'http://oit226471:1919',
+		baseUrl: 'https://services.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
