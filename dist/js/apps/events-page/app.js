@@ -181,7 +181,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
-		requestChunkSize: 10
+		requestChunkSize: 10,
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult.',
+			ageGroupIds: [9, 10, 11, 12]
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);
@@ -458,6 +462,28 @@ bcpl.boostrapCollapseHelper = function ($) {
 	registrationService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
 	app.factory('registrationService', registrationService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var ageDisclaimerService = function ageDisclaimerService($window, CONSTANTS) {
+		var shouldShowDisclaimer = function shouldShowDisclaimer(eventItem) {
+			var ageGroupsForDisclaimer = CONSTANTS.ageDisclaimer.ageGroupIds;
+			var ageGroupsFromEvent = eventItem.AgeGroups;
+
+			var intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
+
+			return intersection > 0;
+		};
+
+		return {
+			shouldShowDisclaimer: shouldShowDisclaimer
+		};
+	};
+
+	ageDisclaimerService.$inject = ['$window', 'events.CONSTANTS'];
+
+	app.factory('ageDisclaimerService', ageDisclaimerService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -755,7 +781,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, ICS) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var vm = this;
@@ -780,6 +806,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
@@ -788,7 +816,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		var requestError = function requestError(errorResponse) {
+		var requestError = function requestError() {
 			vm.isLoading = false;
 			vm.isError = true;
 		};
@@ -796,7 +824,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData).catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
@@ -805,7 +833,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bcFormat) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, CONSTANTS, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var id = $routeParams.id;
@@ -875,12 +903,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
@@ -1114,8 +1144,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEvents = function processEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
-			vm.eventGroups = eventResults.eventGroups;
 			vm.isLoading = false;
+			vm.eventGroups = eventResults.eventGroups;
 			vm.hasResults = eventResults.eventGroups.length;
 			vm.requestErrorMessage = '';
 
@@ -1431,7 +1461,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService) {
+	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService, ageDisclaimerService) {
 		var eventsListLink = function eventsListLink(scope) {
 			var innerScope = scope;
 
@@ -1449,6 +1479,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			innerScope.getDisplayDate = function (eventGroup) {
 				return eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			};
+
+			innerScope.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer;
+
+			innerScope.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		var directive = {
@@ -1463,7 +1497,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService'];
+	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService', 'ageDisclaimerService'];
 
 	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));

@@ -215,7 +215,11 @@
 			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
-		requestChunkSize: 10
+		requestChunkSize: 10,
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult.',
+			ageGroupIds: [9, 10, 11, 12]
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);
