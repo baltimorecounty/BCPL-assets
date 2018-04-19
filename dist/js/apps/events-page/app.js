@@ -185,6 +185,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 		ageDisclaimer: {
 			message: 'Children under 8 must be accompanied by adult.',
 			ageGroupIds: [9, 10, 11, 12]
+		},
+		eventDetailsError: {
+			message: 'There was a problem loading this event\'s details. Please select a different event.'
 		}
 	};
 
@@ -793,9 +796,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.data.EventEndTime = '';
 		vm.isLoading = true;
 		vm.isError = false;
-		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
+		vm.requestErrorMessage = CONSTANTS.eventDetailsError.message;
 
 		var processEventData = function processEventData(data) {
+			if (Object.prototype.hasOwnProperty.call(data, 'EventId') && !data.EventId) {
+				requestError();
+				return;
+			}
+
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);

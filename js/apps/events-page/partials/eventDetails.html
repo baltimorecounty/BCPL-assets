@@ -31,13 +31,13 @@
 			<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
 		</div>
 
-		<div ng-show="eventsPage.isError" class="cards">
-			<p class="card">
+		<div ng-if="eventDetailsPage.isError">
+			<p>
 				{{eventDetailsPage.requestErrorMessage}}
 			</p>
 		</div>	
 
-		<div ng-hide="eventDetailsPage.isLoading && !eventsPage.isError">
+		<div ng-if="!eventDetailsPage.isError" ng-hide="eventDetailsPage.isLoading">
 			<p ng-if="eventDetailsPage.data.Description" ng-bind-html="eventDetailsPage.data.Description"></p>
 	
 			<p ng-if="eventDetailsPage.shouldShowDisclaimer">{{ eventDetailsPage.disclaimer }}</p>
