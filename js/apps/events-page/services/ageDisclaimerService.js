@@ -1,7 +1,7 @@
 ((app) => {
 	const ageDisclaimerService = ($window, CONSTANTS) => {
 		const shouldShowDisclaimer = (eventItem) => {
-			const ageGroupsForDisclaimer = CONSTANTS.ageGroupsForDisclaimer;
+			const ageGroupsForDisclaimer = CONSTANTS.ageDisclaimer.ageGroupIds;
 			const ageGroupsFromEvent = eventItem.AgeGroups;
 
 			const intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);

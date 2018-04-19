@@ -38,6 +38,7 @@
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {

@@ -5,6 +5,7 @@
 		$window,
 		$scope,
 		$routeParams,
+		CONSTANTS,
 		eventsService,
 		registrationService,
 		dateUtilityService,
@@ -81,6 +82,7 @@
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		eventsService
@@ -88,7 +90,7 @@
 			.then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService',
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService',
 		'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);

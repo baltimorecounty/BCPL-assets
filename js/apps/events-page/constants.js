@@ -28,10 +28,10 @@
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
 		requestChunkSize: 10,
-		messages: {
-			ageDisclaimer: 'Children under 8 must be accompanied by adult.'
-		},
-		ageGroupsForDisclaimer: [9, 10, 11, 12]
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult.',
+			ageGroupIds: [9, 10, 11, 12]
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);

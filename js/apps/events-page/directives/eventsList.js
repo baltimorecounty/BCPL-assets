@@ -17,7 +17,9 @@
 
 			innerScope.getDisplayDate = (eventGroup) => eventGroup.date.toLocaleDateString('en-US', dateSettings);
 
-			innerScope.shouldShowDisclaimer = eventItem => ageDisclaimerService.shouldShowDisclaimer(eventItem);
+			innerScope.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer;
+
+			innerScope.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		const directive = {

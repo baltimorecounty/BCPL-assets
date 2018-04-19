@@ -182,10 +182,10 @@ bcpl.boostrapCollapseHelper = function ($) {
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
 		requestChunkSize: 10,
-		messages: {
-			ageDisclaimer: 'Children under 8 must be accompanied by adult.'
-		},
-		ageGroupsForDisclaimer: [9, 10, 11, 12]
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult.',
+			ageGroupIds: [9, 10, 11, 12]
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);
@@ -468,7 +468,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app) {
 	var ageDisclaimerService = function ageDisclaimerService($window, CONSTANTS) {
 		var shouldShowDisclaimer = function shouldShowDisclaimer(eventItem) {
-			var ageGroupsForDisclaimer = CONSTANTS.ageGroupsForDisclaimer;
+			var ageGroupsForDisclaimer = CONSTANTS.ageDisclaimer.ageGroupIds;
 			var ageGroupsFromEvent = eventItem.AgeGroups;
 
 			var intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
@@ -807,6 +807,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
@@ -832,7 +833,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bcFormat) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, CONSTANTS, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var id = $routeParams.id;
@@ -903,12 +904,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
@@ -1478,9 +1480,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			};
 
-			innerScope.shouldShowDisclaimer = function (eventItem) {
-				return ageDisclaimerService.shouldShowDisclaimer(eventItem);
-			};
+			innerScope.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer;
+
+			innerScope.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		var directive = {
