@@ -1,14 +1,13 @@
 (() => {
 	'use strict';
 
-	angular
-		.module('eventsPageApp', 
-			[
-				'dataServices',
-				'events',
-				'sharedFilters',
-				'ngAria',
-				'ngRoute', 
-				'ngSanitize'
-			]);
+	angular.module('eventsPageApp', 
+		[
+			'dataServices',
+			'events',
+			'sharedFilters',
+			'ngAria',
+			'ngRoute', 
+			'ngSanitize'
+		]);
 })();

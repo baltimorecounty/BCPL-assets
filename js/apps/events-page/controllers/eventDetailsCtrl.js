@@ -1,7 +1,18 @@
 ((app, ICS) => {
 	'use strict';
 
-	const EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	const EventDetailsCtrl = function EventsPageCtrl(
+		$scope,
+		$window,
+		$timeout,
+		$routeParams,
+		CONSTANTS,
+		eventsService,
+		dateUtilityService,
+		emailUtilityService,
+		downloadCalendarEventService,
+		ageDisclaimerService
+	) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		const vm = this;
@@ -26,6 +37,8 @@
 			vm.isOver = $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
@@ -34,7 +47,7 @@
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		const requestError = (errorResponse) => {
+		const requestError = () => {
 			vm.isLoading = false;
 			vm.isError = true;
 		};
@@ -45,7 +58,8 @@
 			.catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS',
+		'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
