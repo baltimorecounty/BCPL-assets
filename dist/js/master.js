@@ -775,6 +775,7 @@ bcpl.bookCarousel = function ($, constants) {
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true"><span>Scroll left</span></i></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true"><span>Scroll right</span></i></a>',
 		slidesToShow: 3,
+		slidesToScroll: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
 			settings: {
@@ -866,6 +867,7 @@ bcpl.bookCarousel = function ($, constants) {
 			$.when.apply($, promises).then(function () {
 				if (settings && settings.maxSlides > 0) {
 					slickSettings.slidesToShow = settings.maxSlides;
+					slickSettings.slidesToScroll = settings.maxSlides;
 				}
 
 				$carousels.slick(slickSettings);
