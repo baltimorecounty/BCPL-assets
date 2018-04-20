@@ -13,17 +13,20 @@ bcpl.bookCarousel = (($, constants) => {
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
 			settings: {
-				slidesToShow: 3
+				slidesToShow: 3,
+				slidesToScroll: 3
 			}
 		}, {
 			breakpoint: constants.breakpoints.medium,
 			settings: {
-				slidesToShow: 2
+				slidesToShow: 2,
+				slidesToScroll: 2
 			}
 		}, {
 			breakpoint: constants.breakpoints.small,
 			settings: {
-				slidesToShow: 1
+				slidesToShow: 1,
+				slidesToScroll: 1
 			}
 		}]
 	};
