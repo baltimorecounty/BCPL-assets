@@ -924,7 +924,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app, bootstrapCollapseHelper) {
+(function (app, bootstrapCollapseHelper, onWindowResize, windowShade) {
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
@@ -963,6 +963,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.locations = [];
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
+		vm.isMobile = false;
+
+		var updateMobileStatus = function updateMobileStatus() {
+			vm.isMobile = $window.innerWidth <= CONSTANTS.screenBreakpoints.small;
+			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			if (!$scope.$$phase) {
+				$scope.$digest();
+			}
+		};
+
+		updateMobileStatus(); // Set initial
+
+		onWindowResize(updateMobileStatus); // bind to the resize event
 
 		var getFilterPanelStatus = function getFilterPanelStatus(model) {
 			var activePanels = [];
@@ -1015,6 +1029,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				if (isInit) {
 					bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+				} else {
+					windowShade.cycleWithMessage('Event list updated!');
 				}
 
 				if (callback && typeof callback === 'function') {
@@ -1396,7 +1412,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade);
 'use strict';
 
 (function (app) {

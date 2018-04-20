@@ -259,6 +259,27 @@ bcpl.utility.browserStorage = function (localStorage) {
 
 namespacer('bcpl.utility');
 
+bcpl.utility.debounce = function () {
+	return function (fn, time) {
+		var timeout = void 0;
+
+		return function innerDebounce() {
+			var _this = this,
+			    _arguments = arguments;
+
+			var functionCall = function functionCall() {
+				return fn.apply(_this, _arguments);
+			};
+
+			clearTimeout(timeout);
+			timeout = setTimeout(functionCall, time);
+		};
+	};
+}();
+'use strict';
+
+namespacer('bcpl.utility');
+
 bcpl.utility.flexDetect = function (document, $) {
 	var init = function init(testDoc) {
 		var actualDoc = testDoc || document;
@@ -577,24 +598,74 @@ bcpl.utility.urlComparer = function (constants) {
 
 namespacer('bcpl.utility');
 
-bcpl.utility.windowShade = function ($) {
+bcpl.utility.windowResize = function (debounce) {
+	return function (fn) {
+		window.addEventListener('resize', debounce(fn, 250));
+	};
+}(bcpl.utility.debounce);
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.windowShade = function ($, debounce) {
 	var windowShadeSelector = '#window-shade';
 	var timeout = void 0;
+	var windowShadeDisplaySpeed = void 0;
+	var windowShadeDelaySpeed = void 0;
+
+	var buildWindowShade = function buildWindowShade(msg) {
+		return '<div id="window-shade" style="display: none">\n            <p>' + msg + '</p>\n        </div>';
+	};
+
+	var displayShade = function displayShade($windowShade) {
+		$windowShade.slideDown(windowShadeDisplaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(windowShadeDisplaySpeed);
+			}, windowShadeDelaySpeed);
+		});
+	};
+
+	var setShadeSpeeds = function setShadeSpeeds(displaySpeed, delaySpeed) {
+		windowShadeDisplaySpeed = displaySpeed || 250;
+		windowShadeDelaySpeed = delaySpeed || 2000;
+	};
 
 	var cycle = function cycle(displaySpeed, delaySpeed) {
+		setShadeSpeeds(displaySpeed, delaySpeed);
+
 		var $windowShade = $(windowShadeSelector);
 
 		clearTimeout(timeout);
 
-		$windowShade.slideDown(displaySpeed, function () {
-			timeout = setTimeout(function () {
-				$windowShade.slideUp(displaySpeed);
-			}, delaySpeed);
-		});
+		displayShade($windowShade);
+	};
+
+	var createShade = function createShade(message) {
+		var html = buildWindowShade(message);
+		$('body').append(html);
+	};
+
+	var cycleWithMessage = function cycleWithMessage(message, displaySpeed, delaySpeed) {
+		setShadeSpeeds(displaySpeed, delaySpeed);
+
+		var $windowShade = $(windowShadeSelector);
+
+		if ($windowShade) {
+			$windowShade.remove(); // Remove shade if it exists so we can update the message
+		}
+
+		createShade(message);
+
+		$windowShade = $(windowShadeSelector); // We must re-select the dom for the newly created windowShade
+
+		clearTimeout(timeout);
+
+		displayShade($windowShade);
 	};
 
 	return {
-		cycle: cycle
+		cycle: cycle,
+		cycleWithMessage: cycleWithMessage
 	};
 }(jQuery);
 'use strict';
