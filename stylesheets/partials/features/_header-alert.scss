@@ -30,6 +30,12 @@
 				i {
 					margin-right: .25em;
 				}
+
+				&::first-child {
+					i {
+						color: white;
+					}
+				}
 			}
 
 			button, a {
