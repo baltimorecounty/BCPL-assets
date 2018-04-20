@@ -924,7 +924,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app, bootstrapCollapseHelper, onWindowResize, windowShade) {
+(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) {
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
@@ -966,12 +966,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isMobile = false;
 
 		var updateMobileStatus = function updateMobileStatus() {
-			vm.isMobile = $window.innerWidth <= CONSTANTS.screenBreakpoints.small;
+			vm.isMobile = $window.innerWidth <= globalConstants.breakpoints.medium;
 			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			if (vm.isMobile) {
+				vm.isFilterCollapseExpanded = false;
+			}
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
 			}
+		};
+
+		vm.toggleFilterCollapse = function () {
+			vm.isFilterCollapseExpanded = !vm.isFilterCollapseExpanded;
 		};
 
 		updateMobileStatus(); // Set initial
@@ -1412,7 +1420,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
 'use strict';
 
 (function (app) {
