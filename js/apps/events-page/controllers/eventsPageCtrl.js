@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper) => {
+((app, bootstrapCollapseHelper, onWindowResize) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -45,6 +45,16 @@
 		vm.locations = [];
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
+		vm.isMobile = false;
+
+		const updateMobileStatus = () => {
+			vm.isMobile = $window.innerWidth <= CONSTANTS.screenBreakpoints.small;
+			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			$scope.$digest();
+		};
+
+		onWindowResize(updateMobileStatus);
 
 		const getFilterPanelStatus = (model) => {
 			const activePanels = [];
@@ -485,4 +495,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize);
