@@ -51,10 +51,14 @@
 			vm.isMobile = $window.innerWidth <= CONSTANTS.screenBreakpoints.small;
 			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
 
-			$scope.$digest();
+			if (!$scope.$$phase) {
+				$scope.$digest();
+			}
 		};
 
-		onWindowResize(updateMobileStatus);
+		updateMobileStatus(); // Set initial
+
+		onWindowResize(updateMobileStatus); // bind to the resize event
 
 		const getFilterPanelStatus = (model) => {
 			const activePanels = [];
