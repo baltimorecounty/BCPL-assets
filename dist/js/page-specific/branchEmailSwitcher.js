@@ -6,64 +6,67 @@
 // Not using constants since I can only load one file on the form.
 
 var bcpl = window.bcpl || {};
+
 bcpl.pageSpecific = bcpl.pageSpecific || {};
 
-(function ($) {
-	var jqueryTag = document.createElement('script');
-	if (!$) {
-		jqueryTag.src = '/sebin/z/y/jquery.min.js';
-		document.querySelector('head').appendChild(jqueryTag);
-	}
-
-	var jqueryLoadInterval = setInterval(function () {
-		if (jQuery) {
-			$(function () {
-				bcpl.branchEmailSwitcher.init($);
-			});
-			clearInterval(jqueryLoadInterval);
+window.addEventListener('load', function () {
+	(function ($) {
+		var jqueryTag = document.createElement('script');
+		if (!$) {
+			jqueryTag.src = '/sebin/z/y/jquery.min.js';
+			document.querySelector('head').appendChild(jqueryTag);
 		}
-	}, 100);
-})(jQuery);
 
-bcpl.branchEmailSwitcher = function ($) {
-	var branchData = [];
-	var formResultMailFieldSelector = '#_seResultMail';
-
-	var findBranchEmail = function findBranchEmail(searchTerm) {
-		var foundEmail = branchData.find(function (branchEmailItem) {
-			if (branchEmailItem && branchEmailItem.myLibrarianEmail && typeof branchEmailItem.myLibrarianEmail === 'string') {
-				return branchEmailItem.name.toLowerCase() === searchTerm.toLowerCase();
+		var jqueryLoadInterval = setInterval(function () {
+			if (jQuery) {
+				$(function () {
+					bcpl.branchEmailSwitcher.init($);
+				});
+				clearInterval(jqueryLoadInterval);
 			}
+		}, 100);
+	})(jQuery);
 
-			return false;
-		});
+	bcpl.branchEmailSwitcher = function ($) {
+		var branchData = [];
+		var formResultMailFieldSelector = '#_seResultMail';
 
-		return foundEmail || '';
-	};
+		var findBranchEmail = function findBranchEmail(searchTerm) {
+			var foundEmail = branchData.find(function (branchEmailItem) {
+				if (branchEmailItem && branchEmailItem.myLibrarianEmail && typeof branchEmailItem.myLibrarianEmail === 'string') {
+					return branchEmailItem.name.toLowerCase() === searchTerm.toLowerCase();
+				}
 
-	var branchChangeHandler = function branchChangeHandler(changeEvent) {
-		var selectedBranch = changeEvent.target;
-		var branchSelectionValue = selectedBranch.value;
-		var branchEmailItem = findBranchEmail(branchSelectionValue);
+				return false;
+			});
 
-		$(selectedBranch).closest('form').find(formResultMailFieldSelector).attr('value', branchEmailItem.myLibrarianEmail);
-	};
+			return foundEmail || '';
+		};
 
-	var branchDataSuccessHandler = function branchDataSuccessHandler(branchJson) {
-		branchData = branchJson;
-	};
+		var branchChangeHandler = function branchChangeHandler(changeEvent) {
+			var selectedBranch = changeEvent.target;
+			var branchSelectionValue = selectedBranch.value;
+			var branchEmailItem = findBranchEmail(branchSelectionValue);
 
-	var branchDataErrorHandler = function branchDataErrorHandler(error) {
-		console.error(error);
-	};
+			$(selectedBranch).closest('form').find(formResultMailFieldSelector).attr('value', branchEmailItem.myLibrarianEmail);
+		};
 
-	var init = function init($) {
-		$.ajax('/sebin/q/r/branch-amenities.json').then(branchDataSuccessHandler, branchDataErrorHandler);
+		var branchDataSuccessHandler = function branchDataSuccessHandler(branchJson) {
+			branchData = branchJson;
+		};
 
-		$(document).on('change', '#whichBranch', branchChangeHandler);
-	};
+		var branchDataErrorHandler = function branchDataErrorHandler(error) {
+			console.error(error);
+		};
 
-	return {
-		init: init
-	};
-}(jQuery);
+		var init = function init($) {
+			$.ajax('/sebin/q/r/branch-amenities.json').then(branchDataSuccessHandler, branchDataErrorHandler);
+
+			$(document).on('change', '#whichBranch', branchChangeHandler);
+		};
+
+		return {
+			init: init
+		};
+	}(jQuery);
+});
