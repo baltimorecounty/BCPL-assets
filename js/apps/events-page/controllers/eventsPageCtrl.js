@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper, onWindowResize) => {
+((app, bootstrapCollapseHelper, onWindowResize, windowShade) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -111,8 +111,11 @@
 
 					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
+
 					if (isInit) {
 						bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+					} else {
+						windowShade.cycleWithMessage('Event list updated!');
 					}
 
 					if (callback && typeof callback === 'function') {
@@ -499,4 +502,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade);
