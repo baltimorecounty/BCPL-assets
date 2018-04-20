@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper, onWindowResize, windowShade) => {
+((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -48,12 +48,20 @@
 		vm.isMobile = false;
 
 		const updateMobileStatus = () => {
-			vm.isMobile = $window.innerWidth <= CONSTANTS.screenBreakpoints.small;
+			vm.isMobile = $window.innerWidth <= globalConstants.breakpoints.medium;
 			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			if (vm.isMobile) {
+				vm.isFilterCollapseExpanded = false;
+			}
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
 			}
+		};
+
+		vm.toggleFilterCollapse = () => {
+			vm.isFilterCollapseExpanded = !vm.isFilterCollapseExpanded;
 		};
 
 		updateMobileStatus(); // Set initial
@@ -502,4 +510,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);

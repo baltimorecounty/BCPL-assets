@@ -2,10 +2,15 @@
 	<div class="filters event-filters">
         <h3 
             data-toggle="collapse" 
-            ng-href="{{eventsPage.isMobile ? '#filter-items-wrapper': ''}}" 
+            ng-href="{{eventsPage.isMobile ? '#filter-items-wrapper': ''}}"
+            ng-click="eventsPage.toggleFilterCollapse()"
             aria-expanded="true" 
-            aria-controls="collapseFilter">{{eventsPage.isMobile ? 'Filter Events' : 'Find an Event'}} 
-                <i class="fa fa-plus-square pull-right" aria-hidden="true" ng-show="eventsPage.isMobile"></i>
+            aria-controls="collapseFilter">Filter Events 
+                <i 
+                    class="fa fa-lg pull-right" 
+                    ng-class="eventsPage.isFilterCollapseExpanded ? 'fa-minus-square':'fa-plus-square'" 
+                    ng-show="eventsPage.isMobile"
+                    aria-hidden="true"></i>
                 <span class="clearfix"></span></h3>
 		<div id="filter-items-wrapper" class="filter-items-wrapper" ng-class="eventsPage.isMobile ? 'collapse' : 'collapse in'">
 			<form id="filter-form">
