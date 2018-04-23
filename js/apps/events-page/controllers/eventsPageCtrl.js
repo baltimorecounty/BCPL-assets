@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper) => {
+((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -49,6 +49,28 @@
 		vm.locations = [];
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
+		vm.isMobile = false;
+
+		const updateMobileStatus = () => {
+			vm.isMobile = $window.innerWidth <= globalConstants.breakpoints.medium;
+			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			if (vm.isMobile) {
+				vm.isFilterCollapseExpanded = false;
+			}
+
+			if (!$scope.$$phase) {
+				$scope.$digest();
+			}
+		};
+
+		vm.toggleFilterCollapse = () => {
+			vm.isFilterCollapseExpanded = !vm.isFilterCollapseExpanded;
+		};
+
+		updateMobileStatus(); // Set initial
+
+		onWindowResize(updateMobileStatus); // bind to the resize event
 
 		const getFilterPanelStatus = (model) => {
 			const activePanels = [];
@@ -101,8 +123,11 @@
 
 					const filterPanelStatuses = getFilterPanelStatus(eventRequestModel);
 
+
 					if (isInit) {
 						bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+					} else {
+						windowShade.cycleWithMessage('Event list updated!');
 					}
 
 					if (callback && typeof callback === 'function') {
@@ -489,4 +514,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
