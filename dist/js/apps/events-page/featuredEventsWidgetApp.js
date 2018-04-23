@@ -192,11 +192,12 @@
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://services.bcpl.info',
+		baseUrl: 'https://testservices.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
-			eventTypes: '/api/evanced/signup/eventtypes'
+			eventTypes: '/api/evanced/signup/eventtypes',
+			downloads: '/api/evanced/signup/download'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
