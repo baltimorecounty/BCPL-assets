@@ -1415,10 +1415,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}, initErrorCallback);
 		};
 
-		$scope.$on('$locationChangeSuccess', function () {
-			resetRequestModel();
+		var isDetailsPage = function isDetailsPage(url) {
+			return (/(?!.*\?.*$)(^.*\/\d{6,}$)/g.test(url)
+			);
+		};
 
-			updateResultsBasedOnFilters();
+		$scope.$on('$locationChangeSuccess', function () {
+			for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+				params[_key] = arguments[_key];
+			}
+
+			var destinationUrl = params && params.length >= 2 ? params[1] : '';
+
+			// This prevents the filter updated message from running on the details page
+			if (!isDetailsPage(destinationUrl)) {
+				resetRequestModel();
+				updateResultsBasedOnFilters();
+			}
 		});
 
 		init();
