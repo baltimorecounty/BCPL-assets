@@ -122,8 +122,9 @@
 					&.active {
 						background: $teal-dark;
 						.overview {
-							display: flex;
-							width: 40%;
+                            display: flex;
+                            min-width: 40%;
+                            width: 40%;
 						}
 						ul {
 							display: table;
