@@ -162,7 +162,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
-			eventTypes: '/api/evanced/signup/eventtypes'
+			eventTypes: '/api/evanced/signup/eventtypes',
+			downloads: '/api/evanced/signup/download'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
@@ -816,6 +817,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
+			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
@@ -913,6 +915,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
+			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 		};
 
 		eventsService.getById(id).then(processEventData);

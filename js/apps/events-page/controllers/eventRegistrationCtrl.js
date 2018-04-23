@@ -83,6 +83,7 @@
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
+			vm.downloadUrl = `${CONSTANTS.baseUrl}${CONSTANTS.serviceUrls.downloads}/${id}`;
 		};
 
 		eventsService
