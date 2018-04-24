@@ -5,53 +5,71 @@
 	</div>
 	<div id="search-results" class="search-results-display" style="display: none">
 		{{#if searchResult}}
-			<div class="main-content top-border">
-				{{#if spellingSuggestion}}
-					<p><em>Did you mean <strong><a href="/search-results.html?term={{spellingSuggestion}}">{{spellingSuggestion}}</a></strong>?</em></p>
-				{{/if}}
-				
-				<div class="row">
-					<div class="col-md-8">
-						<p>Displaying results {{info.index.first}} to {{info.index.last}} of {{info.total_result_count}} for <strong>"{{query}}"</strong>.</p>						
-					</div>
-					<div class="col-md-4">
-						<button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button>
-					</div>
-				</div>				
-			</div>
-			<div class="search-results-list">
-				<ul class="card-list">
-					{{#each searchResult}}
-						<li class="card search-result">
-							<div class="details">
-								<h3><a href="{{url}}" data-id="{{id}}" class="title">{{title}}</a></h3>
-								<p class="search-result-url">{{url}}</p>
-								<p class="summary">{{highlight}}</p>
-							</div>
-						</li>
-					{{/each}}
-				</ul>
-			</div>
-			<div class="pager">
-				{{#each pageLinks}}
-					{{#if current}}
-						<strong>{{page}}</strong>
+		<div class="main-content top-border">
+			{{#if spellingSuggestion}}
+			<p>
+				<em>Did you mean
+					<strong>
+						<a href="/search-results.html?term={{spellingSuggestion}}">{{spellingSuggestion}}</a>
+					</strong>?</em>
+			</p>
+			{{/if}}
+
+			<div class="row">
+				<div class="col-md-8">
+					<p>Displaying results {{info.index.first}} to {{info.index.last}} of {{info.total_result_count}} for
+						<strong>"{{query}}"</strong>.</p>
+					<p>
+					{{#if isBlog}}
+					<a href="/search-results.html?term={{query}}&filter=content">Search for "{{query}}" in our web pages.</a>
 					{{else}}
-						<a href="{{../../info.base_url}}{{page}}">{{page}}</a>
+					<a href="/search-results.html?term={{query}}&filter=blog">Search for "{{query}}" in our blog.</a>
 					{{/if}}
+				</div>
+				<div class="col-md-4">
+					<button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button>
+				</div>
+			</div>
+		</div>
+		<div class="search-results-list">
+			<ul class="card-list">
+				{{#each searchResult}}
+				<li class="card search-result">
+					<div class="details">
+						<h3>
+							<a href="{{url}}" data-id="{{id}}" class="title">{{title}}</a>
+						</h3>
+						<p class="search-result-url">{{url}}</p>
+						<p class="summary">{{highlight}}</p>
+					</div>
+				</li>
 				{{/each}}
-				{{#if tooManyResults}}
-					<p><em>Your search returned more than 200 results. Try different terms to narrow your results.</em></p>
-				{{/if}}
-			</div>
+			</ul>
+		</div>
+		<div class="pager">
+			{{#each pageLinks}} {{#if current}}
+			<strong>{{page}}</strong>
+			{{else}}
+			<a href="{{../info.base_url}}{{page}}">{{page}}</a>
+			{{/if}} {{/each}} {{#if tooManyResults}}
+			<p>
+				<em>Your search returned more than 200 results. Try different terms to narrow your results.</em>
+			</p>
+			{{/if}}
+		</div>
 		{{else}}
-			<div class="main-content top-border">
-				<p>We couldn't find any pages matching your search for "{{query}}".</p>
-				{{#if spellingSuggestion}}
-					<p><em>Did you mean <strong><a href="/search-results.html?term={{spellingSuggestion}}">{{spellingSuggestion}}</a></strong>?</em></p>
-				{{/if}}
-			</div>
+		<div class="main-content top-border">
+			<p>We couldn't find any pages matching your search for "{{query}}".</p>
+			{{#if spellingSuggestion}}
+			<p>
+				<em>Did you mean
+					<strong>
+						<a href="/search-results.html?term={{spellingSuggestion}}">{{spellingSuggestion}}</a>
+					</strong>?</em>
+			</p>
+			{{/if}}
+		</div>
 		{{/if}}
 	</div>
-</script>       
+</script>
 <div id="search-results-target"></div>
