@@ -27,10 +27,11 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		return safeSearchTerms.join('%20');
 	};
 
-	var getSearchResults = function getSearchResults(searchTerm, pageNumber) {
+	var getSearchResults = function getSearchResults(searchTerm, pageNumber, filter) {
 		var currentPageNumber = pageNumber || 1;
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber;
+		var filterString = filter && filter.length > 0 ? filter : 'none';
+		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber + '?filterType=' + filterString;
 
 		$.ajax(requestUrl).then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
 	};
@@ -145,7 +146,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
 		if (queryStringDictionary.term) {
-			getSearchResults(queryStringDictionary.term, queryStringDictionary.page);
+			getSearchResults(queryStringDictionary.term, queryStringDictionary.page, queryStringDictionary.filter);
 		} else {
 			$searchResultsTarget.html(errorMessageHtml);
 		}

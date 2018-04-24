@@ -27,10 +27,11 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		return safeSearchTerms.join('%20');
 	};
 
-	const getSearchResults = (searchTerm, pageNumber) => {
+	const getSearchResults = (searchTerm, pageNumber, filter) => {
 		const currentPageNumber = pageNumber || 1;
 		const cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		const requestUrl = `${constants.baseApiUrl}${constants.search.urls.api}/${cleanedSearchTerm}/${currentPageNumber}`;
+		const filterString = filter && filter.length > 0 ? filter : 'none';
+		const requestUrl = `${constants.baseApiUrl}${constants.search.urls.api}/${cleanedSearchTerm}/${currentPageNumber}?filterType=${filterString}`;
 
 		$.ajax(requestUrl)
 			.then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
@@ -148,7 +149,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
 		if (queryStringDictionary.term) {
-			getSearchResults(queryStringDictionary.term, queryStringDictionary.page);
+			getSearchResults(queryStringDictionary.term, queryStringDictionary.page, queryStringDictionary.filter);
 		} else {
 			$searchResultsTarget.html(errorMessageHtml);
 		}

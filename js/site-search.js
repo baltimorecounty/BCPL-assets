@@ -2,7 +2,7 @@
 
 namespacer('bcpl');
 
-bcpl.siteSearch = (($, window, constants) => {
+bcpl.siteSearch = (($, window, constants, querystringer) => {
 	const siteSearchTabSelector = '.search-button';
 	const siteSearchInputSelector = '#site-search-input';
 	const siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
@@ -49,6 +49,13 @@ bcpl.siteSearch = (($, window, constants) => {
 		}));
 	};
 
+	const getFilterstring = () => {
+		const filter = querystringer.getAsDictionary().filter;
+		const filterString = `&filterType=${filter.length > 0 ? filter : 'content'}`;
+
+		return filterString;
+	};
+
 	const getSearchResults = (searchResultsResponse) => searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results')
 		? searchResultsResponse.Results
 		: [];
@@ -61,7 +68,7 @@ bcpl.siteSearch = (($, window, constants) => {
 		return encodedSearchTerms;
 	};
 
-	const getSearchUrl = (searchTerm) => `${constants.baseApiUrl}${constants.search.urls.searchTerms}/${searchTerm}`;
+	const getSearchUrl = (searchTerm) => `${constants.baseApiUrl}${constants.search.urls.searchTerms}/${searchTerm}${getFilterstring()}`;
 
 	const onSearchCatalogClick = (clickEvent) => {
 		focusSiteSearch(clickEvent.currentTarget);
@@ -147,7 +154,8 @@ bcpl.siteSearch = (($, window, constants) => {
 		if (searchTerms.length) {
 			const baseWebsiteUrl = constants.baseWebsiteUrl;
 			const searchUrl = constants.search.urls.website;
-			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}${getFilterstring()}`; // eslint-disable-line 			
 		}
 	};
 
@@ -173,4 +181,4 @@ bcpl.siteSearch = (($, window, constants) => {
 		searchCatalog
 	};
 	/* end-test-code */
-})(jQuery, window, bcpl.constants);
+})(jQuery, window, bcpl.constants, bcpl.utility.querystringer);

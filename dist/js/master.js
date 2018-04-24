@@ -2071,7 +2071,7 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.siteSearch = function ($, window, constants) {
+bcpl.siteSearch = function ($, window, constants, querystringer) {
 	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
 	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
@@ -2121,6 +2121,13 @@ bcpl.siteSearch = function ($, window, constants) {
 		});
 	};
 
+	var getFilterstring = function getFilterstring() {
+		var filter = querystringer.getAsDictionary().filter;
+		var filterString = '&filterType=' + (filter.length > 0 ? filter : 'content');
+
+		return filterString;
+	};
+
 	var getSearchResults = function getSearchResults(searchResultsResponse) {
 		return searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results') ? searchResultsResponse.Results : [];
 	};
@@ -2134,7 +2141,7 @@ bcpl.siteSearch = function ($, window, constants) {
 	};
 
 	var getSearchUrl = function getSearchUrl(searchTerm) {
-		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm;
+		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm + getFilterstring();
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick(clickEvent) {
@@ -2225,7 +2232,8 @@ bcpl.siteSearch = function ($, window, constants) {
 		if (searchTerms.length) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.website;
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterstring(); // eslint-disable-line 			
 		}
 	};
 
@@ -2239,7 +2247,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		clearCatalogSearch();
 	});
 
-}(jQuery, window, bcpl.constants);
+}(jQuery, window, bcpl.constants, bcpl.utility.querystringer);
 'use strict';
 
 namespacer('bcpl');
