@@ -2071,7 +2071,7 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.siteSearch = function ($, window, constants) {
+bcpl.siteSearch = function ($, window, constants, querystringer) {
 	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
 	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
@@ -2119,6 +2119,13 @@ bcpl.siteSearch = function ($, window, constants) {
 				name: searchResult.Name
 			};
 		});
+	};
+
+	var getFilterString = function getFilterString() {
+		var filter = querystringer.getAsDictionary().filter;
+		var filterString = '&filter=' + (filter && filter.length > 0 ? filter : 'content');
+
+		return filterString;
 	};
 
 	var getSearchResults = function getSearchResults(searchResultsResponse) {
@@ -2225,7 +2232,8 @@ bcpl.siteSearch = function ($, window, constants) {
 		if (searchTerms.length) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.website;
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterString(); // eslint-disable-line 			
 		}
 	};
 
@@ -2239,7 +2247,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		clearCatalogSearch();
 	});
 
-}(jQuery, window, bcpl.constants);
+}(jQuery, window, bcpl.constants, bcpl.utility.querystringer);
 'use strict';
 
 namespacer('bcpl');

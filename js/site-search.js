@@ -2,7 +2,7 @@
 
 namespacer('bcpl');
 
-bcpl.siteSearch = (($, window, constants) => {
+bcpl.siteSearch = (($, window, constants, querystringer) => {
 	const siteSearchTabSelector = '.search-button';
 	const siteSearchInputSelector = '#site-search-input';
 	const siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
@@ -47,6 +47,13 @@ bcpl.siteSearch = (($, window, constants) => {
 			id: searchResult.Id,
 			name: searchResult.Name
 		}));
+	};
+
+	const getFilterString = () => {
+		const filter = querystringer.getAsDictionary().filter;
+		const filterString = `&filter=${filter && filter.length > 0 ? filter : 'content'}`;
+
+		return filterString;
 	};
 
 	const getSearchResults = (searchResultsResponse) => searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results')
@@ -147,7 +154,8 @@ bcpl.siteSearch = (($, window, constants) => {
 		if (searchTerms.length) {
 			const baseWebsiteUrl = constants.baseWebsiteUrl;
 			const searchUrl = constants.search.urls.website;
-			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}${getFilterString()}`; // eslint-disable-line 			
 		}
 	};
 
@@ -173,4 +181,4 @@ bcpl.siteSearch = (($, window, constants) => {
 		searchCatalog
 	};
 	/* end-test-code */
-})(jQuery, window, bcpl.constants);
+})(jQuery, window, bcpl.constants, bcpl.utility.querystringer);
