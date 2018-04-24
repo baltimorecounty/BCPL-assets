@@ -2121,9 +2121,9 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		});
 	};
 
-	var getFilterstring = function getFilterstring() {
+	var getFilterString = function getFilterString() {
 		var filter = querystringer.getAsDictionary().filter;
-		var filterString = '&filterType=' + (filter.length > 0 ? filter : 'content');
+		var filterString = '&filter=' + (filter && filter.length > 0 ? filter : 'content');
 
 		return filterString;
 	};
@@ -2141,7 +2141,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 	};
 
 	var getSearchUrl = function getSearchUrl(searchTerm) {
-		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm + getFilterstring();
+		return '' + constants.baseApiUrl + constants.search.urls.searchTerms + '/' + searchTerm;
 	};
 
 	var onSearchCatalogClick = function onSearchCatalogClick(clickEvent) {
@@ -2233,7 +2233,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.website;
 
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterstring(); // eslint-disable-line 			
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterString(); // eslint-disable-line 			
 		}
 	};
 

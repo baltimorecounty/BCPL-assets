@@ -49,9 +49,9 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		}));
 	};
 
-	const getFilterstring = () => {
+	const getFilterString = () => {
 		const filter = querystringer.getAsDictionary().filter;
-		const filterString = `&filterType=${filter.length > 0 ? filter : 'content'}`;
+		const filterString = `&filter=${filter && filter.length > 0 ? filter : 'content'}`;
 
 		return filterString;
 	};
@@ -68,7 +68,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		return encodedSearchTerms;
 	};
 
-	const getSearchUrl = (searchTerm) => `${constants.baseApiUrl}${constants.search.urls.searchTerms}/${searchTerm}${getFilterstring()}`;
+	const getSearchUrl = (searchTerm) => `${constants.baseApiUrl}${constants.search.urls.searchTerms}/${searchTerm}`;
 
 	const onSearchCatalogClick = (clickEvent) => {
 		focusSiteSearch(clickEvent.currentTarget);
@@ -155,7 +155,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 			const baseWebsiteUrl = constants.baseWebsiteUrl;
 			const searchUrl = constants.search.urls.website;
 
-			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}${getFilterstring()}`; // eslint-disable-line 			
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}${getFilterString()}`; // eslint-disable-line 			
 		}
 	};
 
