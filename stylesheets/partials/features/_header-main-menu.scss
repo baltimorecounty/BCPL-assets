@@ -724,10 +724,12 @@
             
             #activate-search-button,
             #hamburger-menu-button {
-                font-size: 1em;
+                font-size: 24px;
                 margin: auto;
-                padding: .6em 0;
                 width: 45px;
+            }
+            #activate-search-button {
+                margin-right: 6px;
             }
         }
 
