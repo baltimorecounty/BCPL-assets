@@ -59,7 +59,7 @@
 		</div>
 		{{else}}
 		<div class="main-content top-border">
-			<p>We couldn't find any pages matching your search for "{{query}}".</p>
+			<p class="search-summary">We couldn't find any pages matching your search for "{{query}}".</p>
 			{{#if spellingSuggestion}}
 			<p>
 				<em>Did you mean
@@ -68,6 +68,13 @@
 					</strong>?</em>
 			</p>
 			{{/if}}
+			<p>
+				{{#if isBlog}}
+				<a href="/search-results.html?term={{query}}&filter=content">Search for "{{query}}" in our web pages.</a>
+				{{else}}
+				<a href="/search-results.html?term={{query}}&filter=blog">Search for "{{query}}" in our blog.</a>
+				{{/if}}
+			</p>
 		</div>
 		{{/if}}
 	</div>
