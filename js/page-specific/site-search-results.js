@@ -148,7 +148,7 @@ bcpl.pageSpecific.swiftypeSearchResults = (($, querystringer, Handlebars, consta
 	const init = () => {
 		const queryStringDictionary = querystringer.getAsDictionary();
 
-		filter = queryStringDictionary.filter;
+		filter = queryStringDictionary.filter || 'content';
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
 		if (queryStringDictionary.term) {
