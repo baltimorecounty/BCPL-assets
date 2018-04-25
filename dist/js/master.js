@@ -899,8 +899,8 @@ bcpl.bookCarousel = function ($, constants) {
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
 		var imageTitle = $image.attr('title');
-		var $titleDisplay = $('<p>' + imageTitle + '</p>');
 		var title = encodeURIComponent(imageTitle.split(':')[0]);
+		var $titleDisplay = $('<p>' + title + '</p>');
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 

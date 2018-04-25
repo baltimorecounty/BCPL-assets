@@ -61,8 +61,8 @@ bcpl.bookCarousel = (($, constants) => {
 		const $image = $listItem.find('img');
 		const $link = $listItem.find('a');
 		const imageTitle = $image.attr('title');
-		const $titleDisplay = $(`<p>${imageTitle}</p>`);
 		const title = encodeURIComponent(imageTitle.split(':')[0]);
+		const $titleDisplay = $(`<p>${title}</p>`);
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
