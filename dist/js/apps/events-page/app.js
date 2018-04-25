@@ -184,7 +184,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		},
 		requestChunkSize: 10,
 		ageDisclaimer: {
-			message: 'Children under 8 must be accompanied by adult.',
+			message: 'Children under 8 must be accompanied by adult',
 			ageGroupIds: [9, 10, 11, 12]
 		},
 		eventDetailsError: {

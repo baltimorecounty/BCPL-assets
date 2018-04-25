@@ -40,7 +40,7 @@
 		<div ng-if="!eventDetailsPage.isError" ng-hide="eventDetailsPage.isLoading">
 			<p ng-if="eventDetailsPage.data.Description" ng-bind-html="eventDetailsPage.data.Description"></p>
 	
-			<p ng-if="eventDetailsPage.shouldShowDisclaimer">{{ eventDetailsPage.disclaimer }}</p>
+			<p ng-if="eventDetailsPage.shouldShowDisclaimer">{{ eventDetailsPage.disclaimer }}.</p>
 
 			<p ng-if="eventDetailsPage.data.isFull">
 				<strong>
