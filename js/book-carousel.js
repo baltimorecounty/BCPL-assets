@@ -61,8 +61,9 @@ bcpl.bookCarousel = (($, constants) => {
 		const $image = $listItem.find('img');
 		const $link = $listItem.find('a');
 		const imageTitle = $image.attr('title');
-		const $titleDisplay = $(`<p>${imageTitle}</p>`);
-		const title = encodeURIComponent(imageTitle.split(':')[0]);
+		const titleForDisplay = imageTitle.split(':')[0];
+		const titleForUrl = encodeURIComponent(titleForDisplay);
+		const $titleDisplay = $(`<p>${titleForDisplay}</p>`);
 
 		$image
 			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
@@ -82,7 +83,7 @@ bcpl.bookCarousel = (($, constants) => {
 				.contents()
 				.filter(textNodeFilter));
 
-			const newLinkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${title}%22&by=KW&sort=MP&limit=&query=&page=0`;
+			const newLinkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${titleForUrl}%22&by=KW&sort=MP&limit=&query=&page=0`;
 
 			$link.attr('href', newLinkHref);
 		}
