@@ -4,6 +4,7 @@ namespacer('bcpl.pageSpecific');
 
 bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars, constants) {
 	var $searchResultsTarget = void 0;
+	var filter = '';
 	var searchResultsTargetSelector = '#search-results-target';
 	var templateSelector = '#swiftype-search-results-template';
 	var errorMessageHtml = '<div class="main-content top-border"><p>There were no results found for this search.</p></div>';
@@ -30,7 +31,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 	var getSearchResults = function getSearchResults(searchTerm, pageNumber) {
 		var currentPageNumber = pageNumber || 1;
 		var cleanedSearchTerm = cleanSearchTerm(searchTerm);
-		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber;
+		var requestUrl = '' + constants.baseApiUrl + constants.search.urls.api + '/' + cleanedSearchTerm + '/' + currentPageNumber + '?filterType=' + filter;
 
 		$.ajax(requestUrl).then(searchResultRequestSuccessHandler, searchResultRequestErrorHandler);
 	};
@@ -116,6 +117,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 		var spellingSuggestion = info.spelling_suggestion ? info.spelling_suggestion.text : undefined;
 		var searchResult = buildSearchResults(hits);
 		var pageLinks = buildPageLinks(lastPage, info.current_page);
+		var isBlog = filter && filter === 'blog';
 
 		info.base_url = window.location.pathname + '?term=' + info.query + '&page=';
 
@@ -130,7 +132,8 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 			pageLinks: pageLinks,
 			tooManyResults: tooManyResults,
 			spellingSuggestion: spellingSuggestion,
-			query: query
+			query: query,
+			isBlog: isBlog
 		};
 
 		var searchResultsHtml = buildSearchResultsHtml(templateSettings);
@@ -142,6 +145,7 @@ bcpl.pageSpecific.swiftypeSearchResults = function ($, querystringer, Handlebars
 	var init = function init() {
 		var queryStringDictionary = querystringer.getAsDictionary();
 
+		filter = queryStringDictionary.filter || 'content';
 		$searchResultsTarget = $(searchResultsTargetSelector);
 
 		if (queryStringDictionary.term) {

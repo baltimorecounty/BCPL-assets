@@ -196,7 +196,8 @@
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
-			eventTypes: '/api/evanced/signup/eventtypes'
+			eventTypes: '/api/evanced/signup/eventtypes',
+			downloads: '/api/evanced/signup/download'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
@@ -215,7 +216,14 @@
 			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
-		requestChunkSize: 10
+		requestChunkSize: 10,
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult',
+			ageGroupIds: [9, 10, 11, 12]
+		},
+		eventDetailsError: {
+			message: 'There was a problem loading this event\'s details. Please select a different event.'
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);

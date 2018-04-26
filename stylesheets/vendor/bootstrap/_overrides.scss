@@ -56,6 +56,10 @@ button,
 	display: none !important;
 }
 
+.collapse.in {
+    height: auto !important;
+}
+
 @media screen and (max-width: $screen-md) {
 	.visible-inline-sm,
 	.visible-inline-xs {

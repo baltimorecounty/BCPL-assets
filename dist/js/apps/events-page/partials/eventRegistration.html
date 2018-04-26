@@ -15,7 +15,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#" ng-click="eventRegistrationPage.downloadEvent($event)">
+					<a href="#" ng-href="{{eventRegistrationPage.downloadUrl}}">
 						<i class="fa fa-calendar-plus-o fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Download to Calendar
 					</a>
 				</li>
@@ -34,6 +34,7 @@
 					<p>{{eventRegistrationPage.data.LocationName}}</p>
                 </div>
                 <p ng-if="eventRegistrationPage.data.Description" ng-bind-html="eventRegistrationPage.data.Description"></p>
+				<p ng-if="eventRegistrationPage.shouldShowDisclaimer">Children under 8 must be accompanied by an adult.</p>
 				<form novalidate name="eventRegistrationForm" ng-submit="eventRegistrationPage.submitHandler($event, eventRegistrationForm)">
 					<p 
 						ng-if="eventRegistrationPage.isSubmitted" 

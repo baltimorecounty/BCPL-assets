@@ -162,7 +162,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
-			eventTypes: '/api/evanced/signup/eventtypes'
+			eventTypes: '/api/evanced/signup/eventtypes',
+			downloads: '/api/evanced/signup/download'
 		},
 		remoteServiceUrls: {
 			ageGroups: 'https://bcpl.evanced.info/api/signup/agegroups',
@@ -181,7 +182,14 @@ bcpl.boostrapCollapseHelper = function ($) {
 			eventDetailsPartial: '/_js/apps/events-page/partials/eventDetails.html',
 			eventRegistrationPartial: '/_js/apps/events-page/partials/eventRegistration.html'
 		},
-		requestChunkSize: 10
+		requestChunkSize: 10,
+		ageDisclaimer: {
+			message: 'Children under 8 must be accompanied by adult',
+			ageGroupIds: [9, 10, 11, 12]
+		},
+		eventDetailsError: {
+			message: 'There was a problem loading this event\'s details. Please select a different event.'
+		}
 	};
 
 	app.constant('events.CONSTANTS', constants);
@@ -458,6 +466,28 @@ bcpl.boostrapCollapseHelper = function ($) {
 	registrationService.$inject = ['events.CONSTANTS', '$http', '$q'];
 
 	app.factory('registrationService', registrationService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
+(function (app) {
+	var ageDisclaimerService = function ageDisclaimerService($window, CONSTANTS) {
+		var shouldShowDisclaimer = function shouldShowDisclaimer(eventItem) {
+			var ageGroupsForDisclaimer = CONSTANTS.ageDisclaimer.ageGroupIds;
+			var ageGroupsFromEvent = eventItem.AgeGroups;
+
+			var intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
+
+			return intersection > 0;
+		};
+
+		return {
+			shouldShowDisclaimer: shouldShowDisclaimer
+		};
+	};
+
+	ageDisclaimerService.$inject = ['$window', 'events.CONSTANTS'];
+
+	app.factory('ageDisclaimerService', ageDisclaimerService);
 })(angular.module('eventsPageApp'));
 'use strict';
 
@@ -755,7 +785,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, ICS) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var vm = this;
@@ -767,9 +797,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.data.EventEndTime = '';
 		vm.isLoading = true;
 		vm.isError = false;
-		vm.requestErrorMessage = 'Unfortunately, there was a problem loading this event\'s details. Please try again in a few minutes.';
+		vm.requestErrorMessage = CONSTANTS.eventDetailsError.message;
 
 		var processEventData = function processEventData(data) {
+			if (Object.prototype.hasOwnProperty.call(data, 'EventId') && !data.EventId) {
+				requestError();
+				return;
+			}
+
 			vm.data = data;
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
@@ -780,6 +815,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.isOver = vm.data.EventStart ? $window.moment().isAfter($window.moment(eventDate).add(vm.data.EventLength, 'm')) : $window.moment().startOf('day').isAfter($window.moment(eventDate).endOf('day'));
 			vm.isLoading = false;
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
+			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 		};
 
 		vm.downloadEvent = function downloadEvent(clickEvent) {
@@ -788,7 +826,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
-		var requestError = function requestError(errorResponse) {
+		var requestError = function requestError() {
 			vm.isLoading = false;
 			vm.isError = true;
 		};
@@ -796,7 +834,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData).catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
@@ -805,7 +843,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bcFormat) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, CONSTANTS, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var id = $routeParams.id;
@@ -875,21 +913,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.data.EventStartDate = $window.moment(vm.data.EventStart).format('MMMM D, YYYY');
 			vm.data.EventSchedule = dateUtilityService.formatSchedule(vm.data, vm.data.EventLength, vm.data.AllDay);
 			vm.shareUrl = emailUtilityService.getShareUrl(vm.data, $window.location.href);
+			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
+			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
+			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app, bootstrapCollapseHelper) {
+(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) {
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
+		setTimeout(function () {
+			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
+		}, 500);
+
 		var vm = this;
 		var filterTypes = ['locations', 'eventTypes', 'ageGroups'];
 
@@ -925,6 +970,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.locations = [];
 		vm.eventsTypes = [];
 		vm.ageGroups = [];
+		vm.isMobile = false;
+
+		var updateMobileStatus = function updateMobileStatus() {
+			vm.isMobile = $window.innerWidth <= globalConstants.breakpoints.medium;
+			vm.filterCollapseUrl = vm.isMobile ? '#events-search-wrapper' : '';
+
+			if (vm.isMobile) {
+				vm.isFilterCollapseExpanded = false;
+			}
+
+			if (!$scope.$$phase) {
+				$scope.$digest();
+			}
+		};
+
+		vm.toggleFilterCollapse = function () {
+			vm.isFilterCollapseExpanded = !vm.isFilterCollapseExpanded;
+		};
+
+		updateMobileStatus(); // Set initial
+
+		onWindowResize(updateMobileStatus); // bind to the resize event
 
 		var getFilterPanelStatus = function getFilterPanelStatus(model) {
 			var activePanels = [];
@@ -977,6 +1044,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				if (isInit) {
 					bootstrapCollapseHelper.toggleCollapseByIds(filterPanelStatuses);
+				} else {
+					windowShade.cycleWithMessage('Event list updated!');
 				}
 
 				if (callback && typeof callback === 'function') {
@@ -1114,8 +1183,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var processEvents = function processEvents(eventResults) {
 			vm.isLastPage = isLastPage(eventResults.totalResults);
-			vm.eventGroups = eventResults.eventGroups;
 			vm.isLoading = false;
+			vm.eventGroups = eventResults.eventGroups;
 			vm.hasResults = eventResults.eventGroups.length;
 			vm.requestErrorMessage = '';
 
@@ -1346,10 +1415,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}, initErrorCallback);
 		};
 
-		$scope.$on('$locationChangeSuccess', function () {
-			resetRequestModel();
+		var isDetailsPage = function isDetailsPage(url) {
+			return (/(?!.*\?.*$)(^.*\/\d{6,}$)/g.test(url)
+			);
+		};
 
-			updateResultsBasedOnFilters();
+		$scope.$on('$locationChangeSuccess', function () {
+			for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+				params[_key] = arguments[_key];
+			}
+
+			var destinationUrl = params && params.length >= 2 ? params[1] : '';
+
+			// This prevents the filter updated message from running on the details page
+			if (!isDetailsPage(destinationUrl)) {
+				resetRequestModel();
+				updateResultsBasedOnFilters();
+			}
 		});
 
 		init();
@@ -1358,7 +1440,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
 'use strict';
 
 (function (app) {
@@ -1431,7 +1513,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app) {
 	'use strict';
 
-	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService) {
+	var eventsListDirective = function eventsListDirective($timeout, CONSTANTS, dateUtilityService, ageDisclaimerService) {
 		var eventsListLink = function eventsListLink(scope) {
 			var innerScope = scope;
 
@@ -1449,6 +1531,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			innerScope.getDisplayDate = function (eventGroup) {
 				return eventGroup.date.toLocaleDateString('en-US', dateSettings);
 			};
+
+			innerScope.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer;
+
+			innerScope.disclaimer = CONSTANTS.ageDisclaimer.message;
 		};
 
 		var directive = {
@@ -1463,7 +1549,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return directive;
 	};
 
-	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService'];
+	eventsListDirective.$inject = ['$timeout', 'events.CONSTANTS', 'dateUtilityService', 'ageDisclaimerService'];
 
 	app.directive('eventsList', eventsListDirective);
 })(angular.module('eventsPageApp'));

@@ -259,6 +259,27 @@ bcpl.utility.browserStorage = function (localStorage) {
 
 namespacer('bcpl.utility');
 
+bcpl.utility.debounce = function () {
+	return function (fn, time) {
+		var timeout = void 0;
+
+		return function innerDebounce() {
+			var _this = this,
+			    _arguments = arguments;
+
+			var functionCall = function functionCall() {
+				return fn.apply(_this, _arguments);
+			};
+
+			clearTimeout(timeout);
+			timeout = setTimeout(functionCall, time);
+		};
+	};
+}();
+'use strict';
+
+namespacer('bcpl.utility');
+
 bcpl.utility.flexDetect = function (document, $) {
 	var init = function init(testDoc) {
 		var actualDoc = testDoc || document;
@@ -577,24 +598,74 @@ bcpl.utility.urlComparer = function (constants) {
 
 namespacer('bcpl.utility');
 
-bcpl.utility.windowShade = function ($) {
+bcpl.utility.windowResize = function (debounce) {
+	return function (fn) {
+		window.addEventListener('resize', debounce(fn, 250));
+	};
+}(bcpl.utility.debounce);
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.windowShade = function ($, debounce) {
 	var windowShadeSelector = '#window-shade';
 	var timeout = void 0;
+	var windowShadeDisplaySpeed = void 0;
+	var windowShadeDelaySpeed = void 0;
+
+	var buildWindowShade = function buildWindowShade(msg) {
+		return '<div id="window-shade" style="display: none">\n            <p>' + msg + '</p>\n        </div>';
+	};
+
+	var displayShade = function displayShade($windowShade) {
+		$windowShade.slideDown(windowShadeDisplaySpeed, function () {
+			timeout = setTimeout(function () {
+				$windowShade.slideUp(windowShadeDisplaySpeed);
+			}, windowShadeDelaySpeed);
+		});
+	};
+
+	var setShadeSpeeds = function setShadeSpeeds(displaySpeed, delaySpeed) {
+		windowShadeDisplaySpeed = displaySpeed || 250;
+		windowShadeDelaySpeed = delaySpeed || 2000;
+	};
 
 	var cycle = function cycle(displaySpeed, delaySpeed) {
+		setShadeSpeeds(displaySpeed, delaySpeed);
+
 		var $windowShade = $(windowShadeSelector);
 
 		clearTimeout(timeout);
 
-		$windowShade.slideDown(displaySpeed, function () {
-			timeout = setTimeout(function () {
-				$windowShade.slideUp(displaySpeed);
-			}, delaySpeed);
-		});
+		displayShade($windowShade);
+	};
+
+	var createShade = function createShade(message) {
+		var html = buildWindowShade(message);
+		$('body').append(html);
+	};
+
+	var cycleWithMessage = function cycleWithMessage(message, displaySpeed, delaySpeed) {
+		setShadeSpeeds(displaySpeed, delaySpeed);
+
+		var $windowShade = $(windowShadeSelector);
+
+		if ($windowShade) {
+			$windowShade.remove(); // Remove shade if it exists so we can update the message
+		}
+
+		createShade(message);
+
+		$windowShade = $(windowShadeSelector); // We must re-select the dom for the newly created windowShade
+
+		clearTimeout(timeout);
+
+		displayShade($windowShade);
 	};
 
 	return {
-		cycle: cycle
+		cycle: cycle,
+		cycleWithMessage: cycleWithMessage
 	};
 }(jQuery);
 'use strict';
@@ -775,20 +846,24 @@ bcpl.bookCarousel = function ($, constants) {
 		prevArrow: '<a href="#"><i class="fa fa-chevron-left" aria-hidden="true"><span>Scroll left</span></i></a>',
 		nextArrow: '<a href="#"><i class="fa fa-chevron-right" aria-hidden="true"><span>Scroll right</span></i></a>',
 		slidesToShow: 3,
+		slidesToScroll: 3,
 		responsive: [{
 			breakpoint: constants.breakpoints.large,
 			settings: {
-				slidesToShow: 3
+				slidesToShow: 3,
+				slidesToScroll: 3
 			}
 		}, {
 			breakpoint: constants.breakpoints.medium,
 			settings: {
-				slidesToShow: 2
+				slidesToShow: 2,
+				slidesToScroll: 2
 			}
 		}, {
 			breakpoint: constants.breakpoints.small,
 			settings: {
-				slidesToShow: 1
+				slidesToShow: 1,
+				slidesToScroll: 1
 			}
 		}]
 	};
@@ -866,6 +941,7 @@ bcpl.bookCarousel = function ($, constants) {
 			$.when.apply($, promises).then(function () {
 				if (settings && settings.maxSlides > 0) {
 					slickSettings.slidesToShow = settings.maxSlides;
+					slickSettings.slidesToScroll = settings.maxSlides;
 				}
 
 				$carousels.slick(slickSettings);
@@ -1995,7 +2071,7 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.siteSearch = function ($, window, constants) {
+bcpl.siteSearch = function ($, window, constants, querystringer) {
 	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
 	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
@@ -2043,6 +2119,13 @@ bcpl.siteSearch = function ($, window, constants) {
 				name: searchResult.Name
 			};
 		});
+	};
+
+	var getFilterString = function getFilterString() {
+		var filter = querystringer.getAsDictionary().filter;
+		var filterString = '&filter=' + (filter && filter.length > 0 ? filter : 'content');
+
+		return filterString;
 	};
 
 	var getSearchResults = function getSearchResults(searchResultsResponse) {
@@ -2149,7 +2232,8 @@ bcpl.siteSearch = function ($, window, constants) {
 		if (searchTerms.length) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.website;
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterString(); // eslint-disable-line 			
 		}
 	};
 
@@ -2163,7 +2247,7 @@ bcpl.siteSearch = function ($, window, constants) {
 		clearCatalogSearch();
 	});
 
-}(jQuery, window, bcpl.constants);
+}(jQuery, window, bcpl.constants, bcpl.utility.querystringer);
 'use strict';
 
 namespacer('bcpl');

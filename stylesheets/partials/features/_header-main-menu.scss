@@ -107,12 +107,14 @@
 			button {
 				text-transform: uppercase;
 				font-family: TTRoundsCondensed-Bold;
-			}
-			ul {
-				float: right;
-				margin-right: 7em;
-				
+            }
+            
+            > ul {
+                float: right;
+                margin-right: 7em;
+            }
 
+			ul {
 				li {
 					background: transparent;
 					transition: background .50s ease;
@@ -122,8 +124,9 @@
 					&.active {
 						background: $teal-dark;
 						.overview {
-							display: flex;
-							width: 40%;
+                            display: flex;
+                            min-width: 0;
+                            width: 40%;
 						}
 						ul {
 							display: table;
@@ -203,7 +206,7 @@
 					}
 					ul {
 						background-color: $teal-dark;
-						display: none;
+                        display: none;
 						li {
 							display: block;
 							a {
@@ -721,10 +724,12 @@
             
             #activate-search-button,
             #hamburger-menu-button {
-                font-size: 1em;
+                font-size: 24px;
                 margin: auto;
-                padding: .6em 0;
                 width: 45px;
+            }
+            #activate-search-button {
+                margin-right: 6px;
             }
         }
 
@@ -735,3 +740,16 @@
         padding: 10px 0;
     }
 }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+    /* IE10+ specific styles go here */  
+    .menu-wrapper .nav-and-search nav ul li ul {
+        max-width: 65%;
+    }
+
+    @media screen  and (max-width: $screen-md) {
+        .menu-wrapper .nav-and-search nav ul li ul {
+            max-width: 100%;
+        }
+    }
+ }
