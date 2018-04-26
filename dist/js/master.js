@@ -1003,8 +1003,9 @@ bcpl.bookCarousel = function ($, constants) {
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
 		var imageTitle = $image.attr('title');
-		var $titleDisplay = $('<p>' + imageTitle + '</p>');
-		var title = encodeURIComponent(imageTitle.split(':')[0]);
+		var titleForDisplay = imageTitle.split(':')[0];
+		var titleForUrl = encodeURIComponent(titleForDisplay);
+		var $titleDisplay = $('<p>' + titleForDisplay + '</p>');
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
@@ -1013,7 +1014,7 @@ bcpl.bookCarousel = function ($, constants) {
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 
-			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
+			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + titleForUrl + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
 			$link.attr('href', newLinkHref);
 		}
