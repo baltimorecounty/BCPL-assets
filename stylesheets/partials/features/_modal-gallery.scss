@@ -73,6 +73,10 @@
     }
 }
 
+.ekko-lightbox-nav-overlay a {
+    z-index: 99999;
+}
+
 @media screen and (max-width: $screen-xs) {
     .modal-gallery-container {
         display: block;
