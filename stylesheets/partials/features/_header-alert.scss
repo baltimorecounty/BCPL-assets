@@ -32,9 +32,9 @@
 					margin-right: .25em;
 				}
 
-				&::first-child {
+				&:first-child {
 					i {
-						color: white;
+						color: white !important;
 					}
 				}
 			}
