@@ -27,10 +27,6 @@ bcpl.alertBox = (($, Handlebars, CONSTANTS) => {
 		if (alertsTemplateHtml && alertsTemplateHtml.length) {
 			const alertsTemplate = Handlebars.compile(alertsTemplateHtml);
 
-			if (alertData && alertData.IsEmergency) {
-				alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
-			}
-
 			$alertsTarget.html(alertsTemplate({ alertData }));
 		}
 

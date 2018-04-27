@@ -873,10 +873,6 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 		if (alertsTemplateHtml && alertsTemplateHtml.length) {
 			var alertsTemplate = Handlebars.compile(alertsTemplateHtml);
 
-			if (alertData && alertData.IsEmergency) {
-				alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
-			}
-
 			$alertsTarget.html(alertsTemplate({ alertData: alertData }));
 		}
 
