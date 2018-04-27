@@ -23,14 +23,9 @@
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
 		vm.formConfirmationMessage = null;
+		vm.downloadUrl = `${CONSTANTS.baseUrl}${CONSTANTS.serviceUrls.downloads}/${id}`;
 
 		const hasConfirmationMessage = (data) => data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
-
-		vm.downloadEvent = function downloadEvent(clickEvent) {
-			clickEvent.preventDefault();
-
-			downloadCalendarEventService.downloadCalendarEvent(vm.data);
-		};
 
 		vm.isFieldValid = (form, field) => (form[field].$touched || form.$submitted) && form[field].$invalid;
 
