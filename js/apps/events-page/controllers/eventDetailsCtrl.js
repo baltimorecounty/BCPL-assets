@@ -26,7 +26,6 @@
 		vm.isError = false;
 		vm.requestErrorMessage = CONSTANTS.eventDetailsError.message;
 
-
 		const processEventData = (data) => {
 			if (Object.prototype.hasOwnProperty.call(data, 'EventId') && !data.EventId) {
 				requestError();
@@ -48,12 +47,6 @@
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = `${CONSTANTS.baseUrl}${CONSTANTS.serviceUrls.downloads}/${id}`;
-		};
-
-		vm.downloadEvent = function downloadEvent(clickEvent) {
-			clickEvent.preventDefault();
-
-			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
 		const requestError = () => {
