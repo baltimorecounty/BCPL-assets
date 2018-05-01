@@ -123,7 +123,7 @@ bcpl.tablenator = (($, _) => {
 		if ($originalTableCache.length) {
 			$originalTableCache.each((tableIndex, tableElement) => {
 				createMobileTables(tableIndex, tableElement, () => {
-					callFnOption(tablenatorOptions, 'afterInit', null, options);
+					callFnOption(tablenatorOptions, 'afterInit', null);
 				});
 			});
 

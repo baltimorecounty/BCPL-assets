@@ -2563,7 +2563,7 @@ bcpl.tablenator = function ($, _) {
 		if ($originalTableCache.length) {
 			$originalTableCache.each(function (tableIndex, tableElement) {
 				createMobileTables(tableIndex, tableElement, function () {
-					callFnOption(tablenatorOptions, 'afterInit', null, options);
+					callFnOption(tablenatorOptions, 'afterInit', null);
 				});
 			});
 
