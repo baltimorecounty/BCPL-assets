@@ -1,0 +1,22 @@
+<script id="alerts-template" type="text/x-handlebars-template">
+	<div class="alert-wrapper {{alertData.AlertType}}">
+		 <div class="container alert-container" style="display: none;">
+					 <div class="row">
+						<div class="col-md-12">
+								  <div class="message">
+											<div>
+												  <i class="fa fa-exclamation-circle fa-2x"><span class="sr-only">Alerts</span></i>
+											</div>
+										 <p>{{alertData.Description}}</p>
+											 <div class="controls">
+												   <a class="view-all-alerts" href="https://www.bcpl.info/alerts.html">
+															   <i class="fa fa-list fa-lg" aria-hidden="true"><span class="sr-only">View All Alerts</span></i>View All Alerts
+												 </a>
+										   </div>
+								 </div>
+						 </div>
+				 </div>
+		 </div>
+ </div>
+</script>
+<div id="alerts-target"></div>

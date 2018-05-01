@@ -1,3 +1,10 @@
+.left-aside-padded {
+    padding: 5px 30px 20px 0;
+}
+
+.right-aside-padded {
+    padding: 5px 0 20px 30px;
+}
 @media (max-width: $screen-xs) {
 	.container.content-page {
 		padding: 0;
