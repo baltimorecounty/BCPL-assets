@@ -46,23 +46,21 @@ describe('Tablenator', () => {
 		});
 	});
 
-	describe('reformat', () => {
+	describe('createMobileTables', () => {
 		it('should return a table for each column', () => {
 			const expected = $testTable.find('th').length;
 			bcpl.tablenator.init('#test-table', 9999); // 9999 to force the reformat
-			$testTable.each(bcpl.tablenator.reformat);
 
 			const actual = $('.tablenator-responsive-table').length;
 
 			expect(actual).toBe(expected);
 		});
 
-		it('should remove the original table from the page', () => {
-			const expected = 0;
+		it('should hide the original table from the page', () => {
+			const expected = false;
 			bcpl.tablenator.init('#test-table', 9999); // 9999 to force the reformat
-			$testTable.each(bcpl.tablenator.reformat);
 
-			const actual = $('#test-table').length;
+			const actual = $('#test-table').is(':visible');
 
 			expect(actual).toBe(expected);
 		});
