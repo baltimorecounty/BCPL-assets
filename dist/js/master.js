@@ -2471,7 +2471,8 @@ bcpl.tablenator = function ($, _) {
 				var dataHtml = $row.find('td').eq(headingIndex).html().trim();
 
 				var $dataHtml = $($.parseHTML(dataHtml));
-				var $dataInput = $dataHtml.is('input') ? $dataHtml : $dataHtml.find('input');
+				var inputSelector = 'input:not([type="hidden"])';
+				var $dataInput = $dataHtml.is(inputSelector) ? $dataHtml : $dataHtml.find(inputSelector);
 
 				if ($dataInput.length) {
 					callFnOption(tablenatorOptions, 'onDataInput', $dataInput);
