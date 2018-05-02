@@ -24,9 +24,10 @@ bcpl.tablenator = (($, _) => {
 				let dataHtml = $row.find('td').eq(headingIndex).html().trim();
 
 				const $dataHtml = $($.parseHTML(dataHtml));
-				const $dataInput = $dataHtml.is('input')
+				const inputSelector = 'input:not([type="hidden"])';
+				const $dataInput = $dataHtml.is(inputSelector)
 					? $dataHtml
-					: $dataHtml.find('input');
+					: $dataHtml.find(inputSelector);
 
 				if ($dataInput.length) {
 					callFnOption(tablenatorOptions, 'onDataInput', $dataInput);
