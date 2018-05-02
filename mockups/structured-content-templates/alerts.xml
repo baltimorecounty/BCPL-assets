@@ -1,0 +1,23 @@
+<seml>
+	<div id="SEContentResults">
+		<div class="SEContent" setest="NOT arrayLen(attributes.contents)">No articles found.</div>
+		<table id="data-table" setest="arrayLen(attributes.contents)">
+			<tr>
+				<th>Closing Description</th>
+				<th>Alert Type</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Other Description</th>
+				<th>Last Modified</th>
+			</tr>
+			<tr seloop="contents" seloopindex="content">
+				<td><secontent name="content.get_Title().value" label="Closing Description" datatype="string" /></td>
+				<td><secontent name="content.getAlert_Type().value" label="Alert Type" datatype="string" /></td>
+				<td><secontent name="content.getAlert_Start().value" label="Start Date" datatype="datetime" dateformat="mm/dd/yyyy" timeformat="hh:mm:ss tt" /></td>
+				<td><secontent name="content.getAlert_End().value" label="End Date" datatype="datetime" dateformat="mm/dd/yyyy" timeformat="hh:mm:ss tt" /></td>
+				<td><secontent name="content.getOther_Description().value" label="Other Description" datatype="string" /></td>
+				<td><secontent name="content.getMODIFIED().value" label="Last Modified" datatype="datetime" /></td>
+			</tr>
+		</table>
+	</div>
+</seml>

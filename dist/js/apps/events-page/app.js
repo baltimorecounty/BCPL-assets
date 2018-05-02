@@ -820,12 +820,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 		};
 
-		vm.downloadEvent = function downloadEvent(clickEvent) {
-			clickEvent.preventDefault();
-
-			downloadCalendarEventService.downloadCalendarEvent(vm.data);
-		};
-
 		var requestError = function requestError() {
 			vm.isLoading = false;
 			vm.isError = true;
@@ -854,15 +848,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		vm.isSubmitted = false;
 		vm.isLoadingResults = false;
 		vm.formConfirmationMessage = null;
+		vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 
 		var hasConfirmationMessage = function hasConfirmationMessage(data) {
 			return data && Object.prototype.hasOwnProperty.call(data, 'ConfirmationMessage') && data.ConfirmationMessage && data.ConfirmationMessage.length;
-		};
-
-		vm.downloadEvent = function downloadEvent(clickEvent) {
-			clickEvent.preventDefault();
-
-			downloadCalendarEventService.downloadCalendarEvent(vm.data);
 		};
 
 		vm.isFieldValid = function (form, field) {

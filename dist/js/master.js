@@ -873,10 +873,6 @@ bcpl.alertBox = function ($, Handlebars, CONSTANTS) {
 		if (alertsTemplateHtml && alertsTemplateHtml.length) {
 			var alertsTemplate = Handlebars.compile(alertsTemplateHtml);
 
-			if (alertData && alertData.IsEmergency) {
-				alertData.EmergencyClass = 'emergency'; // eslint-disable-line no-param-reassign
-			}
-
 			$alertsTarget.html(alertsTemplate({ alertData: alertData }));
 		}
 
@@ -1003,8 +999,9 @@ bcpl.bookCarousel = function ($, constants) {
 		var $image = $listItem.find('img');
 		var $link = $listItem.find('a');
 		var imageTitle = $image.attr('title');
-		var $titleDisplay = $('<p>' + imageTitle + '</p>');
-		var title = encodeURIComponent(imageTitle.split(':')[0]);
+		var titleForDisplay = imageTitle.split(':')[0];
+		var titleForUrl = encodeURIComponent(titleForDisplay);
+		var $titleDisplay = $('<p>' + titleForDisplay + '</p>');
 
 		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
 
@@ -1013,7 +1010,7 @@ bcpl.bookCarousel = function ($, constants) {
 		if (isTitleSearch) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 
-			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + title + '%22&by=KW&sort=MP&limit=&query=&page=0';
+			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + titleForUrl + '%22&by=KW&sort=MP&limit=&query=&page=0';
 
 			$link.attr('href', newLinkHref);
 		}
@@ -2451,6 +2448,9 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.tablenator = function ($, _) {
+	var responsiveTableClass = 'tablenator-responsive-table';
+	var tablenatorPrefix = 'tablenator-';
+	var tablenatorOptions = void 0;
 	var $originalTableCache = void 0;
 	var breakpoint = void 0;
 
@@ -2462,15 +2462,25 @@ bcpl.tablenator = function ($, _) {
 		}
 
 		$dataRows.each(function (rowIndex, rowElement) {
-			var $newTable = $('<table class="tablenator-responsive-table"><tbody></tbody><table>');
+			var $newTable = $('<table class="' + responsiveTableClass + '" style="display:none"><tbody></tbody></table>');
 			var $newTableBody = $newTable.find('tbody');
 			var $row = $(rowElement);
 
 			$headings.each(function (headingIndex) {
 				var headingText = $headings.eq(headingIndex).text();
-				var dataHtml = $row.find('td').eq(headingIndex).html();
+				var dataHtml = $row.find('td').eq(headingIndex).html().trim();
 
-				$newTableBody.append('<tr><td>' + headingText + '</td><td>' + dataHtml + '</td></tr>');
+				var $dataHtml = $($.parseHTML(dataHtml));
+				var inputSelector = 'input:not([type="hidden"])';
+				var $dataInput = $dataHtml.is(inputSelector) ? $dataHtml : $dataHtml.find(inputSelector);
+
+				if ($dataInput.length) {
+					callFnOption(tablenatorOptions, 'onDataInput', $dataInput);
+					dataHtml = $dataHtml && $dataHtml.length ? $dataHtml[0].outerHTML : '';
+				}
+				if (headingText && dataHtml) {
+					$newTableBody.append('<tr><td>' + headingText + '</td><td>' + dataHtml + '</td></tr>');
+				}
 			});
 
 			newTableBodyCollection.push($newTable);
@@ -2479,38 +2489,71 @@ bcpl.tablenator = function ($, _) {
 		return newTableBodyCollection;
 	};
 
-	var reformat = function reformat(tableIndex, tableElement) {
+	var createMobileTables = function createMobileTables(tableIndex, tableElement, callback) {
 		var $table = $(tableElement);
 		var $headings = $table.find('th');
 		var $dataRows = $table.find('tr').not($headings.closest('tr'));
 
 		var newTableBodyCollection = buildTwoColumnTables($headings, $dataRows);
 
-		newTableBodyCollection.map(function ($newTable) {
+		newTableBodyCollection.reverse().map(function ($newTable) {
+			if (tablenatorOptions.isParentForm) {
+				return $originalTableCache.eq(tableIndex).closest('form').after($newTable);
+			}
 			return $originalTableCache.eq(tableIndex).parent().append($newTable);
 		});
 
-		$table.detach();
+		$table.hide();
+
+		if (callback && typeof callback === 'function') {
+			callback();
+		}
 	};
 
 	var windowResizehandler = function windowResizehandler(resizeEvent) {
 		var windowWidth = $(resizeEvent.target).width();
 
 		if (windowWidth < breakpoint) {
-			$originalTableCache.each(reformat);
-		} else {
-			var parentCollection = $('.tablenator-responsive-table').map(function (index, tableElement) {
-				return $(tableElement).parent().get();
-			});
+			$originalTableCache.hide();
+			$('.' + responsiveTableClass).show();
 
-			$.unique(parentCollection).each(function (index, parentElement) {
-				return $(parentElement).empty().append($originalTableCache.eq(index));
-			});
+			callFnOption(tablenatorOptions, 'onMobileSize');
+		} else {
+			$originalTableCache.show();
+			$('.' + responsiveTableClass).hide();
+
+			callFnOption(tablenatorOptions, 'onDefaultSize');
 		}
 	};
 
-	var init = function init(tableSelector, screenBreakpoint) {
+	var hasProperty = function hasProperty(obj, propertyName) {
+		return obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
+	};
+	var setFnOption = function setFnOption(options, propertyName) {
+		return hasProperty(options, propertyName) ? options[propertyName] : null;
+	};
+	var callFnOption = function callFnOption(options, propertyName, data) {
+		if (tablenatorOptions[propertyName] && typeof tablenatorOptions[propertyName] === 'function') {
+			tablenatorOptions[propertyName](data, options);
+		}
+	};
+
+	var setupOptions = function setupOptions(options) {
+		tablenatorOptions = options || {};
+		tablenatorOptions.isParentForm = hasProperty(options, 'isParentForm') ? options.isParentForm : false;
+		tablenatorOptions.$originalTableCache = $originalTableCache;
+		tablenatorOptions.tablenatorPrefix = tablenatorPrefix;
+		tablenatorOptions.responsiveTableClass = responsiveTableClass;
+		tablenatorOptions.afterInit = setFnOption(options, 'afterInit');
+		tablenatorOptions.onMobileSize = setFnOption(options, 'onMobileSize');
+		tablenatorOptions.onDefaultSize = setFnOption(options, 'onDefaultSize');
+		tablenatorOptions.onDataInput = setFnOption(options, 'onDataInput');
+	};
+
+	var init = function init(tableSelector, screenBreakpoint, options) {
 		$originalTableCache = $(tableSelector);
+
+		setupOptions(options);
 
 		if (screenBreakpoint && typeof screenBreakpoint === 'number') {
 			breakpoint = screenBreakpoint;
@@ -2519,6 +2562,12 @@ bcpl.tablenator = function ($, _) {
 		}
 
 		if ($originalTableCache.length) {
+			$originalTableCache.each(function (tableIndex, tableElement) {
+				createMobileTables(tableIndex, tableElement, function () {
+					callFnOption(tablenatorOptions, 'afterInit', null);
+				});
+			});
+
 			var lazyWindowResizeHandler = _.debounce(windowResizehandler, 100);
 			$(window).on('resize', lazyWindowResizeHandler);
 		}

@@ -11,7 +11,8 @@
 	position: relative;
 	top: -1px;
 	
-	&.emergency {
+	&.emergency-systemwide, 
+	&.emergency-branch {
 		background-color: $emergency-banner;
 		color: white;
 
@@ -31,9 +32,9 @@
 					margin-right: .25em;
 				}
 
-				&::first-child {
+				&:first-child {
 					i {
-						color: white;
+						color: white !important;
 					}
 				}
 			}
