@@ -49,7 +49,7 @@ bcpl.utility.googleAnalytics = (() => {
 			return;
 		}
 
-		gtag = ga || function () {};
+		gtag = window.ga || ga;
 
 		validHostNames = options && Object.prototype.hasOwnProperty.call(options, 'validHostNames')
 			? options.validHostNames
