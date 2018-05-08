@@ -185,7 +185,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		requestChunkSize: 10,
 		ageDisclaimer: {
 			message: 'Children under 8 must be accompanied by adult',
-			ageGroupIds: [9, 10, 11, 12, 13]
+			ageGroupIds: [9, 10, 11, 12, 13] // All ages but teen and adults, https://bcpl.evanced.info/api/signup/agegroups
 		},
 		eventDetailsError: {
 			message: 'There was a problem loading this event\'s details. Please select a different event.'
@@ -477,7 +477,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 			var intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
 
-			return intersection > 0;
+			return intersection && intersection.length > 0;
 		};
 
 		return {
