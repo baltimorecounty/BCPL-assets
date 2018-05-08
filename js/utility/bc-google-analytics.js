@@ -58,7 +58,6 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
-
 	return {
 		addOutboundLinkTracking,
 		handleExternalLinkClick,
