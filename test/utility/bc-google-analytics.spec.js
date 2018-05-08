@@ -1,11 +1,6 @@
 /* eslint-disable no-undef */
 
 describe('Baltimore County Google Analytics Utility', () => {
-	beforeEach((done) => {
-		loadFixtures('utiltiy-bc-google-analytics.fixture.html');
-		done();
-	});
-
 	describe('isExternalLink', () => {
 		it('should return false, if no element is passed in', () => {
 			const actual = bcpl.utility.googleAnalytics.isExternalLink();
