@@ -1,14 +1,14 @@
-{ 
-	"extends": [
-		"airbnb/legacy",
-		"baltimorecounty"
-	],
-	"globals": {
-		"bcpl": true,
-		"describe": true,
-		"it": true
-	},
-	"rules": {
-		"max-len":"off"
-	}
+{
+    "extends": ["airbnb/legacy", "baltimorecounty"],
+    "globals": {
+        "bcpl": true,
+        "describe": true,
+        "it": true
+    },
+    "rules": {
+        "max-len": "off"
+    },
+    "env": {
+        "cypress/globals": true
+    }
 }
