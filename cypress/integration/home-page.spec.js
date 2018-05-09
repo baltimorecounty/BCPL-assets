@@ -6,7 +6,8 @@ const constants = {
         carouselDotsControl: '.slick-dots button',
         learnMoreLink: '.slick-slide.slick-active .callout a',
         featuredEventsContainer: '#events-target',
-        featuredEvents: 'featured-events a.post'
+        featuredEvents: 'featured-events a.post',
+        viewAllEventsButtons: '.events .feed a.solo'
     }
 };
 
@@ -88,7 +89,19 @@ describe('BCPL Home Page', () => {
                 .first()
                 .click();
             
-            //TODO: maybe we can asser that the id is in the new location
+            //TODO: maybe we can assert that the id is in the new location
+
+            assertLocationChanged();
+        });
+
+        it('should navigate you to the events page when the view all events button is selected', () => {
+            cy.visit(constants.rootUrl);
+            
+            cy
+                .wait(1000)
+                .get(constants.selectors.viewAllEventsButtons)
+                .first()
+                .click();
 
             assertLocationChanged();
         });
