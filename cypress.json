@@ -1,0 +1,10 @@
+{
+    "blacklistHosts": [
+        "s7.addthis.com",
+        "www.googletagmanager.com",
+        "translate.google.com",
+        "hello.myfonts.net",
+        "fonts.googleapis.com",
+        "api2.libanswers.com"
+    ]
+}
