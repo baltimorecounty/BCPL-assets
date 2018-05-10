@@ -42,7 +42,7 @@ describe('Accordion Component', () => {
             .as('firstAccordion');
     });
 
-    it('should at least one accordion on the page', () => {
+    it('should be at least one accordion on the page', () => {
         cy.get('@firstAccordion').should('exist');
     });
 
