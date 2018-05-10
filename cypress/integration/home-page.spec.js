@@ -148,6 +148,8 @@ describe('BCPL Home Page', () => {
     });
 
     describe('Recommended Titles', () => {
+        let visibleTitles;
+        
         const assertVisibleTitlesChanged = titleElms => {
             Array.prototype.slice.call(titleElms).forEach(titleElm => {
                 const isMatch = visibleTitles.includes(titleElm.innerText);
@@ -179,8 +181,7 @@ describe('BCPL Home Page', () => {
                 visibleTitles.push(titleElm.innerText);
             });
         };
-        
-        let visibleTitles;
+
         before(() => {
             cy.visit(constants.rootUrl);
         });
