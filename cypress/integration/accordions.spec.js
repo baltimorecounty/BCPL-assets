@@ -66,13 +66,13 @@ describe('Accordion Component', () => {
             .should('not.exist');
     });
 
-    it('should show a down arrow icon when the accordion is expaned', () => {
+    it('should show a right arrow icon when the accordion is expaned', () => {
         getFirstAccordionToggleBtn()
             .find('i')
             .should('have.class', constants.cssClasses.accordionCollapsedArrow);
     });
 
-    it('should collapse an expanded accordion has it\'s header selected', () => {
+    it("should collapse an expanded accordion has it's header selected", () => {
         cy.get('@firstAccordion').should('exist');
     });
 });
