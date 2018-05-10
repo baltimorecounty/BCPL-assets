@@ -7,7 +7,7 @@ const constants = {
     },
     cssClasses: {
         accordionCollapsedArrow: 'fa-chevron-right',
-        accordionExpandedArrow: 'fa-chevron-down',
+        accordionExpandedArrow: 'fa-chevron-down'
     },
     selectors: {
         accordionContainer: '.content-accordion',
@@ -72,7 +72,7 @@ describe('Accordion Component', () => {
             .should('have.class', constants.cssClasses.accordionCollapsedArrow);
     });
 
-    it("should collapse an expanded accordion has it's header selected", () => {
+    it('should collapse an expanded accordion has it\'s header selected', () => {
         cy.get('@firstAccordion').should('exist');
     });
 });
