@@ -66,7 +66,7 @@ describe('Accordion Component', () => {
             .should('not.exist');
     });
 
-    it('should show a right arrow icon when the accordion is expaned', () => {
+    it('should show a right arrow icon when the accordion is collapsed', () => {
         getFirstAccordionToggleBtn()
             .find('i')
             .should('have.class', constants.cssClasses.accordionCollapsedArrow);
