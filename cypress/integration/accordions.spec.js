@@ -71,10 +71,6 @@ describe('Accordion Component', () => {
             .find('i')
             .should('have.class', constants.cssClasses.accordionCollapsedArrow);
     });
-
-    it("should collapse an expanded accordion has it's header selected", () => {
-        cy.get('@firstAccordion').should('exist');
-    });
 });
 
 describe('Accordion Anchors', () => {
