@@ -59,7 +59,7 @@ describe('Accordion Component', () => {
             .should('have.class', constants.cssClasses.accordionExpandedArrow);
     });
 
-    it("should collapse an expanded accordion has it's header selected", () => {
+    it("should collapse an expanded accordion if it's header is selected", () => {
         toggleFirstAccordion()
             .closest(constants.selectors.accordionPanel)
             .find(constants.selectors.accordionExpanded)
