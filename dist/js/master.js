@@ -183,6 +183,79 @@ if (!Array.prototype.includes) {
 		}
 	});
 }
+// Requires Gtag from Google Analytics, requires includes polyfill
+
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.googleAnalytics = function () {
+	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
+		return Object.prototype.hasOwnProperty.call(obj, propertyName);
+	};
+	var gtag = void 0;
+	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
+
+	var addOutboundLinkTracking = function addOutboundLinkTracking() {
+		document.querySelector(document).addEventListener('click', handleExternalLinkClick);
+	};
+
+	var handleExternalLinkClick = function handleExternalLinkClick(clickEvent) {
+		var isTargetAnExternalLinkElm = isExternalLink(clickEvent.target);
+
+		if (isTargetAnExternalLinkElm) {
+			var linkHref = clickEvent.target && hasOwnProperty(clickEvent.target, 'href');
+
+			if (linkHref) {
+				clickEvent.preventDefault();
+				trackOutboundLink(clickEvent.target.href);
+			}
+		}
+	};
+
+	var isExternalLink = function isExternalLink(linkElm) {
+		return !!(linkElm && hasOwnProperty(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname));
+	};
+
+	var isValidHostName = function isValidHostName(linkHostName) {
+		return !!validHostNames.filter(function (validHostName) {
+			return linkHostName.endsWith(validHostName);
+		}).length;
+	};
+
+	// https://support.google.com/analytics/answer/7478520?hl=en
+	var trackOutboundLink = function trackOutboundLink(url) {
+		gtag('event', 'click', {
+			event_category: 'outbound',
+			event_label: url,
+			transport_type: 'beacon',
+			event_callback: function event_callback() {
+				document.location = url;
+			}
+		});
+	};
+
+	var init = function init(options, ga) {
+		if (!ga) {
+			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
+			return;
+		}
+
+		gtag = window.ga || ga;
+
+		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
+
+		addOutboundLinkTracking();
+	};
+
+	return {
+		addOutboundLinkTracking: addOutboundLinkTracking,
+		handleExternalLinkClick: handleExternalLinkClick,
+		init: init,
+		isExternalLink: isExternalLink,
+		trackOutboundLink: trackOutboundLink
+	};
+}();
 'use strict';
 
 namespacer('bcpl.utility');
