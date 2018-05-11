@@ -190,6 +190,7 @@ if (!Array.prototype.includes) {
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
+	var hasOwnProperty = Object.prototype.hasOwnProperty.call;
 	var gtag = void 0;
 	var validHostNames = ['www.bcpl.info', 'bcpl.info', 'catalog.bcpl.lib.md.us', 'www.catalog.bcpl.lib.md.us'];
 
@@ -201,7 +202,7 @@ bcpl.utility.googleAnalytics = function () {
 		var isTargetAnExternalLinkElm = isExternalLink(clickEvent.target);
 
 		if (isTargetAnExternalLinkElm) {
-			var linkHref = clickEvent.target && Object.prototype.hasOwnProperty.call(clickEvent.target, 'href');
+			var linkHref = clickEvent.target && hasOwnProperty(clickEvent.target, 'href');
 
 			if (linkHref) {
 				clickEvent.preventDefault();
@@ -211,7 +212,7 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var isExternalLink = function isExternalLink(linkElm) {
-		return !!(linkElm && Object.prototype.hasOwnProperty.call(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !validHostNames.includes(linkElm.hostname));
+		return !!(linkElm && hasOwnProperty(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !validHostNames.includes(linkElm.hostname));
 	};
 
 	// https://support.google.com/analytics/answer/7478520?hl=en
@@ -234,7 +235,7 @@ bcpl.utility.googleAnalytics = function () {
 
 		gtag = window.ga || ga;
 
-		validHostNames = options && Object.prototype.hasOwnProperty.call(options, 'validHostNames') ? options.validHostNames : validHostNames;
+		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
 
 		addOutboundLinkTracking();
 	};
