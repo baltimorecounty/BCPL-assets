@@ -1,5 +1,7 @@
 // Requires Gtag from Google Analytics, requires includes polyfill
 
+'use strict';
+
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
