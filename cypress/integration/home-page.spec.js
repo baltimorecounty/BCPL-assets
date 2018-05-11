@@ -138,7 +138,7 @@ describe('BCPL Home Page', () => {
             assertLocationChanged();
         });
 
-        it('should navigate a list of blog posts when view the blog is selecoted', () => {
+        it('should navigate a list of blog posts when view the blog is selected', () => {
             cy.visit(constants.rootUrl);
 
             cy.get(constants.selectors.viewTheBlogButton).click();
@@ -149,7 +149,7 @@ describe('BCPL Home Page', () => {
 
     describe('Recommended Titles', () => {
         let visibleTitles;
-        
+
         const assertVisibleTitlesChanged = titleElms => {
             Array.prototype.slice.call(titleElms).forEach(titleElm => {
                 const isMatch = visibleTitles.includes(titleElm.innerText);
