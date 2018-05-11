@@ -5,6 +5,7 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
+	const hasOwnProperty = Object.prototype.hasOwnProperty.call;
 	let gtag;
 	let validHostNames = ['www.bcpl.info', 'bcpl.info', 'catalog.bcpl.lib.md.us', 'www.catalog.bcpl.lib.md.us'];
 
@@ -18,7 +19,7 @@ bcpl.utility.googleAnalytics = (() => {
 
 		if (isTargetAnExternalLinkElm) {
 			const linkHref = clickEvent.target
-				&& Object.prototype.hasOwnProperty.call(clickEvent.target, 'href');
+				&& hasOwnProperty(clickEvent.target, 'href');
 
 			if (linkHref) {
 				clickEvent.preventDefault();
@@ -28,7 +29,7 @@ bcpl.utility.googleAnalytics = (() => {
 	};
 
 	const isExternalLink = (linkElm) => !!(linkElm
-		&& Object.prototype.hasOwnProperty.call(linkElm, 'hostname')
+		&& hasOwnProperty(linkElm, 'hostname')
 		&& linkElm.hostname
 		&& linkElm.hostname !== window.location.hostname
 		&& !validHostNames.includes(linkElm.hostname));
@@ -53,7 +54,7 @@ bcpl.utility.googleAnalytics = (() => {
 
 		gtag = window.ga || ga;
 
-		validHostNames = options && Object.prototype.hasOwnProperty.call(options, 'validHostNames')
+		validHostNames = options && hasOwnProperty(options, 'validHostNames')
 			? options.validHostNames
 			: validHostNames;
 
