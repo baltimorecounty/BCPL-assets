@@ -219,7 +219,7 @@ bcpl.utility.googleAnalytics = function () {
 
 	var isValidHostName = function isValidHostName(linkHostName) {
 		return !!validHostNames.filter(function (validHostName) {
-			return linkHostName.indexOf(validHostName) > -1;
+			return linkHostName.endsWith(validHostName);
 		}).length;
 	};
 
