@@ -82,7 +82,7 @@
 							// Since moment().subtract() mutates the date rather than returning a new date,
 							// we need to calculate the date fresh every time.
 							response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
-							response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
+							response.data.registrationEnds = moment(response.data.EventStart);
 							response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
 							response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 							response.data.onGoingStartDate = moment(response.data.OnGoingStartDate).format(momentDayFormat);
