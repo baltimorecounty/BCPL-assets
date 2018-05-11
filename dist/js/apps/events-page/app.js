@@ -185,7 +185,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 		requestChunkSize: 10,
 		ageDisclaimer: {
 			message: 'Children under 8 must be accompanied by adult',
-			ageGroupIds: [9, 10, 11, 12, 13]
+			ageGroupIds: [9, 10, 11, 12, 13] // All ages but teen and adults, https://bcpl.evanced.info/api/signup/agegroups
 		},
 		eventDetailsError: {
 			message: 'There was a problem loading this event\'s details. Please select a different event.'
@@ -320,7 +320,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 						// Since moment().subtract() mutates the date rather than returning a new date,
 						// we need to calculate the date fresh every time.
 						response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
-						response.data.registrationEnds = moment(response.data.EventStart).subtract(30, 'minutes');
+						response.data.registrationEnds = moment(response.data.EventStart);
 						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
 						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 						response.data.onGoingStartDate = moment(response.data.OnGoingStartDate).format(momentDayFormat);
