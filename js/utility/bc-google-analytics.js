@@ -28,15 +28,16 @@ bcpl.utility.googleAnalytics = (() => {
 		}
 	};
 
-	const isExternalLink = (linkElm) => !!(linkElm
-		&& hasOwnProperty(linkElm, 'hostname')
-		&& linkElm.hostname
-		&& linkElm.hostname !== window.location.hostname
-		&& !isValidHostName(linkElm.hostname));
+	const isExternalLink = (linkElm) =>
+		!!(linkElm
+			&& hasOwnProperty(linkElm, 'hostname')
+			&& linkElm.hostname
+			&& linkElm.hostname !== window.location.hostname
+			&& !isValidHostName(linkElm.hostname));
 
 	const isValidHostName = (linkHostName) =>
 		!!(validHostNames
-			.filter(validHostName => linkHostName.indexOf(validHostName) > -1)
+			.filter(validHostName => linkHostName.endsWith(validHostName))
 			.length);
 
 	// https://support.google.com/analytics/answer/7478520?hl=en

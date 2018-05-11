@@ -62,5 +62,13 @@ describe('Baltimore County Google Analytics Utility', () => {
 			const actual = bcpl.utility.googleAnalytics.isExternalLink(mockLink);
 			expect(actual).toEqual(true);
 		});
+
+		it('should return true, the link element contains a malicious link bcpl.info.maliciouswebsite.xxx', () => {
+			const mockLink = {
+				hostname: 'bcpl.info.maliciouswebsite.xxx'
+			};
+			const actual = bcpl.utility.googleAnalytics.isExternalLink(mockLink);
+			expect(actual).toEqual(true);
+		});
 	});
 });
