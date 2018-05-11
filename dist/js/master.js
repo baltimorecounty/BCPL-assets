@@ -183,9 +183,9 @@ if (!Array.prototype.includes) {
 		}
 	});
 }
-'use strict';
-
 // Requires Gtag from Google Analytics, requires includes polyfill
+
+'use strict';
 
 namespacer('bcpl.utility');
 
