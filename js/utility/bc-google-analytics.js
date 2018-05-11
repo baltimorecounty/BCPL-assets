@@ -5,9 +5,9 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
-	const hasOwnProperty = Object.prototype.hasOwnProperty.call;
+	const hasOwnProperty = (obj, propertyName) => Object.prototype.hasOwnProperty.call(obj, propertyName);
 	let gtag;
-	let validHostNames = ['www.bcpl.info', 'bcpl.info', 'catalog.bcpl.lib.md.us', 'www.catalog.bcpl.lib.md.us'];
+	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	const addOutboundLinkTracking = () => {
 		document.querySelector(document)
@@ -32,7 +32,12 @@ bcpl.utility.googleAnalytics = (() => {
 		&& hasOwnProperty(linkElm, 'hostname')
 		&& linkElm.hostname
 		&& linkElm.hostname !== window.location.hostname
-		&& !validHostNames.includes(linkElm.hostname));
+		&& !isValidHostName(linkElm.hostname));
+
+	const isValidHostName = (linkHostName) =>
+		!!(validHostNames
+			.filter(validHostName => linkHostName.indexOf(validHostName) > -1)
+			.length);
 
 	// https://support.google.com/analytics/answer/7478520?hl=en
 	const trackOutboundLink = (url) => {

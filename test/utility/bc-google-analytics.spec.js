@@ -15,6 +15,14 @@ describe('Baltimore County Google Analytics Utility', () => {
 			expect(actual).toEqual(false);
 		});
 
+		it('should return false, the link element contains a link containing the subdomain books.bcpl.info', () => {
+			const mockLink = {
+				hostname: 'books.bcpl.info'
+			};
+			const actual = bcpl.utility.googleAnalytics.isExternalLink(mockLink);
+			expect(actual).toEqual(false);
+		});
+
 		it('should return false, the link element contains a link containing the domain www.bcpl.info', () => {
 			const mockLink = {
 				hostname: 'www.bcpl.info'
@@ -26,6 +34,14 @@ describe('Baltimore County Google Analytics Utility', () => {
 		it('should return false, the link element contains a link containing the domain catalog.bcpl.lib.md.us', () => {
 			const mockLink = {
 				hostname: 'catalog.bcpl.lib.md.us'
+			};
+			const actual = bcpl.utility.googleAnalytics.isExternalLink(mockLink);
+			expect(actual).toEqual(false);
+		});
+
+		it('should return false, the link element contains a link containing the subdomain magazines.bcpl.lib.md.us', () => {
+			const mockLink = {
+				hostname: 'magazines.bcpl.lib.md.us'
 			};
 			const actual = bcpl.utility.googleAnalytics.isExternalLink(mockLink);
 			expect(actual).toEqual(false);
