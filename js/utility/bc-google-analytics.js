@@ -18,7 +18,7 @@ bcpl.utility.googleAnalytics = (() => {
 
 		if (isTargetAnExternalLinkElm) {
 			const linkHref = clickEvent.target
-                && Object.prototype.hasOwnProperty.call(clickEvent.target, 'href');
+				&& Object.prototype.hasOwnProperty.call(clickEvent.target, 'href');
 
 			if (linkHref) {
 				clickEvent.preventDefault();
@@ -28,10 +28,10 @@ bcpl.utility.googleAnalytics = (() => {
 	};
 
 	const isExternalLink = (linkElm) => !!(linkElm
-        && Object.prototype.hasOwnProperty.call(linkElm, 'hostname')
-        && linkElm.hostname
-        && linkElm.hostname !== window.location.hostname
-        && !validHostNames.includes(linkElm.hostname));
+		&& Object.prototype.hasOwnProperty.call(linkElm, 'hostname')
+		&& linkElm.hostname
+		&& linkElm.hostname !== window.location.hostname
+		&& !validHostNames.includes(linkElm.hostname));
 
 	// https://support.google.com/analytics/answer/7478520?hl=en
 	const trackOutboundLink = (url) => {
