@@ -190,9 +190,11 @@ if (!Array.prototype.includes) {
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
-	var hasOwnProperty = Object.prototype.hasOwnProperty.call;
+	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
+		return Object.prototype.hasOwnProperty.call(obj, propertyName);
+	};
 	var gtag = void 0;
-	var validHostNames = ['www.bcpl.info', 'bcpl.info', 'catalog.bcpl.lib.md.us', 'www.catalog.bcpl.lib.md.us'];
+	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	var addOutboundLinkTracking = function addOutboundLinkTracking() {
 		document.querySelector(document).addEventListener('click', handleExternalLinkClick);
@@ -212,7 +214,13 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var isExternalLink = function isExternalLink(linkElm) {
-		return !!(linkElm && hasOwnProperty(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !validHostNames.includes(linkElm.hostname));
+		return !!(linkElm && hasOwnProperty(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname));
+	};
+
+	var isValidHostName = function isValidHostName(linkHostName) {
+		return !!validHostNames.filter(function (validHostName) {
+			return linkHostName.indexOf(validHostName) > -1;
+		}).length;
 	};
 
 	// https://support.google.com/analytics/answer/7478520?hl=en
