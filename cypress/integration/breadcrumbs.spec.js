@@ -26,14 +26,14 @@ describe('Breadcrumbs', () => {
                 .should('eq', 2);
         });
 
-        it('should the first breadcrumb as a link "Home"', () => {
+        it('should show the first breadcrumb as a link containing the text "Home"', () => {
             cy
                 .get('@breadCrumbs')
                 .first()
                 .contains('Home');
         });
 
-        it('should the first breadcrumb as a link "Youth"', () => {
+        it('should show the last breadcrumb as a link containing the text "Youth"', () => {
             cy
                 .get('@breadCrumbs')
                 .last()
