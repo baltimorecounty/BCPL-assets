@@ -35,6 +35,16 @@
 		},
 		eventDetailsError: {
 			message: 'There was a problem loading this event\'s details. Please select a different event.'
+		},
+		dateOffsets: {
+			registrationStart: {
+				numberOfUnits: 7,
+				unit: 'days'
+			},
+			registrationEnd: {
+				numberOfUnits: 0,
+				unit: 'days'
+			}
 		}
 	};
 
