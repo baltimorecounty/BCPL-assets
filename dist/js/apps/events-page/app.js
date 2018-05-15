@@ -158,7 +158,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	var app = angular.module('events', []);
 
 	var constants = {
-		baseUrl: 'https://services.bcpl.info',
+		baseUrl: 'https://testservices.bcpl.info',
 		serviceUrls: {
 			events: '/api/evanced/signup/events',
 			eventRegistration: '/api/evanced/signup/registration',
@@ -189,6 +189,16 @@ bcpl.boostrapCollapseHelper = function ($) {
 		},
 		eventDetailsError: {
 			message: 'There was a problem loading this event\'s details. Please select a different event.'
+		},
+		dateOffsets: {
+			registrationStart: {
+				numberOfUnits: 7,
+				unit: 'days'
+			},
+			registrationEnd: {
+				numberOfUnits: 0,
+				unit: 'days'
+			}
 		}
 	};
 
@@ -317,10 +327,15 @@ bcpl.boostrapCollapseHelper = function ($) {
 						var momentDateFormat = 'M/D/YYYY @ h:mm a';
 						var momentDayFormat = 'M/D/YYYY';
 
+						var _CONSTANTS$dateOffset = CONSTANTS.dateOffsets,
+						    registrationStartOffset = _CONSTANTS$dateOffset.registrationStart,
+						    registrationEndOffset = _CONSTANTS$dateOffset.registrationEnd;
+
 						// Since moment().subtract() mutates the date rather than returning a new date,
 						// we need to calculate the date fresh every time.
-						response.data.registrationStarts = moment(response.data.EventStart).subtract(7, 'days');
-						response.data.registrationEnds = moment(response.data.EventStart);
+
+						response.data.registrationStarts = moment(response.data.EventStart).subtract(registrationStartOffset.numberOfUnits, registrationStartOffset.unit);
+						response.data.registrationEnds = moment(response.data.EventStart).subtract(registrationEndOffset.numberOfUnits, registrationEndOffset.unit);
 						response.data.registrationStartsDisplay = formatTime(response.data.registrationStarts.format(momentDateFormat));
 						response.data.registrationEndsDisplay = formatTime(response.data.registrationEnds.format(momentDateFormat));
 						response.data.onGoingStartDate = moment(response.data.OnGoingStartDate).format(momentDayFormat);
