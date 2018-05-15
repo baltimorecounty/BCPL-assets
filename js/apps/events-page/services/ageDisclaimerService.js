@@ -6,7 +6,7 @@
 
 			const intersection = $window._.intersection(ageGroupsForDisclaimer, ageGroupsFromEvent);
 
-			return intersection > 0;
+			return intersection && intersection.length > 0;
 		};
 
 		return {
