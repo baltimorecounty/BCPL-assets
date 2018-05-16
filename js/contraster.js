@@ -74,6 +74,7 @@ bcpl.contraster = (($, browserStorage) => {
 
 		if ($contrastButton.length) {
 			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler);
+			$contrastButton.last().prop('checked', false);
 		}
 
 		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
