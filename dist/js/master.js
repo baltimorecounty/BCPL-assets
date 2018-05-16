@@ -216,7 +216,11 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var isExternalLink = function isExternalLink(linkElm) {
-		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname));
+		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname)) && !isShareThisLink(linkElm);
+	};
+
+	var isShareThisLink = function isShareThisLink(linkElm) {
+		return linkElm.href && linkElm.href.indexOf('addthis') > -1;
 	};
 
 	var isValidHostName = function isValidHostName(linkHostName) {
