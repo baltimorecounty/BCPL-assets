@@ -10,7 +10,7 @@ bcpl.utility.googleAnalytics = (() => {
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	const addOutboundLinkTracking = () => {
-		document.querySelector(document)
+		document
 			.addEventListener('click', handleExternalLinkClick);
 	};
 
@@ -52,13 +52,13 @@ bcpl.utility.googleAnalytics = (() => {
 		});
 	};
 
-	const init = (options, ga) => {
-		if (!ga) {
+	const init = (options) => {
+		if (!window.gtag) {
 			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
 			return;
 		}
 
-		gtag = window.ga || ga;
+		gtag = window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames')
 			? options.validHostNames
