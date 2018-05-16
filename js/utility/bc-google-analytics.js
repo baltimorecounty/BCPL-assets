@@ -10,27 +10,31 @@ bcpl.utility.googleAnalytics = (() => {
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	const addOutboundLinkTracking = () => {
-		document.querySelector(document)
+		document
 			.addEventListener('click', handleExternalLinkClick);
 	};
 
 	const handleExternalLinkClick = (clickEvent) => {
-		const isTargetAnExternalLinkElm = isExternalLink(clickEvent.target);
+		const targetElm = $(clickEvent.target).is('a')
+			? clickEvent.target
+			: $(clickEvent.target).closest('a')[0];
+
+		const isTargetAnExternalLinkElm = isExternalLink(targetElm);
 
 		if (isTargetAnExternalLinkElm) {
-			const linkHref = clickEvent.target
-				&& hasOwnProperty(clickEvent.target, 'href');
+			const hasLinkHref = targetElm
+				&& (hasOwnProperty(targetElm, 'href') || !!targetElm.href);
 
-			if (linkHref) {
+			if (hasLinkHref) {
 				clickEvent.preventDefault();
-				trackOutboundLink(clickEvent.target.href);
+				trackOutboundLink(targetElm.href);
 			}
 		}
 	};
 
 	const isExternalLink = (linkElm) =>
 		!!(linkElm
-			&& hasOwnProperty(linkElm, 'hostname')
+			&& (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname)
 			&& linkElm.hostname
 			&& linkElm.hostname !== window.location.hostname
 			&& !isValidHostName(linkElm.hostname));
@@ -52,13 +56,13 @@ bcpl.utility.googleAnalytics = (() => {
 		});
 	};
 
-	const init = (options, ga) => {
-		if (!ga) {
+	const init = (options) => {
+		if (!window.gtag) {
 			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
 			return;
 		}
 
-		gtag = window.ga || ga;
+		gtag = window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames')
 			? options.validHostNames

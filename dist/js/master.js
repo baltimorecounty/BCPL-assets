@@ -197,24 +197,26 @@ bcpl.utility.googleAnalytics = function () {
 	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	var addOutboundLinkTracking = function addOutboundLinkTracking() {
-		document.querySelector(document).addEventListener('click', handleExternalLinkClick);
+		document.addEventListener('click', handleExternalLinkClick);
 	};
 
 	var handleExternalLinkClick = function handleExternalLinkClick(clickEvent) {
-		var isTargetAnExternalLinkElm = isExternalLink(clickEvent.target);
+		var targetElm = $(clickEvent.target).is('a') ? clickEvent.target : $(clickEvent.target).closest('a')[0];
+
+		var isTargetAnExternalLinkElm = isExternalLink(targetElm);
 
 		if (isTargetAnExternalLinkElm) {
-			var linkHref = clickEvent.target && hasOwnProperty(clickEvent.target, 'href');
+			var hasLinkHref = targetElm && (hasOwnProperty(targetElm, 'href') || !!targetElm.href);
 
-			if (linkHref) {
+			if (hasLinkHref) {
 				clickEvent.preventDefault();
-				trackOutboundLink(clickEvent.target.href);
+				trackOutboundLink(targetElm.href);
 			}
 		}
 	};
 
 	var isExternalLink = function isExternalLink(linkElm) {
-		return !!(linkElm && hasOwnProperty(linkElm, 'hostname') && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname));
+		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname));
 	};
 
 	var isValidHostName = function isValidHostName(linkHostName) {
@@ -235,13 +237,13 @@ bcpl.utility.googleAnalytics = function () {
 		});
 	};
 
-	var init = function init(options, ga) {
-		if (!ga) {
+	var init = function init(options) {
+		if (!window.gtag) {
 			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
 			return;
 		}
 
-		gtag = window.ga || ga;
+		gtag = window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
 
