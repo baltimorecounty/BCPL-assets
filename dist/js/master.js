@@ -197,7 +197,7 @@ bcpl.utility.googleAnalytics = function () {
 	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
 	var addOutboundLinkTracking = function addOutboundLinkTracking() {
-		document.querySelector(document).addEventListener('click', handleExternalLinkClick);
+		document.addEventListener('click', handleExternalLinkClick);
 	};
 
 	var handleExternalLinkClick = function handleExternalLinkClick(clickEvent) {
@@ -236,12 +236,12 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var init = function init(options, ga) {
-		if (!ga) {
+		if (!window.gtag) {
 			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
 			return;
 		}
 
-		gtag = window.ga || ga;
+		gtag = window.gtag || ga;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
 
