@@ -15,22 +15,26 @@ bcpl.utility.googleAnalytics = (() => {
 	};
 
 	const handleExternalLinkClick = (clickEvent) => {
-		const isTargetAnExternalLinkElm = isExternalLink(clickEvent.target);
+		const targetElm = $(clickEvent.target).is('a')
+			? clickEvent.target
+			: $(clickEvent.target).closest('a')[0];
+
+		const isTargetAnExternalLinkElm = isExternalLink(targetElm);
 
 		if (isTargetAnExternalLinkElm) {
-			const linkHref = clickEvent.target
-				&& hasOwnProperty(clickEvent.target, 'href');
+			const hasLinkHref = targetElm
+				&& (hasOwnProperty(targetElm, 'href') || !!targetElm.href);
 
-			if (linkHref) {
+			if (hasLinkHref) {
 				clickEvent.preventDefault();
-				trackOutboundLink(clickEvent.target.href);
+				trackOutboundLink(targetElm.href);
 			}
 		}
 	};
 
 	const isExternalLink = (linkElm) =>
 		!!(linkElm
-			&& hasOwnProperty(linkElm, 'hostname')
+			&& (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname)
 			&& linkElm.hostname
 			&& linkElm.hostname !== window.location.hostname
 			&& !isValidHostName(linkElm.hostname));
