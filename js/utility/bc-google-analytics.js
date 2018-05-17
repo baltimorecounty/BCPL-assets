@@ -38,7 +38,12 @@ bcpl.utility.googleAnalytics = (() => {
 			&& linkElm.hostname
 			&& linkElm.hostname !== window.location.hostname
 			&& !isValidHostName(linkElm.hostname))
-			&& !isShareThisLink(linkElm);
+			&& !isShareThisLink(linkElm)
+			&& !isEmptyOrInvalidHref(linkElm.href);
+
+	const isJavascriptStringRegex = /(https?:\/\/)?(javascript|return).*[:;\)]/i;
+
+	const isEmptyOrInvalidHref = href => !href || isJavascriptStringRegex.test(href);
 
 	const isShareThisLink = linkElm => linkElm.href && linkElm.href.indexOf('addthis') > -1;
 
@@ -78,7 +83,9 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking,
 		handleExternalLinkClick,
 		init,
+		isEmptyOrInvalidHref,
 		isExternalLink,
+		isShareThisLink,
 		trackOutboundLink
 	};
 })();
