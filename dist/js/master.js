@@ -216,7 +216,13 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var isExternalLink = function isExternalLink(linkElm) {
-		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname)) && !isShareThisLink(linkElm);
+		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname)) && !isShareThisLink(linkElm) && !isEmptyOrInvalidHref(linkElm.href);
+	};
+
+	var isJavascriptStringRegex = /(https?:\/\/)?(javascript|return).*[:;\)]/i;
+
+	var isEmptyOrInvalidHref = function isEmptyOrInvalidHref(href) {
+		return !href || isJavascriptStringRegex.test(href);
 	};
 
 	var isShareThisLink = function isShareThisLink(linkElm) {
@@ -258,7 +264,9 @@ bcpl.utility.googleAnalytics = function () {
 		addOutboundLinkTracking: addOutboundLinkTracking,
 		handleExternalLinkClick: handleExternalLinkClick,
 		init: init,
+		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
 		isExternalLink: isExternalLink,
+		isShareThisLink: isShareThisLink,
 		trackOutboundLink: trackOutboundLink
 	};
 }();
