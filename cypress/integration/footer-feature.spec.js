@@ -5,23 +5,21 @@ const constants = {
         contraster: 'li.contraster',
         menuInnerWrapper: 'menu-inner-wrapper',
         followWrapper: 'follow-wrapper',
-        calloutsWrapper: 'callouts-wrapper',
+        calloutDivs: '.callouts-wrapper .callout',
         toTopButton: 'scroll-to-top',
-        translateGadget: '#google_translate_element'
+        translateGadget: '#google_translate_element',
+        translateMenuItems: '.goog-te-menu2-item',
+        htmlTranslated: '.translated-ltr'
     }
 }
 
 describe('Footer Features', () => {
-
-    const getSocialLinks = () => {
-        return cy.get(constants.selectors.socialLinks);
-    };
     
     before(() => {
         cy.visit(constants.rootUrl);
     });
 
-    describe('Social Links', () => {
+    /*describe('Social Links', () => {
         // 1. Verify the social links work.
         it('should contain a facbook icon that points to the baltimore county facebook page', () => {
             cy
@@ -63,13 +61,47 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.instagram.com/bcplinfo');
         });
 
-    });
+    });*/
 
-    describe('Promotions', () => {
+    /*describe('Promotions', () => {
         // 1. Verify all links work.
-    });
+        it('should contain a link that navigates to the BCPL Home Page', () => {
+            cy
+                .get(`${constants.selectors.calloutDivs} .logo`)
+                .should('have.attr', 'href', '/');
+        });
 
-    describe('Bottom Nav', () => {
+        it('should contain a link that navigates to Admin Office address on Google Maps', () => {
+            cy
+                .get(`${constants.selectors.calloutDivs}`)
+                .contains('Directions')
+                .should('have.attr', 'href', "https://www.google.com/maps/dir/''/320+York+Rd,+Towson,+MD+21204");
+        });
+
+        it('should contain a link that navigates to the Ask A Librarian page', () => {
+            cy
+                .get(`${constants.selectors.calloutDivs}`)
+                .contains('Ask a Librarian')
+                .should('have.attr', 'href', "/services/ask-a-librarian.html");
+        });
+
+        it('should contain a link that navigates to the Digital Library page', () => {
+            cy
+                .get(`${constants.selectors.calloutDivs}`)
+                .contains('Explore Digital Materials')
+                .should('have.attr', 'href', "/books-and-more/downloadables.html");
+        });
+
+        it('should contain a link that navigates to the Job Opportunities page', () => {
+            cy
+                .get(`${constants.selectors.calloutDivs}`)
+                .contains('Search Jobs')
+                .should('have.attr', 'href', "/about-us/job-opportunities.html");
+        });
+
+    });*/
+
+    /*describe('Bottom Nav', () => {
         // 1. Verify all links work.
 
         beforeEach(() => {
@@ -109,9 +141,9 @@ describe('Footer Features', () => {
                 .should('exist');
         });
 
-    });
+    });*/
 
-    describe('Adjust Contrast', () => {
+    /*describe('Adjust Contrast', () => {
 
         const assertIsHighContrast = () => {
 
@@ -178,7 +210,7 @@ describe('Footer Features', () => {
             assertIsHighContrast();
         });
 
-    });
+    });*/
 
     describe('Translate', () => {
         // 1. Verify the translate select toggles languages.
@@ -190,7 +222,17 @@ describe('Footer Features', () => {
 
         it('should toggle to the selected language', () => {
             cy
-                .get(constants.selectors.translateGadget);
+                .get(constants.selectors.translateGadget)
+                .click();
+
+            cy
+                .get(constants.selectors.translateMenuItems)
+                .contains('Korean')
+                .click();
+
+            cy
+                .get(constants.selectors.htmlTranslated)
+                .should('exist');
         });
     });
 
