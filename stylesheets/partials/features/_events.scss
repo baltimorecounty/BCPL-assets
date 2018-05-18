@@ -214,7 +214,7 @@
 				color: $teal-light;
 				font-weight: bold;
 				font-size: 24px;		
-				line-height: 1.3em;	   
+				line-height: 1.3em;
 
 				a {
 					line-height: 1.3em;
@@ -449,6 +449,22 @@ a, button, input, label {
 	.post {
 		margin-bottom: 15px;
 	}
+
+	
+}
+
+@media (max-width: $screen-md-max) {
+	.events-list {
+		.cards {
+			.card {
+				.event-name {
+					border-top: 1px solid $gray-lightest;
+					margin-top: .5em;
+					padding-top: .5em;
+				}
+			}
+		}
+	}
 }
 
 @media (max-width: $screen-sm-max) {
@@ -462,18 +478,6 @@ a, button, input, label {
 			margin-top: 2em;
 			background-repeat: repeat-x;
 			background-position: top;
-		}
-	}
-
-	.events-list {
-		.cards {
-			.card {
-				.event-name {
-					border-top: 1px solid $gray-lightest;
-					margin-top: .5em;
-					padding-top: .5em;
-				}
-			}
 		}
 	}
 }
