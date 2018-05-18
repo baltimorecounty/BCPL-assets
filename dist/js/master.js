@@ -1342,7 +1342,7 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
-	var isHighContrast = localStorage[localStorageHighContrastKey] === 'true';
+	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
 
 	if (isHighContrast) {
 		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');

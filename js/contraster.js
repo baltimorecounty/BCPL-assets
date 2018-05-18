@@ -16,7 +16,7 @@ bcpl.contraster = (($, browserStorage) => {
 	const contrasterSettings = {};
 
 	const localStorageHighContrastKey = 'isHighContrast';
-	const isHighContrast = localStorage[localStorageHighContrastKey] === 'true';
+	const isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
 
 	if (isHighContrast) {
 		$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${contrasterDefaults.styleSheet.high}" rel="stylesheet">`);
