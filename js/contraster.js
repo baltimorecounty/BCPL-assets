@@ -83,12 +83,6 @@ bcpl.contraster = (($, browserStorage) => {
 				.last()
 				.prop('checked', isHighContrast);
 		}
-
-		/*if (browserStorage.local(localStorageHighContrastKey) === 'true') {
-			$contrastButton.first().trigger('click');
-		} else {
-			browserStorage.local(localStorageHighContrastKey, 'false');
-		}*/
 	};
 
 	return {
