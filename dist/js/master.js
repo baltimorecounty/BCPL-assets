@@ -1394,12 +1394,6 @@ bcpl.contraster = function ($, browserStorage) {
 		if ($contrastButton.length) {
 			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler).last().prop('checked', isHighContrast);
 		}
-
-		/*if (browserStorage.local(localStorageHighContrastKey) === 'true') {
-  	$contrastButton.first().trigger('click');
-  } else {
-  	browserStorage.local(localStorageHighContrastKey, 'false');
-  }*/
 	};
 
 	return {
