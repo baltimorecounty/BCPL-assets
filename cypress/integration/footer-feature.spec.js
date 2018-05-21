@@ -19,7 +19,7 @@ describe('Footer Features', () => {
         cy.visit(constants.rootUrl);
     });
 
-    /*describe('Social Links', () => {
+    describe('Social Links', () => {
         // 1. Verify the social links work.
         it('should contain a facbook icon that points to the baltimore county facebook page', () => {
             cy
@@ -61,9 +61,9 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.instagram.com/bcplinfo');
         });
 
-    });*/
+    });
 
-    /*describe('Promotions', () => {
+    describe('Promotions', () => {
         // 1. Verify all links work.
         it('should contain a link that navigates to the BCPL Home Page', () => {
             cy
@@ -99,9 +99,9 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', "/about-us/job-opportunities.html");
         });
 
-    });*/
+    });
 
-    /*describe('Bottom Nav', () => {
+    describe('Bottom Nav', () => {
         // 1. Verify all links work.
 
         beforeEach(() => {
@@ -141,9 +141,9 @@ describe('Footer Features', () => {
                 .should('exist');
         });
 
-    });*/
+    });
 
-    /*describe('Adjust Contrast', () => {
+    describe('Adjust Contrast', () => {
 
         const assertIsHighContrast = () => {
 
@@ -205,33 +205,25 @@ describe('Footer Features', () => {
 
         // 4. Verify contrast changes persist when navigating to another page.
         it('should keep contrast colors on other pages', () => {
-            cy.visit('https://www.bcpl.info/about-us/policies.html');
+            cy
+                .get(`${constants.selectors.calloutDivs}`)
+                .contains('Ask a Librarian')
+                .click();
 
             assertIsHighContrast();
         });
 
-    });*/
+    });
 
     describe('Translate', () => {
+
+        /*Cypress.on('window:before:load', (win) => {
+            win.google.translate.TranslateElement = cy.stub().as('translate');
+        });*/
         // 1. Verify the translate select toggles languages.
         it('should contain a google translate gadget', () => {
             cy
                 .get(constants.selectors.translateGadget)
-                .should('exist');
-        });
-
-        it('should toggle to the selected language', () => {
-            cy
-                .get(constants.selectors.translateGadget)
-                .click();
-
-            cy
-                .get(constants.selectors.translateMenuItems)
-                .contains('Korean')
-                .click();
-
-            cy
-                .get(constants.selectors.htmlTranslated)
                 .should('exist');
         });
     });
