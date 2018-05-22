@@ -177,7 +177,7 @@ describe('Footer Features', () => {
     describe('Adjust Contrast', () => {
         // Backup the clear function.
         // This is going to be set to null below...
-        const clear = Cypress.LocalStorage.clear;
+        const clearLocalStorage = Cypress.LocalStorage.clear;
 
         const assertIsHighContrast = () => {
 
@@ -249,7 +249,7 @@ describe('Footer Features', () => {
             assertIsHighContrast();
 
             // Re-assign the clear function
-            Cypress.LocalStorage.clear = clear;
+            Cypress.LocalStorage.clear = clearLocalStorage;
         });
 
     });
