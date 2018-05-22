@@ -74,28 +74,57 @@ describe('Footer Features', () => {
             cy
                 .get(`${constants.selectors.calloutDivs}`)
                 .contains('Directions')
-                .should('have.attr', 'href', "https://www.google.com/maps/dir/''/320+York+Rd,+Towson,+MD+21204");
+                .should('have.attr', 'href', "https://www.google.com/maps/dir/''/320+York+Rd,+Towson,+MD+21204")
+                .click();
         });
 
         it('should contain a link that navigates to the Ask A Librarian page', () => {
+
+            const pathName = '/services/ask-a-librarian.html';
+
             cy
                 .get(`${constants.selectors.calloutDivs}`)
                 .contains('Ask a Librarian')
-                .should('have.attr', 'href', "/services/ask-a-librarian.html");
+                .should('have.attr', 'href', pathName)
+                .click();
+
+            cy
+                .location('pathname')
+                .should('eq', pathName);
         });
 
         it('should contain a link that navigates to the Digital Library page', () => {
+
+            const pathName = '/books-and-more/downloadables.html';
+
+            cy.visit(constants.rootUrl);
+
             cy
                 .get(`${constants.selectors.calloutDivs}`)
                 .contains('Explore Digital Materials')
-                .should('have.attr', 'href', "/books-and-more/downloadables.html");
+                .should('have.attr', 'href', pathName)
+                .click();
+
+            cy
+                .location('pathname')
+                .should('eq', pathName);
         });
 
         it('should contain a link that navigates to the Job Opportunities page', () => {
+
+            const pathName = '/about-us/job-opportunities.html';
+
+            cy.visit(constants.rootUrl);
+
             cy
                 .get(`${constants.selectors.calloutDivs}`)
                 .contains('Search Jobs')
-                .should('have.attr', 'href', "/about-us/job-opportunities.html");
+                .should('have.attr', 'href', pathName)
+                .click();
+
+            cy
+                .location('pathname')
+                .should('eq', pathName);
         });
 
     });
