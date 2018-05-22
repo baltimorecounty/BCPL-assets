@@ -20,7 +20,7 @@ describe('Footer Features', () => {
 
     describe('Social Links', () => {
         
-        it('should contain a facbook icon that points to the baltimore county facebook page', () => {
+        it('should contain a Facbook icon that points to the baltimore county Facebook page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-facebook`)
                 .should('exist')
@@ -28,7 +28,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.facebook.com/bcplonline');
         });
 
-        it('should contain a twitter icon that points to the baltimore county twitter page', () => {
+        it('should contain a Twitter icon that points to the baltimore county Twitter page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-twitter`)
                 .should('exist')
@@ -36,7 +36,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.twitter.com/bcplinfo');
         });
 
-        it('should contain a youtube icon that points to the baltimore county youtube page', () => {
+        it('should contain a Youtube icon that points to the baltimore county Youtube page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-youtube`)
                 .should('exist')
@@ -44,7 +44,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.youtube.com/user/bcplonline');
         });
 
-        it('should contain a flickr icon that points to the baltimore county flickr page', () => {
+        it('should contain a Flickr icon that points to the Baltimore County Flickr page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-flickr`)
                 .should('exist')
@@ -52,7 +52,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.flickr.com/photos/bcplphoto');
         });
 
-        it('should contain a instagram icon that points to the baltimore county instagram page', () => {
+        it('should contain an Instagram icon that points to the Baltimore County Instagram page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-instagram`)
                 .should('exist')
