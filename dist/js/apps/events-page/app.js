@@ -866,7 +866,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 
-			addthisService.update($window.location.href, vm.data.LocationName + ' ' + vm.data.Title);
+			addthisService.update($window.location.href, vm.data.LocationName + ' - ' + vm.data.Title);
 		};
 
 		var requestError = function requestError() {
@@ -955,7 +955,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
 
-			addthisService.update($window.location.href, vm.data.LocationName + ' ' + vm.data.Title);
+			addthisService.update($window.location.href, vm.data.LocationName + ' - ' + vm.data.Title);
 		};
 
 		eventsService.getById(id).then(processEventData);
