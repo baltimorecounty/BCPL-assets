@@ -183,6 +183,93 @@ if (!Array.prototype.includes) {
 		}
 	});
 }
+// Requires Gtag from Google Analytics, requires includes polyfill
+
+'use strict';
+
+namespacer('bcpl.utility');
+
+bcpl.utility.googleAnalytics = function () {
+	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
+		return Object.prototype.hasOwnProperty.call(obj, propertyName);
+	};
+	var gtag = void 0;
+	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
+
+	var addOutboundLinkTracking = function addOutboundLinkTracking() {
+		document.addEventListener('click', handleExternalLinkClick);
+	};
+
+	var handleExternalLinkClick = function handleExternalLinkClick(clickEvent) {
+		var targetElm = $(clickEvent.target).is('a') ? clickEvent.target : $(clickEvent.target).closest('a')[0];
+
+		var isTargetAnExternalLinkElm = isExternalLink(targetElm);
+
+		if (isTargetAnExternalLinkElm) {
+			var hasLinkHref = targetElm && (hasOwnProperty(targetElm, 'href') || !!targetElm.href);
+
+			if (hasLinkHref) {
+				clickEvent.preventDefault();
+				trackOutboundLink(targetElm.href);
+			}
+		}
+	};
+
+	var isExternalLink = function isExternalLink(linkElm) {
+		return !!(linkElm && (hasOwnProperty(linkElm, 'hostname') || !!linkElm.hostname) && linkElm.hostname && linkElm.hostname !== window.location.hostname && !isValidHostName(linkElm.hostname)) && !isShareThisLink(linkElm) && !isEmptyOrInvalidHref(linkElm.href);
+	};
+
+	var isJavascriptStringRegex = /(https?:\/\/)?(javascript|return).*[:;\)]/i;
+
+	var isEmptyOrInvalidHref = function isEmptyOrInvalidHref(href) {
+		return !href || isJavascriptStringRegex.test(href);
+	};
+
+	var isShareThisLink = function isShareThisLink(linkElm) {
+		return linkElm.href && linkElm.href.indexOf('addthis') > -1;
+	};
+
+	var isValidHostName = function isValidHostName(linkHostName) {
+		return !!validHostNames.filter(function (validHostName) {
+			return linkHostName.endsWith(validHostName);
+		}).length;
+	};
+
+	// https://support.google.com/analytics/answer/7478520?hl=en
+	var trackOutboundLink = function trackOutboundLink(url) {
+		gtag('event', 'click', {
+			event_category: 'outbound',
+			event_label: url,
+			transport_type: 'beacon',
+			event_callback: function event_callback() {
+				document.location = url;
+			}
+		});
+	};
+
+	var init = function init(options) {
+		if (!window.gtag) {
+			console.error('Google Analytics Not Loaded'); // eslint-disable-line no-console
+			return;
+		}
+
+		gtag = window.gtag;
+
+		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
+
+		addOutboundLinkTracking();
+	};
+
+	return {
+		addOutboundLinkTracking: addOutboundLinkTracking,
+		handleExternalLinkClick: handleExternalLinkClick,
+		init: init,
+		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
+		isExternalLink: isExternalLink,
+		isShareThisLink: isShareThisLink,
+		trackOutboundLink: trackOutboundLink
+	};
+}();
 'use strict';
 
 namespacer('bcpl.utility');
@@ -1267,6 +1354,11 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
+	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+
+	if (isHighContrast) {
+		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');
+	}
 
 	/**
   * Handles the click event of the contrast button.
@@ -1312,13 +1404,7 @@ bcpl.contraster = function ($, browserStorage) {
 		var $contrastButton = $(contrasterSettings.selectors.contrastButton);
 
 		if ($contrastButton.length) {
-			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler);
-		}
-
-		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
-			$contrastButton.trigger('click');
-		} else {
-			browserStorage.local(localStorageHighContrastKey, 'false');
+			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler).last().prop('checked', isHighContrast);
 		}
 	};
 
