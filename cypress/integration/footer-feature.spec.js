@@ -20,7 +20,7 @@ describe('Footer Features', () => {
 
     describe('Social Links', () => {
         
-        it('should contain a Facbook icon that points to the baltimore county Facebook page', () => {
+        it('should contain a Facbook icon that points to the Baltimore County Facebook page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-facebook`)
                 .should('exist')
@@ -28,7 +28,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.facebook.com/bcplonline');
         });
 
-        it('should contain a Twitter icon that points to the baltimore county Twitter page', () => {
+        it('should contain a Twitter icon that points to the Baltimore County Twitter page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-twitter`)
                 .should('exist')
@@ -36,7 +36,7 @@ describe('Footer Features', () => {
                 .should('have.attr', 'href', 'https://www.twitter.com/bcplinfo');
         });
 
-        it('should contain a Youtube icon that points to the baltimore county Youtube page', () => {
+        it('should contain a Youtube icon that points to the Baltimore County Youtube page', () => {
             cy
                 .get(`${constants.selectors.socialLinks} .fa-youtube`)
                 .should('exist')
