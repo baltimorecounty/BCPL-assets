@@ -2,7 +2,7 @@
 	.registration-required {
 		font-weight: 600;
 	}
-	
+
 	header {
 		position: relative;
 		.feed {
@@ -15,7 +15,7 @@
 			&:last-child {
 				margin-left: 0;
 			}
-		}			
+		}
 	}
 	.post {
 		background: $gray-lightest;
@@ -31,12 +31,12 @@
 
 		time {
 			text-transform: uppercase;
-			transform-style: preserve-3d;				
+			transform-style: preserve-3d;
 
 			.date, .link {
 				background-color: $red;
 				color: white;
-			
+
 				.month {
 					text-align: center;
 				}
@@ -58,7 +58,7 @@
 				box-shadow: $shadow-primary-darker;
 
 				div:first-child {
-					padding-top: .5em;						
+					padding-top: .5em;
 				}
 			}
 
@@ -84,8 +84,8 @@
 }
 
 .registration-required {
-	color: red;
-	
+	color: $form-error;
+
 	button {
 		margin-bottom: 0;
 	}
@@ -95,6 +95,15 @@
 		top: -1px;
 	}
 }
+
+.disclaimer-message {
+	color: $gray !important;
+
+	i {
+		color: $purple;
+	}
+}
+
 .events-search-wrapper {
 	.keyword-search-wrapper {
 		position: relative;
@@ -102,7 +111,7 @@
 		.keyword-search {
 			padding-right: 35px;
 		}
-	
+
 		.keyword-search-icon {
 			position: absolute;
 			z-index: 99;
@@ -154,7 +163,7 @@
 
 	.cards {
 		float: none;
-	
+
 		.card {
 			transition: .25s opacity ease;
 			padding: 0.9em;
@@ -164,9 +173,9 @@
 
 				&.ng-enter-active {
 					opacity: 1;
-				}		
+				}
 			}
-			
+
 			&.ng-leave {
 				opacity: 1;
 
@@ -193,7 +202,7 @@
 			.card-icon {
 				color: $gray-light;
 			}
-			
+
 			.event-time {
 				word-wrap: break-word;
 				padding: 1em 0 0 1em;
@@ -202,18 +211,18 @@
 				font-weight: bold;
 				border: none !important;
 			}
-			
+
 			.event-location {
 				padding: 1em 0 0 0;
 				text-align: center;
 				color: $gray;
 				font-weight: bold;
 			}
-			
+
 			.event-name {
 				color: $teal-light;
 				font-weight: bold;
-				font-size: 24px;		
+				font-size: 24px;
 				line-height: 1.3em;
 
 				a {
@@ -233,7 +242,7 @@
 					top: -1px;
 				}
 			}
-			
+
 			.event-details {
 				p {
 					padding: 0;
@@ -261,13 +270,13 @@
         margin-right: 0;
 
 			.collapse {
-				display: none;	
-				
+				display: none;
+
 				&.in {
 					display: block;
 				}
 			}
-	
+
 		.collapse-control {
 			display: inline-block;
 			margin: 1em;
@@ -275,19 +284,19 @@
 
 		h4 {
 			margin: 1.5em 0 .5em;
-			padding: 0;		
+			padding: 0;
 		}
 
         .filter-items-wrapper {
-			padding: 1em;			
+			padding: 1em;
 
 			.events-search-wrapper {
 				h4 {
 					margin-top: 0;
 				}
 			}
-				
-			.filter-control-wapper {				
+
+			.filter-control-wapper {
 				&:last-child {
 					padding: .5em 0 0;
 				}
@@ -296,7 +305,7 @@
 					display: block;
 					font-weight: normal;
 				}
-				
+
 				button {
 					display: block;
 					width: 100%;
@@ -335,12 +344,12 @@
     margin: 1em 0 2em;
 
     .row {
-        padding: 1em; 
+        padding: 1em;
     }
 
     .event {
         float: left;
-        
+
         p {
             margin-bottom: 1em;
         }
@@ -348,9 +357,9 @@
 }
 
 .datepickers {
-	input[type="text"], 
-	input[type="date"], 
-	input[type="datetime-local"], 
+	input[type="text"],
+	input[type="date"],
+	input[type="datetime-local"],
 	input[type="time"] {
 		border: 1px solid $gray-light;
 		width: 100%;
@@ -365,7 +374,7 @@
 	.calendar-datepicker {
 		padding-right: 50px;
 	}
-	
+
 	.calendar-datepicker-icon {
 		position: absolute;
 		right: 10px;
@@ -373,7 +382,7 @@
 		top: 10px;
 		cursor: pointer;
 	}
-		
+
 	input.flatpickr {
 		cursor: pointer;
 	}
@@ -450,7 +459,7 @@ a, button, input, label {
 		margin-bottom: 15px;
 	}
 
-	
+
 }
 
 @media (max-width: $screen-md-max) {
