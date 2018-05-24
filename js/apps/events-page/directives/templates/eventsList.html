@@ -9,7 +9,7 @@
 		<div id="events" class="list-view">
 			<div class="card" ng-repeat="eventItem in eventGroup.events">
 				<div class="row">
-					<div class="col-xs-12 col-md-4 col-sm-3">
+					<div class="col-md-12 col-lg-4">
 						<div class="row">
 							<div class="col-xs-6 event-time">
 								<i class="fa fa-clock-o fa-2x card-icon" aria-hidden="true"></i>
@@ -21,12 +21,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 col-md-8 col-sm-9">
+					<div class="col-md-12 col-lg-8">
 						<div class="row">
 							<div class="col-md-12">
 								<p class="event-name">
 									<a href="#!/{{eventItem.EventId}}">{{eventItem.Title}}</a>
-								</p>						
+								</p>
 							</div>
 						</div>
 						<div class="row">
@@ -35,19 +35,19 @@
 								<p>Age group: {{eventItem.AgeGroupsString}}</p>
 							</div>
 						</div>
-			
+
 						<div class="row" ng-hide="eventItem.RegistrationTypeCodeEnum === 0">
 							<div class="col-md-12">
-								<div class="registration-required">
+								<div class="disclaimer-message registration-required">
 									<i class="fa fa-star" aria-hidden="true"></i> Registration Required
-								</div>						
+								</div>
 							</div>
 						</div>
 						<div class="row" ng-if="shouldShowDisclaimer(eventItem)">
 							<div class="col-md-12">
-								<div class="registration-required">
+								<div class="disclaimer-message registration-required">
 									<i class="fa fa-star" aria-hidden="true"></i> {{ disclaimer }}
-								</div>						
+								</div>
 							</div>
 						</div>
 					</div>

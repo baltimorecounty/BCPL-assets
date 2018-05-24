@@ -16,6 +16,11 @@ bcpl.contraster = (($, browserStorage) => {
 	const contrasterSettings = {};
 
 	const localStorageHighContrastKey = 'isHighContrast';
+	const isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+
+	if (isHighContrast) {
+		$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${contrasterDefaults.styleSheet.high}" rel="stylesheet">`);
+	}
 
 	/**
 	 * Handles the click event of the contrast button.
@@ -76,13 +81,7 @@ bcpl.contraster = (($, browserStorage) => {
 			$contrastButton
 				.on('click', contrasterSettings, contrastButtonClickHandler)
 				.last()
-				.prop('checked', false);
-		}
-
-		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
-			$contrastButton.first().trigger('click');
-		} else {
-			browserStorage.local(localStorageHighContrastKey, 'false');
+				.prop('checked', isHighContrast);
 		}
 	};
 

@@ -11,7 +11,8 @@
 		dateUtilityService,
 		emailUtilityService,
 		downloadCalendarEventService,
-		ageDisclaimerService
+		ageDisclaimerService,
+		addthisService
 	) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
@@ -47,6 +48,8 @@
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = `${CONSTANTS.baseUrl}${CONSTANTS.serviceUrls.downloads}/${id}`;
+
+			addthisService.update($window.location.href, `${vm.data.LocationName} - ${vm.data.Title}`);
 		};
 
 		const requestError = () => {
@@ -61,7 +64,7 @@
 	};
 
 	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS',
-		'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
+		'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService', 'addthisService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);

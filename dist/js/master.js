@@ -1354,6 +1354,11 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
+	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+
+	if (isHighContrast) {
+		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');
+	}
 
 	/**
   * Handles the click event of the contrast button.
@@ -1399,13 +1404,7 @@ bcpl.contraster = function ($, browserStorage) {
 		var $contrastButton = $(contrasterSettings.selectors.contrastButton);
 
 		if ($contrastButton.length) {
-			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler).last().prop('checked', false);
-		}
-
-		if (browserStorage.local(localStorageHighContrastKey) === 'true') {
-			$contrastButton.first().trigger('click');
-		} else {
-			browserStorage.local(localStorageHighContrastKey, 'false');
+			$contrastButton.on('click', contrasterSettings, contrastButtonClickHandler).last().prop('checked', isHighContrast);
 		}
 	};
 

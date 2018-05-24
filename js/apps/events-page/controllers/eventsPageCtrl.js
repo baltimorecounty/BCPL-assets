@@ -12,7 +12,8 @@
 		eventsService,
 		filterHelperService,
 		metaService,
-		RequestModel
+		RequestModel,
+		addthisService
 	) {
 		setTimeout(() => {
 			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
@@ -106,8 +107,8 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-			const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+			const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
+			const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
 
 			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
@@ -488,6 +489,8 @@
 			setupListFilters(() => {
 				updateResultsBasedOnFilters(true);
 			}, initErrorCallback);
+
+			addthisService.update($window.location.href, $document.title)
 		};
 
 		const isDetailsPage = (url) => /(?!.*\?.*$)(^.*\/\d{6,}$)/g.test(url);
@@ -518,7 +521,8 @@
 		'dataServices.eventsService',
 		'sharedFilters.filterHelperService',
 		'metaService',
-		'RequestModel'
+		'RequestModel',
+		'addthisService'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);

@@ -484,6 +484,38 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('eventsPageApp'));
 'use strict';
 
+(function (app, addthis) {
+	'use strict';
+
+	var addthisService = function addthisService($window) {
+
+		var update = function update(url, title) {
+			if ($window.addthis) {
+				// ensure the app gracefully fails in the case that addthis doesn't exist
+				updateUrl(url);
+				updateTitle(title);
+			}
+		};
+
+		var updateUrl = function updateUrl(url) {
+			$window.addthis.update('share', 'url', url);
+		};
+
+		var updateTitle = function updateTitle(title) {
+			$window.addthis.update('share', 'title', title);
+		};
+
+		return {
+			update: update
+		};
+	};
+
+	addthisService.$inject = ['$window'];
+
+	app.factory('addthisService', addthisService);
+})(angular.module('eventsPageApp'));
+'use strict';
+
 (function (app) {
 	var ageDisclaimerService = function ageDisclaimerService($window, CONSTANTS) {
 		var shouldShowDisclaimer = function shouldShowDisclaimer(eventItem) {
@@ -800,7 +832,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, ICS) {
 	'use strict';
 
-	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
+	var EventDetailsCtrl = function EventsPageCtrl($scope, $window, $timeout, $routeParams, CONSTANTS, eventsService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService, addthisService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var vm = this;
@@ -833,6 +865,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
+
+			addthisService.update($window.location.href, vm.data.LocationName + ' - ' + vm.data.Title);
 		};
 
 		var requestError = function requestError() {
@@ -843,7 +877,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		eventsService.getById(id).then(processEventData).catch(requestError);
 	};
 
-	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
+	EventDetailsCtrl.$inject = ['$scope', '$window', '$timeout', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService', 'addthisService'];
 
 	app.controller('EventDetailsCtrl', EventDetailsCtrl);
 })(angular.module('eventsPageApp'), window.ics);
@@ -852,7 +886,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bcFormat) {
 	'use strict';
 
-	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, CONSTANTS, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService) {
+	var EventRegistrationCtrl = function EventsPageCtrl($window, $scope, $routeParams, CONSTANTS, eventsService, registrationService, dateUtilityService, emailUtilityService, downloadCalendarEventService, ageDisclaimerService, addthisService) {
 		$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 
 		var id = $routeParams.id;
@@ -920,12 +954,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.shouldShowDisclaimer = ageDisclaimerService.shouldShowDisclaimer(vm.data);
 			vm.disclaimer = CONSTANTS.ageDisclaimer.message;
 			vm.downloadUrl = '' + CONSTANTS.baseUrl + CONSTANTS.serviceUrls.downloads + '/' + id;
+
+			addthisService.update($window.location.href, vm.data.LocationName + ' - ' + vm.data.Title);
 		};
 
 		eventsService.getById(id).then(processEventData);
 	};
 
-	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService'];
+	EventRegistrationCtrl.$inject = ['$window', '$scope', '$routeParams', 'events.CONSTANTS', 'dataServices.eventsService', 'registrationService', 'dateUtilityService', 'emailUtilityService', 'downloadCalendarEventService', 'ageDisclaimerService', 'addthisService'];
 
 	app.controller('EventRegistrationCtrl', EventRegistrationCtrl);
 })(angular.module('eventsPageApp'), bcpl.utility.format);
@@ -934,7 +970,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel) {
+	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel, addthisService) {
 		setTimeout(function () {
 			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 		}, 500);
@@ -1031,8 +1067,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line 
-			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line 
+			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
+			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
 
 			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
@@ -1417,6 +1453,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			setupListFilters(function () {
 				updateResultsBasedOnFilters(true);
 			}, initErrorCallback);
+
+			addthisService.update($window.location.href, $document.title);
 		};
 
 		var isDetailsPage = function isDetailsPage(url) {
@@ -1441,7 +1479,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		init();
 	};
 
-	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel'];
+	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel', 'addthisService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
