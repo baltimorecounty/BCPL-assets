@@ -99,15 +99,15 @@ bcpl.utility.googleAnalytics = (() => {
 	};
 
 	const trackSearch = (label, searchTerm) => {
-		gtag('event', 'search', label, { search_term: searchTerm });
+		trackEvent('event', 'search', label, { search_term: searchTerm });
 	};
 
 	const trackShare = (shareType) => {
-		gtag('event', 'share', shareType);
+		trackEvent('event', 'share', shareType);
 	};
 
 	const trackViewSearchResults = (label, searchTerm) => {
-		gtag('event', 'view_search_results', label, { search_term: searchTerm });
+		trackEvent('event', 'view_search_results', label, { search_term: searchTerm });
 	};
 
 	return {
