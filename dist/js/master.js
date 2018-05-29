@@ -260,6 +260,37 @@ bcpl.utility.googleAnalytics = function () {
 		addOutboundLinkTracking();
 	};
 
+	var trackEvent = function trackEvent(action, category, label, options) {
+		var eventOptions = {
+			'event_category': category,
+			'event_label': label
+		};
+
+		if (options) {
+			for (var option in options) {
+				eventOptions[option] = options[option];
+			}
+		}
+
+		gtag('event', action, eventOptions);
+	};
+
+	var trackLogin = function trackLogin(loginType) {
+		trackEvent('login', 'engagement', loginType);
+	};
+
+	var trackSearch = function trackSearch(label, searchTerm) {
+		gtag('event', 'search', label, { search_term: searchTerm });
+	};
+
+	var trackShare = function trackShare(shareType) {
+		gtag('event', 'share', shareType);
+	};
+
+	var trackViewSearchResults = function trackViewSearchResults(label, searchTerm) {
+		gtag('event', 'view_search_results', label, { search_term: searchTerm });
+	};
+
 	return {
 		addOutboundLinkTracking: addOutboundLinkTracking,
 		handleExternalLinkClick: handleExternalLinkClick,
@@ -267,7 +298,12 @@ bcpl.utility.googleAnalytics = function () {
 		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
 		isExternalLink: isExternalLink,
 		isShareThisLink: isShareThisLink,
-		trackOutboundLink: trackOutboundLink
+		trackOutboundLink: trackOutboundLink,
+		trackEvent: trackEvent,
+		trackLogin: trackLogin,
+		trackSearch: trackSearch,
+		trackShare: trackShare,
+		trackViewSearchResults: trackViewSearchResults
 	};
 }();
 'use strict';
