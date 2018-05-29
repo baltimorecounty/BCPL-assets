@@ -6,7 +6,6 @@ namespacer('bcpl');
 
 bcpl.libAnswers = (function libAnswers($, constants) {
 	const generalContactFormId = constants.libAnswers.generalBranchId;
-	const libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	const libAnswerCssStyleRule = '.s-la-widget .btn-default';
 
 	let moduleOptions;
@@ -69,7 +68,6 @@ bcpl.libAnswers = (function libAnswers($, constants) {
 	};
 
 	const removeDuplicateScriptsAndStyles = () => {
-		removeScriptByUrl(libAnswerWidgetJs, true);
 		removeStyleTagByContainingRule(libAnswerCssStyleRule);
 	};
 
@@ -111,15 +109,14 @@ bcpl.libAnswers = (function libAnswers($, constants) {
 	const init = (options) => {
 		moduleOptions = getOptions(options);
 
-		loadScript(libAnswerWidgetJs, () => {
-			moduleOptions.ids.forEach(setContactButtonMarkup);
+		moduleOptions.ids
+			.forEach(setContactButtonMarkup);
 
-			if (!moduleOptions.loadEvent) {
-				loadScripts(moduleOptions.ids);
-			}
+		if (!moduleOptions.loadEvent) {
+			loadScripts(moduleOptions.ids);
+		}
 
-			bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
-		}); // Load the required javascript if it doesn't exist
+		bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
 	};
 
 	return {

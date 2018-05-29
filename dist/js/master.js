@@ -71,8 +71,7 @@ bcpl.constants = {
 	},
 	libAnswers: {
 		allBranchIds: [6319, 6864, 6865, 6866, 6867, 6868, 6869, 6870, 6871, 6872, 6873, 6874, 6875, 6876, 6877, 6878, 6879, 6777, 6880, 6881],
-		generalBranchId: 7783,
-		widgetJs: '//api2.libanswers.com/js2.18.5/LibAnswers_widget.min.js'
+		generalBranchId: 7783
 	},
 	shared: {
 		urls: {
@@ -1592,7 +1591,6 @@ namespacer('bcpl');
 
 bcpl.libAnswers = function libAnswers($, constants) {
 	var generalContactFormId = constants.libAnswers.generalBranchId;
-	var libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	var libAnswerCssStyleRule = '.s-la-widget .btn-default';
 
 	var moduleOptions = void 0;
@@ -1650,7 +1648,6 @@ bcpl.libAnswers = function libAnswers($, constants) {
 	};
 
 	var removeDuplicateScriptsAndStyles = function removeDuplicateScriptsAndStyles() {
-		removeScriptByUrl(libAnswerWidgetJs, true);
 		removeStyleTagByContainingRule(libAnswerCssStyleRule);
 	};
 
@@ -1690,15 +1687,13 @@ bcpl.libAnswers = function libAnswers($, constants) {
 	var init = function init(options) {
 		moduleOptions = getOptions(options);
 
-		loadScript(libAnswerWidgetJs, function () {
-			moduleOptions.ids.forEach(setContactButtonMarkup);
+		moduleOptions.ids.forEach(setContactButtonMarkup);
 
-			if (!moduleOptions.loadEvent) {
-				loadScripts(moduleOptions.ids);
-			}
+		if (!moduleOptions.loadEvent) {
+			loadScripts(moduleOptions.ids);
+		}
 
-			bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
-		}); // Load the required javascript if it doesn't exist
+		bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
 	};
 
 	return {
