@@ -79,6 +79,35 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
+	const trackEvent = (action, category, label, value) => {
+		const options = {
+			'event_category' : category, 
+			'event_label' : label
+		}
+
+		if (value) {
+			options['value'] = value;
+		}
+
+		gtag('event', action, options);
+	};
+
+	const trackLogin = () => {
+		gtag('event', 'login', { method: 'Google' });
+	};
+
+	const trackSearch = (searchTerm) => {
+		gtag('event', 'search', { search_term: searchTerm });
+	};
+
+	const trackShare = () => {
+		gtag('event', 'share', { method: 'Google' });
+	};
+
+	const trackViewSearchResults = (searchTerm) => {
+		gtag('event', 'view_search_results', { search_term: searchTerm });
+	};
+
 	return {
 		addOutboundLinkTracking,
 		handleExternalLinkClick,
@@ -86,6 +115,11 @@ bcpl.utility.googleAnalytics = (() => {
 		isEmptyOrInvalidHref,
 		isExternalLink,
 		isShareThisLink,
-		trackOutboundLink
+		trackOutboundLink,
+		trackEvent,
+		trackLogin,
+		trackSearch,
+		trackShare,
+		trackViewSearchResults
 	};
 })();
