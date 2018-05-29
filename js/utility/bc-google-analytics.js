@@ -79,33 +79,35 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
-	const trackEvent = (action, category, label, value) => {
-		const options = {
+	const trackEvent = (action, category, label, options) => {
+		const eventOptions = {
 			'event_category' : category, 
 			'event_label' : label
 		}
 
-		if (value) {
-			options['value'] = value;
+		if (options) {
+			for (const option in options) {
+				eventOptions[option] = options[option];
+			}
 		}
 
-		gtag('event', action, options);
+		gtag('event', action, eventOptions);
 	};
 
-	const trackLogin = () => {
-		gtag('event', 'login', { method: 'Google' });
+	const trackLogin = (loginType) => {
+		trackEvent('login', 'engagement', loginType);
 	};
 
-	const trackSearch = (searchTerm) => {
-		gtag('event', 'search', { search_term: searchTerm });
+	const trackSearch = (label, searchTerm) => {
+		gtag('event', 'search', label, { search_term: searchTerm });
 	};
 
-	const trackShare = () => {
-		gtag('event', 'share', { method: 'Google' });
+	const trackShare = (shareType) => {
+		gtag('event', 'share', shareType);
 	};
 
-	const trackViewSearchResults = (searchTerm) => {
-		gtag('event', 'view_search_results', { search_term: searchTerm });
+	const trackViewSearchResults = (label, searchTerm) => {
+		gtag('event', 'view_search_results', label, { search_term: searchTerm });
 	};
 
 	return {
