@@ -280,15 +280,15 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var trackSearch = function trackSearch(label, searchTerm) {
-		gtag('event', 'search', label, { search_term: searchTerm });
+		trackEvent('event', 'search', label, { search_term: searchTerm });
 	};
 
 	var trackShare = function trackShare(shareType) {
-		gtag('event', 'share', shareType);
+		trackEvent('event', 'share', shareType);
 	};
 
 	var trackViewSearchResults = function trackViewSearchResults(label, searchTerm) {
-		gtag('event', 'view_search_results', label, { search_term: searchTerm });
+		trackEvent('event', 'view_search_results', label, { search_term: searchTerm });
 	};
 
 	return {
