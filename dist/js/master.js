@@ -187,9 +187,22 @@ if (!Array.prototype.includes) {
 
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
+	var googleKeys = {
+		category: 'event_category',
+		label: 'event_label',
+		value: 'value'
+	};
+	var defaultGoogleEvents = {
+		login: 'method',
+		search: 'search_term',
+		share: 'method',
+		view_search_results: 'search_term'
+	};
 	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
 		return Object.prototype.hasOwnProperty.call(obj, propertyName);
 	};
@@ -260,39 +273,90 @@ bcpl.utility.googleAnalytics = function () {
 		addOutboundLinkTracking();
 	};
 
-	var trackEvent = function trackEvent(action, category, label, options) {
-		var eventOptions = {
-			'event_category': category,
-			'event_label': label
-		};
+	var getDefaultKey = function getDefaultKey(action) {
+		return Object.prototype.hasOwnProperty.call(defaultGoogleEvents, action) ? defaultGoogleEvents[action] : null;
+	};
 
-		if (options) {
-			for (var option in options) {
-				eventOptions[option] = options[option];
-			}
+	var getDefaultEvent = function getDefaultEvent(event) {
+		var action = event.action,
+		    label = event.label;
+
+		var defaultKey = getDefaultKey(action);
+
+		return defaultKey ? _defineProperty({}, defaultKey, label) : null;
+	};
+
+	var getStandardEvent = function getStandardEvent(event) {
+		var category = event.category,
+		    label = event.label,
+		    value = event.value;
+
+		var eventObj = {};
+
+		if (category) {
+			eventObj[googleKeys.category] = category;
+		}
+		if (label) {
+			eventObj[googleKeys.label] = label;
+		}
+		if (value) {
+			eventObj[googleKeys.value] = value;
 		}
 
-		gtag('event', action, eventOptions);
+		return eventObj;
+	};
+
+	var getEventData = function getEventData(event) {
+		return getDefaultEvent(event) || getStandardEvent(event);
+	};
+
+	var trackEvent = function trackEvent(event) {
+		var eventData = getEventData(event);
+
+		gtag('event', event.action, eventData);
 	};
 
 	var trackLogin = function trackLogin(loginType) {
-		trackEvent('login', 'engagement', loginType);
+		var loginEvent = {
+			action: 'login',
+			label: loginType
+		};
+
+		trackEvent(loginEvent);
 	};
 
-	var trackSearch = function trackSearch(label, searchTerm) {
-		trackEvent('search', 'engagement', label, { search_term: searchTerm });
+	var trackSearch = function trackSearch(searchTerm) {
+		var searchEvent = {
+			action: 'search',
+			label: searchTerm
+		};
+
+		trackEvent(searchEvent);
 	};
 
-	var trackShare = function trackShare(label, shareType) {
-		trackEvent('share', 'engagement', shareType);
+	var trackShare = function trackShare(shareType) {
+		var shareEvent = {
+			action: 'share',
+			label: shareType
+		};
+
+		trackEvent(shareEvent);
 	};
 
-	var trackViewSearchResults = function trackViewSearchResults(label, searchTerm) {
-		trackEvent('view_search_results', 'engagement', label, { search_term: searchTerm });
+	var trackViewSearchResults = function trackViewSearchResults(searchTerm) {
+		var viewSearchResultsEvent = {
+			action: 'view_search_results',
+			category: 'engagement',
+			label: searchTerm
+		};
+
+		trackEvent(viewSearchResultsEvent);
 	};
 
 	return {
 		addOutboundLinkTracking: addOutboundLinkTracking,
+		getDefaultEvent: getDefaultEvent,
+		getStandardEvent: getStandardEvent,
 		handleExternalLinkClick: handleExternalLinkClick,
 		init: init,
 		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
