@@ -5,6 +5,17 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
+	const googleKeys = {
+		category: 'event_category',
+		label: 'event_label',
+		value: 'value'
+	};
+	const defaultGoogleEvents = {
+		login: 'method',
+		search: 'search_term',
+		share: 'method',
+		view_search_results: 'search_term'
+	};
 	const hasOwnProperty = (obj, propertyName) => Object.prototype.hasOwnProperty.call(obj, propertyName);
 	let gtag;
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
@@ -79,39 +90,93 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
-	const trackEvent = (action, category, label, options) => {
-		const eventOptions = {
-			'event_category' : category, 
-			'event_label' : label
+	const getDefaultKey = (action) => Object.prototype.hasOwnProperty.call(defaultGoogleEvents, action) ? 
+		defaultGoogleEvents[action] : 
+		null;
+
+	const getDefaultEvent = (event) => {
+		const {
+			action,
+			label
+		} = event;
+		const defaultKey = getDefaultKey(action);
+
+		return defaultKey ? 
+			{
+				[defaultKey]: label
+			} : null;
+	};
+
+	const getStandardEvent = (event) => {
+		const {
+			category,
+			label,
+			value
+		} = event;
+		const eventObj = {};
+
+		if (category) {
+			eventObj[googleKeys.category] = category;
+		}
+		if (label) {
+			eventObj[googleKeys.label] = label;
+		}
+		if (value) {
+			eventObj[googleKeys.value] = value;
 		}
 
-		if (options) {
-			for (const option in options) {
-				eventOptions[option] = options[option];
-			}
-		}
+		return eventObj;
+	};
 
-		gtag('event', action, eventOptions);
+	const getEventData = (event) => getDefaultEvent(event) || getStandardEvent(event);
+
+	const trackEvent = (event) => {
+		const eventData = getEventData(event);
+
+		gtag('event', event.action, eventData);
 	};
 
 	const trackLogin = (loginType) => {
-		trackEvent('login', 'engagement', loginType);
+		const loginEvent = {
+			action: 'login',
+			label: loginType
+		};
+
+		trackEvent(loginEvent);
 	};
 
-	const trackSearch = (label, searchTerm) => {
-		trackEvent('search', 'engagement', label, { search_term: searchTerm });
+	const trackSearch = (searchTerm) => {
+		const searchEvent = {
+			action: 'search',
+			label: searchTerm
+		};
+
+		trackEvent(searchEvent);
 	};
 
-	const trackShare = (label, shareType) => {
-		trackEvent('share', 'engagement', shareType);
+	const trackShare = (shareType) => {
+		const shareEvent = {
+			action: 'share',
+			label: shareType
+		};
+
+		trackEvent(shareEvent);
 	};
 
-	const trackViewSearchResults = (label, searchTerm) => {
-		trackEvent('view_search_results', 'engagement', label, { search_term: searchTerm });
+	const trackViewSearchResults = (searchTerm) => {
+		const viewSearchResultsEvent = {
+			action: 'view_search_results',
+			category: 'engagement',
+			label: searchTerm
+		};
+
+		trackEvent(viewSearchResultsEvent);
 	};
 
 	return {
 		addOutboundLinkTracking,
+		getDefaultEvent,
+		getStandardEvent,
 		handleExternalLinkClick,
 		init,
 		isEmptyOrInvalidHref,
