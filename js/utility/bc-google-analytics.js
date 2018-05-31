@@ -5,7 +5,7 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
-	const googleKeys = {
+	const googleEventKeys = {
 		category: 'event_category',
 		label: 'event_label',
 		value: 'value'
@@ -116,13 +116,13 @@ bcpl.utility.googleAnalytics = (() => {
 		const eventObj = {};
 
 		if (category) {
-			eventObj[googleKeys.category] = category;
+			eventObj[googleEventKeys.category] = category;
 		}
 		if (label) {
-			eventObj[googleKeys.label] = label;
+			eventObj[googleEventKeys.label] = label;
 		}
 		if (value) {
-			eventObj[googleKeys.value] = value;
+			eventObj[googleEventKeys.value] = value;
 		}
 
 		return eventObj;
