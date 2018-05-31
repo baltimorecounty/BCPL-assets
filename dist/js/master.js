@@ -191,7 +191,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
-	var googleKeys = {
+	var googleEventKeys = {
 		category: 'event_category',
 		label: 'event_label',
 		value: 'value'
@@ -273,7 +273,7 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var getDefaultKey = function getDefaultKey(action) {
-		return Object.prototype.hasOwnProperty.call(defaultGoogleEvents, action) ? defaultGoogleEvents[action] : null;
+		return hasOwnProperty(defaultGoogleEvents, action) ? defaultGoogleEvents[action] : null;
 	};
 
 	var getDefaultEvent = function getDefaultEvent(event) {
@@ -293,13 +293,13 @@ bcpl.utility.googleAnalytics = function () {
 		var eventObj = {};
 
 		if (category) {
-			eventObj[googleKeys.category] = category;
+			eventObj[googleEventKeys.category] = category;
 		}
 		if (label) {
-			eventObj[googleKeys.label] = label;
+			eventObj[googleEventKeys.label] = label;
 		}
 		if (value) {
-			eventObj[googleKeys.value] = value;
+			eventObj[googleEventKeys.value] = value;
 		}
 
 		return eventObj;
@@ -345,7 +345,6 @@ bcpl.utility.googleAnalytics = function () {
 	var trackViewSearchResults = function trackViewSearchResults(searchTerm) {
 		var viewSearchResultsEvent = {
 			action: 'view_search_results',
-			category: 'engagement',
 			label: searchTerm
 		};
 
