@@ -219,6 +219,16 @@ describe('Baltimore County Google Analytics Utility', () => {
 	});
 
 	describe('getStandardEvent', () => {
+		it('should return an empty object', () => {
+			const expected = {};
+
+			const actual = googleAnalytics.getStandardEvent({
+				action: 'xyz'
+			});
+
+			expect(actual).toEqual(expected);
+		});
+
 		it('should return an object with the keys "event_category", "event_label" and the values "bbb", "ccc" respectively', () => {
 			const expected = {
 				event_category: 'bbb',
