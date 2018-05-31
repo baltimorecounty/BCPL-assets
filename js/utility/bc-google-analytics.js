@@ -166,7 +166,6 @@ bcpl.utility.googleAnalytics = (() => {
 	const trackViewSearchResults = (searchTerm) => {
 		const viewSearchResultsEvent = {
 			action: 'view_search_results',
-			category: 'engagement',
 			label: searchTerm
 		};
 
