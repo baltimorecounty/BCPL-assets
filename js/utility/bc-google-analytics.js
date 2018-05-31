@@ -90,7 +90,7 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
-	const getDefaultKey = (action) => Object.prototype.hasOwnProperty.call(defaultGoogleEvents, action) ? 
+	const getDefaultKey = (action) => hasOwnProperty(defaultGoogleEvents, action) ? 
 		defaultGoogleEvents[action] : 
 		null;
 
