@@ -219,7 +219,7 @@ describe('Baltimore County Google Analytics Utility', () => {
 	});
 
 	describe('getStandardEvent', () => {
-		it('should return an empty object', () => {
+		it('should return an empty object when action is the only information provided', () => {
 			const expected = {};
 
 			const actual = googleAnalytics.getStandardEvent({
