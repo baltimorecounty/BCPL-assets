@@ -312,7 +312,11 @@ bcpl.utility.googleAnalytics = function () {
 	var trackEvent = function trackEvent(event) {
 		var eventData = getEventData(event);
 
-		gtag('event', event.action, eventData);
+		if (eventData) {
+			gtag('event', event.action, eventData);
+		} else {
+			gtag('event', event.action);
+		}
 	};
 
 	var trackLogin = function trackLogin(loginType) {
