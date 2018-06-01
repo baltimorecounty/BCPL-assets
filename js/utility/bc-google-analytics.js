@@ -5,6 +5,17 @@
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = (() => {
+	const googleEventKeys = {
+		category: 'event_category',
+		label: 'event_label',
+		value: 'value'
+	};
+	const defaultGoogleEvents = {
+		login: 'method',
+		search: 'search_term',
+		share: 'method',
+		view_search_results: 'search_term'
+	};
 	const hasOwnProperty = (obj, propertyName) => Object.prototype.hasOwnProperty.call(obj, propertyName);
 	let gtag;
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
@@ -79,13 +90,108 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
+	const getDefaultKey = (action) => hasOwnProperty(defaultGoogleEvents, action) ? 
+		defaultGoogleEvents[action] : 
+		null;
+
+	const getDefaultEvent = (event) => {
+		const {
+			action,
+			label
+		} = event;
+		const defaultKey = getDefaultKey(action);
+
+		return defaultKey ? 
+			{
+				[defaultKey]: label
+			} : null;
+	};
+
+	const getStandardEvent = (event) => {
+		const {
+			category,
+			label,
+			value
+		} = event;
+		const eventObj = {};
+
+		if (category) {
+			eventObj[googleEventKeys.category] = category;
+		}
+		if (label) {
+			eventObj[googleEventKeys.label] = label;
+		}
+		if (value) {
+			eventObj[googleEventKeys.value] = value;
+		}
+
+		return eventObj;
+	};
+
+	const getEventData = (event) => getDefaultEvent(event) || getStandardEvent(event);
+
+	const trackEvent = (event) => {
+		if (!event) return false;
+
+		const eventData = getEventData(event);
+
+		if (Object.keys(eventData).length > 0 && eventData.constructor === Object) {
+			gtag('event', event.action, eventData);
+		} else {
+			gtag('event', event.action);
+		}
+	};
+
+	const trackLogin = (loginType) => {
+		const loginEvent = {
+			action: 'login',
+			label: loginType
+		};
+
+		trackEvent(loginEvent);
+	};
+
+	const trackSearch = (searchTerm) => {
+		const searchEvent = {
+			action: 'search',
+			label: searchTerm
+		};
+
+		trackEvent(searchEvent);
+	};
+
+	const trackShare = (shareType) => {
+		const shareEvent = {
+			action: 'share',
+			label: shareType
+		};
+
+		trackEvent(shareEvent);
+	};
+
+	const trackViewSearchResults = (searchTerm) => {
+		const viewSearchResultsEvent = {
+			action: 'view_search_results',
+			label: searchTerm
+		};
+
+		trackEvent(viewSearchResultsEvent);
+	};
+
 	return {
 		addOutboundLinkTracking,
+		getDefaultEvent,
+		getStandardEvent,
 		handleExternalLinkClick,
 		init,
 		isEmptyOrInvalidHref,
 		isExternalLink,
 		isShareThisLink,
-		trackOutboundLink
+		trackOutboundLink,
+		trackEvent,
+		trackLogin,
+		trackSearch,
+		trackShare,
+		trackViewSearchResults
 	};
 })();

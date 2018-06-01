@@ -186,9 +186,22 @@ if (!Array.prototype.includes) {
 
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
+	var googleEventKeys = {
+		category: 'event_category',
+		label: 'event_label',
+		value: 'value'
+	};
+	var defaultGoogleEvents = {
+		login: 'method',
+		search: 'search_term',
+		share: 'method',
+		view_search_results: 'search_term'
+	};
 	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
 		return Object.prototype.hasOwnProperty.call(obj, propertyName);
 	};
@@ -259,14 +272,106 @@ bcpl.utility.googleAnalytics = function () {
 		addOutboundLinkTracking();
 	};
 
+	var getDefaultKey = function getDefaultKey(action) {
+		return hasOwnProperty(defaultGoogleEvents, action) ? defaultGoogleEvents[action] : null;
+	};
+
+	var getDefaultEvent = function getDefaultEvent(event) {
+		var action = event.action,
+		    label = event.label;
+
+		var defaultKey = getDefaultKey(action);
+
+		return defaultKey ? _defineProperty({}, defaultKey, label) : null;
+	};
+
+	var getStandardEvent = function getStandardEvent(event) {
+		var category = event.category,
+		    label = event.label,
+		    value = event.value;
+
+		var eventObj = {};
+
+		if (category) {
+			eventObj[googleEventKeys.category] = category;
+		}
+		if (label) {
+			eventObj[googleEventKeys.label] = label;
+		}
+		if (value) {
+			eventObj[googleEventKeys.value] = value;
+		}
+
+		return eventObj;
+	};
+
+	var getEventData = function getEventData(event) {
+		return getDefaultEvent(event) || getStandardEvent(event);
+	};
+
+	var trackEvent = function trackEvent(event) {
+		if (!event) return false;
+
+		var eventData = getEventData(event);
+
+		if (Object.keys(eventData).length > 0 && eventData.constructor === Object) {
+			gtag('event', event.action, eventData);
+		} else {
+			gtag('event', event.action);
+		}
+	};
+
+	var trackLogin = function trackLogin(loginType) {
+		var loginEvent = {
+			action: 'login',
+			label: loginType
+		};
+
+		trackEvent(loginEvent);
+	};
+
+	var trackSearch = function trackSearch(searchTerm) {
+		var searchEvent = {
+			action: 'search',
+			label: searchTerm
+		};
+
+		trackEvent(searchEvent);
+	};
+
+	var trackShare = function trackShare(shareType) {
+		var shareEvent = {
+			action: 'share',
+			label: shareType
+		};
+
+		trackEvent(shareEvent);
+	};
+
+	var trackViewSearchResults = function trackViewSearchResults(searchTerm) {
+		var viewSearchResultsEvent = {
+			action: 'view_search_results',
+			label: searchTerm
+		};
+
+		trackEvent(viewSearchResultsEvent);
+	};
+
 	return {
 		addOutboundLinkTracking: addOutboundLinkTracking,
+		getDefaultEvent: getDefaultEvent,
+		getStandardEvent: getStandardEvent,
 		handleExternalLinkClick: handleExternalLinkClick,
 		init: init,
 		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
 		isExternalLink: isExternalLink,
 		isShareThisLink: isShareThisLink,
-		trackOutboundLink: trackOutboundLink
+		trackOutboundLink: trackOutboundLink,
+		trackEvent: trackEvent,
+		trackLogin: trackLogin,
+		trackSearch: trackSearch,
+		trackShare: trackShare,
+		trackViewSearchResults: trackViewSearchResults
 	};
 }();
 'use strict';
