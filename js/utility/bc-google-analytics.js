@@ -133,7 +133,7 @@ bcpl.utility.googleAnalytics = (() => {
 	const trackEvent = (event) => {
 		const eventData = getEventData(event);
 
-		if (eventData) {
+		if (eventData && Object.keys(eventData).length > 0) {
 			gtag('event', event.action, eventData);
 		} else {
 			gtag('event', event.action);
