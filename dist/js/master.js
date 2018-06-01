@@ -310,13 +310,9 @@ bcpl.utility.googleAnalytics = function () {
 	};
 
 	var trackEvent = function trackEvent(event) {
-		var eventData = void 0;
+		if (!event) return false;
 
-		if (!event) {
-			return false;
-		}
-
-		eventData = getEventData(event);
+		var eventData = getEventData(event);
 
 		if (Object.keys(eventData).length > 0 && eventData.constructor === Object) {
 			gtag('event', event.action, eventData);
