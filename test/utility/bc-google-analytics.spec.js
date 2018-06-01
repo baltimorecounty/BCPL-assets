@@ -268,6 +268,13 @@ describe('Baltimore County Google Analytics Utility', () => {
 			googleAnalytics.init();
 		});
 
+		it('should return false if event is not defined', () => {
+			let event;
+			const actual = googleAnalytics.trackEvent(event);
+
+			expect(actual).toEqual(false);
+		});
+
 		it('should call gtag with an event and action only', () => {
 			const expected = ['event', 'customEvent'];
 			const mockEvent = {
