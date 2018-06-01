@@ -1,5 +1,7 @@
-((app) => {
+((app, googleAnalytics) => {
 	'use strict';
+
+	const { trackEvent } = googleAnalytics;
 
 	const filtersDirective = (metaService, CONSTANTS) => {
 		const filtersLink = (scope) => {
@@ -9,6 +11,12 @@
 				const identifier = searchItem.item.Id || searchItem.item.LocationId;
 				const name = searchItem.item.Name || searchItem.item.Id;
 				innerScope.searchFunction(identifier, termType, isChecked, name, innerScope.items);
+
+				trackEvent({
+					action: `${termType} Filter Selection`,
+					category: 'Events',
+					label: `${name} - ${isChecked ? 'Selected' : 'Unselected'}`
+				});
 			};
 
 			innerScope.removeDisallowedCharacters = (str) => {
@@ -47,4 +55,4 @@
 	filtersDirective.$inject = ['metaService', 'events.CONSTANTS'];
 
 	app.directive('filtersExpandos', filtersDirective);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.utility.googleAnalytics);
