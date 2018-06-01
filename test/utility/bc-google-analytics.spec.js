@@ -261,4 +261,22 @@ describe('Baltimore County Google Analytics Utility', () => {
 			expect(actual).toEqual(expected);
 		});
 	});
+
+	describe('trackEvent', () => {
+		beforeAll(() => {
+			window.gtag = jasmine.createSpy();
+			googleAnalytics.init();
+		});
+
+		it('should call gtag with an event and action only', () => {
+			const expected = ['event', 'customEvent'];
+			const mockEvent = {
+				action: 'customEvent'
+			};
+
+			googleAnalytics.trackEvent(mockEvent);
+
+			expect(window.gtag).toHaveBeenCalledWith(expected[0], expected[1]);
+		});
+	});
 });
