@@ -131,13 +131,9 @@ bcpl.utility.googleAnalytics = (() => {
 	const getEventData = (event) => getDefaultEvent(event) || getStandardEvent(event);
 
 	const trackEvent = (event) => {
-		let eventData;
-		
-		if (!event) {
-			return false;
-		}
+		if (!event) return false;
 
-		eventData = getEventData(event);
+		const eventData = getEventData(event);
 
 		if (Object.keys(eventData).length > 0 && eventData.constructor === Object) {
 			gtag('event', event.action, eventData);
