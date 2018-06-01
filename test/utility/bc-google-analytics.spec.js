@@ -269,8 +269,7 @@ describe('Baltimore County Google Analytics Utility', () => {
 		});
 
 		it('should return false if event is not defined', () => {
-			let event;
-			const actual = googleAnalytics.trackEvent(event);
+			const actual = googleAnalytics.trackEvent();
 
 			expect(actual).toEqual(false);
 		});
