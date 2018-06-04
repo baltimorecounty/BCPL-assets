@@ -1064,7 +1064,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			// Clear out existing list of events
 			vm.eventGroups = [];
 
-			// Let user know we are retreiving a new list of events
+			// Let user know we are retrieving a new list of events
 			vm.isLoading = true;
 			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
 			vm.requestErrorMessage = '';
@@ -1155,6 +1155,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			filterHelperService.clearQueryParams();
 
 			vm.filterEvents(vm.requestModel);
+
+			trackEvent({
+				action: 'Clear All Filters',
+				category: 'Events'
+			});
 		};
 
 		vm.loadNextPage = function () {
