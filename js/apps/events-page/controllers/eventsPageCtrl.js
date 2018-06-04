@@ -158,7 +158,7 @@
 
 			trackEvent({
 				action: 'Keyword Search',
-				category: 'Events',
+				category: CONSTANTS.analytics.bcplEventsCategory,
 				label: vm.keywords
 			});
 		};
@@ -186,7 +186,7 @@
 
 				trackEvent({
 					action: 'Date Filter Selection',
-					category: 'Events',
+					category: CONSTANTS.analytics.bcplEventsCategory,
 					label: `${vm.userStartDate} - ${vm.userEndDate}`
 				});
 			}
@@ -203,7 +203,7 @@
 
 			trackEvent({
 				action: 'Clear All Filters',
-				category: 'Events'
+				category: CONSTANTS.analytics.bcplEventsCategory
 			});
 		};
 

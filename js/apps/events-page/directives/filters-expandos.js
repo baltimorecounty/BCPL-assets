@@ -14,7 +14,7 @@
 
 				trackEvent({
 					action: `${termType} Filter Selection`,
-					category: 'Events',
+					category: CONSTANTS.analytics.bcplEventsCategory,
 					label: `${name} - ${isChecked ? 'Selected' : 'Unselected'}`
 				});
 			};
