@@ -199,6 +199,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 				numberOfUnits: 0,
 				unit: 'days'
 			}
+		},
+		analytics: {
+			bcplEventsCategory: 'BCPL Events'
 		}
 	};
 
@@ -1116,7 +1119,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			trackEvent({
 				action: 'Keyword Search',
-				category: 'Events',
+				category: CONSTANTS.analytics.bcplEventsCategory,
 				label: vm.keywords
 			});
 		};
@@ -1141,7 +1144,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				trackEvent({
 					action: 'Date Filter Selection',
-					category: 'Events',
+					category: CONSTANTS.analytics.bcplEventsCategory,
 					label: vm.userStartDate + ' - ' + vm.userEndDate
 				});
 			}
@@ -1158,7 +1161,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			trackEvent({
 				action: 'Clear All Filters',
-				category: 'Events'
+				category: CONSTANTS.analytics.bcplEventsCategory
 			});
 		};
 
@@ -1634,7 +1637,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				trackEvent({
 					action: termType + ' Filter Selection',
-					category: 'Events',
+					category: CONSTANTS.analytics.bcplEventsCategory,
 					label: name + ' - ' + (isChecked ? 'Selected' : 'Unselected')
 				});
 			};
