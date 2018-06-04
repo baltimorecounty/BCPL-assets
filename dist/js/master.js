@@ -203,8 +203,9 @@ bcpl.utility.googleAnalytics = function () {
 		view_search_results: 'search_term'
 	};
 	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
-		return obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
+		return !!obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
 	};
+
 	var gtag = void 0;
 	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
@@ -362,6 +363,7 @@ bcpl.utility.googleAnalytics = function () {
 		getDefaultEvent: getDefaultEvent,
 		getStandardEvent: getStandardEvent,
 		handleExternalLinkClick: handleExternalLinkClick,
+		hasOwnProperty: hasOwnProperty,
 		init: init,
 		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
 		isExternalLink: isExternalLink,
