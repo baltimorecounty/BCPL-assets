@@ -16,7 +16,8 @@ bcpl.utility.googleAnalytics = (() => {
 		share: 'method',
 		view_search_results: 'search_term'
 	};
-	const hasOwnProperty = (obj, propertyName) => obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
+	const hasOwnProperty = (obj, propertyName) => !!obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
+
 	let gtag;
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
@@ -185,6 +186,7 @@ bcpl.utility.googleAnalytics = (() => {
 		getDefaultEvent,
 		getStandardEvent,
 		handleExternalLinkClick,
+		hasOwnProperty,
 		init,
 		isEmptyOrInvalidHref,
 		isExternalLink,
