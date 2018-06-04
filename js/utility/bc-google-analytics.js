@@ -16,7 +16,7 @@ bcpl.utility.googleAnalytics = (() => {
 		share: 'method',
 		view_search_results: 'search_term'
 	};
-	const hasOwnProperty = (obj, propertyName) => Object.prototype.hasOwnProperty.call(obj, propertyName);
+	const hasOwnProperty = (obj, propertyName) => obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
 	let gtag;
 	let validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
@@ -81,7 +81,9 @@ bcpl.utility.googleAnalytics = (() => {
 			return;
 		}
 
-		gtag = window.gtag;
+		gtag = hasOwnProperty(options, 'isDebug') && !!options.isDebug
+			? console.log
+			: window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames')
 			? options.validHostNames
@@ -90,8 +92,8 @@ bcpl.utility.googleAnalytics = (() => {
 		addOutboundLinkTracking();
 	};
 
-	const getDefaultKey = (action) => hasOwnProperty(defaultGoogleEvents, action) ? 
-		defaultGoogleEvents[action] : 
+	const getDefaultKey = (action) => hasOwnProperty(defaultGoogleEvents, action) ?
+		defaultGoogleEvents[action] :
 		null;
 
 	const getDefaultEvent = (event) => {
@@ -101,7 +103,7 @@ bcpl.utility.googleAnalytics = (() => {
 		} = event;
 		const defaultKey = getDefaultKey(action);
 
-		return defaultKey ? 
+		return defaultKey ?
 			{
 				[defaultKey]: label
 			} : null;
