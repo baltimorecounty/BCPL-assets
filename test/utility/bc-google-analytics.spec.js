@@ -3,6 +3,33 @@
 describe('Baltimore County Google Analytics Utility', () => {
 	const googleAnalytics = bcpl.utility.googleAnalytics;
 
+	describe('hasOwnProperty', () => {
+		const mockObject = { animal: "dog" };
+
+		it('should return false if the key is not specified', () => {
+			const actual = googleAnalytics.hasOwnProperty(mockObject, null);
+			expect(actual).toEqual(false);
+		});
+
+		it('should return false if the mock object is undefined or null', () => {
+			const undefinedActual = googleAnalytics.hasOwnProperty(undefined, "animal");
+			const nullActual = googleAnalytics.hasOwnProperty(null, "animal");
+
+			expect(undefinedActual).toEqual(false);
+			expect(nullActual).toEqual(false);
+		});
+
+		it('should return false if the key doesn\'t exist on the mock object', () => {
+			const actual = googleAnalytics.hasOwnProperty(mockObject, "human");
+			expect(actual).toEqual(false);
+		});
+
+		it('should return true if the key does exist on the mock object', () => {
+			const actual = googleAnalytics.hasOwnProperty(mockObject, "human");
+			expect(actual).toEqual(false);
+		});
+	});
+
 	describe('isExternalLink', () => {
 		it('should return false, if no element is passed in', () => {
 			const actual = googleAnalytics.isExternalLink();
@@ -168,7 +195,7 @@ describe('Baltimore County Google Analytics Utility', () => {
 
 			expect(actual).toBeNull();
 		});
-		
+
 		it('should return an object with the key "method" and the value "Polaris"', () => {
 			const expected = {
 				method: 'Polaris'
