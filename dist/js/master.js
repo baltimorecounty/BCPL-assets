@@ -203,7 +203,7 @@ bcpl.utility.googleAnalytics = function () {
 		view_search_results: 'search_term'
 	};
 	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
-		return Object.prototype.hasOwnProperty.call(obj, propertyName);
+		return obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
 	};
 	var gtag = void 0;
 	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
@@ -265,7 +265,7 @@ bcpl.utility.googleAnalytics = function () {
 			return;
 		}
 
-		gtag = window.gtag;
+		gtag = hasOwnProperty(options, 'isDebug') && !!options.isDebug ? console.log : window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
 

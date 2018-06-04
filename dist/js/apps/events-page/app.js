@@ -967,10 +967,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) {
+(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics) {
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel, addthisService) {
+		var trackEvent = googleAnalytics.trackEvent;
+
+
 		setTimeout(function () {
 			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 		}, 500);
@@ -1110,6 +1113,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				key: 'term',
 				val: vm.keywords
 			}]); // This will trigger a location change, therefore getting the new results
+
+			trackEvent({
+				action: 'Keyword Search',
+				category: 'Events',
+				label: vm.keywords
+			});
 		};
 
 		vm.filterByDate = function () {
@@ -1129,6 +1138,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					key: 'endDate',
 					val: vm.userEndDate
 				}]); // This will trigger a location change, therefore getting the new results
+
+				trackEvent({
+					action: 'Date Filter Selection',
+					category: 'Events',
+					label: vm.userStartDate + ' - ' + vm.userEndDate
+				});
 			}
 		};
 
@@ -1482,7 +1497,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel', 'addthisService'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics);
 'use strict';
 
 (function (app) {
@@ -1597,8 +1612,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
+
+	var trackEvent = googleAnalytics.trackEvent;
+
 
 	var filtersDirective = function filtersDirective(metaService, CONSTANTS) {
 		var filtersLink = function filtersLink(scope) {
@@ -1608,6 +1626,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				var identifier = searchItem.item.Id || searchItem.item.LocationId;
 				var name = searchItem.item.Name || searchItem.item.Id;
 				innerScope.searchFunction(identifier, termType, isChecked, name, innerScope.items);
+
+				trackEvent({
+					action: termType + ' Filter Selection',
+					category: 'Events',
+					label: name + ' - ' + (isChecked ? 'Selected' : 'Unselected')
+				});
 			};
 
 			innerScope.removeDisallowedCharacters = function (str) {
@@ -1642,7 +1666,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	filtersDirective.$inject = ['metaService', 'events.CONSTANTS'];
 
 	app.directive('filtersExpandos', filtersDirective);
-})(angular.module('eventsPageApp'));
+})(angular.module('eventsPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
 (function (app) {
