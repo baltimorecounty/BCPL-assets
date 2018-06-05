@@ -1447,7 +1447,8 @@ namespacer('bcpl');
 bcpl.contraster = function ($, browserStorage) {
 	var contrasterDefaults = {
 		styleSheet: {
-			high: '/sebin/x/v/master-high-contrast.min.css'
+			high: '/sebin/x/v/master-high-contrast.min.css',
+			polaris: '/polaris/custom/themes/bcpl-powerpac/site-high-contrast.css'
 		},
 		selectors: {
 			contrastButton: '#contrastButton',
@@ -1461,9 +1462,16 @@ bcpl.contraster = function ($, browserStorage) {
 
 	var localStorageHighContrastKey = 'isHighContrast';
 	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+	var isPolaris = window.location.pathname === '/polaris/';
 
 	if (isHighContrast) {
-		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');
+		var styleSheet = contrasterDefaults.styleSheet.high;
+
+		if (isPolaris) {
+			styleSheet = contrasterDefaults.styleSheet.polaris;
+		}
+
+		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + styleSheet + '" rel="stylesheet">');
 	}
 
 	/**
