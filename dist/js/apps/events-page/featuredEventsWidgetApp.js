@@ -248,16 +248,20 @@
 (function (app) {
 	'use strict';
 
-	var featuredEventsLink = function featuredEventsLink(scope, eventsService) {
+	var featuredEventsLink = function featuredEventsLink(scope, eventsService, $window) {
 		var branches = scope.branches && scope.branches.length ? scope.branches : [];
 		var eventTypes = scope.eventTypes && scope.eventTypes.length ? scope.eventTypes : [];
 		var resultsToDisplay = scope.resultsToDisplay || 3;
 		var shouldPrioritzeFeatured = !!scope.prioritizeFeatured;
+		var startDateLocaleString = $window.moment().format();
+		var endDateLocaleString = $window.moment().add(60, 'd').format();
 
 		var buildRequestPayLoad = function buildRequestPayLoad(limit, locations, events, prioritizeFeatured) {
 			var payLoad = {
 				Limit: limit,
-				OnlyFeaturedEvents: prioritizeFeatured
+				OnlyFeaturedEvents: prioritizeFeatured,
+				StartDate: startDateLocaleString,
+				EndDate: endDateLocaleString
 			};
 
 			if (branches.length) {
@@ -284,7 +288,7 @@
 		}).catch(handleError); // eslint-disable-line no-console
 	};
 
-	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS, eventsService) {
+	var featuredEventsDirective = function featuredEventsDirective(CONSTANTS, eventsService, $window) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -295,14 +299,14 @@
 			},
 			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
 			link: function link(scope) {
-				return featuredEventsLink(scope, eventsService);
+				return featuredEventsLink(scope, eventsService, $window);
 			}
 		};
 
 		return directive;
 	};
 
-	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService'];
+	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService', '$window'];
 
 	app.directive('featuredEvents', featuredEventsDirective);
 })(angular.module('featuredEventsWidgetApp'));
