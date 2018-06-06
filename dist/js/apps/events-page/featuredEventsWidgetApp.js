@@ -256,7 +256,6 @@
 		var eventTypes = scope.eventTypes && scope.eventTypes.length ? scope.eventTypes : [];
 		var resultsToDisplay = scope.resultsToDisplay || 3;
 		var shouldPrioritzeFeatured = !!scope.prioritizeFeatured;
-
 		var startDateLocaleString = $window.moment().format();
 		var endDateLocaleString = $window.moment().add(60, 'd').format();
 
