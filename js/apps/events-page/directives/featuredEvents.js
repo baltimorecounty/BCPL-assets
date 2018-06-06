@@ -1,16 +1,21 @@
 ((app) => {
 	'use strict';
 
-	const featuredEventsLink = (scope, eventsService) => {
+	const featuredEventsLink = (scope, eventsService, $window) => {
 		const branches = scope.branches && scope.branches.length ? scope.branches : [];
 		const eventTypes = scope.eventTypes && scope.eventTypes.length ? scope.eventTypes : [];
 		const resultsToDisplay = scope.resultsToDisplay || 3;
 		const shouldPrioritzeFeatured = !!scope.prioritizeFeatured;
 
+		const startDateLocaleString = $window.moment().format();
+		const endDateLocaleString = $window.moment().add(60, 'd').format();
+
 		const buildRequestPayLoad = (limit, locations, events, prioritizeFeatured) => {
 			let payLoad = {
 				Limit: limit,
-				OnlyFeaturedEvents: prioritizeFeatured
+				OnlyFeaturedEvents: prioritizeFeatured,
+				StartDate: startDateLocaleString,
+				EndDate: endDateLocaleString
 			};
 
 			if (branches.length) {
@@ -38,7 +43,7 @@
 	};
 
 
-	const featuredEventsDirective = (CONSTANTS, eventsService) => {
+	const featuredEventsDirective = (CONSTANTS, eventsService, $window) => {
 		const directive = {
 			restrict: 'E',
 			scope: {
@@ -48,13 +53,13 @@
 				prioritizeFeatured: '='
 			},
 			templateUrl: CONSTANTS.templateUrls.featuredEventsTemplate,
-			link: (scope) => featuredEventsLink(scope, eventsService)
+			link: (scope) => featuredEventsLink(scope, eventsService, $window)
 		};
 
 		return directive;
 	};
 
-	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService'];
+	featuredEventsDirective.$inject = ['events.CONSTANTS', 'dataServices.eventsService', '$window'];
 
 	app.directive('featuredEvents', featuredEventsDirective);
 })(angular.module('featuredEventsWidgetApp'));
