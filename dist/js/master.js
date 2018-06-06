@@ -1462,17 +1462,29 @@ bcpl.contraster = function ($, browserStorage) {
 
 	var localStorageHighContrastKey = 'isHighContrast';
 	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
-	var isPolaris = window.location.pathname === '/polaris/';
+	var isPolaris = window.location.pathname.match('^/polaris/');
 
-	if (isHighContrast) {
-		var styleSheet = contrasterDefaults.styleSheet.high;
+	var checkIfElementExists = function checkIfElementExists() {
+		var targetNode = document.getElementById('stylesheetMaster');
 
-		if (isPolaris) {
-			styleSheet = contrasterDefaults.styleSheet.polaris;
+		if (!targetNode) {
+			window.setTimeout(checkIfElementExists, 0);
+			return;
 		}
 
-		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + styleSheet + '" rel="stylesheet">');
-	}
+		if (isHighContrast) {
+			var styleSheet = contrasterDefaults.styleSheet.high;
+
+			if (isPolaris) {
+				styleSheet = contrasterDefaults.styleSheet.polaris;
+			}
+
+			$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + styleSheet + '" rel="stylesheet">');
+			$('body').addClass('contraster-is-active');
+		}
+	};
+
+	checkIfElementExists();
 
 	/**
   * Handles the click event of the contrast button.
@@ -1480,6 +1492,10 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
+
+		//TEST
+		$('body').toggleClass('contraster-is-active');
+		//TEST
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.closest('.contraster').find('input').trigger('click');
