@@ -1,9 +1,11 @@
-((app) => {
+((app, googleAnalytics) => {
 	'use strict';
 
-	const tagDirective = (constants) => {
+	const tagDirective = (CONSTANTS) => {
 		const tagLink = function filterLink($scope) {
 			$scope.toggleFilter = (activeFilter) => {
+				const { trackEvent } = googleAnalytics;
+				const filterSelected = !$scope.activeFilters.includes(activeFilter.Tag);
 				const activeTags = $scope.tagData.Tags.filter((tagInfo) => {
 					return tagInfo.Tag === activeFilter.Tag;
 				});
@@ -12,6 +14,12 @@
 					// One tag will only have one family, so unwrap it.
 					$scope.filterHandler(activeFilter, activeTags[0]);
 				}
+
+				trackEvent({
+					action: 'Filter Tag Selection',
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: `${$scope.tagData.name} ${activeFilter.Tag} = ${filterSelected ? 'Selected' : 'Unselected'}`
+				});
 			};
 		};
 
@@ -22,7 +30,7 @@
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: constants.templates.tag,
+			templateUrl: CONSTANTS.templates.tag,
 			link: tagLink
 		};
 
@@ -32,4 +40,4 @@
 	tagDirective.$inject = ['CONSTANTS'];
 
 	app.directive('tag', tagDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
