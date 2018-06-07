@@ -1,6 +1,6 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.branchMap = (($) => {
+bcpl.pageSpecific.branchMap = (($, googleAnalytics) => {
 	'use strict';
 
 	let map;
@@ -12,6 +12,8 @@ bcpl.pageSpecific.branchMap = (($) => {
 	};
 
 	const addBranchToMap = (branch) => {
+		const { trackEvent } = googleAnalytics;
+
 		if (branch.location) {
 			let infowindow = new google.maps.InfoWindow({
 				content: `<div class="info-window"><h4>${branch.name} Branch</h4><p><a href="https://www.google.com/maps/dir/?api=1&travelmode=transit&destination=${getAddressForDirections(branch)}" target="_blank"><i class="fa fa-bus" aria-hidden="true"></i> Transit Directions </a><br/><a href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=${getAddressForDirections(branch)}" target="_blank"><i class="fa fa-car" aria-hidden="true"></i> Driving Directions </a></p></div>`
@@ -33,6 +35,12 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 			marker.addListener('click', () => {
 				infowindow.open(map, marker);
+
+				trackEvent({
+					action: 'Map Marker Click',
+					category: 'BCPL Locations',
+					label: `${branch.name}`
+				});
 			});
 		}
 	};
@@ -94,4 +102,4 @@ bcpl.pageSpecific.branchMap = (($) => {
 		initMap,
 		markers
 	};
-})(jQuery);
+})(jQuery, bcpl.utility.googleAnalytics);
