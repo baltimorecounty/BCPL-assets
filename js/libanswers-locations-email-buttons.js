@@ -4,9 +4,10 @@
  */
 namespacer('bcpl');
 
-bcpl.libAnswers = (function libAnswers($, constants) {
+bcpl.libAnswers = (function libAnswers($, constants, googleAnalytics) {
 	const generalContactFormId = constants.libAnswers.generalBranchId;
 	const libAnswerCssStyleRule = '.s-la-widget .btn-default';
+	const { trackEvent } = googleAnalytics;
 
 	let moduleOptions;
 
@@ -61,6 +62,19 @@ bcpl.libAnswers = (function libAnswers($, constants) {
 			.parent()
 			.find('[id*="s-la-widget"]')
 			.trigger('click');
+
+		const branchName = $(clickEvent.currentTarget)
+			.text()
+			.trim()
+			.split(' ')
+			.splice(1)
+			.join(' ');
+
+		trackEvent({
+			action: 'Contact Email Button Click',
+			category: 'BCPL Locations',
+			label: `${branchName}`
+		});
 	};
 
 	const onFilterCardsLoaded = () => {
@@ -124,7 +138,7 @@ bcpl.libAnswers = (function libAnswers($, constants) {
 		removeScriptByUrl,
 		removeStyleTagByContainingRule
 	};
-}(jQuery, bcpl.constants));
+}(jQuery, bcpl.constants, bcpl.utility.googleAnalytics));
 
 (function onReady($) {
 	$(document).ready(() => {
