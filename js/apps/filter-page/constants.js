@@ -20,6 +20,9 @@
 					pickMany: 'many'
 				}
 			}
+		},
+		analytics: {
+			bcplLocationsCategory: 'BCPL Locations'
 		}
 	};
 
