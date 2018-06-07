@@ -179,6 +179,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 					pickMany: 'many'
 				}
 			}
+		},
+		analytics: {
+			bcplLocationsCategory: 'BCPL Locations'
 		}
 	};
 
@@ -568,11 +571,13 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('filterPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
 
-	var filterDirective = function filterDirective(constants) {
+	var filterDirective = function filterDirective(CONSTANTS) {
 		var filterLink = function filterLink($scope, filterElement) {
+			var trackEvent = googleAnalytics.trackEvent;
+
 			var $filterElement = angular.element(filterElement);
 			var $input = $filterElement.find('input');
 			var inputType = $scope.filterFamily.type.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';
@@ -585,6 +590,12 @@ bcpl.boostrapCollapseHelper = function ($) {
 			$scope.toggleFilter = function (activeFilter) {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
+
+				trackEvent({
+					action: 'Filter Selection',
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: activeFilter + ' = ' + ($scope.isFilterChecked ? 'Selected' : 'Unselected')
+				});
 			};
 		};
 
@@ -596,7 +607,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: constants.templates.filter,
+			templateUrl: CONSTANTS.templates.filter,
 			link: filterLink
 		};
 
@@ -606,7 +617,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
 (function (app) {
