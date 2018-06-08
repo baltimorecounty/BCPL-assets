@@ -1,13 +1,19 @@
 (function($) {
+	const imageContainerSelector = '.pull-image-right, .pull-image-left';
+
+	const addMaxWidth = (index, value) => {
+		const $imageContainer = $(value);
+		const imgElm = $imageContainer.find('img')[0];
+
+		if (!imgElm) return;
+
+		$imageContainer
+			.css('max-width', imgElm.naturalWidth + 'px');
+	};
+
 	$(document).ready(function() {
-		$('.pull-image-right, .pull-image-left').each(function() {
-			var $imageContainer = $(this);
-			var imgElm = $imageContainer.find('img')[0];
+		const $imgContainer = $(imageContainerSelector);
 
-			if (!imgElm) return;
-
-			$imageContainer
-				.css('max-width', imgElm.naturalWidth + 'px');
-		});
+		$.each($imgContainer, addMaxWidth);
 	});
 })(jQuery)
