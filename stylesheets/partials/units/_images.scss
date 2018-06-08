@@ -1,6 +1,20 @@
 .pull-image-left,
 .pull-image-right {
 	@extend .img-responsive;
+	max-width: 350px;
+
+	img {
+		height: auto !important;
+		max-width: 100% !important;
+		width: 100%;
+	}
+
+	span,
+	.caption {
+		display: block;
+		font-size: .8em;
+		margin-top: .5em;
+	}
 }
 
 .pull-image-left {
@@ -10,4 +24,17 @@
 .pull-image-right {
 	@extend .pull-right;
 	margin: 5px 0 20px 30px;
+}
+
+@media screen and (max-width: 800px) {
+	.pull-image-left,
+	.pull-image-right {
+		float: none !important;
+		text-align: center;
+		margin: 15px auto 15px;
+
+		span {
+			text-align: left;
+		}
+	}
 }
