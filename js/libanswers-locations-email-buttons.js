@@ -62,7 +62,7 @@ bcpl.libAnswers = (function libAnswers($, constants, googleAnalytics) {
 			.parent()
 			.find('[id*="s-la-widget"]')
 			.trigger('click');
-
+			
 		const branchName = $(clickEvent.currentTarget)
 			.text()
 			.trim()
