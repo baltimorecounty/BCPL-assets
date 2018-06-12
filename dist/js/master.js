@@ -1458,6 +1458,10 @@ bcpl.contraster = function ($, browserStorage) {
 		}
 	};
 
+	var classes = {
+		contrasterIsActive: 'contraster-is-active'
+	};
+
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
@@ -1473,14 +1477,10 @@ bcpl.contraster = function ($, browserStorage) {
 		}
 
 		if (isHighContrast) {
-			var styleSheet = contrasterDefaults.styleSheet.high;
+			var highContrastStyleSheet = isPolaris ? contrasterDefaults.styleSheet.polaris : contrasterDefaults.styleSheet.high;
 
-			if (isPolaris) {
-				styleSheet = contrasterDefaults.styleSheet.polaris;
-			}
-
-			$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + styleSheet + '" rel="stylesheet">');
-			$('body').addClass('contraster-is-active');
+			$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + highContrastStyleSheet + '" rel="stylesheet">');
+			$('body').addClass(classes.contrasterIsActive);
 		}
 	};
 
@@ -1492,6 +1492,8 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
+
+		$('body').toggleClass(classes.contrasterIsActive);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.closest('.contraster').find('input').trigger('click');
