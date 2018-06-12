@@ -14,6 +14,10 @@ bcpl.contraster = (($, browserStorage) => {
 		}
 	};
 
+	const classes = {
+		contrasterIsActive: 'contraster-is-active'
+	};
+
 	const contrasterSettings = {};
 
 	const localStorageHighContrastKey = 'isHighContrast';
@@ -29,14 +33,10 @@ bcpl.contraster = (($, browserStorage) => {
 		}
 
 		if (isHighContrast) {
-			let styleSheet = contrasterDefaults.styleSheet.high;
+			const highContrastStyleSheet = isPolaris ? contrasterDefaults.styleSheet.polaris : contrasterDefaults.styleSheet.high;
 	
-			if (isPolaris) {
-				styleSheet = contrasterDefaults.styleSheet.polaris;
-			}
-	
-			$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${styleSheet}" rel="stylesheet">`);
-			$('body').addClass('contraster-is-active');
+			$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${highContrastStyleSheet}" rel="stylesheet">`);
+			$('body').addClass(classes.contrasterIsActive);
 		}
 	};
 
@@ -48,6 +48,8 @@ bcpl.contraster = (($, browserStorage) => {
 	const contrastButtonClickHandler = (clickEvent) => {
 		const settings = clickEvent.data || contrasterDefaults;
 		const $eventTarget = $(clickEvent.currentTarget);
+
+		$('body').toggleClass(classes.contrasterIsActive)
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget
