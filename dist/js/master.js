@@ -1493,10 +1493,6 @@ bcpl.contraster = function ($, browserStorage) {
 		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
 
-		//TEST
-		$('body').toggleClass('contraster-is-active');
-		//TEST
-
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.closest('.contraster').find('input').trigger('click');
 
