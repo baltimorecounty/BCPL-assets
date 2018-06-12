@@ -1447,7 +1447,8 @@ namespacer('bcpl');
 bcpl.contraster = function ($, browserStorage) {
 	var contrasterDefaults = {
 		styleSheet: {
-			high: '/sebin/x/v/master-high-contrast.min.css'
+			high: '/sebin/x/v/master-high-contrast.min.css',
+			polaris: '/polaris/custom/themes/bcpl-powerpac/site-high-contrast.css'
 		},
 		selectors: {
 			contrastButton: '#contrastButton',
@@ -1457,14 +1458,33 @@ bcpl.contraster = function ($, browserStorage) {
 		}
 	};
 
+	var classes = {
+		contrasterIsActive: 'contraster-is-active'
+	};
+
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
 	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+	var isPolaris = window.location.pathname.match('^/polaris/');
 
-	if (isHighContrast) {
-		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');
-	}
+	var checkIfElementExists = function checkIfElementExists() {
+		var targetNode = document.getElementById('stylesheetMaster');
+
+		if (!targetNode) {
+			window.setTimeout(checkIfElementExists, 0);
+			return;
+		}
+
+		if (isHighContrast) {
+			var highContrastStyleSheet = isPolaris ? contrasterDefaults.styleSheet.polaris : contrasterDefaults.styleSheet.high;
+
+			$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + highContrastStyleSheet + '" rel="stylesheet">');
+			$('body').addClass(classes.contrasterIsActive);
+		}
+	};
+
+	checkIfElementExists();
 
 	/**
   * Handles the click event of the contrast button.
@@ -1472,6 +1492,8 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
+
+		$('body').toggleClass(classes.contrasterIsActive);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.closest('.contraster').find('input').trigger('click');
