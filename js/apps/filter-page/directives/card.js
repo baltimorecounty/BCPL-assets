@@ -9,6 +9,12 @@
 				element.append($compile(html)($scope));
 			});
 
+			const continueToTargetLocation = (target) => {
+				if (target && target.href) {
+					window.location = target.href;
+				}
+			};
+
 			$scope.track = (action, label, trackingEvent) => {
 				trackingEvent.preventDefault();
 
@@ -18,11 +24,7 @@
 					label
 				});
 
-				const target = trackingEvent.currentTarget;
-
-				if (target && target.href) {
-					window.location = target.href;
-				}
+				continueToTargetLocation(trackingEvent.currentTarget)
 			};
 
 		};
