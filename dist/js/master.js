@@ -1712,6 +1712,26 @@ bcpl.filter = function ($, windowShade) {
 }(jQuery, bcpl.utility.windowShade);
 'use strict';
 
+(function ($) {
+	var imageContainerSelector = '.pull-image-right, .pull-image-left';
+
+	var addMaxWidth = function addMaxWidth(index, value) {
+		var $imageContainer = $(value);
+		var imgElm = $imageContainer.find('img')[0];
+
+		if (!imgElm) return;
+
+		$imageContainer.css('max-width', imgElm.naturalWidth + 'px');
+	};
+
+	$(document).ready(function () {
+		var $imgContainer = $(imageContainerSelector);
+
+		$.each($imgContainer, addMaxWidth);
+	});
+})(jQuery);
+'use strict';
+
 /*
     This script is used to add a contact form for each branch, that is displayed in the modal.
     Note: This script only needs to be include on the location filter page app
