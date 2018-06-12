@@ -49,10 +49,6 @@ bcpl.contraster = (($, browserStorage) => {
 		const settings = clickEvent.data || contrasterDefaults;
 		const $eventTarget = $(clickEvent.currentTarget);
 
-		//TEST
-		$('body').toggleClass('contraster-is-active')
-		//TEST
-
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget
 				.closest('.contraster')
