@@ -547,14 +547,35 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
+
+	var trackEvent = googleAnalytics.trackEvent;
+
 
 	var cardDirective = function cardDirective($compile, $injector, $templateRequest, CONSTANTS) {
 		var cardLink = function cardLink($scope, element, attrs) {
 			$templateRequest(CONSTANTS.templates[attrs.template]).then(function (html) {
 				element.append($compile(html)($scope));
 			});
+
+			var continueToTargetLocation = function continueToTargetLocation(target) {
+				if (target && target.href) {
+					window.location = target.href;
+				}
+			};
+
+			$scope.track = function (action, label, trackingEvent) {
+				trackingEvent.preventDefault();
+
+				trackEvent({
+					action: action,
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: label
+				});
+
+				continueToTargetLocation(trackingEvent.currentTarget);
+			};
 		};
 
 		var directive = {
@@ -575,7 +596,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	cardDirective.$inject = ['$compile', '$injector', '$templateRequest', 'CONSTANTS'];
 
 	app.directive('card', cardDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
 (function (app, googleAnalytics) {
