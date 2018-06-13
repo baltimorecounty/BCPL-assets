@@ -602,10 +602,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app, googleAnalytics) {
 	'use strict';
 
+	var trackEvent = googleAnalytics.trackEvent;
+
+
 	var filterDirective = function filterDirective(CONSTANTS) {
 		var filterLink = function filterLink($scope, filterElement) {
-			var trackEvent = googleAnalytics.trackEvent;
-
 			var $filterElement = angular.element(filterElement);
 			var $input = $filterElement.find('input');
 			var inputType = $scope.filterFamily.type.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';
@@ -721,11 +722,12 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app, googleAnalytics) {
 	'use strict';
 
+	var trackEvent = googleAnalytics.trackEvent;
+
+
 	var tagDirective = function tagDirective(CONSTANTS) {
 		var tagLink = function filterLink($scope) {
 			$scope.toggleFilter = function (activeFilter) {
-				var trackEvent = googleAnalytics.trackEvent;
-
 				var filterSelected = !$scope.activeFilters.includes(activeFilter.Tag);
 				var activeTags = $scope.tagData.Tags.filter(function (tagInfo) {
 					return tagInfo.Tag === activeFilter.Tag;
