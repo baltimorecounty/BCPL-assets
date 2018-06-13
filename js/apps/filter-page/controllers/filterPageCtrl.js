@@ -1,9 +1,10 @@
 ((app, googleAnalytics) => {
 	'use strict';
 
+	const { trackEvent } = googleAnalytics;
+
 	const FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const vm = this;
-		const { trackEvent } = googleAnalytics;
 
 		vm.activeFilters = [];
 		vm.allCardData = {};
