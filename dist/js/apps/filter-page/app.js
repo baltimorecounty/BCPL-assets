@@ -374,10 +374,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 (function (app, googleAnalytics) {
 	'use strict';
 
+	var trackEvent = googleAnalytics.trackEvent;
+
+
 	var FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var vm = this;
-		var trackEvent = googleAnalytics.trackEvent;
-
 
 		vm.activeFilters = [];
 		vm.allCardData = {};
