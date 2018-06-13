@@ -1,9 +1,10 @@
 ((app, googleAnalytics) => {
 	'use strict';
+	
+	const { trackEvent } = googleAnalytics;
 
 	const filterDirective = (CONSTANTS) => {
 		const filterLink = function filterLink($scope, filterElement) {
-			const { trackEvent } = googleAnalytics;
 			const $filterElement = angular.element(filterElement);
 			const $input = $filterElement.find('input');
 			const inputType = $scope.filterFamily.type.trim().toLowerCase() === 'many' ? 'checkbox' : 'radio';

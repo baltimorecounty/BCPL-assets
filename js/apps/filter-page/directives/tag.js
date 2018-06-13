@@ -1,10 +1,11 @@
 ((app, googleAnalytics) => {
 	'use strict';
+	
+	const { trackEvent } = googleAnalytics;
 
 	const tagDirective = (CONSTANTS) => {
 		const tagLink = function filterLink($scope) {
 			$scope.toggleFilter = (activeFilter) => {
-				const { trackEvent } = googleAnalytics;
 				const filterSelected = !$scope.activeFilters.includes(activeFilter.Tag);
 				const activeTags = $scope.tagData.Tags.filter((tagInfo) => {
 					return tagInfo.Tag === activeFilter.Tag;
