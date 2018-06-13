@@ -1,5 +1,7 @@
-((app) => {
+((app, googleAnalytics) => {
 	'use strict';
+
+	const { trackEvent } = googleAnalytics;
 
 	const FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		const vm = this;
@@ -23,6 +25,11 @@
 			vm.activeFilters = [];
 			cycleDisplay();
 			publishLoadedCardsEvent();
+
+			trackEvent({
+				action: 'Clear All Filters',
+				category: CONSTANTS.analytics.bcplLocationsCategory
+			});
 		};
 
 		vm.setFilterType = (filterType) => {
@@ -168,4 +175,4 @@
 	FilterPageCtrl.$inject = ['$scope', '$document', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
