@@ -20,12 +20,12 @@ button {
     }
     &:active,
     &:focus {
-        background-color: $turquoise-dark;
+        background-color: $teal-dark;
     }
     &:active {
         &:hover,
         &:focus {
-            background-color: $turquoise-dark;
+            background-color: $teal-dark;
         }
     }
 }
