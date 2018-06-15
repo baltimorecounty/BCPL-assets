@@ -1130,7 +1130,7 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.bookCarousel = function ($, constants, imageAutoWidth) {
+bcpl.bookCarousel = function ($, constants) {
 	var DEFAULT_THUMBNAIL_WIDTH = 163;
 	var promises = [];
 	var slickSettings = {
@@ -1252,7 +1252,7 @@ bcpl.bookCarousel = function ($, constants, imageAutoWidth) {
 	return {
 		init: init
 	};
-}(jQuery, bcpl.constants, bcpl.imageAutoWidth);
+}(jQuery, bcpl.constants);
 'use strict';
 
 namespacer('bcpl');
