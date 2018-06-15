@@ -1,6 +1,7 @@
 namespacer('bcpl');
 
 bcpl.bookCarousel = (($, constants) => {
+	const DEFAULT_THUMBNAIL_WIDTH = 163;
 	const promises = [];
 	const slickSettings = {
 		infinite: true,
@@ -31,6 +32,7 @@ bcpl.bookCarousel = (($, constants) => {
 		}]
 	};
 	let isTitleSearch = false;
+	let isGrid = false;
 
 	const loadData = (carouselId) => {
 		const url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
@@ -66,10 +68,16 @@ bcpl.bookCarousel = (($, constants) => {
 		const $titleDisplay = $(`<p>${titleForDisplay}</p>`);
 
 		$image
-			.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif'))
-			.attr('style', '')
+			.attr('src', $image.attr('src').replace(/sc.gif/ig, 'mc.gif'))
 			.attr('title', '')
+			.attr('style', '')
 			.attr('alt', `${$image.attr('alt')} - book cover`);
+
+		if (!isGrid) {
+			$image
+				.addClass('img-responsive')
+				.attr('style', `max-width: ${DEFAULT_THUMBNAIL_WIDTH}px !important;`)
+		}
 
 		$link
 			.text('')
@@ -84,7 +92,6 @@ bcpl.bookCarousel = (($, constants) => {
 				.filter(textNodeFilter));
 
 			const newLinkHref = `${constants.baseCatalogUrl}/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22${author}%22%20AND%20TI=%22${titleForUrl}%22&by=KW&sort=MP&limit=&query=&page=0`;
-
 			$link.attr('href', newLinkHref);
 		}
 
@@ -101,6 +108,7 @@ bcpl.bookCarousel = (($, constants) => {
 			}
 
 			if (settings.isGrid) {
+				isGrid = true;
 				$carousels.addClass('grid');
 			}
 		}

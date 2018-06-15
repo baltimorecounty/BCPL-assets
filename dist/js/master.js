@@ -1131,6 +1131,7 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.bookCarousel = function ($, constants) {
+	var DEFAULT_THUMBNAIL_WIDTH = 163;
 	var promises = [];
 	var slickSettings = {
 		infinite: true,
@@ -1161,6 +1162,7 @@ bcpl.bookCarousel = function ($, constants) {
 		}]
 	};
 	var isTitleSearch = false;
+	var isGrid = false;
 
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
@@ -1196,7 +1198,11 @@ bcpl.bookCarousel = function ($, constants) {
 		var titleForUrl = encodeURIComponent(titleForDisplay);
 		var $titleDisplay = $('<p>' + titleForDisplay + '</p>');
 
-		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
+		$image.attr('src', $image.attr('src').replace(/sc.gif/ig, 'mc.gif')).attr('title', '').attr('style', '').attr('alt', $image.attr('alt') + ' - book cover');
+
+		if (!isGrid) {
+			$image.addClass('img-responsive').attr('style', 'max-width: ' + DEFAULT_THUMBNAIL_WIDTH + 'px !important;');
+		}
 
 		$link.text('').append($image).append($titleDisplay);
 
@@ -1204,7 +1210,6 @@ bcpl.bookCarousel = function ($, constants) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 
 			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + titleForUrl + '%22&by=KW&sort=MP&limit=&query=&page=0';
-
 			$link.attr('href', newLinkHref);
 		}
 
@@ -1220,6 +1225,7 @@ bcpl.bookCarousel = function ($, constants) {
 			}
 
 			if (settings.isGrid) {
+				isGrid = true;
 				$carousels.addClass('grid');
 			}
 		}
