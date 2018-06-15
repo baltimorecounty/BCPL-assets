@@ -1,8 +1,9 @@
 namespacer('bcpl.pageSpecific');
 
-bcpl.pageSpecific.branchMap = (($) => {
+bcpl.pageSpecific.branchMap = (($, googleAnalytics) => {
 	'use strict';
 
+	const { trackEvent } = googleAnalytics;
 	let map;
 	let markers = [];
 	let infowindows = [];
@@ -33,6 +34,12 @@ bcpl.pageSpecific.branchMap = (($) => {
 
 			marker.addListener('click', () => {
 				infowindow.open(map, marker);
+
+				trackEvent({
+					action: 'Map Marker Click',
+					category: 'BCPL Locations',
+					label: `${branch.name}`
+				});
 			});
 		}
 	};
@@ -94,4 +101,4 @@ bcpl.pageSpecific.branchMap = (($) => {
 		initMap,
 		markers
 	};
-})(jQuery);
+})(jQuery, bcpl.utility.googleAnalytics);

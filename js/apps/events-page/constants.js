@@ -45,6 +45,9 @@
 				numberOfUnits: 0,
 				unit: 'days'
 			}
+		},
+		analytics: {
+			bcplEventsCategory: 'BCPL Events'
 		}
 	};
 

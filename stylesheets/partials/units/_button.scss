@@ -18,6 +18,16 @@ button {
     &:hover {
         background-color: $teal-light;
     }
+    &:active,
+    &:focus {
+        background-color: $teal-dark;
+    }
+    &:active {
+        &:hover,
+        &:focus {
+            background-color: $teal-dark;
+        }
+    }
 }
 
 .btn-uppercase-bold {

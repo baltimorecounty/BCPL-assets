@@ -1,7 +1,9 @@
-((app) => {
+((app, googleAnalytics) => {
 	'use strict';
+	
+	const { trackEvent } = googleAnalytics;
 
-	const filterDirective = (constants) => {
+	const filterDirective = (CONSTANTS) => {
 		const filterLink = function filterLink($scope, filterElement) {
 			const $filterElement = angular.element(filterElement);
 			const $input = $filterElement.find('input');
@@ -15,6 +17,12 @@
 			$scope.toggleFilter = (activeFilter) => {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
+
+				trackEvent({
+					action: 'Filter Selection',
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: `${activeFilter} = ${$scope.isFilterChecked ? 'Selected' : 'Unselected'}`
+				});
 			};
 		};
 
@@ -26,7 +34,7 @@
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: constants.templates.filter,
+			templateUrl: CONSTANTS.templates.filter,
 			link: filterLink
 		};
 
@@ -36,4 +44,4 @@
 	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);

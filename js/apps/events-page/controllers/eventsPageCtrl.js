@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants) => {
+((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -15,6 +15,8 @@
 		RequestModel,
 		addthisService
 	) {
+		const { trackEvent } = googleAnalytics;
+
 		setTimeout(() => {
 			$window.scrollTo(0, 0); // Ensure the event details are visible on mobile
 		}, 500);
@@ -101,7 +103,7 @@
 			// Clear out existing list of events
 			vm.eventGroups = [];
 
-			// Let user know we are retreiving a new list of events
+			// Let user know we are retrieving a new list of events
 			vm.isLoading = true;
 			vm.hasResults = true; // Do this to make sure the user doesn't see the no results message it will be updated below
 			vm.requestErrorMessage = '';
@@ -153,6 +155,12 @@
 				key: 'term',
 				val: vm.keywords
 			}]); // This will trigger a location change, therefore getting the new results
+
+			trackEvent({
+				action: 'Keyword Search',
+				category: CONSTANTS.analytics.bcplEventsCategory,
+				label: vm.keywords
+			});
 		};
 
 		vm.filterByDate = () => {
@@ -175,6 +183,12 @@
 						val: vm.userEndDate
 					}
 				]); // This will trigger a location change, therefore getting the new results
+
+				trackEvent({
+					action: 'Date Filter Selection',
+					category: CONSTANTS.analytics.bcplEventsCategory,
+					label: `${vm.userStartDate} - ${vm.userEndDate}`
+				});
 			}
 		};
 
@@ -186,6 +200,11 @@
 			filterHelperService.clearQueryParams();
 
 			vm.filterEvents(vm.requestModel);
+
+			trackEvent({
+				action: 'Clear All Filters',
+				category: CONSTANTS.analytics.bcplEventsCategory
+			});
 		};
 
 		vm.loadNextPage = () => {
@@ -526,4 +545,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics);

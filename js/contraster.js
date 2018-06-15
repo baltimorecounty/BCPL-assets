@@ -3,7 +3,8 @@ namespacer('bcpl');
 bcpl.contraster = (($, browserStorage) => {
 	const contrasterDefaults = {
 		styleSheet: {
-			high: '/sebin/x/v/master-high-contrast.min.css'
+			high: '/sebin/x/v/master-high-contrast.min.css',
+			polaris: '/polaris/custom/themes/bcpl-powerpac/site-high-contrast.css'
 		},
 		selectors: {
 			contrastButton: '#contrastButton',
@@ -13,14 +14,33 @@ bcpl.contraster = (($, browserStorage) => {
 		}
 	};
 
+	const classes = {
+		contrasterIsActive: 'contraster-is-active'
+	};
+
 	const contrasterSettings = {};
 
 	const localStorageHighContrastKey = 'isHighContrast';
 	const isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+	const isPolaris = window.location.pathname.match('^/polaris/');
 
-	if (isHighContrast) {
-		$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${contrasterDefaults.styleSheet.high}" rel="stylesheet">`);
-	}
+	const checkIfElementExists = () => {
+		const targetNode = document.getElementById('stylesheetMaster');
+
+		if (!targetNode) {
+			window.setTimeout(checkIfElementExists, 0);
+			return;
+		}
+
+		if (isHighContrast) {
+			const highContrastStyleSheet = isPolaris ? contrasterDefaults.styleSheet.polaris : contrasterDefaults.styleSheet.high;
+	
+			$(contrasterDefaults.selectors.stylesheetMaster).after(`<link id="stylesheetMasterHighContrast" href="${highContrastStyleSheet}" rel="stylesheet">`);
+			$('body').addClass(classes.contrasterIsActive);
+		}
+	};
+
+	checkIfElementExists();
 
 	/**
 	 * Handles the click event of the contrast button.
@@ -28,6 +48,8 @@ bcpl.contraster = (($, browserStorage) => {
 	const contrastButtonClickHandler = (clickEvent) => {
 		const settings = clickEvent.data || contrasterDefaults;
 		const $eventTarget = $(clickEvent.currentTarget);
+
+		$('body').toggleClass(classes.contrasterIsActive)
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget

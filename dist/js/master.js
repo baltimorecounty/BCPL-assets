@@ -71,8 +71,7 @@ bcpl.constants = {
 	},
 	libAnswers: {
 		allBranchIds: [6319, 6864, 6865, 6866, 6867, 6868, 6869, 6870, 6871, 6872, 6873, 6874, 6875, 6876, 6877, 6878, 6879, 6777, 6880, 6881],
-		generalBranchId: 7783,
-		widgetJs: '//api2.libanswers.com/js2.18.5/LibAnswers_widget.min.js'
+		generalBranchId: 7783
 	},
 	shared: {
 		urls: {
@@ -187,12 +186,26 @@ if (!Array.prototype.includes) {
 
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 namespacer('bcpl.utility');
 
 bcpl.utility.googleAnalytics = function () {
-	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
-		return Object.prototype.hasOwnProperty.call(obj, propertyName);
+	var googleEventKeys = {
+		category: 'event_category',
+		label: 'event_label',
+		value: 'value'
 	};
+	var defaultGoogleEvents = {
+		login: 'method',
+		search: 'search_term',
+		share: 'method',
+		view_search_results: 'search_term'
+	};
+	var hasOwnProperty = function hasOwnProperty(obj, propertyName) {
+		return !!obj && Object.prototype.hasOwnProperty.call(obj, propertyName);
+	};
+
 	var gtag = void 0;
 	var validHostNames = ['bcpl.info', 'bcpl.lib.md.us'];
 
@@ -253,21 +266,114 @@ bcpl.utility.googleAnalytics = function () {
 			return;
 		}
 
-		gtag = window.gtag;
+		gtag = hasOwnProperty(options, 'isDebug') && !!options.isDebug ? console.log : window.gtag;
 
 		validHostNames = options && hasOwnProperty(options, 'validHostNames') ? options.validHostNames : validHostNames;
 
 		addOutboundLinkTracking();
 	};
 
+	var getDefaultKey = function getDefaultKey(action) {
+		return hasOwnProperty(defaultGoogleEvents, action) ? defaultGoogleEvents[action] : null;
+	};
+
+	var getDefaultEvent = function getDefaultEvent(event) {
+		var action = event.action,
+		    label = event.label;
+
+		var defaultKey = getDefaultKey(action);
+
+		return defaultKey ? _defineProperty({}, defaultKey, label) : null;
+	};
+
+	var getStandardEvent = function getStandardEvent(event) {
+		var category = event.category,
+		    label = event.label,
+		    value = event.value;
+
+		var eventObj = {};
+
+		if (category) {
+			eventObj[googleEventKeys.category] = category;
+		}
+		if (label) {
+			eventObj[googleEventKeys.label] = label;
+		}
+		if (value) {
+			eventObj[googleEventKeys.value] = value;
+		}
+
+		return eventObj;
+	};
+
+	var getEventData = function getEventData(event) {
+		return getDefaultEvent(event) || getStandardEvent(event);
+	};
+
+	var trackEvent = function trackEvent(event) {
+		if (!event) return false;
+
+		var eventData = getEventData(event);
+
+		if (Object.keys(eventData).length > 0 && eventData.constructor === Object) {
+			gtag('event', event.action, eventData);
+		} else {
+			gtag('event', event.action);
+		}
+	};
+
+	var trackLogin = function trackLogin(loginType) {
+		var loginEvent = {
+			action: 'login',
+			label: loginType
+		};
+
+		trackEvent(loginEvent);
+	};
+
+	var trackSearch = function trackSearch(searchTerm) {
+		var searchEvent = {
+			action: 'search',
+			label: searchTerm
+		};
+
+		trackEvent(searchEvent);
+	};
+
+	var trackShare = function trackShare(shareType) {
+		var shareEvent = {
+			action: 'share',
+			label: shareType
+		};
+
+		trackEvent(shareEvent);
+	};
+
+	var trackViewSearchResults = function trackViewSearchResults(searchTerm) {
+		var viewSearchResultsEvent = {
+			action: 'view_search_results',
+			label: searchTerm
+		};
+
+		trackEvent(viewSearchResultsEvent);
+	};
+
 	return {
 		addOutboundLinkTracking: addOutboundLinkTracking,
+		getDefaultEvent: getDefaultEvent,
+		getStandardEvent: getStandardEvent,
 		handleExternalLinkClick: handleExternalLinkClick,
+		hasOwnProperty: hasOwnProperty,
 		init: init,
 		isEmptyOrInvalidHref: isEmptyOrInvalidHref,
 		isExternalLink: isExternalLink,
 		isShareThisLink: isShareThisLink,
-		trackOutboundLink: trackOutboundLink
+		trackOutboundLink: trackOutboundLink,
+		trackEvent: trackEvent,
+		trackLogin: trackLogin,
+		trackSearch: trackSearch,
+		trackShare: trackShare,
+		trackViewSearchResults: trackViewSearchResults
 	};
 }();
 'use strict';
@@ -1025,6 +1131,7 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.bookCarousel = function ($, constants) {
+	var DEFAULT_THUMBNAIL_WIDTH = 163;
 	var promises = [];
 	var slickSettings = {
 		infinite: true,
@@ -1055,6 +1162,7 @@ bcpl.bookCarousel = function ($, constants) {
 		}]
 	};
 	var isTitleSearch = false;
+	var isGrid = false;
 
 	var loadData = function loadData(carouselId) {
 		var url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
@@ -1090,7 +1198,11 @@ bcpl.bookCarousel = function ($, constants) {
 		var titleForUrl = encodeURIComponent(titleForDisplay);
 		var $titleDisplay = $('<p>' + titleForDisplay + '</p>');
 
-		$image.attr('src', $image.attr('src').toLowerCase().replace('sc.gif', 'mc.gif')).attr('style', '').attr('title', '').attr('alt', $image.attr('alt') + ' - book cover');
+		$image.attr('src', $image.attr('src').replace(/sc.gif/ig, 'mc.gif')).attr('title', '').attr('style', '').attr('alt', $image.attr('alt') + ' - book cover');
+
+		if (!isGrid) {
+			$image.addClass('img-responsive').attr('style', 'max-width: ' + DEFAULT_THUMBNAIL_WIDTH + 'px !important;');
+		}
 
 		$link.text('').append($image).append($titleDisplay);
 
@@ -1098,7 +1210,6 @@ bcpl.bookCarousel = function ($, constants) {
 			var author = authorExtractor($listItem.find('div').eq(1).contents().filter(textNodeFilter));
 
 			var newLinkHref = constants.baseCatalogUrl + '/polaris/search/searchresults.aspx?ctx=1.1033.0.0.5&type=Boolean&term=AU=%22' + author + '%22%20AND%20TI=%22' + titleForUrl + '%22&by=KW&sort=MP&limit=&query=&page=0';
-
 			$link.attr('href', newLinkHref);
 		}
 
@@ -1114,6 +1225,7 @@ bcpl.bookCarousel = function ($, constants) {
 			}
 
 			if (settings.isGrid) {
+				isGrid = true;
 				$carousels.addClass('grid');
 			}
 		}
@@ -1341,7 +1453,8 @@ namespacer('bcpl');
 bcpl.contraster = function ($, browserStorage) {
 	var contrasterDefaults = {
 		styleSheet: {
-			high: '/sebin/x/v/master-high-contrast.min.css'
+			high: '/sebin/x/v/master-high-contrast.min.css',
+			polaris: '/polaris/custom/themes/bcpl-powerpac/site-high-contrast.css'
 		},
 		selectors: {
 			contrastButton: '#contrastButton',
@@ -1351,14 +1464,33 @@ bcpl.contraster = function ($, browserStorage) {
 		}
 	};
 
+	var classes = {
+		contrasterIsActive: 'contraster-is-active'
+	};
+
 	var contrasterSettings = {};
 
 	var localStorageHighContrastKey = 'isHighContrast';
 	var isHighContrast = localStorage.getItem(localStorageHighContrastKey) === 'true';
+	var isPolaris = window.location.pathname.match('^/polaris/');
 
-	if (isHighContrast) {
-		$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + contrasterDefaults.styleSheet.high + '" rel="stylesheet">');
-	}
+	var checkIfElementExists = function checkIfElementExists() {
+		var targetNode = document.getElementById('stylesheetMaster');
+
+		if (!targetNode) {
+			window.setTimeout(checkIfElementExists, 0);
+			return;
+		}
+
+		if (isHighContrast) {
+			var highContrastStyleSheet = isPolaris ? contrasterDefaults.styleSheet.polaris : contrasterDefaults.styleSheet.high;
+
+			$(contrasterDefaults.selectors.stylesheetMaster).after('<link id="stylesheetMasterHighContrast" href="' + highContrastStyleSheet + '" rel="stylesheet">');
+			$('body').addClass(classes.contrasterIsActive);
+		}
+	};
+
+	checkIfElementExists();
 
 	/**
   * Handles the click event of the contrast button.
@@ -1366,6 +1498,8 @@ bcpl.contraster = function ($, browserStorage) {
 	var contrastButtonClickHandler = function contrastButtonClickHandler(clickEvent) {
 		var settings = clickEvent.data || contrasterDefaults;
 		var $eventTarget = $(clickEvent.currentTarget);
+
+		$('body').toggleClass(classes.contrasterIsActive);
 
 		if ($eventTarget.is(contrasterDefaults.selectors.toggleText)) {
 			$eventTarget.closest('.contraster').find('input').trigger('click');
@@ -1584,6 +1718,26 @@ bcpl.filter = function ($, windowShade) {
 }(jQuery, bcpl.utility.windowShade);
 'use strict';
 
+(function ($) {
+	var imageContainerSelector = '.pull-image-right, .pull-image-left';
+
+	var addMaxWidth = function addMaxWidth(index, value) {
+		var $imageContainer = $(value);
+		var imgElm = $imageContainer.find('img')[0];
+
+		if (!imgElm) return;
+
+		$imageContainer.css('max-width', imgElm.naturalWidth + 'px');
+	};
+
+	$(document).ready(function () {
+		var $imgContainer = $(imageContainerSelector);
+
+		$.each($imgContainer, addMaxWidth);
+	});
+})(jQuery);
+'use strict';
+
 /*
     This script is used to add a contact form for each branch, that is displayed in the modal.
     Note: This script only needs to be include on the location filter page app
@@ -1592,7 +1746,6 @@ namespacer('bcpl');
 
 bcpl.libAnswers = function libAnswers($, constants) {
 	var generalContactFormId = constants.libAnswers.generalBranchId;
-	var libAnswerWidgetJs = constants.libAnswers.widgetJs;
 	var libAnswerCssStyleRule = '.s-la-widget .btn-default';
 
 	var moduleOptions = void 0;
@@ -1650,7 +1803,6 @@ bcpl.libAnswers = function libAnswers($, constants) {
 	};
 
 	var removeDuplicateScriptsAndStyles = function removeDuplicateScriptsAndStyles() {
-		removeScriptByUrl(libAnswerWidgetJs, true);
 		removeStyleTagByContainingRule(libAnswerCssStyleRule);
 	};
 
@@ -1690,15 +1842,13 @@ bcpl.libAnswers = function libAnswers($, constants) {
 	var init = function init(options) {
 		moduleOptions = getOptions(options);
 
-		loadScript(libAnswerWidgetJs, function () {
-			moduleOptions.ids.forEach(setContactButtonMarkup);
+		moduleOptions.ids.forEach(setContactButtonMarkup);
 
-			if (!moduleOptions.loadEvent) {
-				loadScripts(moduleOptions.ids);
-			}
+		if (!moduleOptions.loadEvent) {
+			loadScripts(moduleOptions.ids);
+		}
 
-			bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
-		}); // Load the required javascript if it doesn't exist
+		bindEvents(moduleOptions.targetSelector, moduleOptions.loadEvent);
 	};
 
 	return {

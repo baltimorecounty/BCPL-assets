@@ -179,6 +179,9 @@ bcpl.boostrapCollapseHelper = function ($) {
 					pickMany: 'many'
 				}
 			}
+		},
+		analytics: {
+			bcplLocationsCategory: 'BCPL Locations'
 		}
 	};
 
@@ -368,8 +371,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('filterPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
+
+	var trackEvent = googleAnalytics.trackEvent;
+
 
 	var FilterPageCtrl = function FilterPageCtrl($scope, $document, $window, cardService, filterService, $animate, $timeout, CONSTANTS) {
 		var vm = this;
@@ -393,6 +399,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			vm.activeFilters = [];
 			cycleDisplay();
 			publishLoadedCardsEvent();
+
+			trackEvent({
+				action: 'Clear All Filters',
+				category: CONSTANTS.analytics.bcplLocationsCategory
+			});
 		};
 
 		vm.setFilterType = function (filterType) {
@@ -534,17 +545,38 @@ bcpl.boostrapCollapseHelper = function ($) {
 	FilterPageCtrl.$inject = ['$scope', '$document', '$window', 'cardService', 'filterService', '$animate', '$timeout', 'CONSTANTS'];
 
 	app.controller('FilterPageCtrl', FilterPageCtrl);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
+
+	var trackEvent = googleAnalytics.trackEvent;
+
 
 	var cardDirective = function cardDirective($compile, $injector, $templateRequest, CONSTANTS) {
 		var cardLink = function cardLink($scope, element, attrs) {
 			$templateRequest(CONSTANTS.templates[attrs.template]).then(function (html) {
 				element.append($compile(html)($scope));
 			});
+
+			var continueToTargetLocation = function continueToTargetLocation(target) {
+				if (target && target.href) {
+					window.location = target.href;
+				}
+			};
+
+			$scope.track = function (action, label, trackingEvent) {
+				trackingEvent.preventDefault();
+
+				trackEvent({
+					action: action,
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: label
+				});
+
+				continueToTargetLocation(trackingEvent.currentTarget);
+			};
 		};
 
 		var directive = {
@@ -565,13 +597,16 @@ bcpl.boostrapCollapseHelper = function ($) {
 	cardDirective.$inject = ['$compile', '$injector', '$templateRequest', 'CONSTANTS'];
 
 	app.directive('card', cardDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
 
-	var filterDirective = function filterDirective(constants) {
+	var trackEvent = googleAnalytics.trackEvent;
+
+
+	var filterDirective = function filterDirective(CONSTANTS) {
 		var filterLink = function filterLink($scope, filterElement) {
 			var $filterElement = angular.element(filterElement);
 			var $input = $filterElement.find('input');
@@ -585,6 +620,12 @@ bcpl.boostrapCollapseHelper = function ($) {
 			$scope.toggleFilter = function (activeFilter) {
 				$scope.isFilterChecked = $filterElement.has(':checked').length > 0;
 				$scope.filterHandler(activeFilter, $scope.filterFamily);
+
+				trackEvent({
+					action: 'Filter Selection',
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: activeFilter + ' = ' + ($scope.isFilterChecked ? 'Selected' : 'Unselected')
+				});
 			};
 		};
 
@@ -596,7 +637,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 				filterFamily: '='
 			},
 			restrict: 'E',
-			templateUrl: constants.templates.filter,
+			templateUrl: CONSTANTS.templates.filter,
 			link: filterLink
 		};
 
@@ -606,7 +647,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 	filterDirective.$inject = ['CONSTANTS'];
 
 	app.directive('filter', filterDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
 'use strict';
 
 (function (app) {
@@ -679,12 +720,16 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('filterPageApp'));
 'use strict';
 
-(function (app) {
+(function (app, googleAnalytics) {
 	'use strict';
 
-	var tagDirective = function tagDirective(constants) {
+	var trackEvent = googleAnalytics.trackEvent;
+
+
+	var tagDirective = function tagDirective(CONSTANTS) {
 		var tagLink = function filterLink($scope) {
 			$scope.toggleFilter = function (activeFilter) {
+				var filterSelected = !$scope.activeFilters.includes(activeFilter.Tag);
 				var activeTags = $scope.tagData.Tags.filter(function (tagInfo) {
 					return tagInfo.Tag === activeFilter.Tag;
 				});
@@ -693,6 +738,12 @@ bcpl.boostrapCollapseHelper = function ($) {
 					// One tag will only have one family, so unwrap it.
 					$scope.filterHandler(activeFilter, activeTags[0]);
 				}
+
+				trackEvent({
+					action: 'Filter Tag Selection',
+					category: CONSTANTS.analytics.bcplLocationsCategory,
+					label: $scope.tagData.name + ' ' + activeFilter.Tag + ' = ' + (filterSelected ? 'Selected' : 'Unselected')
+				});
 			};
 		};
 
@@ -703,7 +754,7 @@ bcpl.boostrapCollapseHelper = function ($) {
 				activeFilters: '='
 			},
 			restrict: 'E',
-			templateUrl: constants.templates.tag,
+			templateUrl: CONSTANTS.templates.tag,
 			link: tagLink
 		};
 
@@ -713,4 +764,4 @@ bcpl.boostrapCollapseHelper = function ($) {
 	tagDirective.$inject = ['CONSTANTS'];
 
 	app.directive('tag', tagDirective);
-})(angular.module('filterPageApp'));
+})(angular.module('filterPageApp'), bcpl.utility.googleAnalytics);
