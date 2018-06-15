@@ -1,6 +1,6 @@
 namespacer('bcpl');
 
-bcpl.bookCarousel = (($, constants, imageAutoWidth) => {
+bcpl.bookCarousel = (($, constants) => {
 	const DEFAULT_THUMBNAIL_WIDTH = 163;
 	const promises = [];
 	const slickSettings = {
@@ -135,4 +135,4 @@ bcpl.bookCarousel = (($, constants, imageAutoWidth) => {
 	return {
 		init
 	};
-})(jQuery, bcpl.constants, bcpl.imageAutoWidth);
+})(jQuery, bcpl.constants);
