@@ -1133,6 +1133,7 @@ namespacer('bcpl');
 bcpl.bookCarousel = function ($, constants) {
 	var DEFAULT_THUMBNAIL_WIDTH = 163;
 	var promises = [];
+	var polarisItemSelector = '.content-carousel__item';
 	var slickSettings = {
 		infinite: true,
 		arrows: true,
@@ -1182,7 +1183,7 @@ bcpl.bookCarousel = function ($, constants) {
 
 	var onDataSuccess = function onDataSuccess(data, carouselId) {
 		var $data = $(data.Carousel_Str);
-		var $items = $data.find('li').map(function (index, element) {
+		var $items = $data.find('' + polarisItemSelector).map(function (index, element) {
 			return cleanHtml(index, element);
 		});
 

@@ -3,6 +3,7 @@ namespacer('bcpl');
 bcpl.bookCarousel = (($, constants) => {
 	const DEFAULT_THUMBNAIL_WIDTH = 163;
 	const promises = [];
+	const polarisItemSelector = '.content-carousel__item';
 	const slickSettings = {
 		infinite: true,
 		arrows: true,
@@ -52,7 +53,7 @@ bcpl.bookCarousel = (($, constants) => {
 	const onDataSuccess = (data, carouselId) => {
 		const $data = $(data.Carousel_Str);
 		const $items = $data
-			.find('li')
+			.find(`${polarisItemSelector}`)
 			.map((index, element) => cleanHtml(index, element));
 
 		$(`.book-carousel[data-carousel-id=${carouselId}]`).append($items.get());
