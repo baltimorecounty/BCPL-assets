@@ -526,7 +526,10 @@
 			}
 		});
 
-		init();
+		// Init only after the page is ready
+		$(() => {
+			init();
+		});
 	};
 
 	EventsPageCtrl.$inject = [
