@@ -546,7 +546,7 @@
 		'metaService',
 		'RequestModel',
 		'addthisService',
-		_flatpickr
+		'_flatpickr'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
