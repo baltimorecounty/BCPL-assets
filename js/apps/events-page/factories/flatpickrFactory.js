@@ -2,8 +2,6 @@
     'use strict';
 
     const flatPickrFactory = $window => {
-        if ($window.flatpickr) {
-        }
         return $window.flatpickr;
     };
 
