@@ -1,63 +1,52 @@
 .filters {
-	&.database-filters {
-		margin-bottom: 2em;		
-		float: left;
-		width: calc(25% - 15px);
-		margin-right: 30px;
-
-		.expandos .expando-wrapper:first-child h4 {
-			margin-top: .75em;
-		}
-	}
+    margin-bottom: 2em;
+    float: left;
+    width: calc(25% - 15px);
+    margin-right: 30px;
+    .expandos .expando-wrapper:first-child h4 {
+        margin-top: .75em;
+    }
 }
 
-.cards {
-	&.database-cards {
-		float: left;
-		width: calc(75% - 15px);
+.filter-cards {
+    float: left;
+    width: calc(75% - 15px);
+    .card {
+        padding: 10px 15px;
+        h2 {
+            margin: 0 0 .25em;
+            a {
+                float: none;
+                width: 100%;
+                margin: 0;
+            }
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    }
+}
 
-		.card {
-			padding: 10px 15px; 
-			
-			h2 {
-				margin: 0 0 .25em;
-				a {
-					float: none;
-					width: 100%;
-					margin: 0;
-				}
-			}
-
-			p {
-				margin-bottom: 20px;
-			}
-
-			.database-help-wrapper {
-				text-align: right;
-
-				.database-help-link {
-					float: none;
-					width: auto;
-					font-size: .8em;
-					font-weight: 600;
-					white-space: nowrap;
-
-					&:hover {
-						text-decoration: none;
-					}
-				}
-			}			
-		}
-	}
+.database-help-wrapper {
+    text-align: right;
+    .database-help-link {
+        float: none;
+        width: auto;
+        font-size: .8em;
+        font-weight: 600;
+        white-space: nowrap;
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
 
 @media (max-width: $screen-md) {
-	.cards.database-cards {
-		.card {
-			.title-border {
-				border-bottom: 1px solid $gray-light;
-				margin: 10px 0 15px;
-			}
-		}
-	}
+    .filter-cards {
+        width: 100%;
+        .card .title-border {
+            border-bottom: 1px solid $gray-light;
+            margin: 10px 0 15px;
+        }
+    }
 }
