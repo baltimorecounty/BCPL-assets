@@ -12,34 +12,38 @@
 	.card-heading a {
 		line-height: 1.3em;
 	}
-	
+
     .card-content,
     .card-icon-callout {
         padding: 15px;
 	}
-	
+
     .card-content-img-container {
         text-align: center;
 		width: 15%;
-		
+
+		a {
+			width: 100%;
+		}
+
         .card-content-img {
 			padding: 10px;
             width: 100%;
         }
 	}
-	
+
     .card-content {
         width: 65%;
 	}
 	.card-content-summary {
 		margin: 10px auto;
 	}
-	
+
     .card-icon-callout {
         color: $gray-light;
         text-align: center;
 		width: 20%;
-		
+
         i {
 			display: block;
 
