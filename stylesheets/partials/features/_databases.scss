@@ -9,10 +9,12 @@
 }
 
 .filter-cards {
+	margin-top: 0;
     float: left;
-    width: calc(75% - 15px);
+	width: calc(75% - 15px);
+
     .card {
-        padding: 10px 15px;
+        padding: .5em;
         h2 {
             margin: 0 0 .25em;
             a {

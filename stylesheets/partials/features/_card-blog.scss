@@ -15,7 +15,7 @@
 
     .card-content,
     .card-icon-callout {
-        padding: 15px;
+        padding: 15px 15px 0 15px;
 	}
 
     .card-content-img-container {
@@ -23,6 +23,7 @@
 		width: 15%;
 
 		a {
+			margin: 0;
 			width: 100%;
 		}
 
@@ -33,6 +34,7 @@
 	}
 
     .card-content {
+		margin-bottom: 0;
         width: 65%;
 	}
 	.card-content-summary {
