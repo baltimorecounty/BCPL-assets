@@ -72,17 +72,17 @@
 footer {
 	.callouts-wrapper {
 		background-color: $hi-dark-green;
-		
+
 		.row .callout {
 			border-right-color: $hi-green;
 		}
-	
+
 		p {
 			color: white;
 		}
 	}
 
-	.copyright-wrapper { 
+	.copyright-wrapper {
 		color: $hi-light-gray;
 
 		p {
@@ -129,7 +129,7 @@ footer {
 		background: -moz-linear-gradient(top,$hi-dark-green 0,rgba(0,161,155,0) 200%);
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$hi-dark-green",endColorstr="$hi-dark-green",GradientType=0);
 	}
-	
+
 	 .menu-wrapper {
 		background-color: $hi-dark-green;
 	}
@@ -151,7 +151,7 @@ footer {
 }
 
 
-.hero-wrapper .slick-dots { 
+.hero-wrapper .slick-dots {
 	color: white;
 
 	li button:before {
@@ -161,16 +161,16 @@ footer {
 
 	li.slick-active button:before {
 		color: black;
-	}	
+	}
 }
 
 .alert-wrapper {
 	top: 0;
 }
 
-.tag button, 
-.tags .tag-list li button, 
-.tags .tag-list li span, 
+.tag button,
+.tags .tag-list li button,
+.tags .tag-list li span,
 .tag span {
 	background: $gray-lighter;
 	color: $gray-dark;
