@@ -5,22 +5,55 @@
     display: none !important;
 }
 
+.gsc-control-cse {
+    padding: 0 !important;
+}
+
+.gsc-result {
+    border: none !important;
+}
+
 .gsc-control-cse,
-.gsc-wrapper table tbody tr:nth-child(odd) td {
+.gsc-control-cse table tbody tr:nth-child(odd) td {
     background: none !important;
+    border: none !important;
+}
+
+.gsc-control-cse table tbody tr:nth-child(odd) td {
+    font-size: 16px !important;
+    padding: 0;
+}
+
+.gsc-table-result,
+.gs-webResult .gs-snippet {
+    margin-bottom: 0 !important;
+}
+
+.gsc-table-result,
+.gsc-thumbnail-inside,
+.gsc-url-top {
+    padding: 0 !important;
 }
 
 .gsc-webResult.gsc-result {
     @extend .card;
+    padding: 16px !important;
     margin-bottom: 15px !important;
-}
-
-.gsc-result .gs-title {
-    height: auto !important;
 }
 
 .gs-bidi-start-align.gs-snippet {
     font-size: 16px !important;
+}
+
+/* Result Title */
+
+.gsc-result .gs-title {
+    height: auto !important;
+    margin-bottom: 25px;
+}
+
+.gs-visibleUrl {
+    margin-bottom: 6.4px !important;
 }
 
 .gsc-control-cse .gs-spelling,
@@ -30,4 +63,25 @@
     font-family: 'Open Sans', Arial, Helvetica, sans-serif !important;
     font-weight: 700 !important;
     text-decoration: none !important;
+}
+
+/* Result Body Text */
+
+.gs-bidi-start-align.gs-snippet {
+    @extend p;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400;
+}
+
+.gs-bidi-start-align.gs-snippet b,
+.gs-visibleUrl b {
+    font-style: italic !important;
+    font-weight: 100 !important;
+}
+
+/* Paging Buttons */
+
+.gsc-cursor-page {
+    @extend .btn;
 }
