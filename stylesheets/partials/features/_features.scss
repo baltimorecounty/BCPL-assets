@@ -20,10 +20,18 @@
 		}
 
 		p {
-			font-weight: bold;
 			line-height: 1.2;
+		}
+
+		p:first-of-type {
+			font-weight: bold;
 			margin-top: 1em;
-			min-height: 2.5em;
+			margin-bottom: 0;
+		}
+
+		hr {
+			margin-top: 1em;
+			margin-bottom: 1em;
 		}
 
 		&:hover {
@@ -42,7 +50,7 @@
 		}
 
 		padding-bottom: 0;
-	}			
+	}
 }
 
 @media (max-width: $screen-xs) {
@@ -74,5 +82,5 @@
 			float: none;
 			width: 100%;
 		}
-	}			
+	}
 }
