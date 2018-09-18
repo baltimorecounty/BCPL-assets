@@ -14,6 +14,7 @@
 		transition: all 0.25s ease;
 		color: $gray;
 		box-shadow: $shadow-primary;
+		flex-grow: 1;
 
 		img {
 			width: 100%;
