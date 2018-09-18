@@ -61,9 +61,10 @@
 
 			.feature-image-wrapper {
 				display: flex;
-				flex: 0 1 50%;
+				flex: 0 0 30%;
 
 				img {
+					object-fit: cover;
 					width: 100%;
 					height: 100%;
 				}
