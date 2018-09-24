@@ -49,13 +49,6 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		}));
 	};
 
-	const getFilterString = () => {
-		const filter = querystringer.getAsDictionary().filter;
-		const filterString = `&filter=${filter && filter.length > 0 ? filter : 'content'}`;
-
-		return filterString;
-	};
-
 	const getSearchResults = (searchResultsResponse) => searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results')
 		? searchResultsResponse.Results
 		: [];
@@ -134,7 +127,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		if (searchTerms.length) {
 			const baseCatalogUrl = constants.baseCatalogUrl;
 			const searchUrl = constants.search.urls.catalog;
-			activeWindow.location.href = `${baseCatalogUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+			activeWindow.location.href = `${baseCatalogUrl}${searchUrl}${searchTerms}`; // eslint-disable-line
 		}
 	};
 
@@ -144,7 +137,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		if (searchTerms.length) {
 			const baseWebsiteUrl = constants.baseWebsiteUrl;
 			const searchUrl = constants.search.urls.events;
-			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line 			
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line
 		}
 	};
 
@@ -155,7 +148,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 			const baseWebsiteUrl = constants.baseWebsiteUrl;
 			const searchUrl = constants.search.urls.website;
 
-			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}${getFilterString()}`; // eslint-disable-line 			
+			activeWindow.location.href = `${baseWebsiteUrl}${searchUrl}${searchTerms}`; // eslint-disable-line
 		}
 	};
 
