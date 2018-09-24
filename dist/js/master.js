@@ -895,6 +895,22 @@ bcpl.utility.urlComparer = function (constants) {
 
 namespacer('bcpl.utility');
 
+bcpl.utility.waitForExistence = function () {
+	return function (selector, callback) {
+		var checkForExistenceInterval = setInterval(function () {
+			if ($(selector).length) {
+				clearInterval(checkForExistenceInterval);
+				if (callback && typeof callback === 'function') {
+					callback();
+				}
+			}
+		}, 100);
+	};
+}();
+'use strict';
+
+namespacer('bcpl.utility');
+
 bcpl.utility.windowResize = function (debounce) {
 	return function (fn) {
 		window.addEventListener('resize', debounce(fn, 250));
@@ -1425,8 +1441,11 @@ $(function () {
 
 namespacer('bcpl');
 
-bcpl.catalogSearch = function ($, queryStringer, constants) {
+bcpl.catalogSearch = function ($, queryStringer, waitForExistence, constants) {
+	var intervalChecker = void 0;
 	var catalogSearchSelector = '#catalog-search, .catalog-search';
+	var resultsInfoContainerSelector = '.gsc-result-info';
+	var searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
 
 	var getCatalogUrl = function getCatalogUrl(searchTerm) {
 		return '' + constants.baseCatalogUrl + constants.search.urls.catalog + searchTerm;
@@ -1436,17 +1455,27 @@ bcpl.catalogSearch = function ($, queryStringer, constants) {
 		clickEvent.preventDefault();
 
 		var queryParams = queryStringer.getAsDictionary();
-		var searchTerm = queryParams.term;
+		var searchTerm = queryParams.search;
 
 		window.location = getCatalogUrl(searchTerm);
 	};
 
+	var init = function init() {
+		waitForExistence(resultsInfoContainerSelector, function () {
+			$(resultsInfoContainerSelector).closest('td').after(searchCatalogButton);
+		});
+	};
+
 	$(document).on('click', catalogSearchSelector, onCatalogSearchClick);
+
+	$(document).ready(function () {
+		init();
+	});
 
 	return {
 		getCatalogUrl: getCatalogUrl
 	};
-}(jQuery, bcpl.utility.querystringer, bcpl.constants);
+}(jQuery, bcpl.utility.querystringer, bcpl.utility.waitForExistence, bcpl.constants);
 'use strict';
 
 namespacer('bcpl');
