@@ -1,7 +1,7 @@
 namespacer('bcpl');
 
 bcpl.constants = {
-	baseApiUrl: 'https://services.bcpl.info',
+	baseApiUrl: 'https://services.bcpl.info',s.bcpl.info',
 	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
 	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
@@ -28,8 +28,6 @@ bcpl.constants = {
 			catalog: '/polaris/view.aspx?keyword=',
 			events: '/events-and-programs/list.html#!/?term=',
 			website: '/search-results.html?term=',
-			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track',
 			searchTerms: '/api/polaris/searchterm'
 		}
 	},
