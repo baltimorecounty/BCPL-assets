@@ -85,3 +85,16 @@
 .gsc-cursor-page {
     @extend .btn;
 }
+
+/* Results Info */
+
+.gsc-above-wrapper-area-container {
+	margin-bottom: 15px !important;
+}
+
+.gsc-result-info {
+	border-top: 4px solid #d8d2c4 !important;
+	background-color: #fff !important;
+	font-size: 16px !important;
+    padding: 1.8em !important;
+}
