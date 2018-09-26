@@ -5,11 +5,17 @@ namespacer('bcpl');
 bcpl.siteSearch = (($, window, constants, querystringer) => {
 	const siteSearchTabSelector = '.search-button';
 	const siteSearchInputSelector = '#site-search-input';
+	const siteSearchInputContainerSelector = '.site-search-input-container';
 	const siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
 	const searchButtonCatalogSelector = '.search-button-catalog';
 	const searchButtonEventsSelector = '.search-button-events';
 	const searchButtonWebsiteSelector = '.search-button-website';
 	const searchAction = {};
+	const searchTypes = {
+		catalog: "catalog",
+		search: "search",
+		website: "website"
+	};
 
 	const afterTypeAheadSelect = () => {
 		searchCatalog(window);
@@ -21,19 +27,36 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 	};
 
 	const disableCatalogAutocomplete = () => {
-		$(siteSearchInputSelector).typeahead('destroy');
+		var $typeAhead = $(siteSearchInputSelector).data('typeahead');
+		if ($typeAhead) {
+			$typeAhead.source = [];
+		}
+
+		$(siteSearchInputSelector)
+			.typeahead('destroy')
+			.closest(siteSearchInputContainerSelector)
+			.find('.typeahead')
+			.remove();
 	};
 
 	const enableCatalogAutoComplete = () => {
-		$(siteSearchInputSelector).typeahead({
-			source: onTypeAheadSource,
-			minLength: 2,
-			highlight: true,
-			autoSelect: false,
-			delay: 100,
-			sorter: (results) => results,
-			afterSelect: afterTypeAheadSelect
-		});
+		var $searchInput = $(siteSearchInputSelector);
+		var isTypeAheadInitialized = $searchInput
+			.closest(siteSearchInputContainerSelector)
+			.find('.typeahead')
+			.length;
+
+		if (!isTypeAheadInitialized) {
+			$searchInput.typeahead({
+				source: onTypeAheadSource,
+				minLength: 2,
+				highlight: true,
+				autoSelect: false,
+				delay: 100,
+				sorter: (results) => results,
+				afterSelect: afterTypeAheadSelect
+			});
+		}
 	};
 
 	const focusSiteSearch = (currentTarget) => {
@@ -66,12 +89,14 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 	const onSearchCatalogClick = (clickEvent) => {
 		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchCatalog(window);
+		searchAction.type = searchTypes.catalog;
 		enableCatalogAutoComplete();
 	};
 
 	const onSearchEventsClick = (clickEvent) => {
 		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchEvents(window);
+		searchAction.type = searchTypes.events;
 		disableCatalogAutocomplete();
 	};
 
@@ -86,6 +111,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 	const onSearchWebsiteClick = (clickEvent) => {
 		focusSiteSearch(clickEvent.currentTarget);
 		searchAction.search = () => searchWebsite(window);
+		searchAction.type = searchTypes.website;
 		disableCatalogAutocomplete();
 	};
 
@@ -111,14 +137,17 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 	};
 
 	const onTypeAheadSource = (query, process) => {
-		const searchUrl = getSearchUrl(query);
+		if (searchAction.type && searchAction.type === searchTypes.catalog) {
+			const searchUrl = getSearchUrl(query);
 
-		return $.get(searchUrl, { }, (searchResultsResponse) => {
-			const searchResults = getSearchResults(searchResultsResponse);
-			const selectData = getAutocompleteValues(searchResults);
+			return $.get(searchUrl, { }, (searchResultsResponse) => {
+				const searchResults = getSearchResults(searchResultsResponse);
+				const selectData = getAutocompleteValues(searchResults);
 
-			return process(selectData);
-		});
+				return process(selectData);
+			});
+		}
+		return process([]);
 	};
 
 	const searchCatalog = (activeWindow, searchTerm) => {
