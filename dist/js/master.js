@@ -33,7 +33,7 @@ namespacer('bcpl');
 bcpl.constants = {
 	baseApiUrl: 'https://services.bcpl.info',
 	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://www.bcpl.info',
+	baseWebsiteUrl: 'https://dev.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
@@ -57,9 +57,7 @@ bcpl.constants = {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
 			catalog: '/polaris/view.aspx?keyword=',
 			events: '/events-and-programs/list.html#!/?term=',
-			website: '/search-results.html?term=',
-			api: '/api/swiftype/site-search',
-			trackClickThrough: '/api/swiftype/track',
+			website: '/_test/search/results.html?search=',
 			searchTerms: '/api/polaris/searchterm'
 		}
 	},
@@ -1444,7 +1442,7 @@ namespacer('bcpl');
 bcpl.catalogSearch = function ($, queryStringer, waitForExistence, constants) {
 	var intervalChecker = void 0;
 	var catalogSearchSelector = '#catalog-search, .catalog-search';
-	var resultsInfoContainerSelector = '.gsc-result-info';
+	var resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	var searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
 
 	var getCatalogUrl = function getCatalogUrl(searchTerm) {
@@ -1462,7 +1460,7 @@ bcpl.catalogSearch = function ($, queryStringer, waitForExistence, constants) {
 
 	var init = function init() {
 		waitForExistence(resultsInfoContainerSelector, function () {
-			$(resultsInfoContainerSelector).closest('td').after(searchCatalogButton);
+			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
 	};
 
@@ -2488,13 +2486,6 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		});
 	};
 
-	var getFilterString = function getFilterString() {
-		var filter = querystringer.getAsDictionary().filter;
-		var filterString = '&filter=' + (filter && filter.length > 0 ? filter : 'content');
-
-		return filterString;
-	};
-
 	var getSearchResults = function getSearchResults(searchResultsResponse) {
 		return searchResultsResponse && Object.prototype.hasOwnProperty.call(searchResultsResponse, 'Results') ? searchResultsResponse.Results : [];
 	};
@@ -2579,7 +2570,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		if (searchTerms.length) {
 			var baseCatalogUrl = constants.baseCatalogUrl;
 			var searchUrl = constants.search.urls.catalog;
-			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line 			
+			activeWindow.location.href = '' + baseCatalogUrl + searchUrl + searchTerms; // eslint-disable-line
 		}
 	};
 
@@ -2589,7 +2580,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		if (searchTerms.length) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.events;
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line 			
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line
 		}
 	};
 
@@ -2600,7 +2591,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 			var baseWebsiteUrl = constants.baseWebsiteUrl;
 			var searchUrl = constants.search.urls.website;
 
-			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms + getFilterString(); // eslint-disable-line 			
+			activeWindow.location.href = '' + baseWebsiteUrl + searchUrl + searchTerms; // eslint-disable-line
 		}
 	};
 
