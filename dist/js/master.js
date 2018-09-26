@@ -33,7 +33,7 @@ namespacer('bcpl');
 bcpl.constants = {
 	baseApiUrl: 'https://services.bcpl.info',
 	baseCatalogUrl: 'https://catalog.bcpl.lib.md.us',
-	baseWebsiteUrl: 'https://dev.bcpl.info',
+	baseWebsiteUrl: 'https://www.bcpl.info',
 	basePageUrl: '/dist',
 	defaultDocument: 'index.html',
 	keyCodes: {
@@ -57,7 +57,7 @@ bcpl.constants = {
 			materialTypes: '/sebin/y/r/primaryMaterialType.json',
 			catalog: '/polaris/view.aspx?keyword=',
 			events: '/events-and-programs/list.html#!/?term=',
-			website: '/_test/search/results.html?search=',
+			website: '/search-results.html?term=',
 			searchTerms: '/api/polaris/searchterm'
 		}
 	},
