@@ -2438,11 +2438,17 @@ namespacer('bcpl');
 bcpl.siteSearch = function ($, window, constants, querystringer) {
 	var siteSearchTabSelector = '.search-button';
 	var siteSearchInputSelector = '#site-search-input';
+	var siteSearchInputContainerSelector = '.site-search-input-container';
 	var siteSearchSearchIconSelector = '.site-search-input-container .fa-search';
 	var searchButtonCatalogSelector = '.search-button-catalog';
 	var searchButtonEventsSelector = '.search-button-events';
 	var searchButtonWebsiteSelector = '.search-button-website';
 	var searchAction = {};
+	var searchTypes = {
+		catalog: "catalog",
+		search: "search",
+		website: "website"
+	};
 
 	var afterTypeAheadSelect = function afterTypeAheadSelect() {
 		searchCatalog(window);
@@ -2453,21 +2459,31 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 	};
 
 	var disableCatalogAutocomplete = function disableCatalogAutocomplete() {
-		$(siteSearchInputSelector).typeahead('destroy');
+		var $typeAhead = $(siteSearchInputSelector).data('typeahead');
+		if ($typeAhead) {
+			$typeAhead.source = [];
+		}
+
+		$(siteSearchInputSelector).typeahead('destroy').closest(siteSearchInputContainerSelector).find('.typeahead').remove();
 	};
 
 	var enableCatalogAutoComplete = function enableCatalogAutoComplete() {
-		$(siteSearchInputSelector).typeahead({
-			source: onTypeAheadSource,
-			minLength: 2,
-			highlight: true,
-			autoSelect: false,
-			delay: 100,
-			sorter: function sorter(results) {
-				return results;
-			},
-			afterSelect: afterTypeAheadSelect
-		});
+		var $searchInput = $(siteSearchInputSelector);
+		var isTypeAheadInitialized = $searchInput.closest(siteSearchInputContainerSelector).find('.typeahead').length;
+
+		if (!isTypeAheadInitialized) {
+			$searchInput.typeahead({
+				source: onTypeAheadSource,
+				minLength: 2,
+				highlight: true,
+				autoSelect: false,
+				delay: 100,
+				sorter: function sorter(results) {
+					return results;
+				},
+				afterSelect: afterTypeAheadSelect
+			});
+		}
 	};
 
 	var focusSiteSearch = function focusSiteSearch(currentTarget) {
@@ -2506,6 +2522,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		searchAction.search = function () {
 			return searchCatalog(window);
 		};
+		searchAction.type = searchTypes.catalog;
 		enableCatalogAutoComplete();
 	};
 
@@ -2514,6 +2531,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		searchAction.search = function () {
 			return searchEvents(window);
 		};
+		searchAction.type = searchTypes.events;
 		disableCatalogAutocomplete();
 	};
 
@@ -2530,6 +2548,7 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		searchAction.search = function () {
 			return searchWebsite(window);
 		};
+		searchAction.type = searchTypes.website;
 		disableCatalogAutocomplete();
 	};
 
@@ -2553,14 +2572,17 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 	};
 
 	var onTypeAheadSource = function onTypeAheadSource(query, process) {
-		var searchUrl = getSearchUrl(query);
+		if (searchAction.type && searchAction.type === searchTypes.catalog) {
+			var searchUrl = getSearchUrl(query);
 
-		return $.get(searchUrl, {}, function (searchResultsResponse) {
-			var searchResults = getSearchResults(searchResultsResponse);
-			var selectData = getAutocompleteValues(searchResults);
+			return $.get(searchUrl, {}, function (searchResultsResponse) {
+				var searchResults = getSearchResults(searchResultsResponse);
+				var selectData = getAutocompleteValues(searchResults);
 
-			return process(selectData);
-		});
+				return process(selectData);
+			});
+		}
+		return process([]);
 	};
 
 	var searchCatalog = function searchCatalog(activeWindow, searchTerm) {
