@@ -1,14 +1,14 @@
 <div class="col-md-3">
 	<div class="filters event-filters">
-        <h3 
-            data-toggle="collapse" 
+        <h3
+            data-toggle="collapse"
             ng-href="{{eventsPage.isMobile ? '#filter-items-wrapper': ''}}"
             ng-click="eventsPage.toggleFilterCollapse()"
-            aria-expanded="true" 
-            aria-controls="collapseFilter">Filter Events 
-                <i 
-                    class="fa fa-lg pull-right" 
-                    ng-class="eventsPage.isFilterCollapseExpanded ? 'fa-minus-square':'fa-plus-square'" 
+            aria-expanded="true"
+            aria-controls="collapseFilter">Filter Events
+                <i
+                    class="fa fa-lg pull-right"
+                    ng-class="eventsPage.isFilterCollapseExpanded ? 'fa-minus-square':'fa-plus-square'"
                     ng-show="eventsPage.isMobile"
                     aria-hidden="true"></i>
                 <span class="clearfix"></span></h3>
@@ -30,21 +30,21 @@
 				<div class="expandos">
 					<div class="expando-wrapper">
 						<h4 class="filter-headers">
-							<button 
-								data-toggle="collapse" 
-								data-target="#locations" 
-								aria-live="polite" 
-								aria-expanded="false" 
+							<button
+								data-toggle="collapse"
+								data-target="#locations"
+								aria-live="polite"
+								aria-expanded="false"
 								aria-controls="locations">
 								Branches
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos 
+						<filters-expandos
 							items="eventsPage.data.locations"
 							active-filters="eventsPage.requestModel.Locations"
-							filter-type="locations" 
-							choice-type="one" 
+							filter-type="locations"
+							choice-type="one"
 							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 					<div class="expando-wrapper">
@@ -54,11 +54,11 @@
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos 
+						<filters-expandos
 							items="eventsPage.data.eventTypes"
 							active-filters="eventsPage.requestModel.EventsTypes"
-							filter-type="eventTypes" 
-							choice-type="many" 
+							filter-type="eventTypes"
+							choice-type="many"
 							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 					<div class="expando-wrapper">
@@ -68,11 +68,11 @@
 								<i class="fa fa-plus-square" aria-hidden="true"></i>
 							</button>
 						</h4>
-						<filters-expandos 
+						<filters-expandos
 							items="eventsPage.data.ageGroups"
 							active-filters="eventsPage.requestModel.AgeGroups"
-							filter-type="ageGroups" 
-							choice-type="many" 
+							filter-type="ageGroups"
+							choice-type="many"
 							search-function="eventsPage.filterByTerms"></filters-expandos>
 					</div>
 				</div>
@@ -89,7 +89,7 @@
 		<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
 	</div>
 	<events-list event-groups="eventsPage.eventGroups"></events-list>
-	<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage" ng-show="eventsPage.eventGroups.length !== 0 && !eventsPage.isLastPage"></load-more>
+	<load-more chunk-size="eventsPage.chunkSize" load-next-page="eventsPage.loadNextPage" ng-show="eventsPage.hasMoreResults && !eventsPage.isLoading"></load-more>
 	<div ng-show="eventsPage.requestErrorMessage" class="cards">
 		<p class="card">
 			{{eventsPage.requestErrorMessage}}
