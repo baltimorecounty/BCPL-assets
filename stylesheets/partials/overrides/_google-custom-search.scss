@@ -98,7 +98,9 @@
     padding: 1.8em !important;
 }
 
-.gsc-result-info {
+.gsc-result-info,
+.gs-no-results-result .gs-snippet,
+.gs-error-result .gs-snippet {
 	font-size: 16px !important;
 }
 
@@ -114,9 +116,18 @@
 	margin: 7.5px 0 !important;
 }
 
+/* no results */
+.gs-no-results-result .gs-snippet,
+.gs-error-result .gs-snippet {
+	background: white !important;
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
 @media screen and (max-width: 668px) {
 	.gsc-cursor-page {
-		margin-right: 2px !important;
+		margin-right: 1px !important;
 	}
 
 	.gsc-above-wrapper-area-container * {
