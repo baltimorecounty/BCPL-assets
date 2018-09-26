@@ -3,7 +3,7 @@ namespacer('bcpl');
 bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 	let intervalChecker;
 	const catalogSearchSelector = '#catalog-search, .catalog-search';
-	const resultsInfoContainerSelector = '.gsc-result-info';
+	const resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	const searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
 
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
@@ -19,7 +19,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const init = () => {
 		waitForExistence(resultsInfoContainerSelector, () => {
-			$(resultsInfoContainerSelector).closest('td').after(searchCatalogButton);
+			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
 	}
 
