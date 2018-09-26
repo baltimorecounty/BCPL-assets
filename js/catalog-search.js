@@ -1,7 +1,6 @@
 namespacer('bcpl');
 
 bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
-	let intervalChecker;
 	const catalogSearchSelector = '#catalog-search, .catalog-search';
 	const resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	const searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';

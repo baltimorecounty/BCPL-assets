@@ -1440,7 +1440,6 @@ $(function () {
 namespacer('bcpl');
 
 bcpl.catalogSearch = function ($, queryStringer, waitForExistence, constants) {
-	var intervalChecker = void 0;
 	var catalogSearchSelector = '#catalog-search, .catalog-search';
 	var resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	var searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
