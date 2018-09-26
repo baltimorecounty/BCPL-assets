@@ -60,6 +60,19 @@
 @import "partials/features/tablenator";
 @import 'partials/overrides/google-custom-search';
 
+a.gs-title,
+.gs-webResult.gs-result a.gs-title:visited,
+.gs-webResult.gs-result a.gs-title:visited b,
+.gs-imageResult a.gs-title:visited,
+.gs-imageResult a.gs-title:visited b,
+.gsc-results .gsc-cursor-box .gsc-cursor-page,
+.gs-webResult.gs-result a.gs-title:link,
+.gs-webResult.gs-result a.gs-title:link b,
+.gs-imageResult a.gs-title:link,
+.gs-imageResult a.gs-title:link b {
+	color: $hi-half-dark-green !important;
+}
+
 .blog-wrapper  {
 	time {
 		color: $hi-gray !important;
