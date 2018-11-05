@@ -13,7 +13,8 @@
 		filterHelperService,
 		metaService,
 		RequestModel,
-		addthisService
+		addthisService,
+		_flatpickr
 	) {
 		const { trackEvent } = googleAnalytics;
 
@@ -546,7 +547,8 @@
 		'sharedFilters.filterHelperService',
 		'metaService',
 		'RequestModel',
-		'addthisService'
+		'addthisService',
+		_flatpickr
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
