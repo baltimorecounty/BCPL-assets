@@ -310,7 +310,8 @@ bcpl.boostrapCollapseHelper = function ($) {
 
 						resolve({
 							eventGroups: sortedEventGroups,
-							totalResults: response.data.TotalResults
+							totalResults: response.data.TotalResults,
+							hasMoreResults: response.data.HasMoreResults
 						});
 					} else {
 						reject(response);
@@ -1250,6 +1251,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.eventGroups = eventResults.eventGroups;
 			vm.hasResults = eventResults.eventGroups.length;
 			vm.requestErrorMessage = '';
+			vm.hasMoreResults = eventResults.hasMoreResults;
 
 			$timeout(function () {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -1257,6 +1259,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 
 		var processAndCombineEvents = function processAndCombineEvents(eventResults) {
+			vm.hasMoreResults = eventResults.hasMoreResults;
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
