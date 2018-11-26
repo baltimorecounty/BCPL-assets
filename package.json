@@ -50,6 +50,7 @@
     "gulp-strip-code": "^0.1.4",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
+    "hoek": "^5.0.4",
     "jasmine": "^2.8.0",
     "jasmine-core": "^2.8.0",
     "jasmine-jquery": "^2.1.1",
@@ -64,6 +65,8 @@
     "karma-jasmine-jquery-2": "^0.1.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-phantomjs-launcher": "^1.0.2",
+    "lodash": "^4.17.10",
+    "parsejson": "0.0.3",
     "run-sequence": "^1.2.2"
   },
   "scripts": {

@@ -1,15 +1,15 @@
 button#scroll-to-top {
-	color: white;
-	padding: 1em .75em;
-	background: $teal;
-	border: 1px solid white;
-	bottom: 20px;
-	display: inline-block; 
-	right: 20px;
-	outline: none;
-	position: fixed;
-
-	i {
-		font-size: 2em;
-	}
+    color: white;
+    padding: 1em 0.75em;
+    background: $teal;
+    border: 1px solid white;
+    bottom: 20px;
+    display: inline-block;
+    right: 20px;
+    outline: none;
+    position: fixed;
+    z-index: 999;
+    i {
+        font-size: 2em;
+    }
 }
