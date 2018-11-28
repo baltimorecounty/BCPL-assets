@@ -289,6 +289,7 @@
 			vm.eventGroups = eventResults.eventGroups;
 			vm.hasResults = eventResults.eventGroups.length;
 			vm.requestErrorMessage = '';
+			vm.hasMoreResults = eventResults.hasMoreResults;
 
 			$timeout(() => {
 				$('.event-date-bar').sticky(eventDateBarStickySettings);
@@ -296,6 +297,7 @@
 		};
 
 		const processAndCombineEvents = (eventResults) => {
+			vm.hasMoreResults = eventResults.hasMoreResults;
 			vm.isLastPage = isLastPage(eventResults.totalResults);
 			vm.eventGroups = combineEventGroups(vm.eventGroups, eventResults.eventGroups);
 		};
@@ -526,7 +528,10 @@
 			}
 		});
 
-		init();
+		// Init only after the page is ready
+		$(() => {
+			init();
+		});
 	};
 
 	EventsPageCtrl.$inject = [

@@ -39,8 +39,12 @@
 	@extend .btn-primary;
 	@extend .btn-uppercase-bold;
 	border: none;
-	margin-bottom: 0 !important;
+	margin-bottom: 2em;
 	margin-right: 5px;
+}
+
+.btn-primary {
+	margin-bottom: 30px !important;
 }
 
 .btn,

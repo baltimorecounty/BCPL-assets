@@ -58,7 +58,8 @@
 
 							resolve({
 								eventGroups: sortedEventGroups,
-								totalResults: response.data.TotalResults
+								totalResults: response.data.TotalResults,
+								hasMoreResults: response.data.HasMoreResults
 							});
 						} else {
 							reject(response);
