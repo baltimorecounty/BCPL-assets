@@ -53,3 +53,10 @@ button {
 .btn-icon-left {
     margin-right: 5px;
 }
+
+.bc-btn-link {
+	@extend a;
+	text-align: left;
+	padding: 0;
+	width: auto;
+}
