@@ -56,7 +56,8 @@ button {
 
 .bc-btn-link {
 	@extend a;
-	text-align: left;
+    text-align: left;
+    box-shadow: none;
 	padding: 0;
 	width: auto;
 }
