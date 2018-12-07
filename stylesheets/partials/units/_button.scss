@@ -57,7 +57,9 @@ button {
 .bc-btn-link {
 	@extend a;
     text-align: left;
-    box-shadow: none;
+    &:active{
+        box-shadow: none; 
+    }
 	padding: 0;
 	width: auto;
 }
