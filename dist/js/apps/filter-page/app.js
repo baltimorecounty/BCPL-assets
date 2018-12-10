@@ -423,14 +423,20 @@ bcpl.boostrapCollapseHelper = function ($) {
 			}, 250);
 		};
 
-		var cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
+		var emitEvent = function emitEvent(eventName) {
+			var event;
+			if (typeof Event === 'function') {
+				event = new Event(eventName);
+			} else {
+				event = document.createEvent('Event');
+				event.initEvent(eventName, true, true);
+			}
+
+			document.dispatchEvent(event);
+		};
 
 		var publishLoadedCardsEvent = function publishLoadedCardsEvent() {
-			if (cardsLoadedEvent) {
-				document.dispatchEvent(cardsLoadedEvent);
-			} else {
-				angular.element(document).trigger('bc-filter-cards-loaded');
-			}
+			emitEvent('bc-filter-cards-loaded');
 		};
 
 		/**
