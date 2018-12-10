@@ -74,15 +74,19 @@
 		const loadCardsAndFilters = (cardData) => {
 			if (!cardData.length) { return; }
 
-			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags')
+				? cardData : filterService.transformAttributesToTags(cardData);
 
 			vm.filters = filterService.build(taggedCardData);
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 
-			publishLoadedCardsEvent();
-			$scope.$apply();
+			$scope.$apply(() => {
+				$timeout(() => {
+					publishLoadedCardsEvent();
+				}, 250);
+			});
 		};
 
 		/**
