@@ -49,14 +49,20 @@
 			}, 250);
 		};
 
-		const cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
+		const emitEvent = function(eventName) {
+            var event;
+            if (typeof Event === 'function') {
+                event = new Event(eventName);
+            } else {
+                event = document.createEvent('Event');
+                event.initEvent(eventName, true, true);
+            }
+
+            document.dispatchEvent(event);
+        };
 
 		const publishLoadedCardsEvent = () => {
-			if (cardsLoadedEvent) {
-				document.dispatchEvent(cardsLoadedEvent);
-			} else {
-				angular.element(document).trigger('bc-filter-cards-loaded');
-			}
+			emitEvent('bc-filter-cards-loaded');
 		};
 
 		/**
