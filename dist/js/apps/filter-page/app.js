@@ -457,8 +457,11 @@ bcpl.boostrapCollapseHelper = function ($) {
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 
-			publishLoadedCardsEvent();
-			$scope.$apply();
+			$scope.$apply(function () {
+				$timeout(function () {
+					publishLoadedCardsEvent();
+				}, 250);
+			});
 		};
 
 		/**
