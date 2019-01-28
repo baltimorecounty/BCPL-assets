@@ -1852,24 +1852,8 @@ bcpl.libAnswers = function libAnswers($, constants) {
 		});
 	};
 
-	var setContactButtonMarkup = function setContactButtonMarkup(id) {
-		setupContactDiv(moduleOptions.targetSelector, id);
-	};
-
-	var setupContactDiv = function setupContactDiv(targetSelector, id) {
-		var targetDivHtml = '<div id="s-la-widget-' + id + '"></div>';
-		var $libAnswerDiv = $('#s-la-widget-' + id);
-		var $targetDiv = $(targetDivHtml).css('display', 'none');
-
-		if (!$libAnswerDiv.length) {
-			$(targetSelector).after($targetDiv);
-		}
-	};
-
 	var init = function init(options) {
 		moduleOptions = getOptions(options);
-
-		moduleOptions.ids.forEach(setContactButtonMarkup);
 
 		if (!moduleOptions.loadEvent) {
 			loadScripts(moduleOptions.ids);
