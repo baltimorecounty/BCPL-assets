@@ -40,6 +40,7 @@ gulp.task('minify-js', [
 	'process-homepage-js',
 	'process-app-js',
 	'move-page-specific-js',
+	'createConstantsTemplate',
 	'process-featured-events-widget-js'
 ], () => {
 	return gulp.src([
@@ -125,10 +126,14 @@ gulp.task('move-app-directive-templates', () => {
 	});
 });
 
-
+gulp.task('createConstantsTemplate', () => {
+	gulp.src('js/constants.js') 
+	.pipe(concat('constants.js'))
+	.pipe(gulp.dest('dist/js'));
+});
+  
 gulp.task('process-master-js', () => gulp.src([
 	'js/utility/namespacer.js',
-	'js/constants.js',
 	'js/utility/*.js',
 	'js/**/*.js',
 	'!js/vendor/**/*.js',

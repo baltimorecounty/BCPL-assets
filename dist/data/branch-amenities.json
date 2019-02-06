@@ -7,7 +7,7 @@
         "city": "Arbutus",
         "zip": "21227",
         "phone": "410-887-1451",
-        "url": "/locations/arbutus/index.html",
+        "url": "/branches/arbutus/index.html",
         "email": "arbutus@bcpl.net",
         "myLibrarianEmail": "arsched@bcpl.net",
         "photo": "branch-arbutus.jpg",
@@ -17,7 +17,7 @@
         },
         "attributes": [
             "Filter|Drive-Up Window|Many",
-            "Filter|Fax Services|Many",
+            "Filter|Fax Machines|Many",
             "Filter|Gaming|Many",
             "Filter|Local History Collection|Many",
             "Filter|Meeting Rooms|Many",
@@ -34,7 +34,7 @@
         "city": "Catonsville",
         "zip": "21228",
         "phone": "410-887-0951",
-        "url": "/locations/catonsville/index.html",
+        "url": "/branches/catonsville/index.html",
         "email": "catonsvi@bcpl.net",
         "myLibrarianEmail": "catonsvi@bcpl.net",
         "photo": "branch-Catonsville.jpg",
@@ -57,7 +57,7 @@
         "city": "Cockeysville",
         "zip": "21030",
         "phone": "410-887-7750",
-        "url": "/locations/cockeysville/index.html",
+        "url": "/branches/cockeysville/index.html",
         "email": "cockeysv@bcpl.net",
         "myLibrarianEmail": "cockeysv@bcpl.net",
         "photo": "branch-Cockeysville.jpg",
@@ -80,7 +80,7 @@
         "city": "Essex",
         "zip": "21221",
         "phone": "410-887-0295",
-        "url": "/locations/essex/index.html",
+        "url": "/branches/essex/index.html",
         "email": "essex@bcpl.net",
         "myLibrarianEmail": "essex@bcpl.net",        
         "photo": "branch-Essex.jpg",
@@ -89,10 +89,9 @@
             "lng": "-76.46384423"
         },
         "attributes": [
-            "Filter|Fax Services|Many",
+            "Filter|Fax Machines|Many",
             "Filter|Gaming|Many",
             "Filter|Meeting Rooms|Many",
-            "Filter|Notary Services|Many",			
             "Filter|Quiet Areas|Many",
             "Filter|Spanish Collection|Many",
             "Filter|Study Rooms|Many"
@@ -106,7 +105,7 @@
         "city": "Hereford",
         "zip": "21111",
         "phone": "410-887-1919",
-        "url": "/locations/hereford/index.html",
+        "url": "/branches/hereford/index.html",
         "email": "hereford@bcpl.net",
         "myLibrarianEmail": "hereford@bcpl.net",
         "photo": "branch-Hereford.jpg",
@@ -115,7 +114,7 @@
             "lng": "-76.66379689"
         },
         "attributes": [
-            "Filter|Fax Services|Many",		
+            "Filter|Fax Machines|Many",		
             "Filter|Meeting Rooms|Many",
             "Filter|Quiet Areas|Many",
             "Filter|Study Rooms|Many"
@@ -129,7 +128,7 @@
         "city": "Lansdowne",
         "zip": "21227",
         "phone": "410-887-5602",
-        "url": "/locations/lansdowne/index.html",
+        "url": "/branches/lansdowne/index.html",
         "email": "bcpl-la@bcpl.net",
         "myLibrarianEmail": "lasched@bcpl.net",
         "photo": "branch-Lansdowne.jpg",
@@ -138,9 +137,8 @@
             "lng": "-76.65368866"
         },
         "attributes": [
-            "Filter|Fax Services|Many",
-            "Filter|Meeting Rooms|Many",
-            "Filter|Spanish Collection|Many"			
+            "Filter|Fax Machines|Many",
+            "Filter|Meeting Rooms|Many"
         ]
     },
     {
@@ -151,7 +149,7 @@
         "city": "Towson",
         "zip": "21286",
         "phone": "410-887-4444",
-        "url": "/locations/loch-raven/index.html",
+        "url": "/branches/loch-raven/index.html",
         "email": "lochrave@bcpl.net",
         "myLibrarianEmail": "lochrave@bcpl.net",
         "photo": "branch-lochraven.jpg",
@@ -160,36 +158,22 @@
             "lng": "-76.57319512"
         },
         "attributes": [
-			"Filter|Fax Services|Many",
             "Filter|Meeting Rooms|Many"
         ]
     },
     {
         "id": 8,
-        "name": "Mobile Engagement—Adult",
-        "libAnswersId": 8845,
+        "name": "Mobile Library Services",
+        "libAnswersId": 6870,
         "note": "Our bookmobiles make stops across Baltimore County.",
-        "noteLinkText": "",
-        "noteLink": "",
+        "noteLinkText": "View today's schedule.",
+        "noteLink": "#",
         "phone": "410-887-7586",
-        "url": "/locations/mobile-adult/index.html",
+        "url": "/branches/mobile-library-services/index.html",
         "email": "libraryonthego@bcpl.net",
         "photo": "branch-bookmobile.jpg",
         "attributes": []
     },
-    {
-        "id": 20,
-        "name": "Mobile Engagement—Youth",
-        "libAnswersId": 8846,
-        "note": "Our bookmobiles make stops across Baltimore County.",
-        "noteLinkText": "",
-        "noteLink": "",
-        "phone": "410-887-1453",
-        "url": "/locations/mobile-youth/index.html",
-        "email": "libraryonthego@bcpl.net",
-        "photo": "branch-bookmobile.jpg",
-        "attributes": []
-    },	
     {
         "id": 9,
         "name": "North Point",
@@ -198,7 +182,7 @@
         "city": "Dundalk",
         "zip": "21222",
         "phone": "410-887-7255",
-        "url": "/locations/north-point/index.html",
+        "url": "/branches/north-point/index.html",
         "email": "northpoi@bcpl.net",
         "myLibrarianEmail": "npschedules@bcpl.net",
         "photo": "branch-northpoint.jpg",
@@ -207,7 +191,7 @@
             "lng": "-76.50414573"
         },
         "attributes": [
-            "Filter|Fax Services|Many",
+            "Filter|Fax Machines|Many",
             "Filter|Meeting Rooms|Many"
         ]
     },
@@ -219,7 +203,7 @@
         "city": "Owings Mills",
         "zip": "21117",
         "phone": "410-887-2092",
-        "url": "/locations/owings-mills/index.html",
+        "url": "/branches/owings-mills/index.html",
         "email": "owingsmills@bcpl.net",
         "myLibrarianEmail": "owingsmills@bcpl.net",
         "photo": "branch-owingsmills.jpg",
@@ -244,7 +228,7 @@
         "city": "Parkville",
         "zip": "21234",
         "phone": "410-887-5353",
-        "url": "/locations/parkville-carney/index.html",
+        "url": "/branches/parkville-carney/index.html",
         "email": "parkvill@bcpl.net",
         "myLibrarianEmail": "pasched@bcpl.net",
         "photo": "branch-parkville.jpg",
@@ -264,7 +248,7 @@
         "city": "Perry Hall",
         "zip": "21128",
         "phone": "410-887-5195",
-        "url": "/locations/perry-hall/index.html",
+        "url": "/branches/perry-hall/index.html",
         "email": "perryhal@bcpl.net",
         "myLibrarianEmail": "pe-libs@bcpl.net",
         "photo": "branch-perryhall.jpg",
@@ -287,7 +271,7 @@
         "city": "Pikesville",
         "zip": "21208",
         "phone": "410-887-1234",
-        "url": "/locations/pikesville/index.html",
+        "url": "/branches/pikesville/index.html",
         "email": "pikesvil@bcpl.net",
         "myLibrarianEmail": "pikesvil@bcpl.net",
         "photo": "branch-Pikesville.jpg",
@@ -308,7 +292,7 @@
         "city": "Randallstown",
         "zip": "21133",
         "phone": "410-887-0770",
-        "url": "/locations/randallstown/index.html",
+        "url": "/branches/randallstown/index.html",
         "email": "randalls@bcpl.net",
         "myLibrarianEmail": "ra-schedules@bcpl.net",
         "photo": "branch-Randallstown.jpg",
@@ -331,7 +315,7 @@
         "city": "Reisterstown",
         "zip": "21136",
         "phone": "410-887-1165",
-        "url": "/locations/reisterstown/index.html",
+        "url": "/branches/reisterstown/index.html",
         "email": "reisters@bcpl.net",
         "myLibrarianEmail": "reisters@bcpl.net",
         "photo": "branch-Reisterstown.jpg",
@@ -354,7 +338,7 @@
         "city": "Rosedale",
         "zip": "21237",
         "phone": "410-887-0512",
-        "url": "/locations/rosedale/index.html",
+        "url": "/branches/rosedale/index.html",
         "email": "rosedale@bcpl.net",
         "myLibrarianEmail": "ro-schedules@bcpl.net",
         "photo": "branch-Rosedale.jpg",
@@ -378,7 +362,7 @@
         "city": "Dundalk",
         "zip": "21222",
         "phone": "410-887-2485",
-        "url": "/locations/sollers-point/index.html",
+        "url": "/branches/sollers-point/index.html",
         "email": "sollerspoint@bcpl.net",
         "myLibrarianEmail": "sollerspoint@bcpl.net",
         "photo": "branch-sollerspoint.jpg",
@@ -387,7 +371,7 @@
             "lng": "-76.50882206"
         },
         "attributes": [
-            "Filter|Fax Services|Many"
+            "Filter|Fax Machines|Many"
         ]
     },
     {
@@ -398,7 +382,7 @@
         "city": "Towson",
         "zip": "21204",
         "phone": "410-887-6166",
-        "url": "/locations/towson/index.html",
+        "url": "/branches/towson/index.html",
         "email": "towson@bcpl.net",
         "myLibrarianEmail": "to-schedules@bcpl.net",
         "photo": "branch-Towson.jpg",
@@ -422,7 +406,7 @@
         "city": "Baltimore",
         "zip": "21236",
         "phone": "410-887-5097",
-        "url": "/locations/white-marsh/index.html",
+        "url": "/branches/white-marsh/index.html",
         "email": "whitemar@bcpl.net",
         "myLibrarianEmail": "wh-schedules@bcpl.net",
         "photo": "branch-whitemarsh.jpg",
@@ -444,7 +428,7 @@
         "city": "Woodlawn",
         "zip": "21207",
         "phone": "410-887-1336",
-        "url": "/locations/woodlawn/index.html",
+        "url": "/branches/woodlawn/index.html",
         "email": "woodlawn@bcpl.net",
         "myLibrarianEmail": "wo-schedules@bcpl.net",
         "photo": "branch-Woodlawn.jpg",
