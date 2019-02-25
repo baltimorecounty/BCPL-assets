@@ -27,7 +27,7 @@
 		p:first-of-type {
 			font-weight: bold;
 			margin-top: 1em;
-			margin-bottom: 0;
+			margin-bottom: 1em;
 		}
 
 		hr {
@@ -56,7 +56,7 @@
 @media (max-width: $screen-xs) {
 	.feature-wrapper {
 		padding: 1em 0 0 0;
-		
+
 		.feature {
 			display: flex;
 			margin-bottom: 1em;
