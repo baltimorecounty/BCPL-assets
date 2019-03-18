@@ -4,6 +4,7 @@ const files = (folder) => [
 	`js/apps/${folder}/app.js`,
 	`js/apps/${folder}/constants.js`,
 	`js/apps/${folder}/events-page.config.js`,
+	`js/apps/${folder}/factories/**/*.js`,
 	`js/apps/${folder}/filters/**/*.js`,
 	`js/apps/${folder}/dataServices/**/*.js`,
 	`js/apps/${folder}/services/**/*.js`,
