@@ -1,4 +1,4 @@
-((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics) => {
+((app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics, waitForExistence) => {
 	'use strict';
 
 	const EventsPageCtrl = function EventsPageCtrl(
@@ -110,13 +110,15 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			const startDatePicker = angular.element('#start-date')[0].flatpickr(); // eslint-disable-line
-			const endDatePicker = angular.element('#end-date')[0].flatpickr(); // eslint-disable-line
+			waitForExistence('#start-date, #end-date', () => {
+				const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
+				const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
 
-			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
-			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
-			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
+				startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+				endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
+			});
 
 			eventsService
 				.get(eventRequestModel)
@@ -552,4 +554,4 @@
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics, bcpl.utility.waitForExistence);
