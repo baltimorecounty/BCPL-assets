@@ -992,7 +992,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(angular.module('eventsPageApp'), bcpl.utility.format);
 'use strict';
 
-(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics) {
+(function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics, waitForExistence) {
 	'use strict';
 
 	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel, addthisService, flatpickr) {
@@ -1095,13 +1095,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			var startDatePicker = angular.element('#start-date')[0].flatpickr(); // eslint-disable-line
-			var endDatePicker = angular.element('#end-date')[0].flatpickr(); // eslint-disable-line
+			waitForExistence('#start-date, #end-date', function () {
+				var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
+				var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
 
-			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
-			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
-			vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
-			vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
+				startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+				endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+				vm.userStartDate = $window.moment(eventRequestModel.StartDate).format('MMMM DD, YYYY');
+				vm.userEndDate = $window.moment(eventRequestModel.EndDate).format('MMMM DD, YYYY');
+			});
 
 			eventsService.get(eventRequestModel).then(function (events) {
 				processEvents(events);
@@ -1532,7 +1534,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel', 'addthisService', 'flatpickr'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
-})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics);
+})(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics, bcpl.utility.waitForExistence);
 'use strict';
 
 (function (app) {
