@@ -249,6 +249,27 @@ bcpl.boostrapCollapseHelper = function ($) {
 })(angular.module('eventsPageApp'));
 'use strict';
 
+/** Pattern for using a third party script as a injection */
+(function (app) {
+    'use strict';
+
+    function FlatpickrFactory($window) {
+        if (!$window.flatpickr) {
+            // If lodash is not available you can now provide a
+            // mock service, try to load it from somewhere else,
+            // redirect the user to a dedicated error page, ...
+        }
+        return $window.flatpickr;
+    }
+
+    // Define dependencies
+    FlatpickrFactory.$inject = ['$window'];
+
+    // Register factory
+    app.factory('flatpickr', FlatpickrFactory);
+})(angular.module('eventsPageApp'));
+'use strict';
+
 (function (moment) {
 	'use strict';
 
@@ -974,7 +995,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (app, bootstrapCollapseHelper, onWindowResize, windowShade, globalConstants, googleAnalytics) {
 	'use strict';
 
-	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel, addthisService, _flatpickr) {
+	var EventsPageCtrl = function EventsPageCtrl($document, $scope, $timeout, $animate, $location, $window, CONSTANTS, eventsService, filterHelperService, metaService, RequestModel, addthisService, flatpickr) {
 		var trackEvent = googleAnalytics.trackEvent;
 
 
@@ -1074,8 +1095,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			var startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
-			var endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
+			var startDatePicker = angular.element('#start-date')[0].flatpickr(); // eslint-disable-line
+			var endDatePicker = angular.element('#end-date')[0].flatpickr(); // eslint-disable-line
 
 			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
@@ -1508,7 +1529,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		});
 	};
 
-	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel', 'addthisService', _flatpickr];
+	EventsPageCtrl.$inject = ['$document', '$scope', '$timeout', '$animate', '$location', '$window', 'events.CONSTANTS', 'dataServices.eventsService', 'sharedFilters.filterHelperService', 'metaService', 'RequestModel', 'addthisService', 'flatpickr'];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
 })(angular.module('eventsPageApp'), bcpl.boostrapCollapseHelper, bcpl.utility.windowResize, bcpl.utility.windowShade, bcpl.constants, bcpl.utility.googleAnalytics);
