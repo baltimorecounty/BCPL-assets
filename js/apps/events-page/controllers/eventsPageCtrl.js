@@ -14,7 +14,7 @@
 		metaService,
 		RequestModel,
 		addthisService,
-		_flatpickr
+		flatpickr
 	) {
 		const { trackEvent } = googleAnalytics;
 
@@ -110,8 +110,8 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			const startDatePicker = angular.element('#start-date')[0]._flatpickr; // eslint-disable-line
-			const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
+			const startDatePicker = angular.element('#start-date')[0].flatpickr(); // eslint-disable-line
+			const endDatePicker = angular.element('#end-date')[0].flatpickr(); // eslint-disable-line
 
 			startDatePicker && startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 			endDatePicker && endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
@@ -548,7 +548,7 @@
 		'metaService',
 		'RequestModel',
 		'addthisService',
-		_flatpickr
+		'flatpickr'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
