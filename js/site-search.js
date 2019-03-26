@@ -134,14 +134,14 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		const buttonCaption = $searchBtn.find('i span').text().trim();
 
 		$(siteSearchInputSelector).attr('placeholder', `${buttonCaption}`);
-		$(siteSearchInputSelector).focus();
+
 	};
 
 	const onTypeAheadSource = (query, process) => {
 		if (searchAction.type && searchAction.type === searchTypes.catalog) {
 			const searchUrl = getSearchUrl(query);
 
-			return $.get(searchUrl, { }, (searchResultsResponse) => {
+			return $.get(searchUrl, {}, (searchResultsResponse) => {
 				const searchResults = getSearchResults(searchResultsResponse);
 				const selectData = getAutocompleteValues(searchResults);
 
