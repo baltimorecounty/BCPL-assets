@@ -2015,6 +2015,7 @@ bcpl.navigationSearch = function ($) {
 			$targetSearchElements.addClass('active');
 			$navAndSearchContainerSelector.addClass('search-is-active');
 			$hamburgerButton.add(navItemSelector).removeClass('active');
+			$('#site-search-input').focus();
 		} else {
 			$targetSearchElements.removeClass('active');
 			$navAndSearchContainerSelector.removeClass('search-is-active');
@@ -2571,7 +2572,6 @@ bcpl.siteSearch = function ($, window, constants, querystringer) {
 		var buttonCaption = $searchBtn.find('i span').text().trim();
 
 		$(siteSearchInputSelector).attr('placeholder', '' + buttonCaption);
-		$(siteSearchInputSelector).focus();
 	};
 
 	var onTypeAheadSource = function onTypeAheadSource(query, process) {
