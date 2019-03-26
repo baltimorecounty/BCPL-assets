@@ -134,6 +134,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		const buttonCaption = $searchBtn.find('i span').text().trim();
 
 		$(siteSearchInputSelector).attr('placeholder', `${buttonCaption}`);
+		$(siteSearchInputSelector).focus();
 	};
 
 	const onTypeAheadSource = (query, process) => {
