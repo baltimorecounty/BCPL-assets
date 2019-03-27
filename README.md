@@ -36,5 +36,8 @@ Note: When building for production ensure any constants files are pointing to pr
 1. Copy images into the 'dist/images' folder
 1. Copy fonts into the 'dist/fonts' folder
 
+## Publishing
+
+Once you have built the dist files, you can push the changes to dev or production. These changes are manually uploaded to our current CMS. Currently there are no consistent ways to test changes than to publishing to dev.
 
 *You may need to [configure node for proxy](http://jjasonclark.com/how-to-setup-node-behind-web-proxy/).
