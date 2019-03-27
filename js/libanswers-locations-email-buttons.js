@@ -92,25 +92,8 @@ bcpl.libAnswers = (function libAnswers($, constants) {
 		});
 	};
 
-	const setContactButtonMarkup = (id) => {
-		setupContactDiv(moduleOptions.targetSelector, id);
-	};
-
-	const setupContactDiv = (targetSelector, id) => {
-		const targetDivHtml = `<div id="s-la-widget-${id}"></div>`;
-		const $libAnswerDiv = $(`#s-la-widget-${id}`);
-		const $targetDiv = $(targetDivHtml).css('display', 'none');
-
-		if (!$libAnswerDiv.length) {
-			$(targetSelector).after($targetDiv);
-		}
-	};
-
 	const init = (options) => {
 		moduleOptions = getOptions(options);
-
-		moduleOptions.ids
-			.forEach(setContactButtonMarkup);
 
 		if (!moduleOptions.loadEvent) {
 			loadScripts(moduleOptions.ids);
