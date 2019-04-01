@@ -4,3 +4,5 @@ dist/web.config
 **/lcov.info
 .vscode
 yarn-error.log
+
+/dist
