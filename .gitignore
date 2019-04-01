@@ -5,4 +5,5 @@ dist/web.config
 .vscode
 yarn-error.log
 
+# production
 /dist
