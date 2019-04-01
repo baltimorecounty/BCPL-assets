@@ -4,7 +4,8 @@
 	onWindowResize,
 	windowShade,
 	globalConstants,
-	googleAnalytics
+	googleAnalytics,
+	waitForExistence
 ) => {
 	'use strict';
 
@@ -21,7 +22,7 @@
 		metaService,
 		RequestModel,
 		addthisService,
-		_flatpickr
+		flatpickr
 	) {
 		const { trackEvent } = googleAnalytics;
 
@@ -122,20 +123,23 @@
 			vm.requestErrorMessage = '';
 			vm.requestModel = eventRequestModel;
 
-			const startDatePicker = angular.element('#start-date')[0]
-                ._flatpickr; // eslint-disable-line
-            const endDatePicker = angular.element('#end-date')[0]._flatpickr; // eslint-disable-line
+			waitForExistence('#start-date, #end-date', () => {
+				const startDatePicker = angular.element('#start-date')[0]
+                    ._flatpickr; // eslint-disable-line
+				const endDatePicker = angular.element('#end-date')[0]
+                    ._flatpickr; // eslint-disable-line
 
-			startDatePicker &&
-                startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
-			endDatePicker &&
-                endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
-			vm.userStartDate = $window
-				.moment(eventRequestModel.StartDate)
-				.format('MMMM DD, YYYY');
-			vm.userEndDate = $window
-				.moment(eventRequestModel.EndDate)
-				.format('MMMM DD, YYYY');
+				startDatePicker &&
+                    startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+				endDatePicker &&
+                    endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+				vm.userStartDate = $window
+					.moment(eventRequestModel.StartDate)
+					.format('MMMM DD, YYYY');
+				vm.userEndDate = $window
+					.moment(eventRequestModel.EndDate)
+					.format('MMMM DD, YYYY');
+			});
 
 			eventsService
 				.get(eventRequestModel)
@@ -655,7 +659,7 @@
 		'metaService',
 		'RequestModel',
 		'addthisService',
-		'_flatpickr'
+		'flatpickr'
 	];
 
 	app.controller('EventsPageCtrl', EventsPageCtrl);
@@ -665,5 +669,6 @@
 	bcpl.utility.windowResize,
 	bcpl.utility.windowShade,
 	bcpl.constants,
-	bcpl.utility.googleAnalytics
+	bcpl.utility.googleAnalytics,
+	bcpl.utility.waitForExistence
 );
