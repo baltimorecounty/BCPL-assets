@@ -630,8 +630,7 @@
 		const isDetailsPage = url => /(?!.*\?.*$)(^.*\/\d{6,}$)/g.test(url);
 
 		$scope.$on('$locationChangeSuccess', (...params) => {
-			const destinationUrl =
-                params && params.length >= 2 ? params[1] : '';
+			const destinationUrl = params.length >= 2 ? params[1] : '';
 
 			// This prevents the filter updated message from running on the details page
 			if (!isDetailsPage(destinationUrl)) {
