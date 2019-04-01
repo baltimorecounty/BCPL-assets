@@ -7,6 +7,12 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
 
+   const getSearchTerm =() =>{
+	const queryParams = queryStringer.getAsDictionary();
+	return searchTerm = queryParams.search;
+
+   }
+
 	const onCatalogSearchClick = (clickEvent) => {
 		clickEvent.preventDefault();
 
