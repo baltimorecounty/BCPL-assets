@@ -7,8 +7,5 @@
     },
     "rules": {
         "max-len": "off"
-    },
-    "env": {
-        "cypress/globals": true
     }
 }

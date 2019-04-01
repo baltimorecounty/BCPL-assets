@@ -3,12 +3,12 @@
 		<nav>
 			<ul>
 				<li>
-					<a href="/events.html">
+					<a class="window-back" href="http://javascript;:">
 						<i class="fa fa-hand-o-left fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Return to Event List
 					</a>
 				</li>
 				<li>
-                    <a 
+                    <a
                         class="email-a-friend"
                         ng-href="{{eventDetailsPage.shareUrl}}">
 						<i class="fa fa-envelope fa-lg padded-icon padded-icon-right raised-icon" aria-hidden="true"></i>Email a Friend
@@ -35,11 +35,11 @@
 			<p>
 				{{eventDetailsPage.requestErrorMessage}}
 			</p>
-		</div>	
+		</div>
 
 		<div ng-if="!eventDetailsPage.isError" ng-hide="eventDetailsPage.isLoading">
 			<p ng-if="eventDetailsPage.data.Description" ng-bind-html="eventDetailsPage.data.Description"></p>
-	
+
 			<p ng-if="eventDetailsPage.shouldShowDisclaimer">{{ eventDetailsPage.disclaimer }}.</p>
 
 			<p ng-if="eventDetailsPage.data.isFull">
@@ -48,36 +48,36 @@
 					<span ng-if="eventDetailsPage.data.isFull && eventDetailsPage.data.isWaiting">You may still register for the waiting list.</span>
 				</strong>
 			</p>
-	
+
 			<p class="registration-required" ng-if="eventDetailsPage.data.requiresRegistration && !eventDetailsPage.data.isRegistrationWindow && !eventDetailsPage.data.isRegistrationClosed">
-				<i class="fa fa-star" aria-hidden="true"></i> 
+				<i class="fa fa-star" aria-hidden="true"></i>
 				Registration for this event begins on <strong>{{eventDetailsPage.data.registrationStartsDisplay}}</strong>
 			</p>
 
 			<p class="registration-required" ng-if="eventDetailsPage.data.requiresRegistration && eventDetailsPage.data.isRegistrationClosed">
-				<i class="fa fa-star" aria-hidden="true"></i> 
+				<i class="fa fa-star" aria-hidden="true"></i>
 				Registration for this event has closed.
 			</p>
 
 			<p class="registration-required" ng-show="eventDetailsPage.data.shouldDisplayRegistrationButton">
-				<a href="#!/register/{{eventDetailsPage.data.EventId}}" 
-					class="btn-primary btn-uppercase-bold registration-btn" 
+				<a href="#!/register/{{eventDetailsPage.data.EventId}}"
+					class="btn-primary btn-uppercase-bold registration-btn"
 					ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
 					<i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Register
 				</a>
-	
-                <span 
-                    class="pull-right registration-msg" 
+
+                <span
+                    class="pull-right registration-msg"
                     ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 1">
-					<i class="fa fa-star" aria-hidden="true"></i> 
+					<i class="fa fa-star" aria-hidden="true"></i>
 					Registration is required for this event.
 				</span>
 				<span ng-if="eventDetailsPage.data.RegistrationTypeCodeEnum === 2">
-					<i class="fa fa-star" aria-hidden="true"></i> 
+					<i class="fa fa-star" aria-hidden="true"></i>
 					In-person registration is required for this event at the {{eventDetailsPage.data.LocationName}} branch.
 				</span>
 			</p>
-	
+
 			<table>
 				<tbody>
 					<tr ng-if="eventDetailsPage.data.EventStart">
