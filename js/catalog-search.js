@@ -7,26 +7,25 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
 
-   const getSearchTerm =() =>{
-	const queryParams = queryStringer.getAsDictionary();
-	return searchTerm = queryParams.search;
-
-   }
+	const getSearchTerm = () =>{
+		const queryParams = queryStringer.getAsDictionary();
+		return queryParams.search;
+	};
 
 	const onCatalogSearchClick = (clickEvent) => {
 		clickEvent.preventDefault();
 
-		const queryParams = queryStringer.getAsDictionary();
-		const searchTerm = queryParams.search;
-
-		window.location = getCatalogUrl(searchTerm);
+		// const queryParams = queryStringer.getAsDictionary();
+		// const searchTerm = queryParams.search;
+//$( "#resInfo-0:contains('seconds')" ).append( document.createTextNode( " --what--- i" ) );
+		window.location = getCatalogUrl(getSearchTerm);
 	};
 
 	const init = () => {
 		waitForExistence(resultsInfoContainerSelector, () => {
 			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
-	}
+	};
 
 	$(document).on('click', catalogSearchSelector, onCatalogSearchClick);
 
