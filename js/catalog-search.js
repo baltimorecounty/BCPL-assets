@@ -14,15 +14,12 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const onCatalogSearchClick = (clickEvent) => {
 		clickEvent.preventDefault();
-
-		// const queryParams = queryStringer.getAsDictionary();
-		// const searchTerm = queryParams.search;
-//$( "#resInfo-0:contains('seconds')" ).append( document.createTextNode( " --what--- i" ) );
 		window.location = getCatalogUrl(getSearchTerm);
 	};
 
 	const init = () => {
 		waitForExistence(resultsInfoContainerSelector, () => {
+			$("#resInfo-0:contains('About')").prepend(`Showing results for ${getSearchTerm} <BR/>`);
 			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
 	};
