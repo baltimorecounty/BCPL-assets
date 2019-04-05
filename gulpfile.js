@@ -126,19 +126,26 @@ gulp.task('move-app-directive-templates', () => {
 	});
 });
 
+
 gulp.task('createConstantsTemplate', () => {
-	gulp.src('js/constants.js') 
+	gulp.src([
+		'js/utility/namespacer.js',
+		'js/constants.js'
+	])
+	.pipe(babel({
+		presets: ['es2015']
+	}))
 	.pipe(concat('constants.js'))
 	.pipe(gulp.dest('dist/js'));
 });
-  
+
 gulp.task('process-master-js', () => gulp.src([
-	'js/utility/namespacer.js',
 	'js/utility/*.js',
 	'js/**/*.js',
 	'!js/vendor/**/*.js',
 	'!js/page-specific/**/*.js',
-	'!js/apps/**/*'
+	'!js/apps/**/*',
+	'!js/constants.js'
 ])
 	.pipe(jshint({
 		esversion: 6
