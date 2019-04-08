@@ -132,12 +132,13 @@
 				startDatePicker &&
                     startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 				endDatePicker &&
-                    endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
+                    endDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 				vm.userStartDate = $window
 					.moment(eventRequestModel.StartDate)
 					.format('MMMM DD, YYYY');
 				vm.userEndDate = $window
 					.moment(eventRequestModel.EndDate)
+					.add(1, 'd')
 					.format('MMMM DD, YYYY');
 			});
 
@@ -211,7 +212,7 @@
 					},
 					{
 						key: 'endDate',
-						val: vm.userEndDate
+						val: vm.userEndDate.add(1, 'd')
 					}
 				]); // This will trigger a location change, therefore getting the new results
 
