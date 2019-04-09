@@ -49,14 +49,20 @@
 			}, 250);
 		};
 
-		const cardsLoadedEvent = typeof Event === 'function' ? new $window.Event('bc-filter-cards-loaded') : undefined;
+		const emitEvent = function(eventName) {
+            var event;
+            if (typeof Event === 'function') {
+                event = new Event(eventName);
+            } else {
+                event = document.createEvent('Event');
+                event.initEvent(eventName, true, true);
+            }
+
+            document.dispatchEvent(event);
+        };
 
 		const publishLoadedCardsEvent = () => {
-			if (cardsLoadedEvent) {
-				document.dispatchEvent(cardsLoadedEvent);
-			} else {
-				angular.element(document).trigger('bc-filter-cards-loaded');
-			}
+			emitEvent('bc-filter-cards-loaded');
 		};
 
 		/**
@@ -68,15 +74,19 @@
 		const loadCardsAndFilters = (cardData) => {
 			if (!cardData.length) { return; }
 
-			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags') ? cardData : filterService.transformAttributesToTags(cardData);
+			const taggedCardData = Object.prototype.hasOwnProperty.call(cardData[0], 'Tags')
+				? cardData : filterService.transformAttributesToTags(cardData);
 
 			vm.filters = filterService.build(taggedCardData);
 			vm.allCardData = taggedCardData;
 			vm.items = taggedCardData;
 			angular.element('#results-display').trigger('bcpl.filter.changed', { items: vm.items });
 
-			publishLoadedCardsEvent();
-			$scope.$apply();
+			$scope.$apply(() => {
+				$timeout(() => {
+					publishLoadedCardsEvent();
+				}, 250);
+			});
 		};
 
 		/**
