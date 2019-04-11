@@ -9,12 +9,15 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const getSearchTerm = () =>{
 		const queryParams = queryStringer.getAsDictionary();
+		const searchT = queryParams.search;
+		alert(searchT);
 		return queryParams.search;
 	};
 
 	const onCatalogSearchClick = (clickEvent) => {
 		clickEvent.preventDefault();
 		window.location = getCatalogUrl(getSearchTerm());
+		alert(window.location);
 	};
 
 	const init = () => {
