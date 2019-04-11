@@ -4,7 +4,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 	const catalogSearchSelector = '#catalog-search, .catalog-search';
 	const resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	const searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
-
+	const showResults = "#resInfo-0:contains('About')";
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
 
 	const getSearchTerm = () =>{
@@ -19,7 +19,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const init = () => {
 		waitForExistence(resultsInfoContainerSelector, () => {
-			$("#resInfo-0:contains('About')").prepend(`Showing results for ${getSearchTerm} <BR/>`);
+			$(showResults).prepend(`Showing results for ${getSearchTerm()} <BR/>`);
 			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
 	};
