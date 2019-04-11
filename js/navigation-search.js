@@ -14,6 +14,7 @@ bcpl.navigationSearch = (($) => {
 	const headerSelector = 'header';
 	const heroCalloutContainerSelector = '.hero-callout-container';
 	const mobileWidthThreshold = 768;
+	const navAndSearchContainerSelector = $('#site-search-input');
 
 	/* Helpers */
 
@@ -85,7 +86,7 @@ bcpl.navigationSearch = (($) => {
 			$targetSearchElements.addClass('active');
 			$navAndSearchContainerSelector.addClass('search-is-active');
 			$hamburgerButton.add(navItemSelector).removeClass('active');
-			$('#site-search-input').focus();
+			navAndSearchContainerSelector.focus();
 		} else {
 			$targetSearchElements.removeClass('active');
 			$navAndSearchContainerSelector.removeClass('search-is-active');
