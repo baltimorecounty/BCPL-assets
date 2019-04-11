@@ -132,12 +132,12 @@
 				startDatePicker &&
                     startDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
 				endDatePicker &&
-                    endDatePicker.setDate($window.moment(eventRequestModel.StartDate).toDate()); // eslint-disable-line no-unused-expressions
+                    endDatePicker.setDate($window.moment(eventRequestModel.EndDate).toDate()); // eslint-disable-line no-unused-expressions
 				vm.userStartDate = $window
 					.moment(eventRequestModel.StartDate)
 					.format('MMMM DD, YYYY');
 				vm.userEndDate = $window
-					.moment(eventRequestModel.EndDate)
+					.moment(eventRequestModel.StartDate)
 					.add(1, 'd')
 					.format('MMMM DD, YYYY');
 			});
@@ -192,6 +192,8 @@
 			});
 		};
 
+	
+
 		vm.filterByDate = () => {
 			vm.areDatesInvalid = !isDateRangeValid(
 				vm.userStartDate,
@@ -212,7 +214,7 @@
 					},
 					{
 						key: 'endDate',
-						val: vm.userEndDate.add(1, 'd')
+						val: vm.userEndDate
 					}
 				]); // This will trigger a location change, therefore getting the new results
 
