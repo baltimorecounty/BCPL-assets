@@ -14,7 +14,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const onCatalogSearchClick = (clickEvent) => {
 		clickEvent.preventDefault();
-		window.location = getCatalogUrl(getSearchTerm);
+		window.location = getCatalogUrl(getSearchTerm());
 	};
 
 	const init = () => {
