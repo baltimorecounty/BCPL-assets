@@ -18,8 +18,8 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 	};
 
 	const init = () => {
-		waitForExistence(resultsInfoContainerSelector, () => {
-			$(showResults).prepend(`Showing results for ${getSearchTerm()} <BR/>`);
+		waitForExistence(showResults, () => {
+			$(showResults).prepend(`Showing results for ${getSearchTerm()} <br>`);
 			$(resultsInfoContainerSelector).find('td').first().after(searchCatalogButton);
 		});
 	};
