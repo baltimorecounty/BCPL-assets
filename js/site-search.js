@@ -140,7 +140,7 @@ bcpl.siteSearch = (($, window, constants, querystringer) => {
 		if (searchAction.type && searchAction.type === searchTypes.catalog) {
 			const searchUrl = getSearchUrl(query);
 
-			return $.get(searchUrl, {}, (searchResultsResponse) => {
+			return $.get(searchUrl, { }, (searchResultsResponse) => {
 				const searchResults = getSearchResults(searchResultsResponse);
 				const selectData = getAutocompleteValues(searchResults);
 
