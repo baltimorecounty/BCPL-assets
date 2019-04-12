@@ -4,7 +4,6 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 	const catalogSearchSelector = '#catalog-search, .catalog-search';
 	const resultsInfoContainerSelector = '.gsc-above-wrapper-area-container';
 	const searchCatalogButton = '<td><button id="catalog-search" class="btn btn-primary pull-right">Search the Catalog</button></td>';
-	const showResultsSelector = '#resInfo-0';
 	const getCatalogUrl = (searchTerm) => `${constants.baseCatalogUrl}${constants.search.urls.catalog}${searchTerm}`;
 
 	const getSearchTerm = () =>{
@@ -18,7 +17,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 	};
 
 	const init = () => {
-		waitForExistence(showResultsSelector, () => {
+		waitForExistence(resultsInfoContainerSelector, () => {
 			$(resultsInfoContainerSelector)
 				.find('td')
 				.first()
