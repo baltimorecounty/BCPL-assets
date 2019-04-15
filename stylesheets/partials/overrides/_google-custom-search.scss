@@ -140,6 +140,9 @@
     }
     .gsc-above-wrapper-area-container * {
         display: block !important;
+        span,em{
+            display: inline !important;
+        }
     }
     #catalog-search {
         float: none !important;
