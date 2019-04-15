@@ -8,7 +8,7 @@ bcpl.catalogSearch = (($, queryStringer, waitForExistence, constants) => {
 
 	const getSearchTerm = () =>{
 		const queryParams = queryStringer.getAsDictionary();
-		return queryParams.term;
+		return decodeURIComponent(queryParams.term);
 	};
 
 	const onCatalogSearchClick = (clickEvent) => {
