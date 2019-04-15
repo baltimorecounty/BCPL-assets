@@ -138,9 +138,12 @@
     .gsc-cursor-page {
         margin-right: 1px !important;
     }
-    .gsc-above-wrapper-area-container * {
+    .gsc-above-wrapper-area-container {
+     * {
         display: block !important;
-        span,em{
+    }
+        span,
+        em {
             display: inline !important;
         }
     }
