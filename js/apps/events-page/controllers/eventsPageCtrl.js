@@ -192,15 +192,16 @@
 		};
 
 		vm.filterByDate = () => {
-			vm.areDatesInvalid = !isDateRangeValid(
-				vm.userStartDate,
-				vm.userEndDate
-			);
 			const newRequestModel = Object.assign({}, vm.requestModel);
 
 			newRequestModel.StartDate = vm.userStartDate;
 			newRequestModel.EndDate = vm.userEndDate;
 			newRequestModel.Page = 1;
+
+			vm.areDatesInvalid = !isDateRangeValid(
+				vm.userStartDate,
+				vm.userEndDate
+			);
 
 			if (vm.areDatesInvalid) {
 				vm.userEndDate = $window
