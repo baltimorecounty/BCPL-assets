@@ -191,38 +191,40 @@
 			});
 		};
 
-	
-
 		vm.filterByDate = () => {
 			vm.areDatesInvalid = !isDateRangeValid(
 				vm.userStartDate,
 				vm.userEndDate
 			);
+			const newRequestModel = Object.assign({}, vm.requestModel);
 
-			if (!vm.areDatesInvalid) {
-				const newRequestModel = Object.assign({}, vm.requestModel);
+			newRequestModel.StartDate = vm.userStartDate;
+			newRequestModel.EndDate = vm.userEndDate;
+			newRequestModel.Page = 1;
 
-				newRequestModel.StartDate = vm.userStartDate;
-				newRequestModel.EndDate = vm.userEndDate;
-				newRequestModel.Page = 1;
-
-				filterHelperService.setQueryParams([
-					{
-						key: 'startDate',
-						val: vm.userStartDate
-					},
-					{
-						key: 'endDate',
-						val: vm.userEndDate
-					}
-				]); // This will trigger a location change, therefore getting the new results
-
-				trackEvent({
-					action: 'Date Filter Selection',
-					category: CONSTANTS.analytics.bcplEventsCategory,
-					label: `${vm.userStartDate} - ${vm.userEndDate}`
-				});
+			if (vm.areDatesInvalid) {
+				vm.userEndDate = $window
+					.moment(vm.userStartDate)
+					.add(1, 'd')
+					.format('MMMM DD, YYYY');
 			}
+
+			filterHelperService.setQueryParams([
+				{
+					key: 'startDate',
+					val: vm.userStartDate
+				},
+				{
+					key: 'endDate',
+					val: vm.userEndDate
+				}
+			]); // This will trigger a location change, therefore getting the new results
+
+			trackEvent({
+				action: 'Date Filter Selection',
+				category: CONSTANTS.analytics.bcplEventsCategory,
+				label: `${vm.userStartDate} - ${vm.userEndDate}`
+			});
 		};
 
 		vm.clearFilters = () => {
