@@ -137,8 +137,7 @@
 					.moment(eventRequestModel.StartDate)
 					.format('MMMM DD, YYYY');
 				vm.userEndDate = $window
-					.moment(eventRequestModel.StartDate)
-					.add(1, 'd')
+					.moment(eventRequestModel.EndDate)
 					.format('MMMM DD, YYYY');
 			});
 

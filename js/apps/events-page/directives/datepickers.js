@@ -22,10 +22,13 @@
 						$timeout(() => {
 							if ($window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
 								innerScope.areDatesInvalid = false;
-								innerScope.filterByDate();
 							} else {
-								innerScope.areDatesInvalid = true;
+								innerScope.userEndDate = $window
+									.moment(innerScope.userStartDate)
+									.add(1, 'd')
+									.format('MMMM DD, YYYY');
 							}
+							innerScope.filterByDate();
 						});
 					});
 				}
