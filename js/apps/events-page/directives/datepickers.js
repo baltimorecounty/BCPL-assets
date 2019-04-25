@@ -54,7 +54,7 @@
 				}
 				return true;
 			};
-      
+
 			angular.element(document).ready(() => {
 				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 			});
