@@ -31,8 +31,7 @@
 			};
 
 			innerScope.updateEndDate = () => {
-				innerScope.areDatesInvalid = isDateRangeInvalid();
-				if (innerScope.areDatesInvalid) {
+				if (isDateRangeInvalid()) {
 					innerScope.userEndDate = $window
 						.moment(innerScope.userStartDate)
 						.add(1, 'd')
