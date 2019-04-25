@@ -32,14 +32,16 @@
 
 			innerScope.updateEndDate = () => {
 				innerScope.areDatesInvalid = isDateRangeInvalid();
-
 				if (innerScope.areDatesInvalid) {
 					innerScope.userEndDate = $window
 						.moment(innerScope.userStartDate)
 						.add(1, 'd')
 						.format('MMMM DD, YYYY');
 				}
-				innerScope.filterByDate();
+
+				$timeout(() => {
+					innerScope.filterByDate();
+				});
 			};
 
 			innerScope.openFlatpickr = (flatpickrElementId) => {
