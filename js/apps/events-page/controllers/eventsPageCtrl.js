@@ -202,14 +202,6 @@
 				vm.userStartDate,
 				vm.userEndDate
 			);
-
-			//if (vm.areDatesInvalid) {
-				//vm.userEndDate = $window
-					//.moment(vm.userStartDate)
-					//.add(1, 'd')
-					//.format('MMMM DD, YYYY');
-			//}
-
 			filterHelperService.setQueryParams([
 				{
 					key: 'startDate',
