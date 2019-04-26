@@ -48,12 +48,7 @@
 				flatpickr.open();
 			};
 
-			const isDateRangeInvalid = () => {
-				if ($window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
-					return false;
-				}
-				return true;
-			};
+			const isDateRangeInvalid = () => !$window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate);
 
 			angular.element(document).ready(() => {
 				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
