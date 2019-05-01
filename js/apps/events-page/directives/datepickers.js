@@ -20,22 +20,36 @@
 						innerScope.userEndDate = innerScope.userEndDate || getEndDateLocaleString();
 
 						$timeout(() => {
-							if ($window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate)) {
-								innerScope.areDatesInvalid = false;
+							innerScope.areDatesInvalid = isDateRangeInvalid();
+
+							if (!innerScope.areDatesInvalid) {
 								innerScope.filterByDate();
-							} else {
-								innerScope.areDatesInvalid = true;
 							}
 						});
 					});
 				}
 			};
 
+			innerScope.updateEndDate = () => {
+				if (isDateRangeInvalid()) {
+					innerScope.userEndDate = $window
+						.moment(innerScope.userStartDate)
+						.add(1, 'd')
+						.format('MMMM DD, YYYY');
+				}
+
+				$timeout(() => {
+					innerScope.filterByDate();
+				});
+			};
+
 			innerScope.openFlatpickr = (flatpickrElementId) => {
 				const flatpickr = document.querySelector('#' + flatpickrElementId)._flatpickr; // eslint-disable-line no-underscore-dangle
 				flatpickr.open();
 			};
-      
+
+			const isDateRangeInvalid = () => !$window.moment(innerScope.userStartDate).isSameOrBefore(innerScope.userEndDate);
+
 			angular.element(document).ready(() => {
 				$window.flatpickr('#start-date, #end-date', flatpickrBasicSettings);
 			});
