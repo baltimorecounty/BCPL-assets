@@ -17,7 +17,7 @@
         },
         "attributes": [
             "Filter|Drive-Up Window|Many",
-            "Filter|Fax Machines|Many",
+            "Filter|Fax Services|Many",
             "Filter|Gaming|Many",
             "Filter|Local History Collection|Many",
             "Filter|Meeting Rooms|Many",
@@ -89,9 +89,10 @@
             "lng": "-76.46384423"
         },
         "attributes": [
-            "Filter|Fax Machines|Many",
+            "Filter|Fax Services|Many",
             "Filter|Gaming|Many",
             "Filter|Meeting Rooms|Many",
+            "Filter|Notary Services|Many",			
             "Filter|Quiet Areas|Many",
             "Filter|Spanish Collection|Many",
             "Filter|Study Rooms|Many"
@@ -114,7 +115,7 @@
             "lng": "-76.66379689"
         },
         "attributes": [
-            "Filter|Fax Machines|Many",
+            "Filter|Fax Services|Many",
             "Filter|Meeting Rooms|Many",
             "Filter|Quiet Areas|Many",
             "Filter|Study Rooms|Many"
@@ -130,15 +131,16 @@
         "phone": "410-887-5602",
         "url": "/locations/lansdowne/index.html",
         "email": "bcpl-la@bcpl.net",
-        "myLibrarianEmail": "lasched@bcpl.net",
+        "myLibrarianEmail": "bcpl-la@bcpl.net",
         "photo": "branch-Lansdowne.jpg",
         "location": {
             "lat": "39.24372696",
             "lng": "-76.65368866"
         },
         "attributes": [
-            "Filter|Fax Machines|Many",
-            "Filter|Meeting Rooms|Many"
+            "Filter|Fax Services|Many",
+            "Filter|Meeting Rooms|Many",
+            "Filter|Spanish Collection|Many"			
         ]
     },
     {
@@ -158,22 +160,38 @@
             "lng": "-76.57319512"
         },
         "attributes": [
+			"Filter|Fax Services|Many",
             "Filter|Meeting Rooms|Many"
         ]
     },
     {
-        "id": 8,
-        "name": "Mobile Library Services",
-        "libAnswersId": 6870,
+        "id": 20,
+        "name": "Mobile Engagement—Adult",
+        "libAnswersId": 8845,
         "note": "Our bookmobiles make stops across Baltimore County.",
-        "noteLinkText": "View today's schedule.",
-        "noteLink": "#",
+        "noteLinkText": "",
+        "noteLink": "",
         "phone": "410-887-7586",
-        "url": "/locations/mobile-library-services/index.html",
-        "email": "libraryonthego@bcpl.net",
+        "url": "/locations/mobile-adult/index.html",
+        "email": "mobile-adult@bcpl.net",
+        "myLibrarianEmail": "mobile-adult@bcpl.net",		
         "photo": "branch-bookmobile.jpg",
         "attributes": []
     },
+    {
+        "id": 21,
+        "name": "Mobile Engagement—Youth",
+        "libAnswersId": 8846,
+        "note": "Our bookmobiles make stops across Baltimore County.",
+        "noteLinkText": "",
+        "noteLink": "",
+        "phone": "410-887-1453",
+        "url": "/locations/mobile-youth/index.html",
+        "email": "mobile-youth@bcpl.net",
+        "myLibrarianEmail": "mobile-youth@bcpl.net",		
+        "photo": "branch-bookmobile.jpg",
+        "attributes": []
+    },	
     {
         "id": 9,
         "name": "North Point",
@@ -191,7 +209,7 @@
             "lng": "-76.50414573"
         },
         "attributes": [
-            "Filter|Fax Machines|Many",
+            "Filter|Fax Services|Many",
             "Filter|Meeting Rooms|Many"
         ]
     },
@@ -303,6 +321,7 @@
         "attributes": [
             "Filter|Gaming|Many",
             "Filter|Meeting Rooms|Many",
+            "Filter|Public 3D Printers|Many",
             "Filter|Quiet Areas|Many",
             "Filter|Study Rooms|Many"
         ]
@@ -350,6 +369,7 @@
             "Filter|Gaming|Many",
             "Filter|Meeting Rooms|Many",
             "Filter|Quiet Areas|Many",
+            "Filter|Public 3D Printers|Many",
             "Filter|Storyville|Many",
             "Filter|Study Rooms|Many"
         ]
@@ -371,7 +391,7 @@
             "lng": "-76.50882206"
         },
         "attributes": [
-            "Filter|Fax Machines|Many"
+            "Filter|Fax Services|Many"
         ]
     },
     {
