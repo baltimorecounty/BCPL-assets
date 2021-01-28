@@ -35,10 +35,10 @@ bcpl.bookCarousel = (($, constants) => {
 	let isTitleSearch = false;
 	let isGrid = false;
 
-	const loadData = (carouselId) => {
+	const loadData = async (carouselId) => {
 		const url = constants.shared.urls.bookCarousels.replace('CAROUSEL_ID', carouselId);
 
-		return $.ajax(url).then(data => onDataSuccess(data, carouselId));
+		return await $.ajax(url).then(data => onDataSuccess(data, carouselId));
 	};
 
 	const textNodeFilter = (index, node) => node.nodeType === 3;

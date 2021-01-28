@@ -35,14 +35,14 @@ gulp.task('process-scss', () => gulp.src([
 	.pipe(rename({ suffix: '.min' }))
 	.pipe(gulp.dest('dist/css')));
 
-gulp.task('minify-js', [
+gulp.task('minify-js', () => gulp.series(
 	'process-master-js',
 	'process-homepage-js',
 	'process-app-js',
 	'move-page-specific-js',
 	'createConstantsTemplate',
 	'process-featured-events-widget-js'
-], () => {
+), ()=> {
 	return gulp.src([
 		'dist/js/**/*.js',
 		'!**/*min.js'
@@ -112,7 +112,7 @@ gulp.task('process-featured-events-widget-js', () => {
 		.pipe(gulp.dest('dist/js/apps/events-page'));
 });
 
-gulp.task('move-app-directive-templates', () => {
+gulp.task('move-app-directive-templates', (done) => {
 	const appRootFolder = 'js/apps';
 	const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
 		return fs.statSync(path.join(appRootFolder, file)).isDirectory();
@@ -124,6 +124,7 @@ gulp.task('move-app-directive-templates', () => {
 		gulp.src(`js/apps/${folder}/partials/*.html`)
 			.pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
 	});
+	done();
 });
 
 
@@ -218,23 +219,41 @@ gulp.task('move-data', () => {
 		.pipe(gulp.dest('dist/data'));
 });
 
-gulp.task('default', ['clean'], callback => runSequence([
-	'move-html',
-	'process-scss',
-	'minify-js',
-	'move-app-directive-templates',
-	'move-vendor-js',
-	'move-images',
-	'move-fonts',
-	'rewrite',
-	'move-data'
-], 'create-featured-events-widget-js', 'code-coverage', callback));
+// gulp.task('default', () => gulp.series('clean'),function () { return new Promise(function (resolve, reject) { runSequence([
+// 	'move-html',
+// 	'process-scss',
+// 	'minify-js',
+// 	'move-app-directive-templates',
+// 	'move-vendor-js',
+// 	'move-images',
+// 	'move-fonts',
+// 	'rewrite',
+// 	'move-data'
+// ], 'create-featured-events-widget-js', 'code-coverage');
+// resolve();
+// });
+// });
 
-gulp.task('watcher', () => {
+gulp.task('default', () => gulp.series('clean'), async function (callback) {
+	return await runSequence(['move-html',
+				'process-scss',
+				'minify-js',
+				'move-app-directive-templates',
+				'move-vendor-js',
+				'move-images',
+				'move-fonts',
+				'rewrite',
+				'move-data'],
+				'create-featured-events-widget-js', 'code-coverage',
+				callback());
+  });
+
+gulp.task('watcher', (done) => {
 	gulp.watch('**/*.pug', ['default']);
 	gulp.watch('**/*.html', ['default']);
 	gulp.watch('**/*.scss', ['default']);
 	gulp.watch('js/*.js', ['default']);
 	gulp.watch('js/page-specific/*.js', ['default']);
 	gulp.watch('js/utility/*.js', ['default']);
+	done();
 });
