@@ -1,5 +1,5 @@
 const babel = require("gulp-babel");
-const clean = require("gulp-clean");
+const del = require("del");
 const concat = require("gulp-concat");
 const coveralls = require("gulp-coveralls");
 const cssnano = require("gulp-cssnano");
@@ -20,7 +20,10 @@ const util = require("gulp-util");
 const eventPageAppFiles = require("./gulp-tasks/events-page-app.files");
 const featuredEventsFiles = require("./gulp-tasks/featured-events.files");
 
-gulp.task("clean", () => gulp.src("dist").pipe(clean()));
+gulp.task("clean", (done) => {
+  del.sync("dist/*");
+  done();
+});
 
 gulp.task("process-scss", () =>
   gulp
@@ -37,28 +40,16 @@ gulp.task("process-scss", () =>
     .pipe(gulp.dest("dist/css"))
 );
 
-gulp.task(
-  "minify-js",
-  //   () =>
-  //     gulp.series(
-  //       "process-master-js",
-  //       "process-homepage-js",
-  //       "process-app-js",
-  //       "move-page-specific-js",
-  //       "createConstantsTemplate",
-  //       "process-featured-events-widget-js"
-  //     ),
-  () => {
-    return gulp
-      .src(["dist/js/**/*.js", "!**/*min.js"])
-      .pipe(uglify())
-      .on("error", (err) => {
-        util.log(util.colors.red("[Error]"), err.toString());
-      })
-      .pipe(rename({ suffix: ".min" }))
-      .pipe(gulp.dest("dist/js"));
-  }
-);
+gulp.task("minify-js", () => {
+  return gulp
+    .src(["dist/js/**/*.js", "!**/*min.js"])
+    .pipe(uglify())
+    .on("error", (err) => {
+      util.log(util.colors.red("[Error]"), err.toString());
+    })
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest("dist/js"));
+});
 
 gulp.task("create-featured-events-widget-js", () => {
   const targetFiles = [
@@ -114,7 +105,7 @@ gulp.task("process-app-js", () => {
   });
 });
 
-gulp.task("process-featured-events-widget-js", () => {
+gulp.task("process-featured-events-widget-js", () =>
   gulp
     .src(featuredEventsFiles)
     .pipe(
@@ -135,8 +126,8 @@ gulp.task("process-featured-events-widget-js", () => {
       })
     )
     .pipe(concat("featuredEventsWidgetApp.js"))
-    .pipe(gulp.dest("dist/js/apps/events-page"));
-});
+    .pipe(gulp.dest("dist/js/apps/events-page"))
+);
 
 gulp.task("move-app-directive-templates", (done) => {
   const appRootFolder = "js/apps";
@@ -155,7 +146,7 @@ gulp.task("move-app-directive-templates", (done) => {
   done();
 });
 
-gulp.task("createConstantsTemplate", () => {
+gulp.task("createConstantsTemplate", () =>
   gulp
     .src(["js/utility/namespacer.js", "js/constants.js"])
     .pipe(
@@ -164,8 +155,8 @@ gulp.task("createConstantsTemplate", () => {
       })
     )
     .pipe(concat("constants.js"))
-    .pipe(gulp.dest("dist/js"));
-});
+    .pipe(gulp.dest("dist/js"))
+);
 
 gulp.task("process-master-js", () =>
   gulp
@@ -271,27 +262,30 @@ gulp.task("move-data", () =>
   gulp.src("data/**/*").pipe(gulp.dest("dist/data"))
 );
 
-gulp.task(
-  "default",
-  //   () => gulp.series("clean"),
-  async function () {
-    runSequence(
-      [
-        "move-html",
-        "process-scss",
-        "minify-js",
-        "move-app-directive-templates",
-        "move-vendor-js",
-        "move-images",
-        "move-fonts",
-        // "rewrite",
-        "move-data",
-      ],
-      //   "create-featured-events-widget-js",
-      "code-coverage"
-    );
-  }
-);
+gulp.task("default", async function () {
+  runSequence(
+    [
+      "clean",
+      "move-html",
+      "process-scss",
+      "process-master-js",
+      "process-homepage-js",
+      //   "process-app-js", //File not found with singular glob: js/apps/shared/app.js
+      "move-page-specific-js",
+      "createConstantsTemplate",
+      "process-featured-events-widget-js",
+      "minify-js",
+      "move-app-directive-templates",
+      "move-vendor-js",
+      "move-images",
+      "move-fonts",
+      //   "rewrite", //File not found with singular glob: rewrite.config
+      "move-data",
+    ],
+    // "create-featured-events-widget-js", //File not found with singular glob: dist/js/apps/events-page/featuredEventsWidgetApp.min.js
+    "code-coverage"
+  );
+});
 
 gulp.task("watcher", (done) => {
   gulp.watch("**/*.pug", ["default"]);
