@@ -17,7 +17,7 @@
         "font-awesome": "4.7.0",
         "gulp-download": "^0.0.1",
         "gulp-order": "^1.1.1",
-        "handlebars": "^4.5.3",
+        "handlebars": "^4.7.7",
         "jquery": "^3.5.0",
         "moment": "^2.21.0",
         "node-sass": "^4.13.1",
