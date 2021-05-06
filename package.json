@@ -63,7 +63,7 @@
         "karma-jasmine-jquery-2": "^0.1.1",
         "karma-mocha-reporter": "^2.2.5",
         "karma-phantomjs-launcher": "^1.0.2",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "parsejson": "0.0.3",
         "run-sequence": "^1.2.2"
     },
