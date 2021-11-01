@@ -11,7 +11,8 @@ bcpl.utility.querystringer = (() => {
 
 		if (windowToUse.location.search) {
 			const qs = windowToUse.location.search.slice(1);
-			const qsArray = qs.split('&');
+			const findCharacter = qs.indexOf('&');
+			const qsArray = findCharacter > -1 ? qs.split('&') : qs.split('?');
 			const qsDict = {};
 
 			for (let i = 0; i < qsArray.length; i += 1) {
