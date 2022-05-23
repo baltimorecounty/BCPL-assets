@@ -42,8 +42,8 @@
 				unit: 'days'
 			},
 			registrationEnd: {
-				numberOfUnits: 0,
-				unit: 'days'
+				numberOfUnits: 1,
+				unit: 'hours'
 			}
 		},
 		analytics: {
