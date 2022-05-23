@@ -40,15 +40,6 @@ function processscss() {
 }
 
 function minifyjs() {
-  gulp.series(
-    processmasterjs,
-    processhomepagejs,
-    processappjs,
-    movepagespecificjs,
-    createConstantsTemplate,
-    processfeaturedeventswidgetjs
-  );
-
   return gulp
     .src(["dist/js/**/*.js", "!**/*min.js"])
     .pipe(uglify())
@@ -109,7 +100,9 @@ function processappjs() {
         })
       )
       .pipe(concat("app.js"))
-      .pipe(gulp.dest(`dist/js/apps/${folder}`));
+      .pipe(
+        gulp.dest(`dist/js/apps/${folder}`, { read: false, allowEmpty: true })
+      );
   });
 }
 
@@ -195,10 +188,11 @@ function processmasterjs() {
     .pipe(concat("master.js"))
     .pipe(gulp.dest("dist/js"));
 }
+exports.processmasterjs = processmasterjs;
 
 function processhomepagejs() {
   return gulp
-    .src(["js/page-specific/homepage/*.js"])
+    .src("js/page-specific/homepage/*.js")
     .pipe(
       jshint({
         esversion: 6,
@@ -250,7 +244,7 @@ function movefonts() {
 }
 
 function processpug() {
-  return gulp.src(["mockups/pug/*.pug"]).pipe(pug()).pipe(gulp.dest("dist"));
+  return gulp.src("mockups/pug/*.pug").pipe(pug()).pipe(gulp.dest("dist"));
 }
 
 function movehtml() {
@@ -279,9 +273,19 @@ const watchJS = () => gulp.watch("js/*.js", gulp.series(minifyjs));
 const watchPageSpecific = () =>
   gulp.watch("js/page-specific/*.js", gulp.series(movepagespecificjs));
 const watchUtility = () => gulp.watch("js/utility/*.js", gulp.series(util));
+const watchMasterJS = () =>
+  gulp.watch("**/*.min.js", gulp.series(moveappdirectivetemplates));
 
 const defaultTask = gulp.series(
   cleanfile,
+  gulp.parallel(
+    processmasterjs,
+    processhomepagejs,
+    //processappjs,
+    movepagespecificjs,
+    createConstantsTemplate,
+    processfeaturedeventswidgetjs
+  ),
   gulp.parallel(
     movehtml,
     processscss,
@@ -301,7 +305,8 @@ const defaultTask = gulp.series(
     watchSCSS,
     watchJS,
     watchPageSpecific,
-    watchUtility
+    watchUtility,
+    watchMasterJS
   )
 );
 
