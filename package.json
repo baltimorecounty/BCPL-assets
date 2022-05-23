@@ -15,6 +15,8 @@
     "estraverse": "^4.2.0",
     "flatpickr": "^4.3.2",
     "font-awesome": "4.7.0",
+    "graceful-fs": "^4.2.10",
+    "gulp-cli": "^2.3.0",
     "gulp-download": "^0.0.1",
     "gulp-order": "^1.1.1",
     "handlebars": "^4.7.7",
@@ -34,7 +36,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^6.1.2",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
@@ -65,14 +67,15 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "lodash": "^4.17.21",
     "parsejson": "0.0.3",
-    "run-sequence": "^1.2.2"
-  },
-  "overrides": {
-    "graceful-fs": "^4.2.9"
+    "run-sequence": "^1.2.2",
+    "sass": "^1.52.1"
   },
   "scripts": {
-    "test": "karma start --single-run",
-    "watch-tests": "karma start"
+    "test": "./node_modules/.bin/karma start --single-run",
+    "watch-tests": "./node_modules/.bin/karma start"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.9"
   },
   "repository": {
     "type": "git",
@@ -83,8 +86,5 @@
   "bugs": {
     "url": "https://github.com/baltimorecounty/BCPL-assets/issues"
   },
-  "homepage": "https://github.com/baltimorecounty/BCPL-assets#readme",
-  "directories": {
-    "test": "test"
-  }
+  "homepage": "https://github.com/baltimorecounty/BCPL-assets#readme"
 }
