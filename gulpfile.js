@@ -20,6 +20,8 @@ const util = require("gulp-util");
 const eventPageAppFiles = require("./gulp-tasks/events-page-app.files");
 const featuredEventsFiles = require("./gulp-tasks/featured-events.files");
 
+sass.compiler = require("sass");
+
 function cleanfile() {
   return gulp.src("dist", { read: false, allowEmpty: true }).pipe(clean());
 }
@@ -34,13 +36,16 @@ function processscss() {
       "stylesheets/ie.scss",
     ])
     .pipe(sass())
+    .pipe(sass().on("error", sass.logError))
     .pipe(cssnano({ autoprefixer: false, zindex: false }))
     .pipe(rename({ suffix: ".min" }))
     .pipe(gulp.dest("dist/css"));
 }
 
-function minifyjs() {
-  return gulp
+exports.processscss = processscss;
+
+const minifyjs = (done) => {
+  gulp
     .src(["dist/js/**/*.js", "!**/*min.js"])
     .pipe(uglify())
     .on("error", (err) => {
@@ -48,7 +53,8 @@ function minifyjs() {
     })
     .pipe(rename({ suffix: ".min" }))
     .pipe(gulp.dest("dist/js"));
-}
+  done();
+};
 
 function createfeaturedeventswidgetjs() {
   const targetFiles = [
@@ -73,7 +79,7 @@ function createfeaturedeventswidgetjs() {
     .pipe(gulp.dest("dist/js/featured-events-widget"));
 }
 
-function processappjs() {
+function processappjs(done) {
   const appRootFolder = "js/apps";
   const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
     return fs.statSync(path.join(appRootFolder, file)).isDirectory();
@@ -81,7 +87,7 @@ function processappjs() {
 
   appFolders.forEach((folder) => {
     return gulp
-      .src(eventPageAppFiles(folder))
+      .src(eventPageAppFiles(folder), { read: false, allowEmpty: true })
       .pipe(
         jshint({
           esversion: 6,
@@ -100,11 +106,11 @@ function processappjs() {
         })
       )
       .pipe(concat("app.js"))
-      .pipe(
-        gulp.dest(`dist/js/apps/${folder}`, { read: false, allowEmpty: true })
-      );
+      .pipe(gulp.dest(`dist/js/apps/${folder}`));
   });
+  done();
 }
+exports.processappjs = processappjs;
 
 function processfeaturedeventswidgetjs() {
   return gulp
@@ -130,7 +136,7 @@ function processfeaturedeventswidgetjs() {
     .pipe(gulp.dest("dist/js/apps/events-page"));
 }
 
-function moveappdirectivetemplates() {
+function moveappdirectivetemplates(done) {
   const appRootFolder = "js/apps";
   const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
     return fs.statSync(path.join(appRootFolder, file)).isDirectory();
@@ -144,7 +150,11 @@ function moveappdirectivetemplates() {
       .src(`js/apps/${folder}/partials/*.html`)
       .pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
   });
+
+  done();
 }
+
+exports.moveappdirectivetemplates = moveappdirectivetemplates;
 
 function createConstantsTemplate() {
   return gulp
@@ -231,29 +241,35 @@ function movepagespecificjs() {
     .pipe(gulp.dest("dist/js/page-specific"));
 }
 
-function movevendorjs() {
-  return gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
-}
+const movevendorjs = (done) => {
+  gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
+  done();
+};
 
-function moveimages() {
-  return gulp.src("images/**/*").pipe(gulp.dest("dist/images"));
-}
+const moveimages = (done) => {
+  gulp.src("images/**/*").pipe(gulp.dest("dist/images"));
+  done();
+};
 
-function movefonts() {
-  return gulp.src("fonts/**.*").pipe(gulp.dest("dist/fonts"));
-}
+const movefonts = (done) => {
+  gulp.src("fonts/**.*").pipe(gulp.dest("dist/fonts"));
+  done();
+};
 
-function processpug() {
-  return gulp.src("mockups/pug/*.pug").pipe(pug()).pipe(gulp.dest("dist"));
-}
+const processpug = (done) => {
+  gulp.src("mockups/pug/*.pug").pipe(pug()).pipe(gulp.dest("dist"));
+  done();
+};
 
-function movehtml() {
-  return gulp.src("mockups/html/**/*.html").pipe(gulp.dest("dist"));
-}
+const movehtml = (done) => {
+  gulp.src("mockups/html/**/*.html").pipe(gulp.dest("dist"));
+  done();
+};
 
-function codecoverage() {
-  return gulp.src("/coverage/**/lcov.info").pipe(coveralls());
-}
+const codecoverage = (done) => {
+  gulp.src("/coverage/**/lcov.info").pipe(coveralls());
+  done();
+};
 
 function rewrite() {
   return gulp
@@ -262,52 +278,63 @@ function rewrite() {
     .pipe(gulp.dest("dist"));
 }
 
-function movedata() {
-  return gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
-}
+const movedata = (done) => {
+  gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
+  done();
+};
 
-const watchPug = () => gulp.watch("**/*.pug", gulp.series(processpug));
-const watchHTML = () => gulp.watch("**/*.html", gulp.series(movehtml));
-const watchSCSS = () => gulp.watch("**/*.scss", gulp.series(processscss));
-const watchJS = () => gulp.watch("js/*.js", gulp.series(minifyjs));
-const watchPageSpecific = () =>
-  gulp.watch("js/page-specific/*.js", gulp.series(movepagespecificjs));
-const watchUtility = () => gulp.watch("js/utility/*.js", gulp.series(util));
-const watchMasterJS = () =>
-  gulp.watch("**/*.min.js", gulp.series(moveappdirectivetemplates));
+const watchPug = (done) =>
+  gulp.watch("**/*.pug", gulp.series(processpug), done());
+const watchHTML = (done) =>
+  gulp.watch("**/*.html", gulp.series(movehtml), done());
+const watchSCSS = (done) =>
+  gulp.watch("**/*.scss", gulp.series(processscss), done());
+const watchJS = (done) => gulp.watch("js/*.js", gulp.series(minifyjs), done());
+const watchPageSpecific = (done) =>
+  gulp.watch("js/page-specific/*.js", gulp.series(movepagespecificjs), done());
+const watchUtility = (done) =>
+  gulp.watch("js/utility/*.js", gulp.series(createConstantsTemplate), done());
+const watchMasterJS = (done) =>
+  gulp.watch("**/*.min.js", gulp.series(processmasterjs), done());
 
-const defaultTask = gulp.series(
-  cleanfile,
-  gulp.parallel(
-    processmasterjs,
-    processhomepagejs,
-    //processappjs,
-    movepagespecificjs,
-    createConstantsTemplate,
-    processfeaturedeventswidgetjs
-  ),
-  gulp.parallel(
-    movehtml,
-    processscss,
-    minifyjs,
-    moveappdirectivetemplates,
-    movevendorjs,
-    moveimages,
-    movefonts,
-    rewrite,
-    movedata,
-    createfeaturedeventswidgetjs,
-    codecoverage
-  ),
-  gulp.parallel(
-    watchPug,
-    watchHTML,
-    watchSCSS,
-    watchJS,
-    watchPageSpecific,
-    watchUtility,
-    watchMasterJS
-  )
+const watch = gulp.parallel(
+  watchPug,
+  watchHTML,
+  watchSCSS,
+  watchJS,
+  watchPageSpecific,
+  watchUtility,
+  watchMasterJS
 );
+watch.description = "watch for changes to all source";
+exports.watch = watch;
+
+const process = gulp.parallel(
+  processmasterjs,
+  processhomepagejs,
+  movepagespecificjs,
+  createConstantsTemplate,
+  createfeaturedeventswidgetjs,
+  processappjs,
+  processfeaturedeventswidgetjs
+);
+exports.process = process;
+
+const copy = gulp.parallel(
+  movehtml,
+  processscss,
+  minifyjs,
+  moveappdirectivetemplates,
+  movevendorjs,
+  moveimages,
+  movefonts,
+  rewrite,
+  movedata,
+  createfeaturedeventswidgetjs,
+  codecoverage
+);
+exports.copy = copy;
+
+const defaultTask = gulp.series(cleanfile, process, copy); //gulp.parallel(watch));
 
 exports.default = defaultTask;
