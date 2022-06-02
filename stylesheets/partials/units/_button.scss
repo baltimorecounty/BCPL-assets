@@ -10,23 +10,26 @@ button {
 
 .btn-primary,
 .btn.btn-default.c-self-register__button-left {
-  background-color: $teal;
-  border: 1px solid $gray;
-  box-shadow: $shadow-primary-darker;
+  background-color:  #00857e;
+  border: 2px solid  #00857e;
   color: white !important;
+  font-weight: 700;
   padding: 0.5em 1em;
   text-transform: uppercase;
   &:hover {
-    background-color: $teal-light;
+    background-color: #005651;
+    border: 2px solid  #005651;
   }
   &:active,
   &:focus {
-    background-color: $teal-dark;
+    background-color: #005651;
+    border: 2px solid  #005651;
   }
   &:active {
     &:hover,
     &:focus {
-      background-color: $teal-dark;
+      background-color: #005651;
+      border: 2px solid  #005651;
     }
   }
 }
@@ -39,9 +42,30 @@ button {
 
 .btn-default,
 .seButton {
-  background-color: $gray-lightest;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25) inset;
+  color:  #00857e;
+  background-color: none;
+  border: 2px solid  #00857e;
+  font-weight: 700;
   padding: 0.5em 1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  &:hover {
+    color: $gray-almost-white;
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active,
+  &:focus {
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active {
+    &:hover,
+    &:focus {
+      background-color: #005651;
+      border: 2px solid  #005651;
+    }
+  }
 }
 
 .btn-default,
