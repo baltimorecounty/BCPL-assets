@@ -167,10 +167,11 @@ function createConstantsTemplate() {
     .pipe(concat("constants.js"))
     .pipe(gulp.dest("dist/js"));
 }
-
+exports.createConstantsTemplate = createConstantsTemplate;
 function processmasterjs() {
   return gulp
     .src([
+      "dist/js/constants.js",
       "js/utility/*.js",
       "js/**/*.js",
       "!js/vendor/**/*.js",
@@ -295,7 +296,7 @@ const watchPageSpecific = (done) =>
 const watchUtility = (done) =>
   gulp.watch("js/utility/*.js", gulp.series(createConstantsTemplate), done());
 const watchMasterJS = (done) =>
-  gulp.watch("**/*.min.js", gulp.series(processmasterjs), done());
+  gulp.watch("**/*.min.js", gulp.series(minifyjs), done());
 
 const watch = gulp.parallel(
   watchPug,
@@ -309,22 +310,22 @@ const watch = gulp.parallel(
 watch.description = "watch for changes to all source";
 exports.watch = watch;
 
-const process = gulp.parallel(
-  processmasterjs,
+const process = gulp.series(
   processhomepagejs,
-  movepagespecificjs,
-  createConstantsTemplate,
   createfeaturedeventswidgetjs,
   processappjs,
-  processfeaturedeventswidgetjs
+  processmasterjs,
+  processfeaturedeventswidgetjs,
+  processscss,
+  minifyjs
 );
 exports.process = process;
 
 const copy = gulp.parallel(
+  createConstantsTemplate,
   movehtml,
-  processscss,
-  minifyjs,
   moveappdirectivetemplates,
+  movepagespecificjs,
   movevendorjs,
   moveimages,
   movefonts,
@@ -335,6 +336,6 @@ const copy = gulp.parallel(
 );
 exports.copy = copy;
 
-const defaultTask = gulp.series(cleanfile, process, copy); //gulp.parallel(watch));
+const defaultTask = gulp.series(cleanfile, copy, process); //gulp.parallel(watch));
 
 exports.default = defaultTask;
