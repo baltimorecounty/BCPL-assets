@@ -1,9 +1,12 @@
 @import 'vendor/bootstrap/bootstrap';
-@import 'vendor/flatpickr/flatpickr-adjustments';
 @import 'partials/core/fonts';
 @import 'partials/core/colors';
 @import 'partials/core/flexbox';
 @import 'partials/core/shadows';
+
+
+@import 'vendor/flatpickr/flatpickr-adjustments';
+
 @import 'partials/units/page';
 @import 'partials/units/typography';
 @import 'partials/units/navigation';

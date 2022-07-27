@@ -284,19 +284,13 @@ const movedata = (done) => {
   done();
 };
 
-const watchPug = (done) =>
-  gulp.watch("**/*.pug", gulp.series(processpug), done());
-const watchHTML = (done) =>
-  gulp.watch("**/*.html", gulp.series(movehtml), done());
-const watchSCSS = (done) =>
-  gulp.watch("**/*.scss", gulp.series(processscss), done());
-const watchJS = (done) => gulp.watch("js/*.js", gulp.series(minifyjs), done());
+const watchPug = (done) => gulp.watch("**/*.pug", "default", done());
+const watchHTML = (done) => gulp.watch("**/*.html", "default", done());
+const watchSCSS = (done) => gulp.watch("**/*.scss", "default", done());
+const watchJS = (done) => gulp.watch("js/*.js", "default", done());
 const watchPageSpecific = (done) =>
-  gulp.watch("js/page-specific/*.js", gulp.series(movepagespecificjs), done());
-const watchUtility = (done) =>
-  gulp.watch("js/utility/*.js", gulp.series(createConstantsTemplate), done());
-const watchMasterJS = (done) =>
-  gulp.watch("**/*.min.js", gulp.series(minifyjs), done());
+  gulp.watch("js/page-specific/*.js", "default", done());
+const watchUtility = (done) => gulp.watch("js/utility/*.js", "default", done());
 
 const watch = gulp.parallel(
   watchPug,
@@ -304,8 +298,7 @@ const watch = gulp.parallel(
   watchSCSS,
   watchJS,
   watchPageSpecific,
-  watchUtility,
-  watchMasterJS
+  watchUtility
 );
 watch.description = "watch for changes to all source";
 exports.watch = watch;
@@ -336,6 +329,6 @@ const copy = gulp.parallel(
 );
 exports.copy = copy;
 
-const defaultTask = gulp.series(cleanfile, copy, process); //gulp.parallel(watch));
+const defaultTask = gulp.series(cleanfile, copy, process, watch);
 
 exports.default = defaultTask;
