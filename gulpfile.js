@@ -292,14 +292,17 @@ const watchPageSpecific = (done) =>
   gulp.watch("js/page-specific/*.js", "default", done());
 const watchUtility = (done) => gulp.watch("js/utility/*.js", "default", done());
 
-const watch = gulp.parallel(
-  watchPug,
-  watchHTML,
-  watchSCSS,
-  watchJS,
-  watchPageSpecific,
-  watchUtility
-);
+const watch = (done) => {
+  gulp.parallel(
+    watchPug,
+    watchHTML,
+    watchSCSS,
+    watchJS,
+    watchPageSpecific,
+    watchUtility
+  );
+  done();
+};
 watch.description = "watch for changes to all source";
 exports.watch = watch;
 
