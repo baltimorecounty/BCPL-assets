@@ -2,7 +2,6 @@ const babel = require("gulp-babel");
 const concat = require("gulp-concat");
 const coveralls = require("gulp-coveralls");
 const cssnano = require("gulp-cssnano");
-const download = require("gulp-download");
 const fs = require("fs");
 const gulp = require("gulp");
 const jshint = require("gulp-jshint");
@@ -47,7 +46,7 @@ gulp.task("create-featured-events-widget-js", () => {
     "dist/js/apps/events-page/featuredEventsWidgetApp.min.js",
   ];
   return gulp
-    .src(targetFiles)
+    .src(targetFiles, { allowEmpty: true })
     .pipe(
       order(
         [
@@ -62,15 +61,10 @@ gulp.task("create-featured-events-widget-js", () => {
     .pipe(gulp.dest("dist/js/featured-events-widget"));
 });
 
-gulp.task("process-app-js", () => {
-  const appRootFolder = "js/apps";
-  const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
-    return fs.statSync(path.join(appRootFolder, file)).isDirectory();
-  });
-
-  appFolders.forEach((folder) => {
+gulp.task("process-featured-events-widget-js", async function () {
+  () => {
     gulp
-      .src(eventPageAppFiles(folder))
+      .src(featuredEventsFiles)
       .pipe(
         jshint({
           esversion: 6,
@@ -88,61 +82,74 @@ gulp.task("process-app-js", () => {
           end_comment: "end-test-code",
         })
       )
-      .pipe(concat("app.js"))
-      .pipe(gulp.dest(`dist/js/apps/${folder}`));
-  });
+      .pipe(concat("featuredEventsWidgetApp.js"))
+      .pipe(gulp.dest("dist/js/apps/events-page"));
+  };
 });
 
-gulp.task("process-featured-events-widget-js", () => {
-  gulp
-    .src(featuredEventsFiles)
-    .pipe(
-      jshint({
-        esversion: 6,
-      })
-    )
-    .pipe(jshint.reporter(stylish))
-    .pipe(
-      babel({
-        presets: ["es2015"],
-      })
-    )
-    .pipe(
-      stripCode({
-        start_comment: "test-code",
-        end_comment: "end-test-code",
-      })
-    )
-    .pipe(concat("featuredEventsWidgetApp.js"))
-    .pipe(gulp.dest("dist/js/apps/events-page"));
+gulp.task("process-app-js", async function () {
+  () => {
+    const appRootFolder = "js/apps";
+    const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
+      return fs.statSync(path.join(appRootFolder, file)).isDirectory();
+    });
+
+    appFolders.forEach((folder) => {
+      gulp
+        .src(eventPageAppFiles(folder), { allowEmpty: true })
+        .pipe(
+          jshint({
+            esversion: 6,
+          })
+        )
+        .pipe(jshint.reporter(stylish))
+        .pipe(
+          babel({
+            presets: ["es2015"],
+          })
+        )
+        .pipe(
+          stripCode({
+            start_comment: "test-code",
+            end_comment: "end-test-code",
+          })
+        )
+        .pipe(concat("app.js"))
+        .pipe(gulp.dest(`dist/js/apps/${folder}`));
+    });
+  };
 });
 
-gulp.task("move-app-directive-templates", () => {
-  const appRootFolder = "js/apps";
-  const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
-    return fs.statSync(path.join(appRootFolder, file)).isDirectory();
-  });
+gulp.task("move-app-directive-templates", async function () {
+  () => {
+    const appRootFolder = "js/apps";
+    const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
+      return fs.statSync(path.join(appRootFolder, file)).isDirectory();
+    });
 
-  appFolders.forEach((folder) => {
+    appFolders.forEach((folder) => {
+      gulp
+        .src(`js/apps/${folder}/directives/templates/*.html`)
+        .pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
+      gulp
+        .src(`js/apps/${folder}/partials/*.html`)
+        .pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
+    });
+  };
+});
+
+gulp.task("createConstantsTemplate", async function () {
+  () => {
     gulp
-      .src(`js/apps/${folder}/directives/templates/*.html`)
-      .pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
-    gulp
-      .src(`js/apps/${folder}/partials/*.html`)
-      .pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
-  });
-});
-
-gulp.task("createConstantsTemplate", () => {
-  gulp
-    .src(["js/utility/namespacer.js", "js/constants.js"])
-    .pipe(
-      babel({
-        presets: ["es2015"],
-      })
-    )
-    .pipe(concat("constants.js"))
-    .pipe(gulp.dest("dist/js"));
+      .src(["js/utility/namespacer.js", "js/constants.js"])
+      .pipe(
+        babel({
+          presets: ["es2015"],
+        })
+      )
+      .pipe(concat("constants.js"))
+      .pipe(gulp.dest("dist/js"));
+  };
 });
 
 gulp.task("process-master-js", () =>
@@ -217,8 +224,10 @@ gulp.task("move-page-specific-js", () =>
     .pipe(gulp.dest("dist/js/page-specific"))
 );
 
-gulp.task("move-vendor-js", () => {
-  gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
+gulp.task("move-vendor-js", async function () {
+  () => {
+    gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
+  };
 });
 
 gulp.task("move-images", () =>
@@ -241,26 +250,34 @@ gulp.task("code-coverage", () =>
   gulp.src("/coverage/**/lcov.info").pipe(coveralls())
 );
 
-gulp.task("rewrite", () => {
-  gulp.src("rewrite.config").pipe(rename("web.config")).pipe(gulp.dest("dist"));
+gulp.task("rewrite", async function () {
+  () => {
+    gulp
+      .src("rewrite.config", { allowEmpty: true })
+      .pipe(rename("web.config"))
+      .pipe(gulp.dest("dist"));
+  };
 });
 
-gulp.task("move-data", () => {
-  gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
+gulp.task("move-data", async function () {
+  () => {
+    gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
+  };
 });
 
-gulp.task(
-  "minify-js",
-  gulp.series(
-    "process-master-js",
-    "process-homepage-js",
-    "process-app-js",
-    "move-page-specific-js",
-    "createConstantsTemplate",
-    "process-featured-events-widget-js",
+gulp.task("minify-js", async function () {
+  runSequence(
+    [
+      "process-master-js",
+      "process-homepage-js",
+      "process-featured-events-widget-js",
+      "process-app-js",
+      "move-page-specific-js",
+      "createConstantsTemplate",
+    ],
     () => {
       return gulp
-        .src(["dist/js/**/*.js", "!**/*min.js"])
+        .src(["dist/js/**/*.js", "!**/*min.js"], { allowEmpty: true })
         .pipe(uglify())
         .on("error", (err) => {
           util.log(util.colors.red("[Error]"), err.toString());
@@ -268,25 +285,23 @@ gulp.task(
         .pipe(rename({ suffix: ".min" }))
         .pipe(gulp.dest("dist/js"));
     }
-  )
-);
+  );
+});
 
 gulp.task("default", async function () {
-  runSequence(
-    [
-      "move-html",
-      "process-scss",
-      "minify-js",
-      "move-app-directive-templates",
-      "move-vendor-js",
-      "move-images",
-      "move-fonts",
-      "rewrite",
-      "move-data",
-    ],
+  runSequence([
+    "move-html",
+    "process-scss",
     "create-featured-events-widget-js",
-    "code-coverage"
-  );
+    "minify-js",
+    "move-app-directive-templates",
+    "move-vendor-js",
+    "move-images",
+    "move-fonts",
+    "rewrite",
+    "move-data",
+    "code-coverage",
+  ]);
 });
 
 gulp.task("watcher", () => {
