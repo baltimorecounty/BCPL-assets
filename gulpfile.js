@@ -155,6 +155,7 @@ gulp.task("createConstantsTemplate", async function () {
 gulp.task("process-master-js", () =>
   gulp
     .src([
+      "js/utility/namespacer.js",
       "js/utility/*.js",
       "js/**/*.js",
       "!js/vendor/**/*.js",
@@ -268,12 +269,12 @@ gulp.task("move-data", async function () {
 gulp.task("minify-js", async function () {
   runSequence(
     [
+      "createConstantsTemplate",
       "process-master-js",
       "process-homepage-js",
       "process-featured-events-widget-js",
       "process-app-js",
       "move-page-specific-js",
-      "createConstantsTemplate",
     ],
     () => {
       return gulp
@@ -290,17 +291,17 @@ gulp.task("minify-js", async function () {
 
 gulp.task("default", async function () {
   runSequence([
+    "move-vendor-js",
     "move-html",
     "process-scss",
     "create-featured-events-widget-js",
-    "minify-js",
     "move-app-directive-templates",
-    "move-vendor-js",
     "move-images",
     "move-fonts",
     "rewrite",
     "move-data",
     "code-coverage",
+    "minify-js",
   ]);
 });
 
