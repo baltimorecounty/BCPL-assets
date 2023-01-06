@@ -156,12 +156,12 @@ gulp.task("process-master-js", () =>
   gulp
     .src([
       "js/utility/namespacer.js",
+      "js/constants.js",
       "js/utility/*.js",
       "js/**/*.js",
       "!js/vendor/**/*.js",
       "!js/page-specific/**/*.js",
       "!js/apps/**/*",
-      "!js/constants.js",
     ])
     .pipe(
       jshint({
