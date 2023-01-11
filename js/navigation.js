@@ -1,4 +1,4 @@
-const { on } = require("gulp");
+// const { on } = require("gulp");
 
 namespacer('bcpl');
 
@@ -122,11 +122,33 @@ bcpl.navigation = (($, keyCodes) => {
 	const escPress = (keyboardEvent) => {
 		const keyCode = keyboardEvent.which || keyboardEvent.keyCode;
 		const $expandedMenu = $('#responsive-sliding-navigation').find(activeMenuButtonSelector);
+		const $activeMobileNav = $('#responsive-sliding-navigation.active');
+		const $navSearch = $('.nav-and-search');
+		const $searchBox = $('#search-box');
+		const $searchArtifactsSelector = $(searchArtifactsSelector);
 
 		switch(keyCode) {
 			case keyCodes.escape:
+				// close sub menues
+				removeActiveClassFromAllButtons();
 				deactivateSubmenu($expandedMenu);
 				hideHeroCallout(false);
+
+				// close searchbox if open with escape
+				if ($searchArtifactsSelector.is(':visible')) {
+					hideSearchBox();
+					$navSearch.removeClass('search-is-active');
+					$searchBox.removeClass('active');
+					$('body').removeClass('nav-visible');
+				}
+
+				// Close clide out menu if on tablet or smaller screens
+				if ((window.innerWidth <= mobileWidthThreshold) && !!$activeMobileNav) {
+					$('#modal-cover').removeClass('active');
+					$activeMobileNav.removeClass('active');
+					$activeMobileNav.find($('button')).attr('aria-expanded', false);
+					hideHeroCallout(false);
+				}
 				break;
 			default:
 				break;
