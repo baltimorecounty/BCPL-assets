@@ -1,65 +1,90 @@
 button {
-    background: transparent;
-    border: none;
+  background: transparent;
+  border: none;
 }
 
 .btn {
-    border: none;
-    border-radius: 0;
+  border: none;
+  border-radius: 0;
 }
 
-.btn-primary {
-    background-color: $teal;
-    border: 1px solid $gray;
-    box-shadow: $shadow-primary-darker;
-    color: white !important;
-    padding: .5em 1em;
-    text-transform: uppercase;
-    &:hover {
-        background-color: $teal-light;
-    }
-    &:active,
+.btn-primary,
+.btn.btn-default.c-self-register__button-left {
+  background-color:  #00857e;
+  border: 2px solid  #00857e;
+  color: white !important;
+  font-weight: 700;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  &:hover {
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active,
+  &:focus {
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active {
+    &:hover,
     &:focus {
-        background-color: $teal-dark;
+      background-color: #005651;
+      border: 2px solid  #005651;
     }
-    &:active {
-        &:hover,
-        &:focus {
-            background-color: $teal-dark;
-        }
-    }
+  }
 }
 
 .btn-uppercase-bold {
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 2em;
 }
 
 .btn-default,
 .seButton {
-    background-color: $gray-lightest;
-    box-shadow: 0 0 4px rgba(0, 0, 0, .25) inset;
-    padding: .5em 1em;
+  color:  #00857e;
+  background-color: none;
+  border: 2px solid  #00857e;
+  font-weight: 700;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  &:hover {
+    color: $gray-almost-white;
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active,
+  &:focus {
+    background-color: #005651;
+    border: 2px solid  #005651;
+  }
+  &:active {
+    &:hover,
+    &:focus {
+      background-color: #005651;
+      border: 2px solid  #005651;
+    }
+  }
 }
 
 .btn-default,
 .btn-primary,
 .buttonPrimary,
 .seButton {
-    margin-bottom: 2em;
+  margin-bottom: 2em;
 }
 
 .btn-icon-left {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .bc-btn-link {
-	@extend a;
-    text-align: left;
-    &:active{
-        box-shadow: none; 
-    }
-	padding: 0;
-	width: auto;
+  @extend a;
+  text-align: left;
+  &:active {
+    box-shadow: none;
+  }
+  padding: 0;
+  width: auto;
 }

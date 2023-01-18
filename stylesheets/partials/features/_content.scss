@@ -25,6 +25,10 @@
         font-weight: normal;
         line-height: 1.7em;
         text-decoration: underline;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
