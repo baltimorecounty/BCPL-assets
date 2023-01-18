@@ -1,9 +1,7 @@
 const babel = require("gulp-babel");
-const clean = require("gulp-clean");
 const concat = require("gulp-concat");
 const coveralls = require("gulp-coveralls");
 const cssnano = require("gulp-cssnano");
-const download = require("gulp-download");
 const fs = require("fs");
 const gulp = require("gulp");
 const jshint = require("gulp-jshint");
@@ -11,7 +9,7 @@ const order = require("gulp-order");
 const path = require("path");
 const pug = require("gulp-pug");
 const rename = require("gulp-rename");
-const runSequence = require("run-sequence");
+const runSequence = require("gulp4-run-sequence");
 const sass = require("gulp-sass")(require("sass"));
 const stripCode = require("gulp-strip-code");
 const stylish = require("jshint-stylish");
@@ -20,14 +18,13 @@ const util = require("gulp-util");
 const eventPageAppFiles = require("./gulp-tasks/events-page-app.files");
 const featuredEventsFiles = require("./gulp-tasks/featured-events.files");
 
-sass.compiler = require("sass");
+gulp.task("clean", (done) => {
+  del.sync("dist/*");
+  done();
+});
 
-function cleanfile() {
-  return gulp.src("dist", { read: false, allowEmpty: true }).pipe(clean());
-}
-
-function processscss() {
-  return gulp
+gulp.task("process-scss", () =>
+  gulp
     .src([
       "stylesheets/master.scss",
       "stylesheets/master-high-contrast.scss",
@@ -36,27 +33,12 @@ function processscss() {
       "stylesheets/ie.scss",
     ])
     .pipe(sass())
-    .pipe(sass().on("error", sass.logError))
     .pipe(cssnano({ autoprefixer: false, zindex: false }))
     .pipe(rename({ suffix: ".min" }))
-    .pipe(gulp.dest("dist/css"));
-}
+    .pipe(gulp.dest("dist/css"))
+);
 
-exports.processscss = processscss;
-
-const minifyjs = (done) => {
-  gulp
-    .src(["dist/js/**/*.js", "!**/*min.js"])
-    .pipe(uglify())
-    .on("error", (err) => {
-      util.log(util.colors.red("[Error]"), err.toString());
-    })
-    .pipe(rename({ suffix: ".min" }))
-    .pipe(gulp.dest("dist/js"));
-  done();
-};
-
-function createfeaturedeventswidgetjs() {
+gulp.task("create-featured-events-widget-js", () => {
   const targetFiles = [
     "dist/js/angular/angular.min.js",
     "dist/js/angular/angular-aria.min.js",
@@ -64,7 +46,7 @@ function createfeaturedeventswidgetjs() {
     "dist/js/apps/events-page/featuredEventsWidgetApp.min.js",
   ];
   return gulp
-    .src(targetFiles, { read: false, allowEmpty: true })
+    .src(targetFiles, { allowEmpty: true })
     .pipe(
       order(
         [
@@ -77,17 +59,12 @@ function createfeaturedeventswidgetjs() {
     )
     .pipe(concat("featured-events-widget.min.js"))
     .pipe(gulp.dest("dist/js/featured-events-widget"));
-}
+});
 
-function processappjs(done) {
-  const appRootFolder = "js/apps";
-  const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
-    return fs.statSync(path.join(appRootFolder, file)).isDirectory();
-  });
-
-  appFolders.forEach((folder) => {
-    return gulp
-      .src(eventPageAppFiles(folder), { read: false, allowEmpty: true })
+gulp.task("process-featured-events-widget-js", async function () {
+  () => {
+    gulp
+      .src(featuredEventsFiles)
       .pipe(
         jshint({
           esversion: 6,
@@ -105,79 +82,86 @@ function processappjs(done) {
           end_comment: "end-test-code",
         })
       )
-      .pipe(concat("app.js"))
-      .pipe(gulp.dest(`dist/js/apps/${folder}`));
-  });
-  done();
-}
-exports.processappjs = processappjs;
+      .pipe(concat("featuredEventsWidgetApp.js"))
+      .pipe(gulp.dest("dist/js/apps/events-page"));
+  };
+});
 
-function processfeaturedeventswidgetjs() {
-  return gulp
-    .src(featuredEventsFiles)
-    .pipe(
-      jshint({
-        esversion: 6,
-      })
-    )
-    .pipe(jshint.reporter(stylish))
-    .pipe(
-      babel({
-        presets: ["es2015"],
-      })
-    )
-    .pipe(
-      stripCode({
-        start_comment: "test-code",
-        end_comment: "end-test-code",
-      })
-    )
-    .pipe(concat("featuredEventsWidgetApp.js"))
-    .pipe(gulp.dest("dist/js/apps/events-page"));
-}
+gulp.task("process-app-js", async function () {
+  () => {
+    const appRootFolder = "js/apps";
+    const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
+      return fs.statSync(path.join(appRootFolder, file)).isDirectory();
+    });
 
-function moveappdirectivetemplates(done) {
-  const appRootFolder = "js/apps";
-  const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
-    return fs.statSync(path.join(appRootFolder, file)).isDirectory();
-  });
+    appFolders.forEach((folder) => {
+      gulp
+        .src(eventPageAppFiles(folder), { allowEmpty: true })
+        .pipe(
+          jshint({
+            esversion: 6,
+          })
+        )
+        .pipe(jshint.reporter(stylish))
+        .pipe(
+          babel({
+            presets: ["es2015"],
+          })
+        )
+        .pipe(
+          stripCode({
+            start_comment: "test-code",
+            end_comment: "end-test-code",
+          })
+        )
+        .pipe(concat("app.js"))
+        .pipe(gulp.dest(`dist/js/apps/${folder}`));
+    });
+  };
+});
 
-  appFolders.forEach((folder) => {
+gulp.task("move-app-directive-templates", async function () {
+  () => {
+    const appRootFolder = "js/apps";
+    const appFolders = fs.readdirSync(appRootFolder).filter((file) => {
+      return fs.statSync(path.join(appRootFolder, file)).isDirectory();
+    });
+
+    appFolders.forEach((folder) => {
+      gulp
+        .src(`js/apps/${folder}/directives/templates/*.html`)
+        .pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
+      gulp
+        .src(`js/apps/${folder}/partials/*.html`)
+        .pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
+    });
+  };
+});
+
+gulp.task("createConstantsTemplate", async function () {
+  () => {
     gulp
-      .src(`js/apps/${folder}/directives/templates/*.html`)
-      .pipe(gulp.dest(`dist/js/apps/${folder}/templates`));
-    gulp
-      .src(`js/apps/${folder}/partials/*.html`)
-      .pipe(gulp.dest(`dist/js/apps/${folder}/partials`));
-  });
+      .src(["js/utility/namespacer.js", "js/constants.js"])
+      .pipe(
+        babel({
+          presets: ["es2015"],
+        })
+      )
+      .pipe(concat("constants.js"))
+      .pipe(gulp.dest("dist/js"));
+  };
+});
 
-  done();
-}
-
-exports.moveappdirectivetemplates = moveappdirectivetemplates;
-
-function createConstantsTemplate() {
-  return gulp
-    .src(["js/utility/namespacer.js", "js/constants.js"])
-    .pipe(
-      babel({
-        presets: ["es2015"],
-      })
-    )
-    .pipe(concat("constants.js"))
-    .pipe(gulp.dest("dist/js"));
-}
-exports.createConstantsTemplate = createConstantsTemplate;
-function processmasterjs() {
-  return gulp
+gulp.task("process-master-js", () =>
+  gulp
     .src([
-      "dist/js/constants.js",
+      "js/utility/namespacer.js",
+      "js/constants.js",
       "js/utility/*.js",
       "js/**/*.js",
       "!js/vendor/**/*.js",
-      "!js/pagespecific/**/*.js",
+      "!js/page-specific/**/*.js",
       "!js/apps/**/*",
-      "!js/constants.js",
     ])
     .pipe(
       jshint({
@@ -197,13 +181,12 @@ function processmasterjs() {
       })
     )
     .pipe(concat("master.js"))
-    .pipe(gulp.dest("dist/js"));
-}
-exports.processmasterjs = processmasterjs;
+    .pipe(gulp.dest("dist/js"))
+);
 
-function processhomepagejs() {
-  return gulp
-    .src("js/page-specific/homepage/*.js")
+gulp.task("process-homepage-js", () =>
+  gulp
+    .src(["js/page-specific/homepage/*.js"])
     .pipe(
       jshint({
         esversion: 6,
@@ -222,11 +205,11 @@ function processhomepagejs() {
       })
     )
     .pipe(concat("homepage.js"))
-    .pipe(gulp.dest("dist/js"));
-}
+    .pipe(gulp.dest("dist/js"))
+);
 
-function movepagespecificjs() {
-  return gulp
+gulp.task("move-page-specific-js", () =>
+  gulp
     .src("js/page-specific/**/*.js")
     .pipe(
       jshint({
@@ -239,99 +222,94 @@ function movepagespecificjs() {
         presets: ["es2015"],
       })
     )
-    .pipe(gulp.dest("dist/js/page-specific"));
-}
+    .pipe(gulp.dest("dist/js/page-specific"))
+);
 
-const movevendorjs = (done) => {
-  gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
-  done();
-};
+gulp.task("move-vendor-js", async function () {
+  () => {
+    gulp.src("js/vendor/**/*.js").pipe(gulp.dest("dist/js"));
+  };
+});
 
-const moveimages = (done) => {
-  gulp.src("images/**/*").pipe(gulp.dest("dist/images"));
-  done();
-};
+gulp.task("move-images", () =>
+  gulp.src("images/**/*").pipe(gulp.dest("dist/images"))
+);
 
-const movefonts = (done) => {
-  gulp.src("fonts/**.*").pipe(gulp.dest("dist/fonts"));
-  done();
-};
+gulp.task("move-fonts", () =>
+  gulp.src("fonts/**.*").pipe(gulp.dest("dist/fonts"))
+);
 
-const processpug = (done) => {
-  gulp.src("mockups/pug/*.pug").pipe(pug()).pipe(gulp.dest("dist"));
-  done();
-};
+gulp.task("process-pug", () =>
+  gulp.src(["mockups/pug/*.pug"]).pipe(pug()).pipe(gulp.dest("dist"))
+);
 
-const movehtml = (done) => {
-  gulp.src("mockups/html/**/*.html").pipe(gulp.dest("dist"));
-  done();
-};
+gulp.task("move-html", () =>
+  gulp.src("mockups/html/**/*.html").pipe(gulp.dest("dist"))
+);
 
-const codecoverage = (done) => {
-  gulp.src("/coverage/**/lcov.info").pipe(coveralls());
-  done();
-};
+gulp.task("code-coverage", () =>
+  gulp.src("/coverage/**/lcov.info").pipe(coveralls())
+);
 
-function rewrite() {
-  return gulp
-    .src("rewrite.config", { read: false, allowEmpty: true })
-    .pipe(rename("web.config"))
-    .pipe(gulp.dest("dist"));
-}
+gulp.task("rewrite", async function () {
+  () => {
+    gulp
+      .src("rewrite.config", { allowEmpty: true })
+      .pipe(rename("web.config"))
+      .pipe(gulp.dest("dist"));
+  };
+});
 
-const movedata = (done) => {
-  gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
-  done();
-};
+gulp.task("move-data", async function () {
+  () => {
+    gulp.src("data/**/*").pipe(gulp.dest("dist/data"));
+  };
+});
 
-const watchPug = (done) => gulp.watch("**/*.pug", "default", done());
-const watchHTML = (done) => gulp.watch("**/*.html", "default", done());
-const watchSCSS = (done) => gulp.watch("**/*.scss", "default", done());
-const watchJS = (done) => gulp.watch("js/*.js", "default", done());
-const watchPageSpecific = (done) =>
-  gulp.watch("js/page-specific/*.js", "default", done());
-const watchUtility = (done) => gulp.watch("js/utility/*.js", "default", done());
-
-const watch = (done) => {
-  gulp.parallel(
-    watchPug,
-    watchHTML,
-    watchSCSS,
-    watchJS,
-    watchPageSpecific,
-    watchUtility
+gulp.task("minify-js", async function () {
+  runSequence(
+    [
+      "createConstantsTemplate",
+      "process-master-js",
+      "process-homepage-js",
+      "process-featured-events-widget-js",
+      "process-app-js",
+      "move-page-specific-js",
+    ],
+    () => {
+      return gulp
+        .src(["dist/js/**/*.js", "!**/*min.js"], { allowEmpty: true })
+        .pipe(uglify())
+        .on("error", (err) => {
+          util.log(util.colors.red("[Error]"), err.toString());
+        })
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(gulp.dest("dist/js"));
+    }
   );
-  done();
-};
-watch.description = "watch for changes to all source";
-exports.watch = watch;
+});
 
-const process = gulp.series(
-  processhomepagejs,
-  createfeaturedeventswidgetjs,
-  processappjs,
-  processmasterjs,
-  processfeaturedeventswidgetjs,
-  processscss,
-  minifyjs
-);
-exports.process = process;
+gulp.task("default", async function () {
+  runSequence([
+    "move-vendor-js",
+    "move-html",
+    "process-scss",
+    "create-featured-events-widget-js",
+    "move-app-directive-templates",
+    "move-images",
+    "move-fonts",
+    "rewrite",
+    "move-data",
+    "code-coverage",
+    "minify-js",
+  ]);
+});
 
-const copy = gulp.parallel(
-  createConstantsTemplate,
-  movehtml,
-  moveappdirectivetemplates,
-  movepagespecificjs,
-  movevendorjs,
-  moveimages,
-  movefonts,
-  rewrite,
-  movedata,
-  createfeaturedeventswidgetjs,
-  codecoverage
-);
-exports.copy = copy;
-
-const defaultTask = gulp.series(cleanfile, copy, process, watch);
-
-exports.default = defaultTask;
+gulp.task("watcher", () => {
+  gulp.watch("**/*.pug", ["default"]);
+  gulp.watch("**/*.html", ["default"]);
+  gulp.watch("**/*.scss", ["default"]);
+  gulp.watch("js/*.js", ["default"]);
+  gulp.watch("js/page-specific/*.js", ["default"]);
+  gulp.watch("js/utility/*.js", ["default"]);
+});
