@@ -2,9 +2,9 @@
 	background: white;
 	color: $gray;
 	display: block;
-	margin-bottom: 1.2em; 
-	padding: .5em;			
-	box-shadow: $shadow-primary;		
+	margin-bottom: 1.2em;
+	padding: .5em;
+	box-shadow: $shadow-primary;
 }
 
 .cards {
@@ -12,10 +12,10 @@
 	float: left;
 	width: 100%;
 
-	.card {	
+	.card {
 		transition: all 0.25s ease;
-		margin-bottom: 15px;			
-		
+		margin-bottom: 15px;
+
 		h2 {
 			font-size: 18px;
 			margin: .75em 0 .25em 0;
@@ -28,7 +28,7 @@
 		font-weight: 700;
 		margin: 0 .5em;
 		text-decoration: none !important;
-		
+
 		&.card {
 			padding: .5em;
 
@@ -41,7 +41,7 @@
 				width: calc(100% - 1em);
 
 				.black-background {
-					background: #000;					
+					background: #000;
 				}
 
 				p {
@@ -60,12 +60,21 @@
 			}
 
 			img {
-				width: 100%;				
+				width: 100%;
 			}
 		}
 		figcaption {
 			min-height: 4em;
 			padding-top: .5em;
+		}
+	}
+
+	&.cards--3-col {
+		display: flex;
+		flex-wrap: wrap;
+
+		.card {
+			width: calc(33% - 1em);
 		}
 	}
 }
@@ -87,7 +96,7 @@
 	.cards {
 		a {
 			&.card {
-				width: calc(33% - 1em);				
+				width: calc(33% - 1em);
 			}
 		}
 	}
@@ -101,7 +110,7 @@
 
 		a {
 			&.card {
-				width: calc(50% - 1em);								
+				width: calc(50% - 1em);
 			}
 		}
 	}
@@ -116,14 +125,14 @@
 				margin-right: 0;
 
 				&.banner {
-					width: 100%;					
-				
+					width: 100%;
+
 					figure {
 						img {
 							height: 100%;
 							width: 100%;
 						}
-					}		
+					}
 				}
 
 				figure {
@@ -140,7 +149,7 @@
 						min-height: auto;
 						text-align: right;
 						padding: 0 .4em;
-					}										
+					}
 				}
 			}
 		}
