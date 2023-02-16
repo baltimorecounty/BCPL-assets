@@ -31,7 +31,7 @@
 		requestChunkSize: 10,
 		ageDisclaimer: {
 			message: 'Children under 8 must be accompanied by an adult',
-			ageGroupIds: [9, 10, 11, 12, 13, 1050, 1051, 1052] // All ages but teen and adults, https://bcpl.evanced.info/api/signup/agegroups
+			ageGroupIds: [1, 3, 9, 10, 11, 12, 13, 1050, 1051, 1052, 1054, 1055] // All ages but teen and adults, https://bcpl.evanced.info/api/signup/agegroups
 		},
 		eventDetailsError: {
 			message: 'There was a problem loading this event\'s details. Please select a different event.'
