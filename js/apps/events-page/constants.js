@@ -42,12 +42,12 @@
     },
     dateOffsets: {
       registrationStart: {
-        numberOfUnits: 7,
+        numberOfUnits: 365,
         unit: "days",
       },
       registrationEnd: {
-        numberOfUnits: 1,
-        unit: "hours",
+        numberOfUnits: 0,
+        unit: "days",
       },
     },
     analytics: {
