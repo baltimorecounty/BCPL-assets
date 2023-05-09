@@ -4,12 +4,12 @@
 .internal {
 	.menu-wrapper {
 		position: relative;
-		top: 0px;	
+		top: 0px;
 
 		.menu-container {
 			.logo {
                 z-index: 999;
-                
+
                 svg {
                     max-width: 300px;
                 }
@@ -55,10 +55,10 @@
 			top: 12px;
 			right: 15px;
 			z-index: 100;
-			
+
 			&.active {
 				background-color: rgba(0, 0, 0, .5);
-				border-radius: 8px 8px 0 0;			
+				border-radius: 8px 8px 0 0;
 				color: white;
 
 				i::before {
@@ -108,7 +108,7 @@
 				text-transform: uppercase;
 				font-family: TTRoundsCondensed-Bold;
             }
-            
+
             > ul {
                 float: right;
                 margin-right: 7em;
@@ -268,7 +268,7 @@
 		right: 15px;
 		width: calc(100% - 15px);
 		z-index: 9999;
-		
+
 		input {
 			font-size: 1.2em;
 			font-weight: bold;
@@ -283,7 +283,7 @@
 			display: inline-block;
 			font-size: 14px;
 			font-family: 'TTRoundsCondensed-Bold';
-			height: 35px;			
+			height: 35px;
 			margin-right: 5px;
 			padding: .5em .75em;
 			text-transform: uppercase;
@@ -360,7 +360,7 @@
 							width: calc(#{$screen-md} - 48px);
 						}
 					}
-					
+
 				}
 			}
 		}
@@ -373,7 +373,7 @@
 			#activate-search-button {
 				top: 7px;
 				font-family: inherit;
-				
+
 				span {
 					display: none;
 				}
@@ -383,7 +383,7 @@
 				}
 			}
 
-			nav {				
+			nav {
 				a,
 				button {
 					padding: .25em 0 .25em .25em;
@@ -396,7 +396,7 @@
 					li > button {
 						cursor: pointer;
 					}
-					
+
 					li {
 						margin-right: 0;
 
@@ -435,7 +435,7 @@
 				right: 0px;
 			}
 		}
-	} 
+	}
 
 	.menu-wrapper {
 		position: static;
@@ -464,8 +464,8 @@
 
 				&.active {
 					background-color: $teal-dark;
-					border-radius: 8px;	
-					height: auto;							
+					border-radius: 8px;
+					height: auto;
 				}
 			}
 			#activate-search-button {
@@ -485,7 +485,7 @@
 				clear: both;
 				position: static;
 				width: 100%;
-				
+
 				.search-control-container {
 					display: flex;
 					flex-direction: row;
@@ -510,14 +510,17 @@
 			#responsive-sliding-navigation {
 				background: $teal-dark;
 				float: none;
-				height: 100vh;
+				min-height: 100vh; /* fall-back */
+				min-height: -moz-available;
+				min-height: -webkit-fill-available;
+				min-height: fill-available;
 				position: fixed;
 				right: -300px;
 				top: 0;
 				width: 300px;
 				z-index: 1000;
 				overflow-y: scroll;
-				
+
 				&.active {
 					right: 0;
 				}
@@ -558,7 +561,7 @@
 									content: "\f0da" !important;
 								}
 							}
-	
+
 							.submenu-wrapper {
 								display: none;
 							}
@@ -592,20 +595,20 @@
 
 								.overview {
 									border-right: none;
-									border-bottom: 1px solid $teal;							
+									border-bottom: 1px solid $teal;
 									display: block;
-									width: auto;	
-									padding: 1em;	
-									margin: 0;					
+									width: auto;
+									padding: 1em;
+									margin: 0;
 
 									a {
-										margin-bottom: 1em;										
+										margin-bottom: 1em;
 									}
 								}
 								ul {
 									display: block;
 									width: 100%;
-									
+
 									li {
 										display: block;
 										ul {
@@ -616,10 +619,10 @@
 												a {
 													padding-left: 3em;
 												}
-												&:first-child {							
+												&:first-child {
 													a {
-														border-top: 1px solid $teal; 
-														
+														border-top: 1px solid $teal;
+
 														&:hover {
 															box-shadow: $shadow-top-inset;
 														}
@@ -633,7 +636,7 @@
 													}
 												}
 
-												
+
 											}
 										}
 									}
@@ -679,7 +682,7 @@
 					max-width: 200px;
 				}
             }
-            
+
 			.nav-and-search {
 				padding: 0;
 				margin-top: 0;
@@ -704,7 +707,7 @@
 
 @media (max-width: 400px) {
 	.menu-wrapper {
-        
+
 		.menu-container {
 			.logo {
                 margin-top: 7.5px;
@@ -721,7 +724,7 @@
             .search-button-container {
                 margin-top: 3px;
             }
-            
+
             #activate-search-button,
             #hamburger-menu-button {
                 font-size: 24px;
@@ -741,8 +744,8 @@
     }
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
-    /* IE10+ specific styles go here */  
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    /* IE10+ specific styles go here */
     .menu-wrapper .nav-and-search nav ul li ul {
         max-width: 65%;
     }
